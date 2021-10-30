@@ -1568,7 +1568,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"This smell…  Don't know…\"",
+    "sound": "\"This smell… Don't know…\"",
     "volume": 10
   },
   {
@@ -1586,25 +1586,25 @@
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"No…  Stop the burning!\"",
+    "sound": "\"No… stop the burning!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hrgm…  Blood…  Hungry…\"",
+    "sound": "\"Hrgm… blood… hungry…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hunger…  Must eat…\"",
+    "sound": "\"Hunger… must eat…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Run…  Chase…  Eat…\"",
+    "sound": "\"Run… chase… eat…\"",
     "volume": 20
   },
   {
@@ -1946,7 +1946,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "a distorted voice say, \"Customer…  What's happening?  I don't feel so good.\"",
+    "sound": "a distorted voice say, \"Customer… what's happening?  I don't feel so good.\"",
     "volume": 8
   },
   {
@@ -2391,7 +2391,7 @@
   {
     "type": "speech",
     "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Blood…  Delicious.\"",
+    "sound": "\"Blood… delicious.\"",
     "volume": 10
   },
   {

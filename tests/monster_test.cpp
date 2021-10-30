@@ -112,7 +112,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
 
-    int moves_spent = 0;
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
@@ -145,7 +144,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                 rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_monster.pos()
                                } );
-            moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
                 INFO( tracker );
                 clear_map();

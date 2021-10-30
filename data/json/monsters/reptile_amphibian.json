@@ -68,7 +68,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "mammal_large_leather",
+    "harvest": "reptile_large_leather",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -151,7 +151,7 @@
     "armor_bullet": 3,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "mutant_animal_large_noskin",
+    "harvest": "mutant_animal_large_reptile_noskin",
     "special_attacks": [
       [ "RATTLE", 6 ],
       {

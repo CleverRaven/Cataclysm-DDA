@@ -230,6 +230,7 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Common flags used for fulscreen and for windowed
@@ -940,6 +941,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
+                        // NOLINTNEXTLINE(cata-translate-string-literal)
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
@@ -1796,6 +1798,52 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
                     return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
                 case SDLK_RIGHT:
                     return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+
+    if( diag_mode == "mode4" ) {
+        if( ( keysym.mod & KMOD_SHIFT ) || ( keysym.mod & KMOD_CTRL ) ) {
+            const Uint8 *s = SDL_GetKeyboardState( nullptr );
+            const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] +
+                              s[SDL_SCANCODE_DOWN];
+            if( count == 2 ) {
+                switch( keysym.sym ) {
+                    case SDLK_LEFT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_RIGHT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_UP:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        return 0;
+                    case SDLK_DOWN:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                }
+            } else if( count > 0 ) {
+                return 0;
             }
         }
     }
@@ -2695,6 +2743,37 @@ void android_vibrate()
 }
 #endif
 
+#if !defined(__ANDROID__)
+static bool window_focus = false;
+static bool text_input_active_when_regaining_focus = false;
+#endif
+
+void StartTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StartTextInput();
+#else
+    if( window_focus ) {
+        SDL_StartTextInput();
+    } else {
+        text_input_active_when_regaining_focus = true;
+    }
+#endif
+}
+
+void StopTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StopTextInput();
+#else
+    if( window_focus ) {
+        SDL_StopTextInput();
+    } else {
+        text_input_active_when_regaining_focus = false;
+    }
+#endif
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 static void CheckMessages()
 {
@@ -2716,7 +2795,7 @@ static void CheckMessages()
 
     // Force text input mode if hardware keyboard is available.
     if( android_is_hardware_keyboard_available() && !SDL_IsTextInputActive() ) {
-        SDL_StartTextInput();
+        StartTextInput();
     }
 
     // Make sure the SDL surface view is visible, otherwise the "Z" loading screen is visible.
@@ -2744,7 +2823,7 @@ static void CheckMessages()
                 !is_string_input( *new_input_context ) &&
                 SDL_IsTextInputActive() &&
                 get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
+                StopTextInput();
             }
 
             touch_input_context = *new_input_context;
@@ -3034,10 +3113,33 @@ static void CheckMessages()
                         refresh_display();
                         needupdate = true;
                         break;
+#else
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        window_focus = false;
+                        if( SDL_IsTextInputActive() ) {
+                            text_input_active_when_regaining_focus = true;
+                            // Stop text input to not intefere with other programs
+                            SDL_StopTextInput();
+                            // Clear uncommited IME text. TODO: commit IME text instead.
+                            last_input = input_event();
+                            last_input.type = input_event_t::keyboard_char;
+                            last_input.edit.clear();
+                            last_input.edit_refresh = true;
+                            text_refresh = true;
+                        } else {
+                            text_input_active_when_regaining_focus = false;
+                        }
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        window_focus = true;
+                        // Restore text input status
+                        if( text_input_active_when_regaining_focus ) {
+                            SDL_StartTextInput();
+                        }
+                        break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
                     case SDL_WINDOWEVENT_MINIMIZED:
-                    case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
                         need_redraw = true;
@@ -3047,8 +3149,8 @@ static void CheckMessages()
 #if defined(__ANDROID__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
-                            SDL_StopTextInput();
-                            SDL_StartTextInput();
+                            StopTextInput();
+                            StartTextInput();
                         }
 #endif
                         break;
@@ -3097,7 +3199,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 // add a quick shortcut
@@ -3109,7 +3211,7 @@ static void CheckMessages()
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3127,9 +3229,9 @@ static void CheckMessages()
                     if( ticks - ac_back_down_time <= static_cast<uint32_t>
                         ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                         if( SDL_IsTextInputActive() ) {
-                            SDL_StopTextInput();
+                            StopTextInput();
                         } else {
-                            SDL_StartTextInput();
+                            StartTextInput();
                         }
                     }
                     ac_back_down_time = 0;
@@ -3164,7 +3266,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
@@ -3174,7 +3276,7 @@ static void CheckMessages()
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3700,9 +3802,9 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 #if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
-        SDL_StartTextInput();
+        StartTextInput();
     } else {
-        SDL_StopTextInput();
+        StopTextInput();
     }
 #else
     // TODO: support keycode mode if hardware keyboard is connected?

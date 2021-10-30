@@ -555,6 +555,30 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
+    "result": "battery_car",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 13 ] ], [ [ "lead", 2247 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "battery_motorbike",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 3 ] ], [ [ "lead", 499 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "battery_motorbike_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "lead", 187 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
     "result": "bindle",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4102,7 +4126,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hickory_nut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4113,7 +4137,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "hazelnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4124,7 +4148,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "chestnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4135,7 +4159,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond_unshelled", 1 ] ] ],
+    "components": [ [ [ "almond_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4146,7 +4170,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
+    "components": [ [ [ "pistachio_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4157,7 +4181,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan_unshelled", 1 ] ] ],
+    "components": [ [ [ "pecan_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4168,7 +4192,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut_unshelled", 1 ] ] ],
+    "components": [ [ [ "walnut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4194,7 +4218,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut_unshelled", 1 ] ] ],
+    "components": [ [ [ "peanut_shelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -109,43 +109,67 @@
     "type": "martial_art",
     "id": "style_lizard",
     "name": { "str": "Lizard Kung Fu" },
-    "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall provides a large bonus to Dodge skill and moving near a wall gives a large bonus to accuracy.  Stronger techniques are enabled when near a wall.",
+    "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall enables stronger buffs and techniques.",
     "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
     "static_buffs": [
       {
-        "id": "buff_lizard_static",
+        "id": "buff_lizard_static1",
         "name": "Lizard's Cunning",
-        "description": "By briefly scaling, leaping, or pushing off a nearby wall, you can avoid the worst of your opponents attacks.\n\n+3.0 Dodge skill when near a wall.\nEnables \"Lizard Tail\" and \"Lizard Wall Counter\" techniques when near a wall.",
+        "description": "Through patience and observation, you know how to turn the tide of battle in your favor.\n\n+2 Accuracy, 2 Block Effectiveness.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "hit", "scale": 2.0 } ]
+      },
+      {
+        "id": "buff_lizard_static2",
+        "name": "Lizard's Haven",
+        "description": "Staying near a wall further improves your chances to hit and avoid damage.\n\n+2 Accuracy, 2 Block Effectiveness when near a wall.",
         "unarmed_allowed": true,
         "wall_adjacent": true,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 3.0 } ]
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "buff_lizard_onhit",
-        "name": "Lizard's Venom",
-        "description": "Your venom is a long lasting pain that your opponents will never forget.\n\n+2 bash damage.\nLasts 4 turns.",
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "unarmed_allowed": true,
-        "buff_duration": 4,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "hit", "scale": 2.0 } ]
       }
     ],
     "onmove_buffs": [
       {
         "id": "buff_lizard_onmove",
         "name": "Lizard's Leap",
-        "description": "By briefly scaling, leaping, or pushing off a nearby wall, can attack downward at unsuspecting opponents.\n\n+3 Accuracy when near a wall.\nLasts 3 turns.",
+        "description": "By briefly pushing off a nearby wall and leaping, you can make yourself more dangerous and evasive.\n\n+2.0 Dodging skill, +10% critical hit chance.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 10.0 }, { "stat": "dodge", "scale": 2.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_lizard_onpause1",
+        "name": "Lizard's Perch",
+        "description": "From your high vantage point, you can strike downward and deal more damage.\n\n+10% damage while near a wall.\nLasts 4 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "wall_adjacent": true,
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "hit", "scale": 3.0 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      },
+      {
+        "id": "buff_lizard_onpause2",
+        "name": "Lizard's Venom",
+        "description": "Your venom is a long lasting pain that your opponents will never forget.\n\n+15% damage.\nLasts 4 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 5,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
       }
     ],
-    "techniques": [ "tec_lizard_strike", "tec_lizard_break", "tec_lizard_wallcounter", "tec_lizard_counter", "tec_lizard_tail" ]
+    "techniques": [ "tec_lizard_rapid", "tec_lizard_break", "tec_lizard_walldive", "tec_lizard_tail" ]
   },
   {
     "type": "martial_art",
@@ -386,25 +410,26 @@
   },
   {
     "type": "technique",
-    "id": "tec_lizard_strike",
+    "id": "tec_lizard_rapid",
     "name": "Lizard Strike",
     "messages": [ "You spearhand strike %s", "<npcname> spearhand strikes %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
   },
   {
     "type": "technique",
     "id": "tec_lizard_tail",
     "name": "Lizard Tail",
-    "messages": [ "You leap off a nearby wall and dropkick %s", "<npcname> leaps off a nearby wall and dropkicks %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "messages": [ "You leap andkick %s", "<npcname> leaps and kicks %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
-    "wall_adjacent": true,
-    "crit_tec": true,
-    "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -419,28 +444,17 @@
   },
   {
     "type": "technique",
-    "id": "tec_lizard_wallcounter",
-    "name": "Lizard Wall Counter",
+    "id": "tec_lizard_walldive",
+    "name": "Lizard Wall Dive",
     "messages": [ "You push off a nearby wall and strike down at %s", "<npcname> pushes off a nearby wall and strikes down at %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
+    "crit_tec": true,
     "wall_adjacent": true,
-    "weighting": 2,
+    "stun_dur": 2,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_lizard_counter",
-    "name": "Lizard Counter",
-    "messages": [ "You duck away and strike back at %s", "<npcname> ducks away and strikes back at %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 } ]
   },
   {
     "type": "technique",

@@ -21,6 +21,7 @@
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
 #include "TextStyleCheck.h"
+#include "TranslateStringLiteralCheck.h"
 #include "TranslationsInDebugMessagesCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "UnsequencedCallsCheck.h"
@@ -75,6 +76,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<TestsMustRestoreGlobalStateCheck>(
                 "cata-tests-must-restore-global-state" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
+            CheckFactories.registerCheck<TranslateStringLiteralCheck>(
+                "cata-translate-string-literal" );
             CheckFactories.registerCheck<TranslationsInDebugMessagesCheck>(
                 "cata-translations-in-debug-messages" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );

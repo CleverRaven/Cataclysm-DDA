@@ -63,6 +63,7 @@ const flag_id flag_COLD_IMMUNE( "COLD_IMMUNE" );
 const flag_id flag_COLLAPSE_CONTENTS( "COLLAPSE_CONTENTS" );
 const flag_id flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 const flag_id flag_COLLAR( "COLLAR" );
+const flag_id flag_COMBAT_TOGGLEABLE( "COMBAT_TOGGLEABLE" );
 const flag_id flag_CONDUCTIVE( "CONDUCTIVE" );
 const flag_id flag_CONSUMABLE( "CONSUMABLE" );
 const flag_id flag_COOKED( "COOKED" );

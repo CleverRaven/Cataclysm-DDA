@@ -725,6 +725,53 @@ asymmetric, like this:
 As you can see, the `tunnel_to_surface` part of the pair needs to override the
 default value of `into_locations` because it points towards the surface.
 
+#### Alternative joins
+
+Sometimes you want the next phase(s) of a mutable special to be able to link to
+existing unresolved joins without themselves generating any unresolved joins of
+that type.  This helps to create a clean break between the old and the new.
+
+For example, this happens in the `microlab_mutable` special.  This special has
+some structured `hallway` OMTs surrounded by a clump of `microlab` OMTs.  The
+hallways have `hallway_to_microlab` joins pointing out to their sides, so we
+need `microlab` OMTs to have `microlab_to_hallway` joins (the opposite of
+`hallway_to_microlab`) in order to match them.
+
+However, we don't want the unresolved edges of a `microlab` OMT to require more
+hallways all around, so we mostly want them to use `microlab_to_microlab`
+joins.  How can we satisfy these apparently conflicting requirements without
+making many different variants of `microlab` with different numbers of each
+type of join?  Alternative joins can help us here.
+
+The definition of the `microlab` overmap might look like this:
+
+```json
+"microlab": {
+  "overmap": "microlab_generic",
+  "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "east": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "south": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+  "west": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] }
+},
+```
+
+This allows it to join with hallways which are already placed on the overmap,
+but new unresolved joins will only match more `microlab`s.
+
+#### Testing your new mutable special
+
+If you want to exhaustively test your mutable special for placement errors, and
+you are in a position to compile the game, then an easy way to do so is to use
+the existing test in `tests/overmap_test.cpp`.
+
+In that file, look for `TEST_CASE( "mutable_overmap_placement"`.  At the start
+of that function there is a list of mutable special ids that tests tries
+spawning.  Replace one of them with your new special's id, recompile and run
+the test.
+
+The test will attempt to place your special a few thousand times, and should
+find most ways in which placement might fail.
+
 ### Joins
 
 A join definition can be a simple string, which will be its id.  Alternatively,
@@ -760,6 +807,7 @@ join id.  Alternatively it can be a JSON object with the following keys:
 | ----------- | -------------------------------------------------------------------------- |
 | `id`        | Id of the join used here. |
 | `type`      | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`. |
+| `alternatives` | List of join ids that may be used instead of the one listed under `id`, but only when placing this overmap.  Unresolved joins created by its placement will only be the primary join `id`. |
 
 ### Generation rules
 

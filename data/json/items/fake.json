@@ -54,7 +54,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 2 ] ]
+    "qualities": [ [ "GLARE", 1 ] ]
   },
   {
     "id": "bio_scalpel",

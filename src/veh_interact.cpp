@@ -2039,7 +2039,6 @@ void veh_interact::do_change_shape()
             for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
                 std::string disp_name = sel_vpart_info->name();
                 // getting all the available shape variants from vpart_variants
-                std::size_t variants_offset = 0;
                 for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
                     if( vp_variant_pair.first == vp_variant.first ) {
                         disp_name += " " + vp_variant_pair.second;
@@ -2049,7 +2048,6 @@ void veh_interact::do_change_shape()
                         }
                         break;
                     }
-                    variants_offset += 1;
                 }
                 uilist_entry entry( disp_name );
                 entry.retval = ret_code++;
@@ -2255,7 +2253,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met );
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
 }
 
 /**
@@ -2294,6 +2292,10 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
+                if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
+                    // exclude "appliances" from vehicle part list
+                    continue;
+                }
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;

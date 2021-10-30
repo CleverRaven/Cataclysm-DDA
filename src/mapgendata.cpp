@@ -50,13 +50,15 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , when_( when )
     , mission_( miss )
     , zlevel_( over.z() )
+    , predecessors_( overmap_buffer.predecessors( over ) )
     , t_above( overmap_buffer.ter( over + tripoint_above ) )
     , t_below( overmap_buffer.ter( over + tripoint_below ) )
     , region( overmap_buffer.get_settings( over ) )
     , m( mp )
     , default_groundcover( region.default_groundcover )
 {
-    int rotation = terrain_type_->get_rotation();
+    bool ignore_rotation = terrain_type_->has_flag( oter_flags::ignore_rotation_for_adjacency );
+    int rotation = ignore_rotation ? 0 : terrain_type_->get_rotation();
     auto set_neighbour = [&]( int index, direction dir ) {
         t_nesw[index] =
             overmap_buffer.ter( over + displace( dir ).rotate( rotation ) );
@@ -259,4 +261,27 @@ bool mapgendata::has_join( const cube_direction dir, const std::string &join_id 
 {
     auto it = joins.find( dir );
     return it != joins.end() && it->second == join_id;
+}
+
+bool mapgendata::has_predecessor() const
+{
+    return !predecessors_.empty();
+}
+
+const oter_id &mapgendata::last_predecessor() const
+{
+    if( predecessors_.empty() ) {
+        debugmsg( "Tried to get predecessor when none available in mapgendata" );
+        static const oter_id null( oter_str_id::NULL_ID() );
+        return null;
+    }
+    return predecessors_.back();
+}
+
+void mapgendata::pop_last_predecessor()
+{
+    if( predecessors_.empty() ) {
+        debugmsg( "Tried to pop predecessor when none available in mapgendata" );
+    }
+    predecessors_.pop_back();
 }

@@ -212,7 +212,7 @@
           [ { "id": "SCREW_FINE" } ],
           [ { "id": "WRENCH", "level": 2 } ],
           [ { "id": "WRENCH_FINE" } ],
-          [ { "id": "GLARE", "level": 2 } ]
+          [ { "id": "GLARE", "level": 1 } ]
         ],
         "components": [
           [

@@ -37,6 +37,7 @@
     "name": { "str": "Squeaky Ankles" },
     "description": "In a cruel twist of fate, a poorly executed CBM surgery has given you a pair of useless bionics which make squeaking noises when you walk.",
     "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "enchantments": [ "SQUEAKY_ANKLES" ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {

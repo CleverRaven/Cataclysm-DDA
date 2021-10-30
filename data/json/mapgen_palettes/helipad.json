@@ -9,7 +9,7 @@
       "w": "t_window",
       "G": "t_chaingate_c",
       "|": "t_concrete_wall",
-      "F": "t_chainfence",
+      "F": "t_fence_barbed",
       "!": "t_guardrail",
       "p": "t_pavement",
       "m": "t_door_metal_c",

@@ -146,7 +146,16 @@
         "description": "Central Storage Building version 2.  Focus on storage.  Place in N, E, S, W only",
         "om_terrains": [ "field" ]
       },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_workshop_0",
+        "description": "Fabrication Workshop version 1.  Nice workshop cottage",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_workshop_2_0",
+        "description": "Fabrication Workshop version 2.  More detailed recipe progression",
+        "om_terrains": [ "field" ]
+      },
       {
         "id": "faction_base_lightindustry_workshop_0",
         "description": "Light Industry Workshop",
