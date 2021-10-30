@@ -98,6 +98,7 @@ Use the `Home` key to return to the top.
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
+        - [Part Materials](#part-materials)
       - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
@@ -2567,7 +2568,11 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_ranged": 50,
     "cover_vitals": 5,
     "covers": [ "torso" ],
-    "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ]
+    "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
+    "material": [
+      { "type": "cotton", "portion": 9, "thickness": 0.2 },
+      { "type": "plastic", "portion": 1, "thickness": 0.8 }
+    ]
   },
   {
     "encumbrance": 2,
@@ -2576,7 +2581,10 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_ranged": 70,
     "cover_vitals": 5,
     "covers": [ "arm_r", "arm_l" ],
-    "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
+    "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ],
+    "material": [
+      { "type": "cotton", "portion": 1, "thickness": 0.2 }
+    ]
   }
 ]
 ```
@@ -2605,6 +2613,15 @@ These are used for wearing multiple armor pieces on a single layer without gaini
 if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
 strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
+##### Part Materials
+(array of objects)
+The type, proportion and thickness of the materials that make up this portion of the armor. See "material" from [Generic Items](#generic-items) for details about type and portion.
+- `type` indicates the material ID.
+- `portion` (_optional_) indicates how much of this armor portion is made up of said material. Defaults to 1.
+- `thickness` (_optional_) indicates the thickness of said material for this armor portion. Defaults to 0.0.
+The portion and thickness determine how much the material contributes towards the armor's resistances.
+**NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
+
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
@@ -2612,12 +2629,18 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "armor_data" : {      // additionally the same armor data like above
     "warmth" : 10,
     "environmental_protection" : 0,
-    "material_thickness" : 1,
     "armor": [
       {
+        "material": [
+          { "type": "cotton", "portion": 5, "thickness": 0.2 },
+          { "type": "plastic", "portion": 2, "thickness": 0.6 }
+        ],
         "covers" : [ "foot_l", "foot_r" ],
         "encumbrance" : 0,
         "coverage" : 80,
+        "cover_melee": 80,
+        "cover_ranged": 70,
+        "cover_vitals": 5
       }
     ],
     "power_armor" : false
