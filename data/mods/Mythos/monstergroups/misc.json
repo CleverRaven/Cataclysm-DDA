@@ -1,0 +1,45 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLACK_ROAD",
+    "overwrite": "true",
+    "monsters": [
+      { "monster": "mon_ghoul", "weight": 407 },
+      { "monster": "mon_ghoul", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
+      { "monster": "mon_ghoul", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
+      { "monster": "mon_ghoul", "weight": 1, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
+      { "monster": "mon_ghoul", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_feral_human_pipe", "weight": 4, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_crowbar", "weight": 4, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SUBWAY_CITY",
+    "overwrite": "true",
+    "//": "Normal subway, extra spawns underneath a city",
+    "default": "mon_ghoul",
+    "monsters": [
+      { "monster": "mon_chud", "weight": 90 },
+      { "monster": "mon_chud", "weight": 400, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_one_eye", "weight": 10 },
+      { "monster": "mon_ghoul", "weight": 100, "cost_multiplier": 3, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_ghast", "weight": 100, "cost_multiplier": 4, "pack_size": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "monsters": [
+      { "monster": "mon_ghast", "weight": 10, "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_ghoul", "weight": 15 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "//": "Add rat things to sewers.",
+    "monsters": [ { "monster": "mon_rat_thing", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] } ]
+  }
+]
