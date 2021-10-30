@@ -411,6 +411,12 @@
     "base_hp": 20
   },
   {
+    "id": "sub_limb_debug",
+    "type": "sub_body_part",
+    "opposite": "sub_limb_debug",
+    "name": "debug limb should never be seen"
+  },
+  {
     "id": "torso_upper",
     "type": "sub_body_part",
     "opposite": "torso_lower",
@@ -420,6 +426,7 @@
   {
     "id": "torso_neck",
     "type": "sub_body_part",
+    "opposite": "sub_limb_debug",
     "name": "neck"
   },
   {
@@ -432,12 +439,16 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
-    "name": "item hangs off your front"
+    "name": "item hangs off your front",
+    "opposite": "torso_hanging_back",
+    "name_multiple": "item hangs off you"
   },
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
-    "name": "item hangs off your back"
+    "name": "item hangs off your back",
+    "opposite": "torso_hanging_front",
+    "name_multiple": "item hangs off you"
   },
   {
     "id": "arm_shoulder_r",
@@ -566,10 +577,5 @@
     "opposite": "leg_lower_r",
     "name_multiple": "lower legs",
     "name": "left lower leg"
-  },
-  {
-    "id": "sub_limb_debug",
-    "type": "sub_body_part",
-    "name": "debug limb should never be seen"
   }
 ]

@@ -3231,10 +3231,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
-                coverage += _( " The AAA <info>" + sbp->name + "</info>." );
+                coverage += _( " The <info>" + sbp->name + "</info>." );
                 continue;
             }
-            // if we have found the partner
+
             bool found = false;
             for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
                  ++sbp_it ) {
