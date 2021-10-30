@@ -1108,8 +1108,10 @@ class item : public visitable
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
-        float acid_resist( bool to_self = false, int base_env_resist = 0, const bodypart_id &bp = bodypart_id() ) const;
-        float fire_resist( bool to_self = false, int base_env_resist = 0, const bodypart_id &bp = bodypart_id() ) const;
+        float acid_resist( bool to_self = false, int base_env_resist = 0,
+                           const bodypart_id &bp = bodypart_id() ) const;
+        float fire_resist( bool to_self = false, int base_env_resist = 0,
+                           const bodypart_id &bp = bodypart_id() ) const;
         float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
         float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() )  const;
         float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
@@ -1124,7 +1126,8 @@ class item : public visitable
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
-        float damage_resist( damage_type dt, bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
+        float damage_resist( damage_type dt, bool to_self = false,
+                             const bodypart_id &bp = bodypart_id() ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.

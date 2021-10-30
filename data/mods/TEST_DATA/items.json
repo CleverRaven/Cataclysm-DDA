@@ -1140,10 +1140,10 @@
     "symbol": ")",
     "color": "brown",
     "armor_data": {
-      "material": [ "leather" ],
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        { "material": [ { "type": "leather", "portion": 1, "thickness": 2.0 } ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] }
+      ]
     },
     "pocket_data": [
       {
@@ -2178,9 +2178,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "aluminum" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "aluminum", "portion": 1, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2241,9 +2246,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "plastic" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2283,9 +2293,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "plastic" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2312,9 +2327,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "cotton" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "portion": 1, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "BELTED" ]
   },

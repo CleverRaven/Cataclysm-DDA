@@ -67,9 +67,14 @@
     "color": "light_gray",
     "ammo_type": [ "shot" ],
     "armor_data": {
-      "material": [ "cotton" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "portion": 1, "thickness": 1.0 } ],
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ]
+        }
+      ]
     },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]

@@ -23,9 +23,14 @@
     ],
     "min_strength": 9,
     "armor_data": {
-      "material": [ "wood", "bone" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 13, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion": 1, "thickness": 1.0 }, { "type": "bone", "portion": 1, "thickness": 1.0 } ],
+          "encumbrance": 13,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
