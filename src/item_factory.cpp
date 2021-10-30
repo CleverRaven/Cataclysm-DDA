@@ -2061,11 +2061,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
             // TODO: Depricate and remove
             for( const std::string &mat : jo.get_tags( "material" ) ) {
-                part_material m;
-                m.id = material_id( mat );
-                m.portion = 1;
-                m.thickness = 0.0f;
-                materials.emplace_back( m );
+                materials.emplace_back( mat, 1, 0.0f );
             }
         }
     }

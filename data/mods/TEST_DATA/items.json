@@ -2090,28 +2090,19 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 1, "thickness": 1.2 },
-          { "type": "cotton", "portion": 20, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 1, "thickness": 1.2 },
-          { "type": "cotton", "portion": 20, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 1, "thickness": 1.2 },
-          { "type": "cotton", "portion": 20, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
       }
     ]
   },
@@ -2125,28 +2116,19 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 20, "thickness": 1.2 },
-          { "type": "cotton", "portion": 1, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 20, "thickness": 1.2 },
-          { "type": "cotton", "portion": 1, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ],
-        "material": [
-          { "type": "steel", "portion": 20, "thickness": 1.2 },
-          { "type": "cotton", "portion": 1, "thickness": 0.2 }
-        ]
+        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
       }
     ]
   },

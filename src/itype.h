@@ -220,9 +220,15 @@ struct islot_brewable {
 
 /** Material data for individual armor body parts */
 struct part_material {
-    material_id id = material_id::NULL_ID();
-    int portion = 1;
-    float thickness = 0.0f;
+    material_id id;
+    int portion;
+    float thickness;
+
+    part_material() : id( material_id::NULL_ID() ), portion( 1 ), thickness( 0.0f ) {}
+    part_material( material_id id, int portion, float thickness ) :
+        id( id ), portion( portion ), thickness( thickness ) {}
+    part_material( const std::string &id, int portion, float thickness ) :
+        id( material_id( id ) ), portion( portion ), thickness( thickness ) {}
 
     void deserialize( const JsonObject &jo );
 };
