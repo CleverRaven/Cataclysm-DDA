@@ -2,9 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FERAL_PREPPER_UPGRADE",
-    "monsters": [
-      { "monster": "mon_feral_survivalist", "weight": 800 },
-      { "monster": "mon_feral_militia", "weight": 200 }
-    ]
+    "//": "(Most feral humans don't get smarter or upgraded over time, this is just a way for delaying appearance for early-game balance)",
+    "monsters": [ { "monster": "mon_feral_survivalist", "weight": 800 }, { "monster": "mon_feral_militia", "weight": 200 } ]
   }
 ]
