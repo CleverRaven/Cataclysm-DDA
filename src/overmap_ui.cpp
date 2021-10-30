@@ -1026,7 +1026,7 @@ static void draw_om_sidebar(
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( center_seen && !viewing_weather ) {
+    if( center_seen ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1054,20 +1054,23 @@ static void draw_om_sidebar(
             lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
-    } else if( viewing_weather ) {
+    } else {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
+    }
+
+    // Describe the weather conditions on the following line, if weather is visible
+    if( viewing_weather ) {
         const bool weather_is_visible = ( uistate.overmap_debug_weather ||
                                           player_character.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
+            mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( center )->color,
                        get_weather_at_point( center )->name.translated() );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
+            mvwprintz( wbar, point( 1, ++lines ), c_dark_gray, _( "# Weather unknown" ) );
         }
-    } else {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
     if( ( data.debug_editor && center_seen ) || data.debug_info ) {
