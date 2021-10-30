@@ -619,6 +619,17 @@ void Item_factory::finalize_post( itype &obj )
             // if sub coverage is empty we should add all coverage to the item
             if( !data.sub_coverage.empty() ) {
                 obj.armor->has_sub_coverage = true;
+            // Precalc average thickness per portion
+            int data_count = 0;
+            float thic_acc = 0.0f;
+            for( part_material &m : data.materials ) {
+                data.mat_portion_total += m.portion;
+                thic_acc += m.thickness / m.portion;
+                data_count++;
+            }
+            if( data_count > 0 && data.mat_portion_total > 0 &&
+                thic_acc > std::numeric_limits<float>::epsilon() ) {
+                data.avg_thickness = thic_acc;
             }
         }
     }
@@ -2013,6 +2024,16 @@ std::string enum_to_string<layer_level>( layer_level data )
 }
 } // namespace io
 
+void part_material::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", id );
+    optional( jo, false, "portion", portion, 1 );
+    if( portion < 1 ) {
+        jo.throw_error( string_format( "invalid portion \"%d\"", portion ) );
+    }
+    optional( jo, false, "thickness", thickness, 0.0f );
+}
+
 void armor_portion_data::deserialize( const JsonObject &jo )
 {
     assign_coverage_from_json( jo, "covers", covers );
@@ -2028,12 +2049,26 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     } else {
         optional( jo, false, "encumbrance", encumber, 0 );
     }
-    optional( jo, false, "material_thickness", thickness, 0.0f );
+    optional( jo, false, "material_thickness", avg_thickness, 0.0f );
     optional( jo, false, "environmental_protection", env_resist, 0 );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, 0 );
 
     // TODO: Make mandatory - once we remove the old loading below
-    optional( jo, false, "material", materials );
+    if( jo.has_member( "material" ) ) {
+        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
+            mandatory( jo, false, "material", materials );
+        } else {
+            // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
+            // TODO: Depricate and remove
+            for( const std::string &mat : jo.get_tags( "material" ) ) {
+                part_material m;
+                m.id = material_id( mat );
+                m.portion = 1;
+                m.thickness = 0.0f;
+                materials.emplace_back( m );
+            }
+        }
+    }
 }
 
 template<typename T>
@@ -2051,31 +2086,17 @@ void islot_armor::load( const JsonObject &jo )
     cata::optional<float> thickness;
     cata::optional<int> env_resist;
     cata::optional<int> env_resist_w_filter;
-    cata::optional<std::vector<material_id>> materials;
     cata::optional<body_part_set> covers;
 
-    bool all_data_have_material = true;
-    if( jo.has_member( "armor" ) ) {
-        for( JsonObject armor_jo : jo.get_array( "armor" ) ) {
-            armor_jo.allow_omitted_members();
-            if( !armor_jo.has_member( "material" ) ) {
-                all_data_have_material = false;
-            }
-        }
-    }
-    if( !all_data_have_material ) {
-        mandatory( jo, false, "material", materials );
-    }
     assign_coverage_from_json( jo, "covers", covers );
     optional( jo, false, "material_thickness", thickness, cata::nullopt );
     optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
 
     for( armor_portion_data &armor : data ) {
-        apply_optional( armor.thickness, thickness );
+        apply_optional( armor.avg_thickness, thickness );
         apply_optional( armor.env_resist, env_resist );
         apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
-        apply_optional( armor.materials, materials );
         if( covers ) {
             armor.covers = covers;
         }

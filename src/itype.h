@@ -218,6 +218,15 @@ struct islot_brewable {
     void deserialize( const JsonObject &jo );
 };
 
+/** Material data for individual armor body parts */
+struct part_material {
+    material_id id = material_id::NULL_ID();
+    int portion = 1;
+    float thickness = 0.0f;
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct armor_portion_data {
 
     // How much this piece encumbers the player.
@@ -234,10 +243,10 @@ struct armor_portion_data {
     int cover_vitals = 0;
 
     /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
+     * Average material thickness for all materials from
+     * this armor portion
      */
-    float thickness = 0.0f;
+    float avg_thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -247,8 +256,13 @@ struct armor_portion_data {
      */
     int env_resist_w_filter = 0;
 
-    // What materials this portion is made of, for armor purposes
-    std::vector<material_id> materials;
+    /**
+     * What materials this portion is made of, for armor purposes.
+     * Includes material portion and thickness.
+     */
+    std::vector<part_material> materials;
+    // Total of portion values in materials
+    int mat_portion_total = 0;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
