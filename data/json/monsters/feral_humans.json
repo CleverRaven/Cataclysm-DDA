@@ -569,7 +569,7 @@
     "species": [ "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 100,
+    "hp": 110,
     "speed": 110,
     "material": [ "flesh" ],
     "symbol": "@",
@@ -594,7 +594,7 @@
     "vision_night": 4,
     "harvest": "human",
     "luminance": 500,
-    "starting_ammo": { "9mm": 5, "223": 7 },
+    "starting_ammo": { "9mm": 5, "223": 8 },
     "special_attacks": [
       [ "GRAB", 7 ],
       {
@@ -606,7 +606,7 @@
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 0, 30, "BURST" ] ],
+        "ranges": [ [ 0, 30, "BURST" ], [ 0, 30, "AUTO" ] ],
         "require_targeting_player": false,
         "description": "The mad militiaman fires their machine gun!"
       }
