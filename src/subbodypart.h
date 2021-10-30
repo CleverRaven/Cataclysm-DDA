@@ -40,7 +40,7 @@ struct enum_traits<side> {
 struct sub_body_part_type {
 
     sub_bodypart_str_id id;
-    sub_bodypart_str_id opposite = sub_bodypart_str_id("sub_limb_debug");
+    sub_bodypart_str_id opposite = sub_bodypart_str_id( "sub_limb_debug" );
 
     bool was_loaded = false;
 
