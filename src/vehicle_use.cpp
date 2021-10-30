@@ -2068,9 +2068,30 @@ void vehicle::interact_with( const vpart_position &vp )
     bool is_appliance = has_tag( "APPLIANCE" );
 
     enum {
-        EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
-        RELOAD_TURRET, FILL_CONTAINER, DRINK, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
-        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET, PLUG
+        EXAMINE,
+        TRACK,
+        HANDBRAKE,
+        CONTROL,
+        CONTROL_ELECTRONICS,
+        GET_ITEMS,
+        GET_ITEMS_ON_GROUND,
+        FOLD_VEHICLE,
+        UNLOAD_TURRET,
+        RELOAD_TURRET,
+        FILL_CONTAINER,
+        DRINK,
+        PURIFY_TANK,
+        USE_AUTOCLAVE,
+        USE_WASHMACHINE,
+        USE_DISHWASHER,
+        USE_MONSTER_CAPTURE,
+        USE_BIKE_RACK,
+        USE_HARNESS,
+        RELOAD_PLANTER,
+        WORKBENCH,
+        PEEK_CURTAIN,
+        PLUG,
+        TOOLS_OFFSET // must be the last value!
     };
     uilist selectmenu;
 
