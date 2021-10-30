@@ -1,4 +1,3 @@
-
 [
   {
     "name": "GROUP_PARK_SCENIC",
@@ -450,7 +449,7 @@
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 20, "pack_size": [ 25, 30 ] },
       { "monster": "mon_feral_human_pipe", "weight": 4, "pack_size": [ 5, 9 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 4, "pack_size": [ 4, 7 ] },
-      { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },  
+      { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
       { "monster": "mon_feral_prepper", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie", "weight": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 200, "cost_multiplier": 2 },
