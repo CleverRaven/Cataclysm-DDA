@@ -17,7 +17,7 @@
     "color": "brown",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -38,7 +38,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -246,7 +246,7 @@
     "looks_like": "legguard_hard",
     "color": "dark_gray",
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ],
+    "flags": [ "WATER_FRIENDLY", "OUTER", "ALLOWS_TAIL" ],
     "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -266,7 +266,7 @@
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "STURDY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -276,7 +276,7 @@
     "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
     "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "BELTED", "STURDY", "OVERSIZE" ]
+    "flags": [ "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "legguard_hard",
@@ -296,7 +296,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -316,7 +316,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -326,7 +326,7 @@
     "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
     "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "BELTED", "STURDY", "OVERSIZE", "VARSIZE" ]
+    "flags": [ "OUTER", "STURDY", "OVERSIZE", "VARSIZE" ]
   },
   {
     "id": "legguard_metal",
@@ -345,7 +345,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 6, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -355,7 +355,7 @@
     "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
     "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "legguard_paper",
@@ -374,7 +374,7 @@
     "color": "blue",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -394,7 +394,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -416,7 +416,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -426,7 +426,7 @@
     "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "OUTER", "OVERSIZE" ]
   },
   {
     "id": "legguard_tire",
@@ -445,7 +445,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -455,7 +455,7 @@
     "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE" ]
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "motorbike_pants",
