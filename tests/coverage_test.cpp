@@ -137,3 +137,16 @@ TEST_CASE( "Ranged coverage vs. bullet", "[coverage] [ranged]" )
         check_near( "Average damage", dmg, 17.2f, 0.2f );
     }
 }
+
+TEST_CASE( "Proportional armor material resistances", "[material]" )
+{
+    SECTION( "Mostly steel armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_swat_mostly_steel" );
+        check_near( "Average damage", dmg, 12.8f, 0.2f );
+    }
+
+    SECTION( "Mostly steel armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
+        check_near( "Average damage", dmg, 10.4f, 0.2f );
+    }
+}

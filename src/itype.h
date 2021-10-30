@@ -262,7 +262,7 @@ struct armor_portion_data {
      */
     std::vector<part_material> materials;
     // Total of portion values in materials
-    int mat_portion_total = 0;
+    int mat_portion_total = 0; // NOLINT(cata-serialize)
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
