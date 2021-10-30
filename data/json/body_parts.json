@@ -432,12 +432,12 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
-    "name": "hanging off your front"
+    "name": "item hangs off your front"
   },
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
-    "name": "hanging off your back"
+    "name": "item hangs off your back"
   },
   {
     "id": "arm_shoulder_r",
@@ -570,6 +570,6 @@
   {
     "id": "sub_limb_debug",
     "type": "sub_body_part",
-    "name": "debug limb"
+    "name": "debug limb should never be seen"
   }
 ]

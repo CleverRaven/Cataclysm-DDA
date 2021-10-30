@@ -3221,11 +3221,19 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // go through all coverages and try to pair up groups
         for( size_t i = 0; i < covered.size(); i++ ) {
             const sub_bodypart_id &sbp = covered[i];
-            if( sbp == sub_bodypart_id() ) {
-                // if we have already covered this value continue
+            if( sbp == sub_bodypart_id( "sub_limb_debug" ) ) {
+                // if we have already covered this value as a pair continue
                 continue;
             }
-            sub_bodypart_id temp = sbp->opposite;
+            sub_bodypart_id temp;
+            // if our sub part has an opposite
+            if( sbp->opposite != sub_bodypart_str_id( "sub_limb_debug" ) ) {
+                temp = sbp->opposite;
+            } else {
+                // if it doesn't have an opposite print it alone and continue
+                coverage += _( " The AAA <info>" + sbp->name + "</info>." );
+                continue;
+            }
             // if we have found the partner
             bool found = false;
             for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
@@ -3235,8 +3243,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     // add the multiple name not the single
                     coverage += _( " The <info>" + sbp->name_multiple + "</info>." );
                     found = true;
-                    // set the found part to the null value
-                    *sbp_it = sub_bodypart_id();
+                    // set the found part to a null value
+                    *sbp_it = sub_bodypart_str_id( "sub_limb_debug" );
                     break;
                 }
             }
