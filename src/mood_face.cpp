@@ -92,6 +92,7 @@ const mood_face_id &avatar::character_mood_face()
     for( const mood_face &face_id : mood_face::get_all() ) {
         if( face_id.getId().str() == face_type ) {
             mood_face_cache = face_id.getId();
+            break;
         }
     }
 
