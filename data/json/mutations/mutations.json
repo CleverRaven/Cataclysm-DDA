@@ -712,6 +712,7 @@
     "name": { "str": "Combat Adaptation" },
     "points": 3,
     "description": "When you are in great danger you may flip a chemical switch in your brain and for a cost in hunger, fatigue, and thirst your nervous system will process things around you slightly faster.  Giving you better reaction times that you can pay for later if you survive.",
+    "threshreq": [ "THRESH_BEAST" ],
     "category": [ "BEAST" ],
     "active": true,
     "cost": 10,
@@ -4292,6 +4293,7 @@
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ]
   },
   {
