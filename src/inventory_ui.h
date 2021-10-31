@@ -607,11 +607,6 @@ class inventory_selector
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
-        /** Used by derived class inventory_examiner to modify the size of the inventory_selector window.
-        * This is a bit of a brute force solution.  TODO: Add a set_minimum_window_size() or similar function
-        * to inventory_selector **/
-        bool force_max_window_size;
-
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
@@ -672,6 +667,9 @@ class inventory_selector
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;
+
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -888,6 +886,9 @@ class inventory_examiner : public inventory_selector
     private:
         int examine_window_scroll;
         int scroll_item_info_lines;
+
+        void force_max_window_size();
+
     protected:
         item_location parent_item;
         item_location selected_item;
@@ -900,7 +901,7 @@ class inventory_examiner : public inventory_selector
                                      item_location item_to_look_inside,
                                      const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {
-            force_max_window_size = true;
+            force_max_window_size();
             examine_window_scroll = 0;
             selected_item = item_location::nowhere;
             parent_item = item_to_look_inside;

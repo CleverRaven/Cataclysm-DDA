@@ -1690,10 +1690,6 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
-    if( force_max_window_size && !visible_columns.empty() ) {
-        visible_columns.front()->set_width( client_width / 3, columns );
-    }
-
     reassign_custom_invlets();
 
     refresh_active_column();
@@ -1743,17 +1739,13 @@ void inventory_selector::prepare_layout()
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
-    int win_width;
-    int win_height;
+    int const win_width =
+        _fixed_size.x < 0 ? snap( get_layout_width() + nc_width, TERMX ) : _fixed_size.x;
+    int const win_height =
+        _fixed_size.y < 0
+        ? snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ), TERMY )
+        : _fixed_size.y;
 
-    if( !force_max_window_size ) {
-        win_width  = snap( get_layout_width() + nc_width, TERMX );
-        win_height = snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ),
-                           TERMY );
-    } else {
-        win_width  = TERMX;
-        win_height = TERMY;
-    }
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
@@ -1933,8 +1925,11 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    w_inv = catacurses::newwin( height, width,
-                                point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+    point origin = _fixed_origin;
+    if( origin.x < 0 || origin.y < 0 ) {
+        origin = { ( TERMX - width ) / 2, ( TERMY - height ) / 2 };
+    }
+    w_inv = catacurses::newwin( height, width, origin );
     if( spopup ) {
         spopup->window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 );
     }
@@ -2159,8 +2154,6 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
-
-    force_max_window_size = false;
 }
 
 inventory_selector::~inventory_selector() = default;
@@ -3103,6 +3096,13 @@ void inventory_examiner::draw_item_details( const item_location &sitem )
     draw_item_info( w_examine, data );
 }
 
+void inventory_examiner::force_max_window_size()
+{
+    constexpr int border_width = 1;
+    _fixed_size = { TERMX / 3 + 2 * border_width, TERMY };
+    _fixed_origin = point_zero;
+}
+
 int inventory_examiner::execute()
 {
     if( !check_parent_item() ) {
@@ -3125,17 +3125,12 @@ int inventory_examiner::execute()
     ui_adaptor ui_examine;
 
     ui_examine.on_screen_resize( [&]( ui_adaptor & ui_examine ) {
-        // NOTE: This assumes that the first column (currently own_inv_column) is used for the item list:
-        int inv_column_width = get_all_columns().front()->get_width();
-        /* NOTE: By flagging force_max_window_size as true, this forces the inventory_selector window to be
-         * TERMX x TERMY , allowing us to assume the window starts at 0,0 and is TERMX by TERMY.  If this is
-         * changed in inventory_selector::prepare_layout, then everything breaks.  This obviously isn't a
-         * great solution */
-        int border_width = 1; //Assumed, since the value in inventory_selector is private, but reasonable
-        int width = TERMX - 2 * border_width  - inv_column_width;
-        int height = TERMY  - get_header_height() - 1;
-        point start_position = point( ( inv_column_width + border_width + 1 ),
-                                      get_header_height() + 1 );
+        force_max_window_size();
+        ui->mark_resize();
+
+        int const width = TERMX - _fixed_size.x;
+        int const height = TERMY;
+        point const start_position = point( TERMX - width, 0 );
 
         scroll_item_info_lines = TERMY / 2;
 
