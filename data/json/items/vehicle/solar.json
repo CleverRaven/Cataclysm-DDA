@@ -67,7 +67,7 @@
     "id": "solar_cell",
     "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
-    "weight": "250 g",
+    "weight": "200 g",
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
