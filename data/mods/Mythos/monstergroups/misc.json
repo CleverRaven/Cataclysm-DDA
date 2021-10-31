@@ -2,7 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BLACK_ROAD",
-    "overwrite": "true",
+    "override": true,
     "monsters": [
       { "monster": "mon_ghoul", "weight": 407 },
       { "monster": "mon_ghoul", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -17,7 +17,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_CITY",
-    "overwrite": "true",
+    "override": true,
     "//": "Normal subway, extra spawns underneath a city",
     "default": "mon_ghoul",
     "monsters": [
