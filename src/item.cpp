@@ -5792,7 +5792,7 @@ int item::price( bool practical ) const
     return res;
 }
 
-int item::price_no_contents( bool practical )
+int item::price_no_contents( bool practical ) const
 {
     if( rotten() ) {
         return 0;
@@ -5815,15 +5815,6 @@ int item::price_no_contents( bool practical )
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
-    } else if( is_watertight_container() ) {
-        // Liquid contents are hidden so must be included in the price.
-        visit_contents( [&price, &practical]( item * node, item * ) {
-            if( node->type->phase != phase_id::LIQUID ) {
-                return VisitResponse::SKIP;
-            }
-            price += node->price_no_contents( practical );
-            return VisitResponse::SKIP;
-        } );
     }
 
     return price;

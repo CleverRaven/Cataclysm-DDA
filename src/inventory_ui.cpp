@@ -30,6 +30,7 @@
 #include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "trade_ui.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -3188,4 +3189,67 @@ void inventory_examiner::setup()
     } else {
         set_title( parent_item->display_name() );
     }
+}
+
+trade_selector::trade_selector( trade_ui *parent, Character &u,
+                                inventory_selector_preset const &preset,
+                                std::string const &selection_column_title,
+                                point const &size, point const &origin )
+    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent )
+{
+    ctxt.register_action( ACTION_SWITCH_PANES );
+    ctxt.register_action( ACTION_TRADE_CANCEL );
+    ctxt.register_action( ACTION_TRADE_OK );
+    resize( size, origin );
+    _ui = create_or_get_ui_adaptor();
+}
+
+trade_selector::select_t trade_selector::to_trade() const
+{
+    return to_use;
+}
+
+void trade_selector::execute()
+{
+    bool exit = false;
+
+    get_active_column().on_activate();
+
+    while( !exit ) {
+        _ui->invalidate_ui();
+        ui_manager::redraw_invalidated();
+        inventory_input const input = get_input();
+        if( input.action == ACTION_SWITCH_PANES ) {
+            _parent->pushevent( trade_ui::event::SWITCH );
+            get_active_column().on_deactivate();
+            exit = true;
+        } else if( input.action == ACTION_TRADE_OK ) {
+            _parent->pushevent( trade_ui::event::TRADEOK );
+            exit = true;
+        } else if( input.action == ACTION_TRADE_CANCEL ) {
+            _parent->pushevent( trade_ui::event::TRADECANCEL );
+            exit = true;
+        } else {
+            inventory_drop_selector::on_input( input );
+            // FIXME: this would be better done in a callback from toggle_entries()
+            if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
+                input.entry != nullptr ) {
+                _parent->recalc_values_cpane();
+            }
+        }
+    }
+}
+
+void trade_selector::resize( point const &size, point const &origin )
+{
+    _fixed_size = size;
+    _fixed_origin = origin;
+    if( _ui ) {
+        _ui->mark_resize();
+    }
+}
+
+shared_ptr_fast<ui_adaptor> trade_selector::get_ui() const
+{
+    return _ui;
 }
