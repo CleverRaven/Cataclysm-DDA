@@ -266,6 +266,7 @@ static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_copro
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
+static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
@@ -277,6 +278,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -436,6 +438,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
@@ -918,6 +921,7 @@ int Character::overmap_sight_range( int light_level ) const
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
+    // When adding checks here, also call game::update_overmap_seen at the place they first become true
     const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
                              ( is_mounted() &&
                                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
@@ -1215,6 +1219,10 @@ void Character::mount_creature( monster &z )
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
+    if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
+        // mech night-vision counts as optics for overmap sight range.
+        g->update_overmap_seen();
+    }
     mod_moves( -100 );
 }
 
@@ -1647,6 +1655,63 @@ bool Character::is_prone() const
     return move_mode->type() == move_mode_type::PRONE;
 }
 
+int Character::footstep_sound() const
+{
+    if( has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+        return 0;
+    }
+
+    double volume = is_stealthy() ? 3 : 6;
+    volume *= mutation_value( "noise_modifier" );
+    if( volume > 0 ) {
+        volume *= current_movement_mode()->sound_mult();
+        if( is_mounted() ) {
+            monster *mons = mounted_creature.get();
+            switch( mons->get_size() ) {
+                case creature_size::tiny:
+                    volume = 0; // No sound for the tinies
+                    break;
+                case creature_size::small:
+                    volume /= 3;
+                    break;
+                case creature_size::medium:
+                    break;
+                case creature_size::large:
+                    volume *= 1.5;
+                    break;
+                case creature_size::huge:
+                    volume *= 2;
+                    break;
+                default:
+                    break;
+            }
+            if( mons->has_flag( MF_LOUDMOVES ) ) {
+                volume += 6;
+            }
+        } else {
+            volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
+        }
+    }
+    return std::round( volume );
+}
+
+void Character::make_footstep_noise() const
+{
+    const int volume = footstep_sound();
+    if( volume <= 0 ) {
+        return;
+    }
+    if( is_mounted() ) {
+        sounds::sound( pos(), volume, sounds::sound_t::movement,
+                       mounted_creature.get()->type->get_footsteps(),
+                       false, "none", "none" );
+    } else {
+        sounds::sound( pos(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
+                       "none", "none" );    // Sound of footsteps may awaken nearby monsters
+    }
+    sfx::do_footstep();
+}
+
 steed_type Character::get_steed_type() const
 {
     steed_type steed;
@@ -2007,7 +2072,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range * vision_score() );
+    range = std::max( 1.0f, range * nightvision_score() );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
@@ -2699,6 +2764,9 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
 
     // then get mutations
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( !mut.second.show_sprite ) {
+            continue;
+        }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
@@ -2718,6 +2786,9 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
+        if( worn_item.has_flag( flag_id( "HIDDEN" ) ) ) {
+            continue;
+        }
         const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
         rval.emplace_back( "worn_" + worn_item.typeId().str(), variant );
     }
@@ -2898,6 +2969,16 @@ void Character::die( Creature *nkiller )
     is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
+
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+
     if( has_effect( effect_lightsnare ) ) {
         inv->add_item( item( "string_36", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -3607,15 +3688,16 @@ std::string Character::debug_weary_info() const
 
     int bmr = base_bmr();
     std::string weary_internals = activity_history.debug_weary_info();
+    int cardio_mult = get_cardiofit();
     int thresh = weary_threshold();
     int current = weariness_level();
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d %s Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
-                          get_healthy_kcal(), fatigue, morale, weight, bmi );
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
+                          get_stored_kcal(), get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -3636,7 +3718,7 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     }
 
     if( !ignore_weariness ) {
-        activity_history.calorie_adjust( nkcal );
+        activity_history.calorie_adjust( ncal );
     }
     set_stored_calories( stored_calories + ncal );
 }
@@ -4030,7 +4112,7 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     // And any values we get that are negative or 0
     // will cause incorrect behavior
     if( level <= 0 ) {
-        level = activity_history.activity();
+        level = activity_history.activity( in_sleep_state() );
     }
     const float max = maximum_exertion_level();
     if( level < max ) {
@@ -4047,7 +4129,7 @@ float Character::instantaneous_activity_level() const
 float Character::activity_level() const
 {
     float max = maximum_exertion_level();
-    float attempted_level = activity_history.activity();
+    float attempted_level = activity_history.activity( in_sleep_state() );
     return std::min( max, attempted_level );
 }
 
@@ -4993,7 +5075,7 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
-             has_flag( json_flag_BLIND ) );
+             has_flag( json_flag_BLIND ) || vision_score() <= 0 );
 }
 
 bool Character::is_invisible() const
@@ -5528,12 +5610,17 @@ int Character::base_bmr() const
 int Character::get_bmr() const
 {
     int base_bmr_calc = base_bmr();
-    base_bmr_calc *= std::min( activity_history.average_activity(), maximum_exertion_level() );
+    base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
+                            maximum_exertion_level() );
     return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::set_activity_level( float new_level )
 {
+    if( new_level <= NO_EXERCISE && in_sleep_state() ) {
+        new_level = std::min( new_level, SLEEP_EXERCISE );
+    }
+
     activity_history.log_activity( new_level );
 }
 
@@ -5740,17 +5827,31 @@ void Character::mod_rad( int mod )
 
 int Character::get_stamina() const
 {
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return get_stamina_max();
+    }
     return stamina;
 }
 
 int Character::get_stamina_max() const
 {
-    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use stamina.
+        return 10000;
+    }
+    // Since adding cardio, 'player_max_stamina' is really 'base max stamina' and gets further modified
+    // by your CV fitness.  Name has been kept this way to avoid needing to change the code.
+    // Default base maximum stamina and cardio scaling are defined in data/core/game_balance.json
+    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
+    static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    int maxStamina = get_option< int >( player_max_stamina );
-    maxStamina *= Character::mutation_value( max_stamina_modifier );
-    maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
-    return maxStamina;
+    // Cardiofit stamina mod defaults to 3, and get_cardiofit() should return a value in the vicinity
+    // of 1000-4000, so this should add somewhere between 3000 to 12000 stamina.
+    int max_stamina = get_option<int>( player_max_stamina ) +
+                      get_option<int>( player_cardiofit_stamina_scale ) * get_cardiofit();
+    max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
+    return max_stamina;
 }
 
 void Character::set_stamina( int new_stamina )
@@ -5761,7 +5862,7 @@ void Character::set_stamina( int new_stamina )
 void Character::mod_stamina( int mod )
 {
     // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
+    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
     stamina += mod;
@@ -5808,6 +5909,9 @@ void Character::update_stamina( int turns )
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
+    // Your stamina regen rate works as a function of how fit you are compared to your body size.  This allows it to scale more quickly
+    // than your stamina, so that at higher fitness levels you recover stamina faster.
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / base_bmr();
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -5817,7 +5921,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate * stamina_recovery_breathing_modifier() );
+                        effective_regen_rate * stamina_recovery_breathing_modifier() );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -5841,7 +5945,7 @@ void Character::update_stamina( int turns )
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
+        bonus = std::min( bonus, 4 * static_cast<int>( effective_regen_rate ) );
         if( bonus > 0 ) {
             stamina_recovery += bonus;
             bonus /= 10;
@@ -5855,6 +5959,46 @@ void Character::update_stamina( int turns )
                    roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
+}
+
+int Character::get_cardiofit() const
+{
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
+        return 2 * base_bmr();
+    }
+    const int bmr = base_bmr();
+    const int athletics_mod = get_skill_level( skill_swimming ) * 10;
+    const int health_effect = get_healthy();
+    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    const int trait_mod = mutation_value( "max_stamina_modifier" );
+    // At some point we might have proficiencies that affect this.
+    const int prof_mod = 0;
+    const int cardio_acc_mod = get_cardio_acc();
+    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod +
+                                 cardio_acc_mod );
+    if( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
+        // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
+        // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the
+        // size of the character, but mutations might push it up.
+        final_cardio_fitness = 3 * ( bmr + trait_mod );
+    }
+    return final_cardio_fitness;
+}
+
+int Character::get_cardio_acc() const
+{
+    return cardio_acc;
+}
+
+void Character::set_cardio_acc( int ncardio_acc )
+{
+    cardio_acc = ncardio_acc;
+}
+
+void Character::reset_cardio_acc()
+{
+    set_cardio_acc( base_bmr() / 2 );
 }
 
 bool Character::invoke_item( item *used )
@@ -6118,6 +6262,9 @@ int Character::get_shout_volume() const
     } else if( has_trait( trait_SHOUT2 ) ) {
         base = 15;
         shout_multiplier = 3;
+    }
+    if( has_trait( trait_BOOMING_VOICE ) ) {
+        base += 10;
     }
 
     // You can't shout without your face
@@ -6876,9 +7023,27 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     int sum_cover = 0;
+    bool dealt_melee = false;
+    bool dealt_ranged = false;
+    for( const damage_unit &du : d ) {
+        // Assume that ranged == getting shot
+        if( du.type == damage_type::BULLET ) {
+            dealt_ranged = true;
+        } else if( du.type == damage_type::BASH ||
+                   du.type == damage_type::CUT ||
+                   du.type == damage_type::STAB ) {
+            dealt_melee = true;
+        }
+    }
     for( const item &i : worn ) {
         if( i.covers( bp ) && i.is_filthy() ) {
-            sum_cover += i.get_coverage( bp );
+            if( dealt_melee ) {
+                sum_cover += i.get_coverage( bp, item::cover_type::COVER_MELEE );
+            } else if( dealt_ranged ) {
+                sum_cover += i.get_coverage( bp, item::cover_type::COVER_RANGED );
+            } else {
+                sum_cover += i.get_coverage( bp );
+            }
         }
     }
 
@@ -7178,6 +7343,19 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
+std::vector<const item *> Character::inv_dump() const
+{
+    std::vector<const item *> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( &weapon );
+    }
+    for( const item &i : worn ) {
+        ret.push_back( &i );
+    }
+    inv->dump( ret );
+    return ret;
+}
+
 bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {
@@ -7234,6 +7412,52 @@ units::volume Character::free_space() const
         volume_capacity += w.check_for_free_space();
     }
     return volume_capacity;
+}
+
+units::volume Character::holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    if( weapon.is_holster() ) {
+        holster_volume += weapon.get_total_capacity();
+    }
+    for( const item &w : worn ) {
+        if( w.is_holster() ) {
+            holster_volume += w.get_total_capacity();
+        }
+    }
+    return holster_volume;
+}
+
+int Character::empty_holsters() const
+{
+    int e_holsters = 0;
+    if( weapon.is_holster() ) {
+        e_holsters += 1;
+    }
+    for( const item &w : worn ) {
+        if( w.is_holster() && w.is_container_empty() ) {
+            e_holsters += 1;
+        }
+    }
+    return e_holsters;
+}
+
+units::volume Character::small_pocket_volume( const units::volume &threshold ) const
+{
+    units::volume small_spaces = 0_ml;
+    if( weapon.get_total_capacity() <= threshold ) {
+        small_spaces += weapon.get_total_capacity();
+    }
+    for( const item &w : worn ) {
+        if( !w.is_holster() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+                if( pocket->volume_capacity() <= threshold ) {
+                    small_spaces += ( pocket->volume_capacity() );
+                }
+            }
+        }
+    }
+    return small_spaces;
 }
 
 units::volume Character::volume_capacity() const
@@ -7912,7 +8136,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
                     return *i;
                 }
             }
-        } else if( has_charges( i->typeId(), quantity ) ) {
+        } else if( i->ammo_sufficient( this, quantity ) ) {
             return *i;
         }
     }
@@ -7991,7 +8215,7 @@ void Character::use_fire( const int quantity )
         mod_power_level( -quantity * 5_kJ );
         return;
     }
-    if( firestarter.typeId()->can_have_charges() ) {
+    if( firestarter.ammo_sufficient( this, quantity ) ) {
         use_charges( firestarter.typeId(), quantity );
         return;
     }
@@ -8140,6 +8364,15 @@ void Character::on_item_takeoff( const item &it )
         }
     }
     morale->on_item_takeoff( it );
+}
+
+void Character::on_item_acquire( const item &it )
+{
+    if( is_avatar() && it.has_item_with( []( const item & it ) {
+    return it.has_flag( flag_ZOOM );
+    } ) ) {
+        g->update_overmap_seen();
+    }
 }
 
 void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
@@ -8908,6 +9141,32 @@ void Character::process_effects()
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
+    }
+
+    // Apply new effects from effect->effect chains
+    while( !scheduled_effects.empty() ) {
+        const auto &effect = scheduled_effects.front();
+
+        add_effect( effect_source::empty(),
+                    effect.eff_id,
+                    effect.dur,
+                    effect.bp,
+                    effect.permanent,
+                    effect.intensity,
+                    effect.force,
+                    effect.deferred );
+
+        scheduled_effects.pop();
+    }
+
+    // Perform immediate effect removals
+    while( !terminating_effects.empty() ) {
+
+        const auto &effect = terminating_effects.front();
+
+        remove_effect( effect.eff_id, effect.bp );
+
+        terminating_effects.pop();
     }
 
     Creature::process_effects();

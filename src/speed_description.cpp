@@ -52,7 +52,13 @@ void speed_description_value::load( const JsonObject &jo )
     if( value_ < 0.00 ) {
         jo.throw_error( "value outside supported range", "value" );
     }
-    optional( jo, was_loaded, "descriptions", descriptions_, auto_flags_reader<std::string> {} );
+    if( jo.has_array( "descriptions" ) ) {
+        optional( jo, was_loaded, "descriptions", descriptions_ );
+    } else if( jo.has_string( "descriptions" ) ) {
+        translation description;
+        optional( jo, was_loaded, "descriptions", description );
+        descriptions_.emplace_back( description );
+    }
 }
 
 void speed_description_value::deserialize( JsonIn &jsin )

@@ -657,9 +657,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "ascii_picture", picture_id );
 
-    optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
+    if( jo.has_member( "material" ) ) {
+        mat.clear();
+        for( const std::string &m : jo.get_tags( "material" ) ) {
+            mat.emplace( m, 1 );
+            mat_portion_total += 1;
+        }
+    }
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
-        mat.emplace_back( material_id( "flesh" ) );
+        mat.emplace( material_id( "flesh" ), 1 );
+        mat_portion_total += 1;
     }
     optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
@@ -713,9 +720,44 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    if( jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
         weakpoints.clear();
         weakpoints.load( jo.get_array( "weakpoints" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.load( tmp.get_array( "weakpoints" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoints" ) ) {
+                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+            }
+        }
+    }
+
+    if( !was_loaded || jo.has_array( "families" ) ) {
+        families.clear();
+        families.load( jo.get_array( "families" ) );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "families" ) ) {
+                families.load( jo.get_array( "families" ) );
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "families" ) ) {
+                families.remove( jo.get_array( "families" ) );
+            }
+        }
     }
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
@@ -1231,9 +1273,9 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
-        for( const material_id &m : mon.mat ) {
-            if( m.str() == "null" || !m.is_valid() ) {
-                debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
+        for( const auto &m : mon.mat ) {
+            if( m.first.str() == "null" || !m.first.is_valid() ) {
+                debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.first.c_str() );
             }
         }
         if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {

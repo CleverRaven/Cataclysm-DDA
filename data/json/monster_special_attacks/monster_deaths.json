@@ -159,7 +159,7 @@
     "shape": "blast",
     "effect": "remove_effect",
     "effect_str": "controlled",
-    "targeted_monster_ids": [ "blob_small", "blob", "blob_large" ],
+    "targeted_monster_ids": [ "mon_blob_small", "mon_blob", "mon_blob_large" ],
     "extra_effects": [ { "id": "death_blobsplit_brain", "hit_self": true } ]
   },
   {

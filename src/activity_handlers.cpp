@@ -144,12 +144,14 @@ static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -163,6 +165,7 @@ static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -191,7 +194,6 @@ static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
-static const itype_id itype_nail( "nail" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 
@@ -200,7 +202,6 @@ static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -237,6 +238,7 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
+    { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
@@ -264,7 +266,6 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -298,8 +299,11 @@ activity_handlers::finish_functions = {
     { ACT_FORAGE, forage_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
+    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
+    { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
+    { ACT_TRAIN_TEACHER, teach_finish },
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
@@ -325,13 +329,13 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
-    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
+    { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
@@ -1068,6 +1072,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT ) {
         you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
                       0 ) + 4 );
+        mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
                       0 ) + 4 );
@@ -1684,6 +1689,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     here.maybe_trigger_trap( bush_pos, *you, true );
 }
 
+// Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
 {
@@ -1694,13 +1700,45 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
-                add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                if( you->is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
                 return;
             }
         }
-        //1 points/min, almost 2 hours to fill
+        if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_max_bonus *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
         you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
+}
+
+// Repurposing the activity's index to convey the number of friends participating
+void activity_handlers::generic_game_finish( player_activity *act, Character *you )
+{
+    // Apply small bonus with diminishing returns for playing with friends
+    if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
+        float mod = 1.f;
+        float acc = 0.4f;
+        for( int i = act->index; i > 0; i-- ) {
+            mod += acc;
+            acc *= acc;
+        }
+        if( !act->values.empty() && act->values[0] == you->getID().get_value() ) {
+            // A winner is you! Feel more happy!
+            mod *= 1.5f;
+            you->add_msg_if_player( m_good, _( "You won!" ) );
+            you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
+        }
+        you->add_morale( MORALE_GAME, 4 * mod );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::generic_game_do_turn( player_activity *act, Character *you )
@@ -1744,6 +1782,17 @@ void activity_handlers::longsalvage_finish( player_activity *act, Character *you
 
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
+}
+
+void activity_handlers::mopping_finish( player_activity *act, Character *you )
+{
+    // blind character have a 1/3 chance of actually mopping
+    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act->placement ) );
+    }
+    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
@@ -1998,8 +2047,49 @@ static bool magic_train( player_activity *act, Character *you )
     return false;
 }
 
+void activity_handlers::teach_finish( player_activity *act, Character *you )
+{
+    const skill_id sk( act->name );
+    if( sk.is_valid() ) {
+        const std::string sk_name = sk.obj().name();
+        if( you->is_avatar() ) {
+            add_msg( m_good, _( "You finish teaching %s." ), sk_name );
+        } else {
+            add_msg( m_good, _( "%s finishes teaching %s." ), you->name, sk_name );
+        }
+        act->set_to_null();
+        return;
+    }
+
+    debugmsg( "teach_finish without a valid skill or style or spell name" );
+    act->set_to_null();
+}
+
 void activity_handlers::train_finish( player_activity *act, Character *you )
 {
+    const std::vector<npc *> teachlist = g->get_npcs_if( [act]( const npc & n ) {
+        return n.getID().get_value() == act->index;
+    } );
+    Character *teacher = &get_player_character();
+    if( !teachlist.empty() ) {
+        teacher = teachlist.front();
+    }
+    if( teacher->activity.id() == ACT_TRAIN_TEACHER ) {
+        bool all_students_done = true;
+        g->get_npcs_if( [&]( const npc & n ) {
+            for( int st_id : teacher->activity.values ) {
+                if( n.getID().get_value() == st_id && n.activity.id() == ACT_TRAIN ) {
+                    all_students_done = false;
+                    break;
+                }
+            }
+            return false;
+        } );
+        if( all_students_done ) {
+            teacher->cancel_activity();
+        }
+    }
+
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
@@ -2008,10 +2098,12 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
         you->practice( sk, 100, old_skill_level + 2 );
         int new_skill_level = you->get_knowledge_level( sk );
         if( old_skill_level != new_skill_level ) {
-            add_msg( m_good, _( "You finish training %s to level %d." ),
-                     skill_name, new_skill_level );
+            if( you->is_avatar() ) {
+                add_msg( m_good, _( "You finish training %s to level %d." ),
+                         skill_name, new_skill_level );
+            }
             get_event_bus().send<event_type::gains_skill_level>( you->getID(), sk, new_skill_level );
-        } else {
+        } else if( you->is_avatar() ) {
             add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
         act->set_to_null();
@@ -2021,7 +2113,9 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
     const proficiency_id &proficiency = proficiency_id( act->name );
     if( proficiency.is_valid() ) {
         you->practice_proficiency( proficiency, 15_minutes );
-        add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        if( you->is_avatar() ) {
+            add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        }
         act->set_to_null();
         return;
     }
@@ -2393,7 +2487,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
                                     old_level != you->get_skill_level( actor->used_skill );
-        const bool can_refit = !destroyed && fix_location->has_flag( flag_VARSIZE ) &&
+        const bool can_refit = !destroyed && !cannot_continue_repair &&
+                               fix_location->has_flag( flag_VARSIZE ) &&
                                !fix_location->has_flag( flag_FIT );
 
         const bool need_input =
@@ -2813,7 +2908,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ) );
+                    mongroup_id( "GROUP_FISH" ), true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
@@ -3310,6 +3405,11 @@ void activity_handlers::multiple_mine_do_turn( player_activity *act, Character *
     generic_multi_activity_handler( *act, *you );
 }
 
+void activity_handlers::multiple_mop_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
@@ -3368,62 +3468,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
-}
-
-void activity_handlers::pry_nails_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
-}
-
-void activity_handlers::pry_nails_finish( player_activity *act, Character *you )
-{
-    const tripoint &pnt = act->placement;
-    map &here = get_map();
-    const ter_id type = here.ter( pnt );
-
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        you->add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        you->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        you->add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        you->add_msg_if_player( _( "You pry the boards from the door." ) );
-    }
-    you->practice( skill_fabrication, 1, 1 );
-    here.spawn_item( you->pos(), itype_nail, 0, nails );
-    here.spawn_item( you->pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
-    act->set_to_null();
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )
@@ -3821,6 +3865,16 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     you->practice( skill_computer, 10 );
+}
+
+void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
+{
+    if( you->is_avatar() ) {
+        you->as_avatar()->longpull( act->name );
+    } else {
+        you->longpull( act->name, act->placement );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )

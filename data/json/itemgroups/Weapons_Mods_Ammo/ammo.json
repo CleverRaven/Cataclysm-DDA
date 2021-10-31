@@ -24,9 +24,52 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_pistol_common_collection",
+    "//": "Pistol ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "32_acp", "prob": 20 },
+      { "item": "380_FMJ", "prob": 25 },
+      { "item": "380_JHP", "prob": 20 },
+      { "item": "38_fmj", "prob": 25 },
+      { "item": "38_special", "prob": 25 },
+      { "item": "357mag_fmj", "prob": 15 },
+      { "item": "357mag_jhp", "prob": 15 },
+      { "item": "357sig_jhp", "prob": 25 },
+      { "item": "357sig_fmj", "prob": 25 },
+      { "item": "40sw", "prob": 40 },
+      { "item": "40fmj", "prob": 40 },
+      { "item": "45_acp", "prob": 40 },
+      { "item": "45_jhp", "prob": 40 },
+      { "item": "9mm", "prob": 60 },
+      { "item": "9mmfmj", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
+    "entries": [
+      { "item": "10mm_fmj", "prob": 15 },
+      { "item": "38_super", "prob": 20 },
+      { "item": "38super_fmj", "prob": 20 },
+      { "item": "44fmj", "prob": 15 },
+      { "item": "44magnum", "prob": 35 },
+      { "item": "45_super", "prob": 30 },
+      { "item": "460_rowland", "prob": 15 },
+      { "item": "460_fmj", "prob": 10 },
+      { "item": "57mm", "prob": 50 },
+      { "item": "380_p", "prob": 10 },
+      { "item": "9mmP", "prob": 30 },
+      { "item": "9mmP2", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_rare_collection",
+    "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
+    "subtype": "collection",
     "entries": [
       { "item": "10mm_fmj", "prob": 15 },
       { "item": "38_super", "prob": 20 },
@@ -69,6 +112,23 @@
       { "item": "9x18mm", "prob": 50 },
       { "item": "9x18mmfmj", "prob": 50 },
       { "item": "9x18mmP2", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_obscure_collection",
+    "//": "Imported or otherwise very obscure pistol ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "454_Casull", "prob": 75 },
+      { "item": "45colt_jhp", "prob": 50 },
+      { "item": "500_Magnum", "prob": 75 },
+      { "item": "762_25", "prob": 50 },
+      { "item": "762_25hot", "prob": 25 },
+      { "item": "762_25typeP", "prob": 35 },
+      { "item": "9x18mm", "prob": 50 },
+      { "item": "9x18mmfmj", "prob": 35 },
+      { "item": "9x18mmP2", "prob": 25 }
     ]
   },
   {
@@ -168,6 +228,22 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_rifle_common_collection",
+    "//": "Rifle ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "223", "prob": 40 },
+      { "item": "22_cb", "prob": 30 },
+      { "item": "22_fmj", "prob": 50 },
+      { "item": "22_lr", "prob": 40 },
+      { "item": "22_ratshot", "prob": 30 },
+      { "item": "270win_jsp", "prob": 25 },
+      { "item": "3006", "prob": 25 },
+      { "item": "308", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
@@ -187,6 +263,27 @@
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 15 },
       { "item": "300blk_ss", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_rare_collection",
+    "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "300_winmag", "prob": 40 },
+      { "item": "3006fmj", "prob": 50 },
+      { "item": "556", "prob": 75 },
+      { "item": "762_51", "prob": 75 },
+      { "item": "4570_sp", "prob": 40 },
+      { "item": "4570_pen", "prob": 20 },
+      { "item": "4570_low", "prob": 40 },
+      { "item": "762_m87", "prob": 25 },
+      { "item": "8mm_civilian", "prob": 15 },
+      { "item": "300blk", "prob": 20 },
+      { "item": "762_54R", "prob": 35 },
+      { "item": "762_m43", "prob": 20 },
+      { "item": "300blk_ss", "prob": 15 }
     ]
   },
   {
@@ -225,6 +322,13 @@
     "//": "Imported or otherwise very obscure rifle ammo.",
     "subtype": "distribution",
     "entries": [ { "item": "545", "prob": 150 }, { "item": "545_ap", "prob": 100 }, { "item": "700nx", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_obscure_collection",
+    "//": "Imported or otherwise very obscure rifle ammo.",
+    "subtype": "collection",
+    "entries": [ { "item": "545", "prob": 75 }, { "item": "545_ap", "prob": 50 }, { "item": "700nx", "prob": 35 } ]
   },
   {
     "type": "item_group",
@@ -268,6 +372,18 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_shotgun_common_collection",
+    "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shot_00", "prob": 75 },
+      { "item": "shot_bird", "prob": 45 },
+      { "item": "shot_slug", "prob": 65 },
+      { "item": "410shot_000", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
@@ -278,6 +394,20 @@
       { "item": "20x66_slug", "prob": 20 },
       { "item": "shot_dragon", "prob": 10 },
       { "item": "shot_beanbag", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_rare_collection",
+    "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "20x66_beanbag", "prob": 20 },
+      { "item": "20x66_flare", "prob": 20 },
+      { "item": "20x66_shot", "prob": 80 },
+      { "item": "20x66_slug", "prob": 40 },
+      { "item": "shot_dragon", "prob": 20 },
+      { "item": "shot_beanbag", "prob": 40 }
     ]
   },
   {
@@ -334,9 +464,19 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_smg_common", "prob": 20 },
       { "group": "ammo_rifle_common", "prob": 50 },
       { "group": "ammo_shotgun_common", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_collection",
+    "//": "Common ammo for guns typically owned by citizens.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ammo_pistol_common_collection", "prob": 75 },
+      { "group": "ammo_rifle_common_collection", "prob": 55 },
+      { "group": "ammo_shotgun_common_collection", "prob": 25 }
     ]
   },
   {
@@ -345,10 +485,20 @@
     "//": "Less common ammo including that only used by police/paramilitary forces",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_rare", "prob": 100 },
-      { "group": "ammo_smg_rare", "prob": 20 },
+      { "group": "ammo_pistol_rare", "prob": 75 },
       { "group": "ammo_rifle_rare", "prob": 50 },
-      { "group": "ammo_shotgun_rare", "prob": 50 }
+      { "group": "ammo_shotgun_rare", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rare_collection",
+    "//": "Less common ammo including that only used by police/paramilitary forces",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ammo_pistol_rare_collection", "prob": 100 },
+      { "group": "ammo_rifle_rare_collection", "prob": 50 },
+      { "group": "ammo_shotgun_rare_collection", "prob": 50 }
     ]
   },
   {
@@ -358,7 +508,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_pistol_milspec", "prob": 50 },
-      { "group": "ammo_smg_milspec", "prob": 20 },
       { "group": "ammo_rifle_milspec", "prob": 200 },
       { "group": "ammo_shotgun_milspec", "prob": 30 },
       { "group": "ammo_launcher_grenade", "prob": 30 }
@@ -369,12 +518,14 @@
     "id": "ammo_obscure",
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_pistol_obscure", "prob": 100 },
-      { "group": "ammo_smg_obscure", "prob": 100 },
-      { "group": "ammo_rifle_obscure", "prob": 100 },
-      { "group": "ammo_shotgun_obscure", "prob": 100 }
-    ]
+    "entries": [ { "group": "ammo_pistol_obscure", "prob": 100 }, { "group": "ammo_rifle_obscure", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_obscure_collection",
+    "//": "Imported or otherwise very obscure ammo.",
+    "subtype": "collection",
+    "entries": [ { "group": "ammo_pistol_obscure_collection", "prob": 85 }, { "group": "ammo_rifle_obscure_collection", "prob": 25 } ]
   },
   {
     "type": "item_group",
@@ -383,7 +534,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_pistol_reloaded", "prob": 90 },
-      { "group": "ammo_smg_reloaded", "prob": 10 },
       { "group": "ammo_rifle_reloaded", "prob": 100 },
       { "group": "ammo_shotgun_reloaded", "prob": 20 }
     ]

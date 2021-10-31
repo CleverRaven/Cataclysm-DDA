@@ -896,6 +896,7 @@
       { "item": "sandwich_jam", "charges-min": 1, "prob": 6 },
       { "item": "sandwich_cheese", "charges-min": 1, "prob": 6 },
       { "item": "sandwich_deluxe", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_reuben", "charges-min": 1, "prob": 3 },
       { "item": "sandwich_pb", "charges-min": 1, "prob": 6 },
       { "item": "sandwich_pbj", "charges-min": 1, "prob": 6 },
       { "item": "fish_sandwich", "charges-min": 1, "prob": 6 },

@@ -485,6 +485,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
+    json.member( "show_sprite", show_sprite );
     json.end_object();
 }
 
@@ -494,6 +495,7 @@ void Character::trait_data::deserialize( const JsonObject &data )
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
+    data.read( "show_sprite", show_sprite );
 }
 
 void consumption_event::serialize( JsonOut &json ) const
@@ -527,7 +529,6 @@ void activity_tracker::serialize( JsonOut &json ) const
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
-    json.member( "tick_counter", tick_counter );
     json.end_object();
 }
 
@@ -545,7 +546,10 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    jo.read( "tick_counter", tick_counter );
+    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
+        tracker *= 1000;
+        intake *= 1000;
+    }
 }
 
 // migration handling of items that used to have charges instead of real items.
@@ -597,6 +601,7 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
+    data.read( "cardio_acc", cardio_acc );
     // Legacy read, remove after 0.F
     data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
@@ -730,7 +735,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
-
+    data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
     }
@@ -1044,15 +1049,6 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
-        queued_effect_on_conditions.push( temp );
-    }
-    //load inactive queued_eocs
-    for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
-        queued_eoc temp;
-        temp.time = time_point( elem.get_int( "time" ) );
-        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        temp.recurring = elem.get_bool( "recurring" );
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1102,6 +1098,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
+    json.member( "cardio_acc", cardio_acc );
     json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
@@ -1218,7 +1215,7 @@ void Character::store( JsonOut &json ) const
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-
+    json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv->json_save_items( json );
@@ -1272,7 +1269,6 @@ void Character::store( JsonOut &json ) const
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
-        json.member( "recurring", temp_queued.top().recurring );
         json.end_object();
         temp_queued.pop();
     }

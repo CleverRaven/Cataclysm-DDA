@@ -280,6 +280,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_strconc_floor_glimmer",
+    "name": "fractured concrete floor",
+    "description": "Thin strands of violet light shimmer in the air above this concrete floor, like cracks upon a pane of glass.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "connects_to": "CONCRETE",
+    "emissions": [ "emit_plasma_continuously" ],
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "trap": "tr_glimmer_floor",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_ov_reb_cage",
     "name": "rebar roof cage",
     "description": "A network of architecturally sound rebar in order to support a floor and roof, looks like it's missing the poured concrete.",

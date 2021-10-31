@@ -67,6 +67,10 @@
     "melee_cut": 15,
     "armor_bash": 6,
     "armor_cut": 8,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 430,
     "description": "Enormous putrid dinosaur corpse with a ferocious crocodile-like head, oozing black eyes, and a tattered sail on its back.",
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
@@ -162,6 +166,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zorgosaurus",
+    "name": { "str_sp": "gorgosaurus zombie" },
+    "copy-from": "mon_zalbertosaurus",
+    "speed": 50,
+    "melee_cut": 13,
+    "hp": 250,
+    "description": "Massive jaws drooling black liquid lifted over a huge shuffling dinosaur corpse.",
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
+    "burn_into": "mon_zorgosaurus_scorched",
+    "fungalize_into": "mon_zorgosaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zorgosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zalbertosaurus",
     "name": { "str": "albertosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
@@ -218,6 +236,10 @@
     "melee_cut": 13,
     "armor_bash": 6,
     "armor_cut": 8,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 400,
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ],
@@ -276,6 +298,10 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 120,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.",
@@ -332,6 +358,10 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 45,
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
@@ -408,6 +438,10 @@
     "armor_bash": 6,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 500,
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
@@ -566,6 +600,10 @@
     "armor_bash": 16,
     "armor_cut": 21,
     "armor_bullet": 7,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 375,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "description": "The shuffling corpse of what looks like a giant armadillo with peeling armored plates and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
@@ -633,6 +671,10 @@
     "armor_bash": 5,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 170,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with strong legs, broad shoulders, and a pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
@@ -669,6 +711,10 @@
     "melee_cut": 2,
     "armor_cut": 7,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 320,
     "special_attacks": [
       [ "scratch", 10 ],
@@ -743,6 +789,7 @@
     "melee_dice_sides": 4,
     "armor_bash": 3,
     "armor_cut": 4,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 125,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
@@ -845,6 +892,7 @@
     "armor_bash": 5,
     "armor_cut": 7,
     "armor_bullet": 3,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 400,
     "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest from which three wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zriceratops_scorched",
@@ -932,6 +980,7 @@
     "armor_bash": 5,
     "armor_cut": 7,
     "armor_bullet": 7,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
     "hp": 335,
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
     "burn_into": "mon_zosasaurus_scorched",
@@ -985,6 +1034,10 @@
     "armor_bash": 6,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "hp": 200,
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },

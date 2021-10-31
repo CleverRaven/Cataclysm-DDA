@@ -70,6 +70,22 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <EmbedManifest>false</EmbedManifest>
+    <TargetName>cataclysm-tiles</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <EmbedManifest>false</EmbedManifest>
+    <TargetName>cataclysm-tiles</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <EmbedManifest>false</EmbedManifest>
+    <TargetName>cataclysm-tiles</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <EmbedManifest>false</EmbedManifest>
+    <TargetName>cataclysm-tiles</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>_WINDOWS;USE_WINMAIN;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -91,7 +107,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -116,6 +131,9 @@
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

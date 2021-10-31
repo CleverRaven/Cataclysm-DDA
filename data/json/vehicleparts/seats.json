@@ -185,7 +185,7 @@
   },
   {
     "abstract": "metal_bench_abstract",
-    "breaks_into": "ig_vp_steel_plate",
+    "breaks_into": "ig_vp_prison_bench",
     "broken_color": "dark_gray",
     "broken_symbol": "*",
     "categories": [ "operations", "passengers" ],

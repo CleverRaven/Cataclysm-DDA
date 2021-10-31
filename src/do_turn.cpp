@@ -220,10 +220,13 @@ bool cleanup_at_end()
         const int days = to_days<int>( survived );
 
         if( days > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
         } else if( hours > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dh %dm", hours, minutes );
         } else {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dm", minutes );
         }
 
@@ -367,7 +370,7 @@ void handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            if( u.activity.interruptable_with_kb ) {
+            if( u.activity.is_interruptible_with_kb() ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
@@ -678,6 +681,11 @@ bool do_turn()
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
+                }
+
+                if( g->queue_screenshot ) {
+                    g->take_screenshot();
+                    g->queue_screenshot = false;
                 }
 
                 if( g->handle_action() ) {

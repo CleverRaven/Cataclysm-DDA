@@ -110,6 +110,8 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 | `can_learn`   | Mandatory | Bool | Whether or not this proficiency can be learned through normal means during the game.
 | `default_time_multiplier` | Optional | Float | Time multiplier for crafting recipes (see below)
 | `default_fail_multiplier` | Optional | Float | Failure chance multiplier for crafting recipes (see below)
+| `default_weakpoint_bonus` | Optional | Float | Flat bonus to the attacker's skill
+| `default_weakpoint_penalty` | Optional | Float | Flat penalty to the attacker's skill if they lack the skill
 | `time_to_learn` | Optional | time_duration, as a string | The (optimal) time required to learn this proficiency.
 | `required_proficiencies` | Optional | Array of strings | The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
 | `bonuses` | Optional | Object, with an array of object as values | This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question. (see below)

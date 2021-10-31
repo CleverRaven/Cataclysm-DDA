@@ -95,7 +95,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
   },

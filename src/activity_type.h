@@ -33,6 +33,7 @@ class activity_type
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool interruptable_ = true;
+        bool interruptable_with_kb_ = true;
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
@@ -50,6 +51,9 @@ class activity_type
         }
         bool interruptable() const {
             return interruptable_;
+        }
+        bool interruptable_with_kb() const {
+            return interruptable_with_kb_;
         }
         bool suspendable() const {
             return suspendable_;

@@ -3,7 +3,7 @@
     "id": "vehicle_fasten",
     "type": "requirement",
     "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
-    "qualities": [ { "id": "WHEEL_FAST", "level": 1 } ]
+    "tools": [ [ [ "tire_iron", -1 ], [ "wrench_large", -1 ], [ "cordless_impact_wrench", 100 ] ] ]
   },
   {
     "id": "vehicle_wrench_1",

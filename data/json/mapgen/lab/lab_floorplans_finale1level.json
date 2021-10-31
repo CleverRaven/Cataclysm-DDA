@@ -260,6 +260,8 @@
             [ "lab_filltank_mutagen_plant", 2 ],
             [ "lab_filltank_mutagen_insect", 2 ],
             [ "lab_filltank_mutagen_spider", 2 ],
+            [ "lab_filltank_mutagen_snail", 2 ],
+            [ "lab_filltank_mutagen_batrachian", 2 ],
             [ "lab_filltank_mutagen_fish", 2 ],
             [ "lab_filltank_mutagen_slime", 2 ],
             [ "lab_filltank_mutagen_rat", 2 ],
@@ -309,6 +311,21 @@
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_spider",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_spider" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_snail",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_snail" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_batrachian",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_batrachian" } ]
+    }
   },
   {
     "type": "mapgen",
