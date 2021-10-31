@@ -25,9 +25,14 @@
     "replace": "arrow_metal"
   },
   {
+    "id": "arrow_fire_hardened_fletched",
+    "type": "MIGRATION",
+    "replace": "arrow_wood_crude"
+  },
+  {
     "id": "arrow_fire_hardened",
     "type": "MIGRATION",
-    "replace": "arrow_fire_hardened_fletched"
+    "replace": "arrow_wood_crude"
   },
   {
     "id": "arrow_field_point",

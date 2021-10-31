@@ -46,7 +46,7 @@
     "name": { "str": "nano printed combat arrow" },
     "symbol": "=",
     "color": "green",
-    "looks_like": "arrow_fire_hardened_fletched",
+    "looks_like": "arrow_wood_crude",
     "description": "Arrows made from nanoprinted materials where each layer of the arrow is designed for improved efficiency.  A layer that provides the least possible air resistance, followed by a layer of armor piercing, then followed by a frangible layer.  However, this makes each arrow single use.",
     "material": [ "superalloy" ],
     "volume": "250 ml",

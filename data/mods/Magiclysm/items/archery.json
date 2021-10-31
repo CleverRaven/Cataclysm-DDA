@@ -49,7 +49,7 @@
     "name": "orichalcum arrow",
     "symbol": "=",
     "color": "white",
-    "looks_like": "arrow_fire_hardened_fletched",
+    "looks_like": "arrow_wood_crude",
     "description": "An arrow composed of a sliver of orichalcum.  The arrow has a mysterious glow.  Has a very high chance of staying intact when fired, however can only be fired from Ichaival.",
     "material": [ "wood", "orichalcum_metal" ],
     "ammo_type": "arrow_orichalcum",

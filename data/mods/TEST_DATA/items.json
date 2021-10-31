@@ -1341,7 +1341,7 @@
     "name": { "str": "test wooden broadhead arrow" },
     "symbol": "=",
     "color": "green",
-    "looks_like": "arrow_fire_hardened_fletched",
+    "looks_like": "arrow_wood_crude",
     "description": "Test arrow",
     "material": [ "wood", "steel" ],
     "volume": "250 ml",

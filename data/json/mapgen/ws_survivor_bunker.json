@@ -49,7 +49,7 @@
       [ "flask_hip", 20 ],
       [ "shortbow", 20 ],
       [ "arrow_wood_heavy", 20 ],
-      [ "arrow_fire_hardened_fletched", 20 ],
+      [ "arrow_wood_crude", 20 ],
       [ "quiver_birchbark", 30 ],
       [ "fire_drill", 30 ],
       { "item": "lighter", "prob": 30, "charges": [ 0, 100 ] },
