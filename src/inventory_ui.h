@@ -853,11 +853,13 @@ class inventory_drop_selector : public inventory_multiselector
             const std::string &selection_column_title = _( "ITEMS TO DROP" ),
             bool warn_liquid = true );
         drop_locations execute();
+        void on_input( const inventory_input &input );
     protected:
         stats get_raw_stats() const override;
 
     private:
         bool warn_liquid;
+        int count = 0;
 };
 
 class pickup_selector : public inventory_multiselector

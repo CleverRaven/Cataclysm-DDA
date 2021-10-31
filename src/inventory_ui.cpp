@@ -2885,48 +2885,54 @@ void inventory_multiselector::deselect_contained_items()
     }
 }
 
+void inventory_drop_selector::on_input( const inventory_input &input )
+{
+    bool const noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
+
+    if( input.entry != nullptr ) { // Single Item from mouse
+        select( input.entry->any_item() );
+        toggle_entries( count );
+    } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+        toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+    } else if( input.action ==
+               "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
+        int query_result = query_count();
+        if( query_result >= 0 ) {
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        }
+    } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+        toggle_entries( count, toggle_mode::SELECTED );
+    } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+        count = std::min( count, INT_MAX / 10 - 10 );
+        count *= 10;
+        count += input.ch - '0';
+    } else {
+        inventory_multiselector::on_input( input );
+    }
+}
+
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
-    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
-        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
-
-        if( input.entry != nullptr ) { // Single Item from mouse
-            select( input.entry->any_item() );
-            toggle_entries( count );
-        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
-            int query_result = query_count();
-            if( query_result < 0 ) {
-                continue; // Skip selecting any if invalid result or user canceled prompt
-            }
-            toggle_entries( query_result, toggle_mode::SELECTED );
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count, toggle_mode::SELECTED );
-        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.action == "CONFIRM" ) {
+        if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
-        } else if( input.action == "QUIT" ) {
-            return drop_locations();
-        } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
-        } else {
-            on_input( input );
         }
+
+        if( input.action == "QUIT" ) {
+            return drop_locations();
+        }
+
+        on_input( input );
     }
 
     drop_locations dropped_pos_and_qty;
