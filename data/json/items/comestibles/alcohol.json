@@ -41,7 +41,7 @@
     "quench": 5,
     "addiction_potential": 5,
     "calories": 40,
-    "description": "A viscous soft pink wine, made from the fruit of the marloss",
+    "description": "A viscous soft pink wine, made from the fruit of the marloss.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "alcohol", "water", "fruit" ],
