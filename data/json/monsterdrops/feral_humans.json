@@ -453,6 +453,6 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_autogun",
-    "items": [ [ "cx4", 200 ], [ "uzi", 200 ], [ "calico", 200 ], [ "ar_pistol", 200 ], [ "ar15", 200 ] ]
+    "items": [ [ "scar_l", 200 ], [ "m4_carbine", 200 ], [ "ruger_mini", 200 ], [ "ar_pistol", 200 ], [ "ar15", 200 ] ]
   }
 ]
