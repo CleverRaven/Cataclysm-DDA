@@ -33,7 +33,7 @@
     "weight": "33 g",
     "color": "pink",
     "addiction_type": "marloss_r",
-    "use_action": [ "MYCUS" ],
+    "use_action": [ "MARLOSS" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
