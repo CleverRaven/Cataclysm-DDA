@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_TEXT_SNIPPETS_H
 #define CATA_SRC_TEXT_SNIPPETS_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <unordered_map>

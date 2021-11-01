@@ -8,8 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "input.h"
 #include "mission.h"
@@ -72,15 +70,22 @@ void game::list_missions()
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
-
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
-                  tab == tab_mode::TAB_COMPLETED ? ' ' : LINE_OXXX ); // ^|^
+        int x1 = 2;
+        int x2 = 2;
+        for( const std::pair<tab_mode, std::string> &t : tabs ) {
+            x2 = x1 + utf8_width( t.second ) + 1;
+            if( t.first == tab ) {
+                break;
+            }
+            x1 = x2 + 2;
+        }
+        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR, x1 < 30 && 30 < x2 ? ' ' : LINE_OXXX ); // ^|^*/
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
-            const auto miss = umissions[i];
+            mission *miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
             trim_and_print( w_missions, point( 1, y ), 28,
@@ -89,7 +94,7 @@ void game::list_missions()
         }
 
         if( selection < umissions.size() ) {
-            const auto miss = umissions[selection];
+            mission *miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             std::string for_npc;
             if( miss->get_npc_id().is_valid() ) {
@@ -100,20 +105,19 @@ void game::list_missions()
             }
 
             int y = 3;
-            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
-                                 miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
-            const std::vector<std::pair<int, std::string>> &rewards ) {
+            const std::vector<std::pair<int, itype_id>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
-                    std::string token = "<reward_count:" + reward.second + ">";
+                    std::string token = "<reward_count:" + reward.second.str() + ">";
                     formatted_description = string_replace( formatted_description, token, string_format( "%d",
                                                             reward.first ) );
                 }
                 return formatted_description;
             };
-
+            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
+                                 format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
@@ -141,10 +145,10 @@ void game::list_missions()
                 }
             }
             if( miss->has_target() ) {
-                const tripoint pos = u.global_omt_location();
+                const tripoint_abs_omt pos = u.global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
-                           miss->get_target().x, miss->get_target().y, pos.x, pos.y );
+                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Target: %s   You: %s" ),
+                           miss->get_target().to_string(), pos.to_string() );
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {
@@ -155,7 +159,7 @@ void game::list_missions()
             mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
-        wrefresh( w_missions );
+        wnoutrefresh( w_missions );
     } );
 
     while( true ) {

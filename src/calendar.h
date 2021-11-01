@@ -2,15 +2,28 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <iosfwd>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "units_fwd.h"
+
 class JsonIn;
 class JsonOut;
+class JsonValue;
+struct lat_long;
+struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
 
 /** Real world seasons */
 enum season_type {
@@ -109,18 +122,6 @@ extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 
-/**
- * A time point that is always before the current turn, even when the game has
- * just started. This implies `before_time_starts < calendar::turn` is always
- * true. It can be used to initialize `time_point` values that denote that last
- * time a cache was update.
- */
-extern const time_point before_time_starts;
-/**
- * Represents time point 0.
- * TODO: flesh out the documentation
- */
-extern const time_point turn_zero;
 } // namespace calendar
 
 template<typename T>
@@ -186,7 +187,7 @@ class time_duration
         time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -201,6 +202,10 @@ class time_duration
         template<typename T>
         static constexpr time_duration from_turns( const T t ) {
             return time_duration( t );
+        }
+        template<typename T>
+        static constexpr time_duration from_moves( const T t ) {
+            return time_duration( t / 100 );
         }
         template<typename T>
         static constexpr time_duration from_seconds( const T t ) {
@@ -373,15 +378,17 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  * (the 1 additional second is clipped). An input of 3601 will return "1 hour"
  * (the second is clipped again and the number of additional minutes would be
  * 0 so it's skipped).
+ * @param compact True for compact display of time. Example: 1 min 15 secs
  */
-std::string to_string( const time_duration &d );
+std::string to_string( const time_duration &d, bool compact = false );
 
-enum class clipped_align {
+enum class clipped_align : int {
     none,
     right,
+    compact
 };
 
-enum class clipped_unit {
+enum class clipped_unit : int {
     forever,
     second,
     minute,
@@ -408,13 +415,19 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
+ * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
 std::string to_string_approx( const time_duration &dur, bool verbose = true );
+/**
+ * Returns a string that is writable to JSON that is also readable from JSON
+ */
+std::string to_string_writable( const time_duration &dur );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.
@@ -434,8 +447,7 @@ class time_point
     public:
         time_point();
         // TODO: make private
-        // TODO: make explicit
-        constexpr time_point( const int t ) : turn_( t ) { }
+        explicit constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
@@ -445,7 +457,7 @@ class time_point
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int );
 
         // TODO: try to get rid of this
         template<typename T>
@@ -453,54 +465,65 @@ class time_point
             return point.turn_;
         }
 
+        friend constexpr inline bool operator<( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) < to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) > to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator==( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) == to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) != to_turn<int>( rhs );
+        }
+
+        friend constexpr inline time_duration operator-(
+            const time_point &lhs, const time_point &rhs ) {
+            return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator+(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator+=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator-(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator-=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
-constexpr inline bool operator<( const time_point &lhs, const time_point &rhs )
+namespace calendar
 {
-    return to_turn<int>( lhs ) < to_turn<int>( rhs );
-}
-constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
-}
-constexpr inline bool operator>( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) > to_turn<int>( rhs );
-}
-constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
-}
-constexpr inline bool operator==( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) == to_turn<int>( rhs );
-}
-constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) != to_turn<int>( rhs );
-}
 
-constexpr inline time_duration operator-( const time_point &lhs, const time_point &rhs )
-{
-    return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
-}
-constexpr inline time_point operator+( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-time_point inline &operator+=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-constexpr inline time_point operator-( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
-time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote the last
+ * time a cache was update.
+ */
+constexpr time_point before_time_starts = time_point::from_turn( -1 );
+/**
+ * Represents time point 0.
+ * TODO: flesh out the documentation
+ */
+
+constexpr time_point turn_zero = time_point::from_turn( 0 );
+
+} // namespace calendar
 
 inline time_duration time_past_midnight( const time_point &p )
 {
@@ -538,7 +561,9 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
-/** Returns the current light level of the moon. */
+/** Returns the default duration of a lunar month (duration between syzygies) */
+time_duration lunar_month();
+/** Returns the current phase of the moon. */
 moon_phase get_moon_phase( const time_point &p );
 /** Returns the current sunrise time based on the time of year. */
 time_point sunrise( const time_point &p );
@@ -556,15 +581,27 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
-/** Returns the current seasonally-adjusted maximum daylight level */
-double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */
 double default_daylight_level();
-/** Returns the current sunlight or moonlight level through the preceding functions.
- *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
- *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
- *  provides 0 light */
-float sunlight( const time_point &p, bool vision = true );
+/** Returns the current sunlight.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather.
+ *  For most situations you actually want to call the below function which also
+ *  includes moonlight. */
+float sun_light_at( const time_point &p );
+/** Returns the current sunlight plus moonlight level.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather. */
+float sun_moon_light_at( const time_point &p );
+/** How much light is provided at the solar noon nearest to given time */
+double sun_moon_light_at_noon_near( const time_point &p );
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
+
+/** Returns the offset by which a ray of sunlight would move when shifting down
+ * one z-level, or nullopt if the sun is below the horizon.
+ */
+cata::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,

@@ -95,7 +95,7 @@
     "volume": "500 ml",
     "price": 50000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
@@ -109,7 +109,7 @@
     "volume": "20 L",
     "price": 500000,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
@@ -123,7 +123,7 @@
     "volume": "10 L",
     "price": 100000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {

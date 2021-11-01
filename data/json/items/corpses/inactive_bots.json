@@ -22,8 +22,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -49,8 +48,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -76,8 +74,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -103,8 +100,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -130,31 +126,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
-    "id": "bot_laserturret",
-    "type": "TOOL",
-    "name": { "str": "inactive laser turret" },
-    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 12000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "white",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_laserturret",
-      "difficulty": 6,
-      "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -176,8 +148,7 @@
       "monster_id": "mon_turret_bmg",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -203,8 +174,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -230,8 +200,7 @@
       "difficulty": 5,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -253,8 +222,7 @@
       "monster_id": "mon_turret_rifle",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -276,8 +244,7 @@
       "monster_id": "mon_crows_m240",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -299,8 +266,7 @@
       "monster_id": "mon_turret_riot",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -322,8 +288,7 @@
       "monster_id": "mon_turret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -344,11 +309,10 @@
       "type": "place_monster",
       "monster_id": "mon_secubot",
       "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
-      "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
+      "hostile_msg": "You misprogram the security bot and it trains its gun on you.  RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -369,11 +333,10 @@
       "type": "place_monster",
       "monster_id": "mon_talon_m202a1",
       "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
-      "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
+      "hostile_msg": "You misprogram the security bot and it trains its gun on you.  RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -394,11 +357,10 @@
       "type": "place_monster",
       "monster_id": "mon_nursebot",
       "friendly_msg": "The nurse bot beeps affirmatively and awaits orders.",
-      "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
+      "hostile_msg": "You misprogram the nurse bot.  It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -419,11 +381,10 @@
       "type": "place_monster",
       "monster_id": "mon_grocerybot",
       "friendly_msg": "The grocery bot beeps affirmatively and awaits orders.",
-      "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
+      "hostile_msg": "You misprogram the grocery bot.  It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -444,11 +405,10 @@
       "type": "place_monster",
       "monster_id": "mon_grocerybot_busted",
       "friendly_msg": "The grocery bot beeps affirmatively and awaits orders.",
-      "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
+      "hostile_msg": "You misprogram the grocery bot.  It's looking at you funny.",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -474,8 +434,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -501,8 +460,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -528,8 +486,7 @@
       "//": "Wheeled and must be easy-to-use for police deployment",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -551,12 +508,11 @@
       "type": "place_monster",
       "monster_id": "mon_eyebot",
       "friendly_msg": "The eyebot hums and takes to the sky.",
-      "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face. Say cheese!",
+      "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -581,8 +537,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -604,12 +559,11 @@
       "type": "place_monster",
       "monster_id": "mon_molebot",
       "friendly_msg": "The miner bot whirrs and tunnels into the ground.",
-      "hostile_msg": "The miner bot spins out of control and lunges at you. Make way!",
+      "hostile_msg": "The miner bot spins out of control and lunges at you.  Make way!",
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -635,8 +589,7 @@
       "//": "Pretty easy but you want to be careful with the gas",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -662,8 +615,7 @@
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -689,8 +641,7 @@
       "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -715,8 +666,7 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -740,8 +690,7 @@
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -765,8 +714,7 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -790,8 +738,215 @@
       "hostile_msg": "The loudspeaker activates and begins his non-stopping shouts.",
       "difficulty": 2,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_tazer_hack",
+    "type": "TOOL",
+    "name": { "str": "inactive tazer hack" },
+    "description": "This is an inactive tazer hack.  Hacks are fist-sized robots that fly through the air.  This one has a tazer and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the tazer hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
+    "weight": "4700 g",
+    "volume": "750 ml",
+    "price": 64500,
+    "price_postapoc": 3000,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "cyan",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_tazer_hack",
+      "friendly_msg": "The tazer hack flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the tazer hack; run!",
+      "difficulty": 3,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_yrax_trifacet",
+    "type": "TOOL",
+    "name": { "str": "inactive trifacet" },
+    "description": "A featureless quartz pyramid that although obviously artificial, shows no real indication of ever having been an advanced robot.  Although this trifacet could probably be reactivated, it's unlikely to recognize you as an ally.",
+    "weight": "30 kg",
+    "volume": "50 L",
+    "price": 64500,
+    "price_postapoc": 3000,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "steel", "ceramic" ],
+    "symbol": ",",
+    "color": "cyan",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_yrax_trifacet",
+      "friendly_msg": "Your attempt at reprogramming the trifacet is somehow successful!",
+      "hostile_msg": "The hostile trifacet violently unfolds just clear of your hand!",
+      "difficulty": 12,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_GR",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_GR",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_GM",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_GM",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_YM",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_YM",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_BM",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "blue",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_BM",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_BM2",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "cyan",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_BM2",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_lab_security_drone_BS",
+    "type": "TOOL",
+    "name": { "str": "inactive security drone" },
+    "description": "This is an inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 60000,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_lab_security_drone_BS",
+      "friendly_msg": "The security drone flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the drone; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

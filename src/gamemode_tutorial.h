@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_GAMEMODE_TUTORIAL_H
 #define CATA_SRC_GAMEMODE_TUTORIAL_H
 
+#include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
 
 #include "enums.h"
@@ -11,12 +11,11 @@
 
 template <typename E> struct enum_traits;
 
-enum special_game_id : int;
 enum action_id : int;
 
 enum class tut_lesson : int {
     LESSON_INTRO = 0,
-    LESSON_MOVE, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
+    LESSON_MOVE, LESSON_MOVEMENT_MODES, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
     LESSON_WINDOW, LESSON_PICKUP, LESSON_EXAMINE, LESSON_INTERACT,
 
     LESSON_FULL_INV, LESSON_WIELD_NO_SPACE, LESSON_AUTOWIELD, LESSON_ITEM_INTO_INV,
@@ -35,6 +34,11 @@ enum class tut_lesson : int {
     LESSON_GUN_LOAD, LESSON_GUN_FIRE, LESSON_RECOIL,
 
     LESSON_STAIRS, LESSON_DARK_NO_FLASH, LESSON_DARK, LESSON_PICKUP_WATER,
+
+    LESSON_MONSTER_SIGHTED, LESSON_REACH_ATTACK, LESSON_HOLSTERS_WEAR, LESSON_HOLSTERS_ACTIVATE,
+    LESSON_LOCKED_DOOR, LESSON_RESTORE_STAMINA, LESSON_INVENTORY, LESSON_FLASHLIGHT,
+    LESSON_REMOTE_USE, LESSON_CRAFTING_FOOD, LESSON_CONSTRUCTION, LESSON_THROWING,
+    LESSON_FINALE,
 
     NUM_LESSONS
 };
@@ -57,8 +61,8 @@ struct hash<tut_lesson> {
 } // namespace std
 
 struct tutorial_game : public special_game {
-        special_game_id id() override {
-            return SGAME_TUTORIAL;
+        special_game_type id() override {
+            return special_game_type::TUTORIAL;
         }
         bool init() override;
         void per_turn() override;

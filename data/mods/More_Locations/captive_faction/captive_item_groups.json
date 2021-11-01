@@ -94,7 +94,7 @@
           { "item": "soap", "prob": 100 },
           { "item": "hairpin", "prob": 100 },
           { "item": "bottle_plastic", "prob": 100 },
-          { "item": "can_food_unsealed", "prob": 100 },
+          { "item": "can_food", "prob": 100 },
           { "item": "string_6", "prob": 20 }
         ],
         "prob": 90

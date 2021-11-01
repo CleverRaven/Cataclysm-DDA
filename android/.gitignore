@@ -11,10 +11,11 @@
 /app/jni/SDL2_image
 /app/jni/SDL2_mixer
 /app/jni/SDL2_ttf
-/app/jni/libintl-lite
+/app/jni/libhidapi
 /app/jni/lua
 /app/jni/mpg-123
 /app/build
+/app/src/main/assetsWinHost
 /build
 /captures
 /local.properties

@@ -516,7 +516,7 @@
       },
       "place_loot": [
         { "group": "kitchen", "x": 11, "y": 13, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "fridge", "x": 12, "y": 13, "chance": 70, "repeat": [ 1, 3 ] },
+        { "group": "SUS_fridge_breakroom", "x": 12, "y": 13, "chance": 70 },
         { "group": "office", "x": [ 15, 16 ], "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "microwave", "x": 10, "y": 13, "chance": 85 },
         { "item": "laptop", "x": 17, "y": 3, "chance": 85 }
@@ -573,10 +573,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": {
-        "&": "f_ergometer",
+        "&": [ "f_ergometer", "f_ergometer_mechanical" ],
         ":": "f_exercise",
         "b": "f_bench",
-        "=": "f_treadmill",
+        "=": [ "f_treadmill", "f_treadmill_mechanical" ],
         "A": "f_bigmirror",
         "s": "f_shower",
         "S": "f_sink",

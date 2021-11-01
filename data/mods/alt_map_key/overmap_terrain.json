@@ -57,6 +57,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_forest",
+    "copy-from": "special_forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "special_forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hiway_ns",
     "copy-from": "hiway_ns",
     "name": "highway",
@@ -376,33 +392,57 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_1_entrance",
-    "copy-from": "office_tower_1_entrance",
-    "name": "office tower",
-    "sym": "O",
-    "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_1",
-    "copy-from": "office_tower_1",
-    "name": "office tower",
+    "id": "office_tower_nw",
+    "copy-from": "office_tower_nw",
     "sym": "o",
     "color": "i_black"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b_entrance",
-    "copy-from": "office_tower_b_entrance",
-    "name": "tower parking",
+    "id": "office_tower_ne",
+    "copy-from": "office_tower_ne",
     "sym": "O",
     "color": "i_black"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b",
-    "copy-from": "office_tower_b",
-    "name": "tower parking",
+    "id": "office_tower_sw",
+    "copy-from": "office_tower_sw",
+    "sym": "o",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_se",
+    "copy-from": "office_tower_se",
+    "sym": "o",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_nw",
+    "copy-from": "office_tower_underground_nw",
+    "sym": "O",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_ne",
+    "copy-from": "office_tower_underground_ne",
+    "sym": "O",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_sw",
+    "copy-from": "office_tower_underground_sw",
+    "sym": "O",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_se",
+    "copy-from": "office_tower_underground_se",
     "sym": "O",
     "color": "i_black"
   },
@@ -794,7 +834,7 @@
     "type": "overmap_terrain",
     "id": "mil_surplus",
     "copy-from": "mil_surplus",
-    "name": "mil. surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "m",
     "color": "magenta"
   },
@@ -1812,11 +1852,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "copy-from": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "m",
-    "color": "i_black"
+    "id": "mine_entrance_roof",
+    "copy-from": "mine_entrance_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "copy-from": "mine_shaft_middle"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_lower",
+    "copy-from": "mine_shaft_lower"
   },
   {
     "type": "overmap_terrain",
@@ -1841,22 +1888,6 @@
     "name": "mine",
     "sym": "M",
     "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "copy-from": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "copy-from": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -4991,7 +5022,7 @@
     "type": "overmap_terrain",
     "id": "necropolis_d_38",
     "copy-from": "necropolis_d_38",
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "yellow"
   },
@@ -4999,7 +5030,7 @@
     "type": "overmap_terrain",
     "id": "necropolis_d_39",
     "copy-from": "necropolis_d_39",
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "yellow"
   },

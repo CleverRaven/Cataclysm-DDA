@@ -172,7 +172,7 @@
       { "group": "snacks", "prob": 80 },
       { "group": "livingroom", "prob": 100 },
       { "group": "everyday_gear", "prob": 100 },
-      { "item": "money_bundle", "prob": 5, "amount": [ 2, 10 ] },
+      { "item": "money_bundle", "prob": 5, "count": [ 2, 10 ] },
       { "item": "emer_blanket", "prob": 35 }
     ]
   },

@@ -11,6 +11,7 @@
 #include "enums.h"
 
 class JsonIn;
+class JsonObject;
 class JsonOut;
 class item;
 struct itype;
@@ -22,7 +23,7 @@ namespace auto_pickup
  * The currently-active set of auto-pickup rules, in a form that allows quick
  * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
  * item existing in the game that matches a rule (either white- or blacklist)
- * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+ * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
  */
 class cache : public std::unordered_map<std::string, rule_state>
 {
@@ -51,7 +52,7 @@ class rule
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         void test_pattern() const;
 };
@@ -64,8 +65,6 @@ class rule_list : public std::vector<rule>
     public:
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
-
-        void load_legacy_rules( std::istream &fin );
 
         void refresh_map_items( cache &map_items ) const;
 
@@ -117,7 +116,6 @@ class player_settings : public base_settings
     private:
         void load( bool bCharacter );
         bool save( bool bCharacter );
-        bool load_legacy( bool bCharacter );
 
         rule_list global_rules;
         rule_list character_rules;

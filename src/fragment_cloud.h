@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_FRAGMENT_CLOUD_H
 #define CATA_SRC_FRAGMENT_CLOUD_H
 
-enum class quadrant;
+enum class quadrant : int;
 /*
  * fragment_cloud represents the density and velocity of fragments passing through a square.
  */
 struct fragment_cloud {
     fragment_cloud() : velocity( 0.0 ), density( 0.0 ) {}
-    fragment_cloud( float initial_value ) : velocity( initial_value ), density( initial_value ) {}
+    explicit fragment_cloud( float initial_value ) : velocity( initial_value ),
+        density( initial_value ) {}
     fragment_cloud( float initial_velocity, float initial_density )
         : velocity( initial_velocity ), density( initial_density ) {
     }

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VITAMIN_H
 #define CATA_SRC_VITAMIN_H
 
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -15,7 +16,7 @@
 class JsonObject;
 template <typename T> struct enum_traits;
 
-enum vitamin_type {
+enum class vitamin_type : int {
     VITAMIN,
     TOXIN,
     DRUG,
@@ -25,7 +26,7 @@ enum vitamin_type {
 
 template<>
 struct enum_traits<vitamin_type> {
-    static constexpr auto last = vitamin_type::num_vitamin_types;
+    static constexpr vitamin_type last = vitamin_type::num_vitamin_types;
 };
 
 class vitamin

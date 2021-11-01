@@ -9,7 +9,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -26,13 +26,13 @@
     "type": "TOOL",
     "name": { "str": "funnel" },
     "description": "This is a funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
-    "weight": "606 g",
+    "weight": "150 g",
     "volume": "500 ml",
     "price": 500,
     "price_postapoc": 100,
     "to_hit": 1,
     "bashing": 4,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {
@@ -54,7 +54,7 @@
     "price": 0,
     "price_postapoc": 100,
     "to_hit": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -76,7 +76,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "cyan",
     "use_action": {
@@ -99,7 +99,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {

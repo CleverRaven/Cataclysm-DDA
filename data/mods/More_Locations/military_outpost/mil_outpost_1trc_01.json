@@ -35,6 +35,7 @@
       ],
       "palettes": [ "mil_outpost_bandit" ],
       "npcs": { "@": { "class": "captive" }, "Z": { "class": "raider" } },
+      "monster": { "z": { "monster": "mon_zombie" } },
       "traps": { "_": "tr_cot" },
       "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4" }, "fields": { "field": "fd_fire" } } }
     }

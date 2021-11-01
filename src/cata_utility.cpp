@@ -1,13 +1,12 @@
 #include "cata_utility.h"
 
-#include <algorithm>
 #include <cctype>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <exception>
 #include <iterator>
-#include <locale>
-#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -16,11 +15,12 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
+#include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "units.h"
+#include "zlib.h"
 
 static double pow10( unsigned int n )
 {
@@ -44,6 +44,19 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
+
 int modulo( int v, int m )
 {
     // C++11: negative v and positive m result in negative v%m (or 0),
@@ -61,7 +74,7 @@ bool isBetween( int test, int down, int up )
 bool lcmatch( const std::string &str, const std::string &qry )
 {
     if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );
 
@@ -191,184 +204,6 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
-const char *weight_units()
-{
-    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
-}
-
-const char *volume_units_abbr()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return pgettext( "Volume unit", "c" );
-    } else if( vol_units == "l" ) {
-        return pgettext( "Volume unit", "L" );
-    } else {
-        return pgettext( "Volume unit", "qt" );
-    }
-}
-
-const char *volume_units_long()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return _( "cup" );
-    } else if( vol_units == "l" ) {
-        return _( "liter" );
-    } else {
-        return _( "quart" );
-    }
-}
-
-double convert_velocity( int velocity, const units_type vel_units )
-{
-    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-    // internal units to mph conversion
-    double ret = static_cast<double>( velocity ) / 100;
-
-    if( type == "km/h" ) {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                // mph to km/h conversion
-                ret *= 1.609f;
-                break;
-            case VU_WIND:
-                // mph to m/s conversion
-                ret *= 0.447f;
-                break;
-        }
-    } else if( type == "t/t" ) {
-        ret /= 4;
-    }
-
-    return ret;
-}
-
-double convert_weight( const units::mass &weight )
-{
-    double ret = to_gram( weight );
-    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
-}
-
-int convert_length( const units::length &length )
-{
-    int ret = to_millimeter( length );
-    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
-    if( metric ) {
-        if( ret % 1'000'000 == 0 ) {
-            // kilometers
-            ret /= 1'000'000;
-        } else if( ret % 1'000 == 0 ) {
-            // meters
-            ret /= 1'000;
-        } else if( ret % 10 == 0 ) {
-            // centimeters
-            ret /= 10;
-        }
-    } else {
-        // imperial's a doozy, we can only try to approximate
-        // so first we convert it to inches which are the smallest unit
-        ret /= 25.4;
-        if( ret % 63360 == 0 ) {
-            ret /= 63360;
-        } else if( ret % 36 == 0 ) {
-            ret /= 36;
-        } else if( ret % 12 == 0 ) {
-            ret /= 12;
-        }
-    }
-    return ret;
-}
-
-std::string length_units( const units::length &length )
-{
-    int length_mm = to_millimeter( length );
-    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
-    if( metric ) {
-        if( length_mm % 1'000'000 == 0 ) {
-            //~ kilometers
-            return _( "km" );
-        } else if( length_mm % 1'000 == 0 ) {
-            //~ meters
-            return _( "m" );
-        } else if( length_mm % 10 == 0 ) {
-            //~ centimeters
-            return _( "cm" );
-        } else {
-            //~ millimeters
-            return _( "mm" );
-        }
-    } else {
-        // imperial's a doozy, we can only try to approximate
-        // so first we convert it to inches which are the smallest unit
-        length_mm /= 25.4;
-        if( length_mm == 0 ) {
-            //~ inches
-            return _( "in." );
-        }
-        if( length_mm % 63360 == 0 ) {
-            //~ miles
-            return _( "mi" );
-        } else if( length_mm % 36 == 0 ) {
-            //~ yards (length)
-            return _( "yd" );
-        } else if( length_mm % 12 == 0 ) {
-            //~ feet (length)
-            return _( "ft" );
-        } else {
-            //~ inches
-            return _( "in." );
-        }
-    }
-}
-
-std::string weight_to_string( const units::mass &weight )
-{
-    const double converted_weight = convert_weight( weight );
-    return string_format( "%.2f %s", converted_weight, weight_units() );
-}
-
-double convert_volume( int volume )
-{
-    return convert_volume( volume, nullptr );
-}
-
-double convert_volume( int volume, int *out_scale )
-{
-    double ret = volume;
-    int scale = 0;
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        ret *= 0.004;
-        scale = 1;
-    } else if( vol_units == "l" ) {
-        ret *= 0.001;
-        scale = 2;
-    } else {
-        ret *= 0.00105669;
-        scale = 2;
-    }
-    if( out_scale != nullptr ) {
-        *out_scale = scale;
-    }
-    return ret;
-}
-
-std::string vol_to_string( const units::volume &vol )
-{
-    int converted_volume_scale = 0;
-    const double converted_volume =
-        convert_volume( vol.value(),
-                        &converted_volume_scale );
-
-    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
-}
-
 double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
@@ -377,6 +212,11 @@ double temp_to_celsius( double fahrenheit )
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double celsius_to_kelvin( double celsius )
+{
+    return celsius + 273.15;
 }
 
 double kelvin_to_fahrenheit( double kelvin )
@@ -442,7 +282,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( fs::u8path( path ), std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -462,7 +302,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
 {
@@ -508,11 +348,69 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        std::ifstream fin( path, std::ios::binary );
+        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        char header[2];
+        fin.read( header, 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            std::ostringstream deflated_contents_stream;
+            std::string str;
+
+            deflated_contents_stream << fin.rdbuf();
+            str = deflated_contents_stream.str();
+
+            z_stream zs;
+            memset( &zs, 0, sizeof( zs ) );
+
+            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
+            }
+
+            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+            zs.avail_in = str.size();
+
+            int ret;
+            char outbuffer[32768];
+            std::string outstring;
+
+            // get the decompressed bytes blockwise using repeated calls to inflate
+            do {
+                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
+                zs.avail_out = sizeof( outbuffer );
+
+                ret = inflate( &zs, 0 );
+
+                if( outstring.size() < zs.total_out ) {
+                    outstring.append( outbuffer,
+                                      zs.total_out - outstring.size() );
+                }
+
+            } while( ret == Z_OK );
+
+            inflateEnd( &zs );
+
+            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+                std::ostringstream oss;
+                oss << "Exception during zlib decompression: (" << ret << ") "
+                    << zs.msg;
+                throw( std::runtime_error( oss.str() ) );
+            }
+
+            std::stringstream inflated_contents_stream;
+            inflated_contents_stream.write( outstring.data(), outstring.size() );
+
+            reader( inflated_contents_stream );
+        } else {
+            reader( fin );
+        }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
@@ -526,8 +424,8 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }
@@ -551,8 +449,8 @@ bool read_from_file_optional( const std::string &path,
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }
@@ -564,7 +462,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );

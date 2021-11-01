@@ -45,7 +45,7 @@
     "responses": [
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -123,17 +123,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LISA_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
       { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "recipe",
+    "result": "chem_saltpetre",
+    "id_suffix": "from_feces_bird",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "4 h",
+    "batch_time_factors": [ 99, 2 ],
+    "autolearn": true,
+    "charges": 1,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "rag", -1 ], [ "felt_patch", -1 ] ] ],
+    "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "formic_acid",
+    "id_suffix": "from_oxalic_acid",
+    "byproducts": [ [ "chem_glycerol", 20 ] ],
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "1 h",
+    "batch_time_factors": [ 80, 2 ],
+    "autolearn": true,
+    "charges": 75,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "FINE_DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
+    "components": [
+      [ [ "splinter", 3 ] ],
+      [ [ "lye_powder", 30 ], [ "lye", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chem_glycerol", 20 ] ]
+    ]
+  }
+]

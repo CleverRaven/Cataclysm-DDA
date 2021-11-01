@@ -22,6 +22,7 @@
     "name": { "str": "extra-light frame" },
     "description": "A small lightweight frame made from pipework.  Useful for crafting.",
     "material": [ "aluminum" ],
+    "weight": "1677 g",
     "copy-from": "foldframe"
   },
   {

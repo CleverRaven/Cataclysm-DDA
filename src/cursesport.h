@@ -39,7 +39,7 @@ struct cursecell {
     base_color FG = static_cast<base_color>( 0 );
     base_color BG = static_cast<base_color>( 0 );
 
-    cursecell( std::string ch ) : ch( std::move( ch ) ) { }
+    explicit cursecell( std::string ch ) : ch( std::move( ch ) ) { }
     cursecell() : cursecell( std::string( 1, ' ' ) ) { }
 
     bool operator==( const cursecell &b ) const {
@@ -84,6 +84,7 @@ void clear_window_area( const catacurses::window &win );
 int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
+void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
 
 #endif

@@ -308,7 +308,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": "t_carpet_concrete_green",
       "rows": [
         "________________________________________________",
         "________________________________________________",
@@ -338,8 +338,8 @@
       "palettes": [ "standard_domestic_palette" ],
       "liquids": { ")": { "liquid": "water", "amount": [ 0, 1000 ] } },
       "terrain": {
-        "=": "t_carpet_green",
-        " ": "t_carpet_green",
+        "=": "t_carpet_concrete_green",
+        " ": "t_carpet_concrete_green",
         "_": "t_open_air",
         "`": "t_gutter_north",
         "/": "t_gutter_drop",

@@ -14,7 +14,7 @@
       { "item": "pants", "damage": [ 1, 4 ] },
       { "item": "blazer", "damage": [ 1, 4 ] },
       { "group": "underwear_mens", "damage": [ 1, 4 ] },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "group": "wallets", "prob": 10 },
       { "group": "misc_smoking", "prob": 30 },
       { "group": "accesories_personal_unisex", "prob": 25, "count": [ 0, 2 ] },
       { "item": "tool_belt", "prob": 50 },

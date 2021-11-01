@@ -1,0 +1,206 @@
+[
+  {
+    "id": "philosophy_book",
+    "type": "BOOK",
+    "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
+    "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
+    "snippet_category": [
+      {
+        "id": "philosophy1",
+        "text": "This is a copy of Nietzsche's \"Beyond Good and Evil\".  Its cover is dog-eared and creased."
+      },
+      {
+        "id": "philosophy2",
+        "text": "This is a copy of \"The Unique and Its Property\" by Max Stirner.  A modern translation by Wolfi Landstreicher."
+      },
+      {
+        "id": "philosophy4",
+        "text": "A large, extended version of \"Madness and Civilisation\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
+      },
+      {
+        "id": "philosophy5",
+        "text": "This is a copy of \"The Postmodern Condition: A Report on Knowledge\" by Lyotard."
+      },
+      {
+        "id": "philosophy6",
+        "text": "A collection of texts and essays by Jacques Derrida.  Its pages are loose and yellowed - you should probably handle it with care."
+      },
+      {
+        "id": "philosophy7",
+        "text": "This is a copy of \"Society of the Spectacle\" by Guy Debord.  Its cover shows rows of adults staring placidly into a screen."
+      },
+      {
+        "id": "philosophy8",
+        "text": "This is a split copy of both \"An Ethic of Sexual Difference\" and \"This Sex Which Is Not One\" by Luce Irigaray."
+      },
+      {
+        "id": "philosophy9",
+        "text": "This is a copy of Baudrillard's \"Simulation and Simulacra\".  The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\".  You think you've seen this movie."
+      },
+      {
+        "id": "philosophy10",
+        "text": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\".  It looks to have been used as a coaster in a past life."
+      },
+      {
+        "id": "philosophy11",
+        "text": "This is a copy of \"Practical Ethics\" by Peter Singer.  From the local university press."
+      },
+      {
+        "id": "philosophy12",
+        "text": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'.  The original looks to have been written on a typewriter before being copied."
+      },
+      {
+        "id": "philosophy13",
+        "text": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski.  Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube.  Provocative."
+      },
+      { "id": "philosophy14", "text": "This is a small reader on Hegel's Dialectics." },
+      {
+        "id": "philosophy15",
+        "text": "This is a copy of \"The State and Revolution\" by Vladimir Lenin.  In English, thankfully."
+      },
+      { "id": "philosophy16", "text": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky." },
+      {
+        "id": "philosophy17",
+        "text": "This is a copy of \"Steal This Book\" by Abbie Hoffman.  There is a security tag on the back cover.  It appears to still be active."
+      },
+      {
+        "id": "philosophy18",
+        "text": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau.  It contains a dried and pressed leaf as a bookmark."
+      },
+      {
+        "id": "philosophy19",
+        "text": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon."
+      },
+      { "id": "philosophy20", "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson." },
+      {
+        "id": "philosophy21",
+        "text": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan."
+      },
+      { "id": "philosophy22", "text": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner." },
+      { "id": "philosophy23", "text": "This is a copy of \"On The Revolution of Everyday Life\" by Raul Vangeigem." },
+      {
+        "id": "philosophy24",
+        "text": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse.  The cover contains an image of a pelican."
+      },
+      { "id": "philosophy25", "text": "This is a copy of \"Either-Or\" by Søren Kierkegaard." },
+      { "id": "philosophy26", "text": "This is a copy of \"Allegory of the Cave\" by Plato." },
+      { "id": "philosophy27", "text": "This is a copy of \"Leviathan\" by Thomas Hobbes." },
+      { "id": "philosophy28", "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant." },
+      { "id": "philosophy29", "text": "This is a copy of \"Principles of Philosophy\" by Descartes." },
+      {
+        "id": "philosophy30",
+        "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
+      },
+      {
+        "id": "philosophy31",
+        "text": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus.  The cover depicts a bare-chested man and a large boulder."
+      },
+      {
+        "id": "philosophy32",
+        "text": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard.  The pages are dotted with post-it notes."
+      },
+      {
+        "id": "philosophy33",
+        "text": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism."
+      },
+      {
+        "id": "philosophy34",
+        "text": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin.  This thick book is filled with antiquated phrases."
+      },
+      {
+        "id": "philosophy35",
+        "text": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black.  It is likely that \"The Abolition of Work\" is the most famous essay in this book."
+      },
+      {
+        "id": "philosophy36",
+        "text": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon.  It looks like this book has a surprisingly long track record of owners."
+      },
+      {
+        "id": "philosophy37",
+        "text": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin.  There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover."
+      },
+      {
+        "id": "philosophy38",
+        "text": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran.  This book might have been printed decades before the Cataclysm since the cover is quite weathered."
+      },
+      {
+        "id": "philosophy39",
+        "text": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer.  It contains a few undecipherable notes and scribbles."
+      },
+      {
+        "id": "philosophy40",
+        "text": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030.  It seems that the author's real name is Fereidoun M. Esfandiary."
+      },
+      {
+        "id": "philosophy41",
+        "text": "This is a copy of \"The Bastiat Collection\", a large collection of essays by Frederic Bastiat."
+      },
+      {
+        "id": "philosophy42",
+        "text": "This is a copy of \"Anarchy, State, and Utopia\" by Robert Nozick, one of the most influential books of modern libertarianism."
+      },
+      {
+        "id": "philosophy43",
+        "text": "This is a copy of \"Socialism\" by Ludwig von Mises, a critical examination of socialism."
+      },
+      {
+        "id": "philosophy44",
+        "text": "This is a copy of \"The ABC of Communism\" by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism."
+      },
+      { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
+    ],
+    "chapters": 44,
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_mdlogic",
+    "type": "BOOK",
+    "name": { "str": "Modal Logic as Metaphysics", "str_pl": "copies of Modal Logic" },
+    "description": "A treatise on applying logical tools to questions about that nature of reality, this book contains detailed discussion of metaphysical issues.",
+    "//isbn13": 9780199552078,
+    "weight": "834 g",
+    "volume": "1249 ml",
+    "longest_side": "24 cm",
+    "price": 4895,
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_aesth",
+    "type": "BOOK",
+    "name": { "str": "Aesthetics: A Critical Anthology", "str_pl": "copies of Aesthetics" },
+    "description": "This hardbound anthology presents a collection of readings, scholarly works, and critical analyses on the subject of beauty.",
+    "//isbn13": 9780312003098,
+    "weight": "1139 g",
+    "volume": "1625 ml",
+    "longest_side": "24 cm",
+    "price": 6499,
+    "chapters": 48,
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_phinfo",
+    "type": "BOOK",
+    "name": { "str": "The Philosophy of Information", "str_pl": "copies of The Philosophy of Information" },
+    "description": "This university text details a critical investigation of the conceptual nature and basic principles of information.  The student will gain a thorough appreciation of the conceptual frameworks commonly used to describe and advance semantic investigations.",
+    "//isbn13": 9780199232383,
+    "weight": "800 g",
+    "volume": "1425 ml",
+    "longest_side": "24 cm",
+    "price": 8391,
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "relative": { "intelligence": 1, "fun": -2 }
+  },
+  {
+    "id": "book_nonf_soft_phil_benoth",
+    "type": "BOOK",
+    "name": { "str": "Being and Nothingness", "str_pl": "copies of Being and Nothingness" },
+    "description": "This paperback is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition.",
+    "//isbn13": 9780415278485,
+    "weight": "794 g",
+    "volume": "1 L",
+    "longest_side": "21 cm",
+    "price": 3400,
+    "price_postapoc": 50,
+    "copy-from": "book_nonf_soft_phil_tpl"
+  }
+]

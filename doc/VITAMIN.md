@@ -38,7 +38,7 @@ This is some toxic chemical or component. This currently has no effect.
 This is a drug. This currently has no effect.
 
 #### `counter`
-This is a counter for something, that is neither a toxin, vitamin, or drug. This currently has no effect.
+This is a counter for something, that is neither a toxin, vitamin, or drug.
 
 ### `name`
 What the vitamin shows up as where vitamins are displayed, such as the vitamins display in the item menu.
@@ -59,7 +59,7 @@ The highest amount of this vitamin that the avatar can have.
 How long it takes to lose one unit of this vitamin.
 
 ### `flags`
-An array of string flags, see the flags section below for valid ones
+An array of string flags; see the flags section below for valid ones.
 
 ### `disease`
 What the thresholds of deficiency of this vitamin are.
@@ -73,4 +73,4 @@ Each tier of excess corresponds to the intensity level of the effect defined in 
 
 ## flags
 
-- ```NO_DISPLAY``` - This vitamin will not be shown when examining a food
+- ```NO_DISPLAY``` - This vitamin will not be shown when examining a food.

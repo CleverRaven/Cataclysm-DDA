@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_CURSESDEF_H
 #define CATA_SRC_CURSESDEF_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
-#include <utility>
+#include <type_traits>
 
 #include "string_formatter.h"
 
@@ -58,7 +58,7 @@ class window
 
     public:
         window() = default;
-        window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
+        explicit window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
         }
         template<typename T = void>
         T * get() const {
@@ -96,8 +96,10 @@ void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, cht
               chtype bl, chtype br );
 void mvwhline( const window &win, const point &p, chtype ch, int n );
 void mvwvline( const window &win, const point &p, chtype ch, int n );
+void wnoutrefresh( const window &win );
 void wrefresh( const window &win );
 void refresh();
+void doupdate();
 void wredrawln( const window &win, int beg_line, int num_lines );
 void mvwprintw( const window &win, const point &p, const std::string &text );
 template<typename ...Args>
@@ -125,7 +127,7 @@ void mvwaddch( const window &win, const point &p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
 void wattron( const window &win, const nc_color &attrs );
-void wattroff( const window &win, int attrs );
+void wattroff( const window &win, nc_color attrs );
 void waddch( const window &win, chtype ch );
 int getmaxy( const window &win );
 int getmaxx( const window &win );

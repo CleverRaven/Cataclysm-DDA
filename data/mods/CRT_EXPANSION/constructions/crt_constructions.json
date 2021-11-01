@@ -2,7 +2,7 @@
   {
     "type": "construction",
     "id": "constr_crt_cut_grass_long",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -14,7 +14,7 @@
   {
     "type": "construction",
     "id": "constr_crt_cut_grass_tall",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -26,7 +26,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -38,7 +38,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_long",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "9 m",
@@ -50,7 +50,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_tall",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "9 m",
@@ -62,7 +62,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_dead",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -74,7 +74,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_golf",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -86,7 +86,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_white",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -98,7 +98,7 @@
   {
     "type": "construction",
     "id": "constr_crt_chop_trunk",
-    "description": "Chop Tree Trunk Into Logs",
+    "group": "chop_tree_trunk_into_logs",
     "category": "FARM_WOOD",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "45 m",
@@ -110,7 +110,7 @@
   {
     "type": "construction",
     "id": "constr_crt_wall_stick",
-    "description": "Makeshift Wall",
+    "group": "makeshift_wall",
     "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "45 m",

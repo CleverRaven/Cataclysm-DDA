@@ -1,4 +1,5 @@
 #include <climits>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -6,56 +7,26 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "cata_catch.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
-static void clear_bionics( player &p )
+static void clear_bionics( Character &you )
 {
-    p.my_bionics->clear();
-    p.set_power_level( 0_kJ );
-    p.set_max_power_level( 0_kJ );
-}
-
-static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
-                                     bool when_max )
-{
-    item it = item( itemname, 0, 0 );
-
-    INFO( "\'" + it.tname() + "\' is count-by-charges" );
-    CHECK( it.count_by_charges() );
-
-    it.charges = 0;
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_none );
-
-    it.charges = INT_MAX;
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_max );
-}
-
-static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
-                                  bool when_full )
-{
-    item it = item( itemname, 0, 0 );
-
-    it.ammo_unset();
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_empty );
-
-    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_full );
+    you.my_bionics->clear();
+    you.set_power_level( 0_kJ );
+    you.set_max_power_level( 0_kJ );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_avatar();
 
     // one section failing shouldn't affect the rest
@@ -71,47 +42,44 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
-    SECTION( "bio_advreactor" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_advreactor" ) );
+    SECTION( "bio_fuel_cell_gasoline" ) {
+        dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
 
-        static const std::list<std::string> always = {
-            "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
-        };
-        for( auto it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
+        item gasoline = item( "gasoline" );
+        REQUIRE( gasoline.charges != 0 );
+        CHECK( dummy.can_fuel_bionic_with( gasoline ) );
 
-        static const std::list<std::string> never = {
-            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
-            "rm13_armor"      // TOOL_ARMOR
-        };
-        for( auto it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
+        // Bottle with gasoline does not work
+        item bottle = item( "bottle_plastic" );
+        bottle.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+        CHECK( !dummy.can_fuel_bionic_with( bottle ) );
+
+        // Armor has no reason to work.
+        item armor = item( "rm13_armor" );
+        CHECK( !dummy.can_fuel_bionic_with( armor ) );
     }
 
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bionic_id( "bio_batteries" ) );
 
-        static const std::list<std::string> always = {
-            "battery" // old-school
-        };
-        for( auto it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
+        item battery = item( "light_battery_cell" );
 
-        static const std::list<std::string> never = {
-            "flashlight",  // !is_magazine()
-            "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off",     // NO_UNLOAD, !is_magazine()
-            "battery_car"  // NO_UNLOAD, is_magazine()
-        };
-        for( auto it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
+        // Empty battery won't work
+        battery.ammo_set( battery.ammo_default(), 0 );
+        CHECK( !dummy.can_fuel_bionic_with( battery ) );
+
+        // Full battery works
+        battery.ammo_set( battery.ammo_default(), 50 );
+        CHECK( dummy.can_fuel_bionic_with( battery ) );
+
+        // Tool with battery won't work
+        item flashlight = item( "flashlight" );
+        flashlight.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.ammo_remaining() == 50 );
+        CHECK( !dummy.can_fuel_bionic_with( flashlight ) );
+
     }
 
     clear_bionics( dummy );

@@ -1,15 +1,113 @@
 [
   {
     "type": "furniture",
+    "id": "f_console_broken",
+    "name": "broken console",
+    "looks_like": "t_console_broken",
+    "description": "This is a standalone computer terminal.  It doesn't seem to be working.  It's the broken screen and shattered circuit boards that's telling you that.",
+    "symbol": "6",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connects_to": "COUNTER",
+    "deconstruct": {
+      "furn_set": "f_counter",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "furn_set": "f_counter",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "large_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_console",
+    "name": "computer console",
+    "looks_like": "t_console",
+    "description": "This is a standalone computer terminal.  It can be used to view contents and perform any allowed functions.  It might even be possible to hack it, given the skills.",
+    "symbol": "6",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "light_emitted": 10,
+    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connects_to": "COUNTER",
+    "deconstruct": {
+      "furn_set": "f_counter",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "furn_set": "f_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "large_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_forge",
     "name": "forge",
+    "looks_like": "f_fireplace",
     "description": "Metalworking station typically used in combination with an anvil.",
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "char_forge",
+    "crafting_pseudo_item": "rock_forge_pseudo",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
@@ -25,6 +123,7 @@
     "type": "furniture",
     "id": "f_anvil",
     "name": "anvil",
+    "looks_like": "f_boulder",
     "description": "Used in metalworking.",
     "symbol": "^",
     "color": "light_red",
@@ -56,6 +155,7 @@
     "type": "furniture",
     "id": "f_kiln_empty",
     "name": "charcoal kiln",
+    "looks_like": "f_fireplace",
     "description": "A rock kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
     "symbol": "U",
     "color": "brown",
@@ -101,6 +201,7 @@
     "type": "furniture",
     "id": "f_kiln_metal_empty",
     "name": "metal charcoal kiln",
+    "looks_like": "f_kiln_empty",
     "description": "A metal kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
     "symbol": "U",
     "color": "blue",
@@ -208,13 +309,14 @@
     "type": "furniture",
     "id": "f_smoking_rack",
     "name": "smoking rack",
+    "looks_like": "f_rack",
     "description": "A special rack designed to smoke food for better preservation and taste.  Works as a charcoal smoker in crafting recipes.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "char_smoker",
+    "crafting_pseudo_item": "pseudo_char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
@@ -236,7 +338,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "char_smoker",
+    "crafting_pseudo_item": "pseudo_char_smoker",
     "examine_action": "smoker_options",
     "bash": {
       "str_min": 18,
@@ -296,13 +398,14 @@
     "type": "furniture",
     "id": "f_forge_rock",
     "name": "rock forge",
+    "looks_like": "f_fireplace",
     "description": "Metalworking station made of rock, typically used in combination with an anvil.  Works as a charcoal forge in crafting recipes.",
-    "symbol": "^",
+    "symbol": "U",
     "color": "light_red",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "char_forge",
+    "crafting_pseudo_item": "rock_forge_pseudo",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -318,13 +421,14 @@
     "type": "furniture",
     "id": "f_clay_kiln",
     "name": "clay kiln",
+    "looks_like": "f_fireplace",
     "description": "A kiln designed to bake clay pottery and bricks.",
-    "symbol": "^",
+    "symbol": "U",
     "color": "light_red",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "brick_kiln",
+    "crafting_pseudo_item": "kiln_pseudo",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -365,8 +469,8 @@
     "type": "furniture",
     "id": "f_arc_furnace",
     "name": "electric arc furnace",
-    "looks_like": "t_machinery_heavy",
-    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.",
+    "looks_like": "f_machinery_heavy",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.  Can be used in recipes instead of forge, when supplied with power from UPS.",
     "symbol": "0",
     "color": "white_red",
     "move_cost_mod": -1,
@@ -393,14 +497,15 @@
         { "item": "element", "count": [ 10, 25 ] },
         { "item": "scrap", "count": [ 12, 16 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_arc_furnace"
   },
   {
     "type": "furniture",
     "id": "f_drill_press",
     "name": "drill press",
-    "looks_like": "t_machinery_light",
-    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.",
+    "looks_like": "f_machinery_light",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": -1,
@@ -430,14 +535,42 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
+    },
+    "crafting_pseudo_item": "fake_drill_press"
+  },
+  {
+    "type": "furniture",
+    "id": "f_firefly_terrarium",
+    "name": "firefly terrarium",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": 6,
+    "light_emitted": 25,
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound_fail": "smash!",
+      "items": [
+        { "item": "glass_shard", "count": [ 8, 12 ] },
+        { "item": "alien_fern", "count": [ 0, 3 ] },
+        { "item": "mutant_meat", "count": [ 2, 4 ] },
+        { "item": "material_soil", "count": [ 2, 10 ] },
+        { "item": "mutant_bug_hydrogen_sacs", "count": [ 0, 2 ] },
+        { "item": "egg_firefly", "count": [ 0, 1 ] },
+        { "item": "mutant_bug_organs", "charges": [ 0, 5 ] }
+      ]
     }
   },
   {
     "type": "furniture",
     "id": "f_tablesaw",
     "name": "tablesaw",
-    "looks_like": "t_machinery_light",
-    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts.  One of the key tools in a carpenter's arsenal.",
+    "looks_like": "f_machinery_light",
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  One of the key tools in a carpenter's arsenal.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": 8,
@@ -468,14 +601,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_tablesaw"
   },
   {
     "type": "furniture",
     "id": "f_mitresaw",
     "name": "mitre saw",
-    "looks_like": "t_machinery_light",
-    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.",
+    "looks_like": "f_machinery_light",
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
@@ -506,14 +640,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_mitresaw"
   },
   {
     "type": "furniture",
     "id": "f_bandsaw",
     "name": "bandsaw",
-    "looks_like": "t_machinery_light",
-    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.",
+    "looks_like": "f_machinery_light",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
@@ -543,14 +678,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_bandsaw"
   },
   {
     "type": "furniture",
     "id": "f_router",
     "name": "router table",
-    "looks_like": "t_machinery_light",
-    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.",
+    "looks_like": "f_machinery_light",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_green",
     "move_cost_mod": 8,
@@ -580,14 +716,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_router_table"
   },
   {
     "type": "furniture",
     "id": "f_planer",
     "name": "planer",
-    "looks_like": "t_machinery_light",
-    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "looks_like": "f_machinery_light",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width, if supplied with power from UPS.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
     "symbol": "7",
     "color": "yellow_white",
     "move_cost_mod": -1,
@@ -617,14 +754,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_planer"
   },
   {
     "type": "furniture",
     "id": "f_jointer",
     "name": "jointer",
-    "looks_like": "t_machinery_light",
-    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.",
+    "looks_like": "f_machinery_light",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_magenta",
     "move_cost_mod": 8,
@@ -654,14 +792,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_jointer"
   },
   {
     "type": "furniture",
     "id": "f_hydraulic_press",
     "name": "hydraulic press",
-    "looks_like": "t_machinery_light",
-    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
+    "looks_like": "f_machinery_light",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you, if supplied with power from UPS.",
     "symbol": "9",
     "color": "black_red",
     "move_cost_mod": -1,
@@ -691,14 +830,15 @@
         { "item": "chain", "count": [ 0, 1 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_hydraulic_press"
   },
   {
     "type": "furniture",
     "id": "f_heavy_lathe",
     "name": "power lathe",
-    "looks_like": "t_machinery_light",
-    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "looks_like": "f_machinery_light",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things, if supplied with power from UPS.",
     "symbol": "4",
     "color": "cyan_red",
     "move_cost_mod": -1,
@@ -725,14 +865,15 @@
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_power_lathe"
   },
   {
     "type": "furniture",
     "id": "f_air_compressor",
     "name": "air compressor",
     "looks_like": "f_standing_tank",
-    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible, if supplied with power from UPS.",
     "symbol": "8",
     "color": "black_yellow",
     "move_cost_mod": -1,
@@ -749,6 +890,7 @@
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
         { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
@@ -767,12 +909,46 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_air_compressor"
+  },
+  {
+    "type": "furniture",
+    "id": "f_manual_tire_changer",
+    "name": "manual tire changer",
+    "looks_like": "f_machinery_light",
+    "description": "This floor mounted machine contains all the levers, clamps and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
+    "symbol": "7",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    },
+    "crafting_pseudo_item": "fake_tire_changer"
   },
   {
     "type": "furniture",
     "id": "f_fvat_empty",
     "name": "fermenting vat",
+    "looks_like": "f_standing_tank",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown",
@@ -808,6 +984,7 @@
     "type": "furniture",
     "id": "f_fvat_full",
     "name": "filled fermenting vat",
+    "looks_like": "f_fvat_empty",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown_cyan",
@@ -843,6 +1020,7 @@
     "type": "furniture",
     "id": "f_butcher_rack",
     "name": "butchering rack",
+    "looks_like": "f_rack",
     "description": "Butchering rack designed to hang a carcass in the air.",
     "symbol": "^",
     "bgcolor": "brown",
@@ -851,13 +1029,14 @@
     "flags": [
       "PLACE_ITEM",
       "TRANSPARENT",
-      "FLAMABLE_ASH",
+      "FLAMMABLE_ASH",
       "MOUNTABLE",
       "ALLOW_FIELD_EFFECT",
       "EASY_DECONSTRUCT",
       "BUTCHER_EQ",
       "ORGANIC"
     ],
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
     "bash": {
       "str_min": 8,
@@ -871,6 +1050,7 @@
     "type": "furniture",
     "id": "f_metal_butcher_rack",
     "name": "metal butchering rack",
+    "looks_like": "f_butcher_rack",
     "description": "Metal butchering rack designed to hang a carcass in the air.  It can be deconstructed and folded for easy transportation.",
     "symbol": "^",
     "bgcolor": "light_gray",
@@ -879,6 +1059,7 @@
     "deployed_item": "metal_butcher_rack",
     "examine_action": "deployed_furniture",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -892,12 +1073,14 @@
     "id": "f_hanging_meathook",
     "type": "furniture",
     "name": "hanging meathook",
+    "looks_like": "f_butcher_rack",
     "description": "A hefty hook suspended from a chain for stringing up corpses.",
     "symbol": "g",
     "required_str": -1,
     "move_cost_mod": 2,
     "color": "light_gray",
     "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
   },
   {
@@ -929,6 +1112,7 @@
     "type": "furniture",
     "id": "f_wind_mill_active",
     "name": "active wind mill",
+    "looks_like": "f_wind_mill",
     "description": "A small wind-powered mill that can convert starchy products into flour.  Its brake has been removed and it is turning.",
     "symbol": "T",
     "bgcolor": "red",
@@ -981,6 +1165,7 @@
     "type": "furniture",
     "id": "f_water_mill_active",
     "name": "active water mill",
+    "looks_like": "f_water_mill",
     "description": "A small water-powered mill that can convert starchy products into flour.  Its brake has been removed and it is turning.",
     "symbol": "*",
     "bgcolor": "red",
@@ -1008,7 +1193,7 @@
     "type": "furniture",
     "id": "f_aut_gas_console",
     "name": "automated gas console",
-    "looks_like": "t_console",
+    "looks_like": "f_console",
     "description": "Automated gas flow control console.",
     "symbol": "9",
     "color": "blue",
@@ -1023,7 +1208,7 @@
     "type": "furniture",
     "id": "f_aut_gas_console_o",
     "name": "broken automated gas console",
-    "looks_like": "t_console_broken",
+    "looks_like": "f_console_broken",
     "description": "Automated gas flow control console.  Broken.  This is not a good thing.",
     "symbol": "9",
     "color": "dark_gray",
@@ -1040,6 +1225,7 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
@@ -1067,7 +1253,13 @@
       "items": [
         { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 20 ] },
+        { "item": "money_five", "count": [ 0, 100 ] },
+        { "item": "money_ten", "count": [ 0, 100 ] },
+        { "item": "money_twenty", "count": [ 0, 100 ] },
+        { "item": "money_fifty", "count": [ 0, 50 ] }
       ]
     }
   },
@@ -1075,7 +1267,7 @@
     "type": "furniture",
     "id": "f_vending_c",
     "name": "vending machine",
-    "looks_like": "t_console",
+    "looks_like": "f_console",
     "symbol": "{",
     "description": "Buy stuff with a cash card.",
     "color": "light_cyan",
@@ -1099,7 +1291,7 @@
     "type": "furniture",
     "id": "f_vending_o",
     "name": "broken vending machine",
-    "looks_like": "t_console_broken",
+    "looks_like": "f_console_broken",
     "description": "Ponder if you could buy stuff, as it's broken.  Maybe if you broke it more, you wouldn't need to pay at all!",
     "symbol": "{",
     "color": "dark_gray",
@@ -1117,8 +1309,36 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "coin_nickel", "count": [ 0, 100 ] },
+        { "item": "coin_dime", "count": [ 0, 100 ] },
+        { "item": "coin_quarter", "count": [ 0, 100 ] },
+        { "item": "coin_dollar", "count": [ 0, 1 ] },
+        { "item": "money_one", "count": [ 0, 100 ] },
+        { "item": "money_two", "count": [ 0, 10 ] },
+        { "item": "money_five", "count": [ 0, 30 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rope_up",
+    "name": "rope leading up",
+    "looks_like": "t_rope_up",
+    "description": "A rope.  You could climb it up.",
+    "symbol": "<",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": 10,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "grapnel",
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
   }
 ]

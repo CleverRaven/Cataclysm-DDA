@@ -11,6 +11,13 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_mall_basement",
+    "name": "mall",
+    "color": "dark_gray",
+    "sym": "0"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_mall_road",
     "copy-from": "generic_mall",
     "name": "road",
@@ -295,5 +302,32 @@
       "mall_upper_roof_51"
     ],
     "copy-from": "generic_mall"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mall_a_56_basement",
+      "mall_a_57_basement",
+      "mall_a_58_basement",
+      "mall_a_59_basement",
+      "mall_a_60_basement",
+      "mall_a_61_basement",
+      "mall_a_62_basement",
+      "mall_a_65_basement",
+      "mall_a_66_basement",
+      "mall_a_67_basement",
+      "mall_a_69_basement",
+      "mall_a_70_basement",
+      "mall_a_71_basement"
+    ],
+    "copy-from": "generic_mall_basement",
+    "sym": "0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_68_basement", "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ],
+    "copy-from": "generic_mall",
+    "name": "mall - subway station",
+    "color": "i_light_red"
   }
 ]

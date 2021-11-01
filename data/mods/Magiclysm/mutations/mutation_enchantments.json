@@ -1,0 +1,18 @@
+[
+  {
+    "type": "enchantment",
+    "id": "dragon_resist_acid",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "dragon_leg_strength",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "CARRY_WEIGHT", "multiply": 1.1 },
+      { "value": "FOOTSTEP_NOISE", "add": 5 },
+      { "value": "REGEN_STAMINA", "multiply": 1.05 }
+    ]
+  }
+]

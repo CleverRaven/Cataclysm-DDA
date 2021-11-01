@@ -11,7 +11,7 @@ iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base(
 
 iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
 {
-    for( auto &bit : setBits ) {
+    for( const iteminfo_parts &bit : setBits ) {
         set( static_cast<size_t>( bit ) );
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">正在安裝遊戲資料...</string>
+    <string name="upgradeTitle">正在更新遊戲資料...</string>
+    <string name="helpTitle">幫助與控制</string>
+    <string name="helpMessage">滑動屏幕移動遊戲角色或菜單選項。點擊屏幕確認選擇或在遊戲中休息一回合。雙擊屏幕取消菜單或回退。雙指縮放畫面遠近。點擊系統回退鍵打開虛擬鍵盤。</string>
+    <string name="softwareRendering">軟件渲染</string>
+    <string name="forceFullscreen">強制全屏</string>
+    <string name="trapBackButton">捕捉返回鍵</string>
+    <string name="settings">設定</string>
+    <string name="startGame">開始遊戲</string>
+    <string name="showHelp">顯示幫助</string>
+</resources>

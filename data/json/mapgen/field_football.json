@@ -9,10 +9,10 @@
       [ "sports_drink", 60 ],
       [ "bottle_plastic", 80 ],
       [ "towel", 80 ],
-      [ "towel_soiled", 20 ],
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
-      [ "bandages", 40 ],
+      [ "bandages", 20 ],
+      [ "adhesive_bandages", 20 ],
       [ "mouthpiece", 40 ],
       [ "football", 60 ],
       [ "football_armor", 60 ],
@@ -24,10 +24,10 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      [ "cell_phone", 20 ],
-      [ "smart_phone", 30 ],
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 },
       [ "mp3", 50 ],
-      [ "inhaler", 10 ]
+      { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -38,11 +38,11 @@
   {
     "name": "GROUP_FOOTBALL",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_tough", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_null", "weight": 600 },
+      { "monster": "mon_zombie_tough", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "weight": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "weight": 100, "pack_size": [ 4, 6 ] }
     ]
   },
   {
@@ -186,7 +186,7 @@
         "                                                                                                                        "
       ],
       "palettes": [ "field_football" ],
-      "vendingmachines": { "V": { "item_group": "vending_drink" } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "toilets": { ";": {  } },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },

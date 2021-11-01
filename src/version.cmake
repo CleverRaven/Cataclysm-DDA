@@ -1,6 +1,6 @@
 IF(GIT_EXECUTABLE)
 	EXECUTE_PROCESS(
-		COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "[0-9]*.[0-9]*"
+		COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*"
 		OUTPUT_VARIABLE VERSION
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)

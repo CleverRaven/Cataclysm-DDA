@@ -1,9 +1,9 @@
 #include "iuse_software_snake.h"
 
-#include <algorithm>
 #include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <map>
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -61,18 +61,18 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     mvwputch( w_snake, point( 71, body_length + 2 ), c_green, 'v' );
 
     std::vector<std::string> game_over_text;
-    game_over_text.push_back( R"(  ________    _____      _____   ___________)" );
-    game_over_text.push_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
-    game_over_text.push_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
-    game_over_text.push_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
-    game_over_text.push_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
-    game_over_text.push_back( R"(        \/         \/         \/         \/ )" );
-    game_over_text.push_back( R"( ________ ____   _________________________  )" );
-    game_over_text.push_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
-    game_over_text.push_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
-    game_over_text.push_back( R"( /    |    \\     /   |        \ |    |   \ )" );
-    game_over_text.push_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
-    game_over_text.push_back( R"(         \/                  \/         \/  )" );
+    game_over_text.emplace_back( R"(  ________    _____      _____   ___________)" );
+    game_over_text.emplace_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
+    game_over_text.emplace_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
+    game_over_text.emplace_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
+    game_over_text.emplace_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
+    game_over_text.emplace_back( R"(        \/         \/         \/         \/ )" );
+    game_over_text.emplace_back( R"( ________ ____   _________________________  )" );
+    game_over_text.emplace_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
+    game_over_text.emplace_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
+    game_over_text.emplace_back( R"( /    |    \\     /   |        \ |    |   \ )" );
+    game_over_text.emplace_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
+    game_over_text.emplace_back( R"(         \/                  \/         \/  )" );
 
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
         mvwprintz( w_snake, point( 17, i + 3 ), c_light_red, game_over_text[i] );
@@ -81,7 +81,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
     // TODO: print actual bound keys
     center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) );
-    wrefresh( w_snake );
+    wnoutrefresh( w_snake );
 }
 
 int snake_game::start_game()
@@ -89,18 +89,22 @@ int snake_game::start_game()
     std::vector<std::pair<int, int> > vSnakeBody;
     std::map<int, std::map<int, bool> > mSnakeBody;
 
-    int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    catacurses::window w_snake;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
-    catacurses::window w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                 point( iOffsetX, iOffsetY ) );
-    print_header( w_snake );
+        w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                      iOffset );
+
+        ui.position_from_window( w_snake );
+    } );
+    ui.mark_resize();
 
     //Snake start position
-    vSnakeBody.push_back( std::make_pair( FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2 ) );
+    vSnakeBody.emplace_back( FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2 );
     mSnakeBody[FULL_SCREEN_HEIGHT / 2][FULL_SCREEN_WIDTH / 2] = true;
-    mvwputch( w_snake, point( vSnakeBody.back().second, vSnakeBody[vSnakeBody.size() - 1].first ),
-              c_white, '#' );
 
     //Snake start direction
     int iDirY = 0;
@@ -117,44 +121,51 @@ int snake_game::start_game()
     int iFruitPosY = 0;
     int iFruitPosX = 0;
 
-    //Draw Score
-    print_score( w_snake, iScore );
-
     input_context ctxt( "SNAKE" );
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_snake );
+        print_header( w_snake );
+        for( auto it = vSnakeBody.begin(); it != vSnakeBody.end(); ++it ) {
+            const nc_color col = it + 1 == vSnakeBody.end() ? c_white : c_light_gray;
+            mvwputch( w_snake, point( it->second, it->first ), col, '#' );
+        }
+        if( iFruitPosX != 0 && iFruitPosY != 0 ) {
+            mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
+        }
+        print_score( w_snake, iScore );
+        wnoutrefresh( w_snake );
+    } );
 
     do {
         //Check if we hit a border
         if( vSnakeBody[vSnakeBody.size() - 1].first + iDirY == 0 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first +
-                                                  iDirY + FULL_SCREEN_HEIGHT - 2,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first +
+                                     iDirY + FULL_SCREEN_HEIGHT - 2,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].first + iDirY == FULL_SCREEN_HEIGHT - 1 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first +
-                                                  iDirY - FULL_SCREEN_HEIGHT + 2,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first +
+                                     iDirY - FULL_SCREEN_HEIGHT + 2,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].second + iDirX == 0 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second +
-                                                  iDirX + FULL_SCREEN_WIDTH - 2 ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second +
+                                     iDirX + FULL_SCREEN_WIDTH - 2 );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].second + iDirX == FULL_SCREEN_WIDTH - 1 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second +
-                                                  iDirX - FULL_SCREEN_WIDTH + 2 ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second +
+                                     iDirX - FULL_SCREEN_WIDTH + 2 );
 
         } else {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
         }
 
         //Check if we hit ourselves
@@ -175,8 +186,6 @@ int snake_game::start_game()
             iSnakeBody += 10;
             iGameSpeed -= 3;
 
-            print_score( w_snake, iScore );
-
             iFruitPosY = 0;
             iFruitPosX = 0;
         }
@@ -184,15 +193,8 @@ int snake_game::start_game()
         //Check if we are longer than our max size
         if( vSnakeBody.size() > iSnakeBody ) {
             mSnakeBody[vSnakeBody[0].first][vSnakeBody[0].second] = false;
-            mvwputch( w_snake, point( vSnakeBody[0].second, vSnakeBody[0].first ), c_black, ' ' );
             vSnakeBody.erase( vSnakeBody.begin(), vSnakeBody.begin() + 1 );
         }
-
-        //Draw Snake
-        mvwputch( w_snake, point( vSnakeBody[vSnakeBody.size() - 1].second,
-                                  vSnakeBody[vSnakeBody.size() - 1].first ), c_white, '#' );
-        mvwputch( w_snake, point( vSnakeBody[vSnakeBody.size() - 2].second,
-                                  vSnakeBody[vSnakeBody.size() - 2].first ), c_light_gray, '#' );
 
         //On full length add a fruit
         if( iFruitPosX == 0 && iFruitPosY == 0 ) {
@@ -200,11 +202,9 @@ int snake_game::start_game()
                 iFruitPosY = rng( 1, FULL_SCREEN_HEIGHT - 2 );
                 iFruitPosX = rng( 1, FULL_SCREEN_WIDTH - 2 );
             } while( mSnakeBody[iFruitPosY][iFruitPosX] );
-
-            mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
         }
 
-        wrefresh( w_snake );
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input( iGameSpeed );
 
@@ -234,10 +234,16 @@ int snake_game::start_game()
 
     } while( true );
 
-    snake_over( w_snake, iScore );
-    while( ctxt.handle_input() != "QUIT" ) {
-        // try again
-    }
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        snake_over( w_snake, iScore );
+    } );
+    do {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "QUIT" ) {
+            break;
+        }
+    } while( true );
 
     return iScore;
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "butchery_tree_pseudo",
+    "type": "TOOL",
+    "name": { "str": "butchery tree pseudo item" },
+    "description": "This is a pseudo item to represent the support of a tree or butchery rack without a hook.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "SUSPENDING", 2 ] ],
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "butchery_rack_pseudo",
+    "type": "TOOL",
+    "name": { "str": "butchery rack pseudo item" },
+    "description": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ],
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "medium_surface_pseudo",
+    "type": "TOOL",
+    "name": { "str": "medium surface pseudo item" },
+    "description": "This is a pseudo item to represent a surface large enough to butcher a medium animal on.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "SURFACE", 2 ] ],
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "large_surface_pseudo",
+    "type": "TOOL",
+    "name": { "str": "large surface pseudo item" },
+    "description": "This is a pseudo item to represent a surface large enough to butcher a large animal on.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "SURFACE", 3 ] ],
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

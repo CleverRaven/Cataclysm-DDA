@@ -88,7 +88,7 @@
         { "item": "office_mess", "x": 20, "y": 3, "chance": 15 },
         { "item": "book_school", "x": 5, "y": 22, "chance": 15 },
         { "item": "snacks", "x": 2, "y": 20, "chance": 30 },
-        { "item": "fridge", "x": 2, "y": 19, "chance": 40 },
+        { "item": "SUS_fridge_breakroom", "x": 2, "y": 19, "chance": 40 },
         { "item": "cubical_office", "x": 5, "y": 17, "chance": 50 },
         { "item": "cubical_office", "x": 12, "y": 12, "chance": 50 },
         { "item": "antique", "x": 20, "y": 16, "chance": 40 },

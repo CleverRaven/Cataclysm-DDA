@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_SELFTEST_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was a biohacker by trade before the Cataclysm.  I made a living out of bootlegging medicines, drugs and other copywritten biological products.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_SELFTEST_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_SELFTEST_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Imagine my surprise when I found myself infected with some kind of alien stem cells.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_SELFTEST_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_SELFTEST_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "It's certainly helped me survive so far.  Was there even a choice not to take advantage of that?",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_SELFTEST_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

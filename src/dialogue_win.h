@@ -3,27 +3,33 @@
 #define CATA_SRC_DIALOGUE_WIN_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <vector>
-#include <string>
-#include <utility>
 
 #include "color.h"
 #include "cursesdef.h"
 
-using talk_data = std::pair<nc_color, std::string>;
+struct talk_data {
+    nc_color color;
+    std::string hotkey_desc;
+    std::string text;
+};
+
+class ui_adaptor;
 
 class dialogue_window
 {
     public:
         dialogue_window() = default;
         void open_dialogue( bool text_only = false );
+        void resize_dialogue( ui_adaptor &ui );
         void print_header( const std::string &name );
 
         bool text_only = false;
 
         void clear_window_texts();
-        void display_responses( int hilight_lines, const std::vector<talk_data> &responses,
-                                const int &ch );
+        void handle_scrolling( const std::string &action );
+        void display_responses( int hilight_lines, const std::vector<talk_data> &responses );
         void refresh_response_display();
         /**
          * Folds and adds the folded text to @ref history. Returns the number of added lines.

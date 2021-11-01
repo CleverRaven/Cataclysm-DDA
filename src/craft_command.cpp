@@ -3,9 +3,12 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
+#include <string>
 
+#include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,12 +17,12 @@
 #include "item.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -27,15 +30,15 @@ template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {
     switch( use_from ) {
-        case use_from_map:
+        case usage_from::map:
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
-        case use_from_both:
+        case usage_from::both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player:
+        case usage_from::player:
         // Is the same as the default return;
-        case use_from_none:
-        case cancel:
-        case num_usages:
+        case usage_from::none:
+        case usage_from::cancel:
+        case usage_from::num_usages_from:
             break;
     }
 
@@ -46,21 +49,20 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<usage>( usage data )
+std::string enum_to_string<usage_from>( usage_from data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case usage::use_from_map: return "map";
-        case usage::use_from_player: return "player";
-        case usage::use_from_both: return "both";
-        case usage::use_from_none: return "none";
-        case usage::cancel: return "cancel";
+        case usage_from::map: return "map";
+        case usage_from::player: return "player";
+        case usage_from::both: return "both";
+        case usage_from::none: return "none";
+        case usage_from::cancel: return "cancel";
         // *INDENT-ON*
-        case usage::num_usages:
+        case usage_from::num_usages_from:
             break;
     }
-    debugmsg( "Invalid usage" );
-    abort();
+    cata_fatal( "Invalid usage" );
 }
 
 } // namespace io
@@ -78,30 +80,31 @@ void comp_selection<CompType>::serialize( JsonOut &jsout ) const
 }
 
 template<typename CompType>
-void comp_selection<CompType>::deserialize( JsonIn &jsin )
+void comp_selection<CompType>::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
-
     std::string use_from_str;
     data.read( "use_from", use_from_str );
-    use_from = io::string_to_enum<usage>( use_from_str );
+    use_from = io::string_to_enum<usage_from>( use_from_str );
     data.read( "type", comp.type );
     data.read( "count", comp.count );
 }
 
 template void comp_selection<tool_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
-template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
-template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
+template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
+template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const cata::optional<tripoint> &new_loc )
+{
+    loc = new_loc;
+
+    execute();
+}
+
+void craft_command::execute()
 {
     if( empty() ) {
         return;
-    }
-
-    if( new_loc != tripoint_zero ) {
-        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -127,6 +130,9 @@ void craft_command::execute( const tripoint &new_loc )
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
                 }
+            } else if( !rec->character_has_required_proficiencies( *crafter ) ) {
+                popup( _( "You don't have the required proficiencies to craft this!" ) );
+                return;
             } else {
                 debugmsg( "Tried to start craft without sufficient charges" );
                 return;
@@ -153,8 +159,8 @@ void craft_command::execute( const tripoint &new_loc )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter );
-            if( is.use_from == cancel ) {
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
+            if( is.use_from == usage_from::cancel ) {
                 return;
             }
             item_selections.push_back( is );
@@ -163,10 +169,10 @@ void craft_command::execute( const tripoint &new_loc )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
-            if( ts.use_from == cancel ) {
+            if( ts.use_from == usage_from::cancel ) {
                 return;
             }
             tool_selections.push_back( ts );
@@ -283,7 +289,7 @@ skill_id craft_command::get_skill_id()
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<item_comp>> missing;
 
@@ -296,49 +302,49 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
-                case use_from_player:
+                case usage_from::player:
                     if( !crafter->has_charges( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_map:
+                case usage_from::map:
                     if( !map_inv.has_charges( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_both:
+                case usage_from::both:
                     if( !( crafter->charges_of( type, INT_MAX, filter ) +
                            map_inv.charges_of( type, INT_MAX, filter ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_none:
-                case cancel:
-                case num_usages:
+                case usage_from::none:
+                case usage_from::cancel:
+                case usage_from::num_usages_from:
                     break;
             }
         } else {
             // Counting by units, not charges.
             switch( item_sel.use_from ) {
-                case use_from_player:
+                case usage_from::player:
                     if( !crafter->has_amount( type, count, false, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_map:
+                case usage_from::map:
                     if( !map_inv.has_components( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_both:
+                case usage_from::both:
                     if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
                            map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
-                case use_from_none:
-                case cancel:
-                case num_usages:
+                case usage_from::none:
+                case usage_from::cancel:
+                case usage_from::num_usages_from:
                     break;
             }
         }
@@ -348,7 +354,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 }
 
 std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<tool_comp>> missing;
 
@@ -357,20 +363,20 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
         if( tool_sel.comp.count > 0 ) {
             const int count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {
-                case use_from_player:
+                case usage_from::player:
                     if( !crafter->has_charges( type, count ) ) {
                         missing.push_back( tool_sel );
                     }
                     break;
-                case use_from_map:
+                case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
                         missing.push_back( tool_sel );
                     }
                     break;
-                case use_from_both:
-                case use_from_none:
-                case cancel:
-                case num_usages:
+                case usage_from::both:
+                case usage_from::none:
+                case usage_from::cancel:
+                case usage_from::num_usages_from:
                     break;
             }
         } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {

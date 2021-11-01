@@ -2,7 +2,7 @@
   {
     "id": "TALK_CONVERSATION_DANGER",
     "type": "talk_topic",
-    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk...",
+    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk…",
     "responses": [
       {
         "text": "It's fine, we've got a moment.",
@@ -28,5 +28,90 @@
     "type": "talk_topic",
     "dynamic_line": "What did you want to talk about?",
     "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 100,
+        "yes": [
+          { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>", "no": "<neutralchitchat_later>" },
+          {
+            "u_has_item": "european_pilsner",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "india_pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "wine_barley",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "is_season": "summer",
+            "yes": "<chitchat_prefix_summer>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "is_season": "winter",
+            "yes": "<chitchat_prefix_winter>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "npc_has_effect": "infected",
+            "yes": "<chitchat_prefix_infected>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+          { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+        ],
+        "no": [
+          { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "u_has_item": "european_pilsner",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "u_has_item": "pale_ale", "yes": "<chitchat_prefix_booze>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "u_has_item": "india_pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          {
+            "u_has_item": "wine_barley",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "is_season": "summer", "yes": "<chitchat_prefix_summer>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          { "is_season": "winter", "yes": "<chitchat_prefix_winter>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "npc_has_effect": "infected",
+            "yes": "<chitchat_prefix_infected>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+          { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
   }
 ]

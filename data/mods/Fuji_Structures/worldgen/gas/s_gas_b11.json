@@ -32,7 +32,7 @@
         "                        "
       ],
       "terrain": {
-        "a": "t_concrete_floor",
+        "a": "t_thconc_floor",
         "b": "t_door_metal_c",
         "c": "t_reinforced_glass",
         "d": "t_reinforced_door_glass_c",
@@ -40,16 +40,16 @@
         "f": "t_door_metal_locked",
         "g": "t_ladder_up",
         "h": "t_metal_floor",
-        "i": "t_concrete_floor",
-        "j": "t_concrete_floor",
-        "k": "t_concrete_floor",
-        "l": "t_concrete_floor",
-        "m": "t_concrete_floor",
-        "n": "t_concrete_floor",
+        "i": "t_thconc_floor",
+        "j": "t_thconc_floor",
+        "k": "t_thconc_floor",
+        "l": "t_thconc_floor",
+        "m": "t_thconc_floor",
+        "n": "t_thconc_floor",
         "o": "t_stairs_down",
-        "p": "t_concrete_floor",
-        "q": "t_concrete_floor",
-        "r": "t_concrete_floor"
+        "p": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "r": "t_thconc_floor"
       },
       "furniture": { "i": "f_table", "j": "f_bed", "k": "f_bench", "l": "f_chair", "m": "f_toilet", "n": "f_sink", "p": "f_locker" },
       "place_loot": [

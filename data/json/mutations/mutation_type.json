@@ -1,6 +1,10 @@
 [
   {
     "type": "mutation_type",
+    "id": "BIOLUM"
+  },
+  {
+    "type": "mutation_type",
     "id": "HEALING"
   },
   {
@@ -66,6 +70,10 @@
   {
     "type": "mutation_type",
     "id": "skin_tone"
+  },
+  {
+    "type": "mutation_type",
+    "id": "eye_color"
   },
   {
     "type": "mutation_type",

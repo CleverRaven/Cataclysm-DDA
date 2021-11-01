@@ -2,19 +2,19 @@
   {
     "type": "GENERIC",
     "id": "broken_turret_rifle",
-    "name": { "str": "broken CROWS II" },
+    "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_turret_rifle"
   },
   {
     "type": "GENERIC",
     "id": "broken_crows_m240",
-    "name": { "str": "broken CROWS II" },
+    "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_crows_m240"
   },
   {
     "type": "GENERIC",
     "id": "broken_turret_bmg",
-    "name": { "str": "broken CROWS II Heavy" },
+    "name": { "str_sp": "broken CROWS II Heavy" },
     "copy-from": "broken_turret_bmg"
   },
   {

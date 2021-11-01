@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_outpost_ute" ],
+    "om_terrain": [ "mil_outpost_uteb" ],
     "//": "underground top edge. B stair",
     "method": "json",
     "weight": 100,

@@ -1,15 +1,15 @@
 #include "overmap_connection.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <cassert>
+#include <cstddef>
 #include <map>
-#include <memory>
+#include <string>
 
+#include "cata_assert.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "overmap_location.h"
-#include "debug.h"
 
 namespace
 {
@@ -58,9 +58,8 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     optional( jo, false, "flags", flags, flag_reader );
 }
 
-void overmap_connection::subtype::deserialize( JsonIn &jsin )
+void overmap_connection::subtype::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -72,7 +71,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     }
 
     const size_t cache_index = ground.to_i();
-    assert( cache_index < cached_subtypes.size() );
+    cata_assert( cache_index < cached_subtypes.size() );
 
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;

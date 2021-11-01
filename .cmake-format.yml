@@ -1,0 +1,43 @@
+# options affecting formatting
+format:
+  # how wide to allow formatted cmake files
+  line_width: 100
+  # how many spaces to tab for indent
+  tab_size: 4
+  # if true, separate flow control names from their parentheses
+  separate_ctrl_name_with_space: true # currently ignored by cmake-lint
+  # if true, separate function names from parentheses with a
+  separate_fn_name_with_space: false # currently ignored by cmake-lint
+  # if a statement is wrapped to more than one line, than dangle
+  # the closing parenthesis on its own line.
+  dangle_parens: false # currently ignored by cmake-lint
+  # Format command names consistently as 'lower' or 'upper' case
+  # 'canonical': like in official documentation
+  command_case: 'canonical' # currently ignored by cmake-lint
+  # Format keywords consistently as 'lower' or 'upper' case
+  keyword_case: 'upper' # currently ignored by cmake-lint
+# options affecting comment reflow and formatting
+markup:
+  # enable comment markup parsing and reflow
+  enable_markup: false
+# options affecting linter
+lint:
+  # list of lint codes to disable
+  # C0113: Missing COMMENT in statement which allows it
+  disabled_codes: ['C0113']
+  # regular expression pattern describing valid function names
+  function_pattern: '[a-z_]+'
+  # regular expression pattern describing valid names for private variables
+  # WEIRD: strangely named "directory variable name" in lint output
+  private_var_pattern: '_[0-9A-Z_]+'
+  # regular expression pattern describing valid names for public variables (strangely named "directories"?)
+  # WEIRD: strangely named "directory variable name" in lint output
+  public_var_pattern: '[0-9A-Z]+'
+  # regular expression pattern describing valid macro names
+  macro_pattern: '[a-z_]+'
+  # regular expression pattern describing valid names for function/macro
+  # arguments and loop variables
+  argument_var_pattern: '[A-Z][A-Z0-9_]+'
+  # require no more than this many newlines between statements
+  max_statement_spacing: 2
+

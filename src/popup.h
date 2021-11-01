@@ -4,9 +4,10 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <memory>
 #include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "color.h"
@@ -50,7 +51,7 @@ class query_popup
          * true and "QUIT" action occurs, or "ANY_INPUT" if `allow_anykey` is
          * set to true and an unknown action occurs. In `query_once`, action
          * can also be other actions such as "LEFT" or "RIGHT" which are used
-         * for moving the cursor. If an error occured, such as when the popup
+         * for moving the cursor. If an error occurred, such as when the popup
          * is not properly set up, `action` will be "ERROR".
          *
          * `evt` is the actual `input_event` that triggers the action. Note that
@@ -173,6 +174,11 @@ class query_popup
          * Specify the default message color.
          **/
         query_popup &default_color( const nc_color &d_color );
+        /**
+         * Specify the desired keyboard mode. Used in keybindings menu to assign
+         * actions to input events of the approriate type of the parent UI.
+         */
+        query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -190,7 +196,7 @@ class query_popup
          * Query until a valid action or an error happens and return the result.
          */
         result query();
-
+        catacurses::window get_window();
     protected:
         /**
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
@@ -216,6 +222,7 @@ class query_popup
         bool cancel;
         bool ontop;
         bool fullscr;
+        keyboard_mode pref_kbd_mode;
 
         struct button {
             button( const std::string &text, const point & );
@@ -233,6 +240,7 @@ class query_popup
 
         static std::vector<std::vector<std::string>> fold_query(
                     const std::string &category,
+                    keyboard_mode pref_kbd_mode,
                     const std::vector<query_option> &options,
                     int max_width, int horz_padding );
         void invalidate_ui() const;
@@ -253,17 +261,19 @@ class query_popup
 /**
  * Create a popup on the UI stack that gets displayed but receives no input itself.
  * Call ui_manager::redraw() to redraw the popup along with other UIs on the stack,
- * and refresh_display() to force refresh the display if not receiving input after
- * redraw. The popup stays on the UI stack until its lifetime ends.
+ * and refresh_display() plus inp_mngr.pump_events() to force refresh the display
+ * and handle window events if not receiving input after redraw. The popup stays
+ * on the UI stack until its lifetime ends.
  *
  * Example:
  *
  * if( not_loaded ) {
  *     static_popup popup;
- *     popup.message( "Please wait…" );
  *     while( loading ) {
+ *         popup.message( _( "Please wait…  %d%% complete" ), percentage );
  *         ui_manager::redraw();
  *         refresh_display(); // force redraw since we're not receiving input here
+ *         inp_mngr.pump_events(); // handle window events such as resize
  *         load_part();
  *     }
  * }

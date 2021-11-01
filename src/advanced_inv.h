@@ -3,24 +3,16 @@
 #define CATA_SRC_ADVANCED_INV_H
 
 #include <array>
-#include <cctype>
-#include <functional>
-#include <string>
+#include <iosfwd>
 
 #include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
 
+class advanced_inv_listitem;
 class input_context;
 class item;
 struct advanced_inv_save_state;
-
-struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char x, char y ) const {
-        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
-    }
-};
 
 void create_advanced_inv();
 
@@ -57,10 +49,7 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
-        const int head_height = 0;
-        const int min_w_height = 0;
-        const int min_w_width = 0;
-        const int max_w_width = 0;
+        static constexpr int head_height = 5;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -76,7 +65,7 @@ class advanced_inventory
 
         bool inCategoryMode = false;
 
-        int itemsPerPage = 0;
+        int linesPerPage = 0;
         int w_height = 0;
         int w_width = 0;
 
@@ -84,7 +73,7 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
-        bool redraw = false;
+        bool always_recalc = false;
         /**
          * Which panels is active (item moved from there).
          */
@@ -135,14 +124,18 @@ class advanced_inventory
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
-        // used to return back to AIM when other activities queued are finished
+        // Adds an auto-resumed activity that reopens AIM. If this is called
+        // before assigning an item-moving activity, AIM is reopened when the
+        // item-moving activity finishes. This function should only be called
+        // when AIM is going to be automatically closed due to pending item-moving
+        // activity, otherwise the player will need to close AIM multiple times.
         void do_return_entry();
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items( bool nested_call = false );
+        bool move_all_items();
         void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );

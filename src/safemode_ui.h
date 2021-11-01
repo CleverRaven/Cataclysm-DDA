@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_SAFEMODE_UI_H
 #define CATA_SRC_SAFEMODE_UI_H
 
+#include <array>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <array>
 
 #include "creature.h"
 #include "enums.h"
@@ -22,7 +23,7 @@ class safemode
             MAX_TAB
         };
 
-        enum Categories : int {
+        enum class Categories : int {
             HOSTILE_SPOTTED,
             SOUND
         };
@@ -37,7 +38,7 @@ class safemode
                 int proximity;
                 Categories category;
 
-                rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : active( false ), whitelist( false ), attitude( Creature::Attitude::HOSTILE ),
                     proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
                              Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
@@ -51,7 +52,7 @@ class safemode
                 rule_state state;
                 int proximity;
 
-                rule_state_class() : state( RULE_NONE ), proximity( 0 ) {}
+                rule_state_class() : state( rule_state::NONE ), proximity( 0 ) {}
                 rule_state_class( rule_state state_in, int proximity_in, Categories ) : state( state_in ),
                     proximity( proximity_in ) {}
         };
@@ -60,10 +61,12 @@ class safemode
          * The currently-active set of safemode rules, in a form that allows quick
          * lookup. When this is filled (by @ref safemode::create_rules()), every
          * monster existing in the game that matches a rule (either white- or blacklist)
-         * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+         * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
+        // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector < rules_class > safemode_rules_sound;
 
         /**
@@ -84,7 +87,7 @@ class safemode
         void set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
-        std::string lastmon_whitelist;
+        std::string lastmon_whitelist; // NOLINT(cata-serialize)
 
         bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,

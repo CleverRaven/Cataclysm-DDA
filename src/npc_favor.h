@@ -2,12 +2,9 @@
 #ifndef CATA_SRC_NPC_FAVOR_H
 #define CATA_SRC_NPC_FAVOR_H
 
-#include <string>
-
 #include "type_id.h"
 
-using itype_id = std::string;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 
 enum npc_favor_type {
@@ -28,12 +25,12 @@ struct npc_favor {
     npc_favor() {
         type = FAVOR_NULL;
         value = 0;
-        item_id = "null";
+        item_id = itype_id::NULL_ID();
         skill = skill_id::NULL_ID();
     }
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 #endif // CATA_SRC_NPC_FAVOR_H

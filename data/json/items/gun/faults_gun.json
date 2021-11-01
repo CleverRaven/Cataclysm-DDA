@@ -57,7 +57,7 @@
         }
       }
     ],
-    "flags": [ "SILENT" ]
+    "flags": [ "SILENT", "BLACKPOWDER_FOULING_DAMAGE", "NO_DIRTYING" ]
   },
   {
     "id": "fault_gun_chamber_spent",
@@ -73,7 +73,8 @@
         "skills": [  ],
         "requirements": {  }
       }
-    ]
+    ],
+    "flags": [ "JAMMED_GUN" ]
   },
   {
     "id": "fault_gun_unlubricated",
@@ -96,7 +97,8 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "UNLUBRICATED", "BAD_CYCLING" ]
   },
   {
     "id": "fault_gun_dirt",

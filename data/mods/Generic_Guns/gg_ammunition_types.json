@@ -36,6 +36,19 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_rifle_foreign",
+    "//": "any Exodii rifle ammo less powerful than .375 H&H.",
+    "name": "foreign rifle ammo",
+    "default": "rifle_ball_foreign"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammo_railgun",
+    "name": "railgun ammo",
+    "default": "rifle_rail_ammo"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_rifle_huge",
     "//": "ammo from .375 H&H to .50BMG. Migrate anything stronger to as-yet unimplemented light cannon ammo",
     "name": "huge rifle ammo",

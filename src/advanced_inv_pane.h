@@ -3,8 +3,8 @@
 #define CATA_SRC_ADVANCED_INV_PANE_H
 
 #include <array>
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
@@ -44,16 +44,8 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
-            prev_area = area;
-            prev_viewing_cargo = viewing_cargo;
-            area = square.id;
-            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
-        }
-        void restore_area() {
-            area = prev_area;
-            viewing_cargo = prev_viewing_cargo;
-        }
+        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false );
+        void restore_area();
         aim_location get_area() const {
             return area;
         }
@@ -80,13 +72,8 @@ class advanced_inventory_pane
         std::string filter;
         /**
          * Whether to recalculate the content of this pane.
-         * Implies @ref redraw.
          */
         bool recalc = false;
-        /**
-         * Whether to redraw this pane.
-         */
-        bool redraw = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**
@@ -94,7 +81,7 @@ class advanced_inventory_pane
          */
         void fix_index();
         /**
-         * @param it The item to check, oly the name member is examined.
+         * @param it The item to check, only the name member is examined.
          * @return Whether the item should be filtered (and not shown).
          */
         bool is_filtered( const advanced_inv_listitem &it ) const;
@@ -103,12 +90,18 @@ class advanced_inventory_pane
          */
         bool is_filtered( const item &it ) const;
         /**
-         * Scroll @ref index, by given offset, set redraw to true,
+         * Scroll @ref index, by given offset,
          * @param offset Must not be 0.
          */
         void scroll_by( int offset );
         /**
-         * Scroll the index in category mode by given offset.
+         * Scroll @ref index, by given offset in pages,
+         * @param linesPerPage Amount of lines that can be displayed per page.
+         * @param offset Must be either +1 or -1.
+         */
+        void scroll_page( int linesPerPage, int offset );
+        /**
+         * Scroll @ref index, in category mode by given offset.
          * @param offset Must be either +1 or -1
          */
         void scroll_category( int offset );
@@ -121,13 +114,7 @@ class advanced_inventory_pane
          * Set the filter string, disables filtering when the filter string is empty.
          */
         void set_filter( const std::string &new_filter );
-        /**
-         * Insert additional category headers on the top of each page.
-         */
-        void paginate( size_t itemsPerPage );
     private:
-        /** Scroll to next non-header entry */
-        void skip_category_headers( int offset );
         /** Only add offset to index, but wrap around! */
         void mod_index( int offset );
 

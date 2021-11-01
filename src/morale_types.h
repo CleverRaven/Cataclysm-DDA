@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MORALE_TYPES_H
 #define CATA_SRC_MORALE_TYPES_H
 
-#include <string>
+#include <iosfwd>
 
 #include "translations.h"
 #include "type_id.h"
@@ -93,6 +93,7 @@ extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
+extern const morale_type MORALE_PERM_NUMB;
 extern const morale_type MORALE_PERM_CONSTRAINED;
 extern const morale_type MORALE_PERM_NOMAD;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;

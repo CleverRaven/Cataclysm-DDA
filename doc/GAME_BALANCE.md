@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster HP scaling:
+Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
+
+Average HP: ~100 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
+
+Notable HP: ~200 (unusually resilient; tiger, zombie master, mi-go)
+
+Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid heart, jabberwock)
+
+Maximal HP: 800 (highest for balance purposes; wraith)
+
+In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
 # Speeds:
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
 
@@ -62,7 +76,7 @@ Grip is a measure of how well you can control the weapon to quickly respond to s
 
 +0 - Any object that doesn't fall into one of the categories below. Examples include 2x4s, computer monitors, wires, stingers and clothing. Basically, anything that has a grippable component, but which is too thick, too thin, or too flimsy to grab comfortably in a way that can reliably control the object.
 
-+1 - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, pool cue or a heavy stick.
++1 - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, or pool cue.
 
 +2 - A weapon with a dedicated grip shaped to the hand, like a sword, axe, knife, or police baton, or that is strapped to the body (or is a piece of the body). Fists would get a +2 bonus here, bringing them to "0" total, since none of the others would apply.
 
@@ -112,21 +126,21 @@ Number of moves is calculated as attack speed * ( number of misses + number of n
 Damage per second against a particular monster is total damage * 100 / number of moves (100 for the 100 moves/second).  Overall dps is the average of the dps against the three reference monsters.
 
 ### Critical hits
-A double critical can occcur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
+A double critical can occur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
 
-**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occuring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
+**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occurring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
 
 ### Other factors
 Reach is worth +20% at reach 2, +35% at reach 3.
 
-A weapon that is usuable by a known martial art is worth +50%.
+A weapon that is usable by a known martial art is worth +50%.
 
 ### Weapon tiers
 Relative value should put the weapon into one of those categories:
 
 <2 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
 
-2-5 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+2-5 - Tools not meant to strike and improvised weapons. Planks, pointy sticks, pipes, hammers.
 
 6-11 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
@@ -171,23 +185,6 @@ Increases proportional to capacity and should have a comparable ratio to similar
 ### Volume
 Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
 
-### Reliability
-Should be specified first considering the below and then scaled against any equivalent magazines. For example if an extended version of a magazine exists place it one rank below the standard capacity version. Damaged guns or magazines will further adversely affect reliability.
-
-10 - **Perfectly reliable**. Factory specification or milspec only. Never extended magazines. Very rare.
-
-9 - **Reliable**. Failures only in burst fire. Factory or milspec magazines only. Never extended magazines. Uncommon.
-
-8 - **Dependable**. Failures infrequently in any fire mode. Highest reliability possible for extended magazines and those crafted using gunsmithing tools. Most common.
-
-7 - **Serviceable**. Fail infrequently in semi-automatic, more frequently in burst. Includes many extended and aftermarket gunsmithing tools. Common.
-
-6 - **Acceptable**. Failures can be problematic. Highest reliability possible for magazines crafted **without** gunsmithing tools. Includes most ammo belts.
-
-5 - **Usable**. Failures can be problematic and more serious. Mostly poor quality hand-crafted magazines.
-
-<4 - **Poor**. Significant risk of catastrophic failure. Not applied by default to any item but can be acquired by damage or other factors.
-
 ### Rarity
 Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9x19mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
 
@@ -208,7 +205,7 @@ Bow damage is based on the momentum achieved in the projectile.  Since arrows an
 ## Ammo stats
 The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
-Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by it's real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
+Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by its real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
 
 Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
 -------------------|-----------------------------|-----------|-----|----------|-------------------------------
@@ -228,7 +225,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 147gr JHP bullet            | 660       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 799       | 28  | 5in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
@@ -264,6 +261,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
 .50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
 .410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
+.70 blunderbuss shot | 400gr lead ball           | 1200      | 41  | 16in     |  Very generous FPS           |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

@@ -3,14 +3,14 @@
     "id": "bot_antimateriel",
     "copy-from": "bot_antimateriel",
     "type": "TOOL",
-    "name": { "str": "CROWS II, heavy machinegun" },
+    "name": { "str_sp": "CROWS II, heavy machinegun" },
     "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded ball heavy machine gun ammunition rounds in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its heavy machine gun."
   },
   {
     "id": "bot_rifleturret",
     "copy-from": "bot_rifleturret",
     "type": "TOOL",
-    "name": { "str": "inactive CROWS II, light machinegun" },
+    "name": { "str_sp": "inactive CROWS II, light machinegun" },
     "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded ball rifle ammunition in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its light machine gun."
   },
   {

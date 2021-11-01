@@ -4,7 +4,7 @@
     "type": "ENGINE",
     "category": "veh_parts",
     "name": { "str": "internal combustion engine" },
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ":",
     "color": "light_cyan"
   },
@@ -20,7 +20,6 @@
       "fault_engine_glow_plug",
       "fault_engine_immobiliser",
       "fault_engine_pump_diesel",
-      "fault_engine_pump_water",
       "fault_engine_starter"
     ]
   },
@@ -35,7 +34,6 @@
       "fault_engine_filter_fuel",
       "fault_engine_immobiliser",
       "fault_engine_pump_fuel",
-      "fault_engine_pump_water",
       "fault_engine_starter"
     ]
   },
@@ -45,7 +43,7 @@
     "type": "ENGINE",
     "name": { "str": "base steam engine" },
     "looks_like": "v12_diesel",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_pump_water", "fault_engine_starter" ]
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion",
@@ -245,7 +243,7 @@
     "type": "GENERIC",
     "name": { "str": "massive engine block" },
     "description": "The beginnings of a massive gas or diesel engine.  It's not good for much of anything on its own.",
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "280000 g",
     "volume": "6250 ml",
     "price": 30000,
@@ -257,7 +255,7 @@
     "type": "GENERIC",
     "name": { "str": "large engine block" },
     "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "190000 g",
     "volume": "5 L",
     "price": 20000,
@@ -269,7 +267,7 @@
     "type": "GENERIC",
     "name": { "str": "medium engine block" },
     "description": "The beginnings of a medium gas or diesel engine.  It's not good for much of anything on its own.",
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "90000 g",
     "volume": "2500 ml",
     "price": 10000,
@@ -281,7 +279,7 @@
     "type": "GENERIC",
     "name": { "str": "small engine block" },
     "description": "The beginnings of a small gas or diesel engine.  It's not good for much of anything on its own.",
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "40000 g",
     "volume": "1250 ml",
     "price": 5000,
@@ -293,7 +291,7 @@
     "type": "GENERIC",
     "name": { "str": "tiny engine block" },
     "description": "The beginnings of a tiny gas or diesel engine.  It's not good for much of anything on its own.",
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "8000 g",
     "volume": "500 ml",
     "price": 3500,
@@ -317,7 +315,8 @@
     "type": "ENGINE",
     "name": { "str": "1900 hp gas turbine engine" },
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
-    "weight": "1582000 g",
+    "weight": "400000 g",
+    "//": "Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight to account for a transmission.",
     "volume": "63 L",
     "price": 192000,
     "price_postapoc": 5000,
@@ -329,7 +328,7 @@
     "type": "ENGINE",
     "name": { "str": "6000 hp gas turbine engine" },
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
-    "weight": "3164000 g",
+    "weight": "900000 g",
     "volume": "95 L",
     "price": 960000,
     "price_postapoc": 7500,

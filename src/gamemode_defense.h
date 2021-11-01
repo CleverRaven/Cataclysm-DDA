@@ -2,19 +2,22 @@
 #ifndef CATA_SRC_GAMEMODE_DEFENSE_H
 #define CATA_SRC_GAMEMODE_DEFENSE_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "calendar.h"
-#include "cursesdef.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "gamemode.h"
 #include "omdata.h"
-#include "point.h"
 #include "type_id.h"
 
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
+
 enum action_id : int;
-using itype_id = std::string;
 
 enum defense_style {
     DEFENSE_CUSTOM = 0,
@@ -55,8 +58,8 @@ enum caravan_category {
 struct defense_game : public special_game {
         defense_game();
 
-        special_game_id id() override {
-            return SGAME_DEFENSE;
+        special_game_type id() override {
+            return special_game_type::DEFENSE;
         }
         bool init() override;
         void per_turn() override;
@@ -83,9 +86,9 @@ struct defense_game : public special_game {
         int current_wave = 0;
 
         // What type of game is it?
-        defense_style style;
+        defense_style style = defense_style::DEFENSE_EASY;
         // Where are we?
-        defense_location location;
+        defense_location location = defense_location::DEFLOC_NULL;
 
         // Total "level" of monsters in first wave
         int initial_difficulty = 0;
@@ -125,7 +128,7 @@ struct defense_game : public special_game {
         bool allow_save = false;
 
         // Start defence location position on overmap
-        tripoint defloc_pos;
+        tripoint_om_omt defloc_pos;
 
         // Defense location special
         overmap_special_id defloc_special;

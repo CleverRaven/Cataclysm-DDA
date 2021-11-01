@@ -1,6 +1,41 @@
 [
   {
     "type": "snippet",
+    "category": "<spirals>",
+    "//": "Spiral madman's responses.",
+    "text": [
+      "Spirals.",
+      "Spirals…",
+      "Spirals?",
+      "Spirals!",
+      "Spirals!!!",
+      "SpIrAlS.",
+      "SPIRALS.",
+      "AHAHAHAHA!!!",
+      "SpiRAAAAAAALS!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<get_lost>",
+    "//": "A rude way of telling player to get lost.",
+    "text": [
+      "Fuck off.",
+      "Fuck off, <name_b>.",
+      "Fuck off, you <dumb> <name_b>.",
+      "Get outta my sight.",
+      "Get lost.",
+      "Get off.",
+      "Get the fuck out of here.",
+      "Get the fuck outta here.",
+      "Go bug someone else.",
+      "Begone!",
+      "Begone from my sight!",
+      "Scat!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<no_to_thorazine>",
     "//": "Hallucinatory NPCs say these things to discourage the avatar from taking thorazine and ending the hallucination.",
     "text": [
@@ -10,14 +45,15 @@
       "Thorazine is poison.",
       "Thorazine?  I wouldn't if I were you.",
       "You don't need thorazine, it's limiting you.",
-      "Thorazine…  That's what 'they' use to keep you tame.",
-      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp."
+      "Thorazine… that's what 'they' use to keep you tame.",
+      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp.",
+      "Sure, take thorazine.  If you want to lose your mind and wander into a horde of undead!"
     ]
   },
   {
     "type": "snippet",
     "category": "<yes_to_lsd>",
-    "//": "Hallucinatry NPCs say these things to encourage the avatar to extend the hallucination",
+    "//": "Hallucinatory NPCs say these things to encourage the avatar to extend the hallucination",
     "text": [
       "Pink tablets!  I love those!",
       "Hey there's some pink tablets, take some!",
@@ -41,7 +77,10 @@
       "I'm not interested.",
       "How about no?",
       "I'm sorry <name_g>. I'm afraid I can't do that.",
-      "Wish I could, <name_g>."
+      "Wish I could, <name_g>.",
+      "Nothing to trade, sorry <name_g>.",
+      "I don't want to trade right now.",
+      "Maybe next time?"
     ]
   },
   {
@@ -56,7 +95,9 @@
       "Who put you in charge of what I do?",
       "Great idea!  Call me when you find SOMEONE ELSE to do it.",
       "I'm afraid I can't help you there.",
-      "Not exactly the settlin' type."
+      "Not exactly the settlin' type.",
+      "I can't help you with that right now.",
+      "I'm more of a free spirit, can't settle, sorry."
     ]
   },
   {
@@ -64,6 +105,75 @@
     "category": "<name_b>",
     "//": "generic negative/hostile pronouns",
     "text": [
+      "airhead",
+      "arse",
+      "ass",
+      "assclown",
+      "assface",
+      "asstown",
+      "asswagon",
+      "bitch",
+      "bootlicker",
+      "bugger",
+      "butchery refuse",
+      "butthead",
+      "butt-licker",
+      "chucklefuck",
+      "coward",
+      "cuck",
+      "cunt",
+      "damn <name_b>",
+      "damned <name_b>",
+      "dildo",
+      "dimwit",
+      "dog",
+      "dumbshit",
+      "dumpster",
+      "dumpster fire",
+      "dunderfuck",
+      "effing <name_b>",
+      "emergency ration",
+      "empty headed <name_b>",
+      "expendable <name_b>",
+      "fart",
+      "fat-ass",
+      "frail-ass <name_b>",
+      "frigger",
+      "fungus eater",
+      "goddamn <name_b>",
+      "good for nothing",
+      "inbred",
+      "lazy",
+      "lazy ass",
+      "limp-dick",
+      "low-life",
+      "meat face",
+      "mi-go hugger",
+      "mushy pizza",
+      "pissbrain",
+      "pool noodle",
+      "prick",
+      "pussy",
+      "shitweasel",
+      "slime hugger",
+      "smooth brain",
+      "snowflake",
+      "toilet licker",
+      "tool",
+      "trash",
+      "turd",
+      "twat",
+      "twerp",
+      "useless",
+      "wanker",
+      "waste",
+      "waste of ammo",
+      "weapon holder",
+      "weiner",
+      "weird <name_b>",
+      "wet sandwich",
+      "wet sock",
+      "z fodder",
       "<swear> <name_b>",
       "asshat",
       "asswipe",
@@ -138,7 +248,7 @@
       "Can you give me something to drink, <name_g>?",
       "I <really> need to get some water.",
       "<ill_die> if I don't drink something.",
-      "Water…  Is there an oasis nearby?",
+      "Water… is there an oasis nearby?",
       "Did you know that lack of water kills faster than lack of rest?",
       "I can't remember the last time I was this thirsty.",
       "I'd kill for a sip of water right now."
@@ -146,42 +256,25 @@
   },
   {
     "type": "snippet",
-    "category": "<noticedbooze>",
-    "//": "Used when chit-chatting while the avatar has a beer",
-    "text": [
-      "Yeah sure, can't help but notice you got beer with you!  Let's crack a cold one and chat, <name_g>, how goes it?",
-      "Oh definitely, how about one of those beers I see on you?  What's up anyway?",
-      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?",
-      "Hey <name_g>, I bet a chat would be all the sweeter with a nice, cold beer in hand.  How's it going?",
-      "While we chat, what say you we open a beer and just… pretend the world isn't ending, just for a while?"
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<neutralchitchat>",
-    "//": "General chit chat messages",
-    "text": [
-      "Hey, sure thing, <name_g>, I need a break anyway, how are you?",
-      "Yeah OK, <name_g>, how's it going?",
-      "Sure, let's shoot the shit!  You OK?",
-      "Why not?  How you doing?",
-      "I'm OK with that, what's up?",
-      "I can spare a few minutes, how's things?",
-      "Sure thing <name_g>, you good?",
-      "Alright, you got something to get off your chest?",
-      "Always ready for a good chat!  But why, you OK?",
-      "OK <name_g>, we should get to know each other, how are you coping?",
-      "Definitely, I'm game.  How you holding up?",
-      "Good idea <name_g>.  Let's forget the world for a while.  How you doin'?",
-      "Ah, what the heck.  How's life been treating you?",
-      "Sure.  So, how about that weather ey?"
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "<swear!>",
     "//": "Swears and curses used to emphasize unpleasant events",
     "text": [
+      "ARGH",
+      "aw fuck",
+      "balls",
+      "can't believe it",
+      "crapper",
+      "feck",
+      "For serious?",
+      "frigg",
+      "heavens",
+      "heck",
+      "hell",
+      "my luck",
+      "shards and shatters",
+      "the audacity",
+      "the worst!",
+      "what",
       "darn",
       "fuck",
       "goddamn",
@@ -351,7 +444,9 @@
       "Hey <name_g><punc> Wait for me!",
       "Where are you?!",
       "Hey, I'm over here!",
-      "Hold up a second, will ya?"
+      "Hold up a second, will ya?",
+      "What's the rush?",
+      "Wait for me <name_g>, I can't keep up with you like this!"
     ]
   },
   {
@@ -453,6 +548,7 @@
       "Time for bed!  See you in the morning.",
       "There's a bed calling my name, and I'm going to it.",
       "Good night!  Wake me if you need me.",
+      "Well, I'm going to bed now.",
       "Calling it a night for now.  You get some rest too, okay?"
     ]
   },
@@ -461,6 +557,7 @@
     "category": "<very>",
     "//": "Generic terms of emphasis",
     "text": [
+      "ass-shatteringly",
       "extremely",
       "greatly",
       "highly",
@@ -616,6 +713,7 @@
       "Drop your <swear> weapon, <name_b>!",
       "Put down your <yrwp>!",
       "Alright, drop the <yrwp>!",
+      "Hey, put that weapon down!",
       "Please put down your weapon.  I'll give you to the count of three.  One…",
       "Let's take it easy now, okay?  Put the weapon down."
     ]
@@ -729,10 +827,10 @@
       "<name_b>",
       "<swear> <name_b>",
       "you can fuck right off, you <name_b>",
-      "I've had enough of you, begone.",
+      "I've had enough of you, begone",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
-      "you're the reason the gene pool needs a lifeguard"
+      "you're why the gene pool needs a lifeguard"
     ]
   },
   {
@@ -785,6 +883,7 @@
       "Bombs away!",
       "Shrapnel, incoming!  Watch it!",
       "Making some noise!",
+      "It's gonna blow!",
       "Hit the deck!"
     ]
   },
@@ -952,6 +1051,9 @@
       "<swear!>!  This is the end,",
       "I can <swear> take on",
       "Time to die,",
+      "Prepare to die,",
+      "See you in hell,",
+      "Rot in hell,",
       "Say your prayers,"
     ]
   },
@@ -988,6 +1090,7 @@
       "Hold up, gotta plug this hole in me.",
       "Watch my back while I stitch my arm back on <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
+      "Let me fix myself up here for a second.",
       "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this."
     ]
   },
@@ -1004,6 +1107,8 @@
       "What was that?",
       "Huh?  Is someone there?",
       "Who's there?",
+      "Did anyone else hear that?",
+      "Sounds like someone said something.",
       "Who goes there?"
     ]
   },
@@ -1018,6 +1123,8 @@
       "What's that noise?",
       "Is something over there?",
       "Sounds like something bad's going on.",
+      "What's going on over there?",
+      "Sounds like a fight's going on.",
       "What was that?"
     ]
   },
@@ -1032,6 +1139,9 @@
       "Did you hear that?  Sounded like",
       "What is making that sound?  I can hear the",
       "I could swear I heard",
+      "Huh?  I think I just heard",
+      "Huh?  That sounded like",
+      "I think that was the sound of",
       "I could have sworn I just heard"
     ]
   },
@@ -1075,6 +1185,7 @@
       "Mmm, that weed smells good.",
       "Man, I can smell the weed, can I have some?",
       "Are you sure it's a good idea to smoke that now?",
+      "Are you getting stoned right now?",
       "Is that the devil's lettuce I smell?"
     ]
   },
@@ -1087,7 +1198,7 @@
       "<name_g>, that's going to ruin your nose.",
       "Man, that stinks.  Put it out!",
       "You're going to kill yourself smoking that stuff, <name_g>.",
-      "Oh, wow, that smell…  Can I have some?",
+      "Oh, wow, that smell… can I have some?",
       "Are you sure it's a good idea to smoke that now?",
       "I smell heresy.",
       "Seriously?  You're smoking that?",
@@ -1099,7 +1210,14 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>" ]
+    "text": [
+      "Ew, smells like burning rubber!",
+      "Ugh, that smells rancid!",
+      "Why are you smoking crack cocaine?",
+      "Crack cocaine smells awful!",
+      "Are you seriously going to be a crackhead around me?",
+      "<meth_smoke>"
+    ]
   },
   {
     "type": "snippet",
@@ -1122,6 +1240,7 @@
       "Pass some ethanol, I need to power my ethanol burner.",
       "Waiter!  I need a refill, my ethanol burner is running out of charge!",
       "I require ethanol for my internal power supply.  Anything on you?",
+      "I need some ethanol to power up my CBMs.",
       "Got any alcohol to spare?  Need to recharge my drives.  Methanol, would do."
     ]
   },
@@ -1133,6 +1252,7 @@
       "I need some junk to power my internal furnace.",
       "I can't recharge my CBMs without some firewood for my internal furnace.",
       "I need something to use as fuel for my furnace.",
+      "I need something to burn for my furnace.  Can you help?",
       "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
     ]
   },
@@ -1143,6 +1263,8 @@
     "text": [
       "I need some fuel to power my bionics.",
       "I can't recharge my CBMs without some fuel.",
+      "Could I get some fuel for my bionics?",
+      "I need more fuel.  Can you help me out here?",
       "Hey, <name_g>, can I get some fuel?  I need to recharge."
     ]
   },
@@ -1171,7 +1293,20 @@
       "What was the Cataclysm like for you?",
       "How did you make it through the initial chaos?",
       "Tell me how you survived the initial wave of the Cataclysm.",
+      "How did you survive those first few days?",
       "Was it rough surviving thus far?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<CWH_intro_question>",
+    "//": "avatar response to an NPC that opens up their theories about what the cataclysm was.",
+    "text": [
+      "How do you think we ended up here?  What even happened?",
+      "What's going on?  Like, big picture, what the hell happened?",
+      "What do you think the cataclysm even was?",
+      "So how do you think the end of the world happened?",
+      "Have you heard anything about how the apocalypse came about?"
     ]
   },
   {
@@ -1182,6 +1317,7 @@
       "Let's talk about something else.",
       "Let's change the subject.",
       "I'd like to ask you about something else.",
+      "I'd like to talk about about something else.",
       "Moving on…",
       "Anyway…"
     ]
@@ -1292,6 +1428,7 @@
       "Retreat!  Retreat!",
       "Book it!",
       "Leg it!",
+      "I'm getting the hell out of here!",
       "Thank fuck for all the cardio!"
     ]
   },
@@ -1304,6 +1441,7 @@
       "<swear>!  Die, you <name_b>!  I want to live!",
       "My feet failed me!  Arms, don't fail me!",
       "Can't run!  Have to fight!",
+      "I can't run away from this!",
       "If I die, I'm taking you all with me!"
     ]
   },
@@ -1320,6 +1458,7 @@
       "Somebody get some water!",
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
+      "Somebody get some water or something!",
       "Danger hot!"
     ]
   },
@@ -1344,6 +1483,66 @@
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_water_thanks>",
+    "//": "NPCs say this after drinking water from a camp well.",
+    "text": [
+      "Clean water, the taste that refreshes!",
+      "I was parched, but not I am not.",
+      "Water is nice, but I should get a grog ration.",
+      "Nothing quite like clean water.",
+      "That wasn't Evian, but I'm not thirsty."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_food_thanks>",
+    "//": "NPCs say this after eating food from a basecamp larder.",
+    "text": [
+      "And now I have eaten and am not hungry.",
+      "That food was good, but I miss real restaurants.",
+      "Well, that satisfied me.",
+      "Nice to have food once in a while.",
+      "I just had some food, but I'm still peckish.  Would you mind if I ate more?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_larder_empty>",
+    "//": "NPCs say this after trying to eat from a basecamp larder with no food.",
+    "text": [
+      "Hey, <name_g>, we're out of food.",
+      "Hey, the larder is empty!  We're going to starve.",
+      "There's no food in the larder!",
+      "We need more food in the basecamp larder; it's empty.",
+      "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<danger_close_distance>",
+    "//": "A threat is very close.",
+    "text": [ "right on top of us!", "right there!", "danger close!", "almost in melee range!", "too close for comfort!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<close_distance>",
+    "//": "A threat is close.",
+    "text": [ "within shooting range.", "only a couple of seconds' away.", "just a bit away.", "closer than I'd like." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<medium_distance>",
+    "//": "A threat is nearby.",
+    "text": [ "near enough to see us.", "quite a bit away.", "maybe within shooting range.", "at a good distance." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<far_distance>",
+    "//": "A threat is on the horizon.",
+    "text": [ "far enough away that we could make sneak away.", "out on the horizon, so don't worry much.", "at a long distance." ]
   },
   {
     "type": "snippet",
@@ -1388,17 +1587,17 @@
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_text>",
-    "text": "* will pick up items."
+    "text": "<mypronoun> will pick up items."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_list_text>",
-    "text": "* will only pick up items from the whitelist."
+    "text": "<mypronoun> will only pick up items from the whitelist."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_false_text>",
-    "text": "* will not pick up items."
+    "text": "<mypronoun> will not pick up items."
   },
   {
     "type": "snippet",
@@ -1469,6 +1668,16 @@
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_false_text>",
     "text": "<mypronoun> will follow you at about four paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_2_text>",
+    "text": "Follow me at about two paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_4_text>",
+    "text": "Follow me at about four paces."
   },
   {
     "type": "snippet",

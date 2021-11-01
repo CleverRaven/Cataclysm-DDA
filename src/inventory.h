@@ -4,12 +4,14 @@
 
 #include <array>
 #include <bitset>
+#include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <string>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -17,17 +19,18 @@
 
 #include "cata_utility.h"
 #include "item.h"
-#include "item_stack.h"
 #include "magic_enchantment.h"
-#include "units.h"
+#include "proficiency.h"
+#include "type_id.h"
+#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
 class JsonIn;
 class JsonOut;
+class item_stack;
 class map;
 class npc;
-class player;
 struct tripoint;
 
 using invstack = std::list<std::list<item> >;
@@ -47,7 +50,7 @@ using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 class invlet_wrapper : private std::string
 {
     public:
-        invlet_wrapper( const char *chars ) : std::string( chars ) { }
+        explicit invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
         bool valid( int invlet ) const;
         std::string get_allowed_chars() const {
@@ -71,7 +74,7 @@ class invlet_favorites
 {
     public:
         invlet_favorites() = default;
-        invlet_favorites( const std::unordered_map<itype_id, std::string> & );
+        explicit invlet_favorites( const std::unordered_map<itype_id, std::string> & );
 
         void set( char invlet, const itype_id & );
         void erase( char invlet );
@@ -85,10 +88,9 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
-class inventory : public visitable<inventory>
+class inventory : public visitable
 {
     public:
-        friend visitable<inventory>;
 
         invslice slice();
         const_invslice const_slice() const;
@@ -98,7 +100,7 @@ class inventory : public visitable<inventory>
         std::map<char, itype_id> assigned_invlet;
 
         inventory();
-        inventory( inventory && ) = default;
+        inventory( inventory && ) noexcept = default;
         inventory( const inventory & ) = default;
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
@@ -118,14 +120,17 @@ class inventory : public visitable<inventory>
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
-        void add_item_keep_invlet( item newit );
-        void push_back( item newit );
+        void add_item_keep_invlet( const item &newit );
+        void push_back( const item &newit );
+
+        // used by form_from_map, if tool was already provisioned returns nullptr
+        item *provide_pseudo_item( const itype_id &id, int battery );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack( player &p );
+        void restack( Character &p );
         void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
                              bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
@@ -170,17 +175,10 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount( itype_id it, int quantity,
+        std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
-        bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
-
-        int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
+        int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions
         int worst_item_value( npc *p ) const;
@@ -196,6 +194,7 @@ class inventory : public visitable<inventory>
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
+        void dump( std::vector<const item *> &dest ) const;
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing
@@ -213,9 +212,8 @@ class inventory : public visitable<inventory>
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item &it, bool assign_invlet = true );
-
-        void set_stack_favorite( int position, bool favorite );
+        void update_invlet( item &it, bool assign_invlet = true,
+                            const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;
 
@@ -232,11 +230,34 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        int count_item( const itype_id &item_type ) const;
+
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
+
+        // inherited from `visitable`
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr ) const override;
+        int amount_of( const itype_id &what, bool pseudo = true,
+                       int limit = INT_MAX,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
+
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const std::string &item_type );
+        char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+
+        // tracker for provide_pseudo_item to prevent duplicate tools/liquids
+        std::set<itype_id> provisioned_pseudo_tools;
 
         mutable bool binned = false;
         /**

@@ -7,9 +7,11 @@
     "implement_prompt": "Pad with leather",
     "destroy_prompt": "Destroy leather padding",
     "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 1, "proportion": [ "thickness" ] },
+      { "type": "cut", "value": 1, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 1, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] },
+      { "type": "warmth", "value": 1, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {
@@ -21,22 +23,26 @@
     "destroy_prompt": "Destroy steel padding",
     "restricted": true,
     "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 1.5, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 5, "round_up": true, "proportion": [ "thickness", "coverage" ] },
+      { "type": "warmth", "value": 1, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {
     "type": "clothing_mod",
     "id": "kevlar_padded",
     "flag": "kevlar_padded",
-    "item": "kevlar_plate",
+    "item": "sheet_kevlar_layered",
     "implement_prompt": "Pad with Kevlar",
     "destroy_prompt": "Destroy Kevlar padding",
     "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "cut", "value": 2, "proportion": [ "thickness", "coverage" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 1, "proportion": [ "thickness" ] },
+      { "type": "cut", "value": 1.5, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] },
+      { "type": "warmth", "value": 1, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {

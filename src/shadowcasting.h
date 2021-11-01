@@ -6,7 +6,7 @@
 #include <array>
 #include <cmath>
 #include <functional>
-#include <string>
+#include <iosfwd>
 
 #include "game_constants.h"
 #include "lightmap.h"
@@ -19,9 +19,18 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant {
-    NE, SE, SW, NW,
+enum class quadrant : int {
+    NE,
+    SE,
+    SW,
+    NW,
     default_ = NE
+};
+
+enum class vertical_direction {
+    UP,
+    DOWN,
+    BOTH
 };
 
 struct four_quadrants {
@@ -37,7 +46,10 @@ struct four_quadrants {
         return values[static_cast<int>( q )];
     }
     void fill( float v ) {
-        std::fill( values.begin(), values.end(), v );
+        values[0] = v;
+        values[1] = v;
+        values[2] = v;
+        values[3] = v;
     }
     float max() const {
         return *std::max_element( values.begin(), values.end() );
@@ -47,7 +59,7 @@ struct four_quadrants {
     friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
-                        result.values.begin(), std::multiplies<float>() );
+                        result.values.begin(), std::multiplies<>() );
         return result;
     }
 
@@ -121,6 +133,7 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, T numerator );
+    const tripoint &origin, int offset_distance, T numerator,
+    vertical_direction dir = vertical_direction::BOTH );
 
 #endif // CATA_SRC_SHADOWCASTING_H

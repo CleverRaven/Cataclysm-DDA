@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_BEHAVIOR_STRATEGY_H
 #define CATA_SRC_BEHAVIOR_STRATEGY_H
 
+#include <iosfwd>
+#include <string>
 #include <unordered_map>
 #include <vector>
-#include <string>
 
 namespace behavior
 {
@@ -12,7 +13,7 @@ namespace behavior
 class node_t;
 class oracle_t;
 
-enum status_t : char;
+enum class status_t : char;
 struct behavior_return;
 
 class strategy_t

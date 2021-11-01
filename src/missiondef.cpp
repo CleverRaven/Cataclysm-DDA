@@ -104,6 +104,7 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "kill_horde_master", mission_start::kill_horde_master },
+        { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
@@ -132,8 +133,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -157,8 +158,7 @@ std::string enum_to_string<mission_origin>( mission_origin data )
         case mission_origin::NUM_ORIGIN:
             break;
     }
-    debugmsg( "Invalid mission_origin" );
-    abort();
+    cata_fatal( "Invalid mission_origin" );
 }
 
 template<>
@@ -178,6 +178,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
+        case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
         case MGOAL_RECRUIT_NPC: return "MGOAL_RECRUIT_NPC";
         case MGOAL_RECRUIT_NPC_CLASS: return "MGOAL_RECRUIT_NPC_CLASS";
         case MGOAL_COMPUTER_TOGGLE: return "MGOAL_COMPUTER_TOGGLE";
@@ -187,12 +188,11 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case mission_goal::NUM_MGOAL:
             break;
     }
-    debugmsg( "Invalid mission_goal" );
-    abort();
+    cata_fatal( "Invalid mission_goal" );
 }
 } // namespace io
 
-generic_factory<mission_type> mission_type_factory( "mission_type" );
+static generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
 template<>
@@ -245,7 +245,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
@@ -253,7 +253,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        auto djo = jo.get_object( "dialogue" );
+        JsonObject djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
@@ -287,7 +287,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
-                deferred.emplace_back( jo.str(), src );
+                deferred.emplace_back( jo.get_source_location(), src );
+                jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
             }
@@ -345,7 +346,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }
@@ -379,6 +380,7 @@ mission_type_id mission_type::from_legacy( int old_id )
             mission_type_id( "MISSION_KILL_JABBERWOCK" ),
             mission_type_id( "MISSION_KILL_100_Z" ),
             mission_type_id( "MISSION_KILL_HORDE_MASTER" ),
+            mission_type_id( "MISSION_KILL_NEMESIS" ),
             mission_type_id( "MISSION_RECRUIT_TRACKER" ),
             mission_type_id( "MISSION_JOIN_TRACKER" ),
             mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_1" ),
@@ -459,10 +461,11 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

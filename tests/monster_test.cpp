@@ -1,27 +1,33 @@
+#include <algorithm>
 #include <cmath>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <list>
+#include <functional>
 #include <map>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <utility>
+#include <vector>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_utility.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "options_helpers.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "optional.h"
 #include "options.h"
-#include "player.h"
-#include "test_statistics.h"
-#include "game_constants.h"
-#include "item.h"
-#include "line.h"
+#include "options_helpers.h"
 #include "point.h"
+#include "test_statistics.h"
+#include "type_id.h"
+
+class item;
 
 using move_statistics = statistics<int>;
 
@@ -33,7 +39,7 @@ static int moves_to_destination( const std::string &monster_type,
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( end );
+    test_monster.set_dest( get_map().getglobal( end ) );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;
@@ -44,7 +50,7 @@ static int moves_to_destination( const std::string &monster_type,
             const int moves_before = test_monster.moves;
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;
-            if( test_monster.pos() == test_monster.move_target() ) {
+            if( test_monster.get_location() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
             }
@@ -73,7 +79,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( auto &track_instance : vec ) {
+    for( const auto &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;
@@ -86,10 +92,11 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 {
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
-    player &test_player = g->u;
+    Character &test_player = get_player_character();
     // Strip off any potentially encumbering clothing.
-    std::list<item> temp;
-    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
+    test_player.remove_worn_items_with( []( item & ) {
+        return true;
+    } );
 
     const tripoint center{ 65, 65, 0 };
     test_player.setpos( center );
@@ -100,36 +107,35 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( test_player.pos() );
+    test_monster.set_dest( test_player.get_location() );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
 
-    int moves_spent = 0;
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
         while( test_player.moves >= 0 ) {
             test_player.setpos( test_player.pos() + direction_of_flight );
-            if( test_player.pos().x < SEEX * int( MAPSIZE / 2 ) ||
-                test_player.pos().y < SEEY * int( MAPSIZE / 2 ) ||
-                test_player.pos().x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ||
-                test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+            if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().x >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                test_player.pos().y >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
                 tripoint offset = center - test_player.pos();
                 test_player.setpos( center );
                 test_monster.setpos( test_monster.pos() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = g->m.combined_movecost(
+            const int move_cost = get_map().combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        g->m.clear_traps();
-        test_monster.set_dest( test_player.pos() );
+        get_map().clear_traps();
+        test_monster.set_dest( test_player.get_location() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
             const int moves_before = test_monster.moves;
@@ -138,7 +144,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                 rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_monster.pos()
                                } );
-            moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
                 INFO( tracker );
                 clear_map();
@@ -235,7 +240,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
     for( auto &stat_pair : turns_at_angle ) {
         std::stringstream sample_string;
-        for( auto sample : stat_pair.second.get_samples() ) {
+        for( int sample : stat_pair.second.get_samples() ) {
             sample_string << sample << ", ";
         }
         INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<
@@ -245,8 +250,9 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
 
     if( write_data ) {
-        std::ofstream data;
-        data.open( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) + monster_type );
+        cata::ofstream data;
+        data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
+                               monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
             data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
@@ -297,6 +303,7 @@ static void monster_check()
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -306,6 +313,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -317,6 +325,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
@@ -325,7 +334,67 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
+}
+
+TEST_CASE( "monster_extend_flags", "[monster]" )
+{
+    // mon_dog_zombie_brute is copy-from mon_dog_zombie_rot
+    // mon_dog_zombie_rot contains
+    // "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    // mon_dog_zombie_brute contains
+    // "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
+
+    // This test verifies that "extend" works on monster flags by checking both
+    // those take effect
+    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    CHECK( m.has_flag( MF_SEES ) );
+    CHECK( m.has_flag( MF_PUSH_VEH ) );
+}
+
+TEST_CASE( "monster_broken_verify", "[monster]" )
+{
+    // verify monsters with death_function = BROKEN
+    // actually have appropriate broken_name items
+    const MonsterGenerator &generator = MonsterGenerator::generator();
+    for( const mtype &montype : generator.get_all_mtypes() ) {
+        if( montype.mdeath_effect.corpse_type != mdeath_type::BROKEN ) {
+            continue;
+        }
+
+        // this contraption should match mdeath::broken in mondeath.cpp
+        std::string broken_id_str = montype.id.str();
+        if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
+            broken_id_str.erase( 0, 4 );
+        }
+        broken_id_str.insert( 0, "broken_" ); // "broken_manhack", or "broken_eyebot", ...
+        const itype_id targetitemid( broken_id_str );
+
+        CAPTURE( montype.id.c_str() );
+        CHECK( targetitemid.is_valid() );
+    }
+}
+
+TEST_CASE( "limit_mod_size_bonus", "[monster]" )
+{
+    const std::string monster_type = "mon_zombie";
+    monster &test_monster = spawn_test_monster( monster_type, tripoint_zero );
+
+    REQUIRE( test_monster.get_size() == creature_size::medium );
+
+    test_monster.mod_size_bonus( -3 );
+    CHECK( test_monster.get_size() == creature_size::tiny );
+
+    clear_creatures();
+
+    const std::string monster_type2 = "mon_feral_human_pipe";
+    monster &test_monster2 = spawn_test_monster( monster_type2, tripoint_zero );
+
+    REQUIRE( test_monster2.get_size() == creature_size::medium );
+
+    test_monster2.mod_size_bonus( 3 );
+    CHECK( test_monster2.get_size() == creature_size::huge );
 }

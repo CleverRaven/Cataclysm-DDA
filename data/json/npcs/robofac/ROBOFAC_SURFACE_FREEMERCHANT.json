@@ -29,8 +29,7 @@
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "computer", "bonus": { "one_in": 2 } },
       { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
     ]
   },
   {
@@ -91,11 +90,11 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": [
-        "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal...",
+        "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal…",
         "You see anything you want, marshal?",
         "Oh, a U.S. marshal, how quaint."
       ],
-      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger." ]
+      "no": [ "Welcome…", "Here to trade, I hope?", "Safe travels, scavenger." ]
     },
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },

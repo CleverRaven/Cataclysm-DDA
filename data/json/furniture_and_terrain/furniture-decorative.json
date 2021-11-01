@@ -4,12 +4,13 @@
     "id": "f_bigmirror",
     "name": "standing mirror",
     "symbol": "{",
-    "description": "Lookin' good - is that blood?",
+    "description": "A full-length mirror mounted in a sleek metal frame.  You can easily see all of the dirt and blood on your clothes, and the weariness in your eyes.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
     "bash": {
       "str_min": 5,
       "str_max": 16,
@@ -24,7 +25,7 @@
     "type": "furniture",
     "id": "f_bigmirror_b",
     "name": "broken standing mirror",
-    "description": "You could look at yourself, if the mirror wasn't covered in cracks and fractures.",
+    "description": "A metal frame for a full-length mirror, with most of the mirror missing.  What remains in the frame are large dangerous-looking shards of fractured glass.",
     "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": 2,
@@ -43,7 +44,7 @@
     "id": "f_bitts",
     "type": "furniture",
     "name": "bitts",
-    "description": "Paired vertical iron posts mounted on a wharf, pier or quay.  They are used to secure mooring lines, ropes, hawsers, or cables.",
+    "description": "A pair of vertical iron posts mounted on a wharf, pier, or other form of dock.  They are used to secure mooring lines, ropes, and similar.",
     "symbol": "B",
     "color": "light_gray",
     "move_cost_mod": 2,
@@ -59,10 +60,30 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
   },
   {
+    "id": "f_cleat",
+    "type": "furniture",
+    "name": "cleat",
+    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "symbol": "B",
+    "color": "light_gray",
+    "looks_like": "f_bitts",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 0,
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "SHORT" ]
+  },
+  {
     "type": "furniture",
     "id": "f_shackle",
     "name": "manacles",
-    "description": "Chain serfs in your dungeon.  All you need now is an iron ball to chain to it.",
+    "description": "A pair of metal shackles with heavy chains mounted to a wall or floor.",
     "symbol": "8",
     "color": "light_gray",
     "move_cost_mod": 1,
@@ -80,7 +101,7 @@
     "type": "furniture",
     "id": "f_statue",
     "name": "statue",
-    "description": "A carved statue made of stone.",
+    "description": "A massive block of stone that has been carefully carved into a work of timeless art.",
     "symbol": "S",
     "color": "dark_gray",
     "move_cost_mod": -1,
@@ -99,13 +120,14 @@
     "type": "furniture",
     "id": "f_mannequin",
     "name": "mannequin",
-    "description": "Put clothes on it, talk to it.  Who's around to judge you?  Wait… did it just move?",
+    "description": "A life-size wooden figure of a person, most commonly used to display clothing in stores, or for tailors to design outfits on.  Considering all that's happened, something about it is somewhat unnerving.",
     "symbol": "@",
     "color": "brown",
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -118,12 +140,12 @@
     "type": "furniture",
     "id": "f_birdbath",
     "name": "birdbath",
-    "description": "A decorative cement birdbath and pedestal.",
+    "description": "A wide stone bowl mounted to a pedestal, usually filled with rainwater, meant for birds to play or bathe in.",
     "symbol": "o",
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -134,16 +156,43 @@
   },
   {
     "type": "furniture",
+    "id": "f_gazing_ball",
+    "name": "gazing ball",
+    "description": "A mirrored glass globe mounted on a cement pedestal.  It warps your reflection when you look into it",
+    "symbol": "o",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 2, 4 ] },
+        { "item": "rebar", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 10, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_rotary_clothesline",
     "name": "rotary clothes dryer line",
-    "description": "A umbrella shaped clothes line mounted on a pole.",
+    "description": "A central metal pole holding up a wide rotating frame, this would be used to hang up clothes to dry in the sunlight.",
     "symbol": "X",
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": [ 2, 6 ] }, { "item": "wire", "count": 10 } ]
+      "items": [
+        { "item": "pipe", "count": 6 },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
+        { "item": "wire", "count": 10 }
+      ]
     },
     "bash": {
       "str_min": 6,
@@ -159,7 +208,7 @@
     "name": "floor lamp",
     "symbol": "T",
     "looks_like": "f_rack_coat",
-    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+    "description": "A light mounted on the top of a metal pole, this would be plugged into a wall socket to illuminate a room.",
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
@@ -170,6 +219,7 @@
         { "item": "amplifier", "count": [ 1, 4 ] },
         { "item": "light_bulb", "count": [ 1, 4 ] },
         { "item": "steel_lump", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
         { "item": "pipe", "count": 1 }
       ]
     },
@@ -179,7 +229,7 @@
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
       "items": [
-        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 8 ] },
@@ -200,9 +250,26 @@
   },
   {
     "type": "furniture",
+    "id": "f_sand_castle",
+    "name": "sand castle",
+    "description": "A glorious castle made of sand.  This mighty fortress will stand tall for the ages to come, a true testimony of the skills of its builder.",
+    "symbol": "m",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "crunch.",
+      "sound_fail": "thump.",
+      "items": [ { "item": "material_sand", "count": 8 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_decorative_tree",
     "name": "decorative tree",
-    "description": "A decorative tree for the winter holidays.",
+    "description": "A decorative pine tree littered with ornaments for the winter holidays.",
     "symbol": "+",
     "color": "light_green",
     "looks_like": "t_tree_pine",

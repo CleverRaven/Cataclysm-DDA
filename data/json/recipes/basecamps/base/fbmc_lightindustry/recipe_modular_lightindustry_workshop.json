@@ -1,0 +1,51 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_workshop_0",
+    "description": "Survey Light Industry Workshop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "3 h",
+    "construction_blueprint": "faction_base_lightindustry_workshop_0",
+    "blueprint_provides": [
+      { "id": "dismantling" },
+      { "id": "blacksmith" },
+      { "id": "industrial_recipes_power_lathe" },
+      { "id": "industrial_recipes_drill_press" },
+      { "id": "industrial_recipes_hydraulic_press" },
+      { "id": "industrial_recipes_air_compressor" },
+      { "id": "fbmc_lightindustry_workshop" }
+    ],
+    "blueprint_resources": [ "fake_power_lathe", "fake_drill_press", "fake_hydraulic_press", "fake_air_compressor", "fake_arc_furnace" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "expansion survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_workshop_drop_hammer",
+    "description": "Let's add a drop hammer for even more crafting possibilities.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_workshop_drop_hammer",
+    "blueprint_provides": [ { "id": "blacksmith_recipes_7" }, { "id": "fbmc_lightindustry_workshop_drop_hammer" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_workshop" } ],
+    "blueprint_needs": {
+      "time": "1 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER" } ] ],
+        "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ]
+      }
+    },
+    "blueprint_name": "drop hammer",
+    "check_blueprint_needs": false
+  }
+]

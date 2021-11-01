@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_MAPBUFFER_H
 #define CATA_SRC_MAPBUFFER_H
 
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <string>
 
 #include "point.h"
 
-class submap;
 class JsonIn;
+class submap;
 
 /**
  * Store, buffer, save and load the entire world map.
@@ -28,25 +28,25 @@ class mapbuffer
         void save( bool delete_after_save = false );
 
         /** Delete all buffered submaps. **/
-        void reset();
+        void clear();
 
         /** Add a new submap to the buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref lookup_submap.
          * @param sm The submap. If the submap has been added, the unique_ptr
          * is released (set to NULL).
          * @return true if the submap has been stored here. False if there
          * is already a submap with the specified coordinates. The submap
-         * is not stored than and the caller must take of the submap object
-         * on their own (and properly delete it).
+         * is not stored and the given unique_ptr retains ownsership.
          */
         bool add_submap( const tripoint &p, std::unique_ptr<submap> &sm );
+        // Old overload that we should stop using, but it's complicated
         bool add_submap( const tripoint &p, submap *sm );
 
         /** Get a submap stored in this buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref add_submap.
          * @return NULL if the submap is not in the mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned
@@ -55,7 +55,7 @@ class mapbuffer
         submap *lookup_submap( const tripoint &p );
 
     private:
-        using submap_map_t = std::map<tripoint, submap *>;
+        using submap_map_t = std::map<tripoint, std::unique_ptr<submap>>;
 
     public:
         inline submap_map_t::iterator begin() {
@@ -74,7 +74,7 @@ class mapbuffer
         void save_quad( const std::string &dirname, const std::string &filename,
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
-        submap_map_t submaps;
+        submap_map_t submaps; // NOLINT(cata-serialize)
 };
 
 extern mapbuffer MAPBUFFER;

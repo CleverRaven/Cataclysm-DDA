@@ -32,7 +32,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "multistory_house", "upper_level" ]
+      "palettes": [ "multistory_house", "upper_level" ],
+      "monster": { "z": { "monster": "mon_zombie" }, "y": { "monster": "mon_zombie_dog" }, "Z": { "monster": "mon_zombie_tough" } }
     }
   }
 ]

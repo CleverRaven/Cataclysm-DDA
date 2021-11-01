@@ -16,7 +16,6 @@
       "i": "t_pit_shallow",
       "v": "t_window_domestic",
       "+": "t_door_c",
-      "X": "t_console_broken",
       "H": "t_privacy_fence",
       "m": "t_privacy_fencegate_c",
       "F": "t_region_tree_evergreen",
@@ -43,6 +42,7 @@
       "'": "t_concrete"
     },
     "furniture": {
+      "X": "f_console_broken",
       "g": "f_bulletin",
       "i": "f_firering",
       "b": "f_bench",

@@ -1,16 +1,18 @@
 Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
-The Square font (data/font/square.ttf) is copyright Wouter van Oortmerssen, licensed under Creative Commons Attribution 3.0 Unported License. See http://strlen.com/square for more information.
-
-GNU Unifont (data/font/unitfont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
+GNU Unifont (data/font/unifont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
 Terminus Font (data/font/terminus.ttf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
+
+Vecterminus Font (data/font/VecTerminus12Medium.otf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
 
 CATCH unit-test framework (tests/catch/catch.hpp) is licensed under the Boost Software License. Visit https://github.com/philsquared/Catch/blob/master/LICENSE.txt to read the license.
 
 PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib license (https://www.zlib.net/zlib_license.html).
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
+
+gulrak filesystem (src/third-party/ghc/*) is licensed under the MIT license, see file for text of license.
 
 libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/libbacktrace/blob/master/LICENSE). The full license text is as follows:
 

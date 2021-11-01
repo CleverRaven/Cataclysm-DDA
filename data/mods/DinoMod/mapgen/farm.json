@@ -1,0 +1,54 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1" ] ],
+    "//": "Compy Coop",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_dirtfloor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  :::::::::###########  ",
+        "  :        #_#_#_#_#_#  ",
+        "  :        #_______7_#  ",
+        "  C        +_______8_#  ",
+        "  C        c__7______#  ",
+        "  :        #_#_#_#_#_#  ",
+        "  :        ###########  ",
+        "  :                  :  ",
+        "  :                  :  ",
+        "  :                  :  ",
+        "  ::::::::::::::::::::  ",
+        "                        ",
+        " FFFFFFFFFFFFFFFFFFFFFF ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        "FF                    F "
+      ],
+      "monster": { "7": { "monster": "mon_compsognathus" }, "8": { "monster": "mon_compsognathus_hatchling" } },
+      "place_item": [
+        { "item": "straw_pile", "x": 12, "y": 3, "chance": 75 },
+        { "item": "straw_pile", "x": 14, "y": 3, "chance": 75 },
+        { "item": "straw_pile", "x": 16, "y": 3, "chance": 75 },
+        { "item": "straw_pile", "x": 18, "y": 3, "chance": 75 },
+        { "item": "straw_pile", "x": 20, "y": 3, "chance": 75 },
+        { "item": "straw_pile", "x": 12, "y": 7, "chance": 75 },
+        { "item": "straw_pile", "x": 14, "y": 7, "chance": 75 },
+        { "item": "straw_pile", "x": 16, "y": 7, "chance": 75 },
+        { "item": "straw_pile", "x": 18, "y": 7, "chance": 75 },
+        { "item": "straw_pile", "x": 20, "y": 7, "chance": 75 },
+        { "item": "catfood", "x": [ 3, 7 ], "y": [ 5, 11 ], "chance": 75, "repeat": [ 4, 7 ] },
+        { "item": "straw_pile", "x": 20, "y": 7, "chance": 75 }
+      ],
+      "palettes": [ "farm" ]
+    }
+  }
+]

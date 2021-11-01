@@ -1,0 +1,163 @@
+[
+  {
+    "id": "conduct_no_smash",
+    "type": "conduct",
+    "name": "Mouse in a china shop",
+    "requirements": [ { "event_statistic": "num_avatar_smash", "is": "<=", "target": 0, "description": "Smash no tiles" } ]
+  },
+  {
+    "id": "conduct_no_attacks",
+    "type": "conduct",
+    "name": "Nonviolence",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_melee_attacks_monster",
+        "is": "<=",
+        "target": 0,
+        "description": "No melee attacks against monsters"
+      },
+      {
+        "event_statistic": "num_avatar_melee_attacks_character",
+        "is": "<=",
+        "target": 0,
+        "description": "No melee attacks against characters"
+      },
+      {
+        "event_statistic": "num_avatar_ranged_attacks_monster",
+        "is": "<=",
+        "target": 0,
+        "description": "No ranged attacks against monsters"
+      },
+      {
+        "event_statistic": "num_avatar_ranged_attacks_character",
+        "is": "<=",
+        "target": 0,
+        "description": "No ranged attacks against characters"
+      }
+    ]
+  },
+  {
+    "id": "conduct_zero_kills",
+    "type": "conduct",
+    "name": "Pacifist",
+    "requirements": [
+      { "event_statistic": "num_avatar_monster_kills", "is": "<=", "target": 0, "description": "Kill no monsters" },
+      {
+        "event_statistic": "num_avatar_character_kills",
+        "is": "<=",
+        "target": 0,
+        "description": "Kill no characters"
+      }
+    ]
+  },
+  {
+    "id": "conduct_zero_character_kills",
+    "type": "conduct",
+    "name": "Merciful",
+    "hidden_by": [ "conduct_zero_kills" ],
+    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": "<=", "target": 0, "description": "Kill no characters" } ]
+  },
+  {
+    "id": "conduct_zero_cut_trees",
+    "type": "conduct",
+    "name": "The Elven Path",
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": "<=", "target": 0, "description": "Cut no trees" } ]
+  },
+  {
+    "id": "conduct_pure_human",
+    "type": "conduct",
+    "name": "Homo Sapiens",
+    "requirements": [
+      { "event_statistic": "num_installs_cbm", "is": "<=", "target": 0, "description": "Install no bionic implants" },
+      {
+        "event_statistic": "num_installs_faulty_cbm",
+        "is": "<=",
+        "target": 0,
+        "description": "Install no faulty bionic implants"
+      },
+      { "event_statistic": "num_gains_mutation", "is": "<=", "target": 0, "description": "No mutations" }
+    ]
+  },
+  {
+    "id": "conduct_no_cbm",
+    "type": "conduct",
+    "name": "Clean on X-ray",
+    "requirements": [
+      { "event_statistic": "num_installs_cbm", "is": "<=", "target": 0, "description": "Install no bionic implants" },
+      {
+        "event_statistic": "num_installs_faulty_cbm",
+        "is": "<=",
+        "target": 0,
+        "description": "Install no faulty bionic implants"
+      }
+    ],
+    "hidden_by": [ "conduct_pure_human" ]
+  },
+  {
+    "id": "conduct_no_mutations",
+    "type": "conduct",
+    "name": "Pure Blood",
+    "requirements": [ { "event_statistic": "num_gains_mutation", "is": "<=", "target": 0, "description": "No mutations" } ],
+    "hidden_by": [ "conduct_pure_human" ]
+  },
+  {
+    "id": "conduct_no_broken_bones",
+    "type": "conduct",
+    "name": "Structural Integrity",
+    "requirements": [ { "event_statistic": "num_broken_bone", "is": "<=", "target": 0, "description": "Break no bones" } ]
+  },
+  {
+    "id": "conduct_no_skill_levels_gained",
+    "type": "conduct",
+    "name": "Teacher, Leave Them Kids Alone",
+    "requirements": [ { "event_statistic": "num_gains_skill_level", "is": "<=", "target": 0, "description": "Gain no skill levels" } ]
+  },
+  {
+    "id": "conduct_no_books_read",
+    "type": "conduct",
+    "name": "Self-Imposed Illiteracy",
+    "requirements": [ { "event_statistic": "num_reads_book", "is": "<=", "target": 0, "description": "Read no books" } ]
+  },
+  {
+    "id": "conduct_no_food",
+    "type": "conduct",
+    "name": "Foodless",
+    "requirements": [ { "event_statistic": "num_avatar_eats_item", "is": "<=", "target": 0, "description": "Eat nothing" } ]
+  },
+  {
+    "id": "conduct_vegan",
+    "type": "conduct",
+    "name": "Vegan",
+    "requirements": [
+      { "event_statistic": "num_avatar_consumes_allergen_milk", "is": "<=", "target": 0, "description": "Consume no milk" },
+      {
+        "event_statistic": "num_avatar_consumes_allergen_eggs",
+        "is": "<=",
+        "target": 0,
+        "description": "Consume no eggs"
+      },
+      {
+        "event_statistic": "num_avatar_consumes_allergen_meat",
+        "is": "<=",
+        "target": 0,
+        "description": "Consume no meat"
+      }
+    ],
+    "hidden_by": [ "conduct_no_food" ]
+  },
+  {
+    "id": "conduct_vegetarian",
+    "type": "conduct",
+    "name": "Vegetarian",
+    "requirements": [
+      { "event_statistic": "num_avatar_consumes_allergen_meat", "is": "<=", "target": 0, "description": "Consume no meat" }
+    ],
+    "hidden_by": [ "conduct_vegan" ]
+  },
+  {
+    "id": "conduct_nudist",
+    "type": "conduct",
+    "name": "Nudist",
+    "requirements": [ { "event_statistic": "num_avatar_wears_item", "is": "<=", "target": 0, "description": "Wear no clothing" } ]
+  }
+]

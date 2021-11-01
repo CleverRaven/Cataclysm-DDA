@@ -1,27 +1,30 @@
 #include "vehicle.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <set>
-#include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "itype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vpart_position.h"
-#include "units.h"
-#include "color.h"
-#include "optional.h"
 
 static const std::string part_location_structure( "structure" );
+static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 std::string vehicle::disp_name() const
@@ -37,36 +40,55 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
     const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
 
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
+    const vehicle_part &vp = parts.at( displayed_part );
+    const vpart_info &vp_info = part_info( displayed_part );
+
+    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
         // open door
         return '\'';
     } else {
-        return parts[ displayed_part ].is_broken() ?
-               part_info( displayed_part ).sym_broken : part_info( displayed_part ).sym;
+        if( vp.is_broken() ) {
+            return vp_info.sym_broken;
+        } else if( vp.variant.empty() ) {
+            return vp_info.sym;
+        } else {
+            const auto vp_symbol = vp_info.symbols.find( vp.variant );
+            if( vp_symbol == vp_info.symbols.end() ) {
+                return vp_info.sym;
+            } else {
+                return vp_symbol->second;
+            }
+        }
     }
 }
 
-// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
-// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
+// during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
+// second denotes if it is open or damaged
+std::string vehicle::part_id_string( const int p, char &part_mod ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
-        return vpart_id::NULL_ID();
+        return "";
     }
 
     int displayed_part = part_displayed_at( parts[p].mount );
-    const vpart_id idinfo = parts[displayed_part].id;
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        return "";
+    }
 
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
+    const vehicle_part &vp = parts.at( displayed_part );
+
+    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
         // open
         part_mod = 1;
-    } else if( parts[ displayed_part ].is_broken() ) {
+    } else if( vp.is_broken() ) {
         // broken
         part_mod = 2;
     }
 
-    return idinfo;
+    return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
 nc_color vehicle::part_color( const int p, const bool exact ) const
@@ -155,10 +177,11 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
         std::string partname = vp.name();
 
-        if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
+        if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
-                if( vp.ammo_current() == "battery" ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                if( vp.ammo_current() == itype_battery ) {
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
+                                               vp.ammo_capacity( ammotype( "battery" ) ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
@@ -270,11 +293,11 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
-            possible_msg += "  Carrying a vehicle on a rack.\n";
+            possible_msg += _( "  Carrying a vehicle on a rack.\n" );
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            possible_msg += string_format( "  Part of a %s carried on a rack.\n",
+            possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
             new_lines += 1;
         }
@@ -294,7 +317,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     // -2 for left & right padding
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 /**
@@ -305,7 +328,8 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && pt.ammo_current() != "null" ) {
+        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+            !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }
@@ -322,8 +346,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 /**
  * Prints all of the fuel indicators of the vehicle
  * @param win Pointer to the window to draw in.
- * @param y Y location to draw at.
- * @param x X location to draw at.
+ * @param p location to draw at.
  * @param start_index Starting index in array of fuel gauges to start reading from
  * @param fullsize true if it's expected to print multiple rows
  * @param verbose true if there should be anything after the gauge (either the %, or number)
@@ -440,15 +463,50 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
+
+            // promote to double so esimate doesn't overflow for high fuel values
+            // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
+            double turns = to_turns<double>( 60_minutes );
+            time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
+
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
-                         100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             }
         }
     }
+}
+
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+{
+    if( spacing < 0 ) {
+        spacing = 0;
+    }
+    if( !cruise_on ) {
+        return;
+    }
+
+    const float strain = this->strain();
+    nc_color col_vel = strain <= 0 ? c_light_blue :
+                       ( strain <= 0.2 ? c_yellow :
+                         ( strain <= 0.4 ? c_light_red : c_red ) );
+    int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
+    int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
+    auto ndigits = []( int value ) {
+        return value == 0 ? 1 :
+               ( value > 0 ?
+                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 :
+                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 2 );
+    };
+    const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+    int t_offset = ndigits( t_speed );
+    int c_offset = ndigits( c_speed );
+
+    mvwprintz( win, p, c_light_green, "%d", t_speed );
+    mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

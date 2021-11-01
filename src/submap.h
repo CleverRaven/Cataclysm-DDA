@@ -4,31 +4,34 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <memory>
-#include <vector>
-#include <string>
+#include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
-#include "type_id.h"
+#include "mapgen.h"
 #include "point.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 class basecamp;
 class map;
-struct trap;
-struct ter_t;
-struct furn_t;
 class vehicle;
+struct furn_t;
+struct ter_t;
+struct trap;
 
 struct spawn_point {
     point pos;
@@ -38,11 +41,12 @@ struct spawn_point {
     int mission_id;
     bool friendly;
     std::string name;
-    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
-                 int FAC = -1, int MIS = -1, bool F = false,
-                 const std::string &N = "NONE" ) :
+    spawn_data data;
+    explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
+                          int FAC = -1, int MIS = -1, bool F = false,
+                          const std::string &N = "NONE", const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
-        mission_id( MIS ), friendly( F ), name( N ) {}
+        mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
 
 template<int sx, int sy>
@@ -56,17 +60,16 @@ struct maptile_soa {
     int                rad[sx][sy];  // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
-    void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
 };
 
 class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
-        submap( submap && );
+        submap( submap && ) noexcept( map_is_noexcept );
         ~submap();
 
-        submap &operator=( submap && );
+        submap &operator=( submap && ) noexcept;
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];
@@ -222,13 +225,14 @@ class submap : maptile_soa<SEEX, SEEY>
         bool contains_vehicle( vehicle * );
 
         void rotate( int turns );
+        void mirror( bool horizontally );
 
         void store( JsonOut &jsout ) const;
         void load( JsonIn &jsin, const std::string &member_name, int version );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
-        bool is_uniform;
+        bool is_uniform = false;
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
@@ -266,17 +270,15 @@ struct maptile {
         friend map; // To allow "sliding" the tile in x/y without bounds checks
         friend submap;
         submap *const sm;
-        size_t x;
-        size_t y;
-        point pos() const {
-            return point( x, y );
+        point pos_;
+
+        maptile( submap *sub, const point &p ) :
+            sm( sub ), pos_( p ) { }
+    public:
+        inline point pos() const {
+            return pos_;
         }
 
-        maptile( submap *sub, const size_t nx, const size_t ny ) :
-            sm( sub ), x( nx ), y( ny ) { }
-        maptile( submap *sub, const point &p ) :
-            sm( sub ), x( p.x ), y( p.y ) { }
-    public:
         trap_id get_trap() const {
             return sm->get_trap( pos() );
         }
@@ -306,16 +308,6 @@ struct maptile {
 
         field_entry *find_field( const field_type_id &field_to_find ) {
             return sm->get_field( pos() ).find_field( field_to_find );
-        }
-
-        bool add_field( const field_type_id &field_to_add, const int new_intensity,
-                        const time_duration &new_age ) {
-            const bool ret = sm->get_field( pos() ).add_field( field_to_add, new_intensity, new_age );
-            if( ret ) {
-                sm->field_count++;
-            }
-
-            return ret;
         }
 
         int get_radiation() const {

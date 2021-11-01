@@ -1,24 +1,19 @@
+#include <iosfwd>
+#include <list>
 #include <map>
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "cata_catch.h"
+#include "flag.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
-
-static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_EATEN_HOT( "EATEN_HOT" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -50,7 +45,7 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
@@ -58,7 +53,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
         fun = dummy.fun_for( toastem );
         REQUIRE( fun.first > 0 );
 
-        THEN( "character gets a morale bonus becase it tastes good" ) {
+        THEN( "character gets a morale bonus because it tastes good" ) {
             dummy.modify_morale( toastem );
             CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) >= fun.first );
         }
@@ -79,10 +74,12 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" )
 {
     clear_map();
+    map &here = get_map();
     avatar dummy;
+    dummy.set_body();
     const tripoint avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // Morale bonus only applies to unspoiled food that is not junk
     item &bread = dummy.i_add( item( "sourdough_bread" ) );
@@ -109,8 +106,8 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     };
 
     GIVEN( "no table or chair are nearby" ) {
-        REQUIRE_FALSE( g->m.has_nearby_table( dummy.pos(), 1 ) );
-        REQUIRE_FALSE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
@@ -132,7 +129,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale penalty for using " + item_name + " at a table" ) {
@@ -145,10 +142,10 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     }
 
     GIVEN( "a table and chair are nearby" ) {
-        g->m.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
-        g->m.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
-        REQUIRE( g->m.has_nearby_table( dummy.pos(), 1 ) );
-        REQUIRE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
+        here.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
+        here.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
+        REQUIRE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
@@ -159,7 +156,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
@@ -180,7 +177,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
@@ -196,7 +193,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
 TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "some food that tastes better when hot" ) {
         item &bread = dummy.i_add( item( "sourdough_bread" ) );
@@ -225,12 +222,10 @@ TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
     }
 }
 
-
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
-
 
     const std::vector<std::string> drugs_to_test = {
         {
@@ -255,7 +250,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
         dummy.clear_morale();
         REQUIRE( dummy.has_morale( MORALE_FOOD_GOOD ) == 0 );
 
-        for( std::string drug_name : drugs_to_test ) {
+        for( const std::string &drug_name : drugs_to_test ) {
             item drug( drug_name );
             fun = dummy.fun_for( drug );
             REQUIRE( fun.first > 0 );
@@ -271,7 +266,8 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
 
     item &human = dummy.i_add( item( "bone_human" ) );
     REQUIRE( human.has_flag( flag_CANNIBALISM ) );
@@ -290,7 +286,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
             dummy.toggle_trait( trait_PSYCHOPATH );
             REQUIRE( dummy.has_trait( trait_PSYCHOPATH ) );
 
-            THEN( "their morale is unffected by eating humans" ) {
+            THEN( "their morale is unaffected by eating humans" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( human );
                 CHECK( dummy.has_morale( MORALE_CANNIBAL ) == 0 );
@@ -346,7 +342,8 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "some sweet junk food" ) {
         item &necco = dummy.i_add( item( "neccowafers" ) );
@@ -399,7 +396,8 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
 
     item &caff_gum = dummy.i_add( item( "caff_gum" ) );
 
@@ -409,11 +407,11 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     // are treated as junk food, but might not always be so. Here we set the
     // relevant flags to cover the scenario we're interested in, namely any
     // comestible having both "junk" and "no ingest" flags.
-    caff_gum.set_flag( "ALLERGEN_JUNK" );
-    caff_gum.set_flag( "NO_INGEST" );
+    caff_gum.set_flag( flag_ALLERGEN_JUNK );
+    caff_gum.set_flag( flag_NO_INGEST );
 
-    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
-    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+    REQUIRE( caff_gum.has_flag( flag_ALLERGEN_JUNK ) );
+    REQUIRE( caff_gum.has_flag( flag_NO_INGEST ) );
 
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( trait_PROJUNK );
@@ -464,7 +462,8 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
     int penalty = -75;
 
     GIVEN( "character is vegetarian" ) {
@@ -473,7 +472,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating meat" ) {
             item &meat = dummy.i_add( item( "meat" ) );
-            REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+            REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( meat );
             CHECK( dummy.has_morale( MORALE_VEGETARIAN ) <= penalty );
@@ -486,8 +485,8 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for drinking milk" ) {
             item &milk_container = dummy.i_add( item( "milk" ).in_its_container() );
-            item &milk = milk_container.contents.only_item();
-            REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
+            item &milk = milk_container.only_item();
+            REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
             CHECK( dummy.has_morale( MORALE_LACTOSE ) <= penalty );
@@ -500,7 +499,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating wheat" ) {
             item &wheat = dummy.i_add( item( "wheat" ) );
-            REQUIRE( wheat.has_flag( "ALLERGEN_WHEAT" ) );
+            REQUIRE( wheat.has_flag( flag_ALLERGEN_WHEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( wheat );
             CHECK( dummy.has_morale( MORALE_ANTIWHEAT ) <= penalty );
@@ -513,7 +512,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating vegetables" ) {
             item &veggy = dummy.i_add( item( "broccoli" ) );
-            REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+            REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( veggy );
             CHECK( dummy.has_morale( MORALE_MEATARIAN ) <= penalty );
@@ -526,7 +525,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating fruit" ) {
             item &fruit = dummy.i_add( item( "apple" ) );
-            REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+            REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
             dummy.clear_morale();
             dummy.modify_morale( fruit );
             CHECK( dummy.has_morale( MORALE_ANTIFRUIT ) <= penalty );
@@ -539,7 +538,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating junk food" ) {
             item &junk = dummy.i_add( item( "neccowafers" ) );
-            REQUIRE( junk.has_flag( "ALLERGEN_JUNK" ) );
+            REQUIRE( junk.has_flag( flag_ALLERGEN_JUNK ) );
             dummy.clear_morale();
             dummy.modify_morale( junk );
             CHECK( dummy.has_morale( MORALE_ANTIJUNK ) <= penalty );
@@ -550,7 +549,8 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "character is a saprophage, preferring rotted food" ) {
         dummy.clear_morale();
@@ -586,7 +586,8 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
 
     item &honeycomb = dummy.i_add( item( "honeycomb" ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );
@@ -604,7 +605,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
             dummy.mutate_towards( trait_URSINE_FUR );
             dummy.mutate_towards( trait_URSINE_EYE );
             dummy.mutate_towards( trait_PADDED_FEET );
-            REQUIRE( dummy.mutation_category_level["URSINE"] > 40 );
+            REQUIRE( dummy.mutation_category_level[mutation_category_id( "URSINE" )] > 40 );
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( honeycomb );

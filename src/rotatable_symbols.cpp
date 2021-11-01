@@ -1,21 +1,22 @@
 #include "rotatable_symbols.h"
 
-#include <cstdlib>
-#include <array>
-#include <vector>
 #include <algorithm>
+#include <array>
 #include <cstdint>
+#include <cstdlib>
+#include <string>
+#include <vector>
 
+#include "catacharset.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "string_formatter.h"
-#include "catacharset.h"
 
 namespace
 {
 
 struct rotatable_symbol {
-    uint32_t symbol;
+    uint32_t symbol = 0;
     std::array<uint32_t, 3> rotated_symbol;
 
     bool operator<( const uint32_t &rhs ) const {

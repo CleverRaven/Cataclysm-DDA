@@ -27,7 +27,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ { "id": "impale" } ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
   }
 ]

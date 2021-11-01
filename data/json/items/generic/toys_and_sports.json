@@ -9,26 +9,21 @@
     "price": 2000,
     "price_postapoc": 0,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
+    "use_action": [ "DOLLCHAT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
     ]
   },
   {
@@ -41,26 +36,21 @@
     "price": 2000,
     "price_postapoc": 0,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
+    "use_action": [ "DOLLCHAT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
     ]
   },
   {
@@ -88,7 +78,7 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "-",
     "color": "white"
   },
@@ -102,7 +92,7 @@
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
     "bashing": 5,
@@ -118,7 +108,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 8,
@@ -134,10 +124,11 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 10,
-    "material": "ceramic",
-    "weight": "2000 g",
-    "volume": "2500 ml",
-    "bashing": 16,
+    "material": [ "ceramic" ],
+    "weight": "7257 g",
+    "volume": "5277 ml",
+    "longest_side": "216 mm",
+    "bashing": 18,
     "to_hit": -2
   },
   {
@@ -150,7 +141,7 @@
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "150 g",
     "volume": "250 ml",
     "bashing": 6,
@@ -166,7 +157,7 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "400 g",
     "volume": "750 ml",
     "bashing": 4,
@@ -182,7 +173,7 @@
     "description": "A high-quality indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
     "bashing": 6,
@@ -198,7 +189,7 @@
     "description": "A standard regulation volleyball.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
     "bashing": 4,
@@ -214,7 +205,7 @@
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
     "bashing": 4,
@@ -230,10 +221,61 @@
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 7,
     "to_hit": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "mannequin",
+    "symbol": "@",
+    "color": "dark_gray",
+    "name": { "str": "mannequin" },
+    "category": "other",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
+    "price": 15000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "bashing": 18,
+    "to_hit": -2
+  },
+  {
+    "type": "TOOL",
+    "id": "mannequin_decoy",
+    "symbol": "@",
+    "color": "light_gray",
+    "name": { "str": "mannequin decoy" },
+    "category": "other",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
+    "price": 15000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "bashing": 18,
+    "to_hit": -2,
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_mannequin_decoy",
+      "friendly_msg": "You activate the talking doll on the mannequin.",
+      "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
+      "difficulty": 0,
+      "need_charges": 100,
+      "moves": 20
+    }
   }
 ]

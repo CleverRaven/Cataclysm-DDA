@@ -2,8 +2,13 @@
 #ifndef CATA_SRC_TYPE_ID_H
 #define CATA_SRC_TYPE_ID_H
 
+// IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+// IWYU pragma: end_exports
+
+class achievement;
+using achievement_id = string_id<achievement>;
 
 class activity_type;
 using activity_id = string_id<activity_type>;
@@ -25,8 +30,14 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
+
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
 
 class effect_type;
 using efftype_id = string_id<effect_type>;
@@ -66,6 +77,13 @@ using harvest_id = string_id<harvest_list>;
 class item_category;
 using item_category_id = string_id<item_category>;
 
+class Item_spawn_data;
+// note: "dynamic" string id, see string_id_params in string_id.h
+using item_group_id = string_id<Item_spawn_data>;
+
+struct itype;
+using itype_id = string_id<itype>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -74,6 +92,9 @@ using matype_id = string_id<martialart>;
 
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -97,8 +118,14 @@ using morale_type = string_id<morale_type_data>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
+class nested_mapgen;
+using nested_mapgen_id = string_id<nested_mapgen>;
+
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class npc_template;
+using npc_template_id = string_id<npc_template>;
 
 class faction;
 using faction_id = string_id<faction>;
@@ -106,6 +133,16 @@ using faction_id = string_id<faction>;
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
+
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
+class profession;
+using profession_id = string_id<profession>;
 
 class recipe;
 using recipe_id = string_id<recipe>;
@@ -122,11 +159,23 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 struct species_type;
 using species_id = string_id<species_type>;
 
+class speed_description;
+using speed_description_id = string_id<speed_description>;
+
 class spell_type;
 using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+class move_mode;
+using move_mode_id = string_id<move_mode>;
+
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
+
+class proficiency;
+using proficiency_id = string_id<proficiency>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -139,6 +188,7 @@ class Trait_group;
 namespace trait_group
 {
 using Trait_group_tag = string_id<Trait_group>;
+// note: "dynamic" string id, see string_id_params in string_id.h
 } // namespace trait_group
 
 struct trap;
@@ -147,6 +197,9 @@ using trap_str_id = string_id<trap>;
 
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+
+class update_mapgen;
+using update_mapgen_id = string_id<update_mapgen>;
 
 struct quality;
 using quality_id = string_id<quality>;
@@ -163,6 +216,9 @@ using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
+struct weather_type;
+using weather_type_id = string_id<weather_type>;
+
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 
@@ -172,5 +228,13 @@ using snippet_id = string_id<translation>;
 struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
+
+class json_flag;
+using flag_id = string_id<json_flag>;
+
+using json_character_flag = string_id<json_flag>;
+
+class widget;
+using widget_id = string_id<widget>;
 
 #endif // CATA_SRC_TYPE_ID_H

@@ -271,6 +271,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "sling-ready_grenade",
+    "name": "sling-ready grenades",
+    "default": "sling-ready_molotov"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"
@@ -298,6 +304,48 @@
     "id": "lamp_oil",
     "name": "lamp oil",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "butane",
+    "name": "butane",
+    "default": "butane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "aerosol_paint",
+    "name": "paint",
+    "default": "aerosol_paint"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "permanent_ink",
+    "name": "ink",
+    "default": "permanent_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "candle_wax",
+    "name": "wax",
+    "default": "candle_wax"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "flare_nitrate",
+    "name": "flare pyrotechnic",
+    "default": "flare_nitrate"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "match",
+    "name": "match",
+    "default": "match"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen"
   },
   {
     "type": "ammunition_type",
@@ -332,7 +380,7 @@
   {
     "type": "ammunition_type",
     "id": "battery",
-    "name": "batteries",
+    "name": "kJ",
     "default": "battery"
   },
   {
@@ -423,13 +471,7 @@
     "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
-    "default": "rebar_rail"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "UPS",
-    "name": "UPS",
-    "default": "UPS"
+    "default": "steel_rail"
   },
   {
     "type": "ammunition_type",
@@ -442,6 +484,12 @@
     "id": "ampoule",
     "name": "chemical ampoule",
     "default": "ampoule"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "albuterol",
+    "name": "albuterol",
+    "default": "albuterol"
   },
   {
     "type": "ammunition_type",
@@ -600,6 +648,18 @@
     "default": "nitrox"
   },
   {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "extinguishing_agent",
+    "name": "extinguishing agent",
+    "default": "extinguishing_agent"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
@@ -612,15 +672,105 @@
     "type": "ammunition_type"
   },
   {
-    "id": "oxygen",
-    "name": "oxygen",
-    "default": "oxygen",
-    "type": "ammunition_type"
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   },
   {
     "type": "ammunition_type",
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "123ln",
+    "name": "12.3ln cartridge",
+    "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glowstick_juice",
+    "name": "glowstick juice",
+    "default": "glowstick_juice"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "graphite",
+    "name": "graphite",
+    "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "black_pen_ink",
+    "name": "black pen ink",
+    "default": "black_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "red_pen_ink",
+    "name": "red pen ink",
+    "default": "red_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "blue_pen_ink",
+    "name": "blue pen ink",
+    "default": "blue_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "green_pen_ink",
+    "name": "green pen ink",
+    "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "currency",
+    "name": "currency",
+    "default": "coin_penny"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_penny",
+    "name": "pennies",
+    "default": "coin_penny"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_nickel",
+    "name": "nickels",
+    "default": "coin_nickel"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_dime",
+    "name": "dimes",
+    "default": "coin_dime"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_quarter",
+    "name": "quarters",
+    "default": "coin_quarter"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_half_dollar",
+    "name": "half-dollars",
+    "default": "coin_half_dollar"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_dollar",
+    "name": "dollar coins",
+    "default": "coin_dollar"
   }
 ]

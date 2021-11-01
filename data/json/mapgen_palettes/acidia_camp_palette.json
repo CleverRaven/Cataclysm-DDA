@@ -36,7 +36,7 @@
       "Q": "t_dirtfloor",
       "r": "t_dirtfloor",
       "S": "t_pit_spiked",
-      "T": "t_machinery_old",
+      "T": "t_dirtfloor",
       "t": "t_dirtfloor",
       "U": "t_pit",
       "u": "t_dirtfloor",
@@ -47,6 +47,7 @@
       "Z": "t_radio_controls"
     },
     "furniture": {
+      "T": "f_machinery_old",
       "$": "f_crate_o",
       "(": "f_bench",
       ")": "f_standing_tank",

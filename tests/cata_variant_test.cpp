@@ -1,14 +1,14 @@
 #include <sstream>
 #include <string>
-#include <utility>
+#include <type_traits>
 
 #include "cata_variant.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "enum_conversions.h"
-#include "item.h"
 #include "json.h"
-#include "string_id.h"
+#include "point.h"
 #include "type_id.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
@@ -37,6 +37,14 @@ TEST_CASE( "variant_construction", "[variant]" )
         CHECK( v2.type() == cata_variant_type::mtype_id );
         CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
         CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
+    }
+    SECTION( "point" ) {
+        point p( 7, 63 );
+        cata_variant v = cata_variant::make<cata_variant_type::point>( p );
+        CHECK( v.type() == cata_variant_type::point );
+        CHECK( v.get<cata_variant_type::point>() == p );
+        CHECK( v.get<point>() == p );
+        CHECK( v.get_string() == p.to_string() );
     }
     SECTION( "construction_from_const_lvalue" ) {
         const character_id i;
@@ -92,4 +100,35 @@ TEST_CASE( "variant_deserialization", "[variant]" )
     cata_variant v;
     v.deserialize( jsin );
     CHECK( v == cata_variant( mtype_id( "zombie" ) ) );
+}
+
+TEST_CASE( "variant_from_string" )
+{
+    cata_variant v = cata_variant::from_string( cata_variant_type::mtype_id, "mon_zombie" );
+    CHECK( v == cata_variant( mtype_id( "mon_zombie" ) ) );
+}
+
+TEST_CASE( "variant_type_for", "[variant]" )
+{
+    CHECK( cata_variant_type_for<bool>() == cata_variant_type::bool_ );
+    CHECK( cata_variant_type_for<int>() == cata_variant_type::int_ );
+    CHECK( cata_variant_type_for<point>() == cata_variant_type::point );
+    CHECK( cata_variant_type_for<trait_id>() == cata_variant_type::trait_id );
+    CHECK( cata_variant_type_for<ter_id>() == cata_variant_type::ter_id );
+}
+
+TEST_CASE( "variant_is_valid", "[variant]" )
+{
+    // A string_id
+    CHECK( cata_variant( mtype_id( "mon_zombie" ) ).is_valid() );
+    CHECK_FALSE( cata_variant( mtype_id( "This is not a valid id" ) ).is_valid() );
+
+    // An int_id
+    CHECK( cata_variant( ter_id( "t_grass" ) ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string( cata_variant_type::ter_id, "invalid id" ).is_valid() );
+
+    // An enum
+    CHECK( cata_variant( debug_menu::debug_menu_index::WISH ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string(
+                     cata_variant_type::debug_menu_index, "invalid enum" ).is_valid() );
 }

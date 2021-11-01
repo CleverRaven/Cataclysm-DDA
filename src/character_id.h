@@ -2,10 +2,8 @@
 #ifndef CATA_SRC_CHARACTER_ID_H
 #define CATA_SRC_CHARACTER_ID_H
 
-#include <cassert>
-#include <ostream>
+#include <iosfwd>
 
-class JsonIn;
 class JsonOut;
 
 class character_id
@@ -30,7 +28,8 @@ class character_id
         }
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( int );
+
     private:
         int value;
 };
@@ -50,9 +49,6 @@ inline bool operator<( character_id l, character_id r )
     return l.get_value() < r.get_value();
 }
 
-inline std::ostream &operator<<( std::ostream &o, character_id id )
-{
-    return o << id.get_value();
-}
+std::ostream &operator<<( std::ostream &o, character_id id );
 
 #endif // CATA_SRC_CHARACTER_ID_H

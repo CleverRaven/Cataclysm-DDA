@@ -46,7 +46,7 @@ The comments given in source code to structure `struct overmap_special` explain 
 1. Edit `data/json/bionics.json` and add your bionic near similar types. See `JSON_INFO.md` for a more in-depth review of the individual fields.
 2. If you want the bionic to be available in the game world as an item, add it to `item_groups.json`, and add a bionic item to `data/json/items/bionics.json`.
 3. Manually code in effects into the appropriate files, for activated bionics edit the `player::activate_bionic` function in `bionics.cpp`.
-4. For bionic ranged weapons add the bionic weapon counterparts to `ranged.json`, give them the `NO_AMMO` and `BIO_WEAPON` flags.
+4. For bionic ranged weapons add the bionic weapon counterparts to `ranged.json`, give them the `BIONIC_WEAPON` flags.
 5. For bionic close combat weapons add the bionic weapon to `data/json/items/melee.json` give them `NON_STUCK`, `NO_UNWIELD` at least.
 
 ## How armor protection is calculated

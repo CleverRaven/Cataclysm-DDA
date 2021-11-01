@@ -73,6 +73,14 @@
     "qty": 18
   },
   {
+    "id": "emit_tear_gas_blast",
+    "type": "emit",
+    "//": "Large blast of tear gas (example: tear gas canister)",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "qty": 200
+  },
+  {
     "id": "emit_toxic_blast",
     "type": "emit",
     "//": "Large blast of toxic gas (example: bloated zombie explosion)",
@@ -131,6 +139,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shadow_field",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 10,
+    "chance": 100
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",
@@ -175,6 +191,13 @@
     "field": "fd_hot_air2",
     "intensity": 3,
     "qty": 50
+  },
+  {
+    "id": "emit_pollen_stream",
+    "type": "emit",
+    "field": "fd_pollen_triffid",
+    "intensity": 2,
+    "qty": 24
   },
   {
     "id": "emit_hot_air2_blast",
@@ -239,15 +262,15 @@
     "id": "emit_hot_air_migo_seep",
     "type": "emit",
     "field": "fd_hot_air_sauna",
-    "intensity": 3,
-    "qty": 50
+    "intensity": 2,
+    "qty": 60
   },
   {
     "id": "emit_hot_air_migo_blast",
     "type": "emit",
     "field": "fd_hot_air_sauna",
     "intensity": 3,
-    "qty": 300
+    "qty": 150
   },
   {
     "id": "emit_migo_atmosphere",
@@ -262,6 +285,20 @@
     "field": "fd_dazzling",
     "qty": 2,
     "chance": 75
+  },
+  {
+    "id": "emit_plasma",
+    "type": "emit",
+    "field": "fd_plasma",
+    "qty": 2,
+    "chance": 75
+  },
+  {
+    "id": "emit_plasma_continuously",
+    "type": "emit",
+    "field": "fd_plasma",
+    "qty": 4,
+    "chance": 100
   },
   {
     "id": "emit_fungicidal_stream",
@@ -323,5 +360,43 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_extinguisher_burst",
+    "type": "emit",
+    "field": "fd_extinguisher",
+    "intensity": 1,
+    "qty": 10
+  },
+  {
+    "id": "emit_rad_leak",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
+    "id": "emit_rad_cloud",
+    "//": "Negative, negative, it's a large reactor leak, very dangerous",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 3,
+    "qty": 100
+  },
+  {
+    "id": "emit_web_small",
+    "type": "emit",
+    "//": "Occasionally leave a web, not too often because we spawn in mixed groups",
+    "field": "fd_web",
+    "intensity": 3,
+    "chance": 50
+  },
+  {
+    "id": "emit_sludge_puddle",
+    "type": "emit",
+    "//": "Infrequent emission of sludge along the ground, made because sludge trail is too frequent",
+    "field": "fd_sludge",
+    "intensity": 3,
+    "chance": 20
   }
 ]

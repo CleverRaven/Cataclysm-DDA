@@ -30,7 +30,7 @@
     "tec_debug_arpen"
 ]
 "weapons": [ "tonfa" ]      // List of weapons usable with this art
-
+"weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
 ```
 
 ### Techniques
@@ -43,7 +43,10 @@
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
-"req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
+"required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
+"required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
+"forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
+"forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
 "downed_target": true,      // Technique only works on a downed target
@@ -61,7 +64,7 @@
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
-"weighting": 2,             // Affects likelihood this technique will be seleted when many are available
+"weighting": 2,             // Affects likelihood this technique will be selected when many are available
 "defensive": true,          // Game won't try to select this technique when attacking
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
@@ -78,6 +81,7 @@
 "name" : "Elemental resistance",    // In-game name displayed
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
+"persists": false,                 // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)

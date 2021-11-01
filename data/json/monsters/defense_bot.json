@@ -29,8 +29,18 @@
     "revert_to_itype": "bot_copbot",
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_riotbot",
@@ -60,8 +70,18 @@
     "special_attacks": [ [ "RIOTBOT", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_secubot",
@@ -70,7 +90,7 @@
     "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
-    "diff": 10,
+    "diff": 20,
     "volume": "150 L",
     "weight": "40750 g",
     "hp": 80,
@@ -107,8 +127,18 @@
       }
     ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_talon_m202a1",
@@ -117,7 +147,7 @@
     "description": "A TALON unmanned ground vehicle equipped with an M202A1 FLASH.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
-    "diff": 10,
+    "diff": 40,
     "volume": "150 L",
     "weight": "40750 g",
     "hp": 80,
@@ -154,8 +184,18 @@
       }
     ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_skitterbot",
@@ -183,8 +223,8 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_science_bot",
@@ -215,10 +255,10 @@
     "vision_night": 10,
     "revert_to_itype": "bot_science_bot",
     "starting_ammo": { "bot_manhack": 5 },
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -228,8 +268,9 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
-      "DROPS_AMMO"
+      "PATH_AVOID_DANGER_1",
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -237,7 +278,7 @@
     "type": "MONSTER",
     "name": { "str": "prototype robot" },
     "description": "The single glowing eye of this robot surveys the landscape periodically, as it performs the endless slaughter dictated by a misinterpreted and cruel routine.  Between half-built plates, you can see the machinery and cables that animate it, and yet it moves deftly as it switches between one target and the next.",
-    "default_faction": "defense_bot",
+    "default_faction": "berserk_bot",
     "bodytype": "human",
     "species": [ "ROBOT" ],
     "diff": 100,
@@ -256,10 +297,10 @@
     "armor_cut": 50,
     "armor_bullet": 40,
     "vision_night": 5,
-    "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "mon_robofac_prototype_drops",
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -269,8 +310,9 @@
       "GOODHEARING",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
-      "LOUDMOVES"
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -300,11 +342,12 @@
     "armor_bullet": 6,
     "vision_day": 30,
     "vision_night": 10,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_dispatch",
     "starting_ammo": { "bot_c4_hack": 2, "bot_flashbang_hack": 3, "bot_gasbomb_hack": 3, "bot_grenade_hack": 10 },
     "special_attacks": [ [ "GRENADIER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -312,9 +355,10 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -344,11 +388,12 @@
     "armor_bullet": 10,
     "vision_day": 30,
     "vision_night": 10,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_dispatch_military",
     "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20, "bot_mininuke_hack": 1 },
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -356,9 +401,10 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   }
 ]

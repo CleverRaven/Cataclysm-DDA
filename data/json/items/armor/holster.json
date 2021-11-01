@@ -12,9 +12,6 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
-    "encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -23,11 +20,87 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
+        "max_item_length": "133 cm",
         "moves": 150
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ],
+    "armor": [ { "encumbrance": [ 3, 15 ], "coverage": 5, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "baldric_holster",
+    "type": "ARMOR",
+    "name": { "str": "baldric holster" },
+    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
+    "weight": "1320 g",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 2000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver_large",
+    "color": "light_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "bootstrap",
@@ -42,22 +115,22 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 4,
+    "sided": true,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "pocket_type": "CONTAINER",
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
         "moves": 150
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "bow_sling",
@@ -72,10 +145,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
     "pocket_data": [
@@ -85,10 +154,13 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
-        "moves": 50
+        "max_item_length": "200 cm",
+        "moves": 50,
+        "flag_restriction": [ "SHEATH_BOW" ]
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "holster",
@@ -103,22 +175,76 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 5,
+    "sided": true,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "300 ml",
-        "max_contains_volume": "800 ml",
+        "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
         "moves": 50
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "western_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "western holster" },
+    "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "sided": true,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": [ 2, 3 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "855 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "38 cm",
+        "moves": 30
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": false,
+        "rigid": true,
+        "ammo_restriction": {
+          "32": 18,
+          "762x25": 18,
+          "38": 18,
+          "357mag": 18,
+          "357sig": 18,
+          "380": 18,
+          "38super": 18,
+          "40": 18,
+          "10mm": 18,
+          "44": 18,
+          "45": 18,
+          "45colt": 18,
+          "46": 18,
+          "57": 18,
+          "9x18": 18,
+          "9mm": 18,
+          "454": 18,
+          "460": 18,
+          "500": 18
+        },
+        "moves": 20
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "sholster",
@@ -127,19 +253,21 @@
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "material": [ "leather" ],
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "100 ml",
-        "max_contains_volume": "400 ml",
+        "max_contains_volume": "490 ml",
         "max_contains_weight": "2 kg",
-        "moves": 80
+        "max_item_length": "250 mm",
+        "moves": 30
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 1, 2 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "bholster",
@@ -152,51 +280,21 @@
     "price": 3000,
     "price_postapoc": 500,
     "material": [ "lycra" ],
-    "covers": [ "LEGS" ],
-    "encumbrance": 1,
     "pocket_data": [
       {
+        "magazine_well": "150 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm",
         "moves": 210
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "survivor_vest",
-    "type": "ARMOR",
-    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
-    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
-    "weight": "320 g",
-    "volume": "1250 ml",
-    "price": 20000,
-    "price_postapoc": 4000,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "tacvest",
-    "color": "green",
-    "covers": [ "TORSO" ],
-    "coverage": 20,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
-    "material_thickness": 2,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "min_item_volume": "1250 ml",
-        "max_contains_volume": "8 L",
-        "max_contains_weight": "8200 g",
-        "moves": 50
-      }
-    ],
-    "use_action": { "type": "holster" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "XL_holster",
@@ -211,21 +309,21 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
-    "coverage": 10,
-    "encumbrance": 2,
+    "sided": true,
     "material_thickness": 1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "750 ml",
-        "max_contains_volume": "1250 ml",
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
-        "moves": 50
+        "max_item_length": "45 cm",
+        "moves": 70
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

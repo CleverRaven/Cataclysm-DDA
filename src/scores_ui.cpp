@@ -1,11 +1,16 @@
 #include "scores_ui.h"
 
-#include <cassert>
+#include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <iterator>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "event_statistics.h"
@@ -14,23 +19,29 @@
 #include "output.h"
 #include "point.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 
-static std::string get_achievements_text( const achievements_tracker &achievements )
+static std::string get_achievements_text( const achievements_tracker &achievements,
+        bool use_conducts, int width )
 {
+    std::string thing_name = use_conducts ? _( "conducts" ) : _( "achievements" );
+    std::string cap_thing_name = use_conducts ? _( "Conducts" ) : _( "Achievements" );
     if( !achievements.is_enabled() ) {
-        return _( "Achievements are disabled, probably due to use of the debug menu.  "
-                  "If you only used the debug menu to work around a game bug, then you "
-                  "can re-enable achievements via the debug menu (under the Game submenu)." );
+        return string_format(
+                   _( "%s are disabled, probably due to use of the debug menu.  If you only used "
+                      "the debug menu to work around a game bug, then you can re-enable %s via the "
+                      "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ),
+                   cap_thing_name, thing_name );
     }
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
     valid_achievements.erase(
         std::remove_if( valid_achievements.begin(), valid_achievements.end(),
     [&]( const achievement * a ) {
-        return achievements.is_hidden( a );
+        return achievements.is_hidden( a ) || a->is_conduct() != use_conducts;
     } ), valid_achievements.end() );
     using sortable_achievement =
         std::tuple<achievement_completion, std::string, const achievement *>;
@@ -42,14 +53,20 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
+    std::string horizontal_line;
+    horizontal_line.reserve( std::string( LINE_OXOX_S ).length() * width );
+    for( int i = 0; i < width; i++ ) {
+        horizontal_line.append( LINE_OXOX_S );
+    }
     for( const sortable_achievement &ach : sortable_achievements ) {
-        os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
+        os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
+        os += colorize( horizontal_line, c_magenta );
     }
     if( valid_achievements.empty() ) {
-        os += _( "This game has no valid achievements.\n" );
+        os += string_format( _( "This game has no valid %s.\n" ), thing_name );
     }
-    os += _( "Note that only achievements that existed when you started this game and still "
-             "exist now will appear here." );
+    os += string_format( _( "Note that only %s that existed when you started this game and still "
+                            "exist now will appear here." ), thing_name );
     return os;
 }
 
@@ -73,8 +90,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
 {
     catacurses::window w;
 
-    enum class tab_mode {
+    enum class tab_mode : int {
         achievements,
+        conducts,
         scores,
         kills,
         num_tabs,
@@ -108,6 +126,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
 
     const std::vector<std::pair<tab_mode, std::string>> tabs = {
         { tab_mode::achievements, _( "ACHIEVEMENTS" ) },
+        { tab_mode::conducts, _( "CONDUCTS" ) },
         { tab_mode::scores, _( "SCORES" ) },
         { tab_mode::kills, _( "KILLS" ) },
     };
@@ -116,7 +135,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         werase( w );
         draw_tabs( w, tabs, tab );
         draw_border_below_tabs( w );
-        wrefresh( w );
+        wnoutrefresh( w );
 
         view.draw( c_white );
     } );
@@ -125,7 +144,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         if( new_tab ) {
             switch( tab ) {
                 case tab_mode::achievements:
-                    view.set_text( get_achievements_text( achievements ) );
+                    view.set_text( get_achievements_text( achievements, false, getmaxx( w ) - 2 ) );
+                    break;
+                case tab_mode::conducts:
+                    view.set_text( get_achievements_text( achievements, true, getmaxx( w ) - 2 ) );
                     break;
                 case tab_mode::scores:
                     view.set_text( get_scores_text( stats ) );
@@ -134,7 +156,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                     view.set_text( kills.get_kills_text() );
                     break;
                 case tab_mode::num_tabs:
-                    assert( false );
+                    cata_fatal( "Invalid tab" );
                     break;
             }
         }

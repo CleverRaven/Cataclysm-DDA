@@ -1,19 +1,23 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "catacharset.h"
-#include "color.h"
-#include "optional.h"
-#include "point.h"
 
 void lightson_game::new_level()
 {
@@ -24,7 +28,7 @@ void lightson_game::new_level()
     const int lvl_width = rng( 4, 6 );
     const int lvl_height = half_perimeter - lvl_width;
     level_size = point( lvl_width, lvl_height );
-    level.resize( lvl_height * lvl_width );
+    level.resize( static_cast<size_t>( lvl_height ) * static_cast<size_t>( lvl_width ) );
 
     const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
@@ -42,9 +46,6 @@ void lightson_game::reset_level()
     } );
 
     position = point_zero;
-
-    werase( w );
-    draw_border( w );
 }
 
 bool lightson_game::get_value_at( const point &pt )
@@ -64,6 +65,8 @@ void lightson_game::toggle_value_at( const point &pt )
 
 void lightson_game::draw_level()
 {
+    werase( w );
+    draw_border( w );
     for( int i = 0; i < level_size.y; i++ ) {
         for( int j = 0; j < level_size.x; j++ ) {
             point current = point( j, i );
@@ -74,7 +77,7 @@ void lightson_game::draw_level()
             mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void lightson_game::generate_change_coords( int changes )
@@ -130,11 +133,16 @@ void lightson_game::toggle_lights_at( const point &pt )
 int lightson_game::start_game()
 {
     const int w_height = 15;
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
-    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, point( iOffsetX + 1, iOffsetY + 1 ) );
-    draw_border( w_border );
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+        w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffset );
+        w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffset + point_south_east );
+        ui.position_from_window( w_border );
+    } );
+    ui.mark_resize();
 
     input_context ctxt( "LIGHTSON" );
     ctxt.register_directions();
@@ -142,45 +150,49 @@ int lightson_game::start_game()
     ctxt.register_action( "TOGGLE_5" );
     ctxt.register_action( "RESET" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    std::vector<std::string> shortcuts;
-    shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
-    shortcuts.push_back( _( "<r>eset" ) );
-    shortcuts.push_back( _( "<q>uit" ) );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        std::vector<std::string> shortcuts;
+        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
+        shortcuts.emplace_back( _( "<r>eset" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
-    int iWidth = 0;
-    for( auto &shortcut : shortcuts ) {
-        if( iWidth > 0 ) {
-            iWidth += 1;
+        int iWidth = 0;
+        for( auto &shortcut : shortcuts ) {
+            if( iWidth > 0 ) {
+                iWidth += 1;
+            }
+            iWidth += utf8_width( shortcut );
         }
-        iWidth += utf8_width( shortcut );
-    }
 
-    int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
-    for( auto &shortcut : shortcuts ) {
-        shortcut_print( w_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
-        iPos += utf8_width( shortcut ) + 1;
-    }
+        werase( w_border );
+        draw_border( w_border );
+        int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
+        for( auto &shortcut : shortcuts ) {
+            shortcut_print( w_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
+            iPos += utf8_width( shortcut ) + 1;
+        }
 
-    mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );
-    fold_and_print( w_border, point( 2, w_height - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
-                    "%s\n%s\n%s", _( "<color_white>Game goal:</color> Switch all the lights on." ),
-                    _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
-                    _( "Toggle lights switches selected light and 4 its neighbors." ) );
+        mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );
+        fold_and_print( w_border, point( 2, w_height - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
+                        "%s\n%s\n%s", _( "<color_white>Game goal:</color> Switch all the lights on." ),
+                        _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
+                        _( "Toggle lights switches selected light and 4 its neighbors." ) );
 
-    wrefresh( w_border );
+        wnoutrefresh( w_border );
+
+        draw_level();
+    } );
 
     win = true;
     int hasWon = 0;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     do {
         if( win ) {
             new_level();
-            draw_level();
         }
+        ui_manager::redraw();
         std::string action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
@@ -189,7 +201,7 @@ int lightson_game::start_game()
             toggle_lights();
             win = check_win();
             if( win ) {
-                draw_level();
+                ui.invalidate_ui();
                 popup_top( _( "Congratulations, you won!" ) );
                 hasWon++;
             }
@@ -198,7 +210,6 @@ int lightson_game::start_game()
         } else if( action == "QUIT" ) {
             break;
         }
-        draw_level();
     } while( true );
 
     return hasWon;

@@ -1,10 +1,10 @@
-#include <cstddef>
 #include <algorithm> // std::find
+#include <cstddef>
 #include <functional> // std::greater
-#include <utility> // std::move
+#include <type_traits>
 #include <vector> // range-insert testing
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony.h"
 #include "colony_list_test_helpers.h"
 
@@ -347,7 +347,7 @@ TEST_CASE( "colony insert and erase", "[colony]" )
                 it = test_colony.erase( it );
             }
         }
-    } while( !test_colony.empty() );;
+    } while( !test_colony.empty() );
 
     // Random insert/erase till empty
     CHECK( test_colony.empty() );
@@ -638,7 +638,11 @@ TEST_CASE( "colony range erase", "[colony]" )
     CHECK( count == 400 );
     CHECK( test_colony.size() == 400 );
 
-    unsigned int size, range1, range2, loop_count, internal_loop_count;
+    unsigned int size;
+    unsigned int range1;
+    unsigned int range2;
+    unsigned int loop_count;
+    unsigned int internal_loop_count;
     for( loop_count = 0; loop_count < 50; ++loop_count ) {
         test_colony.clear();
 
@@ -772,7 +776,7 @@ TEST_CASE( "colony sort", "[colony]" )
     // Less-than sort test
     CHECK( sorted );
 
-    test_colony.sort( std::greater<int>() );
+    test_colony.sort( std::greater<>() );
 
     prev = 65536;
 
@@ -887,7 +891,8 @@ TEST_CASE( "colony perfect forwarding", "[colony]" )
 TEST_CASE( "colony emplace", "[colony]" )
 {
     cata::colony<small_struct> test_colony;
-    int sum1 = 0, sum2 = 0;
+    int sum1 = 0;
+    int sum2 = 0;
 
     for( int i = 0; i < 100; ++i ) {
         test_colony.emplace( i );
@@ -949,7 +954,8 @@ TEST_CASE( "colony group size and capacity", "[colony]" )
 
 TEST_CASE( "colony splice", "[colony]" )
 {
-    cata::colony<int> test_colony_1, test_colony_2;
+    cata::colony<int> test_colony_1;
+    cata::colony<int> test_colony_2;
 
     SECTION( "small splice 1" ) {
         int i = 0;

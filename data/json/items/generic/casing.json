@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": { "str": "Casing from ammunition cartridge" },
     "stackable": true,
-    "material": "brass",
+    "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow",
     "damage_states": [ 0, 0 ]
@@ -40,6 +40,7 @@
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
+    "stackable": true,
     "volume": "3 ml",
     "weight": "1 g"
   },
@@ -148,10 +149,11 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "40x46mm M212 casing" },
-    "description": "A large canister from a spent 40mm cartridge.",
+    "description": "A large casing from a spent 40x46mm cartridge, which used to hold a less-lethal projectile.",
     "weight": "50 g",
     "volume": "55ml",
-    "material": "steel",
+    "material": [ "steel" ],
+    "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -160,10 +162,11 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "40x46mm M118 casing" },
-    "description": "A large canister from a spent 40mm cartridge.",
+    "description": "A large casing from a spent 40x46mm cartridge, which used to hold a HEDP grenade.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "58ml",
-    "material": "steel",
+    "material": [ "steel" ],
+    "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -172,11 +175,12 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "40x46mm M199 casing" },
-    "description": "A large canister from a spent 40mm cartridge.",
+    "description": "A large casing from a spent 40x46mm cartridge, which used to hold a buckshot load.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "59ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {
@@ -184,11 +188,12 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "40x46mm M195 casing" },
-    "description": "A large canister from a spent 40mm cartridge.",
+    "description": "A large casing from a spent 40x46mm cartridge, which used to hold a tear gas canister.",
     "weight": "50 g",
     "volume": "45ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {
@@ -196,11 +201,12 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "40x53mm M169 casing" },
-    "description": "A large canister from a spent 40mm cartridge.",
+    "description": "A large casing from a spent 40x53mm cartridge.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "64ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {
@@ -282,7 +288,7 @@
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",
     "volume": "5ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "color": "light_green"
   },
   {
@@ -421,7 +427,7 @@
     "name": { "str": "152mm ATGM tube" },
     "color": "dark_gray",
     "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "9500 g",
     "volume": "7500 ml"
   },
@@ -434,7 +440,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
@@ -448,7 +454,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "=",
     "looks_like": "shot_hull",
     "color": "red",

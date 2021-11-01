@@ -5,19 +5,20 @@
 #include <cstddef>
 #include <numeric>
 #include <set>
+#include <string>
+#include <unordered_set>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
+#include "output.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
-anatomy_id human_anatomy( "human_anatomy" );
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 namespace
 {
@@ -75,14 +76,12 @@ void anatomy::finalize()
             debugmsg( "Anatomy %s has invalid body part %s", id.c_str(), id.c_str() );
         }
     }
-
-    unloaded_bps.clear();
 }
 
 void anatomy::check_consistency()
 {
     anatomy_factory.check();
-    if( !human_anatomy.is_valid() ) {
+    if( !anatomy_human_anatomy.is_valid() ) {
         debugmsg( "Could not load human anatomy, expect crash" );
     }
 }
@@ -103,11 +102,47 @@ void anatomy::check() const
                       static_cast<int>( i ) - 1 );
         }
     }
+
+    std::unordered_set<bodypart_str_id> all_parts( unloaded_bps.begin(), unloaded_bps.end() );
+    std::unordered_set<bodypart_str_id> root_parts;
+
+    for( const bodypart_str_id &bp : unloaded_bps ) {
+        if( !id.is_valid() ) {
+            // Error already reported in finalize
+            continue;
+        }
+        if( !all_parts.count( bp->main_part ) ) {
+            debugmsg( "Anatomy %s contains part %s whose main_part %s is not part of the anatomy",
+                      id.str(), bp.str(), bp->main_part.str() );
+        } else if( !all_parts.count( bp->connected_to ) ) {
+            debugmsg( "Anatomy %s contains part %s with connected_to part %s which is not part of "
+                      "the anatomy", id.str(), bp.str(), bp->main_part.str() );
+        }
+
+        if( bp->connected_to == bp ) {
+            root_parts.insert( bp );
+        }
+    }
+
+    if( root_parts.size() > 1 ) {
+        debugmsg( "Anatomy %s has multiple root parts: %s", id.str(),
+        enumerate_as_string( root_parts.begin(), root_parts.end(), []( const bodypart_str_id & p ) {
+            return p.str();
+        } ) );
+    }
 }
 
 std::vector<bodypart_id> anatomy::get_bodyparts() const
 {
     return cached_bps;
+}
+
+anatomy::anatomy( const std::vector<bodypart_id> &parts )
+{
+    for( const bodypart_id &part : parts ) {
+        add_body_part( part.id() );
+        unloaded_bps.push_back( part.id() );
+    }
 }
 
 void anatomy::add_body_part( const bodypart_str_id &new_bp )
@@ -154,7 +189,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name, pr.weight );
+        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -163,6 +198,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_str_id::NULL_ID().id();
     }
 
-    add_msg( m_debug, "selected part: %s", ret->id().obj().name );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

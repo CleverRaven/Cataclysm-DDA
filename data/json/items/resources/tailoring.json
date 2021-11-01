@@ -1,5 +1,18 @@
 [
   {
+    "type": "GENERIC",
+    "id": "grass_yarn",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "grass yarn" },
+    "category": "spare_parts",
+    "description": "Some primitive yarn made from coarse plant fibers like straw or grass.  Too thick to sew with, but could be woven into a crude sheet of fabric.",
+    "price": 10,
+    "material": [ "dry_plant" ],
+    "weight": "100 g",
+    "volume": "250 ml"
+  },
+  {
     "id": "scrap_cotton",
     "type": "AMMO",
     "category": "other",
@@ -9,7 +22,7 @@
     "volume": "1 ml",
     "price": 1,
     "price_postapoc": 5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components",
@@ -23,7 +36,7 @@
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "price_postapoc": 5,
-    "material": "faux_fur"
+    "material": [ "faux_fur" ]
   },
   {
     "id": "scrap_felt",
@@ -31,7 +44,7 @@
     "type": "AMMO",
     "name": { "str_sp": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
-    "material": "wool"
+    "material": [ "wool" ]
   },
   {
     "id": "scrap_fur",
@@ -40,7 +53,7 @@
     "name": { "str_sp": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "fur"
+    "material": [ "fur" ]
   },
   {
     "id": "scrap_kevlar",
@@ -49,7 +62,7 @@
     "name": { "str_sp": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "price": 5,
-    "material": "kevlar"
+    "material": [ "kevlar" ]
   },
   {
     "id": "scrap_leather",
@@ -58,7 +71,7 @@
     "name": { "str_sp": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "leather"
+    "material": [ "leather" ]
   },
   {
     "id": "scrap_lycra",
@@ -67,7 +80,7 @@
     "name": { "str_sp": "Lycra scraps" },
     "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "lycra"
+    "material": [ "lycra" ]
   },
   {
     "id": "scrap_neoprene",
@@ -76,7 +89,7 @@
     "name": { "str_sp": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "neoprene"
+    "material": [ "neoprene" ]
   },
   {
     "id": "scrap_nylon",
@@ -85,7 +98,7 @@
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "Oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "nylon"
+    "material": [ "nylon" ]
   },
   {
     "id": "scrap_nomex",
@@ -94,7 +107,7 @@
     "name": { "str_sp": "Nomex scraps" },
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
     "price": 5,
-    "material": "nomex"
+    "material": [ "nomex" ]
   },
   {
     "id": "sheet_cotton",
@@ -103,10 +116,11 @@
     "name": { "str": "cotton sheet" },
     "description": "A sheet of cotton fabric, suitable for making clothing.",
     "weight": "5 g",
-    "volume": "300 ml",
+    "volume": "3 ml",
+    "//": "Density of 1.55 grams per mL",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -116,10 +130,11 @@
     "id": "sheet_cotton_patchwork",
     "copy-from": "sheet_cotton",
     "type": "AMMO",
-    "name": { "str_sp": "patchwork cotton clothing parts" },
+    "name": { "str_sp": "patchwork cotton sheet" },
     "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
-    "volume": "60 ml",
+    "volume": "65 ml",
+    "//density": "1.55 grams per mL",
     "price": 200,
     "price_postapoc": 50,
     "count": 1
@@ -131,10 +146,11 @@
     "name": { "str": "faux fur sheet" },
     "description": "A sheet of fake synthetic colorful fur, suitable for making clothing.",
     "weight": "10 g",
-    "volume": "4500 ml",
+    "volume": "25 ml",
+    "//": "Guesstimated density of 0.44 grams per mL based on felt",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "faux_fur",
+    "material": [ "faux_fur" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -147,7 +163,8 @@
     "name": { "str_sp": "patchwork faux fur clothing parts" },
     "description": "A selection of various clothing parts, sewn together from faux fur patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "200 g",
-    "volume": "900 ml",
+    "volume": "450 ml",
+    "//": "Guesstimated density of 0.44 grams per mL based on felt",
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
@@ -159,10 +176,11 @@
     "name": { "str": "felt sheet" },
     "description": "A sheet of felt, suitable for making clothing.",
     "weight": "8 g",
-    "volume": "1800 ml",
+    "volume": "20 ml",
+    "//": "Density of 0.44 grams per mL",
     "price": 2500,
     "price_postapoc": 250,
-    "material": "wool",
+    "material": [ "wool" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -176,6 +194,7 @@
     "description": "A selection of various clothing parts, sewn together from felt patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "160 g",
     "volume": "360 ml",
+    "//": "Density of 0.44 grams per mL",
     "price": 500,
     "price_postapoc": 100,
     "count": 1
@@ -185,12 +204,13 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "Kevlar sheet" },
-    "description": "A sheet of Kevlar synthetic fabric, suitable for making bulletproof armor.  In this form, unlike rigid plates, it can be stitched.",
+    "description": "A sheet of Kevlar synthetic fabric, suitable for making cut-resistant, durable clothing.  In this form, unlike rigid plates, it can be stitched.",
     "weight": "5 g",
-    "volume": "300 ml",
-    "price": 15000,
+    "volume": "4 ml",
+    "//": "Density of 1.4 grams per mL",
+    "price": 900,
     "price_postapoc": 500,
-    "material": "kevlar",
+    "material": [ "kevlar" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -203,14 +223,45 @@
     "name": { "str": "Lycra sheet" },
     "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
     "weight": "3 g",
-    "volume": "300 ml",
+    "volume": "2 ml",
+    "//": "Density of 1.21-1.35 grams per mL, using 1.28",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "lycra",
+    "material": [ "lycra" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
     "ammo_type": "components"
+  },
+  {
+    "id": "sheet_kevlar_layered",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "layered kevlar panel" },
+    "description": "This is a small 16-layer thick Kevlar panel.  It could be used to repair armor made of Kevlar.",
+    "weight": "80 g",
+    "volume": "65 ml",
+    "//": "Density of 1.4 grams per mL; volume increased ~5% to account for some rigidity",
+    "price": 15000,
+    "material": [ "kevlar_layered" ],
+    "flags": [ "NO_SALVAGE" ],
+    "symbol": ",",
+    "color": "green"
+  },
+  {
+    "id": "rigid_kevlar_plate",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "rigid kevlar plate" },
+    "description": "This is a compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
+    "weight": "300 g",
+    "volume": "235 ml",
+    "//": "Density of 1.4 grams per mL + 10% for being rigid and possibly oddly-shaped",
+    "price": 1000,
+    "material": [ "kevlar_rigid" ],
+    "flags": [ "NO_SALVAGE" ],
+    "symbol": ",",
+    "color": "green"
   },
   {
     "id": "sheet_lycra_patchwork",
@@ -219,7 +270,8 @@
     "name": { "str_sp": "patchwork Lycra clothing parts" },
     "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
-    "volume": "60 ml",
+    "volume": "45 ml",
+    "//": "Density of 1.21-1.35 grams per mL, using 1.28",
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
@@ -231,10 +283,11 @@
     "name": { "str": "neoprene sheet" },
     "description": "A sheet of neoprene, a synthetic rubber, suitable for making underwater gear.",
     "weight": "6 g",
-    "volume": "300 ml",
+    "volume": "5 ml",
+    "//": "Density of 1.23 grams per mL",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "neoprene",
+    "material": [ "neoprene" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -247,7 +300,8 @@
     "name": { "str_sp": "patchwork neoprene clothing parts" },
     "description": "A selection of various clothing parts, sewn together from neoprene patches in a patchwork fashion, with waterproofed seams.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "120 g",
-    "volume": "60 ml",
+    "volume": "100 ml",
+    "//": "Density of 1.23 grams per mL",
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
@@ -259,10 +313,11 @@
     "name": { "str": "Nomex sheet" },
     "description": "A sheet of Nomex synthetic fabric, suitable for making heat-resistant clothing.",
     "weight": "5 g",
-    "volume": "300 ml",
+    "volume": "7 ml",
+    "//": "Density of 0.72-1.1 grams per mL, using ~0.72 to account for possible unwieldiness",
     "price": 15000,
     "price_postapoc": 250,
-    "material": "nomex",
+    "material": [ "nomex" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -275,7 +330,8 @@
     "name": { "str_sp": "patchwork Nomex clothing parts" },
     "description": "A selection of various clothing parts, sewn together with Nomex thread from Nomex patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
-    "volume": "60 ml",
+    "volume": "110 ml",
+    "//": "Density of 0.72-1.1 grams per mL, using 0.91",
     "price": 3000,
     "price_postapoc": 50,
     "count": 1
@@ -287,10 +343,11 @@
     "name": { "str": "synthetic fabric sheet" },
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
     "weight": "3 g",
-    "volume": "300 ml",
+    "volume": "3 ml",
+    "//": "Density of 1.15 grams per mL",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "nylon",
+    "material": [ "nylon" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -303,7 +360,8 @@
     "name": { "str_sp": "patchwork synthetic fabric clothing parts" },
     "description": "A selection of various clothing parts, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
-    "volume": "60 ml",
+    "volume": "50 ml",
+    "//": "Density of 1.15 grams per mL",
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
@@ -319,7 +377,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Some very durable Kevlar thread that would be particularly useful for making ballistic armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would need some specialized machinery.",
-    "material": "kevlar",
+    "material": [ "kevlar" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
@@ -338,7 +396,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Some heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too, in most cases.",
-    "material": "nomex",
+    "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",

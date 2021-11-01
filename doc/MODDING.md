@@ -4,6 +4,11 @@ Certain features of the game can be modified without rebuilding the game from so
 
 The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
+## Other guides
+
+You might want to read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
+
 ## The basics
 
 ### Creating a barebones mod
@@ -13,18 +18,21 @@ A mod is created by creating a folder within Cataclysm's `data/mods` directory. 
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
 A barebones `modinfo.json` file looks like this:
 ````json
+[
   {
     "type": "MOD_INFO",
-    "ident": "Mod_ID",
+    "id": "Mod_ID",
     "name": "Mod's Display Name",
     "authors": [ "Your name here", "Your friend's name if you want" ],
     "description": "Your description here",
     "category": "content",
     "dependencies": [ "dda" ]
   }
+]
 ````
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
- - `content` - A mod that adds a lot of stuff. Typically reserved for very large mods or complete game overhauls (eg: Core game files, Aftershock)
+ - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
+ - `total_conversion` - A mod that fundamentally changes the game.  In particular, the assumption is that a player should not use two total conversion mods at the same time, and so they will not be tested together.  However, nothing prevents players from using more than one if they wish. (eg: Dark Skies Above)
  - `items` - A mod that adds new items and recipes to the game (eg: More survival tools)
  - `creatures` - A mod that adds new creatures or NPCs to the game (eg: Modular turrets)
  - `misc_additions` - Miscellaneous content additions to the game (eg: Alternative map key, Crazy cataclysm)
@@ -36,7 +44,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No ants)
  - `graphical` - A mod that adjusts game graphics in some way (eg: Graphical overmap)
 
-The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `ident` attribute to the array causes Cataclysm to force that mod to load before yours.
+The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
@@ -53,7 +61,7 @@ Scenarios are what the game uses to determine your general situation when you cr
 [
   {
     "type": "scenario",
-    "ident": "largebuilding",
+    "id": "largebuilding",
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
@@ -75,7 +83,8 @@ Scenarios are what the game uses to determine your general situation when you cr
       "hospital_9"
     ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
 ````
@@ -86,7 +95,7 @@ Professions are what the game calls the character classes you can choose from wh
 [
   {
     "type": "profession",
-    "ident": "cop",
+    "id": "cop",
     "name": "Police Officer",
     "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
     "points": 2,
@@ -133,7 +142,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, or you can blacklist certain monsters. In order to do either of those things, you need that monster's ID. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
 The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
 ````json
 [
@@ -153,6 +162,15 @@ The example below is from the `No Ants` mod, and will stop any kind of ant from 
       "mon_ant_acid",
       "mon_ant"
     ]
+  }
+]
+````
+The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "FUNGUS" ]
   }
 ]
 ````
@@ -199,6 +217,40 @@ The format is as follows:
 Valid values for `subtype` are `whitelist` and `blacklist`.
 `scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
 
+### Adding dialogue to existing NPCs
+
+You can't edit existing dialog, but you can add new dialogue by adding a new response that can kick off new dialogue and missions. Here is a working example from DinoMod:
+
+```json
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
+    "responses": [
+      {
+        "text": "Yes.  I ask because I noticed there are dinosaurs around.  Do you know anything about that?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINO2"
+      }
+    ]
+  }
+```
+## Adjusting monster stats
+Monster stats can be adjusted using the `monster_adjustment` JSON element.
+```json
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+	"stat": { "name": "speed", "modifier": 0.9 }
+  }
+```
+Using this syntax allows modification of the following things:
+**stat**: `speed` and `hp` are supported.  Modifier is a multiplier of the base speed or HP stat.
+**flag**: add or remove a monster flag.
+**special**: currently only supports `nightvision` which makes the specified monster species gain nightvision equal to its dayvision.
+
+Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
+
+
 ## Important note on json files
 
 The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
@@ -214,26 +266,8 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
-## Addendum
-<!-- I really don't know if this should be here or not. Please let me know. -->
-### No Zombie Revival
-This mod is very simple, but it's worth a special section because it does things a little differently than other mods, and documentation on it is tricky to find.
+### That which cannot be modded
 
-The entire mod can fit into fifteen lines of JSON, and it's presented below. Just copy/paste that into a modinfo.json file, and put it in a new folder in your mods directory.
-````json
-[
-  {
-    "type": "MOD_INFO",
-    "ident": "no_reviving_zombies",
-    "name": "Prevent Zombie Revivication",
-    "description": "Disables zombie revival.",
-    "category": "rebalance",
-    "dependencies": [ "dda" ]
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
-  }
-]
-````
+Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
+
+The Names folder and contents (EN etcetera) confirmed 5/23/20

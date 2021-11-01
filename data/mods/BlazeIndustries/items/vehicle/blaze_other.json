@@ -14,5 +14,53 @@
     "category": "veh_parts",
     "price": 80000,
     "price_postapoc": 1000
+  },
+  {
+    "id": "afs_fridge",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "vehicle refrigerator" },
+    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
+    "symbol": "{",
+    "color": "white",
+    "weight": "142882 g",
+    "volume": "300 L",
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 8,
+    "flags": [ "DURABLE_MELEE" ],
+    "looks_like": "minifridge"
+  },
+  {
+    "id": "afs_freezer",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "vehicle freezer" },
+    "copy-from": "afs_fridge",
+    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
+    "color": "light_blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_metal_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_kitchen_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
+    "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_cooking_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "cooking rig" },
+    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   }
 ]

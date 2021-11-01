@@ -7,8 +7,8 @@ import re
 import os
 
 args = argparse.ArgumentParser(
-    description=
-    "Generate a json definition for a vehicle in a Cataclysm DDA save file.")
+    description="Generate a json definition for a vehicle "
+    "in a Cataclysm DDA save file.")
 args.add_argument(
     "save", action="store", help="specify save file containing vehicle")
 args.add_argument(
@@ -17,8 +17,8 @@ argsDict = vars(args.parse_args())
 
 
 def writeVehicleTemplates(templates):
-    with open("vehicles.json", "w") as vehicleDefJson:
-        json.dump(templates, vehicleDefJson, indent=4)
+    with open("vehicles.json", "w", encoding="utf-8") as vehicleDefJson:
+        json.dump(templates, vehicleDefJson, indent=4, ensure_ascii=False)
         print("Vehicle defs written.")
 
 
@@ -33,7 +33,7 @@ def getVehicleTemplates():
     allTemplates = []
     for vehicle in vehicles:
         vehicleDef = buildVehicleDef(vehicle)
-        if not vehicleDef in allTemplates:
+        if vehicleDef not in allTemplates:
             allTemplates.append(vehicleDef)
 
     return allTemplates
@@ -41,11 +41,11 @@ def getVehicleTemplates():
 
 def getVehicleInstances(mapPath):
     vehicles = []
-    with open(mapPath) as mapFile:
+    with open(mapPath, encoding="utf-8") as mapFile:
         mapData = json.load(mapFile)
         for i in range(0, len(mapData)):
             for vehicle in mapData[i]["vehicles"]:
-                if argsDict["vehicle"] != None:
+                if argsDict["vehicle"] is not None:
                     if argsDict["vehicle"] == vehicle["name"]:
                         vehicles.append(vehicle)
                         print(f"Found \"{vehicle['name']}\"")
@@ -60,10 +60,14 @@ def buildVehicleDef(vehicle):
     partsDef = []
     itemsDef = []
     for part in vehicle["parts"]:
+        part_variant = ""
+        if "variant" in part:
+            part_variant = "_" + part["variant"]
+
         partsDef.append({
             "x": part["mount_dx"],
             "y": part["mount_dy"],
-            "part": part["id"]
+            "part": part["id"] + part_variant
         })
 
         for item in part["items"]:
@@ -76,11 +80,11 @@ def buildVehicleDef(vehicle):
 
     frames = [
         p for p in partsDef
-        if re.match(r'(xl|hd|folding_)?frame', p["part"]) != None
+        if re.match(r'(xl|hd|folding_)?frame', p["part"]) is not None
     ]
     everythingElse = [
         p for p in partsDef
-        if re.match(r'(xl|hd|folding_)?frame', p["part"]) == None
+        if re.match(r'(xl|hd|folding_)?frame', p["part"]) is None
     ]
 
     frames = sortFrames(frames)

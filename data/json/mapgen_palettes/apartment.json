@@ -15,7 +15,6 @@
       "W": "t_window",
       "s": "t_sidewalk",
       "w": [ [ "t_window_domestic", 3 ], "t_curtains" ],
-      "x": "t_console_broken",
       "|": "t_wall",
       "z": "t_flat_roof",
       "(": "t_flat_roof",
@@ -41,8 +40,8 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "*": "t_open_air",
-      "K": "t_generator_broken",
-      "M": "t_machinery_heavy"
+      "K": "t_thconc_floor",
+      "M": "t_thconc_floor"
     },
     "furniture": {
       "a": "f_small_satelitte_dish",
@@ -57,6 +56,8 @@
       "h": [ [ "f_chair", 2 ], "f_null" ],
       "I": "f_floor_lamp",
       "j": "f_trashcan",
+      "K": "f_generator_broken",
+      "M": "f_machinery_heavy",
       "l": [ [ "f_stool", 2 ], "f_null" ],
       "n": "f_table",
       "o": "f_bookcase",
@@ -67,6 +68,7 @@
       "S": "f_sink",
       "t": "f_table",
       "u": "f_cupboard",
+      "x": "f_console_broken",
       "X": [ [ "f_wardrobe", 2 ], "f_dresser" ],
       "Y": "f_rack_coat",
       "1": "f_cupboard",
@@ -135,8 +137,7 @@
       "p": "t_region_groundcover_urban",
       "s": "t_sidewalk",
       "w": "t_window",
-      "X": "t_door_locked",
-      "x": "t_console_broken"
+      "X": "t_door_locked"
     },
     "furniture": {
       "A": "f_armchair",
@@ -157,6 +158,7 @@
       "t": "f_table",
       "T": "f_toilet",
       "u": "f_cupboard",
+      "x": "f_console_broken",
       "Y": "f_rack_coat",
       "1": "f_cupboard",
       "2": "f_cupboard",

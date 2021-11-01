@@ -4,7 +4,9 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,16 +15,19 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "memory_fast.h"
+#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
-class player;
+class Character;
 class vpart_info;
 struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
-enum task_reason {
+enum class task_reason : int {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
     INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present
@@ -34,6 +39,7 @@ enum task_reason {
     LOW_LIGHT // Player cannot see enough to work (for operations that require it)
 };
 
+class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
@@ -51,10 +57,10 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &you );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;
@@ -66,19 +72,22 @@ class veh_interact
         /* starting offset for the overview and the max offset for scrolling */
         int overview_offset = 0;
         int overview_limit = 0;
+        // starting offset for installation scrolling
+        int w_msg_scroll_offset = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
+        std::string sel_vpart_variant;
         //Command currently being run by the player
         char sel_cmd = ' ';
 
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
-        int page_size;
+        int page_size = 0;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;
-        catacurses::window w_grid;
+        catacurses::window w_border;
         catacurses::window w_mode;
         catacurses::window w_msg;
         catacurses::window w_disp;
@@ -87,20 +96,36 @@ class veh_interact
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
-        catacurses::window w_owner;
+
+        bool ui_hidden = false;
+        weak_ptr_fast<ui_adaptor> ui;
+
+        cata::optional<std::string> title;
+        cata::optional<std::string> msg;
+
+        int highlight_part = -1;
+
+        struct install_info_t;
+
+        std::unique_ptr<install_info_t> install_info;
+
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
         inventory crafting_inv;
         input_context main_context;
 
-        // maximum level of available lifting equipment (if any)
-        int max_lift;
-        // maximum level of available jacking equipment (if any)
-        int max_jack;
+        // maximum weight capacity of available lifting equipment (if any)
+        units::mass max_lift;
+        // maximum weight_capacity of available jacking equipment (if any)
+        units::mass max_jack;
+
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        void hide_ui( bool hide );
 
         player_activity serialize_activity();
-
-        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
@@ -128,20 +153,28 @@ class veh_interact
          * One function for each specific task
          * @warning presently functions may mutate local state
          * @param msg failure message to display (if any)
-         * @return whether a redraw is required (typically necessary if task opened subwindows)
          */
         /*@{*/
-        bool do_install( std::string &msg );
-        bool do_repair( std::string &msg );
-        bool do_mend( std::string &msg );
-        bool do_refill( std::string &msg );
-        bool do_remove( std::string &msg );
-        bool do_rename( std::string &msg );
-        bool do_siphon( std::string &msg );
-        bool do_unload( std::string &msg );
-        bool do_assign_crew( std::string &msg );
-        bool do_relabel( std::string &msg );
+        void do_install();
+        void do_repair();
+        void do_mend();
+        void do_refill();
+        void do_remove();
+        void do_rename();
+        void do_siphon();
+        // Returns true if exiting the screen
+        bool do_unload();
+        void do_change_shape();
+        void do_assign_crew();
+        void do_relabel();
         /*@}*/
+
+        /**
+        * Calculates the lift requirements for a given vehicle_part
+        * @return bool true if lift requirements are fullfilled
+        * @return string msg for the ui to show the lift requirements
+        */
+        std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
 
         void display_grid();
         void display_veh();
@@ -150,19 +183,53 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
+        struct part_option {
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ) {}
+
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
+                         std::function<void( const vehicle_part &pt )> message ) :
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ),
+                message( message ) {}
+
+            std::string key;
+            vehicle_part *part;
+
+            /** Can the part be selected and used */
+            bool selectable;
+
+            /** Can @param action be run for this entry? */
+            input_event hotkey;
+
+            /** Writes any extra details for this entry */
+            std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
+
+            /** Writes to message window when part is selected */
+            std::function<void( const vehicle_part &pt )> message;
+        };
+        std::vector<part_option> overview_opts;
+        std::map<std::string, std::function<void( const catacurses::window &, int )>> overview_headers;
+        using overview_enable_t = std::function<bool( const vehicle_part &pt )>;
+        using overview_action_t = std::function<void( vehicle_part &pt )>;
+        overview_enable_t overview_enable;
+        overview_action_t overview_action;
+        int overview_pos = -1;
+
+        void calc_overview();
+        void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part
          *
          * @param enable used to determine parts of interest. If \p action also present, these
                          parts are the ones that can be selected. Otherwise, these are the parts
                          that will be highlighted
-         * @param action callback when part is selected, should return true if redraw required.
-         * @return whether redraw is required (always false if no action was run)
+         * @param action callback when part is selected.
          */
-        bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
-                       std::function<bool( vehicle_part &pt )> action = {} );
+        void overview( const overview_enable_t &enable = {},
+                       const overview_action_t &action = {} );
         void move_overview_line( int );
 
         void count_durability();
@@ -176,12 +243,12 @@ class veh_interact
         /** Returns the index of the part that needs repair the most.
          * This may not be mostDamagedPart since not all parts can be repaired
          * If there are no damaged parts this returns -1 */
-        vehicle_part *get_most_repariable_part() const;
+        vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const player &p );
+        bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
-        bool can_install_part();
+        bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();
@@ -224,5 +291,7 @@ class veh_interact
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
 };
+
+void act_vehicle_siphon( vehicle *veh );
 
 #endif // CATA_SRC_VEH_INTERACT_H

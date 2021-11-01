@@ -2,21 +2,21 @@
 #ifndef CATA_SRC_START_LOCATION_H
 #define CATA_SRC_START_LOCATION_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "enums.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-class player;
+class avatar;
 class tinymap;
-struct tripoint;
 
 class start_location
 {
@@ -38,16 +38,16 @@ class start_location
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        tripoint find_player_initial_location() const;
+        tripoint_abs_omt find_player_initial_location() const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
          */
-        void prepare_map( const tripoint &omtstart ) const;
+        void prepare_map( const tripoint_abs_omt &omtstart ) const;
         /**
          * Place the player somewhere in the reality bubble (g->m).
          */
-        void place_player( player &u ) const;
+        void place_player( avatar &you, const tripoint_abs_omt &omtstart ) const;
         /**
          * Burn random terrain / furniture with FLAMMABLE or FLAMMABLE_ASH tag.
          * Doors and windows are excluded.
@@ -55,19 +55,19 @@ class start_location
          * @param rad safe radius area to prevent player spawn next to burning wall.
          * @param count number of fire on the map.
          */
-        void burn( const tripoint &omtstart, size_t count, int rad ) const;
+        void burn( const tripoint_abs_omt &omtstart, size_t count, int rad ) const;
         /**
          * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */
-        void add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const;
+        void add_map_extra( const tripoint_abs_omt &omtstart, const std::string &map_extra ) const;
 
-        void handle_heli_crash( player &u ) const;
+        void handle_heli_crash( avatar &you ) const;
 
         /**
          * Adds surround start monsters.
          * @param expected_points Expected value of "monster points" (map tiles times density from @ref map::place_spawns).
          */
-        void surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
+        void surround_with_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                                      float expected_points ) const;
     private:
         translation _name;

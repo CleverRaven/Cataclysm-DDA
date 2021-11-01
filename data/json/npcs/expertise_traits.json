@@ -697,7 +697,7 @@
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
-    "id": "Exp_Eng_Electrical_Group",
+    "id": "Exp_Eng_Mechanical_Group",
     "subtype": "distribution",
     "traits": [ { "group": "Exp_Eng_Mechanical_Nofake" }, { "group": "Exp_Eng_Mechanical_Any" } ]
   },

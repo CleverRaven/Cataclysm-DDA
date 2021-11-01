@@ -55,5 +55,45 @@
       "terrain": { "T": "t_metal_floor" },
       "item": { "T": { "item": "template_photonics", "chance": 100 } }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofac_radio_leech",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "    @@@                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          u             ",
+        "           T            ",
+        "           k            ",
+        "          u     u       ",
+        "                k       ",
+        "              u         ",
+        "        ku              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "@": "t_pavement" },
+      "monster": {
+        "T": { "monster": "mon_leech_blossom" },
+        "k": { "monster": "mon_leech_pod_cluster" },
+        "u": { "monster": "mon_leech_stalk" }
+      }
+    }
   }
 ]

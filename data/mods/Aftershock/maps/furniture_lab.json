@@ -1,0 +1,454 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_autoclave",
+    "name": "autoclave",
+    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "afs_biomaterial_1", "count": [ 1, 4 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 3 ] },
+        { "item": "afs_magnet_1", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] }
+      ]
+    },
+    "examine_action": "autoclave_empty",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_1", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 1 ] },
+        { "item": "afs_magnet_1", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave_full",
+    "name": "filled autoclave",
+    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "afs_biomaterial_1", "count": [ 1, 4 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 3 ] },
+        { "item": "afs_magnet_1", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] }
+      ]
+    },
+    "examine_action": "autoclave_full",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_1", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 1 ] },
+        { "item": "afs_magnet_1", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sample_freezer",
+    "name": "sample freezer",
+    "description": "A specialized freezer capable of maintaining tempuratures of -80 Celsieus, and is often used only for the preservation of delicate scientific samples.",
+    "symbol": "[",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 18,
+    "max_volume": "1750 L",
+    "looks_like": "f_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
+        { "item": "refrigerant_tank", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
+        { "item": "afs_biomaterial_1", "count": [ 3, 6 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 6 ] },
+        { "item": "afs_biomaterial_3", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 50,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "prob": 25 },
+        { "item": "afs_biomaterial_1", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 2 ] },
+        { "item": "afs_biomaterial_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shaker",
+    "name": "shaker incubator",
+    "description": "A tool for keeping chemical broth nicely mixed, at just the right temperature to grow bacteria.  Although, more bacteria is probably the last thing you need, considering the circumstances.",
+    "symbol": "]",
+    "color": "white_yellow",
+    "move_cost_mod": 3,
+    "coverage": 45,
+    "required_str": 10,
+    "looks_like": "f_glass_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "element", "count": [ 2, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor_small", "charges": 1 },
+        { "item": "cu_pipe", "count": [ 1, 3 ] },
+        { "item": "afs_biomaterial_1", "count": [ 1, 4 ] },
+        { "item": "afs_biomaterial_2", "count": [ 0, 3 ] },
+        { "item": "afs_magnet_1", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "afs_magnet_1", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_HPLC",
+    "name": "high performance liquid chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a liquid or aqueous phase, based on their affinity, to the stationary phase in a tube.  At least, that's what the label says.",
+    "symbol": ":",
+    "color": "red_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "looks_like": "f_machinery_light",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "count": [ 1, 15 ] },
+        { "item": "afs_circuitry_2", "count": [ 3, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_GC",
+    "name": "gas chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase, based on their affinity, to a stationary phase in a tube.  At least, that's what the label says.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 18,
+    "looks_like": "f_machinery_old",
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "afs_circuitry_2", "count": [ 3, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 22,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_MS",
+    "name": "mass spectrometer",
+    "description": "Inside this large white box is a carefully balanced set of electric field generators that can precisely separate ionized particles based on their charge-to-mass ratio, firing them into a detector that measures the exact mass of the particle hitting it.  Invaluable for chemical analysis and other advanced sciences, it's not as useful anymore.",
+    "symbol": "-",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 45,
+    "required_str": -1,
+    "looks_like": "f_machinery_heavy",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "afs_circuitry_2", "charges": [ 4, 8 ] },
+        { "item": "afs_circuitry_3", "charges": [ 1, 4 ] },
+        { "item": "afs_circuitry_4", "charges": 1, "prob": 25 },
+        { "item": "afs_magnet_1", "charges": [ 3, 6 ] },
+        { "item": "afs_magnet_2", "charges": [ 2, 6 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 1, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 24,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "charges": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_magnet_1", "charges": [ 0, 3 ] },
+        { "item": "afs_magnet_2", "charges": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_NMR",
+    "name": "nuclear magnetic resonance spectrometer",
+    "description": "This is a giant electromagnet with carefully tuned measurement equipment used to observe how magnetic fields affect nuclear spins.  It is a common workhorse for the discovery and study of chemical structures.",
+    "symbol": "M",
+    "color": "white_cyan",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": -1,
+    "looks_like": "f_machinery_heavy",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "afs_circuitry_2", "charges": [ 4, 8 ] },
+        { "item": "afs_circuitry_3", "charges": [ 1, 4 ] },
+        { "item": "afs_circuitry_4", "charges": 1, "prob": 25 },
+        { "item": "afs_magnet_1", "charges": [ 3, 6 ] },
+        { "item": "afs_magnet_2", "charges": [ 2, 6 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 1, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 38,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "charges": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_magnet_1", "charges": [ 0, 3 ] },
+        { "item": "afs_magnet_2", "charges": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_centrifuge",
+    "name": "centrifuge",
+    "looks_like": "f_machinery_electronic",
+    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  For some reason, this one has an attached battery pack.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
+    "symbol": "{",
+    "color": "magenta",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "circuit", "count": 4 },
+        { "item": "scrap", "count": 5 },
+        { "item": "motor_small", "count": 1 },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "storage_battery", "count": 1 },
+        { "item": "betavoltaic", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "cable", "charges": 5 },
+        { "item": "afs_circuitry_2", "charges": [ 2, 6 ] },
+        { "item": "afs_circuitry_3", "charges": [ 1, 2 ] },
+        { "item": "afs_magnet_1", "charges": [ 3, 6 ] },
+        { "item": "afs_magnet_2", "charges": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "afs_circuitry_2", "charges": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_magnet_1", "charges": [ 0, 3 ] },
+        { "item": "afs_magnet_2", "charges": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 0, 2 ] }
+      ]
+    }
+  }
+]

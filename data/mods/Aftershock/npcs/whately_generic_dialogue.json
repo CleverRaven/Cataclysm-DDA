@@ -1,0 +1,106 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_met_whately"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_whately",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Outsider.", "Hello.", "Hospitality rites are civilization.", "Guest.", "How's the madness outside?" ],
+      "no": "We don't get outsiders around here all that much."
+    },
+    "responses": [
+      {
+        "text": "Who are you?",
+        "effect": { "u_add_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_WHATELY_firstmeet"
+      },
+      {
+        "text": "What is this place?",
+        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_WHATELY_place"
+      },
+      {
+        "text": "What's your story?",
+        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_WHATELY_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_WHATELY_ask_mood"
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "How do I join the family?", "topic": "TALK_WHATELY_ask_membership" },
+      { "text": "I'm going on my way now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_firstmeet",
+    "dynamic_line": "I'm a member of the Whately Family.  Who are you?",
+    "responses": [
+      { "text": "I am lost and really need something to eat.", "topic": "TALK_WHATELY_food" },
+      { "text": "I am just a fellow survivor.", "topic": "TALK_WHATELY_1" },
+      { "text": "I've done some tasks for your relatives.", "topic": "TALK_WHATELY_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_place",
+    "dynamic_line": "Welcome to Whately lands.  Behave yourself or we'll harvest you for parts.",
+    "responses": [
+      { "text": "Can you give me something to eat then?", "topic": "TALK_WHATELY_food" },
+      { "text": "What can I buy here?", "topic": "TALK_WHATELY_ask_goods" },
+      { "text": "Oh, okay.", "topic": "TALK_WHATELY_1" },
+      { "text": "Family bonds above all, huh?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_food",
+    "dynamic_line": "We aren't in the habit of breaking bread with outsiders.",
+    "responses": [
+      { "text": "I can pay.", "topic": "TALK_WHATELY_ask_goods" },
+      { "text": "How do I join your family?", "topic": "TALK_WHATELY_ask_membership" },
+      { "text": "Well I'm heading out then", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_ask_goods",
+    "dynamic_line": "Then let's see what you've got to trade.",
+    "responses": [
+      { "text": "It was worth a try.", "topic": "TALK_WHATELY_1" },
+      { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_WHATELY_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_ask_membership",
+    "dynamic_line": "Only blood allowed, and the family Elders can make you of the blood.",
+    "responses": [ { "text": "Well that sounds creepy.", "topic": "TALK_WHATELY_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_ask_past",
+    "dynamic_line": "I was born part of the family.  We've never been accepted here but our wealth and talents have kept us alive through the centuries.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_WHATELY_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WHATELY_ask_mood",
+    "dynamic_line": "Family keeps me busy and our experiments and projects take up the rest of my time.",
+    "responses": [ { "text": "I'm glad you stay busy.", "topic": "TALK_WHATELY_1" } ]
+  }
+]

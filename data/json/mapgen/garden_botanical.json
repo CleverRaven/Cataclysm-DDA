@@ -85,7 +85,7 @@
         "m": [ "f_mutpoppy", "f_null", "f_null" ]
       },
       "place_signs": [
-        { "signage": "Welcome to <city> Botanical Garden! Please stay on the path!", "x": 21, "y": 2 },
+        { "signage": "Welcome to <city> Botanical Garden!  Please stay on the path!", "x": 21, "y": 2 },
         { "signage": "WILLOW", "x": 13, "y": 4 },
         { "signage": "PINE", "x": 6, "y": 7 },
         { "signage": "HICKORY", "x": 3, "y": 13 },
@@ -96,7 +96,7 @@
         { "signage": "POPPY", "x": 14, "y": 19 },
         { "signage": "CACTUS", "x": 19, "y": 14 },
         { "signage": "DANDELION", "x": 19, "y": 19 },
-        { "signage": "Welcome to <city> Botanical Garden! Please stay on the path!", "x": 26, "y": 2 },
+        { "signage": "Welcome to <city> Botanical Garden!  Please stay on the path!", "x": 26, "y": 2 },
         { "signage": "KENTUCKY COFFEE", "x": 24, "y": 7 },
         { "signage": "PEAR", "x": 30, "y": 3 },
         { "signage": "CHERRY", "x": 34, "y": 4 },

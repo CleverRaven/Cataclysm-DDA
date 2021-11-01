@@ -184,7 +184,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_cook_currency",
-    "dynamic_line": "We use religious icons as our currency.  These were made before <the_cataclysm>, and the name of our community is written on the back.  It's a lot more handy than old-world dollars, those are basicly just firestarters here.",
+    "dynamic_line": "We use religious icons as our currency.  These were made before <the_cataclysm>, and the name of our community is written on the back.  It's a lot more handy than old-world dollars, those are basically just firestarters here.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_GODCO_cook_1" },
       { "text": "What can I buy here?", "topic": "TALK_GODCO_cook_ask_goods" }
@@ -209,11 +209,11 @@
       "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
       "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
       "inquire": "How is the search going?  Have you found 'em?",
-      "success": "I really apreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 2 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ] }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_2",
@@ -223,7 +223,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
-    "item": "jar_glass",
+    "item": "jar_glass_sealed",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_COOK_FOOD_3",
@@ -232,13 +232,13 @@
       "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars.  I could get by with 5 for now.",
       "accepted": "Thanks for accepting this task.  It'll take a load off my shoulders.  I finally won't have to worry about this problem anymore.",
       "rejected": "Just let me know if you change your mind.",
-      "advice": "Glass jars are not that hard to find.  I'd look for them in residental areas.",
+      "advice": "Glass jars are not that hard to find.  I'd look for them in residential areas.",
       "inquire": "Have you found the jars?",
       "success": "Thank you for your help.  Here's your reward.  I have one more task to do.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 5 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_3",
@@ -259,9 +259,9 @@
       "advice": "Butcher knives are not that rare to find.  They are commonly found in kitchens.",
       "inquire": "Do you have that knife now?",
       "success": "I am grateful for the help you've done.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
   }
 ]

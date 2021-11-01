@@ -19,6 +19,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sporeos",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",

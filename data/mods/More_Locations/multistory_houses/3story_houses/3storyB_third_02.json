@@ -33,6 +33,7 @@
         "########################"
       ],
       "palettes": [ "multistory_house", "upper_level" ],
+      "monster": { "z": { "monster": "mon_zombie" } },
       "set": [
         { "square": "terrain", "x": 13, "y": 7, "x2": 19, "y2": 9, "id": "t_linoleum_white" },
         { "square": "terrain", "x": 3, "y": 15, "x2": 11, "y2": 20, "id": "t_linoleum_gray" }

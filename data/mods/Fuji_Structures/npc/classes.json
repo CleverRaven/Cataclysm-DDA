@@ -15,7 +15,7 @@
       { "skill": "rifle", "bonus": { "rng": [ 1, 5 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "smg", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 1, 6 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 1, 6 ] } }
     ]
   }
 ]

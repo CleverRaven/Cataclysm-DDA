@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "avatar.h"
+#include "character.h"
 #include "debug.h"
 #include "game.h"
 #include "messages.h"
@@ -24,8 +24,8 @@ void mission_end::deposit_box( mission *miss )
     if( one_in( 4 ) ) {
         itemName = "katana";
     } else if( one_in( 3 ) ) {
-        itemName = "m4a1";
+        itemName = "m4_carbine";
     }
-    g->u.i_add( item( itemName, 0 ) );
-    add_msg( m_good, _( "%s gave you an item from the deposit box." ), p->name );
+    get_player_character().i_add( item( itemName, calendar::turn_zero ) );
+    add_msg( m_good, _( "%s gave you an item from the deposit box." ), p->get_name() );
 }

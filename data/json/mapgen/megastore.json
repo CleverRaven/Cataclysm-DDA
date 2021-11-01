@@ -10,7 +10,7 @@
       "^": "t_glass_roof",
       "1": "t_metal_railing",
       "%": "t_grate",
-      ",": "t_grass",
+      ",": "t_region_groundcover_urban",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_glass_c",
@@ -23,10 +23,10 @@
       "W": "t_sidewalk",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "6": "t_console_broken",
       "Y": "t_switchgear_s"
     },
     "furniture": {
+      "6": "f_console_broken",
       "a": "f_armchair",
       "A": "f_sofa",
       "b": "f_bookcase",
@@ -1989,7 +1989,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
-      "terrain": { "%": "t_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" }
     }
   },
   {
@@ -2256,6 +2256,7 @@
       ],
       "rotation": 0,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2308,6 +2309,7 @@
       ],
       "rotation": 0,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2360,6 +2362,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2412,6 +2415,7 @@
       ],
       "rotation": 3,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ] },
         { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 }
@@ -2467,6 +2471,7 @@
       ],
       "rotation": [ 0, 3 ],
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 20 ], [ "roof_2x2_infrastructure_2", 20 ], [ "roof_2x2_utilities", 20 ] ],
@@ -2512,6 +2517,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2563,6 +2569,7 @@
       ],
       "rotation": 3,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
@@ -2608,6 +2615,7 @@
       ],
       "rotation": 2,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2659,6 +2667,7 @@
       ],
       "rotation": 2,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],

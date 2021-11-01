@@ -3,24 +3,20 @@
 #define CATA_SRC_NPCTRADE_H
 
 #include <cstddef>
-#include <vector>
-#include <string>
-#include <utility>
-#include <algorithm>
+#include <iosfwd>
 #include <list>
+#include <type_traits>
+#include <vector>
 
+#include "cursesdef.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "output.h"
 #include "units.h"
-#include "cursesdef.h"
-#include "translations.h"
 
 class Character;
 class faction;
 class item;
 class npc;
-class player;
 class ui_adaptor;
 
 class item_pricing
@@ -37,10 +33,10 @@ class item_pricing
         void adjust_values( double adjust, const faction *fac );
 
         item_location loc;
-        int price;
+        int price = 0;
         // Whether this is selected for trading
         bool selected = false;
-        bool is_container;
+        bool is_container = false;
         int count = 0;
         int charges = 0;
         int u_has = 0;
@@ -57,6 +53,7 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
+        int your_sale_value = 0;
         int your_balance = 0;
 
         void setup_trade( int cost, npc &np );
@@ -79,8 +76,11 @@ class trading_window
         units::volume volume_left;
         units::mass weight_left;
 
+        void item_selection( npc &np, std::vector<item_pricing> &target_list,
+                             item_pricing &ip, bool max = false );
         int get_var_trade( const item &it, int total_count );
         bool npc_will_accept_trade( const npc &np ) const;
+        bool npc_can_fit_items( const npc &np ) const;
         int calc_npc_owes_you( const npc &np ) const;
 };
 
@@ -91,12 +91,13 @@ bool pay_npc( npc &np, int cost );
 
 int cash_to_favor( const npc &, int cash );
 
-void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                     std::list<item_location *> &from_map, bool npc_gives );
-double net_price_adjustment( const player &buyer, const player &seller );
+std::list<item> transfer_items( std::vector<item_pricing> &stuff, Character &giver,
+                                Character &receiver,
+                                std::list<item_location *> &from_map, bool npc_gives );
+double net_price_adjustment( const Character &buyer, const Character &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
-std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
+std::vector<item_pricing> init_buying( Character &buyer, Character &seller, bool is_npc );
 } // namespace npc_trading
 
 #endif // CATA_SRC_NPCTRADE_H

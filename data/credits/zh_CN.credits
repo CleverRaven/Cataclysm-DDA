@@ -1,0 +1,27 @@
+# 单行字数 <= 78，如下例
+# 超长的行会自动折叠
+##############################################################################
+<color_white>原作者：</color>   <color_white>项目管理员：</color>
+<color_yellow>Whales</color>（<color_dark_gray>不再参与</color>） <color_yellow>KevinGranade</color>
+
+<color_white>当前主要开发者：</color>
+<color_yellow>mlangsdorf</color> - 载具，船只，营地和mod制作的教程。
+<color_yellow>I-am-Erk</color> - 维护Ultica贴图包
+<color_yellow>KorGgenT</color> - 口袋系统与大魔法
+
+<color_white>特别感谢：</color>
+<color_yellow>Aivean</color> - 程序优化
+<color_yellow>anothersimulacrum </color> - 疲劳系统
+<color_yellow>jbytheway</color> - Python程序修正、错误信息定位以及营地建造蓝图。
+<color_yellow>BrettD</color> - 翻译管理以及其他程序修正。
+<color_yellow>Qrox</color> - 定位并显示游戏程序错误信息
+<color_yellow>LyleSY</color> - 恐龙
+
+<color_white>特别鸣谢艺术贡献者：</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>，以及其他贡献者。
+
+<color_white>完整贡献者列表请见：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+《<color_light_cyan>大灾变</color>·<color_light_blue>劫后余生</color>》按<color_white> CC-BY-SA 3.0 </color> 授权协议发布：
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

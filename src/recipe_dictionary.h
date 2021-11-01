@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_RECIPE_DICTIONARY_H
 #define CATA_SRC_RECIPE_DICTIONARY_H
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -15,10 +16,8 @@
 #include "type_id.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
-
-using itype_id = std::string;
+class JsonOut;
 
 class recipe_dictionary
 {
@@ -47,8 +46,10 @@ class recipe_dictionary
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
+        static void load_practice( const JsonObject &jo, const std::string &src );
 
         static void finalize();
+        static void check_consistency();
         static void reset();
 
     protected:
@@ -126,15 +127,18 @@ class recipe_subset
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
-        enum class search_type {
+        enum class search_type : int {
             name,
+            exclude_name,
             skill,
             primary_skill,
             component,
             tool,
             quality,
             quality_result,
-            description_result
+            description_result,
+            proficiency,
+            difficulty,
         };
 
         /** Find marked favorite recipes */
@@ -147,10 +151,13 @@ class recipe_subset
         std::vector<const recipe *> hidden() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
-        std::vector<const recipe *> search( const std::string &txt,
-                                            search_type key = search_type::name ) const;
+        std::vector<const recipe *> search(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
+        recipe_subset reduce(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */

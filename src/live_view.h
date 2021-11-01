@@ -2,20 +2,20 @@
 #ifndef CATA_SRC_LIVE_VIEW_H
 #define CATA_SRC_LIVE_VIEW_H
 
+#include <memory>
+
+#include "cursesdef.h"
 #include "point.h"
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
+class ui_adaptor;
 
 class live_view
 {
     public:
-        live_view() = default;
+        live_view();
+        ~live_view();
 
         void init();
-        int draw( const catacurses::window &win, int max_height );
         void show( const tripoint &p );
         bool is_enabled();
         void hide();
@@ -23,7 +23,8 @@ class live_view
     private:
         tripoint mouse_position;
 
-        bool enabled = false;
+        catacurses::window win;
+        std::unique_ptr<ui_adaptor> ui;
 };
 
 #endif // CATA_SRC_LIVE_VIEW_H

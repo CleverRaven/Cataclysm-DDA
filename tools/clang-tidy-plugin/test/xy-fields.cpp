@@ -55,3 +55,17 @@ struct D {
     float x;
     float y;
 };
+
+struct E {
+    // Verify that there is not warning for this case, which was causing a
+    // false positive
+    int text_x_start;
+    int text_x_end;
+    int y;
+};
+
+struct F {
+    // CHECK-MESSAGES: warning: 'F' defines fields 'x' and 'y'.  Consider combining into a single point field. [cata-xy]
+    const volatile int x;
+    const volatile int y;
+};

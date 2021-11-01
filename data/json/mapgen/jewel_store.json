@@ -42,7 +42,7 @@
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_b",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        ".": [ "t_region_groundcover_urban", "t_region_shrub" ],
         "5": "t_chainfence_h",
         "8": "t_chainfence_v",
         "F": "t_sidewalk",
@@ -50,13 +50,13 @@
         "_": "t_pavement",
         "h": "t_wall_glass_alarm",
         "v": "t_wall_glass_alarm",
-        "?": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_b"
       },
       "furniture": {
         "#": "f_counter",
         "%": "f_counter",
+        "?": "f_console_broken",
         "G": "f_desk",
         "T": "f_safe_l",
         "c": "f_chair",
