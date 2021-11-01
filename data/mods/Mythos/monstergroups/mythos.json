@@ -5,7 +5,14 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 875 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
@@ -23,7 +30,14 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 885 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
@@ -37,6 +51,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 900 },
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
@@ -48,7 +63,14 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 885 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
@@ -68,7 +90,14 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 875 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_ghoul", "weight": 5, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
       { "monster": "mon_ghoul", "weight": 5, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
@@ -95,7 +124,14 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 870 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
       { "monster": "mon_rat_thing", "weight": 5, "cost_multiplier": 0 },
@@ -116,7 +152,14 @@
     "//": "+30% cops",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_ghast", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 5 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_null", "weight": 865 },
+      {
+        "monster": "mon_ghast",
+        "weight": 5,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 5 ],
+        "conditions": [ "NIGHT", "DUSK" ]
+      },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
@@ -137,6 +180,7 @@
     "//": "+15% child",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -162,6 +206,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -188,6 +233,7 @@
     "//": "+13% fast",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -214,6 +260,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -240,6 +287,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -265,6 +313,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -291,6 +340,7 @@
     "//": "10% chance of a zombie",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 875 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -313,6 +363,7 @@
     "//": "School monster spawns.",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -338,6 +389,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -363,6 +415,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -388,6 +441,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -413,6 +467,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -438,6 +493,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -462,6 +518,7 @@
     "override": true,
     "type": "monstergroup",
     "monsters": [
+      { "monster": "mon_null", "weight": 823 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -502,6 +559,7 @@
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs + 20% medical",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -528,6 +586,7 @@
     "//": "Steel mill monster spawns.",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -553,6 +612,7 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -578,6 +638,7 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -614,6 +675,7 @@
     "name": "DUMP_ZOMBIES",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -639,6 +701,7 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -664,6 +727,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -689,6 +753,7 @@
     "override": true,
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
@@ -714,6 +779,7 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_null", "weight": 865 },
       { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
       {
         "monster": "mon_ghast",
