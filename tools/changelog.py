@@ -98,4 +98,4 @@ def generate_changelogs(starting_date,ending_date=None):
 
 if __name__ =='__main__':
     starting_time = datetime.today() - timedelta(days=7)
-    generate_changelogs(datetime.fromisoformat(starting_time))
+    generate_changelogs(starting_time)
