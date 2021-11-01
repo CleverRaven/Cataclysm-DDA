@@ -53,30 +53,24 @@ jobs:
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
           prerelease: true
-  changelogs:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: setup python
+      - name: Install python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8 #install the python needed
-      - name: Install dependcies
+      - name: Install python depednecies
         run: |
           pip install requests
-      - name: Generate Changelogs # run the run.py to get the latest data
+      - name: Generate Changelogs
         run: |
           python tools/changelog.py >> changelogs.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      - name: Upload changelogs
-        id: upload-changelogs
+      - name: Upload Changelogs
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
+          upload_url: ${{steps.create_release.outputs.upload_url}} 
           asset_path: changelogs.md
           asset_name: changelogs.md
           asset_content_type: text/plain
