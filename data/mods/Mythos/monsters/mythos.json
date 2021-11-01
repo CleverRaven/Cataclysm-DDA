@@ -127,7 +127,7 @@
   {
     "id": "mon_dark_young",
     "type": "MONSTER",
-    "name": { "str": "dark young" },
+    "name": { "str": "dark young", "str_pl": "dark young" },
     "looks_like": "mon_zombie_thorny",
     "description": "A horrifying, pitch-black monstrosity, seemingly made of ropy tentacles.  It stands as tall as a tree on stumpy, hoofed legs, and its flanks covered in puckered maws, dripping green goo.",
     "default_faction": "shub-niggurath",
@@ -280,7 +280,7 @@
   {
     "id": "mon_outer_servitor",
     "type": "MONSTER",
-    "name": { "str": "servitor of the outer gods" },
+    "name": { "str": "servitor of the outer gods", "str_pl": "servitors of the outer gods" },
     "looks_like": "mon_thing",
     "description": "A constantly-flickering mass of eyes, mouths, and tentacles hanging in the air, emitting a piping noise from flutes of bone.",
     "default_faction": "nyarlathotep",
