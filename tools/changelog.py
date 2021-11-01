@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib
 from concurrent.futures.thread import ThreadPoolExecutor 
 from concurrent.futures import as_completed
@@ -10,7 +10,7 @@ import sys
 # get one here https://github.com/settings/tokens
 # should look like this ghp_cCx5F6xTSn07hbSRxZW2pbFsNFyiQPCx5K19
 
-API_KEY =  os.environ["key"]
+API_KEY =  os.environ["GITHUB_TOKEN"]
 REPO_API = 'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/'
 
 def github_fetch(path,parms={}):
@@ -97,5 +97,5 @@ def generate_changelogs(starting_date,ending_date=None):
 
 
 if __name__ =='__main__':
-    starting_time = '2021-10-20'
+    starting_time = datetime.today() - timedelta(days=7)
     generate_changelogs(datetime.fromisoformat(starting_time))
