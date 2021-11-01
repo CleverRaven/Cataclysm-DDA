@@ -1264,35 +1264,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
-    "weapons": [
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "ji",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "long_pole",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pike",
-      "pike_inferior",
-      "pike_fake",
-      "pitchfork",
-      "qiang",
-      "spear_copper",
-      "spear_dory",
-      "spear_forked",
-      "spear_homemade_halfpike",
-      "spear_pipe",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood"
-    ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "type": "martial_art",
