@@ -53,6 +53,34 @@ jobs:
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
           prerelease: true
+  changelogs:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+      - name: Install dependcies
+        run: |
+          pip install requests
+      - name: Generate Changelogs # run the run.py to get the latest data
+        run: |
+          python tools/changelog.py >> changelogs.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Upload changelogs
+        id: upload-changelogs
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }} 
+          asset_path: changelogs.md
+          asset_name: changelogs.md
+          asset_content_type: text/plain
+    
   builds:
     needs: release
     if: ${{ needs.release.outputs.release_already_exists == 'false' }}
@@ -279,28 +307,3 @@ jobs:
             --url https://api.github.com/repos/${{ github.repository }}/pages/builds \
             --header "Authorization: Bearer ${{ secrets.USER_TOKEN }}" \
             --header "Accept: application/vnd.github.v3+json"
-  changelogs:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8 #install the python needed
-      - name: Generate Changelogs # run the run.py to get the latest data
-        run: |
-          python tools/changelog.py >> changelogs.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      - name: Upload changelogs
-        id: upload-changelogs
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: changelogs.md
-          asset_name: changelogs.md
-          asset_content_type: text/plain
-    
