@@ -288,9 +288,19 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8 #install the python needed
-      - name: execute py script # run the run.py to get the latest data
+      - name: Generate Changelogs # run the run.py to get the latest data
         run: |
-          python utilities/changelog.py
+          python tools/changelog.py >> changelogs.md
         env:
-          key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Upload changelogs
+        id: upload-changelogs
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }} 
+          asset_path: changelogs.md
+          asset_name: changelogs.md
+          asset_content_type: text/plain
     
