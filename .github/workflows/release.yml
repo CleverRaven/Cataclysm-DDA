@@ -280,7 +280,7 @@ jobs:
             --header "Authorization: Bearer ${{ secrets.USER_TOKEN }}" \
             --header "Accept: application/vnd.github.v3+json"
   changelogs:
-    needs: builds
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
