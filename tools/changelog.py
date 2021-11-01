@@ -6,9 +6,6 @@ from concurrent.futures import as_completed
 import os
 import sys 
 
-# If you don't have a github api key, you are likely to be rate limited.
-# get one here https://github.com/settings/tokens
-# should look like this ghp_cCx5F6xTSn07hbSRxZW2pbFsNFyiQPCx5K19
 
 API_KEY =  os.environ["GITHUB_TOKEN"]
 REPO_API = 'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/'
@@ -61,10 +58,11 @@ def get_commits_in_time_range(starting_date,ending_date):
     while current_timestamp > starting_date:
         releases = get_releases(page_num)
         for release in releases:
-            commits_hashes.append(release['target_commitish'])
             current_timestamp = datetime.fromisoformat(release['published_at'][:-1])
             if current_timestamp < starting_date:
                 break
+            if current_timestamp < ending_date:
+                commits_hashes.append(release['target_commitish'])
         page_num+=1
     
     return commits_hashes
@@ -97,5 +95,6 @@ def generate_changelogs(starting_date,ending_date=None):
 
 
 if __name__ =='__main__':
+    # for now, generate the last weeks logs
     starting_time = datetime.today() - timedelta(days=7)
     generate_changelogs(starting_time)
