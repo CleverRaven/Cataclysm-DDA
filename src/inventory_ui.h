@@ -145,6 +145,7 @@ class inventory_entry
         void update_cache();
         bool highlight_as_parent = false;
         bool highlight_as_child = false;
+        bool collapsed = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -316,15 +317,14 @@ class inventory_column
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, const point &p,
-                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
-                   const bool allow_hide = false );
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
-        void set_collapsed( std::vector<item_location> &locations, const bool collapse );
+        void set_collapsed( inventory_entry &entry, const bool collapse );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
@@ -363,7 +363,7 @@ class inventory_column
         /**
          * Event handlers
          */
-        virtual void on_input( const inventory_input &input, const bool allow_hide = false );
+        virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
         virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
@@ -434,6 +434,7 @@ class inventory_column
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
+        std::vector<inventory_entry> entries_hidden;
         std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
@@ -541,9 +542,6 @@ class inventory_selector
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
-
-        // Whether to allow hiding/unhiding of container contents in this selector.
-        bool allow_hide = false;
 
     protected:
         Character &u;
