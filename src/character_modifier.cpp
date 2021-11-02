@@ -122,11 +122,11 @@ float Character::balance_score() const
 
 double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
 {
-    double skill_mult = 1.0;
+    double skill_mult = 0.5;
     if( gun_skill == skill_pistol ) {
         skill_mult = 2.0;
     } else if( gun_skill == skill_rifle ) {
-        skill_mult = 0.9;
+        skill_mult = 0.5;
     }
     /** @EFFECT_PISTOL increases aiming speed for pistols */
     /** @EFFECT_SMG increases aiming speed for SMGs */

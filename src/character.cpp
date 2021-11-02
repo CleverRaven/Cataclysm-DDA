@@ -749,9 +749,14 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
+        int effective_aim_speed = mod.aim_speed;
+        if( e->has_flag( flag_ZOOM ) && mod.aim_speed < 6 ) {
+            effective_aim_speed += ( 6 - mod.aim_speed ) * logarithmic( -recoil / ( MAX_RECOIL / 10 ) ) * 2;
+            //effective_aim_speed = 6;
+        }
         if( effective_dispersion( mod.sight_dispersion ) < recoil &&
-            mod.aim_speed > sight_speed_modifier ) {
-            sight_speed_modifier = mod.aim_speed;
+            effective_aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = effective_aim_speed;
             limit = effective_dispersion( mod.sight_dispersion );
         }
     }
@@ -834,16 +839,17 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     aim_speed *= aim_speed_modifier();
 
-    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
+    //aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
     // Just a raw scaling factor.
-    aim_speed *= 6.5;
+    aim_speed *= 2.5;
 
     // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
-    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+    //aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+    aim_speed *= recoil / MAX_RECOIL;
 
     // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
-    aim_speed = std::max( aim_speed, 5.0 );
+    aim_speed = std::max( aim_speed, 1.0 );
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
