@@ -520,7 +520,7 @@ static bool mx_military( map &m, const tripoint & )
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
-                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = item_group_id( "military_standard_sniper_rifles" );
                     } else if( one_in( 19 ) ) {
