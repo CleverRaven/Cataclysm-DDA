@@ -111,7 +111,10 @@
     "name": "leatherworking (intermediate)",
     "description": "Practice the correct cut and sewing of big leather patches in clothing making, using your knowledge to give it practical forms.",
     "skill_used": "tailor",
-    "proficiencies": [ { "proficiency": "prof_leatherworking", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": true },
+      { "proficiency": "prof_leatherworking", "fail_multiplier": 1, "time_multiplier": 1 }
+    ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
     "autolearn": [ [ "tailor", 3 ] ],
