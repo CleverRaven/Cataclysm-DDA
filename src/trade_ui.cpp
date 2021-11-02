@@ -19,6 +19,9 @@
 #include "type_id.h"
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
+static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
 namespace
 {
 point _pane_orig( int side )
@@ -68,6 +71,16 @@ std::string trade_preset::get_denial( const item_location &loc ) const
     }
 
     return inventory_selector_preset::get_denial( loc );
+}
+
+bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
+{
+    item_category const *const rcat = rhs.get_category_ptr();
+    if( rcat->get_id() == item_category_ITEMS_WORN or rcat->get_id() == item_category_WEAPON_HELD ) {
+        return true;
+    }
+
+    return inventory_selector_preset::cat_sort_compare( lhs, rhs );
 }
 
 trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string title )

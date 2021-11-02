@@ -52,6 +52,7 @@ class trade_preset : public inventory_selector_preset
 
         bool is_shown( item_location const &loc ) const override;
         std::string get_denial( const item_location &loc ) const override;
+        bool cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override;
 
     private:
         Character const &_u, &_trader;
