@@ -460,7 +460,6 @@
     "harvest": "human",
     "starting_ammo": { "9mm": 3 },
     "special_attacks": [
-      [ "GRAB", 7 ],
       {
         "type": "gun",
         "cooldown": 10,
@@ -522,9 +521,8 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "human",
-    "starting_ammo": { "9mm": 6 },
+    "starting_ammo": { "9mm": 5 },
     "special_attacks": [
-      [ "GRAB", 7 ],
       {
         "type": "gun",
         "cooldown": 5,
@@ -593,9 +591,8 @@
     "vision_night": 4,
     "harvest": "human",
     "luminance": 500,
-    "starting_ammo": { "9mm": 5, "223": 8 },
+    "starting_ammo": { "223": 8 },
     "special_attacks": [
-      [ "GRAB", 7 ],
       {
         "type": "gun",
         "cooldown": 5,
