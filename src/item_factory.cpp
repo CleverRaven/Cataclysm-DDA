@@ -1276,6 +1276,19 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
+            // check the thickness of the item and make sure it'll fit on the layer
+            float thickness = type->armor->avg_thickness();
+            if( type->layer == layer_level::UNDERWEAR ) {
+                if( thickness > 1 ) {
+                    msg += string_format( "items has thickness %f mm. On underwear layer need to be less than: 1mm thick\n",
+                                          thickness );
+                }
+            } else if( type->layer == layer_level::REGULAR ) {
+                if( thickness > 2 ) {
+                    msg += string_format( "items has thickness %f mm. On regular layer need to be less than: 2mm thick\n",
+                                          thickness );
+                }
+            }
         }
 
         if( type->weight < 0_gram ) {
