@@ -57,5 +57,48 @@
     "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "nail", 20 ] ] ],
     "byproducts": [ [ "splinter", 15 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "id": "prac_welding_beg",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "welding (beginner)",
+    "description": "Practice welding and separating some small metal sheets to one another in some simple forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "fail_multiplier": 1, "time_multiplier": 1 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1, "time_multiplier": 1 }
+    ],
+    "time": "1 h",
+    "components": [ [ [ "sheet_metal_small", 24 ] ] ],
+    "byproducts": [ [ "scrap", 6 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "autolearn": [ [ "fabrication", 3 ] ],
+    "book_learn": [ [ "textbook_fabrication", 2 ] ]
+  },
+  {
+    "id": "prac_welding_int",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "welding (intermediate)",
+    "description": "Practice welding, separating and giving form to some metal sheets in intrincated paterns and complicated designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_welding_basic", "required": true },
+      { "proficiency": "prof_welding", "fail_multiplier": 1, "time_multiplier": 1 }
+    ],
+    "time": "1 h",
+    "components": [ [ [ "sheet_metal_small", 30 ] ] ],
+    "byproducts": [ [ "scrap", 8 ] ],
+    "using": [ [ "welding_standard", 15 ] ],
+    "autolearn": [ [ "fabrication", 5 ] ],
+    "book_learn": [ [ "welding_book", 4 ] ]
   }
 ]
