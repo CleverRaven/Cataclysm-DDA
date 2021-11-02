@@ -952,7 +952,7 @@
       [ "towel", 40 ],
       [ "scorecard", 10 ],
       [ "golf_club", 75 ],
-      [ "pencil", 20 ]
+      [ "pencil", 20, "charges": [ 0, 100 ] ]
     ]
   },
   {
