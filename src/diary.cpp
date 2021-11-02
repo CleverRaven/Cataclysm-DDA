@@ -5,28 +5,23 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-//#include <filesystem>
 
-#include "game.h"
-#include "filesystem.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "path_info.h"
-#include "output.h"
 #include "cata_utility.h"
+#include "filesystem.h"
+#include "game.h"
 #include "mission.h"
-#include "avatar.h"
-#include "skill.h"
 #include "mtype.h"
-#include "type_id.h"
 #include "mutation.h"
+#include "output.h"
+#include "path_info.h"
+#include "skill.h"
 #include "string_formatter.h"
-
-
-
+#include "type_id.h"
 
 diary_page::diary_page() = default;
-
 
 std::vector<std::string> diary::get_pages_list()
 {
@@ -794,8 +789,3 @@ void diary::deserialize( JsonIn &jsin )
 
     }
 }
-
-
-
-
-

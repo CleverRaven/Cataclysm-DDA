@@ -28,8 +28,6 @@ string_editor_window::string_editor_window( catacurses::window &win, std::string
     _foldedtext = foldstring( _utext.str(), _max.x - 1 );
 }
 
-
-
 std::pair<int, int> string_editor_window::get_line_and_position( std::vector<std::string>
         foldedtext, int position )
 {
@@ -43,7 +41,6 @@ std::pair<int, int> string_editor_window::get_line_and_position( std::vector<std
     for( int i = 0; i < static_cast<int>( foldedtext.size() ); i++ ) {
         utf8_wrapper linetext( foldedtext[i] );
         int temp = linetext.display_width();
-        //int size = static_cast<int>( foldedtext[i].size() );
         //foldstring, cuts " " away, so it is possible to get a hughe disconect between folded and unfolded string.
         temp += ( foldedtext[i].back() != ' ' ) ? 1 : 0;
 
@@ -158,7 +155,7 @@ void string_editor_window::coursour_up( int n )
 void string_editor_window::coursour_down( int n )
 {
     for( int i = 0; i < n; i++ ) {
-        int size = utf8_wrapper( _foldedtext[_yposition] ).size();
+        int size = utf8_wrapper( _foldedtext[_yposition % _foldedtext.size()] ).size();
         int nextsize = utf8_wrapper( _foldedtext[( _yposition + 1 ) % _foldedtext.size()] ).size();
         if( size == 0 ) {
             _position++;
@@ -252,7 +249,6 @@ const std::string &string_editor_window::query_string( const bool loop )
         } else if( ch == 0x16 || ch == KEY_F( 2 ) || !ev.text.empty() || ch == KEY_ENTER || ch == '\n' ) {
             // ctrl-v, f2, or _utext input
             // bail out early if already at length limit
-            //if (_max_length <= 0 || _utext.display_width() < static_cast<size_t>(_max_length)) {
             std::string entered;
             if( ch == 0x16 ) {
 #if defined(TILES)

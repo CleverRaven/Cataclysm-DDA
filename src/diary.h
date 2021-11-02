@@ -2,18 +2,18 @@
 #ifndef CATA_SRC_DIARY_H
 #define CATA_SRC_DIARY_H
 
-
 #include <string>
 #include <list>
 #include <vector>
 
-#include "kill_tracker.h"
-#include "stats_tracker.h"
 #include "achievement.h"
 #include "character.h"
-#include "units.h"
+#include "kill_tracker.h"
 #include "skill.h"
+#include "stats_tracker.h"
 #include "ui.h"
+#include "units.h"
+
 
 /// <summary>
 /// diary page, to save current charakter progression
@@ -24,7 +24,7 @@ struct diary_page {
     std::string m_text;
     time_point privius_Page_turn;
     std::vector<std::string> diff_to_previus_page;
-    /*turn the page was chreated*/
+    /*turn the page was created*/
     time_point turn;
     /*mission ids for completed/active and faild missions*/
     std::vector<int> mission_completed;

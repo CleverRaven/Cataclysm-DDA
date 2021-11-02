@@ -6,12 +6,12 @@
 #include <string>
 #include <vector>
 
+#include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "cursesdef.h"
 #include "wcwidth.h"
 
 /// <summary>
@@ -24,8 +24,6 @@
 /// </summary>
 class string_editor_window
 {
-
-
     private:
         /*window it is schown in*/
         catacurses::window _win;
@@ -55,14 +53,15 @@ class string_editor_window
     public:
         string_editor_window( catacurses::window &win, std::string text );
 
-        /*returns line and position in folded text for position in text*/
-        std::pair<int, int> get_line_and_position( std::vector<std::string> foldedtext,
-                int position );
+        bool handled() const;
+
+        /*loop, user imput is handelt. returns the moditided string*/
+        const std::string &query_string( const bool loop );
+
+    private:
 
         /*print the editor*/
         void print_editor();
-
-        bool handled() const;
 
         void create_context();
 
@@ -72,7 +71,8 @@ class string_editor_window
         void coursour_up( int n = 1 );
         void coursour_down( int n = 1 );
 
-        /*loop, user imput is handelt. returns the moditided string*/
-        const std::string &query_string( const bool loop );
+        /*returns line and position in folded text for position in text*/
+        std::pair<int, int> get_line_and_position( std::vector<std::string> foldedtext,
+                int position );
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H

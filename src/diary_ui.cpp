@@ -5,21 +5,19 @@
 #include <string>
 #include <vector>
 
-
 #include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "diary.h"
 #include "input.h"
 #include "output.h"
+#include "string_editor_window.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "cursesdef.h"
 #include "wcwidth.h"
-#include "string_editor_window.h"
-#include "diary.h"
-
 
 namespace
 {
@@ -370,5 +368,3 @@ void diary::edit_page_ui( catacurses::window &win )
         }
     }
 }
-
-
