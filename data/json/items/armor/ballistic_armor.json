@@ -79,7 +79,7 @@
     ]
   },
   {
-    "id": "ballistic_vest_slick",
+    "id": "ballistic_vest_light_empty",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_empty",
     "name": { "str": "slick plate carrier" },
@@ -87,15 +87,15 @@
     "weight": "700 g",
     "volume": "4 L",
     "warmth": 5,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "torso" ] } ]
   },
   {
-    "id": "ballistic_vest_light",
+    "id": "ballistic_vest_light_esapi",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_esapi",
     "name": { "str": "light ballistic vest" },
-    "description": "A lightweight simple plate carrier with ESAPI ceramic armor plates.",
+    "description": "A lightweight simple plate carrier just covering the thorax with ESAPI ceramic armor plates.",
     "weight": "8 kg",
     "volume": "4 L",
     "warmth": 5,
