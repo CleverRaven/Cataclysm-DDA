@@ -127,7 +127,7 @@
   {
     "id": "mon_dark_young",
     "type": "MONSTER",
-    "name": { "str": "dark young", "str_pl": "dark young" },
+    "name": { "str": "dark young", "str_sp": "dark young" },
     "looks_like": "mon_zombie_thorny",
     "description": "A horrifying, pitch-black monstrosity, seemingly made of ropy tentacles.  It stands as tall as a tree on stumpy, hoofed legs, and its flanks covered in puckered maws, dripping green goo.",
     "default_faction": "shub-niggurath",
