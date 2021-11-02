@@ -36,6 +36,23 @@
     "using": [ [ "sewing_standard", 10 ], [ "fastener_small", 2 ] ]
   },
   {
+    "id": "prac_closures_waterproofing",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "fabric waterproofing",
+    "description": "Practice the principles of sealing garments and fabric against water by making a basic waterproof layer from plastic bags duct taped together, you will need some water and a rag.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 1 ] ],
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "rag", 1 ] ] ],
+    "byproducts": [ [ "water", 2 ], [ "rag", 1 ] ],
+    "using": [ [ "waterproofing_plastic_bags", 5 ] ]
+  },
+  {
     "id": "prac_polymerworking",
     "type": "practice",
     "activity_level": "NO_EXERCISE",
