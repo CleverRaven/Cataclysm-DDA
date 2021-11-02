@@ -280,6 +280,12 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
     return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
 }
 
+bool inventory_selector_preset::cat_sort_compare( const inventory_entry &lhs,
+        const inventory_entry &rhs ) const
+{
+    return *lhs.get_category_ptr() < *rhs.get_category_ptr();
+}
+
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
 {
     return entry.is_item() ? entry.any_item()->color_in_inventory() : c_magenta;
@@ -860,12 +866,13 @@ void inventory_column::add_entry( const inventory_entry &entry )
         return;
     }
     const auto iter = std::find_if( entries.rbegin(), entries.rend(),
-    [ &entry ]( const inventory_entry & cur ) {
+    [ this, &entry ]( const inventory_entry & cur ) {
         const item_category *cur_cat = cur.get_category_ptr();
         const item_category *new_cat = entry.get_category_ptr();
 
-        return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
-                                       && ( *cur_cat == *new_cat || *cur_cat < *new_cat ) );
+        return cur_cat == new_cat ||
+               ( cur_cat != nullptr && new_cat != nullptr &&
+                 ( *cur_cat == *new_cat || preset.cat_sort_compare( cur, entry ) ) );
     } );
     bool has_loc = false;
     if( entry.is_item() && entry.locations.front().where() == item_location::type::container ) {
