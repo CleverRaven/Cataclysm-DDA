@@ -1142,7 +1142,11 @@
     "armor_data": {
       "sided": true,
       "armor": [
-        { "material": [ { "type": "leather", "portion": 1, "thickness": 2.0 } ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] }
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ]
+        }
       ]
     },
     "pocket_data": [
@@ -2087,22 +2091,31 @@
     "copy-from": "test_swat_armor",
     "armor": [
       {
-        "covers": [ "torso" ],
-        "coverage": 95,
+        "covers": [ "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+        ]
       },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+        ]
       },
       {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 95,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 1, "thickness": 1.2 }, { "type": "cotton", "portion": 20, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+        ]
       }
     ]
   },
@@ -2113,22 +2126,31 @@
     "copy-from": "test_swat_armor",
     "armor": [
       {
-        "covers": [ "torso" ],
-        "coverage": 95,
+        "covers": [ "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+        ]
       },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+        ]
       },
       {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 95,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
         "encumbrance": [ 12, 25 ],
-        "material": [ { "type": "steel", "portion": 20, "thickness": 1.2 }, { "type": "cotton", "portion": 1, "thickness": 0.2 } ]
+        "material": [
+          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
+          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+        ]
       }
     ]
   },
@@ -2232,7 +2254,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "aluminum", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "aluminum", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2300,7 +2322,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2347,7 +2369,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2381,7 +2403,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "cotton", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "cotton", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]

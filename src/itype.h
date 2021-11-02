@@ -220,15 +220,15 @@ struct islot_brewable {
 
 /** Material data for individual armor body parts */
 struct part_material {
-    material_id id;
-    int portion;
-    float thickness;
+    material_id id; //material type
+    int cover; //portion coverage % of this material
+    float thickness; //portion thickness of this material
 
-    part_material() : id( material_id::NULL_ID() ), portion( 1 ), thickness( 0.0f ) {}
-    part_material( material_id id, int portion, float thickness ) :
-        id( id ), portion( portion ), thickness( thickness ) {}
-    part_material( const std::string &id, int portion, float thickness ) :
-        id( material_id( id ) ), portion( portion ), thickness( thickness ) {}
+    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material( material_id id, int cover, float thickness ) :
+        id( id ), cover( cover ), thickness( thickness ) {}
+    part_material( const std::string &id, int cover, float thickness ) :
+        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
 
     void deserialize( const JsonObject &jo );
 };
@@ -267,8 +267,6 @@ struct armor_portion_data {
      * Includes material portion and thickness.
      */
     std::vector<part_material> materials;
-    // Total of portion values in materials
-    int mat_portion_total = 0; // NOLINT(cata-serialize)
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;

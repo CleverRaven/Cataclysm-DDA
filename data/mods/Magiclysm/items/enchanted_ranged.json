@@ -25,7 +25,10 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion": 1, "thickness": 1.0 }, { "type": "bone", "portion": 1, "thickness": 1.0 } ],
+          "material": [
+            { "type": "wood", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "bone", "portion_cover": 100, "thickness": 1.0 }
+          ],
           "encumbrance": 13,
           "coverage": 5,
           "covers": [ "torso" ]

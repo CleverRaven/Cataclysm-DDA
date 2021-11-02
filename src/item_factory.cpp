@@ -623,12 +623,10 @@ void Item_factory::finalize_post( itype &obj )
             int data_count = 0;
             float thic_acc = 0.0f;
             for( part_material &m : data.materials ) {
-                data.mat_portion_total += m.portion;
-                thic_acc += m.thickness / m.portion;
+                thic_acc += m.thickness * m.cover / 100.0f;
                 data_count++;
             }
-            if( data_count > 0 && data.mat_portion_total > 0 &&
-                thic_acc > std::numeric_limits<float>::epsilon() ) {
+            if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
                 data.avg_thickness = thic_acc;
             }
         }
@@ -2027,9 +2025,9 @@ std::string enum_to_string<layer_level>( layer_level data )
 void part_material::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "type", id );
-    optional( jo, false, "portion", portion, 1 );
-    if( portion < 1 ) {
-        jo.throw_error( string_format( "invalid portion \"%d\"", portion ) );
+    optional( jo, false, "portion_cover", cover, 100 );
+    if( cover < 1 || cover > 100 ) {
+        jo.throw_error( string_format( "invalid portion_cover \"%d\"", cover ) );
     }
     optional( jo, false, "thickness", thickness, 0.0f );
 }
@@ -2061,7 +2059,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
             // TODO: Depricate and remove
             for( const std::string &mat : jo.get_tags( "material" ) ) {
-                materials.emplace_back( mat, 1, 0.0f );
+                materials.emplace_back( mat, 100, 0.0f );
             }
         }
     }

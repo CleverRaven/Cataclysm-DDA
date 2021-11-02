@@ -286,9 +286,9 @@
       "armor": [
         {
           "material": [
-            { "type": "superalloy", "portion": 1, "thickness": 1.0 },
-            { "type": "hardsteel", "portion": 1, "thickness": 1.0 },
-            { "type": "wood", "portion": 1, "thickness": 1.0 }
+            { "type": "superalloy", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "wood", "portion_cover": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
           "coverage": 5,
@@ -337,9 +337,9 @@
       "armor": [
         {
           "material": [
-            { "type": "superalloy", "portion": 1, "thickness": 1.0 },
-            { "type": "hardsteel", "portion": 1, "thickness": 1.0 },
-            { "type": "wood", "portion": 1, "thickness": 1.0 }
+            { "type": "superalloy", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "wood", "portion_cover": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
           "coverage": 5,
@@ -402,7 +402,10 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "steel", "portion": 1, "thickness": 1.0 }, { "type": "plastic", "portion": 1, "thickness": 1.0 } ],
+          "material": [
+            { "type": "steel", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+          ],
           "encumbrance": 20,
           "coverage": 5,
           "covers": [ "torso" ]

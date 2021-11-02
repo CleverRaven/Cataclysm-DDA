@@ -13,7 +13,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "steel", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "steel", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": 10,
           "coverage": 5,
           "covers": [ "torso" ],

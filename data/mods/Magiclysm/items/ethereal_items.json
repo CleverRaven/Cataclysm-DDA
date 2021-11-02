@@ -17,7 +17,7 @@
       "environmental_protection": 10,
       "armor": [
         {
-          "material": [ { "type": "superalloy", "portion": 1, "thickness": 4.0 } ],
+          "material": [ { "type": "superalloy", "portion_cover": 100, "thickness": 4.0 } ],
           "encumbrance": 0,
           "coverage": 100,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]

@@ -613,7 +613,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": [ 10, 100 ],
           "coverage": 5,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -647,7 +647,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": [ 10, 100 ],
           "coverage": 5,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]

@@ -2570,8 +2570,8 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "covers": [ "torso" ],
     "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
     "material": [
-      { "type": "cotton", "portion": 9, "thickness": 0.2 },
-      { "type": "plastic", "portion": 1, "thickness": 0.8 }
+      { "type": "cotton", "portion_cover": 100, "thickness": 0.2 },
+      { "type": "plastic", "portion_cover": 15, "thickness": 0.8 }
     ]
   },
   {
@@ -2583,7 +2583,7 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "covers": [ "arm_r", "arm_l" ],
     "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ],
     "material": [
-      { "type": "cotton", "portion": 1, "thickness": 0.2 }
+      { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
     ]
   }
 ]
@@ -2615,11 +2615,11 @@ strapped layer items, and outer layer armor should always have these specified o
 
 ##### Part Materials
 (array of objects)
-The type, proportion and thickness of the materials that make up this portion of the armor. See "material" from [Generic Items](#generic-items) for details about type and portion.
+The type, coverage and thickness of the materials that make up this portion of the armor.
 - `type` indicates the material ID.
-- `portion` (_optional_) indicates how much of this armor portion is made up of said material. Defaults to 1.
+- `portion_cover` (_optional_) indicates how much (%) of this armor portion is covered by said material. Defaults to 100.
 - `thickness` (_optional_) indicates the thickness of said material for this armor portion. Defaults to 0.0.
-The portion and thickness determine how much the material contributes towards the armor's resistances.
+The portion coverage and thickness determine how much the material contributes towards the armor's resistances.
 **NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -2632,8 +2632,8 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "armor": [
       {
         "material": [
-          { "type": "cotton", "portion": 5, "thickness": 0.2 },
-          { "type": "plastic", "portion": 2, "thickness": 0.6 }
+          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 },
+          { "type": "plastic", "portion_cover": 15, "thickness": 0.6 }
         ],
         "covers" : [ "foot_l", "foot_r" ],
         "encumbrance" : 0,

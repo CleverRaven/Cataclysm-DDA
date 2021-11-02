@@ -28,7 +28,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -699,7 +699,10 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "cotton", "portion": 1, "thickness": 1.0 }, { "type": "plastic", "portion": 1, "thickness": 1.0 } ],
+          "material": [
+            { "type": "cotton", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+          ],
           "coverage": 15,
           "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -922,7 +925,7 @@
           "encumbrance": 2,
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ],
-          "material": [ { "type": "plastic", "portion": 1, "thickness": 2.0 } ]
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ]
         }
       ]
     },
@@ -1227,7 +1230,11 @@
     "armor_data": {
       "sided": true,
       "armor": [
-        { "material": [ { "type": "iron", "portion": 1, "thickness": 1.0 } ], "coverage": 2, "covers": [ "leg_l", "leg_r" ] }
+        {
+          "material": [ { "type": "iron", "portion_cover": 100, "thickness": 1.0 } ],
+          "coverage": 2,
+          "covers": [ "leg_l", "leg_r" ]
+        }
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
@@ -1557,7 +1564,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion": 1, "thickness": 2.0 } ],
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 5,
           "coverage": 5,
           "covers": [ "torso" ]
@@ -1619,7 +1626,11 @@
     "armor_data": {
       "sided": true,
       "armor": [
-        { "material": [ { "type": "leather", "portion": 1, "thickness": 2.0 } ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] }
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ]
+        }
       ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -1650,7 +1661,9 @@
       }
     ],
     "armor_data": {
-      "armor": [ { "material": [ { "type": "leather", "portion": 1, "thickness": 2.0 } ], "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        { "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ], "coverage": 10, "covers": [ "torso" ] }
+      ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -1680,7 +1693,9 @@
       }
     ],
     "armor_data": {
-      "armor": [ { "material": [ { "type": "leather", "portion": 1, "thickness": 2.0 } ], "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [
+        { "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ], "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] }
+      ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },

@@ -7119,13 +7119,10 @@ float item::bash_resist( bool to_self, const bodypart_id &bp ) const
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
-                resist += m->id->bash_resist() * m->portion * eff_thic;
-                total += m->portion;
+                resist += m->id->bash_resist() * eff_thic * m->cover * 0.01f;
             }
-            resist /= total;
             return resist + mod;
         }
     }
@@ -7163,13 +7160,10 @@ float item::cut_resist( bool to_self, const bodypart_id &bp ) const
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
-                resist += m->id->cut_resist() * m->portion * eff_thic;
-                total += m->portion;
+                resist += m->id->cut_resist() * eff_thic * m->cover * 0.01f;
             }
-            resist /= total;
             return resist + mod;
         }
     }
@@ -7217,13 +7211,10 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp ) const
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
-                resist += m->id->bullet_resist() * m->portion * eff_thic;
-                total += m->portion;
+                resist += m->id->bullet_resist() * eff_thic * m->cover * 0.01f;
             }
-            resist /= total;
             return resist + mod;
         }
     }
@@ -7261,12 +7252,9 @@ float item::acid_resist( bool to_self, int base_env_resist, const bodypart_id &b
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
-                resist += m->id->acid_resist() * m->portion;
-                total += m->portion;
+                resist += m->id->acid_resist() * m->cover * 0.01f;
             }
-            resist /= total;
             const int env = get_env_resist( base_env_resist );
             if( env < 10 ) {
                 resist *= env / 10.0f;
@@ -7312,12 +7300,9 @@ float item::fire_resist( bool to_self, int base_env_resist, const bodypart_id &b
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
-                resist += m->id->fire_resist() * m->portion;
-                total += m->portion;
+                resist += m->id->fire_resist() * m->cover * 0.01f;
             }
-            resist /= total;
             const int env = get_env_resist( base_env_resist );
             if( env < 10 ) {
                 resist *= env / 10.0f;
@@ -7352,16 +7337,14 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
         const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
-            int total = 0;
             for( const part_material *m : armor_mats ) {
-                const int val = m->id->chip_resist() * m->portion;
+                const int val = m->id->chip_resist() * m->cover;
                 res = worst ? std::min( res, val ) : std::max( res, val );
-                total += m->portion;
             }
             if( res == INT_MAX || res == INT_MIN ) {
                 return 2;
             }
-            res /= total;
+            res /= 100;
             if( res <= 0 ) {
                 return 0;
             }

@@ -2627,7 +2627,7 @@
       "warmth": 6,
       "armor": [
         {
-          "material": [ { "type": "paper", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": 25,
           "coverage": 70,
           "covers": [ "mouth" ]
@@ -2674,7 +2674,7 @@
       "warmth": 3,
       "armor": [
         {
-          "material": [ { "type": "paper", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": 15,
           "coverage": 25,
           "covers": [ "mouth" ]
@@ -2721,7 +2721,7 @@
       "warmth": 3,
       "armor": [
         {
-          "material": [ { "type": "paper", "portion": 1, "thickness": 0.1 } ],
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
           "encumbrance": 15,
           "coverage": 25,
           "covers": [ "mouth" ]
