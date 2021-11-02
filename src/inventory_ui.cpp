@@ -2621,10 +2621,10 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
             selected = get_active_column().get_all_selected();
             break;
         case toggle_mode::NON_FAVORITE_NON_WORN: {
-            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+            const auto filter_to_nonfavorite_and_nonworn = [this]( const inventory_entry & entry ) {
                 return entry.is_selectable() &&
                        !entry.any_item()->is_favorite &&
-                       !get_player_character().is_worn( *entry.any_item() );
+                       !u.is_worn( *entry.any_item() );
             };
 
             selected = get_active_column().get_entries( filter_to_nonfavorite_and_nonworn );
