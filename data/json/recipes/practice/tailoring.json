@@ -139,7 +139,7 @@
     ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
-    "autolearn": [ [ "tailor", 4 ], [ "fabrication", 3 ]  ],
+    "autolearn": [ [ "tailor", 4 ], [ "fabrication", 3 ] ],
     "book_learn": [ [ "textbook_arthropod", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 22 ], [ "acidchitin_piece", 22 ] ] ],
