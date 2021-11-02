@@ -523,9 +523,9 @@ static bool mx_military( map &m, const tripoint & )
                     // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = item_group_id( "military_standard_sniper_rifles" );
-                    } else if( one_in( 20 ) ) {
+                    } else if( one_in( 19 ) ) {
                         group = item_group_id( "military_standard_shotguns" );
-                    } else if( one_in( 10 ) ) {
+                    } else if( one_in( 9 ) ) {
                         group = item_group_id( "military_standard_lmgs" );
                     } else {
                         group = item_group_id( "military_standard_assault_rifles" );
