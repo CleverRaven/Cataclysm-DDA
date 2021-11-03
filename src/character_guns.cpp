@@ -17,31 +17,20 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     if( obj.is_watertight_container() ) {
         // Find possible liquids that can be put in this container
         src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
+
+            // This stops containers and magazines counting *themselves* as ammo sources
             if( node == &obj ) {
-                // This stops containers and magazines counting *themselves* as ammo sources
                 return VisitResponse::SKIP;
             }
 
-            // Item is in container of some sort
-            if( parent != nullptr ) {
-                // Prevents reloading with frozen liquids from watertight containers.
-                if( parent->is_watertight_container() && node->is_frozen_liquid() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                // Liquids not in a watertight container are skipped.
-                if( !parent->is_watertight_container() &&
-                    node->made_of( phase_id::LIQUID ) ) {
-                    return VisitResponse::SKIP;
-                }
-            }
-
-            // Spills have no parent.
+            // Spills are not valid. Spills have no parent.
             if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
                 return VisitResponse::SKIP;
             }
 
-            if( node->made_of_from_type( phase_id::LIQUID ) ) {
+            // Finally check if the item fits in
+            // Only currently liquids are accepted
+            if( node->made_of( phase_id::LIQUID ) && obj.can_contain( *node, true ).success() ) {
                 out = item_location( item_location( src, parent ), node );
             }
 
@@ -52,16 +41,14 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
-        std::set<ammotype> ammo = obj.ammo_types();
 
-        src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
 
             // Do not steal ammo from other items
             if( parent != nullptr && parent->is_magazine() ) {
                 return VisitResponse::SKIP;
             }
 
-            // Liquids can be loaded only from other containers
             if( !node->made_of_from_type( phase_id::SOLID ) ) {
                 // Parentless liquids are spilled can't be loaded
                 if( parent == nullptr ) {
@@ -80,23 +67,23 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 if( !node->ammo_remaining() ) {
                     return VisitResponse::SKIP;
                 }
-                // All not-empty  speedloaders are valid options without need to check for ammo compatibility.
-                // No idea how that works. But it works.
-                if( parent != nullptr ) {
-                    out = item_location( item_location( src, parent ), node );
-                } else {
-                    out = item_location( src, node );
-                }
-            }
-
-            // Finally check the loose ammo
-            for( const ammotype &at : ammo ) {
-                if( node->ammo_type() == at ) {
+                // Accept speedloaders with compatible ammo
+                if( obj.can_contain( node->first_ammo(), true ).success() ) {
                     if( parent != nullptr ) {
                         out = item_location( item_location( src, parent ), node );
                     } else {
                         out = item_location( src, node );
                     }
+                }
+
+            }
+
+            // Finally check the loose ammo
+            if( obj.can_contain( *node, true ).success() ) {
+                if( parent != nullptr ) {
+                    out = item_location( item_location( src, parent ), node );
+                } else {
+                    out = item_location( src, node );
                 }
             }
 
