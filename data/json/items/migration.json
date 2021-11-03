@@ -30,6 +30,11 @@
     "replace": "bolt_wood_simple"
   },
   {
+    "id": "bolt_simple_small_game",
+    "type": "MIGRATION",
+    "replace": "bolt_wood_simple_small_game"
+  },
+  {
     "id": "bolt_crude",
     "type": "MIGRATION",
     "replace": "bolt_wood_crude"

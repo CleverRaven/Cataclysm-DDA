@@ -45,7 +45,7 @@
   },
   {
     "type": "AMMO",
-    "id": "bolt_simple_small_game",
+    "id": "bolt_wood_simple_small_game",
     "price": 300,
     "name": { "str": "simple wooden small game bolt" },
     "symbol": "=",
