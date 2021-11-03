@@ -38,6 +38,33 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
             continue;
         }
         item gift = *ip.first.get_item();
+
+        npc const *npc = nullptr;
+        std::function<bool( item const *, int, int )> f_wants;
+        if( giver.is_npc() ) {
+            npc = giver.as_npc();
+            f_wants = [npc]( item const * it, int price, int market_price ) {
+                return npc->wants_to_sell( *it, price, market_price );
+            };
+        } else if( receiver.is_npc() ) {
+            npc = receiver.as_npc();
+            f_wants = [npc]( item const * it, int price, int market_price ) {
+                return npc->wants_to_buy( *it, price, market_price );
+            };
+        }
+        // spill contained, unwanted items
+        if( f_wants and gift.is_container() ) {
+            for( item *it : gift.get_contents().all_items_top() ) {
+                int const price =
+                    trading_price( giver, receiver, { item_location{ giver, it }, 1 } );
+                int const market_price = it->price( true );
+                if( !f_wants( it, price, market_price ) ) {
+                    giver.i_add_or_drop( *it, 1, ip.first.get_item() );
+                    gift.remove_item( *it );
+                }
+            }
+        }
+
         gift.set_owner( receiver );
 
         // Items are moving to escrow.
