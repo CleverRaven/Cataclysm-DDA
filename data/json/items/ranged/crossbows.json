@@ -23,7 +23,7 @@
   },
   {
     "type": "AMMO",
-    "id": "bolt_simple_wood",
+    "id": "bolt_wood_simple",
     "price": 300,
     "name": { "str": "simple wooden bolt" },
     "symbol": "=",
