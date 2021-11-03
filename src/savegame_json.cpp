@@ -3514,6 +3514,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
+    jo.read( "trusts_u", trusts_u );
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
@@ -3537,6 +3538,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
+    json.member( "trusts_u", trusts_u );
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );

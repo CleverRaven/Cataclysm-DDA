@@ -9865,6 +9865,7 @@ bool Character::add_faction_warning( const faction_id &id )
     if( fac != nullptr && is_avatar() && fac->id != faction_id( "no_faction" ) ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
+        fac->trusts_u = std::max( 0, fac->trusts_u - 1 );
     }
     return false;
 }

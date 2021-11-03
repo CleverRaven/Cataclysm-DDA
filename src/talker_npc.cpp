@@ -658,6 +658,7 @@ void talker_npc::add_faction_rep( const int rep_change )
     if( me_npc->get_faction()-> id != faction_id( "no_faction" ) ) {
         me_npc->get_faction()->likes_u += rep_change;
         me_npc->get_faction()->respects_u += rep_change;
+        me_npc->get_faction()->trusts_u += rep_change;
     }
 }
 

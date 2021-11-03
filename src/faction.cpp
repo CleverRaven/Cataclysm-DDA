@@ -49,6 +49,7 @@ faction_template::faction_template()
 {
     likes_u = 0;
     respects_u = 0;
+    trusts_u = 0;
     known_by_u = true;
     food_supply = 0;
     wealth = 0;
@@ -103,6 +104,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
+    , trusts_u( jsobj.get_int( "trusts_u", 0 ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
