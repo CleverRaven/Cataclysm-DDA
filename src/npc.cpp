@@ -1602,7 +1602,7 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
-    my_fac->trusts_u = std::max( 0, my_fac->trusts_u - 5 );
+    my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
@@ -1685,7 +1685,7 @@ void npc::make_angry()
     if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
-        my_fac->trusts_u = 0;
+        my_fac->trusts_u = std::min( -15, my_fac->trusts_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
@@ -1876,6 +1876,15 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
         return false;
     }
 
+    for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
+        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+            continue;
+        }
+        if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
+            return false;
+        }
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }
@@ -1968,7 +1977,7 @@ void npc::shop_restock()
     std::vector<item_group_id> from;
     for( const auto &ig : myclass->get_shopkeeper_items() ) {
         const faction *fac = get_faction();
-        if( !fac || !ig.trust || ig.trust <= fac->trusts_u ) {
+        if( !fac || ig.trust <= fac->trusts_u ) {
             from.emplace_back( ig.id );
         }
     }

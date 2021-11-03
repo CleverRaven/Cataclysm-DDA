@@ -869,7 +869,7 @@ void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::s
 {
     int trust = jo.get_int( member );
     condition = [trust]( const T & d ) {
-        return trust < 1 || d.actor( true )->get_faction()->trusts_u >= trust;
+        return d.actor( true )->get_faction()->trusts_u >= trust;
     };
 }
 

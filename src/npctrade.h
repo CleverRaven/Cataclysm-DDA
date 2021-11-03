@@ -81,7 +81,6 @@ class trading_window
         int get_var_trade( const item &it, int total_count );
         bool npc_will_accept_trade( const npc &np ) const;
         bool npc_can_fit_items( const npc &np ) const;
-        bool npc_can_trade_back( const npc &np );
         int calc_npc_owes_you( const npc &np ) const;
 };
 
