@@ -23,8 +23,10 @@
 #include "input.h"
 #include "item.h"
 #include "item_category.h" // IWYU pragma: keep
+#include "item_group.h"
 #include "map_selector.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "output.h"
 #include "point.h"
 #include "skill.h"
@@ -711,13 +713,12 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 popup( _( "%s can't carry all that." ), np.get_name() );
             } else if( np.mission != NPC_MISSION_SHOPKEEP && !npc_can_fit_items( np ) ) {
                 popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
+            } else if( np.mission == NPC_MISSION_SHOPKEEP && !npc_can_trade_back( np ) ) {
+                popup( _( "%s don't trust you enough to sell you that." ), np.get_faction()->name );
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
-                const bool trade_ok = query_yn(
-                                          _(
-                                              "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
-                                          format_money( np.max_willing_to_owe() )
-                                      );
+                const bool trade_ok = query_yn( _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                          format_money( np.max_willing_to_owe() ) );
 
                 if( trade_ok ) {
                     exit = true;
@@ -890,6 +891,21 @@ bool trading_window::npc_can_fit_items( const npc &np ) const
         }
         if( !item_stored ) {
             return false;
+        }
+    }
+    return true;
+}
+
+bool trading_window::npc_can_trade_back( const npc &np )
+{
+    for( const shopkeeper_item_group &ig : np.myclass->get_shopkeeper_items() ) {
+        if( !ig.strict || ig.trust <= np.get_faction()->trusts_u ) {
+            continue;
+        }
+        for( const item_pricing &it : theirs ) {
+            if( item_group::group_contains_item( ig.id, it.loc.get_item()->typeId() ) ) {
+                return false;
+            }
         }
     }
     return true;

@@ -3,6 +3,7 @@ TODO: document the "npc" structure, used to load NPC template
 Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.  
+#### NPC Class
 First there is the `npc_class` which follows the following template.
 Format:
 ```json
@@ -24,11 +25,23 @@ Format:
   "worn_override": "NC_EXAMPLE_worn",
   "carry_override": "NC_EXAMPLE_carried",
   "weapon_override": "NC_EXAMPLE_weapon",
-  "shopkeeper_item_group": "example_shopkeeper_itemgroup",
+  "shopkeeper_item_group": [
+    { "group": "example_shopkeeper_itemgroup1" },
+    { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
+    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
+  ],
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
 There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+
+##### Shopkeeper item groups
+`"shopkeeper_item_group"` entries have the following fields:
+- `"group"` : Identifies an item group to include in the possible shop rotation
+- `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
+- `"strict"` : (_optional_) If true, items in this group cannot be traded back to the player if traded to the NPC. (Defaults to false)
+
+#### NPC
 There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
