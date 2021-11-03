@@ -3575,7 +3575,7 @@ static bodypart_id pick_part_to_heal(
             } else if( healed_part == bodypart_id( "leg_l" ) || healed_part == bodypart_id( "leg_r" ) ) {
                 add_msg( m_info, _( "That leg is broken.  It needs surgical attention or a splint." ) );
             } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+                debugmsg( "That body part is bugged.  It needs developer's attention." );
             }
 
             continue;
