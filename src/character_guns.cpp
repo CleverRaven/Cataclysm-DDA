@@ -104,15 +104,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
 
-            // magazine is inside some sort of a container
-            if( parent != nullptr && parent->is_container() ) {
-                if( obj.can_contain( *node, true ).success() ) {
+            // Finally check the magazines
+            if( obj.can_contain( *node, true ).success() ) {
+                if( parent != nullptr ) {
                     out = item_location( item_location( src, parent ), node );
-                }
-            }
-            //everything else, probably?
-            if( parent == nullptr ) {
-                if( obj.can_contain( *node, true ).success() ) {
+                } else {
                     out = item_location( src, node );
                 }
             }
