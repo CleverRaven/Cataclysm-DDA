@@ -724,10 +724,14 @@ void Character::add_msg_player_or_say( const game_message_params &params,
     Messages::add_msg( params, player_msg );
 }
 
-int Character::effective_dispersion( int dispersion ) const
+int Character::effective_dispersion( int dispersion, bool zoom = false ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
-    dispersion += ranged_per_mod();
+    if( !zoom ) {
+        dispersion += ranged_per_mod();
+    } else {
+        dispersion += ranged_per_mod() / 2;
+    }
 
     dispersion += ranged_dispersion_modifier_vision();
 
@@ -746,18 +750,19 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
 
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
+        bool zoom = e->has_flag( flag_ZOOM );
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
         int effective_aim_speed = mod.aim_speed;
-        if( e->has_flag( flag_ZOOM ) && mod.aim_speed < 6 ) {
-            effective_aim_speed += ( 6 - mod.aim_speed ) * logarithmic( -recoil / ( MAX_RECOIL / 10 ) ) * 2;
+        if( zoom && mod.aim_speed < 6 ) {
+            effective_aim_speed += ( 6 - mod.aim_speed ) * logarithmic( -recoil / ( MAX_RECOIL / 5 ) ) * 2;
             //effective_aim_speed = 6;
         }
-        if( effective_dispersion( mod.sight_dispersion ) < recoil &&
+        if( effective_dispersion( mod.sight_dispersion, zoom ) < recoil &&
             effective_aim_speed > sight_speed_modifier ) {
             sight_speed_modifier = effective_aim_speed;
-            limit = effective_dispersion( mod.sight_dispersion );
+            limit = effective_dispersion( mod.sight_dispersion, zoom );
         }
     }
     return std::make_pair( sight_speed_modifier, limit );
@@ -846,7 +851,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
     //aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
-    aim_speed *= recoil / MAX_RECOIL;
+    aim_speed *= recoil > 0 ?  recoil / MAX_RECOIL  : 0;
 
     // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
     aim_speed = std::max( aim_speed, 1.0 );

@@ -2527,7 +2527,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     // if effective sight dispersion differs from actual sight dispersion display both
     int act_disp = mod->sight_dispersion();
-    int eff_disp = player_character.effective_dispersion( act_disp );
+    int eff_disp = player_character.effective_dispersion( act_disp, mod->has_flag( flag_ZOOM ) );
     int adj_disp = eff_disp - act_disp;
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {

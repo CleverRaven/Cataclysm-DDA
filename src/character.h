@@ -579,7 +579,7 @@ class Character : public Creature, public visitable
         bool has_mission_item( int mission_id ) const;
 
         /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
+        int effective_dispersion( int dispersion, bool zoom ) const;
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;

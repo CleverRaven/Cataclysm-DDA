@@ -1563,7 +1563,7 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
 
     const double min_recoil = calculate_aim_cap( you, pos );
     const double effective_recoil = you.effective_dispersion(
-                                        you.get_wielded_item().sight_dispersion() );
+                                        you.get_wielded_item().sight_dispersion(), you.get_wielded_item().has_flag( flag_ZOOM ) );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1629,7 +1629,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     if( !gun.is_gun() ) {
         return aim_types;
     }
-    int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
+    int sight_dispersion = effective_dispersion( gun.sight_dispersion(), gun.has_flag( flag_ZOOM ) );
     // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
@@ -1958,7 +1958,7 @@ double Character::gun_value( const item &weap, int ammo ) const
         tmp.ammo_set( ammo_type );
     }
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
-                           effective_dispersion( tmp.sight_dispersion() );
+                           effective_dispersion( tmp.sight_dispersion(), tmp.has_flag( flag_ZOOM ) );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
@@ -2056,7 +2056,8 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     } else if( mode == TargetMode::Fire ) {
-        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
+        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion(),
+                           relevant->has_flag( flag_ZOOM ) );
     }
 
     map &here = get_map();
@@ -3371,7 +3372,8 @@ void target_ui::panel_gun_info( int &text_y )
 void target_ui::panel_recoil( int &text_y )
 {
     const int val = you->recoil_total();
-    const int min_recoil = you->effective_dispersion( relevant->sight_dispersion() );
+    const int min_recoil = you->effective_dispersion( relevant->sight_dispersion(),
+                           relevant->has_flag( flag_ZOOM ) );
     const int recoil_range = MAX_RECOIL - min_recoil;
     std::string str;
     if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
