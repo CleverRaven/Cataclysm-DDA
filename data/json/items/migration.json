@@ -25,6 +25,11 @@
     "replace": "arrow_metal"
   },
   {
+    "id": "bolt_crude",
+    "type": "MIGRATION",
+    "replace": "bolt_wood_crude"
+  },
+  {
     "id": "arrow_fire_hardened_fletched",
     "type": "MIGRATION",
     "replace": "arrow_wood_crude"

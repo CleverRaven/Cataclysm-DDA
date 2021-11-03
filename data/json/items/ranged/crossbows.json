@@ -1,7 +1,7 @@
 [
   {
     "type": "AMMO",
-    "id": "bolt_crude",
+    "id": "bolt_wood_crude",
     "price": 100,
     "name": { "str": "crude wooden bolt" },
     "symbol": "=",

@@ -322,7 +322,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bolt_crude",
+    "result": "bolt_wood_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
@@ -499,7 +499,7 @@
     "components": [
       [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "bolt_crude", 1 ],
+        [ "bolt_wood_crude", 1 ],
         [ "bolt_wood", 1 ],
         [ "bolt_wood_bodkin", 1 ],
         [ "bolt_steel", 1 ],
