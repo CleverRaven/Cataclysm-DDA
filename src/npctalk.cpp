@@ -3194,6 +3194,22 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     };
 }
 
+void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int trust = jo.get_int( member );
+    function = [trust]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u += trust;
+    };
+}
+
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int trust = jo.get_int( member );
+    function = [trust]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u -= trust;
+    };
+}
+
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
@@ -3601,6 +3617,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_string( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
+    } else if( jo.has_string( "u_add_faction_trust" ) ) {
+        subeffect_fun.set_add_faction_trust( jo, "u_add_faction_trust" );
+    } else if( jo.has_string( "u_lose_faction_trust" ) ) {
+        subeffect_fun.set_lose_faction_trust( jo, "u_lose_faction_trust" );
     } else if( jo.has_string( "u_add_bionic" ) ) {
         subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
     } else if( jo.has_string( "npc_add_bionic" ) ) {

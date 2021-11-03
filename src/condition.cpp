@@ -865,6 +865,15 @@ void conditional_t<T>::set_is_weather( const JsonObject &jo )
 }
 
 template<class T>
+void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int trust = jo.get_int( member );
+    condition = [trust]( const T & d ) {
+        return trust < 1 || d.actor( true )->get_faction()->trusts_u >= trust;
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
@@ -1577,6 +1586,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_in_field( jo, "npc_is_in_field", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
+    } else if( jo.has_member( "u_has_faction_trust" ) ) {
+        set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_int( jo, "compare_int" );
     } else {

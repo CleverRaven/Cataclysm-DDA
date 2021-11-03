@@ -150,6 +150,8 @@ struct talk_effect_fun_t {
         void set_npc_first_topic( const std::string &chat_topic );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_faction_trust( const JsonObject &jo, const std::string &member );
+        void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
         std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );

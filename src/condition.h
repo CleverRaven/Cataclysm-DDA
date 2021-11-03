@@ -182,6 +182,7 @@ struct conditional_t {
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
         void set_mission_goal( const JsonObject &jo, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
