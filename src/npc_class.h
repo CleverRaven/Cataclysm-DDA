@@ -49,12 +49,10 @@ struct shopkeeper_item_group {
     bool strict;
 
     shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
-    shopkeeper_item_group( item_group_id &id, int trust, bool strict ) :
-        id( id ), trust( trust ), strict( strict ) {}
     shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
         id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
 
-    void load( const JsonObject &jo, const std::string &src );
+    void deserialize( const JsonObject &jo );
 };
 
 class npc_class

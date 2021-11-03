@@ -232,6 +232,13 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     jo.throw_error( "Invalid distribution type", name );
 }
 
+void shopkeeper_item_group::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "group", id );
+    optional( jo, false, "trust", trust, 0 );
+    optional( jo, false, "strict", strict, false );
+}
+
 void npc_class::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
@@ -246,15 +253,12 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     if( jo.has_member( "shopkeeper_item_group" ) ) {
         if( jo.has_array( "shopkeeper_item_group" ) &&
             jo.get_array( "shopkeeper_item_group" ).test_object() ) {
-            for( const JsonObject &ig : jo.get_array( "shopkeeper_item_group" ) ) {
-                const std::string &ig_str = ig.get_string( "group" );
-                int trust = ig.get_int( "trust", 0 );
-                bool strict = ig.get_bool( "strict", false );
-                shop_item_groups.emplace_back( ig_str, trust, strict );
-            }
+            mandatory( jo, was_loaded, "shopkeeper_item_group", shop_item_groups );
         } else if( jo.has_string( "shopkeeper_item_group" ) ) {
             const std::string &ig_str = jo.get_string( "shopkeeper_item_group" );
             shop_item_groups.emplace_back( ig_str, 0, false );
+        } else {
+            jo.throw_error( string_format( "invalid format for shopkeeper_item_group in npc class %s", name ) );
         }
     }
     optional( jo, was_loaded, "worn_override", worn_override );
