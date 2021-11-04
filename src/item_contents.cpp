@@ -1369,7 +1369,6 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
 std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const
 {
     std::vector<const item_pocket *> pockets;
-    bool found = false;
 
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
