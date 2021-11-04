@@ -7530,7 +7530,7 @@
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ -1, 1, 0 ] } ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 20 ],
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE", "WILDERNESS" ]
   }
 ]
