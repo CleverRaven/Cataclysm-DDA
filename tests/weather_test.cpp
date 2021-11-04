@@ -5,12 +5,15 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "game.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
+
+static const weather_type_id weather_snowstorm( "snowstorm" );
 
 static double mean_abs_running_diff( std::vector<double> const &v )
 {
@@ -342,3 +345,23 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
     }
 }
 
+TEST_CASE( "weather eternal", "[weather][eternal]" )
+{
+    WHEN( "playing for 7 days" ) {
+        g->weather_eternal = weather_snowstorm;
+        weather_manager &weather = get_weather();
+
+        int turns = to_moves<int>( 7_days );
+
+        while( --turns > 0 ) {
+            calendar::turn = weather.nextweather;
+            weather.update_weather();
+            if( weather.weather_id != weather_snowstorm ) {
+                break;
+            }
+        }
+        THEN( "weather does not change" ) {
+            CHECK( weather.weather_id == weather_snowstorm );
+        }
+    }
+}
