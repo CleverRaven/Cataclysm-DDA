@@ -1056,6 +1056,7 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
+        weather_type_id weather_eternal = weather_type_id::NULL_ID();
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)

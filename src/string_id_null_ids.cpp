@@ -45,6 +45,7 @@ MAKE_NULL_ID( VehicleGroup, "null" )
 MAKE_NULL_ID( zone_type, "null" )
 MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
 MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
+MAKE_NULL_ID( weather_type, "WEATHER_NULL" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

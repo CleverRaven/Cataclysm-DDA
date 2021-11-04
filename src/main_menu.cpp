@@ -739,6 +739,41 @@ bool main_menu::opening_screen()
     return start;
 }
 
+static void choose_weather_eternal()
+{
+    if( !get_option<bool>( "ETERNAL_WEATHER" ) ) {
+        return;
+    }
+
+    if( g->weather_eternal.is_valid() ) {
+        return;
+    }
+
+    uilist wmenu;
+    wmenu.allow_cancel = false;
+    wmenu.text = _( "Select the eternal weather." );
+
+    const std::vector<weather_type> &weathertypes = weather_types::get_all();
+    const size_t types_size = weathertypes.size();
+
+    for( int i = 0; i < static_cast<int>( types_size ); ++i ) {
+        const weather_type &weath = weathertypes[i];
+        if( weath.id.str() == "null" ) {
+            continue;
+        }
+
+        wmenu.addentry( i, true, ' ', weath.name.translated() );
+    }
+
+    while( true ) {
+        wmenu.query();
+        if( 0 <= wmenu.ret && wmenu.ret < static_cast<int>( types_size ) ) {
+            g->weather_eternal = weathertypes[wmenu.ret].id;
+            break;
+        }
+    }
+}
+
 bool main_menu::new_character_tab()
 {
     std::vector<std::string> vSubItems;

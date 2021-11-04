@@ -2222,6 +2222,11 @@ void options_manager::add_options_world_default()
          false
        );
 
+    add( "ETERNAL_WEATHER", "world_default", to_translation( "Eternal weather" ),
+         to_translation( "Keep the selected weather for ever." ),
+         false
+       );
+
     add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),

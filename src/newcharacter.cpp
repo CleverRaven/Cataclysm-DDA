@@ -26,6 +26,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enum_conversions.h"
+#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "inventory.h"
@@ -61,6 +62,7 @@
 #include "ui_manager.h"
 #include "units_utility.h"
 #include "veh_type.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const std::string flag_CHALLENGE( "CHALLENGE" );
