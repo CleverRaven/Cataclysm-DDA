@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -35,7 +36,7 @@ mtype::mtype()
     size = creature_size::medium;
     volume = 62499_ml;
     weight = 81499_gram;
-    mat = { material_id( "flesh" ) };
+    mat = { { material_id( "flesh" ), 1 } };
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
@@ -54,6 +55,7 @@ mtype::mtype()
 
     burn_into = mtype_id::NULL_ID();
     sp_defense = nullptr;
+    melee_training_cap = MAX_SKILL;
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
@@ -87,7 +89,7 @@ void mtype::set_flag( m_flag flag, bool state )
 
 bool mtype::made_of( const material_id &material ) const
 {
-    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
+    return mat.find( material ) != mat.end();
 }
 
 bool mtype::made_of_any( const std::set<material_id> &materials ) const
@@ -96,8 +98,8 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
         return false;
     }
 
-    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
-        return materials.count( e );
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const std::pair<material_id, int> &e ) {
+        return materials.count( e.first );
     } );
 }
 

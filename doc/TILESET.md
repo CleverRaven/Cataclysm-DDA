@@ -78,11 +78,17 @@ Special prefixes that are used include:
 
 #### Optional gendered variants
 
-Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix before other parts: `overlay_female_` or `overlay_male_`, `overlay_female_worn_`, `overlay_male_worn_`.
 
 #### Optional seasonal variants
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+
+#### Item variant sprite variants
+
+Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
+
+e.g. for an item with the id `item1`, with variants `orange` and `pear`, to specify a tile for the item, simply use `item1`. For the variants, use `item1_var_orange` and `item1_var_pear`.
 
 #### Rotations
 

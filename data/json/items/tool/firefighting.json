@@ -36,7 +36,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -46,7 +45,6 @@
         "ammo_restriction": { "extinguishing_agent": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "EXTINGUISHER" ]
@@ -97,7 +95,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
   },
@@ -125,8 +123,6 @@
         "ammo_restriction": { "extinguishing_agent": 10 }
       }
     ],
-    "initial_charges": 10,
-    "max_charges": 10,
     "ammo": "extinguishing_agent",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],

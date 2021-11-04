@@ -9,6 +9,7 @@
 #include "enum_traits.h"
 #include "monster.h"
 #include "mtype.h"
+#include "player_helpers.h"
 #include "rng.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -36,10 +37,9 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
     atype.size = asize;
     monster attacker;
     attacker.type = &atype;
-    mtype dtype;
-    dtype.size = dsize;
-    monster defender;
-    defender.type = &dtype;
+    npc &defender = spawn_npc( point_zero, "thug" );
+    clear_character( defender );
+    defender.size_class = dsize;
 
     const int num_tests = 15000;
 

@@ -46,6 +46,7 @@ class recipe_dictionary
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
+        static void load_practice( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();

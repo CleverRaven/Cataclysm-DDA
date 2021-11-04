@@ -259,33 +259,39 @@ int vehicle_part::remaining_ammo_capacity() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
-    const itype *liquid = item::find_type( ammo );
-
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
-    if( is_tank() && liquid->phase >= phase_id::LIQUID && qty != 0 ) {
-        base.clear_items();
-        const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        const int limit = units::from_milliliter( ammo_capacity( item::find_type(
-                              ammo )->ammo->type ) ) / stack;
-        // assuming "ammo" isn't really going into a magazine as this is a vehicle part
-        base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ),
-                     item_pocket::pocket_type::CONTAINER );
-        return qty;
+    if( is_tank() && qty != 0 ) {
+        const itype *ammo_itype = item::find_type( ammo );
+        if( ammo_itype && ammo_itype->phase >= phase_id::LIQUID ) {
+            base.clear_items();
+            const auto stack = units::legacy_volume_factor / std::max( ammo_itype->stack_size, 1 );
+            const int limit = units::from_milliliter( ammo_capacity( ammo_itype->ammo->type ) ) / stack;
+            // assuming "ammo" isn't really going into a magazine as this is a vehicle part
+            const int amount = qty > 0 ? std::min( qty, limit ) : limit;
+            base.put_in( item( ammo, calendar::turn, amount ), item_pocket::pocket_type::CONTAINER );
+            return amount;
+        }
     }
 
     if( is_turret() ) {
         if( base.is_magazine() ) {
             return base.ammo_set( ammo, qty ).ammo_remaining();
-        } else if( !base.magazine_default().is_null() ) {
-            item mag( base.magazine_default() );
+        }
+        itype_id mag_type = base.magazine_default();
+        if( mag_type ) {
+            item mag( mag_type );
             mag.ammo_set( ammo, qty );
             base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            return base.ammo_remaining();
         }
     }
 
     if( is_fuel_store() ) {
-        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( item::find_type( ammo )->ammo->type ) );
-        return base.ammo_remaining();
+        const itype *ammo_itype = item::find_type( ammo );
+        if( ammo_itype ) {
+            base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( ammo_itype->ammo->type ) );
+            return base.ammo_remaining();
+        }
     }
 
     return -1;

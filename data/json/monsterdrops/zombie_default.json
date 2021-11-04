@@ -170,7 +170,8 @@
         "distribution": [
           { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
           { "item": "chaw", "prob": 5 },
-          { "item": "cigar", "prob": 10 },
+          { "item": "cigar", "prob": 5 },
+          { "group": "pocket_cigar", "prob": 10 },
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
           { "item": "ecig", "prob": 15 },
@@ -236,12 +237,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
+    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance)",
     "id": "default_zombie_death_drops",
     "entries": [
       { "group": "default_zombie_clothes" },
       { "group": "default_zombie_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
     ]
   }
 ]

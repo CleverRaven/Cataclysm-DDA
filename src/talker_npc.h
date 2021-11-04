@@ -13,7 +13,6 @@
 class Character;
 class item;
 class mission;
-class player;
 class talker;
 
 /*
@@ -21,8 +20,7 @@ class talker;
 class talker_npc : public talker_character
 {
     public:
-        explicit talker_npc( npc *new_me ): talker_character( new_me ), me_npc( new_me ) {
-        }
+        explicit talker_npc( npc *new_me );
         ~talker_npc() override = default;
 
         npc *get_npc() override {
@@ -36,7 +34,7 @@ class talker_npc : public talker_character
         std::string distance_to_goal() const override;
 
         // mandatory functions for starting a dialogue
-        bool will_talk_to_u( const player &u, bool force ) override;
+        bool will_talk_to_u( const Character &you, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         void check_missions() override;
         void update_missions( const std::vector<mission *> &missions_assigned ) override;
@@ -58,8 +56,10 @@ class talker_npc : public talker_character
                                     const spell_id &c_spell, const proficiency_id &c_proficiency ) override;
 
         // inventory, buying, and selling
-        void add_debt( int cost ) override;
         int debt() const override;
+        void add_debt( int cost ) override;
+        int sold() const override;
+        void add_sold( int value ) override;
         int cash_to_favor( int value ) const override;
         std::string give_item_to( bool to_use ) override;
         bool buy_from( int amount ) override;
@@ -101,7 +101,7 @@ class talker_npc : public talker_character
 
         // miscellaneous
         std::string opinion_text() const override;
-        void add_opinion( int trust, int fear, int value, int anger, int debt ) override;
+        void add_opinion( const npc_opinion &op ) override;
         bool enslave_mind() override;
         void set_first_topic( const std::string &chat_topic ) override;
         bool is_safe() const override;

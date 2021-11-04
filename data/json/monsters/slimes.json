@@ -194,6 +194,7 @@
     "vision_night": 5,
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": {
       "message": "The %s's body dissolves into acid.",
       "effect": { "id": "death_acid", "hit_self": true },

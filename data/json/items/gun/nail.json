@@ -48,6 +48,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 180,
     "durability": 5,
+    "loudness": 12,
     "ups_charges": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],

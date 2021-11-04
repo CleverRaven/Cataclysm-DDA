@@ -19,16 +19,14 @@
 #include "type_id.h"
 
 class effect_type;
-class player;
 
 enum game_message_type : int;
 enum class event_type : int;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
-void weed_msg( player &p );
+void weed_msg( Character &p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
@@ -53,7 +51,7 @@ struct vitamin_rate_effect {
     vitamin_id vitamin;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct vitamin_applied_effect {
@@ -126,10 +124,14 @@ class effect_type
         /** Check if the effect type has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        const time_duration &intensity_duration() const {
+            return int_dur_factor;
+        }
+
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
-        time_duration max_duration = 0_turns;
+        time_duration max_duration = 365_days;
 
         int dur_add_perc = 0;
         int int_add_val = 0;
@@ -137,6 +139,7 @@ class effect_type
         int int_decay_step = 0;
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
+        bool int_decay_remove = false;
 
         std::set<flag_id> flags;
 
@@ -200,6 +203,11 @@ class effect
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
             source( effect_source::empty() ) {
         }
+        explicit effect( const effect_type *peff_type ) : eff_type( peff_type ), duration( 0_turns ),
+            bp( bodypart_str_id::NULL_ID() ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            source( effect_source::empty() ) {
+        }
         effect( const effect_source &source, const effect_type *peff_type, const time_duration &dur,
                 bodypart_str_id part, bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
@@ -237,11 +245,11 @@ class effect
         time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */
         time_duration get_max_duration() const;
-        /** Sets the duration, capping at max_duration if it exists. */
+        /** Sets the duration, capping at max duration. */
         void set_duration( const time_duration &dur, bool alert = false );
-        /** Mods the duration, capping at max_duration if it exists. */
+        /** Mods the duration, capping at max_duration. */
         void mod_duration( const time_duration &dur, bool alert = false );
-        /** Multiplies the duration, capping at max_duration if it exists. */
+        /** Multiplies the duration, capping at max_duration. */
         void mult_duration( double dur, bool alert = false );
 
         std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
@@ -331,6 +339,12 @@ class effect
         time_duration get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
+        /** Returns the step of intensity decay */
+        int get_int_decay_step() const;
+        /** Returns the number of ticks between intensity changes */
+        int get_int_decay_tick() const;
+        /** Returns if the effect is not protected from intensity decay-based removal */
+        bool get_int_decay_remove() const;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
         const std::vector<std::pair<translation, int>> &get_miss_msgs() const;
@@ -341,6 +355,7 @@ class effect
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
 
+
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {
             return eff_type->id;
@@ -349,7 +364,7 @@ class effect
         const effect_source &get_source() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
     protected:
         const effect_type *eff_type;
@@ -364,6 +379,7 @@ class effect
 
 void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
+const std::map<efftype_id, effect_type> &get_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );

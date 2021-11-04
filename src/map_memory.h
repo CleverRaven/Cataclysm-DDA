@@ -84,9 +84,11 @@ struct mm_submap {
         void deserialize( JsonIn &jsin );
 
     private:
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<memorized_terrain_tile> tiles; // holds either 0 or SEEX*SEEY elements
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
-        bool valid = true;
+        bool valid = true; // NOLINT(cata-serialize)
 };
 
 /**

@@ -80,8 +80,7 @@ std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
         case Item_spawn_data::overflow_behaviour::last:
             break;
     }
-    debugmsg( "Invalid overflow_behaviour" );
-    abort();
+    cata_fatal( "Invalid overflow_behaviour" );
 }
 } // namespace io
 
@@ -342,7 +341,7 @@ std::set<const itype *> Single_item_creator::every_item() const
             return {};
     }
     // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-    cata_assert( !"Unexpected type" );
+    cata_fatal( "Unexpected type" );
     return {};
 }
 
@@ -390,7 +389,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
-    new_item.set_gun_variant( variant );
+    new_item.set_itype_variant( variant );
 
     // create container here from modifier or from default to get max charges later
     item cont;

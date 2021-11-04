@@ -26,6 +26,7 @@
     "vision_day": 10,
     "vision_night": 30,
     "harvest": "exempt",
+    "fear_triggers": [ "FIRE" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
@@ -33,7 +34,7 @@
   {
     "id": "mon_slug_small",
     "type": "MONSTER",
-    "name": { "str": "large slug" },
+    "name": { "str": "slug" },
     "description": "A disturbingly large mutated slug as large as a human.  Venom drips from something like a mouth and it is covered with sticky mucus.",
     "copy-from": "mon_slug_giant",
     "volume": "62500 ml",

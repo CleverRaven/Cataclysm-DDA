@@ -130,11 +130,11 @@
     "id": "sheet_cotton_patchwork",
     "copy-from": "sheet_cotton",
     "type": "AMMO",
-    "name": { "str_sp": "patchwork cotton clothing parts" },
+    "name": { "str_sp": "patchwork cotton sheet" },
     "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
     "volume": "65 ml",
-    "//": "Density of 1.55 grams per mL",
+    "//density": "1.55 grams per mL",
     "price": 200,
     "price_postapoc": 50,
     "count": 1

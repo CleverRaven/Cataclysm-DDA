@@ -91,11 +91,6 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     }
 
     SECTION( "Dusk" ) {
-        // Sun setting down is both "day" and "dusk"
-        CHECK( is_day( today_sunset ) );
-        CHECK( is_dusk( today_sunset ) );
-
-        // Dusk
         CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 30_minutes ) );
@@ -119,7 +114,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
     CHECK( today_sunset > today_sunrise );
     CHECK( today_sunrise > midnight );
 
-    // Expected numbers below assume 100.0f maximum daylight level
+    // Expected numbers below assume 110.0f maximum daylight level
     // (maximum daylight is different at other times of year - see [daylight] tests)
     REQUIRE( 100.0f == default_daylight_level() );
 
@@ -128,16 +123,15 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
         CHECK( 1.0f == sun_moon_light_at( midnight ) );
         // Dawn
         CHECK( sun_moon_light_at( today_sunrise - 2_hours ) == 1.0f );
-        CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 20 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise + 1_hours ) == Approx( 70 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 5 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 1 ) );
         // Light gets brighter towards noon
         CHECK( sun_moon_light_at( today_sunrise + 2_hours ) >
                sun_moon_light_at( today_sunrise + 1_hours ) );
         CHECK( sun_moon_light_at( today_sunrise + 3_hours ) >
                sun_moon_light_at( today_sunrise + 2_hours ) );
         // Noon
-        CHECK( sun_moon_light_at( midnight + 12_hours ) == Approx( 100 ).margin( 10 ) );
+        CHECK( sun_moon_light_at( midnight + 12_hours ) == Approx( 110 ).margin( 10 ) );
         CHECK( sun_moon_light_at( midnight + 13_hours ) <
                sun_moon_light_at( midnight + 12_hours ) );
         CHECK( sun_moon_light_at( midnight + 14_hours ) <
@@ -170,8 +164,8 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 
         WHEN( "the moon is full" ) {
             REQUIRE( get_moon_phase( full_moon_midnight ) == MOON_FULL );
-            THEN( "moonlight is 10.0" ) {
-                CHECK( 10.0f == sun_moon_light_at( full_moon_midnight ) );
+            THEN( "moonlight is 7.0" ) {
+                CHECK( 7.0f == sun_moon_light_at( full_moon_midnight ) );
             }
         }
     }
@@ -186,18 +180,18 @@ TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
     const time_point autumn = summer + one_season;
     const time_point winter = autumn + one_season;
 
-    SECTION( "baseline 100 daylight on the spring and autumn equinoxes" ) {
+    SECTION( "baseline 110 daylight on the spring and autumn equinoxes" ) {
         float spring_light = sun_light_at( spring + 12_hours );
-        CHECK( spring_light == Approx( 100.0f ).margin( 10 ) );
+        CHECK( spring_light == Approx( 110.0f ).margin( 10 ) );
         CHECK( sun_light_at( autumn + 12_hours ) == Approx( spring_light ).margin( 1 ) );
     }
 
-    SECTION( "25 percent more daylight on the summer solstice" ) {
+    SECTION( "125 daylight on the summer solstice" ) {
         CHECK( sun_light_at( summer + 12_hours ) == 125.0f );
     }
 
-    SECTION( "25 percent less daylight on the winter solstice" ) {
-        CHECK( sun_light_at( winter + 12_hours ) == Approx( 75.0f ).margin( 10 ) );
+    SECTION( "90 daylight on the winter solstice" ) {
+        CHECK( sun_light_at( winter + 12_hours ) == Approx( 87.0f ).margin( 10 ) );
     }
 
     // Many other times of day have peak daylight level, but noon is for sure
@@ -241,26 +235,26 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
     SECTION( "spring equinox is day 1 of spring" ) {
         // Actual sunrise and sunset on March 21st 2001 are 0545 and 1757
-        CHECK( "Year 1, Spring, day 1 6:03:22 AM" == to_string( sunrise( spring ) ) );
-        CHECK( "Year 1, Spring, day 1 6:10:41 PM" == to_string( sunset( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 5:57:58 AM" == to_string( sunrise( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 6:16:07 PM" == to_string( sunset( spring ) ) );
     }
 
     SECTION( "summer solstice is day 1 of summer" ) {
         // Actual sunrise and sunset on June 21st 2001 are 0407 and 1924
-        CHECK( "Year 1, Summer, day 1 4:28:48 AM" == to_string( sunrise( summer ) ) );
-        CHECK( "Year 1, Summer, day 1 7:35:10 PM" == to_string( sunset( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 4:22:20 AM" == to_string( sunrise( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 7:41:38 PM" == to_string( sunset( summer ) ) );
     }
 
     SECTION( "autumn equinox is day 1 of autumn" ) {
         // Actual sunrise and sunset on September 22nd 2001 are 0531 and 1741
-        CHECK( "Year 1, Autumn, day 1 5:50:59 AM" == to_string( sunrise( autumn ) ) );
-        CHECK( "Year 1, Autumn, day 1 5:54:13 PM" == to_string( sunset( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:45:33 AM" == to_string( sunrise( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:59:37 PM" == to_string( sunset( autumn ) ) );
     }
 
     SECTION( "winter solstice is day 1 of winter" ) {
         // Actual sunrise and sunset on December 21st 2001 are 0710 and 1614
-        CHECK( "Year 1, Winter, day 1 7:31:30 AM" == to_string( sunrise( winter ) ) );
-        CHECK( "Year 1, Winter, day 1 4:25:23 PM" == to_string( sunset( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 7:25:07 AM" == to_string( sunrise( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 4:31:46 PM" == to_string( sunset( winter ) ) );
     }
 
     SECTION( "spring sunrise gets earlier" ) {
@@ -413,7 +407,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle altitude;
             std::tie( azimuth, altitude ) =
                 sun_azimuth_altitude( this_sunrise );
-            CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
+            CHECK( to_degrees( altitude ) == Approx( -1 ).margin( 0.01 ) );
         }
         {
             const time_point this_sunset = sunset( this_noon );
@@ -422,7 +416,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle altitude;
             std::tie( azimuth, altitude ) =
                 sun_azimuth_altitude( this_sunset );
-            CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
+            CHECK( to_degrees( altitude ) == Approx( -1 ).margin( 0.01 ) );
         }
         {
             const time_point this_daylight = daylight_time( this_noon );
@@ -431,7 +425,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle altitude;
             std::tie( azimuth, altitude ) =
                 sun_azimuth_altitude( this_daylight );
-            CHECK( to_degrees( altitude ) == Approx( -12 ).margin( 0.01 ) );
+            CHECK( to_degrees( altitude ) == Approx( -6 ).margin( 0.01 ) );
         }
     }
 }

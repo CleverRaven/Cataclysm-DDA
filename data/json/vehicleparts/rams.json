@@ -125,9 +125,9 @@
     "durability": 312,
     "breaks_into": "ig_vp_wood_plate",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 20, "cut": 10, "stab": 10 }
   },
@@ -150,6 +150,7 @@
     "type": "vehicle_part",
     "name": { "str": "biosilicified chitin ram" },
     "item": "acidchitin_plate",
+    "proportional": { "durability": 1.1 },
     "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],
     "damage_reduction": { "all": 30 }
   },

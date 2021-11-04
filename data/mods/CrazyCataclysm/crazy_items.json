@@ -51,7 +51,7 @@
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "act_cost": 500,
-    "fake_item": "bio_ion_gun",
+    "fake_weapon": "bio_ion_gun",
     "flags": [ "BIONIC_GUN" ]
   },
   {
@@ -76,7 +76,7 @@
     "loudness": 50,
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
   },
   {
     "id": "yeet_cannon",
@@ -120,7 +120,7 @@
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "charges_per_use": 1,
-    "max_charges": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
@@ -148,7 +148,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": [ "gasoline" ],
-    "max_charges": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -182,7 +182,7 @@
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "charges_per_use": 1,
-    "max_charges": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
       "type": "fireweapon_off",
@@ -211,7 +211,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": [ "gasoline" ],
-    "max_charges": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],

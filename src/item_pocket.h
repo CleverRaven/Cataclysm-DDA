@@ -22,12 +22,10 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
 class item_location;
-class player;
 class pocket_data;
 struct iteminfo;
 struct itype;
@@ -44,6 +42,7 @@ class item_pocket
             MOD, // the gunmods or toolmods
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
+            EBOOK, // holds electronic books for a device or usb
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
@@ -100,16 +99,22 @@ class item_pocket
                 /** Whether an item passes the current whitelist and blacklist filters. */
                 bool accepts_item( const item &it ) const;
 
+                /** Are pocket contents hidden?*/
+                bool is_collapsed() const;
+                /** Flag to show or hide the pocket contents in 'i'nventory screen. */
+                void set_collapse( bool );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &data );
             private:
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
                 cata::flat_set<item_category_id> category_whitelist;
                 cata::flat_set<item_category_id> category_blacklist;
+                bool collapsed = false;
         };
 
         item_pocket() = default;
@@ -149,7 +154,12 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
-        ret_val<contain_code> can_contain( const item &it ) const;
+        /**
+         * Can the pocket contain the specified item?
+         * @param it the item being put in
+         * @param ignore_fullness checks if the container could hold one of these items when empty
+         */
+        ret_val<contain_code> can_contain( const item &it, const bool ignore_fullness = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -178,6 +188,7 @@ class item_pocket
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+        units::length item_length_modifier() const;
 
         /** gets the spoilage multiplier depending on sealed data */
         float spoil_multiplier() const;
@@ -227,7 +238,7 @@ class item_pocket
 
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, player *carrier, const tripoint &pos,
+        bool process( const itype &type, Character *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -251,7 +262,7 @@ class item_pocket
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, float insulation = 1,
+        void process( Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
@@ -289,7 +300,7 @@ class item_pocket
         void favorite_info( std::vector<iteminfo> &info );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         // true if pocket state is the same as if freshly created from the pocket type
         bool is_default_state() const;
@@ -306,16 +317,16 @@ class item_pocket
          *
          * This assumes that both pockets are able to and allowed to contain the item.
          */
-        bool better_pocket( const item_pocket &rhs, const item &it ) const;
+        bool better_pocket( const item_pocket &rhs, const item &it, bool nested = false ) const;
 
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
     private:
         // the type of pocket, saved to json
-        pocket_type _saved_type = pocket_type::LAST;
-        bool _saved_sealed = false;
-        const pocket_data *data = nullptr;
+        pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
+        bool _saved_sealed = false; // NOLINT(cata-serialize)
+        const pocket_data *data = nullptr; // NOLINT(cata-serialize)
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
@@ -336,7 +347,7 @@ struct sealable_data {
     float spoil_multiplier = 1.0f;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 class pocket_data
@@ -412,7 +423,7 @@ class pocket_data
         std::string check_definition() const;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
     private:
 
         FlagsSetType flag_restrictions;

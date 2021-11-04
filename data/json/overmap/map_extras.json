@@ -14,7 +14,7 @@
     "type": "map_extra",
     "name": { "str": "College Kids" },
     "description": "Several corpses of college kids are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_collegekids" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_collegekids" },
     "sym": "c",
     "color": "light_red",
     "autonote": true
@@ -114,7 +114,7 @@
     "type": "map_extra",
     "name": { "str": "Scientists" },
     "description": "Several corpses of scientists are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_science" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
     "sym": "s",
     "color": "light_red",
     "autonote": true
@@ -156,6 +156,16 @@
     "description": "There is some kind of crashed metal pod here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_exodii_crash_big_2" },
     "sym": "x",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_lab_concourse_area",
+    "type": "map_extra",
+    "name": { "str": "Start location concourse area" },
+    "description": "There is a lanyard with an ID badge nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_lab_concourse_area_spawn" },
+    "sym": "F",
     "color": "light_gray",
     "autonote": true
   },
@@ -340,7 +350,7 @@
     "type": "map_extra",
     "name": { "str": "Marloss Pilgrimage" },
     "description": "Marloss Pilgrimage is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_marloss_pilgrimage" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_marloss_pilgrimage" },
     "sym": "F",
     "color": "dark_gray",
     "autonote": true
@@ -573,5 +583,12 @@
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
+  },
+  {
+    "id": "mx_prison_van",
+    "type": "map_extra",
+    "name": { "str": "Prison Van" },
+    "description": "A violent escape.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" }
   }
 ]

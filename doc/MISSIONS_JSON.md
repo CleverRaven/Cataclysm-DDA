@@ -81,6 +81,10 @@ goal string               | Goal conditions
 `MGOAL_KILL_MONSTER_SPEC` | Kill some number of monsters from a specific species
 `MGOAL_CONDITION`         | Satisfy the dynamically created condition and talk to the mission giver
 
+Missions with goals `MGOAL_GO_TO` and `MGOAL_GO_TO_TYPE` behave differently depending on whether the player gets them from an NPC or from another source (e.g. from a starting scenario):
+* When given by an NPC the mission is an escort quest: to complete it the player has to talk to the quest giver while standing at the destination. Note: make sure to set the quest giver to follow the player or the mission will be impossible to complete.
+* Otherwise the mission is simple traversal - to complete it the player only has to reach the destination
+
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
 

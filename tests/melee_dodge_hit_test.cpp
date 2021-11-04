@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
@@ -289,6 +290,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
@@ -308,10 +310,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     monster *zed4 = g->place_critter_at( mtype_id( "debug_mon" ), mon4_pos );
 
     // Make sure zombies are in their places
-    REQUIRE( g->critter_at<monster>( mon1_pos ) );
-    REQUIRE( g->critter_at<monster>( mon2_pos ) );
-    REQUIRE( g->critter_at<monster>( mon3_pos ) );
-    REQUIRE( g->critter_at<monster>( mon4_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon2_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
 
     // Get grabbed
     dummy.add_effect( efftype_id( "grabbed" ), 1_minutes );

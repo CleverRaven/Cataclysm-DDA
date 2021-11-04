@@ -1,0 +1,12 @@
+[
+  {
+    "type": "martial_art",
+    "id": "test_style_ma1",
+    "name": { "str": "Test Style 1" },
+    "description": "Test martial arts 1",
+    "initiate": [ "You use a test martial art.", "%s enters a generic combat stance." ],
+    "allow_melee": true,
+    "weapons": [ "test_weapon1" ],
+    "weapon_category": [ "TEST_CAT1" ]
+  }
+]

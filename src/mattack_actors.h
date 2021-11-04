@@ -195,7 +195,10 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
+        bool try_target( monster &z, Creature &target ) const;
+        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                    int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;

@@ -25,6 +25,28 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 2
+      },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
@@ -34,6 +56,14 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+  },
+  {
+    "id": "mon_zombie_soldier_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str": "zombie soldier test only" },
+    "description": "This zombie soldier is for testing purposes only.",
+    "copy-from": "mon_zombie_soldier",
+    "weakpoints": [  ]
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
@@ -62,6 +92,28 @@
     "armor_cut": 25,
     "armor_bullet": 20,
     "bleed_rate": 50,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 2
+      },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 30,
     "vision_night": 35,
     "harvest": "zombie",
@@ -135,7 +187,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
@@ -171,7 +223,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],
@@ -288,6 +340,10 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "weakpoints": [
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 35,
     "vision_night": 5,
     "harvest": "zombie",
@@ -346,6 +402,25 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 9 },
+      {
+        "name": "a gap in the side armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 4
+      },
+      {
+        "name": "the gasmask",
+        "armor_mult": { "bullet": 0.2, "cut": 0.25, "stab": 0.25, "bash": 0.25 },
+        "coverage": 4
+      },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
@@ -397,6 +472,9 @@
     "armor_bullet": 51,
     "armor_acid": 20,
     "armor_fire": 20,
+    "weakpoints": [
+      { "name": "a gap in the armor", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 4 }
+    ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -432,6 +510,28 @@
     "armor_bash": 10,
     "armor_cut": 18,
     "armor_bullet": 14,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 2
+      },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 4,

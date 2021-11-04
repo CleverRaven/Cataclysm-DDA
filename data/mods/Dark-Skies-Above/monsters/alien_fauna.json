@@ -75,7 +75,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "POISON" ]
   },
   {
     "//": "not really a 'lizard' as we would understand them, rather an invasive alien, likely a prehistoric creature from another world, like a dinosaur. 'lizard' a survivor colloquialism for their shape and general behavior",
@@ -110,18 +110,8 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "placate_triggers": [ "MEAT", "PLAYER_WEAK" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "ANIMAL",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE" ]
   },
   {
     "id": "dks_mon_packliz",
@@ -191,7 +181,12 @@
     "fear_triggers": [ "SOUND", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "//": "will want sweets instead of birdfood if/when we can define animal food",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "BIRDFOOD", "SWARMS" ]
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "CANPLAY", "SWARMS" ]
   },
   {
     "id": "dks_mon_bileworm",

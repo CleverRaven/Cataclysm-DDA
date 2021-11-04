@@ -39,8 +39,6 @@
       { "item": "id_science_maintenance_blue", "prob": 1 },
       { "item": "id_science_security_yellow", "prob": 3 },
       { "item": "id_science_security_magenta", "prob": 2 },
-      { "item": "id_science_security_black", "prob": 1 },
-      { "item": "id_science_mutagen_green", "prob": 3 },
       { "item": "id_science_mutagen_pink", "prob": 2 },
       { "item": "id_science_mutagen_cyan", "prob": 1 },
       { "item": "id_science_medical_red", "prob": 7 },

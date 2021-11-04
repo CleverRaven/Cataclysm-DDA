@@ -1518,7 +1518,7 @@
         { "id": "mold_plastic", "fg": 1091, "rotates": false, "multitile": false },
         { "id": "molotov", "fg": 991, "rotates": false, "multitile": false },
         { "id": "molotov_lit", "fg": 992, "rotates": false, "multitile": false },
-        { "id": "money_bundle", "fg": 868, "rotates": false },
+        { "id": "money_one", "fg": 868, "rotates": false },
         { "id": "moonshine", "fg": 1283, "rotates": false, "multitile": false },
         { "id": "mop", "fg": 1056, "rotates": false, "multitile": false },
         { "id": "morningstar", "fg": 817, "rotates": false, "multitile": false },

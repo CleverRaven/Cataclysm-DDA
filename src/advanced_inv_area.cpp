@@ -179,7 +179,8 @@ void advanced_inv_area::init()
     }
 
     // water?
-    if( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || here.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 

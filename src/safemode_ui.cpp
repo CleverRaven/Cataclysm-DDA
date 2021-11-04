@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <fstream>
 #include <functional>
 #include <map>
 #include <string>
@@ -550,7 +549,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     ui.on_screen_resize( init_windows );
 
     int nmatch = creature_list.size();
-    const std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
+    const std::string buf = string_format( n_gettext( "%1$d monster matches: %2$s",
                                            "%1$d monsters match: %2$s",
                                            nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
 
@@ -832,13 +831,13 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    std::ifstream fin;
+    cata::ifstream fin;
     std::string file = PATH_INFO::safemode();
     if( is_character ) {
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );
+    fin.open( fs::u8path( file ), std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {

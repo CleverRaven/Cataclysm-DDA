@@ -18,7 +18,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
-#include "player.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
@@ -113,10 +112,8 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     return high_damage_iterator->part();
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c, const std::string &variant )
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant )
 {
-    // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
     const vpart_info &vp = pt.info();
 
@@ -130,7 +127,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c, const std::s
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );
+    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who, false, !who.is_npc() );
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );

@@ -76,6 +76,15 @@ static avatar get_sanitized_player()
     return ret;
 }
 
+static int get_item_count( std::set<const item *> items )
+{
+    int sum = 0;
+    for( const item *it : items ) {
+        sum += it->count();
+    }
+    return sum;
+}
+
 struct failure {
     string_id<profession> prof;
     std::vector<trait_id> mut;
@@ -163,12 +172,12 @@ TEST_CASE( "starting_items", "[slow]" )
                     };
                     player_character.visit_items( visitable_counter );
                     player_character.inv->visit_items( visitable_counter );
-                    const int num_items_pre_migration = items_visited.size();
+                    const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
-                    const int num_items_post_migration = items_visited.size();
+                    const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     if( num_items_pre_migration != num_items_post_migration ) {

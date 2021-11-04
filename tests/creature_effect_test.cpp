@@ -222,7 +222,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
 
     // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
-        monster mummy( mtype_id( "debug_mon" ) );
+        monster mummy( mtype_id( "mon_hallu_mom" ) );
 
         mummy.clear_effects();
 
@@ -316,7 +316,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
     const efftype_id effect_invisibility( "invisibility" );
     const flag_id invisibility_flag( "INVISIBLE" );
 
-    monster mummy( mtype_id( "debug_mon" ) );
+    monster mummy( mtype_id( "mon_hallu_mom" ) );
 
     mummy.clear_effects();
 
@@ -538,27 +538,6 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
 
             THEN( "they are no longer immune to the downed effect" ) {
                 CHECK_FALSE( dummy.is_immune_effect( effect_downed ) );
-            }
-        }
-    }
-
-    WHEN( "character has Strong Stomach mutation" ) {
-        const trait_id trait_strong_stomach( "STRONGSTOMACH" );
-        const efftype_id effect_nausea( "nausea" );
-
-        dummy.toggle_trait( trait_strong_stomach );
-        REQUIRE( dummy.has_trait( trait_strong_stomach ) );
-
-        THEN( "they are immune to the nausea effect" ) {
-            CHECK( dummy.is_immune_effect( effect_nausea ) );
-        }
-
-        AND_WHEN( "they lose their Strong Stomach mutation" ) {
-            dummy.toggle_trait( trait_strong_stomach );
-            REQUIRE_FALSE( dummy.has_trait( trait_strong_stomach ) );
-
-            THEN( "they are no longer immune to the nausea effect" ) {
-                CHECK_FALSE( dummy.is_immune_effect( effect_nausea ) );
             }
         }
     }

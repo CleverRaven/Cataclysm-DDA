@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
 namespace cata
@@ -66,6 +67,8 @@ enum action_id : int {
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -176,6 +179,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Unload container in a given direction */
+    ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */

@@ -211,7 +211,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_AIM" ),
         activity_id( "ACT_ATM" ),
         activity_id( "ACT_START_ENGINES" ),
-        activity_id( "ACT_OXYTORCH" ),
+        activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         activity_id( "ACT_CRACKING" ),
         activity_id( "ACT_REPAIR_ITEM" ),
         activity_id( "ACT_MEND_ITEM" ),

@@ -28,6 +28,22 @@ class item_category;
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+
+void advanced_inventory_pane::set_area( const advanced_inv_area &square, bool in_vehicle_cargo )
+{
+    prev_area = area;
+    prev_viewing_cargo = viewing_cargo;
+    area = square.id;
+    viewing_cargo = square.can_store_in_vehicle() && ( in_vehicle_cargo || area == AIM_DRAGGED );
+}
+
+void advanced_inventory_pane::restore_area()
+{
+    area = prev_area;
+    viewing_cargo = prev_viewing_cargo;
+}
+
 void advanced_inventory_pane::save_settings()
 {
     save_state->in_vehicle = in_vehicle();
@@ -130,7 +146,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
             }
         }
     }
-
+    item &weapon = get_wielded_item();
     if( weapon.is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
                  item_location( *this, &weapon ),
@@ -165,8 +181,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         square.volume = 0_ml;
         square.weight = 0_gram;
 
-        if( !u.weapon.is_null() ) {
-            advanced_inv_listitem it( item_location( u, &u.weapon ), 0, 1, square.id, false );
+        item &weapon = u.get_wielded_item();
+        if( !weapon.is_null() ) {
+            advanced_inv_listitem it( item_location( u, &weapon ), 0, 1, square.id, false );
             if( !is_filtered( *it.items.front() ) ) {
                 square.volume += it.volume;
                 square.weight += it.weight;

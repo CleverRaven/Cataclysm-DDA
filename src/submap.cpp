@@ -105,7 +105,7 @@ void submap::delete_graffiti( const point &p )
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -113,7 +113,7 @@ bool submap::has_signage( const point &p ) const
 }
 std::string submap::get_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
@@ -288,4 +288,45 @@ void submap::rotate( int turns )
         rot_comp.emplace( rotate_point( elem.first ), elem.second );
     }
     computers = rot_comp;
+}
+
+void submap::mirror( bool horizontally )
+{
+    std::map<point, computer> mirror_comp;
+
+    if( horizontally ) {
+        for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
+            for( int k = 0; k < SEEY; k++ ) {
+                swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
+            }
+        }
+
+        for( auto &elem : cosmetics ) {
+            elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
+        }
+
+        active_items.mirror( { SEEX, SEEY }, true );
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( -elem.first.x, elem.first.y ) + point( SEEX - 1, 0 ), elem.second );
+        }
+        computers = mirror_comp;
+    } else {
+        for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
+                swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+            }
+        }
+
+        for( auto &elem : cosmetics ) {
+            elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
+        }
+
+        active_items.mirror( { SEEX, SEEY }, false );
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( elem.first.x, -elem.first.y ) + point( 0, SEEY - 1 ), elem.second );
+        }
+        computers = mirror_comp;
+    }
 }

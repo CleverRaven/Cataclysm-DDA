@@ -8,7 +8,7 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
@@ -76,7 +76,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -84,7 +84,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -105,7 +105,7 @@
     "volume": "9186 ml",
     "price": 4500,
     "price_postapoc": 750,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -417,7 +417,7 @@
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
     "price_postapoc": 500,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -528,7 +528,7 @@
     "price": 3500,
     "to_hit": 2,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "green",
@@ -556,7 +556,7 @@
     "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "green",
@@ -596,6 +596,7 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "sided": true,
+      "material": [ "leather" ],
       "material_thickness": 0.1,
       "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
@@ -624,6 +625,7 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "sided": true,
+      "material": [ "leather" ],
       "material_thickness": 0.1,
       "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
@@ -727,7 +729,7 @@
     "volume": "1050 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
     "pocket_data": [
@@ -761,7 +763,7 @@
     "volume": "550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "armguard_soft",
     "color": "dark_gray",
@@ -848,7 +850,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
@@ -876,7 +878,7 @@
     "volume": "5000 ml",
     "price": 6700,
     "price_postapoc": 1500,
-    "material": [ "cotton", "nylon" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -953,7 +955,7 @@
     "volume": "36750 ml",
     "price": 7900,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "blue",
@@ -1062,7 +1064,7 @@
     "volume": "11 L",
     "price": 9200,
     "price_postapoc": 1250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -1107,6 +1109,7 @@
   },
   {
     "id": "runner_bag",
+    "repairs_like": "survivor_runner_pack",
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
@@ -1147,7 +1150,7 @@
     "price": 2900,
     "price_postapoc": 750,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
@@ -1255,118 +1258,6 @@
     "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "survivor_duffel_bag",
-    "type": "ARMOR",
-    "name": { "str": "survivor duffel bag" },
-    "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "1000 g",
-    "volume": "7875 ml",
-    "price": 24000,
-    "price_postapoc": 3250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "38 L",
-        "max_contains_weight": "60 kg",
-        "max_item_length": "60 cm",
-        "magazine_well": "7500 ml",
-        "moves": 300
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 8, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor backpack" },
-    "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "600 g",
-    "volume": "5250 ml",
-    "price": 24000,
-    "price_postapoc": 2250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "30 L",
-        "max_contains_weight": "32 kg",
-        "max_item_length": "50 cm",
-        "magazine_well": "5 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 6,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 24 ], "coverage": 30, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_rucksack",
-    "type": "ARMOR",
-    "name": { "str": "survivor rucksack" },
-    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "800 g",
-    "volume": "10 L",
-    "price": 24000,
-    "price_postapoc": 3000,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "35 L",
-        "max_contains_weight": "40 kg",
-        "max_item_length": "55 cm",
-        "magazine_well": "6 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 8,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 3, 28 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_runner_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor runner pack" },
-    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "440 g",
-    "volume": "4200 ml",
-    "price": 24000,
-    "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "16 kg",
-        "max_item_length": "40 cm",
-        "magazine_well": "4 L",
-        "moves": 250
-      }
-    ],
-    "warmth": 2,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "swag_bag",
     "type": "ARMOR",
     "name": { "str": "swag bag" },
@@ -1406,7 +1297,7 @@
     "volume": "5 L",
     "price": 7000,
     "price_postapoc": 1500,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
@@ -1495,7 +1386,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "WAIST" ],
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
   },
   {
@@ -1798,7 +1689,7 @@
     "price": 5500,
     "price_postapoc": 700,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "yellow",

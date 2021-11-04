@@ -665,6 +665,19 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
+}
+
 // we can probably add support for keycode mode, but wincurse is deprecated
 // so we just ignore the mode argument.
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )

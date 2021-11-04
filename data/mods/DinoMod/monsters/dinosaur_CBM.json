@@ -29,7 +29,7 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus_bio_op",
-    "name": { "str_sp": "Pachy bio-operator" },
+    "name": { "str_sp": "Pachycephalosaurus bio-operator" },
     "copy-from": "mon_pachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -165,9 +165,9 @@
     "name": { "str_sp": "Spinosaurus bio-operator" },
     "copy-from": "mon_spinosaurus",
     "diff": 5,
-    "proportional": { "hp": 2, "speed": 1.3 },
+    "proportional": { "hp": 1.2, "speed": 1.15 },
     "aggression": 99,
-    "relative": { "morale": 90, "melee_skill": 10, "melee_dice": 9, "dodge": 2, "armor_bash": 8, "armor_cut": 8, "armor_bullet": 8 },
+    "relative": { "morale": 50, "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor_bash": 3, "armor_cut": 3, "armor_bullet": 3 },
     "flags": [
       "ELECTRIC",
       "NO_BREATHE",
@@ -179,7 +179,6 @@
       "DESTROYS",
       "WARM",
       "SWIMS",
-      "ATTACKMON",
       "INTERIOR_AMMO"
     ],
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],

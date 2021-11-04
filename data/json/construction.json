@@ -44,7 +44,7 @@
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "5 m",
-    "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],
+    "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ], [ "pointy_stick_long", 4 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_spiked"
   },
@@ -651,7 +651,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "60 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "sheet_metal", 2 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_bars"
@@ -957,7 +957,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
@@ -971,7 +971,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_terrain": "t_scrap_wall_halfway",
@@ -1208,7 +1208,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
@@ -1459,7 +1459,7 @@
     "required_skills": [ [ "fabrication", 0 ], [ "survival", 0 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_fence_post"
   },
@@ -1483,7 +1483,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 5 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_fencegate_c"
   },
@@ -1619,6 +1624,146 @@
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_gate_c"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_wall_embrasure",
+    "group": "build_brick_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "pre_terrain": "t_brick_wall_halfway",
+    "post_terrain": "t_embrasure_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_wall_embrasure_removebricks",
+    "group": "build_brick_wall_embrasure",
+    "//": "Remove some bricks from a full wall to create an opening",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "pre_terrain": "t_brick_wall",
+    "post_terrain": "t_embrasure_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_wall_embrasure",
+    "group": "build_brick_wall_embrasure_from_adobe",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 10 ] ],
+      [ [ "mortar_adobe", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_sand", 20 ] ]
+    ],
+    "pre_terrain": "t_adobe_brick_wall_halfway",
+    "post_terrain": "t_embrasure_adobe_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_wall_embrasure_removebricks",
+    "group": "build_brick_wall_embrasure_from_adobe",
+    "//": "Remove some bricks from a full wall to create an opening",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "pre_terrain": "t_adobe_brick_wall",
+    "post_terrain": "t_embrasure_adobe_brick"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rock_wall_embrasure",
+    "group": "build_rock_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "pre_terrain": "t_rock_wall_half",
+    "post_terrain": "t_embrasure_rock"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_wood_embrasure",
+    "group": "build_wood_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "40 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
+    "pre_terrain": "t_wall_half",
+    "post_terrain": "t_embrasure_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_log_embrasure",
+    "group": "build_log_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "80 m",
+    "//": "It needs a saw and a bit more time in order to make the hole",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "log", 2 ] ], [ [ "stick", 3 ], [ "2x4", 6 ] ] ],
+    "pre_terrain": "t_wall_log_half",
+    "post_terrain": "t_embrasure_log"
+  },
+  {
+    "type": "construction",
+    "id": "constr_palisade_embrasure",
+    "group": "build_palisade_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 3 ] ],
+      [
+        [ "wire", 6 ],
+        [ "wire_barbed", 4 ],
+        [ "rope_6", 2 ],
+        [ "rope_makeshift_6", 2 ],
+        [ "chain", 1 ],
+        [ "vine_30", 1 ]
+      ]
+    ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_palisade_embrasure"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_embrasure",
+    "group": "build_sconcrete_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "180 m",
+    "//": "The frame is used to keep the shape of the hole until the concrete is solid",
+    "tools": [ [ [ "con_mix", 50 ] ], [ [ "frame_wood", -1 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_sconc_wall_halfway",
+    "post_terrain": "t_embrasure_sconc"
+  },
+  {
+    "type": "construction",
+    "id": "contr_strconcrete_wall_embrasure",
+    "group": "build_strconcrete_wall_embrasure",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "//": "The frame is used to keep the shape of the hole until the concrete is solid",
+    "tools": [ [ [ "con_mix", 50 ] ], [ [ "frame_wood", -1 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_strconc_wall_halfway",
+    "post_terrain": "t_embrasure_strconcrete"
   },
   {
     "type": "construction",
@@ -2237,6 +2382,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_metal_trashcan",
+    "group": "build_metal_trashcan",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_trashcan"
+  },
+  {
+    "type": "construction",
     "id": "constr_mailbox",
     "group": "build_mailbox",
     "category": "FURN",
@@ -2790,6 +2947,17 @@
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_barricade_road"
+  },
+  {
+    "type": "construction",
+    "id": "app_fridge",
+    "group": "place_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
   },
   {
     "type": "construction",
@@ -3423,7 +3591,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "makeshift_pillow", 19 ], [ "mattress", 4 ] ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",
@@ -3438,7 +3606,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
+      [ [ "pillow", 4 ], [ "down_pillow", 4 ], [ "makeshift_pillow", 4 ] ],
       [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
       [ [ "box_large", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
@@ -3519,7 +3687,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 5 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_splitrail_fencegate_c"
   },
@@ -3531,7 +3704,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_privacy_fencegate_c"
   },
@@ -3544,7 +3722,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_splitrail_fence"
   },
@@ -3570,7 +3748,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_privacy_fence"
   },
@@ -3889,7 +4067,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced",
     "post_terrain": "t_metal_grate_window"
@@ -3903,7 +4081,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
     "post_terrain": "t_metal_grate_window"
@@ -3917,7 +4095,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
@@ -3931,7 +4109,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
@@ -4360,7 +4538,7 @@
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ],
     "time": "60 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
     "pre_note": "Must be adjacent to a reinforced concrete wall that is itself adjacent to a metal gate in order to open said gate.",
     "pre_special": "check_empty",
@@ -4374,7 +4552,7 @@
     "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
     "time": "120 m",
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [
       [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
       [ [ "sheet_metal", 16 ] ],

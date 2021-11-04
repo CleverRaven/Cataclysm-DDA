@@ -38,7 +38,6 @@ static std::string vision_test_info( map_test_case &t )
 
     using namespace map_test_case_common;
 
-    out << "zlevels: " << here.has_zlevels() << '\n';
     out << "origin: " << t.get_origin() << '\n';
     out << "player: " << get_player_character().pos() << '\n';
     out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';
@@ -72,7 +71,7 @@ static void assert_tile_light_level( map_test_case::tile t )
 }
 
 static const time_point midnight = calendar::turn_zero + 0_hours;
-static const time_point midday = calendar::turn_zero + 12_hours;
+static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -101,7 +100,7 @@ struct vision_test_case {
 
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
-    time_point time = midday;
+    time_point time = day_time;
     vision_test_flags flags;
     tile_predicate set_up_tiles = set_up_tiles_common;
     std::string section_prefix;
@@ -201,7 +200,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midday
+        day_time
     };
 
     t.test_all();
@@ -220,7 +219,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midday
+        day_time
     };
 
     t.test_all();
@@ -243,7 +242,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
             "1144444444",
         },
-        midday
+        day_time
     };
 
     t.test_all();
@@ -343,7 +342,7 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
             "444",
             "666",
         },
-        midday
+        day_time
     };
     t.flags.crouching = true;
 
@@ -452,7 +451,7 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
             "661111166",
             "666666666",
         },
-        midday
+        day_time
     };
 
     t.test_all();
@@ -498,7 +497,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
             "6111116",
             "6666666"
         },
-        midday
+        day_time
     };
 
     vehicle *v = nullptr;

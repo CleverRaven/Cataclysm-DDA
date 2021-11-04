@@ -6,6 +6,7 @@
     "type": "GUN",
     "name": { "str": "10mm/.40 revolver" },
     "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "sw_610",
@@ -46,6 +47,7 @@
     "type": "GUN",
     "name": { "str": "compact Glock pistol" },
     "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of it size, it is easy to carry, but it has rather fierce recoil.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_29",
@@ -88,6 +90,7 @@
     "type": "GUN",
     "name": { "str": "Glock pistol" },
     "description": "This is a semi-automatic pistol chambered in 10mm, and accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_20",
@@ -137,6 +140,7 @@
     "type": "GUN",
     "name": { "str": "BA10 rifle" },
     "description": "A semi-automatic rifle, chambered in 10mm, accepting BA10 magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "hk_mp5_10_semi",
@@ -175,6 +179,7 @@
     "type": "GUN",
     "name": { "str": "Colt Delta Elite pistol" },
     "description": "A semi-automatic pistol chambered in 10mm.  It accepts Colt Delta Elite magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m1911_10",
@@ -217,6 +222,7 @@
     "type": "GUN",
     "name": { "str": "EAA Witness pistol" },
     "description": "A semi-automatic pistol chambered in 10mm, and accepting EAA Witness magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "witness_10",
@@ -256,6 +262,7 @@
     "type": "GUN",
     "name": { "str": "SIG pistol" },
     "description": "A semi-automatic pistol chambered in 10mmm, and accepting SIG magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "p220_10",
@@ -294,12 +301,13 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "XD(M) pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD(M) magazines",
+    "name": { "str": "XD-M pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD-M magazines",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "xd_10",
-        "name": { "str": "XD(M) Competition 10mm" },
+        "name": { "str": "XD-M Competition 10mm" },
         "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
         "weight": 1
       }
@@ -341,6 +349,7 @@
     ],
     "name": { "str": "Glock SMG" },
     "description": "This is a submachine gun chambered in 10mm, accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "TDI_10",

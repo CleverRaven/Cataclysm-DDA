@@ -11,7 +11,6 @@
 #include "colony.h"
 #include "construction.h"
 #include "field.h"
-#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "json.h"
@@ -23,6 +22,9 @@
 #include "trap.h"
 #include "type_id.h"
 #include "vehicle.h"
+
+// NOLINTNEXTLINE(cata-static-declarations)
+extern const int savegame_version;
 
 static const point &corner_ne = point_zero;
 static const point corner_nw( SEEX - 1, 0 );

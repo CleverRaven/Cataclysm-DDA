@@ -7,7 +7,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -77,12 +76,12 @@ static void print_stomach_contents( Character &p, const bool print )
 
 // this represents an amount of food you can eat to keep you fed for an entire day
 // accounting for appropriate vitamins
-static void eat_all_nutrients( player &p )
+static void eat_all_nutrients( Character &you )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item f( "debug_nutrition" );
-    p.consume( f );
+    you.consume( f );
 }
 
 // how long does it take to starve to death

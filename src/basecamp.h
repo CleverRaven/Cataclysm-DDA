@@ -21,8 +21,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
+class JsonObject;
 class character_id;
 class npc;
 class time_duration;
@@ -151,7 +151,7 @@ class basecamp
         void set_by_radio( bool access_by_radio );
 
         std::string board_name() const;
-        std::vector<point> directions;
+        std::vector<point> directions; // NOLINT(cata-serialize)
         std::vector<tripoint_abs_omt> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
@@ -337,7 +337,7 @@ class basecamp
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
 
         static constexpr int inv_range = 20;
@@ -347,21 +347,21 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false;
+        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
-        std::vector<npc_ptr> assigned_npcs;
+        std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
         // location of associated bulletin board in abs coords
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
-        comp_list camp_workers;
+        comp_list camp_workers; // NOLINT(cata-serialize)
         tripoint dumping_spot;
 
-        std::set<itype_id> fuel_types;
-        std::vector<basecamp_fuel> fuels;
-        std::vector<basecamp_resource> resources;
-        inventory _inv;
-        bool by_radio = false;
+        std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
+        std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
+        std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        inventory _inv; // NOLINT(cata-serialize)
+        bool by_radio = false; // NOLINT(cata-serialize)
 };
 
 class basecamp_action_components

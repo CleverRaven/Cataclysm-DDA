@@ -13,7 +13,6 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "player.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -142,15 +141,15 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
-                if( skill && u.get_skill_level( skill ) < reading->level &&
+                if( skill && u.get_knowledge_level( skill ) < reading->level &&
                     u.get_skill_level_object( skill ).can_train() && u.has_identified( book->typeId() ) ) {
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
                     //~ skill_name current_skill_level -> next_skill_level (% to next level)
                     extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
                                                 skill.obj().name(),
-                                                skill_level.level(),
-                                                skill_level.level() + 1,
-                                                skill_level.exercise() );
+                                                skill_level.knowledgeLevel(),
+                                                skill_level.knowledgeLevel() + 1,
+                                                skill_level.knowledgeExperience() );
                 }
             }
         }
@@ -201,19 +200,19 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     synchronize_type_with_actor();
 }
 
-void player_activity::do_turn( player &p )
+void player_activity::do_turn( Character &you )
 {
     // Specifically call the do turn function for the cancellation activity early
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
-        actor->do_turn( *this, p );
+        actor->do_turn( *this, you );
         return;
     }
     // first to ensure sync with actor
     synchronize_type_with_actor();
     // Should happen before activity or it may fail due to 0 moves
     if( *this && type->will_refuel_fires() && have_fire ) {
-        have_fire = try_fuel_fire( *this, p );
+        have_fire = try_fuel_fire( *this, you );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -221,59 +220,59 @@ void player_activity::do_turn( player &p )
     }
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
-    if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
-        !p.has_effect( effect_nausea ) ) {
-        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f &&
+    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() && type->valid_auto_needs() &&
+        !you.has_effect( effect_nausea ) ) {
+        if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
             !no_food_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( p, true );
+            int consume_moves = get_auto_consume_moves( you, true );
             moves_left += consume_moves;
             if( consume_moves == 0 ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
-        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( p, false );
+        if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            int consume_moves = get_auto_consume_moves( you, false );
             moves_left += consume_moves;
             if( consume_moves == 0 ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }
     }
-    const float activity_mult = p.exertion_adjusted_move_multiplier( exertion_level() );
+    const float activity_mult = you.exertion_adjusted_move_multiplier( exertion_level() );
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
-            p.moves = 0;
+            you.moves = 0;
         } else {
-            p.moves -= p.moves * moves_left / 100;
+            you.moves -= you.moves * moves_left / 100;
             moves_left = 0;
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
-        if( p.moves <= moves_left ) {
-            moves_left -= p.moves * activity_mult;
-            p.moves = 0;
+        if( you.moves <= moves_left ) {
+            moves_left -= you.moves * activity_mult;
+            you.moves = 0;
         } else {
-            p.moves -= moves_left;
+            you.moves -= moves_left;
             moves_left = 0;
         }
     }
-    int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.check_outbounds_activity( *this ) ) {
+    int previous_stamina = you.get_stamina();
+    if( you.is_npc() && you.check_outbounds_activity( *this ) ) {
         // npc might be operating at the edge of the reality bubble.
         // or just now reloaded back into it, and their activity target might
         // be still unloaded, can cause infinite loops.
         set_to_null();
-        p.drop_invalid_inventory();
+        you.drop_invalid_inventory();
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
-    p.set_activity_level( exertion_level() );
+    you.set_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
-        actor->do_turn( *this, p );
+        actor->do_turn( *this, you );
     } else {
         // Use the legacy turn function
-        type->call_do_turn( this, &p );
+        type->call_do_turn( this, &you );
     }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
@@ -282,22 +281,22 @@ void player_activity::do_turn( player &p )
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
-    const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
+    const int adjusted_stamina = travel_activity ? you.get_stamina() - 1 : you.get_stamina();
     activity_id act_id = actor ? actor->get_type() : type;
     bool excluded = act_id == activity_id( "ACT_WORKOUT_HARD" ) ||
                     act_id == activity_id( "ACT_WORKOUT_ACTIVE" ) ||
                     act_id == activity_id( "ACT_WORKOUT_MODERATE" ) ||
                     act_id == activity_id( "ACT_WORKOUT_LIGHT" );
     if( !excluded && adjusted_stamina < previous_stamina &&
-        p.get_stamina() < p.get_stamina_max() / 3 ) {
+        you.get_stamina() < you.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
-            p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
+            you.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
 
         auto_resume = true;
         player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( p.get_stamina_max() );
-        if( p.is_avatar() && !ignoreQuery ) {
+        new_act.values.push_back( you.get_stamina_max() );
+        if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue.  Keep trying?" );
             tired_query.addentry( 1, true, 'c', _( "Continue after a break." ) );
@@ -316,21 +315,21 @@ void player_activity::do_turn( player &p )
                     break;
             }
         }
-        p.assign_activity( new_act );
+        you.assign_activity( new_act );
         return;
     }
     if( *this && type->rooted() ) {
-        p.rooted();
-        p.pause();
+        you.rooted();
+        you.pause();
     }
 
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
         if( actor ) {
-            actor->finish( *this, p );
+            actor->finish( *this, you );
         } else {
-            if( !type->call_finish( this, &p ) ) {
+            if( !type->call_finish( this, &you ) ) {
                 // "Finish" is never a misnomer for any activity without a finish function
                 set_to_null();
             }
@@ -338,12 +337,12 @@ void player_activity::do_turn( player &p )
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
-        p.activity = player_activity();
-        p.resume_backlog_activity();
+        you.activity = player_activity();
+        you.resume_backlog_activity();
 
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
-        p.drop_invalid_inventory();
+        you.drop_invalid_inventory();
     }
 }
 
@@ -408,6 +407,11 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 bool player_activity::is_interruptible() const
 {
     return ( type.is_null() || type->interruptable() ) && interruptable;
+}
+
+bool player_activity::is_interruptible_with_kb() const
+{
+    return ( type.is_null() || type->interruptable_with_kb() ) && interruptable_with_kb;
 }
 
 bool player_activity::is_distraction_ignored( distraction_type distraction ) const

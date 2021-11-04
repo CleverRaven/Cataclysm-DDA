@@ -15,6 +15,7 @@
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
       { "item": "pen", "count": [ 1, 10 ], "prob": 95 },
+      { "item": "book_binder", "prob": 90 },
       { "item": "stapler", "prob": 60 },
       { "item": "office_holepunch", "prob": 35 },
       { "item": "scissors", "prob": 35 },
@@ -33,6 +34,7 @@
     "entries": [
       { "item": "file", "count": [ 1, 15 ], "prob": 95 },
       { "item": "paper", "count": [ 2, 30 ], "prob": 80 },
+      { "item": "book_binder", "prob": 80 },
       { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
     ]

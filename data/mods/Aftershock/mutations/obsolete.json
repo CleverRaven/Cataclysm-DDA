@@ -59,7 +59,6 @@
     "points": -1,
     "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.15
   },
   {

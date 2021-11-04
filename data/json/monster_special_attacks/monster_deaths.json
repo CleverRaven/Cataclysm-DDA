@@ -59,6 +59,21 @@
     "max_range": 5
   },
   {
+    "id": "death_portal",
+    "type": "SPELL",
+    "name": { "str": "Death Portal" },
+    "description": "Spawns a tear in reality, field intensity depends on spell level",
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "attack",
+    "max_level": 2,
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "field_intensity_increment": 1,
+    "max_field_intensity": 3
+  },
+  {
     "id": "death_acid",
     "type": "SPELL",
     "name": { "str": "Acid Death" },
@@ -144,7 +159,7 @@
     "shape": "blast",
     "effect": "remove_effect",
     "effect_str": "controlled",
-    "targeted_monster_ids": [ "blob_small", "blob", "blob_large" ],
+    "targeted_monster_ids": [ "mon_blob_small", "mon_blob", "mon_blob_large" ],
     "extra_effects": [ { "id": "death_blobsplit_brain", "hit_self": true } ]
   },
   {

@@ -47,6 +47,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "note_mutant_alpha_boss",
+    "name": { "str": "child's drawing" },
+    "description": "A scrap of paper with a faded drawing on it.",
+    "copy-from": "survnote",
+    "snippet_category": "mutant_kid_boss"
+  },
+  {
+    "type": "GENERIC",
     "id": "character_sheet",
     "category": "books",
     "symbol": ",",

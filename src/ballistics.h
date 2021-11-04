@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_BALLISTICS_H
 #define CATA_SRC_BALLISTICS_H
 
+#include "weakpoint.h"
+
 class Creature;
 class dispersion_sources;
 class vehicle;
@@ -32,6 +34,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
  */
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+        Creature *origin = nullptr, const vehicle *in_veh = nullptr,
+        const weakpoint_attack &attack = weakpoint_attack() );
 
 #endif // CATA_SRC_BALLISTICS_H

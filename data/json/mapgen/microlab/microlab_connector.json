@@ -77,7 +77,7 @@
     "om_terrain": [ "microlab_sub_station" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_strconc_floor",
       "rows": [
         "##|                  |##",
         "##|^                 |##",
@@ -104,6 +104,10 @@
         "##########|22|##########",
         "##########|  |##########"
       ],
+      "place_nested": [
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
+      ],
       "palettes": [ "microlab" ],
       "terrain": { "G": "t_card_science" },
       "items": {
@@ -118,7 +122,7 @@
     "om_terrain": [ "microlab_generic_sub_entry" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_strconc_floor",
       "rows": [
         "|||||||||||  |||||||||||",
         " cc  c    |  |^BBB|     ",
@@ -145,6 +149,12 @@
         "   cc  cc 2  |c  ccccc  ",
         "          |  |          "
       ],
+      "place_nested": [
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
       "palettes": [ "microlab" ],
       "terrain": { "G": "t_card_science" },
       "items": {
@@ -158,7 +168,7 @@
     "om_terrain": [ [ "microlab_generic_surface_connector" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_strconc_floor",
       "rows": [
         "     |    |  |cccc|     ",
         "     |=[==|  ||||||     ",
@@ -185,6 +195,12 @@
         " cc r|B   [  ^|eeeeee|#|",
         "     |    |22|||||||||||"
       ],
+      "place_nested": [
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
       "palettes": [ "microlab" ],
       "terrain": { "e": "t_elevator", "E": "t_elevator_control" },
       "items": {
@@ -199,7 +215,7 @@
     "om_terrain": [ [ "microlab_generic_vent_shaft_connector" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_strconc_floor",
       "rows": [
         "     |    |  |cccc|     ",
         "     |=[==|  ||||||     ",
@@ -225,6 +241,12 @@
         " c6 6|B   =  = Y hd 6|#|",
         " cc r|B   [  [      ^|#|",
         "     ||||||  |||||||||||"
+      ],
+      "place_nested": [
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
       ],
       "palettes": [ "microlab" ],
       "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "S": "t_sewage_pump" },

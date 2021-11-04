@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster HP scaling:
+Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
+
+Average HP: ~100 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
+
+Notable HP: ~200 (unusually resilient; tiger, zombie master, mi-go)
+
+Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid heart, jabberwock)
+
+Maximal HP: 800 (highest for balance purposes; wraith)
+
+In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
 # Speeds:
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
 
@@ -247,6 +261,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
 .50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
 .410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
+.70 blunderbuss shot | 400gr lead ball           | 1200      | 41  | 16in     |  Very generous FPS           |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

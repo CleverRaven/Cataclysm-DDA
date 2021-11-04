@@ -960,7 +960,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
     std::istringstream is( json_string );
     JsonIn jsin( is );
     stats_tracker s;
-    s.deserialize( jsin );
+    s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
     CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }
