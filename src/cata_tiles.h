@@ -109,10 +109,10 @@ class texture
 
 class variant
 {
-public:
-    std::string item;
-    std::string sprite;
-    int layer;
+    public:
+        std::string item;
+        std::string sprite;
+        int layer;
 };
 
 class tileset
@@ -301,7 +301,7 @@ class tileset_cache::loader
          * Helper function to load layering data.
          * @throw std::exception On any error.
          */
-        void load_layers(const JsonObject& config);
+        void load_layers( const JsonObject &config );
 
     public:
         loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
