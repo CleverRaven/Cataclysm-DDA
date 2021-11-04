@@ -51,7 +51,7 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
-         * @param ignore_fullness checks if the container could hold one of these items when empty
+         * @param ignore_fullness ignores weight and size limits
          */
         ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
@@ -137,9 +137,12 @@ class item_contents
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
-        // gets all pockets contained in this item
+        // gets all CONTAINER pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+
+        // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
+        std::vector<const item_pocket *> get_all_reloadable_pockets() const;
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;

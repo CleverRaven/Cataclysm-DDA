@@ -45,18 +45,14 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             return VisitResponse::SKIP;
         }
 
-        // Watertight containers accept only liquids
-        if( obj.is_watertight_container() && !node->made_of( phase_id::LIQUID ) ) {
-            return VisitResponse::SKIP;
-        }
-
         if( node->has_flag( flag_SPEEDLOADER ) && obj.magazine_integral() ) {
-
             // Can't reload with empty speedloaders
             if( !node->ammo_remaining() ) {
                 return VisitResponse::SKIP;
             }
-            // Accept speedloaders with compatible ammo
+            // Accept speedloaders with compatible ammo.
+            // This should probably also check for allowed loader types.
+            // Currently that is checked somewhere else.
             if( obj.can_contain( node->first_ammo(), true ).success() ) {
                 if( parent != nullptr ) {
                     out = item_location( item_location( src, parent ), node );
@@ -67,16 +63,29 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
         }
 
-        // Generic check for compatible items
-        if( obj.can_contain( *node, true ).success() ) {
-            if( parent != nullptr ) {
-                out = item_location( item_location( src, parent ), node );
-            } else {
-                out = item_location( src, node );
-            }
-            return VisitResponse::SKIP;
-        }
+        // Reloadable items with multiple reloadable pockets cause problems (multi cooker).
+        // Only watertight containers, magazine wells and magazines are reloadable
+        // This makes it so that the watertight CONTAINER takes only liquids it deems compatible
+        // MAGAZINE_WELL and MAGAZINE pockets take anythin they deem compatible
+        // If you want to clean this up you'll need to rewrite item::reload first.
+        for( const item_pocket *pocket : obj.get_contents().get_all_reloadable_pockets() ) {
 
+            // Skip CONTIANER pockets for non-liquids
+            if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+                if( !node->made_of( phase_id::LIQUID ) ) {
+                    continue;
+                }
+            }
+
+            // Generic check for compatible items
+            if( pocket->can_contain( *node, true ).success() ) {
+                if( parent != nullptr ) {
+                    out = item_location( item_location( src, parent ), node );
+                } else {
+                    out = item_location( src, node );
+                }
+            }
+        }
 
         // Not-nested checks only top level containers and their immediate contents.
         return parent == nullptr || nested ? VisitResponse::NEXT : VisitResponse::SKIP;

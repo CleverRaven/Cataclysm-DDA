@@ -1366,6 +1366,21 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     }
 }
 
+std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const
+{
+    std::vector<const item_pocket *> pockets;
+    bool found = false;
+
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            pockets.push_back( &pocket );
+        }
+    }
+    return pockets;
+}
+
 units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;

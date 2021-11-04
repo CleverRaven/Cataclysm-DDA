@@ -1148,7 +1148,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
-    if( it.volume() > volume_capacity() ) {
+    if( !ignore_fullness && it.volume() > volume_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
