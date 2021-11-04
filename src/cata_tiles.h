@@ -107,12 +107,13 @@ class texture
         }
 };
 
-class variant
+class layer_variant
 {
     public:
         std::string item;
-        std::string sprite;
+        std::map<std::string, int> sprite;
         int layer;
+        int total_weight = 1;
 };
 
 class tileset
@@ -154,7 +155,7 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<variant>> layer_data;
+        std::unordered_map<std::string, std::vector<layer_variant>> layer_data;
 
         int get_tile_width() const {
             return tile_width;

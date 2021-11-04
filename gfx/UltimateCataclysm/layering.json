@@ -5,7 +5,7 @@
     "variants": [
       {
         "item": "laptop",
-        "sprite": "laptop",
+        "sprite": [{"id": "laptop"}],
         "layer": 100
       }
     ]

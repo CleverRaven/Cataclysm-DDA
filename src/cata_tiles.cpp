@@ -812,14 +812,33 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
         if( item.has_member( "context" ) && item.has_array( "variants" ) ) {
             std::string context;
             context = item.get_string( "context" );
-            std::vector<variant> variants;
+            std::vector<layer_variant> variants;
             for( const JsonObject vars : item.get_array( "variants" ) ) {
-                variant v;
-                v.item = vars.get_string( "item" );
-                v.sprite = vars.get_string( "sprite" );
-                v.layer = vars.get_int( "layer" );
-                variants.push_back( v );
+                if (vars.has_member("item") && vars.has_array("sprite") && vars.has_member("layer")) {
+                    layer_variant v;
+                    v.item = vars.get_string("item");
+
+                    v.layer = vars.get_int("layer");
+
+                    int total_weight = 0;
+                    for (const JsonObject sprites : vars.get_array("sprite")) {
+                        std::string id = sprites.get_string("id");
+                        int weight = sprites.get_int("weight", 1);
+                        v.sprite.emplace(id, weight);
+
+                        total_weight += weight;
+                    }
+                    v.total_weight = total_weight;
+                    variants.push_back(v);
+                }
+                else {
+                    config.throw_error("variants configured incorrectly");
+                }
             }
+            // sort them based on layering so we can draw them correctly
+            std::sort( variants.begin(), variants.end(), []( layer_variant a, layer_variant b ) {
+                return a.layer < b.layer;
+            } );
             ts.layer_data.emplace( context, variants );
         } else {
             config.throw_error( "layering configured incorrectly" );
@@ -2992,6 +3011,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         mtype_id mon_id;
         std::string variant;
         bool hilite = false;
+        bool drawtop = true;
         const itype *it_type;
         const maptile &tile = here.maptile_at( p );
 
@@ -3017,21 +3037,60 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             it_type = nullptr;
         }
         if( it_type && !it_id.is_null() ) {
+            // start by drawing the layering data if available
+            // start for checking if layer data is available for the furniture
+
+            auto itt = tileset_ptr->layer_data.find( tile.get_furn_t().id.str() );
+            if( itt != tileset_ptr->layer_data.end() ) {
+                // the furniture has layer info
+
+                // go through all the layer variants
+                for( const layer_variant &layer_var : itt->second ) {
+                    for( const item i : tile.get_items() ) {
+                        if( i.typeId().str() == layer_var.item ) {
+                            // if an item matches draw it and break
+                            const std::string layer_it_category = i.typeId()->get_item_type_string();
+                            const lit_level layer_lit = it_overridden ? lit_level::LIT : ll;
+                            const bool layer_nv = it_overridden ? false : nv_goggles_activated;
+                            
+                            //get the sprite to draw
+                            int roll = rng(1, layer_var.total_weight);
+                            std::string sprite_to_draw;
+                            for (auto sprite_list : layer_var.sprite) {
+                                if (sprite_list.second <= roll) {
+                                    sprite_to_draw = sprite_list.first;
+                                }
+                                else {
+                                    roll = roll - sprite_list.second;
+                                }
+                            }
+                            
+                            // if we have found info on the item go through and draw its stuff
+                            draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
+                                                 0, layer_lit, layer_nv, height_3d, 0, "" );
+
+
+                            // if the top item is already being layered don't draw it later
+                            if( i.typeId() == it_id ) {
+                                drawtop = false;
+                            }
+
+                            break;
+                        }
+                    }
+
+                }
+
+            }
+
+
             const std::string disp_id = it_id == itype_corpse && mon_id ?
                                         "corpse_" + mon_id.str() : it_id.str();
             const std::string it_category = it_type->get_item_type_string();
             const lit_level lit = it_overridden ? lit_level::LIT : ll;
             const bool nv = it_overridden ? false : nv_goggles_activated;
 
-            // start by drawing the layering data if available
-            // start for checking if layer data is available for the furniture
 
-            auto itt = tileset_ptr->layer_data.find( tile.get_furn_t().id.str() );
-            if( itt != tileset_ptr->layer_data.end() ) {
-                // if we have found info on the item go through and draw its stuff
-                draw_from_id_string( itt->second.at( 0 ).sprite, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                     0, lit, nv, height_3d, 0, variant );
-            }
 
 
             ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
