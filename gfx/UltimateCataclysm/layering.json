@@ -1,0 +1,14 @@
+{
+"item_variants": [
+  {
+    "context": "f_desk",
+    "variants": [
+      {
+        "item": "laptop",
+        "sprite": "laptop",
+        "layer": 100
+      }
+    ]
+  }
+]
+}

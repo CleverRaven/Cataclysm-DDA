@@ -3,6 +3,7 @@
 NAME: UltimateCataclysm
 VIEW: UltiCa
 JSON: tile_config.json
+LAYERING: layering.json
 TILESET: tiles.png
 
 #visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!

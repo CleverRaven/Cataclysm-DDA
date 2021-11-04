@@ -324,10 +324,11 @@ void cata_tiles::reinit()
 }
 
 static void get_tile_information( const std::string &config_path, std::string &json_path,
-                                  std::string &tileset_path )
+                                  std::string &tileset_path, std::string &layering_path )
 {
     const std::string default_json = PATH_INFO::defaulttilejson();
     const std::string default_tileset = PATH_INFO::defaulttilepng();
+    const std::string default_layering = PATH_INFO::defaultlayeringjson();
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -341,7 +342,13 @@ static void get_tile_information( const std::string &config_path, std::string &j
             } else if( string_starts_with( sOption, "TILESET" ) ) {
                 fin >> tileset_path;
                 dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
-            } else {
+            }
+            else if (string_starts_with(sOption, "LAYERING")) {
+                fin >> layering_path;
+                dbg(D_INFO) << "LAYERING path set to [" << layering_path << "].";
+
+            }
+            else {
                 getline( fin, sOption );
             }
         }
@@ -350,6 +357,7 @@ static void get_tile_information( const std::string &config_path, std::string &j
     if( !read_from_file( config_path, reader ) ) {
         json_path = default_json;
         tileset_path = default_tileset;
+        layering_path = default_layering;
     }
 
     if( json_path.empty() ) {
@@ -359,6 +367,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
     if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
+    }
+    if (layering_path.empty()) {
+        layering_path = default_layering;
+        dbg(D_INFO) << "TILESET set to default [" << layering_path << "].";
     }
 }
 
@@ -576,8 +588,11 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
                                   const bool pump_events )
 {
     std::string json_conf;
+    std::string layering;
     std::string tileset_path;
     std::string tileset_root;
+
+    bool has_layering = true;
 
     const auto tset_iter = TILESETS.find( tileset_id );
     if( tset_iter != TILESETS.end() ) {
@@ -585,16 +600,27 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " <<
                       tileset_root;
         get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
-                              json_conf, tileset_path );
+                              json_conf, tileset_path, layering );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
         json_conf = PATH_INFO::defaulttilejson();
         tileset_path = PATH_INFO::defaulttilepng();
+        layering = PATH_INFO::defaultlayeringjson();
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + tileset_path;
+    std::string layering_path = tileset_root + '/' + layering;
+
+    dbg(D_INFO) << "Attempting to Load LAYERING file " << layering_path;
+    cata::ifstream layering_file(fs::u8path(layering_path),
+        std::ifstream::in | std::ifstream::binary);
+
+    if (!layering_file.good()) {
+        has_layering = false;
+        //throw std::runtime_error(std::string("Failed to open layering info json: ") + layering_path);
+    }
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
     cata::ifstream config_file( fs::u8path( json_path ),
@@ -701,6 +727,22 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     ensure_default_item_highlight();
 
     ts.tileset_id = tileset_id;
+
+    // set up layering data
+    if (has_layering) {
+        JsonIn layering_json(layering_file);
+        JsonObject layer_config = layering_json.get_object();
+        layer_config.allow_omitted_members();
+
+        // "item_variants" section must exist.
+        if (!layer_config.has_member("item_variants")) {
+            layer_config.throw_error("\"item_variants\" missing");
+        }
+
+        load_layers(layer_config);
+    }
+
+
 }
 
 void tileset_cache::loader::load_internal( const JsonObject &config,
@@ -764,6 +806,27 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
+}
+
+void tileset_cache::loader::load_layers(const JsonObject& config)
+{
+    if (config.has_array("item_variants")) {
+        for (const JsonObject item : config.get_array("item_variants")) {
+            if (item.has_object("context")) {
+                std::string context;
+                context = item.get_string("context");
+                std::vector<variant> variants;
+                for (const JsonObject vars : config.get_array("variants")) {
+                    variant v;
+                    v.item = vars.get_string("item");
+                    v.sprite = vars.get_string("sprite");
+                    v.layer = vars.get_int("layer");
+                    variants.push_back(v);
+                }
+                ts.layer_data.emplace(context, variants);
+            }
+        }
+    }
 }
 
 void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
