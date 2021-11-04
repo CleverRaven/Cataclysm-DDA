@@ -5811,15 +5811,18 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // back to filling in our non-mandatory specials for this overmap, we won't
     // count the placement of the specials in those maps when looking for optional
     // specials to place here.
-    overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
+    overmap_special_batch custom_overmap_specials = enabled_specials;
 
     // Check for any unplaced mandatory specials, and if there are any, attempt to
     // place them on adjacent uncreated overmaps.
-    if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
-    []( overmap_special_placement placement ) {
-    return placement.instances_placed <
-           placement.special_details->get_constraints().occurrences.min;
-    } ) ) {
+    bool any_below_minimum =
+        std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
+    []( const overmap_special_placement & placement ) {
+        return placement.instances_placed <
+               placement.special_details->get_constraints().occurrences.min;
+    } );
+
+    if( any_below_minimum ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;
         std::vector<point_abs_om> nearest_candidates;
@@ -5838,8 +5841,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             }
         }
         if( !nearest_candidates.empty() ) {
-            std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), rng_get_engine() );
-            point_abs_om new_om_addr = nearest_candidates.front();
+            point_abs_om new_om_addr = random_entry( nearest_candidates );
             overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
