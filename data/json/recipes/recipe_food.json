@@ -3738,8 +3738,17 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "oatmeal", 4 ], [ "dry_rice", 4 ] ],
-      [ [ "sugar_standard", 1, "LIST" ], [ "con_milk", 1 ] ],
+      [ [ "oatmeal", 6 ], [ "dry_rice", 4 ] ],
+      [
+        [ "honeycomb", 1 ],
+        [ "con_milk", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
+        [ "syrup", 3 ],
+        [ "beet_syrup", 3 ]
+      ],
       [
         [ "sweet_fruit_like", 1, "LIST" ],
         [ "jam_fruit", 1 ],
@@ -4116,7 +4125,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ], [ "flour_wheat_free", 8 ] ],
+      [ [ "flour", 8 ], [ "oatmeal", 3 ], [ "dry_rice", 2 ] ],
       [
         [ "sugar_standard", 2, "LIST" ],
         [ "peanutbutter", 4 ],
@@ -7197,7 +7206,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "meat_stomach_small", 1, "LIST" ] ],
       [ [ "meat_offal", 1, "LIST" ] ],
-      [ [ "oatmeal", 16 ], [ "buckwheat", 1 ] ]
+      [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
     ]
   },
   {
@@ -7221,7 +7230,7 @@
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "meat_stomach_large", 1, "LIST" ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
-      [ [ "oatmeal", 32 ], [ "buckwheat", 2 ] ]
+      [ [ "oatmeal", 8 ], [ "buckwheat", 2 ] ]
     ]
   },
   {
