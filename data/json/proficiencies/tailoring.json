@@ -87,7 +87,7 @@
   {
     "type": "proficiency",
     "id": "prof_knitting",
-    "name": { "str": "Standard Knitting" },
+    "name": { "str": "Skilled Knitting" },
     "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
