@@ -942,9 +942,13 @@ void weather_manager::update_weather()
         w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
-        weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
-                     : weather_override;
+        if( g->weather_eternal.is_valid() ) {
+            weather_id = g->weather_eternal;
+        }  else {
+            weather_id = weather_override == WEATHER_NULL ?
+                         weather_gen.get_weather_conditions( w )
+                         : weather_override;
+        }
         sfx::do_ambient();
         temperature = w.temperature;
         winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;

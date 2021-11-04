@@ -14,6 +14,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -997,7 +998,18 @@ bool main_menu::new_character_tab()
     } // end while
 
     if( start ) {
+        choose_weather_eternal();
+
         add_msg( get_scenario()->description( player_character.male ) );
+
+        if( g->weather_eternal.is_valid() ) {
+            get_weather().nextweather = calendar::turn;
+
+            if( player_character.posz() >= 0 ) {
+                add_msg( _( "You feel like this %1$s weather will last forever…" ),
+                         g->weather_eternal->name.translated() );
+            }
+        }
 
         world_generator->last_world_name = world_generator->active_world->world_name;
         world_generator->last_character_name = player_character.name;
