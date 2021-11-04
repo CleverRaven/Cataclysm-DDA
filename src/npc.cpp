@@ -2008,9 +2008,8 @@ void npc::shop_restock()
 
     int count = 0;
     bool last_item = false;
-    const int group_count = from.size();
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( from[ rng( 0, group_count - 1 ) ], calendar::turn );
+        item tmpit = item_group::item_from( random_entry( from ), calendar::turn );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             tmpit.set_owner( *this );
             ret.push_back( tmpit );
