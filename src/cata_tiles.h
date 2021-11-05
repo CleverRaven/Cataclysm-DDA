@@ -113,7 +113,7 @@ class layer_variant
         std::string item;
         std::map<std::string, int> sprite;
         int layer;
-        int total_weight = 1;
+        int total_weight;
 };
 
 class tileset

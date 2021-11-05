@@ -814,29 +814,29 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
             context = item.get_string( "context" );
             std::vector<layer_variant> variants;
             for( const JsonObject vars : item.get_array( "variants" ) ) {
-                if (vars.has_member("item") && vars.has_array("sprite") && vars.has_member("layer")) {
+                if( vars.has_member( "item" ) && vars.has_array( "sprite" ) && vars.has_member( "layer" ) ) {
                     layer_variant v;
-                    v.item = vars.get_string("item");
+                    v.item = vars.get_string( "item" );
 
-                    v.layer = vars.get_int("layer");
+                    v.layer = vars.get_int( "layer" );
 
                     int total_weight = 0;
-                    for (const JsonObject sprites : vars.get_array("sprite")) {
-                        std::string id = sprites.get_string("id");
-                        int weight = sprites.get_int("weight", 1);
-                        v.sprite.emplace(id, weight);
+                    for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
+                        std::string id = sprites.get_string( "id" );
+                        int weight = sprites.get_int( "weight", 1 );
+                        v.sprite.emplace( id, weight );
 
                         total_weight += weight;
                     }
                     v.total_weight = total_weight;
-                    variants.push_back(v);
-                }
-                else {
-                    config.throw_error("variants configured incorrectly");
+                    variants.push_back( v );
+                } else {
+                    config.throw_error( "variants configured incorrectly" );
                 }
             }
             // sort them based on layering so we can draw them correctly
-            std::sort( variants.begin(), variants.end(), []( layer_variant a, layer_variant b ) {
+            std::sort( variants.begin(), variants.end(), []( const layer_variant & a,
+            const layer_variant & b ) {
                 return a.layer < b.layer;
             } );
             ts.layer_data.emplace( context, variants );
@@ -3015,63 +3015,41 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         const itype *it_type;
         const maptile &tile = here.maptile_at( p );
 
-
-
-
-        if( it_overridden ) {
-            it_id = std::get<0>( it_override->second );
-            mon_id = std::get<1>( it_override->second );
-            hilite = std::get<2>( it_override->second );
-            it_type = item::find_type( it_id );
-        } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
-            const item &itm = tile.get_uppermost_item();
-            if( itm.has_itype_variant() ) {
-                variant = itm.itype_variant().id;
-            }
-            const mtype *const mon = itm.get_mtype();
-            it_id = itm.typeId();
-            mon_id = mon ? mon->id : mtype_id::NULL_ID();
-            hilite = tile.get_item_count() > 1;
-            it_type = itm.type;
-        } else {
-            it_type = nullptr;
-        }
-        if( it_type && !it_id.is_null() ) {
+        if( !invisible[0] ) {
             // start by drawing the layering data if available
             // start for checking if layer data is available for the furniture
-
             auto itt = tileset_ptr->layer_data.find( tile.get_furn_t().id.str() );
             if( itt != tileset_ptr->layer_data.end() ) {
-                // the furniture has layer info
 
+                // the furniture has layer info
                 // go through all the layer variants
                 for( const layer_variant &layer_var : itt->second ) {
                     for( const item i : tile.get_items() ) {
                         if( i.typeId().str() == layer_var.item ) {
                             // if an item matches draw it and break
                             const std::string layer_it_category = i.typeId()->get_item_type_string();
-                            const lit_level layer_lit = it_overridden ? lit_level::LIT : ll;
-                            const bool layer_nv = it_overridden ? false : nv_goggles_activated;
-                            
-                            //get the sprite to draw
-                            int roll = rng(1, layer_var.total_weight);
+                            const lit_level layer_lit = ll;
+                            const bool layer_nv = nv_goggles_activated;
+
+                            // get the sprite to draw
+                            // roll should be based on the maptile seed to keep visuals consistent
+                            int roll = i.seed % layer_var.total_weight;
                             std::string sprite_to_draw;
-                            for (auto sprite_list : layer_var.sprite) {
-                                if (sprite_list.second <= roll) {
+                            for( auto sprite_list : layer_var.sprite ) {
+                                roll = roll - sprite_list.second;
+                                if( roll < 0 ) {
                                     sprite_to_draw = sprite_list.first;
-                                }
-                                else {
-                                    roll = roll - sprite_list.second;
+                                    break;
                                 }
                             }
-                            
+
                             // if we have found info on the item go through and draw its stuff
                             draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
                                                  0, layer_lit, layer_nv, height_3d, 0, "" );
 
 
                             // if the top item is already being layered don't draw it later
-                            if( i.typeId() == it_id ) {
+                            if( i.typeId() == tile.get_uppermost_item().typeId() ) {
                                 drawtop = false;
                             }
 
@@ -3082,22 +3060,49 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 }
 
             }
+        }
 
 
-            const std::string disp_id = it_id == itype_corpse && mon_id ?
-                                        "corpse_" + mon_id.str() : it_id.str();
-            const std::string it_category = it_type->get_item_type_string();
-            const lit_level lit = it_overridden ? lit_level::LIT : ll;
-            const bool nv = it_overridden ? false : nv_goggles_activated;
-
-
-
-
-            ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                                  0, lit, nv, height_3d, 0, variant );
-            if( ret_draw_items && hilite ) {
-                draw_item_highlight( p );
+        if( drawtop || it_overridden ) {
+            if( it_overridden ) {
+                it_id = std::get<0>( it_override->second );
+                mon_id = std::get<1>( it_override->second );
+                hilite = std::get<2>( it_override->second );
+                it_type = item::find_type( it_id );
+            } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
+                const item &itm = tile.get_uppermost_item();
+                if( itm.has_itype_variant() ) {
+                    variant = itm.itype_variant().id;
+                }
+                const mtype *const mon = itm.get_mtype();
+                it_id = itm.typeId();
+                mon_id = mon ? mon->id : mtype_id::NULL_ID();
+                hilite = tile.get_item_count() > 1;
+                it_type = itm.type;
+            } else {
+                it_type = nullptr;
             }
+            if( it_type && !it_id.is_null() ) {
+
+                const std::string disp_id = it_id == itype_corpse && mon_id ?
+                                            "corpse_" + mon_id.str() : it_id.str();
+                const std::string it_category = it_type->get_item_type_string();
+                const lit_level lit = it_overridden ? lit_level::LIT : ll;
+                const bool nv = it_overridden ? false : nv_goggles_activated;
+
+
+
+
+                ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
+                                                      0, lit, nv, height_3d, 0, variant );
+                if( ret_draw_items && hilite ) {
+                    draw_item_highlight( p );
+                }
+            }
+        }
+        // we may still need to draw the highlight
+        else if( tile.get_item_count() > 1 && here.sees_some_items( p, get_player_character() ) ) {
+            draw_item_highlight( p );
         }
     }
     return ret_draw_field && ret_draw_items;

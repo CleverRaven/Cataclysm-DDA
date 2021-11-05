@@ -2537,6 +2537,8 @@ class item : public visitable
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completly dry.
 
+        int seed = rand();    // A random seed for layering and other options
+
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.
         // This not part serialized or compared on purpose!
