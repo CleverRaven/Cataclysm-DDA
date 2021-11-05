@@ -60,6 +60,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
+#include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
@@ -260,6 +261,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "speed_description", &speed_description::load_speed_descriptions );
+    add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
