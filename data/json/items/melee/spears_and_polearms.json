@@ -355,7 +355,7 @@
     "cutting": 4,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR" ],
+    "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
@@ -376,7 +376,7 @@
     "cutting": 13,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR" ],
+    "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
@@ -397,7 +397,7 @@
     "cutting": 16,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "REACH_ATTACK" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
