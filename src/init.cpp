@@ -536,6 +536,7 @@ void DynamicDataLoader::unload_data()
     behavior::reset();
     body_part_type::reset();
     sub_body_part_type::reset();
+    weapon_category::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
