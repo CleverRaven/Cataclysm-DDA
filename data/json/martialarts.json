@@ -1466,7 +1466,7 @@
       {
         "id": "buff_zuiquan_ondodge",
         "name": "Drunken Dodging",
-        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\n+10% damage, Accuracy increase by 20% of Intelligence.\nLasts 1 turn,  stacks 3 times.",
+        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\n+10% damage, Accuracy increase by 20% of Intelligence.\nLasts 1 turn, stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
