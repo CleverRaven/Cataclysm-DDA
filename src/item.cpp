@@ -7953,13 +7953,12 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         const itype::FlagsSetType &ammo_flags = ammo.obj().get_flags();
         for( const flag_id &flag : contents.magazine_flag_restrictions() ) {
             if( ammo_flags.count( flag ) > 0 ) {
-                return can_contain( *ammo, !now );
+                return is_compatible( item( ammo ) ).success();
             }
         }
         return false;
-    } else {
-        return can_contain( *ammo, !now );
     }
+    return is_compatible( item( ammo ) ).success();
 }
 
 bool item::is_salvageable() const
@@ -8085,7 +8084,22 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-ret_val<bool> item::can_contain( const item &it, const bool ignore_fullness ) const
+ret_val<bool> item::is_compatible( const item &it ) const
+{
+    if( this == &it ) {
+        // does the set of all sets contain itself?
+        return ret_val<bool>::make_failure();
+    }
+    // disallow putting portable holes into bags of holding
+    if( contents.bigger_on_the_inside( volume() ) &&
+        it.contents.bigger_on_the_inside( it.volume() ) ) {
+        return ret_val<bool>::make_failure();
+    }
+
+    return contents.is_compatible( it );
+}
+
+ret_val<bool> item::can_contain( const item &it ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
@@ -8102,12 +8116,12 @@ ret_val<bool> item::can_contain( const item &it, const bool ignore_fullness ) co
         }
     }
 
-    return contents.can_contain( it, ignore_fullness );
+    return contents.can_contain( it );
 }
 
-bool item::can_contain( const itype &tp, const bool ignore_fullness ) const
+bool item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ), ignore_fullness ).success();
+    return can_contain( item( &tp ) ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const

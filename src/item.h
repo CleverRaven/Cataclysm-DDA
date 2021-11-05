@@ -1330,13 +1330,21 @@ class item : public visitable
         fuel_explosion_data get_explosion_data();
 
         /**
+         * returns whether any of the pockets is compatible with the specified item.
+         * Does not check if the item actually fits volume/weight wise
+         * Ignores mod, migration, corpse pockets
+         * @param it the item being put in
+         */
+        ret_val<bool> is_compatible( const item &it ) const;
+
+        /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param ignore_fullness ignores weight and size limits
+         * @param compatibility_only ignores weight and size limits
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
-        bool can_contain( const itype &tp, const bool ignore_fullness = false ) const;
+        ret_val<bool> can_contain( const item &it ) const;
+        bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,

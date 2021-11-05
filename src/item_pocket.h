@@ -154,12 +154,20 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
+
+
+        /**
+         * Is the pocket compatible with the specified item?
+         * Does not check if the item actually fits volume/weight wise
+         * @param it the item being put in
+         */
+        ret_val<contain_code> is_compatible( const item &it ) const;
+
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param ignore_fullness ignores weight and size limits
          */
-        ret_val<contain_code> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 

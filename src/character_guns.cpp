@@ -53,7 +53,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // Accept speedloaders with compatible ammo.
             // This should probably also check for allowed loader types.
             // Currently that is checked somewhere else.
-            if( obj.can_contain( node->first_ammo(), true ).success() ) {
+            if( obj.is_compatible( node->first_ammo() ).success() ) {
                 if( parent != nullptr ) {
                     out = item_location( item_location( src, parent ), node );
                 } else {
@@ -78,7 +78,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
 
             // Generic check for compatible items
-            if( pocket->can_contain( *node, true ).success() ) {
+            if( pocket->is_compatible( *node ).success() ) {
                 if( parent != nullptr ) {
                     out = item_location( item_location( src, parent ), node );
                 } else {
