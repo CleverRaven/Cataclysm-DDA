@@ -729,6 +729,7 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
 
     if( collapsed ) {
         entry.collapsed = collapse;
+        paging_is_valid = false;
 
         // recache cells in case the name changed
         std::size_t const index =
