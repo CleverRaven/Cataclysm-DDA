@@ -43,7 +43,7 @@
   {
     "id": "prac_carpentry_basic",
     "type": "practice",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "basic carpentry",
@@ -82,7 +82,7 @@
   {
     "id": "prac_welding_int",
     "type": "practice",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "welding (intermediate)",
