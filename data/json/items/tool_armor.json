@@ -3335,7 +3335,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "battery powered utility exoskeleton" },
-    "//": "This is based on the Sarcos Guardian, a production model with independent battery power, all weather operation, and capable of lifting up to 200 lbs. It uses three 12 lb batteries that provide 8 hours of operation.",
+    "//": "This is based on the Sarcos Guardian, a production model with independent battery power, all weather operation, and capable of lifting up to 200 lbs. It uses three 12 lb batteries that provide 8 hours of operation. The battery life in-game is significantly less to utilize medium storage batteries, otherwise this would require the active unit to lift the heavy storage battery into it's own compartment.",
     "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.",
     "weight": "90 kg",
     "volume": "130 L",
