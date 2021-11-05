@@ -67,9 +67,6 @@
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
-#   if defined(__GNUC__) || defined(__clang__)
-#       include <cxxabi.h>
-#   endif
 #endif
 
 #if defined(TILES)
@@ -947,35 +944,6 @@ static std::map<DWORD64, backtrace_state *> bt_states;
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
-
-static std::string demangle( const char *symbol )
-{
-#if defined(_MSC_VER)
-    // TODO: implement demangling on MSVC
-#elif defined(__GNUC__) || defined(__clang__)
-    int status = -1;
-    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
-    if( status == 0 ) {
-        std::string demangled_str( demangled );
-        free( demangled );
-        return demangled_str;
-    }
-#if defined(_WIN32)
-    // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
-    // libbacktrace may strip leading underscore character in the symbol name returned
-    // so if demangling failed, try again with an underscore prepended
-    std::string prepend_underscore( "_" );
-    prepend_underscore = prepend_underscore + symbol;
-    demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
-    if( status == 0 ) {
-        std::string demangled_str( demangled );
-        free( demangled );
-        return demangled_str;
-    }
-#endif // defined(_WIN32)
-#endif // compiler macros
-    return std::string( symbol );
-}
 
 #if !defined(_WIN32) && !defined(__ANDROID__)
 static void write_demangled_frame( std::ostream &out, const char *frame )

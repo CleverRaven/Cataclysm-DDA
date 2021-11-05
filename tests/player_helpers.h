@@ -13,7 +13,7 @@ struct point;
 
 int get_remaining_charges( const std::string &tool_id );
 bool player_has_item_of_type( const std::string & );
-void clear_character( Character & );
+void clear_character( Character &, bool skip_nutrition = false );
 void clear_avatar();
 void process_activity( Character &dummy );
 

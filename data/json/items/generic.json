@@ -2185,7 +2185,7 @@
       "msg": "You test the brick, and it seems solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 100800,
+      "transform_age": 604800,
       "not_ready_msg": "The brick is still too damp to bear weight.",
       "//": "Should be about a week. Irl it's ten days, so make big batches."
     }

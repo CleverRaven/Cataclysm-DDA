@@ -109,8 +109,6 @@ enum action_id : int {
     ACTION_EXAMINE,
     /** Pick up items from current/adjacent squares */
     ACTION_PICKUP,
-    /** Pick up items from current square. Auto pickup if only one item */
-    ACTION_PICKUP_FEET,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */

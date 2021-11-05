@@ -1502,13 +1502,15 @@
   },
   {
     "type": "technique",
-    "id": "tec_tiger_palm",
-    "name": "Tiger Palm",
-    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "id": "tec_tiger_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you too powerful to be caged!",
+      "The %s tries to grab <npcname>, but they too powerful to be caged!"
+    ],
     "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1
+    "defensive": true,
+    "grab_break": true
   },
   {
     "type": "technique",
@@ -1517,8 +1519,42 @@
     "messages": [ "You slam %s to the ground", "<npcname> slams %s to the ground" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_palm",
+    "name": "Tiger Palm",
+    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_claw",
+    "name": "Tiger Claw",
+    "messages": [ "You viciously claw at %s", "<npcname> viciously claws at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
     "crit_tec": true,
-    "down_dur": 1
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_wide",
+    "name": "Tiger Ramage",
+    "messages": [ "You slash wildly at %s and those nearby", "<npcname> slashes wildly at %s and those nearby" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "weighting": 3,
+    "aoe": "wide",
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",

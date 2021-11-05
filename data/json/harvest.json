@@ -1155,6 +1155,38 @@
     ]
   },
   {
+    "id": "arachnid_beetle",
+    "type": "harvest",
+    "message": "<ground_beetle_harvest>",
+    "//": "replace some chitin with plate when added",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.06 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.035 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.3 }
+    ]
+  },
+  {
+    "id": "arachnid_beetle_mega",
+    "type": "harvest",
+    "message": "<ground_beetle_mega_harvest>",
+    "//": "replace most chitin with plate when added",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.06 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.035 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.3 }
+    ]
+  },
+  {
     "id": "arachnid_flying",
     "type": "harvest",
     "message": "<arachnid_flying_harvest>",
