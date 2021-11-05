@@ -3024,7 +3024,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 // the furniture has layer info
                 // go through all the layer variants
                 for( const layer_variant &layer_var : itt->second ) {
-                    for( const item i : tile.get_items() ) {
+                    for( const item &i : tile.get_items() ) {
                         if( i.typeId().str() == layer_var.item ) {
                             // if an item matches draw it and break
                             const std::string layer_it_category = i.typeId()->get_item_type_string();
@@ -3035,7 +3035,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                             // roll should be based on the maptile seed to keep visuals consistent
                             int roll = i.seed % layer_var.total_weight;
                             std::string sprite_to_draw;
-                            for( auto sprite_list : layer_var.sprite ) {
+                            for( const auto &sprite_list : layer_var.sprite ) {
                                 roll = roll - sprite_list.second;
                                 if( roll < 0 ) {
                                     sprite_to_draw = sprite_list.first;
