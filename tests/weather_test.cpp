@@ -349,7 +349,7 @@ TEST_CASE( "weather eternal", "[weather][eternal]" )
 {
     WHEN( "playing for 7 days" ) {
         g->weather_eternal = weather_snowstorm;
-        weather_manager &weather = get_weather();
+        weather_manager weather;
 
         int turns = to_moves<int>( 7_days );
 
