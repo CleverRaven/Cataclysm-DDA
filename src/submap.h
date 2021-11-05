@@ -341,7 +341,7 @@ struct maptile {
         }
 
         // Gets all items
-        const cata::colony<item>& get_items() const {
+        const cata::colony<item> &get_items() const {
             return sm->get_items( pos() );
         }
 };
