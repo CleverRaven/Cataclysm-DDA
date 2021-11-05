@@ -650,7 +650,7 @@
     "price": 250,
     "price_postapoc": 50,
     "material": [ "veggy" ],
-    "volume": "240 ml",
+    "volume": "250 ml",
     "fun": 5
   },
   {
@@ -924,7 +924,7 @@
     "price": 450,
     "price_postapoc": 50,
     "material": [ "veggy" ],
-    "volume": "240 ml",
+    "volume": "250 ml",
     "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ] ],
     "fun": -2
   },
