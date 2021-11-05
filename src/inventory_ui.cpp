@@ -2205,6 +2205,11 @@ void inventory_selector::on_input( const inventory_input &input )
                     contents_to_examine = true;
                     examine_contents.set_title( sitem->display_name() );
                     examine_contents.execute();
+                    //User could have hidden contents while using inventory_examiner.  Asssume a rebuild is necessary
+                    for( inventory_column *elem : columns ) {
+                        elem->invalidate_paging();
+                    }
+
                 }
             }
             if( !contents_to_examine ) {
