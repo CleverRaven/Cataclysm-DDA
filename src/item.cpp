@@ -7947,17 +7947,6 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
 
-    // Some items such as multi cookers have both container and magazine well pockets.
-    // Prevent trying to reload ammo that is not reloadable.
-    if( !contents.magazine_flag_restrictions().empty() ) {
-        const itype::FlagsSetType &ammo_flags = ammo.obj().get_flags();
-        for( const flag_id &flag : contents.magazine_flag_restrictions() ) {
-            if( ammo_flags.count( flag ) > 0 ) {
-                return is_compatible( item( ammo ) ).success();
-            }
-        }
-        return false;
-    }
     return is_compatible( item( ammo ) ).success();
 }
 
