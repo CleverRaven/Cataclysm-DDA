@@ -1332,7 +1332,7 @@ class item : public visitable
         /**
          * returns whether any of the pockets is compatible with the specified item.
          * Does not check if the item actually fits volume/weight wise
-         * Only checks CONTAINER, MAGAZINe and MAGAZINE WELL pockets
+         * Only checks CONTAINER, MAGAZINE and MAGAZINE WELL pockets
          * @param it the item being put in
          */
         ret_val<bool> is_compatible( const item &it ) const;
