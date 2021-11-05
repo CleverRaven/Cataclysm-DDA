@@ -3059,6 +3059,50 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 }
 
+            } else {
+                // check if the terrain has data
+                auto itt = tileset_ptr->layer_data.find( tile.get_ter_t().id.str() );
+                if( itt != tileset_ptr->layer_data.end() ) {
+
+                    // the furniture has layer info
+                    // go through all the layer variants
+                    for( const layer_variant &layer_var : itt->second ) {
+                        for( const item &i : tile.get_items() ) {
+                            if( i.typeId().str() == layer_var.item ) {
+                                // if an item matches draw it and break
+                                const std::string layer_it_category = i.typeId()->get_item_type_string();
+                                const lit_level layer_lit = ll;
+                                const bool layer_nv = nv_goggles_activated;
+
+                                // get the sprite to draw
+                                // roll should be based on the maptile seed to keep visuals consistent
+                                int roll = i.seed % layer_var.total_weight;
+                                std::string sprite_to_draw;
+                                for( const auto &sprite_list : layer_var.sprite ) {
+                                    roll = roll - sprite_list.second;
+                                    if( roll < 0 ) {
+                                        sprite_to_draw = sprite_list.first;
+                                        break;
+                                    }
+                                }
+
+                                // if we have found info on the item go through and draw its stuff
+                                draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
+                                                     0, layer_lit, layer_nv, height_3d, 0, "" );
+
+
+                                // if the top item is already being layered don't draw it later
+                                if( i.typeId() == tile.get_uppermost_item().typeId() ) {
+                                    drawtop = false;
+                                }
+
+                                break;
+                            }
+                        }
+
+                    }
+
+                }
             }
         }
 
