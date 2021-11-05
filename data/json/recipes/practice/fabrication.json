@@ -80,12 +80,12 @@
     "book_learn": [ [ "textbook_fabrication", 2 ] ]
   },
   {
-    "id": "prac_welding_int",
+    "id": "prac_welding_adv",
     "type": "practice",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
-    "name": "welding (intermediate)",
+    "name": "welding (advanced)",
     "description": "Practice welding, separating and giving form to some metal sheets in intrincated paterns and complicated designs.",
     "skill_used": "fabrication",
     "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
