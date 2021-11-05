@@ -2990,19 +2990,15 @@ drop_locations pickup_selector::execute()
                 continue;
             }
             break;
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-	      const item *sitem = selected.any_item().get_item();
-	      action_examine( sitem );
-            }
         } else if( input.action == "QUIT" ) {
 	  return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
 	  query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
 	  // TODO: implement favoriting in multi selection menus while maintaining selection
-	}
+	} else {
+	  on_input( input );
+        }
     }
     drop_locations dropped_pos_and_qty;
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
