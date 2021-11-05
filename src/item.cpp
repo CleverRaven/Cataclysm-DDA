@@ -5612,7 +5612,20 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    return string_format( "%s%s%s", name, sidetxt, amt );
+    std::string collapsed;
+    if( is_collapsed() ) {
+        collapsed = string_format( " %s", _( "hidden" ) );
+    }
+
+    return string_format( "%s%s%s%s", name, sidetxt, amt, collapsed );
+}
+
+bool item::is_collapsed() const
+{
+    std::vector<const item_pocket *> const &pck = get_all_contained_pockets().value();
+    return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
+        return !it->empty() && it->settings.is_collapsed();
+    } );
 }
 
 nc_color item::color() const

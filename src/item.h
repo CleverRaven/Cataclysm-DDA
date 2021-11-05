@@ -2390,6 +2390,8 @@ class item : public visitable
 
         void combine( const item_contents &read_input, bool convert = false );
 
+        bool is_collapsed() const;
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
