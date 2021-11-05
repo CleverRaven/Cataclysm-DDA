@@ -1693,9 +1693,9 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     }
 
     if( force_max_window_size && !visible_columns.empty() ) {
-      visible_columns.front()->set_width( client_width / 3, columns );
+        visible_columns.front()->set_width( client_width / 3, columns );
     }
-  
+
     reassign_custom_invlets();
 
     refresh_active_column();
@@ -2991,18 +2991,18 @@ drop_locations pickup_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-	  return drop_locations();
+            return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-	  query_set_filter();
+            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-	  // TODO: implement favoriting in multi selection menus while maintaining selection
-	} else {
-	  on_input( input );
+            // TODO: implement favoriting in multi selection menus while maintaining selection
+        } else {
+            on_input( input );
         }
     }
     drop_locations dropped_pos_and_qty;
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
-      dropped_pos_and_qty.push_back( drop_pair );
+        dropped_pos_and_qty.push_back( drop_pair );
     }
 
     return dropped_pos_and_qty;
@@ -3044,7 +3044,7 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.max_single_item_length(),
                u.max_single_item_volume() );
 }
- 
+
 void inventory_examiner::draw_item_details( const item_location &sitem )
 {
     std::vector<iteminfo> vThisItem;
@@ -3115,7 +3115,7 @@ item_location inventory_examiner::execute()
         } else if( input.action == "PAGE_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
         } else if( input.action == "PAGE_DOWN" ) {
-	  examine_window_scroll += scroll_item_info_lines;
+            examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
             if( selected_item != item_location::nowhere ) {
                 return selected_item;
