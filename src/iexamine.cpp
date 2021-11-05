@@ -692,7 +692,7 @@ class atm_menu
                 return false;
             }
 
-            add_msg( m_info, "amount: %d", amount );
+            add_msg( m_info, _( "You deposit %s into your account." ), format_money( amount ) );
             you.use_charges( itype_cash_card, amount );
             you.cash += amount;
             you.moves -= to_moves<int>( 10_seconds );
