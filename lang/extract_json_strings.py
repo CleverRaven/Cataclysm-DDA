@@ -1048,6 +1048,13 @@ def extract_speed_description(item):
                     writestr(outfile, description, comment=comment)
 
 
+def extract_weapon_category(item):
+    outfile = get_outfile("weapon_category")
+    name = item.get("name")
+    comment = "weapon category name"
+    writestr(outfile, name, comment=comment)
+
+
 def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
