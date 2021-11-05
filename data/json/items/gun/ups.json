@@ -193,6 +193,7 @@
   },
   {
     "id": "gatling_mech_laser_single",
+    "looks_like": "m134",
     "type": "GUN",
     "reload_noise_volume": 20,
     "name": { "str": "Salvaged CMES laser cannon" },
@@ -225,6 +226,7 @@
   },
   {
     "id": "recon_mech_laser_single",
+    "looks_like": "m107a1",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": { "str": "Salvaged RMES marksman system" },
