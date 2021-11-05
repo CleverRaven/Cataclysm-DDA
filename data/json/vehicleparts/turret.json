@@ -92,6 +92,34 @@
     }
   },
   {
+    "id": "mounted_cmes_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted CMES laser cannon" },
+    "item": "plasma_gun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 20 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ], [ "electronics", 8 ] ] },
+      "removal": { "skills": [ [ "mechanics", 8 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rmes_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted RMES laser sniper" },
+    "item": "plasma_gun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 20 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ], [ "electronics", 7 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ] }
+    }
+  },
+  {
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",
