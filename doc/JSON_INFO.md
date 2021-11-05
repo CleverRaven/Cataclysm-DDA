@@ -70,6 +70,7 @@ Use the `Home` key to return to the top.
       - [`conduct`](#conduct)
     - [Skills](#skills)
     - [Speed Description](#speed-description)
+    - [Mood Face](#mood-face)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
