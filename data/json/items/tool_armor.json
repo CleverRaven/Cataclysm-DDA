@@ -3407,6 +3407,7 @@
     "material_thickness": 8,
     "environmental_protection": 0,
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
