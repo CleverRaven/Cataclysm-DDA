@@ -1006,7 +1006,7 @@ bool main_menu::new_character_tab()
             get_weather().nextweather = calendar::turn;
 
             if( player_character.posz() >= 0 ) {
-                add_msg( _( "You feel like this %1$s weather will last forever…" ),
+                add_msg( _( "You feel as if this %1$s weather will last forever…" ),
                          g->weather_eternal->name.translated() );
             }
         }
