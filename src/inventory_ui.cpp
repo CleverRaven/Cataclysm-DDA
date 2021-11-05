@@ -3120,10 +3120,6 @@ item_location inventory_examiner::execute()
             if( selected_item != item_location::nowhere ) {
                 return selected_item;
             }
-        } else if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
-	  /*HIDE/SHOW_CONTENTS in this menu results in unexpected behaviour since it modifies the
-            inventory entries.  So, do nothing.  TODO: Find a way to disable or gracefully handle
-            these actions */
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
             on_input( input );
