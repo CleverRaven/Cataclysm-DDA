@@ -25,6 +25,33 @@ class effect;
 class item;
 struct itype;
 
+class weapon_category
+{
+    public:
+        static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void reset();
+
+        void load( const JsonObject &jo, const std::string &src );
+
+        static const std::vector<weapon_category> &get_all();
+
+        const weapon_category_id &getId() const {
+            return id;
+        }
+
+        const translation &name() const {
+            return name_;
+        }
+
+    private:
+        friend class generic_factory<weapon_category>;
+
+        weapon_category_id id;
+        bool was_loaded = false;
+
+        translation name_;
+};
+
 matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {

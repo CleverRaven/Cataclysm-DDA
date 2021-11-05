@@ -47,10 +47,44 @@ static const skill_id skill_unarmed( "unarmed" );
 
 namespace
 {
+generic_factory<weapon_category> weapon_category_factory( "mood_face" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 } // namespace
+
+template<>
+const weapon_category &weapon_category_id::obj() const
+{
+    return weapon_category_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool weapon_category_id::is_valid() const
+{
+    return weapon_category_factory.is_valid( *this );
+}
+
+void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src )
+{
+    weapon_category_factory.load( jo, src );
+}
+
+void weapon_category::reset()
+{
+    weapon_category_factory.reset();
+}
+
+void weapon_category::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name_ );
+}
+
+const std::vector<weapon_category> &weapon_category::get_all()
+{
+    return weapon_category_factory.get_all();
+}
 
 matype_id martial_art_learned_from( const itype &type )
 {
