@@ -78,6 +78,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
@@ -971,7 +972,8 @@ static bool eat( item &food, Character &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -981,7 +983,8 @@ static bool eat( item &food, Character &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );

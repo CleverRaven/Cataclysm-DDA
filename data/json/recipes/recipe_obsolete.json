@@ -249,5 +249,10 @@
     "type": "recipe",
     "result": "bootleg_grenade",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "folding_bicycle",
+    "obsolete": true
   }
 ]
