@@ -19,6 +19,7 @@
     "cutting": 28,
     "to_hit": -2,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "use_action": [ "CROWBAR" ],
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
   },
   {

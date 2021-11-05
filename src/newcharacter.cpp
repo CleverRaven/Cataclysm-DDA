@@ -1901,7 +1901,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
             if( sorted_profs[cur_id]->vehicle() ) {
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
-                buffer += veh_id->name.translated();
+                buffer += veh_id->name.translated() + "\n";
             } else {
                 buffer += pgettext( "set_profession_vehicle", "None" ) + std::string( "\n" );
             }
@@ -2398,9 +2398,11 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
 
             // Toggle hobby
+            bool enabling = false;
             if( u.hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
                 u.hobbies.insert( prof );
+                enabling = true;
             } else {
                 // Remove hobby and refund point cost
                 u.hobbies.erase( prof );
@@ -2408,6 +2410,21 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Add or remove traits from hobby
             for( const trait_id &trait : prof->get_locked_traits() ) {
+                if( enabling ) {
+                    if( !u.has_trait( trait ) ) {
+                        u.toggle_trait( trait );
+                    }
+                    continue;
+                }
+                int from_other_hobbies = u.prof->is_locked_trait( trait ) ? 1 : 0;
+                for( const profession *hby : u.hobbies ) {
+                    if( hby->ident() != prof->ident() && hby->is_locked_trait( trait ) ) {
+                        from_other_hobbies++;
+                    }
+                }
+                if( from_other_hobbies > 0 ) {
+                    continue;
+                }
                 u.toggle_trait( trait );
             }
 

@@ -542,7 +542,9 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // skip some sounds to avoid message spam
-        if( describe_sound( sound.category, pos == you->pos() ) ) {
+        const bool from_player = pos == you->pos() || ( sound.category == sound_t::movement &&
+                                 distance_to_sound <= 1 );
+        if( describe_sound( sound.category, from_player ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;

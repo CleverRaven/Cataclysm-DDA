@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <typeinfo>
 
+#include "demangle.h"
 // TODO: replace with std::optional
 #include "optional.h"
 
@@ -150,8 +151,8 @@ inline RT convert( RT *, const string_formatter &sf, T &&, ... )
                    std::is_enum<typename std::decay<T>::type>::value ||
                    is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
-                 std::string( typeid( T ).name() ) + " to " +
-                 std::string( typeid( RT ).name() ) + ", which is not possible" );
+                 demangle( typeid( T ).name() ) + " to " +
+                 demangle( typeid( RT ).name() ) + ", which is not possible" );
 }
 /**@}*/
 

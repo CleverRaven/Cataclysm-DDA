@@ -119,6 +119,7 @@ ignorable = {
     "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
+    "mood_face",
     "vehicle_group",
     "vehicle_placement",
 }

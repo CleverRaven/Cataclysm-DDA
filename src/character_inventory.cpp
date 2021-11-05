@@ -424,6 +424,23 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
 }
 
+void Character::pick_up( const drop_locations &what )
+{
+    if( what.empty() ) {
+        return;
+    }
+
+    //todo: refactor pickup_activity_actor to just use drop_locations, also rename drop_locations
+    std::vector<item_location> items;
+    std::vector<int> quantities;
+    for( const drop_location &dl : what ) {
+        items.emplace_back( dl.first );
+        quantities.emplace_back( dl.second );
+    }
+
+    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos() ) ) );
+}
+
 invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv->allocated_invlets();
