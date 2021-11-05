@@ -47,7 +47,7 @@ static const skill_id skill_unarmed( "unarmed" );
 
 namespace
 {
-generic_factory<weapon_category> weapon_category_factory( "mood_face" );
+generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
