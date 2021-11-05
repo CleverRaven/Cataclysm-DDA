@@ -1901,7 +1901,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
             if( sorted_profs[cur_id]->vehicle() ) {
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
-                buffer += veh_id->name.translated();
+                buffer += veh_id->name.translated() + "\n";
             } else {
                 buffer += pgettext( "set_profession_vehicle", "None" ) + std::string( "\n" );
             }

@@ -1176,5 +1176,21 @@
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bb",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 1 ] ],
+    "using": [ [ "forging_standard", 5 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
   }
 ]

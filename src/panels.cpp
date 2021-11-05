@@ -38,6 +38,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "omdata.h"
@@ -61,9 +62,6 @@
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
-static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -589,18 +587,15 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-std::pair<std::string, nc_color> display::morale_face_color( const Character &u )
+std::pair<std::string, nc_color> display::morale_face_color( avatar &u )
 {
-    const int morale_int = u.get_morale_level();
-    nc_color morale_color = c_white;
-    if( morale_int >= 10 ) {
-        morale_color = c_green;
-    } else if( morale_int <= -10 ) {
-        morale_color = c_red;
+    const mood_face_id &face = u.character_mood_face();
+    if( face.is_null() ) {
+        return std::make_pair( "ERR", c_white );
     }
-    const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    const std::string smiley = morale_emotion( morale_int, display::get_face_type( u ), m_style );
-    return std::make_pair( smiley, morale_color );
+
+    const int morale_int = u.get_morale_level();
+    return morale_emotion( morale_int, face.obj() );
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
@@ -749,101 +744,18 @@ static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int trun
     return "-";
 }
 
-face_type display::get_face_type( const Character &u )
+std::pair<std::string, nc_color> display::morale_emotion( const int morale_cur,
+        const mood_face &face )
 {
-    face_type fc = face_human;
-    if( u.has_trait( trait_THRESH_FELINE ) ) {
-        fc = face_cat;
-    } else if( u.has_trait( trait_THRESH_URSINE ) ) {
-        fc = face_bear;
-    } else if( u.has_trait( trait_THRESH_BIRD ) ) {
-        fc = face_bird;
-    }
-    return fc;
-}
-
-std::string display::morale_emotion( const int morale_cur, const face_type face,
-                                     const bool horizontal_style )
-{
-    if( horizontal_style ) {
-        if( face == face_bear || face == face_cat ) {
-            if( morale_cur >= 200 ) {
-                return "@W@";
-            } else if( morale_cur >= 100 ) {
-                return "OWO";
-            } else if( morale_cur >= 50 ) {
-                return "owo";
-            } else if( morale_cur >= 10 ) {
-                return "^w^";
-            } else if( morale_cur >= -10 ) {
-                return "-w-";
-            } else if( morale_cur >= -50 ) {
-                return "-m-";
-            } else if( morale_cur >= -100 ) {
-                return "TmT";
-            } else if( morale_cur >= -200 ) {
-                return "XmX";
-            } else {
-                return "@m@";
-            }
-        } else if( face == face_bird ) {
-            if( morale_cur >= 200 ) {
-                return "@v@";
-            } else if( morale_cur >= 100 ) {
-                return "OvO";
-            } else if( morale_cur >= 50 ) {
-                return "ovo";
-            } else if( morale_cur >= 10 ) {
-                return "^v^";
-            } else if( morale_cur >= -10 ) {
-                return "-v-";
-            } else if( morale_cur >= -50 ) {
-                return ".v.";
-            } else if( morale_cur >= -100 ) {
-                return "TvT";
-            } else if( morale_cur >= -200 ) {
-                return "XvX";
-            } else {
-                return "@^@";
-            }
-        } else if( morale_cur >= 200 ) {
-            return "@U@";
-        } else if( morale_cur >= 100 ) {
-            return "OuO";
-        } else if( morale_cur >= 50 ) {
-            return "^u^";
-        } else if( morale_cur >= 10 ) {
-            return "n_n";
-        } else if( morale_cur >= -10 ) {
-            return "-_-";
-        } else if( morale_cur >= -50 ) {
-            return "-n-";
-        } else if( morale_cur >= -100 ) {
-            return "TnT";
-        } else if( morale_cur >= -200 ) {
-            return "XnX";
-        } else {
-            return "@n@";
+    for( const mood_face_value &face_value : face.values() ) {
+        if( face_value.value() <= morale_cur ) {
+            const nc_color colour = get_color_from_tag( face_value.face() ).color;
+            return std::make_pair( remove_color_tags( face_value.face() ), colour );
         }
-    } else if( morale_cur >= 100 ) {
-        return "8D";
-    } else if( morale_cur >= 50 ) {
-        return ":D";
-    } else if( face == face_cat && morale_cur >= 10 ) {
-        return ":3";
-    } else if( face == face_bird && morale_cur >= 10 ) {
-        return ":>";
-    } else if( ( face == face_human || face == face_bear ) && morale_cur >= 10 ) {
-        return ":)";
-    } else if( morale_cur >= -10 ) {
-        return ":|";
-    } else if( morale_cur >= -50 ) {
-        return "):";
-    } else if( morale_cur >= -100 ) {
-        return "D:";
-    } else {
-        return "D8";
     }
+
+    debugmsg( "morale_emotion no matching face found for: %s", face.getId().str() );
+    return std::make_pair( "ERR", c_light_gray );
 }
 
 std::pair<std::string, nc_color> display::power_text_color( const Character &u )
