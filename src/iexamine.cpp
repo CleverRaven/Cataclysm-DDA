@@ -2998,7 +2998,6 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
-    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire… you'll need a fire source." ) );
@@ -3016,10 +3015,6 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     selection_menu.query();
 
     switch( selection_menu.ret ) {
-        case 0:
-            none( you, examp );
-            Pickup::pick_up( examp, 0 );
-            return;
         case 1: {
             for( auto &firestarter : firestarters ) {
                 item *it = firestarter.second;
@@ -6062,16 +6057,7 @@ void iexamine::open_safe( Character &, const tripoint &examp )
 
 void iexamine::workbench( Character &you, const tripoint &examp )
 {
-    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
-        workbench_internal( you, examp, cata::nullopt );
-    } else {
-        if( !get_map().i_at( examp ).empty() ) {
-            Pickup::pick_up( examp, 0 );
-        }
-        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
-            deployed_furniture( you, examp );
-        }
-    }
+    workbench_internal( you, examp, cata::nullopt );
 }
 
 void iexamine::workbench_internal( Character &you, const tripoint &examp,
@@ -6080,7 +6066,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     std::vector<item_location> crafts;
     std::string name;
     bool is_undeployable = false;
-    bool items_at_loc = false;
     map &here = get_map();
 
     if( part ) {
@@ -6099,7 +6084,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         }
 
         map_stack items_at_furn = here.i_at( examp );
-        items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
@@ -6115,7 +6099,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         repeat_craft,
         start_long_craft,
         work_on_craft,
-        get_items,
         undeploy
     };
 
@@ -6124,9 +6107,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft or disassembly" ) );
-    if( !part ) {
-        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
-    }
     if( is_undeployable ) {
         amenu.addentry( undeploy,     true,            't', _( "Take down the %s" ), name );
     }
@@ -6205,10 +6185,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                     selected_craft->tname() );
                 you.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             }
-            break;
-        }
-        case get_items: {
-            Pickup::pick_up( examp, 0 );
             break;
         }
         case undeploy: {

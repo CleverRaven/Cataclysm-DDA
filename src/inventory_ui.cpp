@@ -1070,6 +1070,18 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+{
+    for( auto &elem : entries ) {
+        if( elem.is_selectable() ) {
+            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
+                                 '\0';
+            cur_idx++;
+        }
+    }
+    return cur_idx;
+}
+
 static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
@@ -1681,13 +1693,18 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
+    reassign_custom_invlets();
+
+    refresh_active_column();
+}
+
+void inventory_selector::reassign_custom_invlets()
+{
     int custom_invlet = '0';
-    for( auto &elem : columns ) {
+    for( inventory_column *elem : columns ) {
         elem->prepare_paging();
         custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
     }
-
-    refresh_active_column();
 }
 
 void inventory_selector::prepare_layout()
@@ -2548,7 +2565,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
             break;
         case toggle_mode::NON_FAVORITE_NON_WORN: {
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
-                return entry.is_item() &&
+                return entry.is_selectable() &&
                        !entry.any_item()->is_favorite &&
                        !get_player_character().is_worn( *entry.any_item() );
             };
@@ -2917,4 +2934,111 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.volume_carried_with_tweaks( to_use ),
                u.volume_capacity_with_tweaks( to_use ),
                u.max_single_item_length(), u.max_single_item_volume() );
+}
+
+pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
+                                  const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title )
+{
+#if defined(__ANDROID__)
+    // allow user to type a drop number without dismissing virtual keyboard after each keypress
+    ctxt.allow_text_entry = true;
+#endif
+}
+
+drop_locations pickup_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    int count = 0;
+    while( true ) {
+        ui_manager::redraw();
+
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) { // Single Item from mouse
+            select( input.entry->any_item() );
+            toggle_entries( count );
+        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
+                continue; // Skip selecting any if invalid result or user canceled prompt
+            }
+            toggle_entries( query_result );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
+        } else if( input.action == "CONFIRM" ) {
+            if( to_use.empty() ) {
+                popup_getkey( _( "No items were selected.  Use %s to select them." ),
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                continue;
+            }
+            break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_locations();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            query_set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO: implement favoriting in multi selection menus while maintaining selection
+        } else {
+            on_input( input );
+        }
+    }
+
+    drop_locations dropped_pos_and_qty;
+    for( const std::pair<item_location, int> &drop_pair : to_use ) {
+        dropped_pos_and_qty.push_back( drop_pair );
+    }
+
+    return dropped_pos_and_qty;
+}
+
+void pickup_selector::reassign_custom_invlets()
+{
+    const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+    const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+    int cur_idx = 0;
+    for( inventory_column *elem : columns ) {
+        elem->prepare_paging();
+        cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+    }
+}
+
+inventory_selector::stats pickup_selector::get_raw_stats() const
+{
+    units::mass weight;
+    units::volume volume;
+
+    for( const drop_location &loc : to_use ) {
+        if( loc.first->count_by_charges() ) {
+            item copy( *loc.first.get_item() );
+            copy.charges = loc.second;
+            weight += copy.weight();
+            volume += copy.volume();
+        } else {
+            weight += loc.first->weight() * loc.second;
+            volume += loc.first->volume() * loc.second;
+        }
+    }
+
+    return get_weight_and_volume_stats(
+               u.weight_carried() + weight,
+               u.weight_capacity(),
+               u.volume_carried() + volume,
+               u.volume_capacity(),
+               u.max_single_item_length(),
+               u.max_single_item_volume() );
 }

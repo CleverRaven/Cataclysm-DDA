@@ -2078,7 +2078,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
-    ctxt.register_action( "pickup_feet" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -5252,38 +5251,13 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
-            if( !u.is_mounted() && !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
-                Pickup::pick_up( examp, 0 );
-            }
         }
     }
 }
 
 void game::pickup()
 {
-    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
-                                            _( "There is nothing to pick up nearby." ),
-                                            ACTION_PICKUP, false );
-    if( !examp_ ) {
-        return;
-    }
-    pickup( *examp_ );
-}
-
-void game::pickup( const tripoint &p )
-{
-    // Highlight target
-    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
-    } );
-    add_draw_callback( hilite_cb );
-
-    Pickup::pick_up( p, 0 );
-}
-
-void game::pickup_feet()
-{
-    Pickup::pick_up( u.pos(), 1 );
+    u.pick_up( game_menus::inv::pickup( u ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

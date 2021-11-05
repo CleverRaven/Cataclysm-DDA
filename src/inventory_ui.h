@@ -358,6 +358,7 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
+        int reassign_custom_invlets( int cur_idx, const std::string pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -630,6 +631,9 @@ class inventory_selector
         /** Show detailed item information for selected item. */
         void action_examine( const item *sitem );
 
+        virtual void reassign_custom_invlets();
+        std::vector<inventory_column *> columns;
+
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
         // and should not be made protected or public.
@@ -715,8 +719,6 @@ class inventory_selector
         weak_ptr_fast<ui_adaptor> ui;
 
         std::unique_ptr<string_input_popup> spopup;
-
-        std::vector<inventory_column *> columns;
 
         std::string title;
         std::string hint;
@@ -815,6 +817,17 @@ class inventory_drop_selector : public inventory_multiselector
 
     private:
         bool warn_liquid;
+};
+
+class pickup_selector : public inventory_multiselector
+{
+    public:
+        explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+        drop_locations execute();
+    protected:
+        stats get_raw_stats() const override;
+        void reassign_custom_invlets() override;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H
