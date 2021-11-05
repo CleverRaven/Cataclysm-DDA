@@ -103,12 +103,12 @@
     "using": [ [ "tailoring_leather_small", 4 ], [ "filament", 20 ] ]
   },
   {
-    "id": "prac_leather_int",
+    "id": "prac_leather_adv",
     "type": "practice",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_TAILORING",
-    "name": "leatherworking (intermediate)",
+    "name": "leatherworking (advanced)",
     "description": "Practice the correct cut and sewing of big leather patches in clothing making, using your knowledge to give it practical forms.",
     "skill_used": "tailor",
     "proficiencies": [
