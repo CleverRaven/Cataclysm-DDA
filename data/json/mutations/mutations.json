@@ -4295,6 +4295,7 @@
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ]
   },
   {

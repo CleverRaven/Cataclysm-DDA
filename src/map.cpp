@@ -5407,6 +5407,17 @@ bool map::dangerous_field_at( const tripoint &p )
     return false;
 }
 
+bool map::mopsafe_field_at( const tripoint &p )
+{
+    for( const std::pair<const int_id<field_type>, field_entry> &pr : field_at( p ) ) {
+        const field_entry &fd = pr.second;
+        if( !fd.is_mopsafe() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool map::add_field( const tripoint &p, const field_type_id &type_id, int intensity,
                      const time_duration &age, bool hit_player )
 {
