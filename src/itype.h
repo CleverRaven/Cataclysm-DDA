@@ -944,7 +944,7 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
-        std::set<std::string> weapon_category;
+        std::set<weapon_category_id> weapon_category;
 
         std::string snippet_category;
         translation description; // Flavor text
