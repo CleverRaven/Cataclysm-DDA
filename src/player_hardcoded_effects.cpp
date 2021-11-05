@@ -90,6 +90,7 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -1086,7 +1087,8 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && u.is_avatar() ) {
+        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
+            one_in( 43200 ) && u.is_avatar() ) {
             if( one_in( 2 ) ) {
                 u.sound_hallu();
             } else {
