@@ -18,6 +18,7 @@ class JsonOut;
 class avatar;
 class Character;
 class Creature;
+class mood_face;
 struct point;
 
 enum face_type : int {
@@ -76,11 +77,9 @@ std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
 std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
-std::pair<std::string, nc_color> morale_face_color( const Character &u );
+std::pair<std::string, nc_color> morale_face_color( avatar &u );
 // Helpers for morale_face_color
-face_type get_face_type( const Character &u );
-std::string morale_emotion( const int morale_cur, const face_type face,
-                            const bool horizontal_style );
+std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const mood_face &face );
 
 // Current movement mode (as single letter) and color
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
