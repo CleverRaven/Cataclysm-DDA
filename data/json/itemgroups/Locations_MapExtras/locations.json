@@ -943,16 +943,17 @@
   {
     "type": "item_group",
     "id": "golf_cart",
-    "items": [
-      [ "hat_golf", 50 ],
-      [ "gloves_golf", 40 ],
-      [ "golf_bag", 25 ],
-      [ "golf_tee", 80 ],
-      [ "golf_ball", 90 ],
-      [ "towel", 40 ],
-      [ "scorecard", 10 ],
-      [ "golf_club", 75 ],
-      [ "pencil", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hat_golf", "prob": 50 },
+      { "item": "gloves_golf", "prob": 40 },
+      { "item": "golf_bag", "prob": 25 },
+      { "item": "golf_tee", "prob": 80 },
+      { "item": "golf_ball", "prob": 90 },
+      { "item": "towel", "prob": 40 },
+      { "item": "scorecard", "prob": 10 },
+      { "item": "golf_club", "prob": 75 },
+      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] }
     ]
   },
   {

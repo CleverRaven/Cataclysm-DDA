@@ -189,11 +189,11 @@ void conditional_t<T>::set_is_riding( bool is_npc )
 }
 
 template<class T>
-void conditional_t<T>::set_npc_has_class( const JsonObject &jo )
+void conditional_t<T>::set_npc_has_class( const JsonObject &jo, bool is_npc )
 {
     const std::string &class_to_check = jo.get_string( "npc_has_class" );
-    condition = [class_to_check]( const T & d ) {
-        return d.actor( true )->is_myclass( npc_class_id( class_to_check ) );
+    condition = [class_to_check, is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_myclass( npc_class_id( class_to_check ) );
     };
 }
 
@@ -530,56 +530,56 @@ void conditional_t<T>::set_u_are_owed( const JsonObject &jo )
 }
 
 template<class T>
-void conditional_t<T>::set_npc_aim_rule( const JsonObject &jo )
+void conditional_t<T>::set_npc_aim_rule( const JsonObject &jo, bool is_npc )
 {
     const std::string &setting = jo.get_string( "npc_aim_rule" );
-    condition = [setting]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "aim_rule", setting );
+    condition = [setting, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "aim_rule", setting );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_engagement_rule( const JsonObject &jo )
+void conditional_t<T>::set_npc_engagement_rule( const JsonObject &jo, bool is_npc )
 {
     const std::string &setting = jo.get_string( "npc_engagement_rule" );
-    condition = [setting]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "engagement_rule", setting );
+    condition = [setting, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "engagement_rule", setting );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo )
+void conditional_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo, bool is_npc )
 {
     const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
-    condition = [setting]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "cbm_reserve_rule", setting );
+    condition = [setting, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "cbm_reserve_rule", setting );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo )
+void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo, bool is_npc )
 {
     const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
-    condition = [setting]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "cbm_recharge_rule", setting );
+    condition = [setting, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "cbm_recharge_rule", setting );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_rule( const JsonObject &jo )
+void conditional_t<T>::set_npc_rule( const JsonObject &jo, bool is_npc )
 {
     std::string rule = jo.get_string( "npc_rule" );
-    condition = [rule]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "ally_rule", rule );
+    condition = [rule, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "ally_rule", rule );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_override( const JsonObject &jo )
+void conditional_t<T>::set_npc_override( const JsonObject &jo, bool is_npc )
 {
     std::string rule = jo.get_string( "npc_override" );
-    condition = [rule]( const T & d ) {
-        return d.actor( true )->has_ai_rule( "ally_override", rule );
+    condition = [rule, is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "ally_override", rule );
     };
 }
 
@@ -606,11 +606,11 @@ void conditional_t<T>::set_is_season( const JsonObject &jo )
 }
 
 template<class T>
-void conditional_t<T>::set_mission_goal( const JsonObject &jo )
+void conditional_t<T>::set_mission_goal( const JsonObject &jo, bool is_npc )
 {
     std::string mission_goal_str = jo.get_string( "mission_goal" );
-    condition = [mission_goal_str]( const T & d ) {
-        mission *miss = d.actor( true )->selected_mission();
+    condition = [mission_goal_str, is_npc]( const T & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
         if( !miss ) {
             return false;
         }
@@ -652,109 +652,109 @@ void conditional_t<T>::set_has_many_assigned_missions()
 }
 
 template<class T>
-void conditional_t<T>::set_no_available_mission()
+void conditional_t<T>::set_no_available_mission( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->available_missions().empty();
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->available_missions().empty();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_has_available_mission()
+void conditional_t<T>::set_has_available_mission( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->available_missions().size() == 1;
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->available_missions().size() == 1;
     };
 }
 
 template<class T>
-void conditional_t<T>::set_has_many_available_missions()
+void conditional_t<T>::set_has_many_available_missions( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->available_missions().size() >= 2;
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->available_missions().size() >= 2;
     };
 }
 
 template<class T>
-void conditional_t<T>::set_mission_complete()
+void conditional_t<T>::set_mission_complete( bool is_npc )
 {
-    condition = []( const T & d ) {
-        mission *miss = d.actor( true )->selected_mission();
-        return miss && miss->is_complete( d.actor( true )->getID() );
+    condition = [is_npc]( const T & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && miss->is_complete( d.actor( is_npc )->getID() );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_mission_incomplete()
+void conditional_t<T>::set_mission_incomplete( bool is_npc )
 {
-    condition = []( const T & d ) {
-        mission *miss = d.actor( true )->selected_mission();
-        return miss && !miss->is_complete( d.actor( true )->getID() );
+    condition = [is_npc]( const T & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && !miss->is_complete( d.actor( is_npc )->getID() );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_available()
+void conditional_t<T>::set_npc_available( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return !d.actor( true )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
+    condition = [is_npc]( const T & d ) {
+        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_following()
+void conditional_t<T>::set_npc_following( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->is_following();
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_following();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_friend()
+void conditional_t<T>::set_npc_friend( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->is_friendly( get_player_character() );
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_friendly( get_player_character() );
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_hostile()
+void conditional_t<T>::set_npc_hostile( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->is_enemy();
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_enemy();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_train_skills()
+void conditional_t<T>::set_npc_train_skills( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return !d.actor( true )->skills_offered_to( *d.actor( false ) ).empty();
+    condition = [is_npc]( const T & d ) {
+        return !d.actor( is_npc )->skills_offered_to( *d.actor( !is_npc ) ).empty();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_train_styles()
+void conditional_t<T>::set_npc_train_styles( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return !d.actor( true )->styles_offered_to( *d.actor( false ) ).empty();
+    condition = [is_npc]( const T & d ) {
+        return !d.actor( is_npc )->styles_offered_to( *d.actor( !is_npc ) ).empty();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_npc_train_spells()
+void conditional_t<T>::set_npc_train_spells( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return !d.actor( true )->spells_offered_to( *d.actor( false ) ).empty();
+    condition = [is_npc]( const T & d ) {
+        return !d.actor( is_npc )->spells_offered_to( *d.actor( !is_npc ) ).empty();
     };
 }
 
 template<class T>
-void conditional_t<T>::set_at_safe_space()
+void conditional_t<T>::set_at_safe_space( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.actor( true )->global_omt_location() ) &&
-               d.actor( true )->is_safe();
+    condition = [is_npc]( const T & d ) {
+        return overmap_buffer.is_safe( d.actor( is_npc )->global_omt_location() ) &&
+               d.actor( is_npc )->is_safe();
     };
 }
 
@@ -1226,10 +1226,10 @@ void conditional_t<T>::set_u_has_camp()
 }
 
 template<class T>
-void conditional_t<T>::set_has_pickup_list()
+void conditional_t<T>::set_has_pickup_list( bool is_npc )
 {
-    condition = []( const T & d ) {
-        return d.actor( true )->has_ai_rule( "pickup_rule", "any" );
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->has_ai_rule( "pickup_rule", "any" );
     };
 }
 
@@ -1432,7 +1432,9 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
     } else if( jo.has_member( "npc_has_trait_flag" ) ) {
         set_has_trait_flag( jo, "npc_has_trait_flag", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
-        set_npc_has_class( jo );
+        set_npc_has_class( jo, true );
+    } else if( jo.has_member( "u_has_class" ) ) {
+        set_npc_has_class( jo, false );
     } else if( jo.has_string( "npc_has_activity" ) ) {
         set_has_activity( is_npc );
     } else if( jo.has_string( "npc_is_riding" ) ) {
@@ -1508,29 +1510,45 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
     } else if( jo.has_int( "npc_allies" ) || jo.has_object( "npc_allies" ) ) {
         set_npc_allies( jo );
     } else if( jo.get_bool( "npc_service", false ) ) {
-        set_npc_available();
+        set_npc_available( true );
+    } else if( jo.get_bool( "u_service", false ) ) {
+        set_npc_available( false );
     } else if( jo.has_int( "u_has_cash" ) || jo.has_object( "u_has_cash" ) ) {
         set_u_has_cash( jo );
     } else if( jo.has_int( "u_are_owed" ) || jo.has_object( "u_are_owed" ) ) {
         set_u_are_owed( jo );
     } else if( jo.has_string( "npc_aim_rule" ) ) {
-        set_npc_aim_rule( jo );
+        set_npc_aim_rule( jo, true );
+    } else if( jo.has_string( "u_aim_rule" ) ) {
+        set_npc_aim_rule( jo, false );
     } else if( jo.has_string( "npc_engagement_rule" ) ) {
-        set_npc_engagement_rule( jo );
+        set_npc_engagement_rule( jo, true );
+    } else if( jo.has_string( "u_engagement_rule" ) ) {
+        set_npc_engagement_rule( jo, false );
     } else if( jo.has_string( "npc_cbm_reserve_rule" ) ) {
-        set_npc_cbm_reserve_rule( jo );
+        set_npc_cbm_reserve_rule( jo, true );
+    } else if( jo.has_string( "u_cbm_reserve_rule" ) ) {
+        set_npc_cbm_reserve_rule( jo, false );
     } else if( jo.has_string( "npc_cbm_recharge_rule" ) ) {
-        set_npc_cbm_recharge_rule( jo );
+        set_npc_cbm_recharge_rule( jo, true );
+    } else if( jo.has_string( "u_cbm_recharge_rule" ) ) {
+        set_npc_cbm_recharge_rule( jo, false );
     } else if( jo.has_string( "npc_rule" ) ) {
-        set_npc_rule( jo );
+        set_npc_rule( jo, true );
+    } else if( jo.has_string( "u_rule" ) ) {
+        set_npc_rule( jo, false );
     } else if( jo.has_string( "npc_override" ) ) {
-        set_npc_override( jo );
+        set_npc_override( jo, true );
+    } else if( jo.has_string( "u_override" ) ) {
+        set_npc_override( jo, false );
     } else if( jo.has_int( "days_since_cataclysm" ) || jo.has_object( "days_since_cataclysm" ) ) {
         set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {
         set_is_season( jo );
-    } else if( jo.has_string( "mission_goal" ) ) {
-        set_mission_goal( jo );
+    } else if( jo.has_string( "mission_goal" ) || jo.has_string( "npc_mission_goal" ) ) {
+        set_mission_goal( jo, true );
+    } else if( jo.has_string( "u_mission_goal" ) ) {
+        set_mission_goal( jo, false );
     } else if( jo.has_member( "u_has_skill" ) ) {
         set_has_skill( jo, "u_has_skill" );
     } else if( jo.has_member( "npc_has_skill" ) ) {
@@ -1596,32 +1614,58 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_assigned_mission();
     } else if( type == "has_many_assigned_missions" ) {
         set_has_many_assigned_missions();
-    } else if( type == "has_no_available_mission" ) {
-        set_no_available_mission();
-    } else if( type == "has_available_mission" ) {
-        set_has_available_mission();
-    } else if( type == "has_many_available_missions" ) {
-        set_has_many_available_missions();
-    } else if( type == "mission_complete" ) {
-        set_mission_complete();
-    } else if( type == "mission_incomplete" ) {
-        set_mission_incomplete();
+    } else if( type == "has_no_available_mission" || type == "npc_has_no_available_mission" ) {
+        set_no_available_mission( true );
+    } else if( type == "u_has_no_available_mission" ) {
+        set_no_available_mission( false );
+    } else if( type == "has_available_mission" || type == "npc_has_available_mission" ) {
+        set_has_available_mission( true );
+    } else if( type == "u_has_available_mission" ) {
+        set_has_available_mission( false );
+    } else if( type == "has_many_available_missions" || type == "npc_has_many_available_missions" ) {
+        set_has_many_available_missions( true );
+    } else if( type == "u_has_many_available_missions" ) {
+        set_has_many_available_missions( false );
+    } else if( type == "mission_complete" || type == "npc_mission_complete" ) {
+        set_mission_complete( true );
+    } else if( type == "u_mission_complete" ) {
+        set_mission_complete( false );
+    } else if( type == "mission_incomplete" || type == "npc_mission_incomplete" ) {
+        set_mission_incomplete( true );
+    } else if( type == "u_mission_incomplete" ) {
+        set_mission_incomplete( false );
     } else if( type == "npc_available" ) {
-        set_npc_available();
+        set_npc_available( true );
+    } else if( type == "u_available" ) {
+        set_npc_available( false );
     } else if( type == "npc_following" ) {
-        set_npc_following();
+        set_npc_following( true );
+    } else if( type == "u_following" ) {
+        set_npc_following( false );
     } else if( type == "npc_friend" ) {
-        set_npc_friend();
+        set_npc_friend( true );
+    } else if( type == "u_friend" ) {
+        set_npc_friend( false );
     } else if( type == "npc_hostile" ) {
-        set_npc_hostile();
+        set_npc_hostile( true );
+    } else if( type == "u_hostile" ) {
+        set_npc_hostile( false );
     } else if( type == "npc_train_skills" ) {
-        set_npc_train_skills();
+        set_npc_train_skills( true );
+    } else if( type == "u_train_skills" ) {
+        set_npc_train_skills( false );
     } else if( type == "npc_train_styles" ) {
-        set_npc_train_styles();
+        set_npc_train_styles( true );
+    } else if( type == "u_train_styles" ) {
+        set_npc_train_styles( false );
     } else if( type == "npc_train_spells" ) {
-        set_npc_train_spells();
-    } else if( type == "at_safe_space" ) {
-        set_at_safe_space();
+        set_npc_train_spells( true );
+    } else if( type == "u_train_spells" ) {
+        set_npc_train_spells( false );
+    } else if( type == "at_safe_space" || type == "npc_at_safe_space" ) {
+        set_at_safe_space( true );
+    } else if( type == "u_at_safe_space" ) {
+        set_at_safe_space( false );
     } else if( type == "u_can_stow_weapon" ) {
         set_can_stow_weapon();
     } else if( type == "npc_can_stow_weapon" ) {
@@ -1652,8 +1696,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_underwater( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
-    } else if( type == "has_pickup_list" ) {
-        set_has_pickup_list();
+    } else if( type == "has_pickup_list" || type == "npc_has_pickup_list" ) {
+        set_has_pickup_list( true );
+    } else if( type == "u_has_pickup_list" ) {
+        set_has_pickup_list( false );
     } else if( type == "is_by_radio" ) {
         set_is_by_radio();
     } else if( type == "has_reason" ) {

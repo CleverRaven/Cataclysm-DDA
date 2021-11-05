@@ -1459,6 +1459,10 @@ class map
          */
         field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
+
+        // Check if player can move on top of it during mopping zone activity
+        bool mopsafe_field_at( const tripoint &p );
+
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.

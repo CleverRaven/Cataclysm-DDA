@@ -59,6 +59,7 @@ class field_entry
         }
 
         bool is_dangerous() const;
+        bool is_mopsafe() const;
 
         //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke

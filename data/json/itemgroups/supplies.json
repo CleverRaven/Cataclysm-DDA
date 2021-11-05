@@ -596,7 +596,7 @@
     "type": "item_group",
     "items": [
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "pen", "prob": 15, "charges": [ 0, 300 ] },
+      { "item": "pen", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "pencil", "prob": 35, "charges": [ 0, 100 ] },
       { "item": "black_pen", "prob": 35, "charges": [ 0, 100 ] },
       { "item": "blue_pen", "prob": 20, "charges": [ 0, 100 ] },

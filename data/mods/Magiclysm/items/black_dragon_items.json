@@ -60,7 +60,7 @@
       "msg": "You carefully unfold the black dragon hide and shake it clean.",
       "moves": 150,
       "type": "delayed_transform",
-      "transform_age": 28800,
+      "transform_age": 172800,
       "not_ready_msg": "The black dragon hide isn't done yet.",
       "//": "2 days"
     },

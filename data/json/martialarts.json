@@ -758,7 +758,7 @@
       }
     ],
     "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS" ]
+    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
   },
   {
     "type": "martial_art",

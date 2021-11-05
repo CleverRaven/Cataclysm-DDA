@@ -3575,7 +3575,7 @@ static bodypart_id pick_part_to_heal(
             } else if( healed_part == bodypart_id( "leg_l" ) || healed_part == bodypart_id( "leg_r" ) ) {
                 add_msg( m_info, _( "That leg is broken.  It needs surgical attention or a splint." ) );
             } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+                debugmsg( "That body part is bugged.  It needs developer's attention." );
             }
 
             continue;
@@ -4516,7 +4516,13 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( !it.ammo_sufficient( &p, thread_needed ) ) {
+            if( obj.restricted &&
+                std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
+                                        mod.tname( 1, false ) );
+            } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt.translated() ), thread_needed );
@@ -4525,12 +4531,6 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
                                         tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
