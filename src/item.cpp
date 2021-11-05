@@ -7899,17 +7899,18 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return true;
     }
 
-    if( is_watertight_container() && !contents.empty_container() ) {
-        if( contents.num_item_stacks() != 1 ) {
-            return false;
-        } else if( contents.only_item().typeId() == ammo ) {
+    if( is_watertight_container() ) {
+        if( ammo.obj().phase == phase_id::LIQUID && contents.num_item_stacks() == 1 &&
+            contents.only_item().made_of_from_type( phase_id::LIQUID ) &&
+            contents.only_item().typeId() == ammo ) {
             return true;
         }
-    }
-
-    if( is_watertight_container() && contents.empty_container() &&
-        ammo.obj().phase == phase_id::LIQUID ) {
-        return true;
+        if( ammo.obj().phase == phase_id::LIQUID && contents.empty_container() ) {
+            return true;
+        }
+        if( !magazine_integral() && !uses_magazine() ) {
+            return false;
+        }
     }
 
     if( magazine_integral() ) {
@@ -7932,7 +7933,20 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
-    return can_contain( *ammo, !now );
+
+    // Some items such as multi cookers have both container and magazine well pockets.
+    // Prevent trying to reload ammo that is not reloadable.
+    if( !contents.magazine_flag_restrictions().empty() ) {
+        const itype::FlagsSetType &ammo_flags = ammo.obj().get_flags();
+        for( const flag_id &flag : contents.magazine_flag_restrictions() ) {
+            if( ammo_flags.count( flag ) > 0 ) {
+                return can_contain( *ammo, !now );
+            }
+        }
+        return false;
+    } else {
+        return can_contain( *ammo, !now );
+    }
 }
 
 bool item::is_salvageable() const
