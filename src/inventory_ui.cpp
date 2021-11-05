@@ -139,6 +139,9 @@ static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
+    if( !is_item() ) {
+        return false;
+    }
     item_location it = locations.front();
     if( !it.has_parent() ) {
         return false;
@@ -698,9 +701,9 @@ void inventory_column::set_stack_favorite( std::vector<item_location> &locations
     }
 }
 
-void inventory_column::set_collapsed( std::vector<item_location> &locations,
-                                      const bool collapse )
+void inventory_column::set_collapsed( inventory_entry &entry, const bool collapse )
 {
+    std::vector<item_location> &locations = entry.locations;
     std::function<void( item_pocket *, bool )> do_collapse;
     do_collapse = [ collapse, &do_collapse ]( item_pocket * pock, bool clps ) {
         pock->settings.set_collapse( collapse );
@@ -713,17 +716,29 @@ void inventory_column::set_collapsed( std::vector<item_location> &locations,
         }
     };
 
+    bool collapsed = false;
     for( item_location &loc : locations ) {
         if( loc.get_item()->is_container() ) {
             for( item_pocket *pocket : loc->get_all_contained_pockets().value() ) {
                 pocket->settings.set_collapse( collapse );
                 do_collapse( pocket, collapse );
+                collapsed = true;
             }
         }
     }
+
+    if( collapsed ) {
+        entry.collapsed = collapse;
+
+        // recache cells in case the name changed
+        std::size_t const index =
+            std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) );
+        entries_cell_cache[index].assigned = false;
+        entries_cell_cache[index] = make_entry_cell_cache( entry );
+    }
 }
 
-void inventory_column::on_input( const inventory_input &input, const bool allow_hide )
+void inventory_column::on_input( const inventory_input &input )
 {
 
     if( !empty() && active ) {
@@ -742,12 +757,12 @@ void inventory_column::on_input( const inventory_input &input, const bool allow_
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             inventory_entry &selected = get_selected();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
-        } else if( allow_hide && input.action == "HIDE_CONTENTS" ) {
+        } else if( input.action == "HIDE_CONTENTS" ) {
             inventory_entry &selected = get_selected();
-            set_collapsed( selected.locations, true );
-        } else if( allow_hide && input.action == "SHOW_CONTENTS" ) {
+            set_collapsed( selected, true );
+        } else if( input.action == "SHOW_CONTENTS" ) {
             inventory_entry &selected = get_selected();
-            set_collapsed( selected.locations, false );
+            set_collapsed( selected, false );
         }
     }
 
@@ -910,10 +925,27 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
-    // First, remove all non-items
+    // restore entries revealed by SHOW_CONTENTS
+    // FIXME: replace by std::remove_copy_if in C++17
+    for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
+        if( it->is_item() && !it->is_hidden() ) {
+            add_entry( *it );
+            it = entries_hidden.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
+    // backup entries hidden by HIDE_CONTENTS
+    std::copy_if( entries.begin(), entries.end(), std::back_inserter( entries_hidden ),
+    []( const inventory_entry & entry ) {
+        return entry.is_hidden();
+    } );
+
+    // First, remove all non-items and hidden entries
     const auto new_end = std::remove_if( entries.begin(),
     entries.end(), [&filter_fn]( const inventory_entry & entry ) {
-        return !entry.is_item() || !filter_fn( entry );
+        return !entry.is_item() || !filter_fn( entry ) || entry.is_hidden();
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories (sort only once each UI session)
@@ -1047,8 +1079,7 @@ static int num_parents( const item_location &loc )
 }
 
 void inventory_column::draw( const catacurses::window &win, const point &p,
-                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
-                             const bool allow_hide )
+                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
     if( !visible() ) {
         return;
@@ -1120,19 +1151,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
 
             x2 += cells[cell_index].current_width;
             std::string text = entry_cell_cache.text[cell_index];
-            bool collapsed = false;
-            if( entry.is_item() && entry.any_item().get_item()->is_container() ) {
-                std::string hidden_text = allow_hide ? std::string( " " ) + string_format _( "hidden" ) :
-                                          std::string();
-                for( const item_pocket *pckt : entry.any_item().get_item()->get_all_contained_pockets().value() ) {
-                    // If one is collapsed then assume all are collapsed.
-                    if( pckt->settings.is_collapsed() && !pckt->empty() ) {
-                        text += hidden_text;
-                        collapsed = true;
-                        break;
-                    }
-                }
-            }
 
             size_t text_width = utf8_width( text, true );
             size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
@@ -1153,7 +1171,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( collapsed && allow_hide ) {
+                if( entry.collapsed && cell_index == 0 ) {
                     trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
                 }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
@@ -1391,6 +1409,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
                            preset.get_denial( locations.front() ).empty(),
                            /*chosen_count=*/chosen_count );
 
+    entry.collapsed = locations.front()->is_collapsed();
     target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -1404,13 +1423,6 @@ void inventory_selector::add_item( inventory_column &target_column,
                                    const item_category *custom_category,
                                    const bool include_hidden )
 {
-    // Skip this item if it is hidden.
-    if( location.has_parent() && !include_hidden ) {
-        item_location parent = location.parent_item();
-        if( parent->get_contents().contained_where( *location )->settings.is_collapsed() ) {
-            return;
-        }
-    }
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
                custom_category );
@@ -1996,14 +2008,14 @@ void inventory_selector::draw_columns( const catacurses::window &w )
             x += gap_rounding_error;
         }
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, point( x, y ), rect_entry_map, allow_hide );
+            elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, point( active_x, y ), rect_entry_map, allow_hide );
+    get_active_column().draw( w, point( active_x, y ), rect_entry_map );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
@@ -2153,7 +2165,7 @@ void inventory_selector::on_input( const inventory_input &input )
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
-                elem->on_input( input, allow_hide );
+                elem->on_input( input );
             }
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
@@ -2164,13 +2176,11 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( allow_hide && ( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) ) {
+        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             if( current_ui ) {
                 std::vector<item_location> inv = get_selected().locations;
-                clear_items();
-                add_character_items( get_player_character(), false );
-                set_filter( filter );
+                current_ui->mark_resize();
                 select_one_of( inv );
             }
         }

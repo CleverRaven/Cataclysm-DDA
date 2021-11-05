@@ -305,6 +305,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
     optional( jo, was_loaded, "wandering_field", wandering_field, field_type_str_id::NULL_ID() );
 
+    optional( jo, was_loaded, "mopsafe", mopsafe, false );
+
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
 
     bash_info.load( jo, "bash", map_bash_info::field, "field " + id.str() );

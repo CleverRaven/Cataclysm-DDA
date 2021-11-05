@@ -23,7 +23,7 @@
   {
     "type": "proficiency",
     "id": "prof_welding",
-    "name": { "str": "Welding" },
+    "name": { "str": "Skilled Welding" },
     "description": "You are an experienced welder.",
     "can_learn": true,
     "default_time_multiplier": 2,

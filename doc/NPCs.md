@@ -90,6 +90,91 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
+### Customize NPC speech 
+NPCs have dialogue depending on the situation.
+This dialogue can be customized in `"type": "npc"` json entries.
+
+If `npc` has one of the following fields, the NPCs will speak the indicated message or snippet instead of the default message. 
+
+All messages can be used with snippets.
+Any `%s` included is automatically replaced by the game, with words depending on the message.
+
+For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
+
+Field | Default messages/snippets | Used for...
+---|---|---
+`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
+`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags.json
+`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags.json
+`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags.json
+`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags.json
+`<close_distance>` | `<close_distance>` | see data/json/npcs/talk_tags.json
+`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags.json
+`<danger_close_distance>` | `<danger_close_distance>` | see data/json/npcs/talk_tags.json
+`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags.json
+`<far_distance>` | `<far_distance>` | see data/json/npcs/talk_tags.json
+`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags.json
+`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags.json
+`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags.json
+`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags.json
+`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags.json
+`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags.json
+`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags.json
+`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags.json
+`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags.json
+`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags.json
+`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags.json
+`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags.json
+`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags.json
+`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags.json
+`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags.json
+`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags.json
+`<medium_distance>` | `<medium_distance>` | see data/json/npcs/talk_tags.json
+`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags.json
+`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags.json
+`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags.json
+`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags.json
+`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags.json
+`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags.json
+`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags.json
+`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags.json
+`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags.json
+`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags.json
+`<wait>` | `<wait>` | see data/json/npcs/talk_tags.json
+`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags.json
+`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags.json
+`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags.json
+`snip_bleeding` | `My %s is bleeding!` | The NPC is bleeding from their %s.
+`snip_bleeding_badly` | `My %s is bleeding badly!` | The NPC is bleeding badly from their %s.
+`snip_wound_bite` | `The bite wound on my %s looks bad.` | The NPC's %s was badly bitten.
+`snip_wound_infected` | `My %s wound is infected…` | The NPC's wound on their %s is infected.
+`snip_lost_blood` | `I've lost lot of blood.` | The NPC has lost lot of blood.
+`snip_bye` | `Bye.` | Say at the end of a conversation.
+`snip_consume_eat` | `Thanks, that hit the spot.` | You gave them some food and the NPC ate it.
+`snip_consume_cant_accept` | `I don't <swear> trust you enough to eat THIS…` | You gave them some food but the NPC didn't accept it.
+`snip_consume_cant_consume` | `It doesn't look like a good idea to consume this…` | You gave them some food but the NPC wouldn't eat it.
+`snip_consume_rotten` | `This is rotten!  I won't eat that.` | You gave them some food but the NPC wouldn't eat it because it's rotten.
+`snip_consume_med` | `Thanks, I feel better already.` | You gave them a drug and the NPC swallowed it.
+`snip_consume_use_med` | `Thanks, I used it.` | You gave them a drug and the NPC used it.
+`snip_consume_need_item` | `I need a %s to consume that!` | You gave them a drug but the NPC couldn't use it without a %s (e.g., a syringe).
+`snip_consume_nocharge` | `It doesn't look like a good idea to consume this…` | You gave them a drug but the NPC couldn't use it because of a lack of charges.
+`snip_give_cancel` | `Changed your mind?` | You started to give them an item but hit the escape key.
+`snip_give_carry` | `Thanks, I'll carry that now.` | You gave them an item and the NPC took it.
+`snip_give_nope` | `Nope.` | You gave them an item but the NPC couldn't take it. First says.
+`snip_give_carry_cant` | `I have no space to store it.` | You gave an item but NPC couldn't take because no space.
+`snip_give_carry_cant_few_space` | `I can only store %s %s more.` | You gave an item but NPC couldn't take because few spaces.
+`snip_give_carry_cant_no_space` | `…or to store anything else for that matter.` | You gave an item but NPC couldn't take because no spaces.
+`snip_give_carry_too_heavy` | `It is too heavy for me to carry.` | You gave an item but NPC couldn't take because too heavy.
+`snip_give_dangerous` | `Are you <swear> insane!?` | You gave a dangerous item like active grenade.
+`snip_give_to_hallucination` | `No thanks, I'm good.` | You gave an item but NPC couldn't take because he/she was in hallucination.
+`snip_give_wield` | `Thanks, I'll wield that now.` | You gave a weapon and NPC wield it.
+`snip_give_weapon_weak` | `My current weapon is better than this.\n` | You gave a weapon but NPC didn't take it because it was weaker than current weapons.
+`snip_heal_player` | `Hold still %s, I'm coming to help you.` | NPC try to heal you.
+`snip_pulp_zombie` | `Hold on, I want to pulp that %s.` | NPC try to pulp %s.
+`snip_radiation_sickness` | `I'm suffering from radiation sickness…` | NPC are in radiation sickness.
+`snip_wear` | `Thanks, I'll wear that now.` | You gave a clothes or armor and NPC waer it.
+
+
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
 defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
@@ -735,41 +820,40 @@ example
 
 Condition | Type | Description
 --- | --- | ---
-`"at_safe_space"` | simple string | `true` if the NPC's current overmap location passes the `is_safe()` test.
+`"at_safe_space" or "u_at_safe_space" or "npc_at_safe_space"` | simple string | `true` if u or the NPC's current overmap location passes the `is_safe()` test.
 `"has_assigned_mission"` | simple string | `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job...".
 `"has_many_assigned_missions"` | simple string | `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the `"TALK_MISSION_LIST_ASSIGNED"` topic.
-`"has_no_available_mission"` | simple string | `true` if the NPC has no jobs available for the player character.
-`"has_available_mission"` | simple string | `true` if the NPC has one job available for the player character.
+`"has_no_available_mission" or "npc_has_no_available_mission" or "u_has_no_available_mission"` | simple string | `true` if u or the NPC has no jobs available for the player character.
+`"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
-`"mission_goal"` | string | `true` if the NPC's current mission has the same goal as `mission_goal`.
-`"mission_complete"` | simple string | `true` if the player has completed the NPC's current mission.
-`"mission_incomplete"` | simple string | `true` if the player hasn't completed the NPC's current mission.
+`"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
+`"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
+`"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` ( or the value of the variable described see `variable_object` above) number of NPC allies.
-`"npc_following"` | simple string | `true` if the NPC is following the player character.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
+`"u_available" or "npc_available"` | simple string | `true` if u or the NPC does not have effect `"currently_busy"`.
+`"u_following" or "npc_following"` | simple string | `true` if u or the NPC is following the player character.
+`"u_friend" or "npc_friend"` | simple string | `true` if u or the NPC is friendly to the player character.
+`"u_hostile" or "npc_hostile"` | simple string | `true` if u or the NPC is an enemy of the player character.
+`"u_train_skills" or "npc_train_skills"` | simple string | `true` if u or the NPC has one or more skills with more levels than the player.
+`"u_train_styles" or "npc_train_styles"` | simple string | `true` if u or the NPC knows one or more martial arts styles that the player does not know.
+`"u_has_class" or "npc_has_class"` | array | `true` if u or the NPC is a member of an NPC class.
+`"u_aim_rule" or "npc_aim_rule"` | string | `true` if u or the NPC follower AI rule for aiming matches the string.
+`"u_engagement_rule" or "npc_engagement_rule"` | string | `true` if u or the NPC follower AI rule for engagement matches the string.
+`"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
+`"u_cbm_recharge_rule" or "npc_cbm_recharge_rule"` | string | `true` if u or the NPC follower AI rule for cbm recharge matches the string.
+`"u_rule" or "npc_rule"` | string | `true` if u or the NPC follower AI rule for that matches string is set.
+`"u_override" or "npc_override"` | string | `true` if u or the NPC has an override for the string.
+`"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | string | `true` if u or the NPC has a pickup list.
 
 #### NPC only conditions
 
 Condition | Type | Description
 --- | --- | ---
-`"npc_available"` | simple string | `true` if the NPC does not have effect `"currently_busy"`.
-`"npc_following"` | simple string | `true` if the NPC is following the player character.
-`"npc_friend"` | simple string | `true` if the NPC is friendly to the player character.
-`"npc_hostile"` | simple string | `true` if the NPC is an enemy of the player character.
-`"npc_train_skills"` | simple string | `true` if the NPC has one or more skills with more levels than the player.
-`"npc_train_styles"` | simple string | `true` if the NPC knows one or more martial arts styles that the player does not know.
-`"npc_has_class"` | array | `true` if the NPC is a member of an NPC class.
 `"npc_role_nearby"` | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 `"has_reason"` | simple string | `true` if a previous effect set a reason for why an effect could not be completed.
-
-#### NPC Follower AI rules
-Condition | Type | Description
---- | --- | ---
-`"npc_aim_rule"` | string | `true` if the NPC follower AI rule for aiming matches the string.
-`"npc_engagement_rule"` | string | `true` if the NPC follower AI rule for engagement matches the string.
-`"npc_rule"` | string | `true` if the NPC follower AI rule for that matches string is set.
 
 #### Environment
 
