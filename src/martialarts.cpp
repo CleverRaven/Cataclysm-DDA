@@ -1670,27 +1670,33 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         if( !valid_ma_weapons.empty() ) {
-            std::vector<std::string> weapons;
-            std::transform( valid_ma_weapons.begin(), valid_ma_weapons.end(),
-            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
-                // Colorize wielded weapon and move it to the front of the list
-                Character &player_character = get_player_character();
-                if( item::nname( wid ) == player_character.get_wielded_item().display_name() )
-                {
-                    return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
-                } else
-                {
-                    return item::nname( wid );
-                } } );
-            // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end(), localized_compare );
-            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
-            auto last = std::unique( weapons.begin(), weapons.end() );
-            weapons.erase( last, weapons.end() );
+            Character &player = get_player_character();
+            std::map<std::string, std::vector<std::string>> weaps_by_cat;
+            const std::string uncategorized = _( "UNCATEGORIZED" );
+            for( const itype_id &w : valid_ma_weapons ) {
+                bool carrying = player.has_item_with( [w]( const item & it ) {
+                    return it.typeId() == w;
+                } );
+                std::string wname = player.get_wielded_item().typeId() == w ?
+                                    colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
+                                    carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
+                for( const std::string &w_cat : w->weapon_category ) {
+                    weaps_by_cat[w_cat].push_back( wname );
+                }
+                if( w->weapon_category.empty() ) {
+                    weaps_by_cat[uncategorized].push_back( wname );
+                }
+            }
 
-            buffer += n_gettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                 weapons.size() ) + std::string( " " );
-            buffer += enumerate_as_string( weapons );
+            buffer += std::string( "<bold>" ) + _( "Weapons" ) + std::string( "</bold>" ) + "\n";
+            for( auto &weaps : weaps_by_cat ) {
+                std::sort( weaps.second.begin(), weaps.second.end(), localized_compare );
+                weaps.second.erase( std::unique( weaps.second.begin(), weaps.second.end() ), weaps.second.end() );
+                std::string w_cat( weaps.first );
+                std::replace( w_cat.begin(), w_cat.end(), '_', ' ' );
+                buffer += std::string( "<header>" ) + w_cat + std::string( ":</header> " );
+                buffer += enumerate_as_string( weaps.second ) + "\n";
+            }
         }
 
         catacurses::window w;
