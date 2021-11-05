@@ -1,7 +1,7 @@
 #include "diary.h"
 
 #include <string>
-#include<list>
+#include <list>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -26,9 +26,8 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
-    for( diary_page *n : pages ) {
+    for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( to_string( n->turn ) );
-
     }
     return result;
 }
@@ -59,7 +58,7 @@ diary_page *diary::get_page_ptr( int offset )
 {
     if( !pages.empty() && opend_page + offset >= 0 ) {
 
-        return pages[opend_page + offset];
+        return pages[opend_page + offset].get();
     }
     return nullptr;
 }
@@ -623,7 +622,7 @@ void diary::set_page_text( std::string text )
 
 void diary::new_page()
 {
-    diary_page *page = new diary_page();
+    std::unique_ptr<diary_page> page( new diary_page() );
     page -> m_text = " ";
     page -> turn = calendar::turn;
     page -> kills = g ->get_kill_tracker().kills;
@@ -653,7 +652,7 @@ void diary::new_page()
     page -> known_profs = u->_proficiencies->known_profs();
     page -> learning_profs = u->_proficiencies->learning_profs();
     page->max_power_level = u->get_max_power_level();
-    diary::pages.push_back( page );
+    diary::pages.push_back( std::move( page ) );
 }
 
 void diary::delete_page()
@@ -666,10 +665,10 @@ void diary::delete_page()
 
 void diary::export_to_txt( bool lastexport )
 {
-    std::ofstream myfile;
+    cata::ofstream myfile;
     std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
-    path += "\\" + owner + "s_diary.txt";
-    myfile.open( path );
+    path += "/" + owner + "s_diary.txt";
+    myfile.open( fs::u8path( path ) );
 
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opend_page( i );
@@ -690,7 +689,7 @@ void diary::export_to_txt( bool lastexport )
 bool diary::store()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() +  "\\" + name + ".json";
+    std::string path = PATH_INFO::world_base_save_path() +  "/" + name + ".json";
     const bool iswriten = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
@@ -710,7 +709,7 @@ void diary::serialize( JsonOut &jsout )
     jsout.member( "owner", owner );
     jsout.member( "pages" );
     jsout.start_array();
-    for( diary_page *n : pages ) {
+    for( std::unique_ptr<diary_page> &n : pages ) {
         jsout.start_object();
         jsout.member( "text", n->m_text );
         jsout.member( "turn", n->turn );
@@ -741,7 +740,7 @@ void diary::serialize( JsonOut &jsout )
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() + "\\" + name + ".json";
+    std::string path = PATH_INFO::world_base_save_path() + "/" + name + ".json";
     if( file_exist( path ) ) {
         read_from_file( path, [&]( std::istream & fin ) {
             deserialize( fin );
@@ -763,7 +762,7 @@ void diary::deserialize( JsonIn &jsin )
         data.read( "owner", owner );
         pages.clear();
         for( JsonObject elem : data.get_array( "pages" ) ) {
-            diary_page *page = new diary_page();
+            std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );
             elem.read( "active", page->mission_active );
@@ -783,7 +782,7 @@ void diary::deserialize( JsonIn &jsin )
             elem.read( "known_profs", page->known_profs );
             elem.read( "learning_profs", page->learning_profs );
             elem.read( "max_power_level", page->max_power_level );
-            pages.push_back( page );
+            diary::pages.push_back( std::move( page ) );
         }
     } catch( const JsonError &e ) {
 

@@ -20,6 +20,7 @@
 /// </summary>
 struct diary_page {
     diary_page();
+    virtual ~diary_page() = default;
     /*the text the player added to the page*/
     std::string m_text;
     time_point privius_Page_turn;
@@ -68,7 +69,7 @@ class diary
         /*charakter name who ownes the diary*/
         std::string owner;
         /*list of all pages added to the diary*/
-        std::vector<diary_page *> pages;
+        std::vector< std::unique_ptr<diary_page>> pages;
 
         /*current opend page*/
         int opend_page = 0; // NOLINT(cata-serialize)
