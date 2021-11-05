@@ -1332,7 +1332,7 @@ class item : public visitable
         /**
          * returns whether any of the pockets is compatible with the specified item.
          * Does not check if the item actually fits volume/weight wise
-         * Ignores mod, migration, corpse pockets
+         * Only checks CONTAINER, MAGAZINe and MAGAZINE WELL pockets
          * @param it the item being put in
          */
         ret_val<bool> is_compatible( const item &it ) const;
@@ -1340,7 +1340,6 @@ class item : public visitable
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param compatibility_only ignores weight and size limits
          */
         /*@{*/
         ret_val<bool> can_contain( const item &it ) const;

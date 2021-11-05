@@ -65,9 +65,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
         // Reloadable items with multiple reloadable pockets cause problems (multi cooker).
         // Only watertight containers, magazine wells and magazines are reloadable
-        // This makes it so that the watertight CONTAINER takes only liquids it deems compatible
+        // Watertight CONTAINER takes only liquids it deems compatible
         // MAGAZINE_WELL and MAGAZINE pockets take anythin they deem compatible
-        // If you want to clean this up you'll need to rewrite item::reload first.
         for( const item_pocket *pocket : obj.get_contents().get_all_reloadable_pockets() ) {
 
             // Skip CONTIANER pockets for non-liquids
