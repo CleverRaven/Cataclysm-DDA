@@ -2197,7 +2197,6 @@ void inventory_selector::on_input( const inventory_input &input )
         if( selected ) {
             //TODO: Should probably be any_item() rather than direct front() access, but that seems to lock us into const item_location, which various functions are unprepared for
             item_location sitem = selected.locations.front();
-
             inventory_examiner examine_contents( u, sitem );
             examine_contents.add_contained_items( sitem );
             int examine_result = examine_contents.execute();
@@ -3046,10 +3045,7 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
 
 bool inventory_examiner::check_parent_item()
 {
-    if( parent_item->is_container_empty() ) {
-        return false;
-    }
-    if( empty() ) {
+    if( parent_item->is_container_empty() || empty() ) {
         return false;
     }
     return true;
@@ -3122,21 +3118,21 @@ int inventory_examiner::execute()
             if( select( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-	    return return_value;
+            return return_value;
         }
 
         if( input.action == "QUIT" ) {
-	  return return_value;
+            return return_value;
         } else if( input.action == "PAGE_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
         } else if( input.action == "PAGE_DOWN" ) {
             examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-	  return return_value;
+            return return_value;
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
             if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
-	      return_value = EXAMINED_CONTENTS_WITH_CHANGES;
+                return_value = EXAMINED_CONTENTS_WITH_CHANGES;
             }
             on_input( input );
         }
