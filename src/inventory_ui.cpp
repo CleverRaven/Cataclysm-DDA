@@ -3092,7 +3092,7 @@ int inventory_examiner::execute()
         for( item_pocket *pocket : parent_item->get_all_contained_pockets().value() ) {
             pocket->settings.set_collapse( false );
         }
-	set_title( parent_item->display_name() ); //Update the title to reflect that things aren't hidden
+        set_title( parent_item->display_name() ); //Update the title to reflect that things aren't hidden
     }
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
