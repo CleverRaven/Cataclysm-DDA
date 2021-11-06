@@ -1116,7 +1116,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         // we simply don't want them to "spill"
         return ret_val<item_pocket::contain_code>::make_success();
     }
-	// To prevent debugmsg. Casings can only be inserted in a magazine during firing.
+    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
     if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
