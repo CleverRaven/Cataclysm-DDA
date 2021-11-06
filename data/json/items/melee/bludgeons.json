@@ -1169,6 +1169,7 @@
     "material": [ "iron", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "volume": "1250 ml",
     "longest_side": "120 cm",
     "bashing": 22,

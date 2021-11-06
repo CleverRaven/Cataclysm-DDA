@@ -499,7 +499,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500,
     "category": "weapons"
