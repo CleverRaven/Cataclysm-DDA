@@ -632,30 +632,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapons": [
-      "ax",
-      "battleaxe",
-      "battleaxe_fake",
-      "battleaxe_inferior",
-      "copper_ax",
-      "fire_ax",
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "hammer_sledge",
-      "hammer_sledge_short",
-      "hockey_stick",
-      "hoe",
-      "ji",
-      "lobotomizer",
-      "lucern_hammer",
-      "lucern_hammerfake",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pickaxe",
-      "poleaxe",
-      "primitive_axe"
-    ]
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
