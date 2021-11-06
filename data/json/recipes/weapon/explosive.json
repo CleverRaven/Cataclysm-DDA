@@ -207,7 +207,7 @@
     "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
-    "book_learn": [ [ "basic_chemistry", 2 ] ],
+    "book_learn": [ [ "basic_chemistry", 2 ], [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
     "time": "7 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_gas_canister_case", 1 ] ],
