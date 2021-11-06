@@ -2194,25 +2194,19 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_categorize_contained();
     } else if( input.action == "EXAMINE_CONTENTS" ) {
         const inventory_entry &selected = get_active_column().get_selected();
-        //TODO: Should probably be any_item() rather than direct access, but that seems to lock us into const item_location, which various functions are unprepared for
-        item_location sitem = selected.locations.front();
         if( selected ) {
-            bool contents_to_examine = false;
-            if( !sitem->is_container_empty() ) {
-                inventory_examiner examine_contents( u );
-                examine_contents.add_contained_items( sitem );
-                if( !examine_contents.empty() ) {
-                    contents_to_examine = true;
-                    examine_contents.set_title( sitem->display_name() );
-                    examine_contents.execute();
-                    //User could have hidden contents while using inventory_examiner.  Asssume a rebuild is necessary
-                    for( inventory_column *elem : columns ) {
-                        elem->invalidate_paging();
-                    }
+            //TODO: Should probably be any_item() rather than direct front() access, but that seems to lock us into const item_location, which various functions are unprepared for
+            item_location sitem = selected.locations.front();
 
+            inventory_examiner examine_contents( u, sitem );
+            examine_contents.add_contained_items( sitem );
+            int examine_result = examine_contents.execute();
+            if( examine_result == EXAMINED_CONTENTS_WITH_CHANGES ) {
+                //The user changed something while examining, so rebuild paging
+                for( inventory_column *elem : columns ) {
+                    elem->invalidate_paging();
                 }
-            }
-            if( !contents_to_examine ) {
+            } else if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
                 action_examine( sitem );
             }
         }
@@ -3050,6 +3044,17 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.max_single_item_volume() );
 }
 
+bool inventory_examiner::check_parent_item()
+{
+    if( parent_item->is_container_empty() ) {
+        return false;
+    }
+    if( empty() ) {
+        return false;
+    }
+    return true;
+}
+
 void inventory_examiner::draw_item_details( const item_location &sitem )
 {
     std::vector<iteminfo> vThisItem;
@@ -3063,8 +3068,13 @@ void inventory_examiner::draw_item_details( const item_location &sitem )
     draw_item_info( w_examine, data );
 }
 
-item_location inventory_examiner::execute()
+int inventory_examiner::execute()
 {
+    if( !check_parent_item() ) {
+        return NO_CONTENTS_TO_EXAMINE;
+    }
+    int return_value = EXAMINED_CONTENTS_UNCHANGED;
+
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     ui_adaptor ui_examine;
@@ -3112,22 +3122,32 @@ item_location inventory_examiner::execute()
             if( select( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            return input.entry->any_item();
+	    return return_value;
         }
 
         if( input.action == "QUIT" ) {
-            return item_location();
+	  return return_value;
         } else if( input.action == "PAGE_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
         } else if( input.action == "PAGE_DOWN" ) {
             examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-            if( selected_item != item_location::nowhere ) {
-                return selected_item;
-            }
+	  return return_value;
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
+            if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
+	      return_value = EXAMINED_CONTENTS_WITH_CHANGES;
+            }
             on_input( input );
         }
+    }
+}
+
+void inventory_examiner::setup()
+{
+    if( parent_item == item_location::nowhere ) {
+        set_title( "ERROR: Item not found" );
+    } else {
+        set_title( parent_item->display_name() );
     }
 }

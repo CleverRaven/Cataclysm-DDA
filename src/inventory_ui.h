@@ -853,23 +853,38 @@ class pickup_selector : public inventory_multiselector
  * the selected item on the right.  To use, create it, add_contained_items(), then execute().
  * TODO: Ideally, add_contained_items could be done automatically on creation without duplicating
  * that code from inventory_selector. **/
+#define EXAMINED_CONTENTS_UNCHANGED 0
+#define EXAMINED_CONTENTS_WITH_CHANGES 1
+#define NO_CONTENTS_TO_EXAMINE 2
 class inventory_examiner : public inventory_selector
 {
     private:
         int examine_window_scroll;
         int scroll_item_info_lines;
     protected:
+        item_location parent_item;
         item_location selected_item;
         catacurses::window w_examine;
 
     public:
         explicit inventory_examiner( Character &p,
+                                     item_location item_to_look_inside,
                                      const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {
             force_max_window_size = true;
             examine_window_scroll = 0;
             selected_item = item_location::nowhere;
+            parent_item = item_to_look_inside;
+
+            setup();
         }
+
+        /**
+         * If parent_item has no contents or is otherwise unsuitable for inventory_examiner, return false.  Otherwise, true
+        **/
+        bool check_parent_item();
+
+
         /**
          * Draw the details of sitem in the w_examine window
         **/
@@ -880,9 +895,18 @@ class inventory_examiner : public inventory_selector
          *
         * Sets up ui_adaptor callbacks for w_examine to draw the item detail pane and allow it to be resized
          * Figures out which item is currently selected and calls draw_item_details
-               * Passes essentially everything else back to inventory_selector for handling.
-               **/
-        item_location execute();
+        * Passes essentially everything else back to inventory_selector for handling.
+         * If the user changed something while looking through the item's contents (e.g. collapsing a
+         * container), it should return EXAMINED_CONTENTS_WITH_CHANGES to inform the parent window.
+         * If the parent_item has no contents to examine, it should return NO_CONTENTS_TO_EXAMINE, telling
+         * the parent window to examine the item with action_examine()
+         **/
+        int execute();
+
+        /**
+         * Does initial setup work prior to display of the window
+         **/
+        void setup();
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

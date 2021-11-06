@@ -1686,17 +1686,10 @@ void advanced_inventory::display()
                 continue;
             }
             item_location sitem_location = sitem->items.front();
-            bool contents_to_examine = false;
-            if( !sitem_location->is_container_empty() ) {
-                inventory_examiner examine_contents( player_character );
-                examine_contents.add_contained_items( sitem_location );
-                if( !examine_contents.empty() ) {
-                    contents_to_examine = true;
-                    examine_contents.set_title( sitem_location->display_name() );
-                    examine_contents.execute();
-                }
-            }
-            if( !contents_to_examine ) {
+            inventory_examiner examine_contents( player_character, sitem_location );
+            examine_contents.add_contained_items( sitem_location );
+            int examine_result = examine_contents.execute();
+            if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
                 action_examine( sitem, spane );
             }
         } else if( action == "QUIT" ) {
