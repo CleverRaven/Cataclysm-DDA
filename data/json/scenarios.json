@@ -363,7 +363,8 @@
       "SUNBURN",
       "SORES",
       "PAWS",
-      "SHELL"
+      "SHELL",
+      "HUGE"
     ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -488,7 +489,8 @@
       "SUNBURN",
       "SORES",
       "PAWS",
-      "SHELL"
+      "SHELL",
+      "HUGE"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
@@ -723,7 +725,8 @@
       "SUNBURN",
       "SORES",
       "PAWS",
-      "SHELL"
+      "SHELL",
+      "HUGE"
     ],
     "flags": [ "LONE_START" ]
   },
