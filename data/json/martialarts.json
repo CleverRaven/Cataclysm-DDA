@@ -1437,55 +1437,49 @@
     "type": "martial_art",
     "id": "style_zui_quan",
     "name": { "str": "Zui Quan" },
-    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodge bonus and accuracy bonus based on your intelligence.  Moving gives you additional dodge attempts and each time you dodge, you inflict more damage with your counterattack for until the end of your next turn.",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodging bonus based on intelligence and dodge attempts.  Dodging increases your damage and accuracy based on intelligence for a short time.  Moving gives you an additional dodging bonus.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "learn_difficulty": 8,
     "static_buffs": [
       {
         "id": "buff_zuiquan_static",
         "name": "Zui Quan Stance",
-        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm easier.\n\nDodging Skill increased by 15% of Intelligence.",
+        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm with ease.\n\n+2 Dodge attempts, Dodging Skill increased by 20% of Intelligence.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.15 } ]
-      },
-      {
-        "id": "buff_zuiquan_static2",
-        "name": "Advanced Zui Quan",
-        "description": "You have a greater understanding of Zui Quan.  Your skills at dodging and landing attacks are much better as a result.\n\n+1 Dodge attempts, Accuracy increased by 15% of Intelligence.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "unarmed_allowed": true,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.15 } ]
+        "bonus_dodges": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
       }
     ],
     "onmove_buffs": [
       {
         "id": "buff_zuiquan_onmove",
         "name": "Drunken Stumble",
-        "description": "With a few quick steps, you can completely change your orientation and dodge additional attacks.\n\n+2 Dodge attempts.\nLasts 3 turns.",
+        "description": "With a few quick steps, you can completely change your orientation and dodge attacks easier.\n\n+1.0 Dodging Skill.\nLasts 1 turn, stacks 2 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
-        "buff_duration": 3,
-        "bonus_dodges": 2
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_zuiquan_ondodge",
         "name": "Drunken Dodging",
-        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\nGain Armor Penetration equal to 25% of Intelligence.\nLasts 1 turn.  Stacks 4 times.",
+        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\n+10% damage, Accuracy increase by 20% of Intelligence.\nLasts 1 turn, stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "max_stacks": 4,
-        "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "int", "scale": 0.25 }
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.2 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
         ]
       }
     ],
-    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_counter" ]
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_fist", "tec_zuiquan_spin" ]
   },
   {
     "type": "martial_art",
