@@ -50,17 +50,15 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( !node->ammo_remaining() ) {
                 return VisitResponse::SKIP;
             }
-            // Accept speedloaders with compatible ammo.
-            // This should probably also check for allowed loader types.
-            // Currently that is checked somewhere else.
-            if( obj.is_compatible( node->first_ammo() ).success() ) {
-                if( parent != nullptr ) {
-                    out = item_location( item_location( src, parent ), node );
-                } else {
-                    out = item_location( src, node );
-                }
-                return VisitResponse::SKIP;
+            // All speedloaders are accepted.
+            // Ammo check is done somewhere else
+            // Ammo check should probably happen here...
+            if( parent != nullptr ) {
+                out = item_location( item_location( src, parent ), node );
+            } else {
+                out = item_location( src, node );
             }
+            return VisitResponse::SKIP;
         }
 
         // Reloadable items with multiple reloadable pockets cause problems (multi cooker).
