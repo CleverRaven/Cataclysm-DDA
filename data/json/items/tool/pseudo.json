@@ -14,7 +14,8 @@
   {
     "id": "fake_butcher_rack",
     "type": "TOOL",
-    "name": { "str": "fake butcher rack (pseudo item)" },
+    "name": { "str": "fake butcher rack (pseudo item)",
+              "str_pl": "fake butcher racks (pseudo items)" },
     "description": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
     "weight": "1 g",
     "volume": "1 ml",
