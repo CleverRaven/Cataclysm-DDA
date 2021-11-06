@@ -865,6 +865,8 @@ class inventory_examiner : public inventory_selector
         item_location parent_item;
         item_location selected_item;
         catacurses::window w_examine;
+        bool changes_made;
+        bool parent_was_collapsed;
 
     public:
         explicit inventory_examiner( Character &p,
@@ -875,6 +877,8 @@ class inventory_examiner : public inventory_selector
             examine_window_scroll = 0;
             selected_item = item_location::nowhere;
             parent_item = item_to_look_inside;
+            changes_made = false;
+            parent_was_collapsed = false;
 
             setup();
         }
@@ -884,6 +888,13 @@ class inventory_examiner : public inventory_selector
         **/
         bool check_parent_item();
 
+        /**
+         * If the parent_item had items hidden, re-hides them.  Determines the appropriate return value for execute()
+        *
+         * Called at the end of execute().
+         * Checks if anything was changed (e.g. show/hide contents), and selects the appropriate return value
+              **/
+        int cleanup();
 
         /**
          * Draw the details of sitem in the w_examine window

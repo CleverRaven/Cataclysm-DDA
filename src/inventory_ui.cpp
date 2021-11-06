@@ -3051,6 +3051,20 @@ bool inventory_examiner::check_parent_item()
     return true;
 }
 
+int inventory_examiner::cleanup()
+{
+    if( parent_was_collapsed ) {
+        for( item_pocket *pocket : parent_item->get_all_contained_pockets().value() ) {
+            pocket->settings.set_collapse( true );
+        }
+    }
+    if( changes_made ) {
+        return EXAMINED_CONTENTS_WITH_CHANGES;
+    } else {
+        return EXAMINED_CONTENTS_UNCHANGED;
+    }
+}
+
 void inventory_examiner::draw_item_details( const item_location &sitem )
 {
     std::vector<iteminfo> vThisItem;
@@ -3069,7 +3083,17 @@ int inventory_examiner::execute()
     if( !check_parent_item() ) {
         return NO_CONTENTS_TO_EXAMINE;
     }
-    int return_value = EXAMINED_CONTENTS_UNCHANGED;
+
+    if( parent_item->is_collapsed() ) {
+        parent_was_collapsed = true;
+        /*This is based on inventory_column::set_collapsed(), but very deliberately only goes one layer deep.
+          If it went deeper, we would need to remember the status of each nested item.
+         */
+        for( item_pocket *pocket : parent_item->get_all_contained_pockets().value() ) {
+            pocket->settings.set_collapse( false );
+        }
+	set_title( parent_item->display_name() ); //Update the title to reflect that things aren't hidden
+    }
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -3118,21 +3142,21 @@ int inventory_examiner::execute()
             if( select( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            return return_value;
+            return cleanup();
         }
 
         if( input.action == "QUIT" ) {
-            return return_value;
+            return cleanup();
         } else if( input.action == "PAGE_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
         } else if( input.action == "PAGE_DOWN" ) {
             examine_window_scroll += scroll_item_info_lines;
         } else if( input.action == "CONFIRM" ) {
-            return return_value;
+            return cleanup();
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
             if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
-                return_value = EXAMINED_CONTENTS_WITH_CHANGES;
+                changes_made = true;
             }
             on_input( input );
         }
