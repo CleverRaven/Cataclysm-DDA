@@ -67,9 +67,17 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // MAGAZINE_WELL and MAGAZINE pockets take anythin they deem compatible
         for( const item_pocket *pocket : obj.get_contents().get_all_reloadable_pockets() ) {
 
-            // Skip CONTIANER pockets for non-liquids
+
             if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+                // CONTAINER pockets can reload liquids only
                 if( !node->made_of( phase_id::LIQUID ) ) {
+                    continue;
+                }
+
+                // Only allow reloading with liquids of same type
+                // Normal containers and magazines get similar check somewhere else
+                // But that check somewhere else does not handle wird items (like multicooker)
+                if( !( obj.get_contents().only_item().typeId() == node->typeId() ) ) {
                     continue;
                 }
             }
