@@ -77,7 +77,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // Only allow reloading with liquids of same type
                 // Normal containers and magazines get similar check somewhere else
                 // But that check somewhere else does not handle wird items (like multicooker)
-                if( !( obj.get_contents().only_item().typeId() == node->typeId() ) ) {
+                if( !pocket->empty() && !( pocket->front().typeId() == node->typeId() ) ) {
                     continue;
                 }
             }
