@@ -216,7 +216,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_smoking" }, { "id": "fbmc_firestation_cooking_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_smoking" } ],
-    "blueprint_resources": [ "fake_char_smoker", "fake_char_kiln" ]
+    "blueprint_resources": [ "char_smoker", "char_kiln" ]
   },
   {
     "type": "recipe",
@@ -371,7 +371,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "fbmc_firestation_blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
-    "blueprint_resources": [ "fake_forge", "hammer" ],
+    "blueprint_resources": [ "char_forge", "hammer" ],
     "components": [ [ [ "hammer", 1 ] ] ]
   },
   {
