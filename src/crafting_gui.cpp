@@ -579,7 +579,7 @@ void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<itemi
                            FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
 }
 
-static const std::pair<std::vector<const recipe *>, bool>
+static std::pair<std::vector<const recipe *>, bool>
 recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
                   const std::string &subcat )
 {
@@ -625,7 +625,7 @@ struct item_info_cache {
     item dummy;
 };
 
-static const item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
+static item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
         int *item_info_scroll, int *item_info_scroll_popup, const recipe *rec, const int count,
         int &scroll_pos )
 {
