@@ -97,6 +97,8 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 //***********************************
@@ -772,7 +774,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         const oter_id &cur_ter = overmap_buffer.ter( p );
 
         if( !uistate.overmap_show_forest_trails &&
-            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
             return oter_id( "forest" );
         }
 
