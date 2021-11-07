@@ -107,7 +107,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "rock_forge_pseudo",
+    "crafting_pseudo_item": "char_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
@@ -264,7 +264,7 @@
     "required_str": -1,
     "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
-    "crafting_pseudo_item": "arcfurnace",
+    "crafting_pseudo_item": "fake_arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
@@ -316,7 +316,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "pseudo_char_smoker",
+    "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
@@ -338,7 +338,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "pseudo_char_smoker",
+    "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
     "bash": {
       "str_min": 18,
@@ -405,7 +405,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "rock_forge_pseudo",
+    "crafting_pseudo_item": "char_forge",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -428,7 +428,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "kiln_pseudo",
+    "crafting_pseudo_item": "brick_kiln",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -717,7 +717,7 @@
         { "item": "motor_small", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "fake_router_table"
+    "crafting_pseudo_item": "fake_router"
   },
   {
     "type": "furniture",
@@ -1036,7 +1036,7 @@
       "BUTCHER_EQ",
       "ORGANIC"
     ],
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
     "bash": {
       "str_min": 8,
@@ -1059,7 +1059,7 @@
     "deployed_item": "metal_butcher_rack",
     "examine_action": "deployed_furniture",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -1080,7 +1080,7 @@
     "move_cost_mod": 2,
     "color": "light_gray",
     "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
   },
   {
