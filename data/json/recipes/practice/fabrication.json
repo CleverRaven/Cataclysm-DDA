@@ -96,7 +96,7 @@
     ],
     "time": "1 h",
     "components": [ [ [ "sheet_metal_small", 30 ] ] ],
-    "byproducts": [ [ "scrap", 8 ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
     "using": [ [ "welding_standard", 15 ] ],
     "autolearn": [ [ "fabrication", 5 ] ],
     "book_learn": [ [ "welding_book", 4 ] ]
