@@ -558,7 +558,7 @@ static int calculate_cumulative_experience( int level )
     return sum;
 }
 
-static int calculate_nonmutated_strength()
+static int calculate_nonmutated_strength( const avatar &u )
 {
     return u.str_max - 4 * has_trait( trait_HUGE );
 }
@@ -1058,7 +1058,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
                 mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
-                if( calculate_nonmutated_strength() >= HIGH_STAT ) {
+                if( calculate_nonmutated_strength( u ) >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
                 }
@@ -1150,7 +1150,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 sel = 4;
             }
         } else if( action == "LEFT" ) {
-            if( sel == 1 && calculate_nonmutated_strength() > 4 ) {
+            if( sel == 1 && calculate_nonmutated_strength( u ) > 4 ) {
                 u.str_max--;
             } else if( sel == 2 && u.dex_max > 4 ) {
                 u.dex_max--;
@@ -1160,7 +1160,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 u.per_max--;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && calculate_nonmutated_strength() < max_stat_points ) {
+            if( sel == 1 && calculate_nonmutated_strength( u ) < max_stat_points ) {
                 u.str_max++;
             } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 u.dex_max++;
