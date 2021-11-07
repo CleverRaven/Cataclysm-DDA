@@ -2852,14 +2852,14 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
         itname = id->result_name();
     }
     if( id.is_null() || !id.is_valid() ) {
-        add_msg( m_info, _( "You wonder if it's even possible to craft a %s…" ), itname );
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
         return;
     }
 
     const inventory &inven = you->crafting_inventory();
     const std::vector<npc *> &helpers = you->get_crafting_helpers();
     if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
-        add_msg( m_info, _( "You don't know how to craft a %s!" ), itname );
+        add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
         return;
     }
 
