@@ -545,7 +545,7 @@
     "material": [ "iflesh" ],
     "species": [ "CENTIPEDE" ],
     "volume": "950 L",
-    "weight": "2500 kg",
+    "weight": "1000 kg",
     "hp": 850,
     "speed": 110,
     "attack_cost": 110,
