@@ -558,9 +558,9 @@ static int calculate_cumulative_experience( int level )
     return sum;
 }
 
-static int calculate_nonmutated_strength( const avatar &u )
+int calculate_nonmutated_strength( const avatar &u )
 {
-    return u.str_max - 4 * has_trait( trait_HUGE );
+    return u.str_max - 4 * u.has_trait( trait_HUGE );
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
