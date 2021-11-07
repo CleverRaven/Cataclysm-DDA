@@ -108,7 +108,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( const point &a, const point &b, const point &c )
 {
-    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+    int cross = ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
@@ -1292,9 +1292,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( ( guy.has_trait_flag( json_flag_PRED1 ) ) ||
-                   ( guy.has_trait_flag( json_flag_PRED2 ) ) ) {
-            msg = ( _( "Culling the weak is distasteful, but necessary." ) );
+        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
+                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+            msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {

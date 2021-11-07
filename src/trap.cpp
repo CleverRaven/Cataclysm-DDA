@@ -224,7 +224,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.
-    const float weighted_stat_average = ( ( 4.0f * p.per_cur + p.int_cur ) / 5.0f );
+    const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
 
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;

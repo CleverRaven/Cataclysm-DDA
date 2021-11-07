@@ -2961,7 +2961,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             }
 
             mvwprintz( w_location, point_zero, COL_HEADER, _( "Scenario Location:" ) );
-            wprintz( w_location, c_light_gray, ( "\n" ) );
+            wprintz( w_location, c_light_gray, "\n" );
             wprintz( w_location, c_light_gray,
                      string_format( _( "%s (%d locations, %d variants)" ),
                                     sorted_scens[cur_id]->start_name(),
@@ -2969,56 +2969,56 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                                     sorted_scens[cur_id]->start_location_targets_count() ) );
 
             mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Scenario Vehicle:" ) );
-            wprintz( w_vehicle, c_light_gray, ( "\n" ) );
+            wprintz( w_vehicle, c_light_gray, "\n" );
             if( sorted_scens[cur_id]->vehicle() ) {
                 wprintz( w_vehicle, c_light_gray, "%s", sorted_scens[cur_id]->vehicle()->name );
             }
 
             mvwprintz( w_initial_date, point_zero, COL_HEADER, _( "Scenario calendar:" ) );
-            wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+            wprintz( w_initial_date, c_light_gray, "\n" );
             if( sorted_scens[cur_id]->custom_start_date() ) {
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
                          sorted_scens[cur_id]->start_year() );
-                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, "\n" );
                 wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
                          calendar::name_season( sorted_scens[cur_id]->start_season() ) );
-                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, "\n" );
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
                          sorted_scens[cur_id]->day_of_season() );
-                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, "\n" );
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
                          sorted_scens[cur_id]->start_hour() );
-                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, "\n" );
             } else {
                 wprintz( w_initial_date, c_light_gray, _( "Default" ) );
-                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, "\n" );
             }
 
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
-            wprintz( w_flags, c_light_gray, ( "\n" ) );
+            wprintz( w_flags, c_light_gray, "\n" );
 
             if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
+                wprintz( w_flags, c_light_gray, "\n" );
             }
             if( sorted_scens[cur_id]->has_flag( "SUR_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Zombies nearby" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
+                wprintz( w_flags, c_light_gray, "\n" );
             }
             if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
+                wprintz( w_flags, c_light_gray, "\n" );
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
+                wprintz( w_flags, c_light_gray, "\n" );
             }
             if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
+                wprintz( w_flags, c_light_gray, "\n" );
             }
         }
 
@@ -3249,7 +3249,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         const int beginx4 = TERMX <= 130 ? TERMX - TERMX / 5 : 128;
         const int ncol4 = TERMX - beginx4 - 2;
         const int ncol_small = ( TERMX / 2 ) - 2;
-        const int begin_sncol = ( TERMX / 2 );
+        const int begin_sncol = TERMX / 2;
         if( isWide ) {
             w = catacurses::newwin( TERMY, TERMX, point_zero );
             w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
@@ -3429,7 +3429,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 if( pool != pool_type::TRANSFER ) {
                     profession::StartingSkillList::iterator i = list_skills.begin();
                     while( i != list_skills.end() ) {
-                        if( i->first == ( elem )->ident() ) {
+                        if( i->first == elem->ident() ) {
                             level += i->second;
                             break;
                         }
@@ -3444,7 +3444,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     profession::StartingSkillList hobby_skills = profession->skills();
                     profession::StartingSkillList::iterator i = hobby_skills.begin();
                     while( i != hobby_skills.end() ) {
-                        if( i->first == ( elem )->ident() ) {
+                        if( i->first == elem->ident() ) {
                             int skill_exp_bonus = calculate_cumulative_experience( i->second );
 
                             // Calculate Level up to find final level and remaining exp
@@ -3533,16 +3533,16 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         // Helptext description window
         if( isWide ) {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
                             ctxt.get_desc( "HELP_KEYBINDINGS" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to save character template." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ) );
 
             if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to pick a random name, "
                                    "<color_light_green>%s</color> to randomize all description values, "
                                    "<color_light_green>%s</color> to randomize all but scenario or "
@@ -3552,43 +3552,43 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                 ctxt.get_desc( "REROLL_CHARACTER" ),
                                 ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
             } else {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to pick a random name, "
                                    "<color_light_green>%s</color> to randomize all description values." ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
             }
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to switch gender." ),
                             ctxt.get_desc( "CHANGE_GENDER" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to select a specific starting location." ),
                             ctxt.get_desc( "CHOOSE_LOCATION" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
                                "to cycle through editable values." ),
                             ctxt.get_desc( "UP" ),
                             ctxt.get_desc( "DOWN" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
                             ctxt.get_desc( "LEFT" ),
                             ctxt.get_desc( "RIGHT" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to edit value via popup input." ),
                             ctxt.get_desc( "CONFIRM" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to finish character creation "
                                "or <color_light_green>%s</color> to return to the previous TAB." ),
                             ctxt.get_desc( "NEXT_TAB" ),
                             ctxt.get_desc( "PREV_TAB" ) );
         } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
                             ctxt.get_desc( "HELP_KEYBINDINGS" ) );
 
@@ -3665,7 +3665,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
-                    wprintz( w_addictions, c_light_gray, ( "\n" ) );
+                    wprintz( w_addictions, c_light_gray, "\n" );
                     wprintz( w_addictions, c_light_gray, string_format( format, addiction_name( a ), a.intensity ) );
                 }
             }

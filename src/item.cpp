@@ -2715,12 +2715,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             if( iternum != 0 ) {
                 mod_str += "; ";
             }
-            const int free_slots = ( elem ).second - get_free_mod_locations( elem.first );
+            const int free_slots = elem.second - get_free_mod_locations( elem.first );
             mod_str += string_format( "<bold>%d/%d</bold> %s", free_slots,  elem.second,
                                       elem.first.name() );
             bool first_mods = true;
             for( const item *gmod : gunmods() ) {
-                if( gmod->type->gunmod->location == ( elem ).first ) { // if mod for this location
+                if( gmod->type->gunmod->location == elem.first ) { // if mod for this location
                     if( first_mods ) {
                         mod_str += ": ";
                         first_mods = false;
@@ -3177,7 +3177,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         int power_armor_encumbrance_reduction = 40;
         static const itype_id itype_rm13_armor( "rm13_armor" );
 
-        if( ( is_power_armor() ) || type->get_id() == itype_rm13_armor ) {
+        if( is_power_armor() || type->get_id() == itype_rm13_armor ) {
             item tmp = *this;
 
             //no need to clutter the ui with inactive versions when the armor is already active
@@ -9689,11 +9689,11 @@ void item::set_item_specific_energy( const float new_specific_energy )
         // Item is liquid
         new_item_temperature = freezing_temperature + ( new_specific_energy -
                                completely_liquid_specific_energy ) /
-                               ( specific_heat_liquid );
+                               specific_heat_liquid;
         freeze_percentage = 0.0f;
     } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
-        new_item_temperature = new_specific_energy / ( specific_heat_solid );
+        new_item_temperature = new_specific_energy / specific_heat_solid;
     } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;

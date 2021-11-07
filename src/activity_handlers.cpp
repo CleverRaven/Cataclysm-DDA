@@ -1055,8 +1055,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
         const itype_id &leftover_id = mt.harvest->leftovers;
-        const int item_charges = monster_weight_remaining / to_gram( (
-                                     item::find_type( leftover_id ) )->weight );
+        const int item_charges = monster_weight_remaining / to_gram( item::find_type(
+                                     leftover_id )->weight );
         if( item_charges > 0 ) {
             item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
@@ -1466,7 +1466,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     if( source_veh &&
                         source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
-                    return &( veh->part( part ) ) != &pa;
+                    return &veh->part( part ) != &pa;
                     }
                                                                                                                            } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
@@ -1524,7 +1524,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
                     {
-                        return &( veh->part( part ) ) != &pa;
+                        return &veh->part( part ) != &pa;
                     }
                                                                                                                        } : return_true<vehicle_part &> ) );
                 }
@@ -1708,7 +1708,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
         }
         if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
             // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
-            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            float mod = std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f;
             morale_bonus = std::ceil( morale_bonus * mod );
             // half mult for max bonus
             mod = 1.f + ( mod - 1.f ) * 0.5f;

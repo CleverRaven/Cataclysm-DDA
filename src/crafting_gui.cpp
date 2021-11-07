@@ -663,7 +663,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc_unread = false;
         }
 
-        const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
+        const TAB_MODE m = batch ? BATCH : filterstring.empty() ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m, is_filtered_unread, is_cat_unread );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m,
                              is_subcat_unread[tab.cur()] );
@@ -1087,11 +1087,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
-                       ( batch ) ? line + 1 : 1 ) ) {
+                       batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {
                 chosen = current[line];
-                batch_size_out = ( batch ) ? line + 1 : 1;
+                batch_size_out = batch ? line + 1 : 1;
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }

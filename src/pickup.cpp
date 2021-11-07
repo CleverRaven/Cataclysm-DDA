@@ -260,7 +260,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !( player_character.crush_frozen_liquid( newloc ) ) ) ) {
+        if( !( got_water = !player_character.crush_frozen_liquid( newloc ) ) ) {
             option = STASH;
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
@@ -481,7 +481,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( local.i_at( p ).empty() );
+        bool isEmpty = local.i_at( p ).empty();
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but non-frozen water.

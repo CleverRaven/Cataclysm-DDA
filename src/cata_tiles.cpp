@@ -866,7 +866,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
-        auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
+        auto &sprites = *curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
             case LINE_OXOX_C:
@@ -1886,18 +1886,18 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     if( intensity_level > 0 ) {
         res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
         if( res ) {
-            tt = &( res -> tile() );
+            tt = &res -> tile();
         }
     }
     // if a tile with intensity hasn't already been found then fall back to a base tile
     if( !res ) {
         res = find_tile_looks_like( id, category, variant );
         if( res ) {
-            tt = &( res -> tile() );
+            tt = &res -> tile();
         }
     }
 
-    const std::string &found_id = res ? ( res->id() ) : id;
+    const std::string &found_id = res ? res->id() : id;
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;

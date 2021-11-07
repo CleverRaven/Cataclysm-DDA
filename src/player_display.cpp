@@ -820,7 +820,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     int pen = 0;
     unsigned int line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
-        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
+        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / you.weight_capacity();
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         ++line;

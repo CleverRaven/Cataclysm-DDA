@@ -1023,8 +1023,8 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - ( std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                    0 ) );
+    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
+                                            0 );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -2283,7 +2283,7 @@ void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_pa
     // Print monster names, starting with those at location 8 (nearby).
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
         // Separate names by some number of spaces (more for local monsters).
-        int namesep = ( j == 8 ? 2 : 1 );
+        int namesep = j == 8 ? 2 : 1;
         for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
             const mtype *const type = mon.first;
             const int count = mon.second;
@@ -3108,7 +3108,7 @@ void panel_manager::show_adm()
         for( i = 0; i < current_col; i++ ) {
             col_offset += column_widths[i];
         }
-        mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
+        mvwprintz( w, point( 1 + col_offset, current_row + 1 ), c_yellow, ">>" );
         // Draw vertical separators
         mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
         mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );

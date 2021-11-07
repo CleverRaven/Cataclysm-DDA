@@ -4520,17 +4520,17 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
+    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal;
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
     const optional_vpart_position vp = m.veh_at( p );
 
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return !m.is_outside( p ) ||
+           p.z < 0 ||
+           ( vp && vp->is_inside() );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
@@ -5956,11 +5956,11 @@ void game::zones_manager()
                     iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
                     const auto &zone = i.get();
 
-                    nc_color colorLine = ( zone.get_enabled() ) ? c_white : c_light_gray;
+                    nc_color colorLine = zone.get_enabled() ? c_white : c_light_gray;
 
                     if( iNum == active_index ) {
                         mvwprintz( w_zones, point( 0, iNum - start_index ), c_yellow, "%s", ">>" );
-                        colorLine = ( zone.get_enabled() ) ? c_light_green : c_green;
+                        colorLine = zone.get_enabled() ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -6423,7 +6423,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 continue;
             }
 
-            const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
+            const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
@@ -8484,8 +8484,8 @@ void game::reload_weapon( bool try_everything )
             return ap->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ( ap->remaining_ammo_capacity() ) ) <
-               ( bp->get_reload_time() * ( bp->remaining_ammo_capacity() ) );
+        return ( ap->get_reload_time() * ap->remaining_ammo_capacity() ) <
+               ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
         std::vector<item::reload_option> ammo_list;
@@ -8733,7 +8733,7 @@ bool game::disable_robot( const tripoint &p )
 
 bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 {
-    return !( get_dangerous_tile( dest_loc ).empty() );
+    return !get_dangerous_tile( dest_loc ).empty();
 }
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
@@ -9977,7 +9977,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     int steps = 0;
     bool thru = true;
-    const bool is_u = ( c == &u );
+    const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
@@ -10534,7 +10534,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
-            if( ( rng( 4, 8 ) ) < u.get_skill_level( skill_dodge ) ) {
+            if( rng( 4, 8 ) < u.get_skill_level( skill_dodge ) ) {
                 add_msg( _( "You attach a web and dive down headfirst, flipping upright and landing on your feet." ) );
             } else {
                 add_msg( _( "You securely web up and work your way down, lowering yourself safely." ) );
