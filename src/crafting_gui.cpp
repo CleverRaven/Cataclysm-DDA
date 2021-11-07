@@ -579,44 +579,76 @@ void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<itemi
                            FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
 }
 
+static const std::pair<std::vector<const recipe *>, bool>
+recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
+                  const std::string &subcat )
+{
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return std::make_pair( available_recipes.favorite(), false );
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return std::make_pair( available_recipes.recent(), false );
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return std::make_pair( available_recipes.hidden(), true );
+    } else {
+        return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
+                               false );
+    }
+}
+
+struct recipe_info_cache {
+    const recipe *recp = nullptr;
+    std::string qry_comps;
+    int batch_size;
+    int fold_width;
+    std::vector<std::string> text;
+};
+
+static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
+        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const int batch_size, const int fold_width, const nc_color &color )
+{
+    if( info_cache.recp != &recp ||
+        info_cache.qry_comps != qry_comps ||
+        info_cache.batch_size != batch_size ||
+        info_cache.fold_width != fold_width ) {
+        info_cache.recp = &recp;
+        info_cache.qry_comps = qry_comps;
+        info_cache.batch_size = batch_size;
+        info_cache.fold_width = fold_width;
+        info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+    }
+    return info_cache.text;
+}
+
+struct item_info_cache {
+    const recipe *last_recipe = nullptr;
+    item dummy;
+};
+
+static const item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
+        int *item_info_scroll, int *item_info_scroll_popup, const recipe *rec, const int count,
+        int &scroll_pos )
+{
+    if( info_cache.last_recipe != rec ) {
+        info_cache.last_recipe = rec;
+        info_cache.dummy = rec->create_result();
+        info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
+        ( *item_info_scroll ) = 0;
+        ( *item_info_scroll_popup ) = 0;
+    }
+    std::vector<iteminfo> info;
+    info_cache.dummy.info( true, info, count );
+    item_info_data data( info_cache.dummy.tname( count ),
+                         info_cache.dummy.type_name( count ),
+                         info, {}, scroll_pos );
+    return data;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
-    struct {
-        const recipe *recp = nullptr;
-        std::string qry_comps;
-        int batch_size;
-        int fold_width;
-        std::vector<std::string> text;
-    } recipe_info_cache;
+    recipe_info_cache r_info_cache;
+    item_info_cache i_info_cache;
     int recipe_info_scroll = 0;
-
-    const auto cached_recipe_info =
-        [&](
-            const recipe & recp,
-            const availability & avail,
-            Character & guy,
-            const std::string qry_comps,
-            const int batch_size,
-            const int fold_width,
-            const nc_color & color
-    ) -> const std::vector<std::string> & { // *NOPAD*
-        if( recipe_info_cache.recp != &recp
-            || recipe_info_cache.qry_comps != qry_comps
-            || recipe_info_cache.batch_size != batch_size
-            || recipe_info_cache.fold_width != fold_width )
-        {
-            recipe_info_cache.recp = &recp;
-            recipe_info_cache.qry_comps = qry_comps;
-            recipe_info_cache.batch_size = batch_size;
-            recipe_info_cache.fold_width = fold_width;
-            recipe_info_cache.text = recipe_info(
-                recp, avail, guy, qry_comps, batch_size, fold_width, color );
-        }
-        return recipe_info_cache.text;
-    };
-
-    recipe_result_info_cache result_info;
-
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
 
@@ -745,19 +777,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
 
-    const auto recipes_from_cat = [&]( const std::string & cat, const std::string & subcat ) {
-        if( subcat == "CSC_*_FAVORITE" ) {
-            return std::make_pair( available_recipes.favorite(), false );
-        } else if( subcat == "CSC_*_RECENT" ) {
-            return std::make_pair( available_recipes.recent(), false );
-        } else if( subcat == "CSC_*_HIDDEN" ) {
-            return std::make_pair( available_recipes.hidden(), true );
-        } else {
-            return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
-                                   false );
-        }
-    };
-
     if( goto_recipe.is_valid() ) {
         const std::vector<const recipe *> &gotocat = available_recipes.in_category( goto_recipe->category );
         if( !gotocat.empty() ) {
@@ -788,7 +807,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     is_cat_unread[cat] = false;
                     for( const std::string &subcat : craft_subcat_list[cat] ) {
                         is_subcat_unread[cat][subcat] = false;
-                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( cat, subcat );
+                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                                cat, subcat );
                         const std::vector<const recipe *> &recipes = result.first;
                         const bool include_hidden = result.second;
                         for( const recipe *const rcp : recipes ) {
@@ -912,8 +932,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 qry_comps = qry.substr( 2 );
             }
 
-            const std::vector<std::string> &info = cached_recipe_info(
-                    recp, avail, player_character, qry_comps, batch_size, fold_width, color );
+            const std::vector<std::string> &info = cached_recipe_info( r_info_cache,
+                                                   recp, avail, player_character, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
             if( recipe_info_scroll < 0 ) {
@@ -949,7 +969,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else {
-                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll );
+                item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                      &item_info_scroll_popup, cur_recipe, batch_size, item_info_scroll );
                 data.without_getch = true;
                 data.without_border = true;
                 data.scrollbar_left = false;
@@ -1089,8 +1110,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     } while( qry_end != std::string::npos );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else {
-                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( tab.cur(),
-                            subtab.cur() );
+                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                            tab.cur(), subtab.cur() );
                     show_hidden = result.second;
                     if( show_hidden ) {
                         current = result.first;
@@ -1264,7 +1285,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = result_info.get_result_data( current[line], 1, item_info_scroll_popup );
+            item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                  &item_info_scroll_popup, current[line], 1, item_info_scroll_popup );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
                 const int width = std::min( TERMX, FULL_SCREEN_WIDTH );

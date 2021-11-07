@@ -1499,8 +1499,8 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const recipe &craft_recipe = recipe_dict.get_craft( it.is_craft() ? it.get_making().result() :
-                                 it.typeId() );
+    const recipe &craft_recipe = recipe_dictionary::get_craft( it.is_craft() ?
+                                 it.get_making().result() : it.typeId() );
     if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
         return hint_rating::cant;
     }

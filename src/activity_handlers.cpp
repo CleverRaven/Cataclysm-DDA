@@ -2844,7 +2844,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     recipe_id id( act->name );
     itype_id it( act->name );
     if( id.is_null() || !id.is_valid() ) {
-        add_msg( m_info, _( "You wonder if it's even possible to craft a %s..." ), item::nname( it ) );
+        add_msg( m_info, _( "You wonder if it's even possible to craft a %s…" ), item::nname( it ) );
         return;
     }
 
