@@ -140,7 +140,7 @@ static int stat_points_used( const avatar &u )
 {
     int used = 0;
     for( int stat : {
-             calculate_nonmutated_strength(), u.dex_max, u.int_max, u.per_max
+             calculate_nonmutated_strength( u ), u.dex_max, u.int_max, u.per_max
          } ) {
         used += stat + std::max( 0, stat - HIGH_STAT );
     }
