@@ -2912,10 +2912,13 @@ class Character : public Creature, public visitable
         /**
          * Start various types of crafts
          * @param loc the location of the workbench. cata::nullopt indicates crafting from inventory.
+         * @param goto_recipe the recipe to display initially. nullptr opens the default crafting screen.
          */
-        void craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void craft( const cata::optional<tripoint> &loc = cata::nullopt,
+                    const recipe_id &goto_recipe = recipe_id() );
         void recraft( const cata::optional<tripoint> &loc = cata::nullopt );
-        void long_craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void long_craft( const cata::optional<tripoint> &loc = cata::nullopt,
+                         const recipe_id &goto_recipe = recipe_id() );
         void make_craft( const recipe_id &id, int batch_size,
                          const cata::optional<tripoint> &loc = cata::nullopt );
         void make_all_craft( const recipe_id &id, int batch_size,

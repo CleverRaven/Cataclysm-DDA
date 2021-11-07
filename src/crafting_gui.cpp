@@ -579,7 +579,7 @@ void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<itemi
                            FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out )
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
     struct {
         const recipe *recp = nullptr;
@@ -757,6 +757,29 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                                    false );
         }
     };
+
+    if( goto_recipe.is_valid() ) {
+        const std::vector<const recipe *> &gotocat = available_recipes.in_category( goto_recipe->category );
+        if( !gotocat.empty() ) {
+            const auto gotorec = std::find_if( gotocat.begin(),
+            gotocat.end(), [&goto_recipe]( const recipe * r ) {
+                return r && r->ident() == goto_recipe;
+            } );
+            if( gotorec != gotocat.end() &&
+                std::find( craft_cat_list.begin(), craft_cat_list.end(),
+                           goto_recipe->category ) != craft_cat_list.end() ) {
+                while( tab.cur() != goto_recipe->category ) {
+                    tab.next();
+                }
+                subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
+                chosen = *gotorec;
+                show_hidden = true;
+                keepline = true;
+                current = gotocat;
+                line = gotorec - gotocat.begin();
+            }
+        }
+    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( highlight_unread_recipes && recalc_unread ) {

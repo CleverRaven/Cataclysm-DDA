@@ -254,6 +254,14 @@ static const trait_id trait_VINES3( "VINES3" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
+
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
@@ -1489,6 +1497,23 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
     }
 }
 
+static hint_rating rate_action_view_recipe( avatar &you, const item &it )
+{
+    const recipe &craft_recipe = recipe_dict.get_craft( it.is_craft() ? it.get_making().result() :
+                                 it.typeId() );
+    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+        return hint_rating::cant;
+    }
+    const inventory &inven = you.crafting_inventory();
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        return hint_rating::good;
+    } else if( craft_recipe.ident().is_valid() ) {
+        return hint_rating::iffy;
+    }
+    return hint_rating::cant;
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -1715,6 +1740,7 @@ int game::inventory_item_menu( item_location locThisItem,
             addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
+        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
         addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
         addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
@@ -1888,6 +1914,15 @@ int game::inventory_item_menu( item_location locThisItem,
                         oThisItem.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
+                case 'V': {
+                    itype_id this_itype = oThisItem.typeId();
+                    if( oThisItem.is_craft() ) {
+                        this_itype = oThisItem.get_making().result();
+                    }
+                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, -1, 0, this_itype.str() );
+                    u.assign_activity( recipe_act );
+                    break;
+                }
                 case 'i':
                     if( oThisItem.is_container() ) {
                         game_menus::inv::insert_items( u, locThisItem );

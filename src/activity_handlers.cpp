@@ -173,6 +173,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -250,6 +251,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
     { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
+    { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -327,6 +329,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
+    { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -2831,6 +2834,14 @@ void activity_handlers::consume_fuel_menu_do_turn( player_activity *, Character 
     avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
+void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )
+{
+    if( !you->is_avatar() ) {
+        return;
+    }
+    you->craft( cata::nullopt, recipe_id( act->name ) );
+}
+
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
 {
     activity_on_turn_move_loot( *act, *you );
@@ -3467,6 +3478,11 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
+}
+
+void activity_handlers::view_recipe_finish( player_activity *act, Character * )
+{
+    act->set_to_null();
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )
