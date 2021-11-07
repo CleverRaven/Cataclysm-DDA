@@ -50,7 +50,7 @@
     "autolearn": [ [ "tailor", 1 ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "rag", 1 ] ] ],
     "byproducts": [ [ "water", 2 ], [ "rag", 1 ] ],
-    "using": [ [ "waterproofing_plastic_bags", 5 ] ]
+    "using": [ [ "waterproofing_plastic_bags", 4 ] ]
   },
   {
     "id": "prac_polymerworking",
@@ -66,7 +66,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "components": [ [ [ "sheet_kevlar", 22 ], [ "sheet_nomex", 22 ], [ "sheet_nomex_patchwork", 1 ], [ "nomex", 6 ] ] ],
+    "components": [ [ [ "sheet_kevlar", 22 ], [ "sheet_nomex", 22 ], [ "sheet_nomex_patchwork", 1 ], [ "nomex", 2 ] ] ],
     "using": [ [ "sewing_standard", 20 ] ]
   },
   {
@@ -83,7 +83,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "components": [ [ [ "sheet_lycra", 22 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 6 ] ] ],
+    "components": [ [ [ "sheet_lycra", 22 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 2 ] ] ],
     "using": [ [ "sewing_standard", 20 ] ]
   },
   {
@@ -142,7 +142,7 @@
     "autolearn": [ [ "tailor", 4 ], [ "fabrication", 3 ] ],
     "book_learn": [ [ "textbook_arthropod", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 22 ], [ "acidchitin_piece", 22 ] ] ],
+    "components": [ [ [ "chitin_piece", 6 ], [ "acidchitin_piece", 6 ] ] ],
     "using": [ [ "sewing_standard", 30 ] ]
   },
   {
