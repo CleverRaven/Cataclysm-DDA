@@ -74,7 +74,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
-    "skill_used": "pistol",
+    "skill_used": "shotgun",
     "difficulty": 1,
     "skills_required": [ "launcher", 1 ],
     "autolearn": true,
