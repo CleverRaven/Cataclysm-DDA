@@ -558,7 +558,7 @@ static int calculate_cumulative_experience( int level )
     return sum;
 }
 
-int calculate_nonmutated_strength( const avatar &u )
+static int calculate_nonmutated_strength( const avatar &u )
 {
     return u.str_max - 4 * u.has_trait( trait_HUGE );
 }
