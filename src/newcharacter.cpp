@@ -139,7 +139,7 @@ static int stat_point_pool()
 
 static int calculate_nonmutated_strength( const avatar &u )
 {
-    return u.str_max - 4 * u.has_trait( trait_HUGE );
+    return u.str_max - 4 * has_trait( trait_HUGE );
 }
 
 static int stat_points_used( const avatar &u )
