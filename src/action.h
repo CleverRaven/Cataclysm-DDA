@@ -107,7 +107,7 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from one current/adjacent squares */
+    /** Pick up items from one current/adjacent square */
     ACTION_PICKUP,
     /** Pick up items from all current/adjacent squares */
     ACTION_PICKUP_ALL,

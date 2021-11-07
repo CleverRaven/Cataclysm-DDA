@@ -5259,7 +5259,6 @@ void game::examine( const tripoint &examp )
 void game::pickup()
 {
     // Prompt for which adjacent/current tile to pick up items from
-    // FIXME: Make this actually highlight tiles with pick-uppable items
     const cata::optional<tripoint> where_ = choose_adjacent_highlight( _( "Pick up items where?" ),
                                             _( "There is nothing to pick up nearby." ),
                                             ACTION_PICKUP, false );
