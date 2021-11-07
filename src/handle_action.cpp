@@ -1985,6 +1985,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_PICKUP:
+        case ACTION_PICKUP_ALL:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
@@ -1992,7 +1993,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
             } else {
-                pickup();
+                if( act == ACTION_PICKUP_ALL ) {
+                    pickup_all();
+                } else {
+                    pickup();
+                }
             }
             break;
 
