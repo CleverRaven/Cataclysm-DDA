@@ -815,6 +815,8 @@ class Character : public Creature, public visitable
         bool is_crouching() const;
         bool is_prone() const;
 
+        int footstep_sound() const;
+        void make_footstep_noise() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
@@ -1141,6 +1143,8 @@ class Character : public Creature, public visitable
         float breathing_score() const;
         float swim_score() const;
         float vision_score() const;
+        float nightvision_score() const;
+        float reaction_score() const;
         float movement_speed_score() const;
         float balance_score() const;
         bool has_min_manipulators() const;
@@ -1960,6 +1964,7 @@ class Character : public Creature, public visitable
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
+        void pick_up( const drop_locations &what );
 
         bool is_wielding( const item &target ) const;
 
@@ -2486,6 +2491,13 @@ class Character : public Creature, public visitable
         float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
+
+        int get_cardiofit() const;
+
+        int get_cardio_acc() const;
+        void set_cardio_acc( int ncardio_acc );
+        void reset_cardio_acc();
+        virtual void update_cardio_acc() = 0;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
@@ -3291,6 +3303,8 @@ class Character : public Creature, public visitable
         int hunger;
         int thirst;
         int stamina;
+
+        int cardio_acc;
 
         int fatigue;
         int sleep_deprivation;

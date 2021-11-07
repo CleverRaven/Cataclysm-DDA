@@ -78,6 +78,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
@@ -105,7 +106,6 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
@@ -672,7 +672,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
-            if( !elem->edible() ) {
+            if( !elem.first->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
@@ -952,7 +952,7 @@ static bool eat( item &food, Character &you, bool force )
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
-    if( food.poison > 0 && !you.has_trait( trait_EATPOISON ) &&
+    if( food.poison > 0 &&
         !you.has_trait( trait_EATDEAD ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             you.add_effect( effect_poison, food.poison * 10_minutes );
@@ -972,7 +972,8 @@ static bool eat( item &food, Character &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -982,7 +983,8 @@ static bool eat( item &food, Character &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );

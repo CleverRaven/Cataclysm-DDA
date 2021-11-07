@@ -1935,7 +1935,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
                     //lets say it is a 5% chance per fish to catch
                     if( one_in( 20 ) ) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
+                                    GROUP_FISH, true );
                         const mtype_id &fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
@@ -4283,6 +4283,14 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         return cata::nullopt;
     } else {
         std::string loaded_software = "robot_finds_kitten";
+        // number of nearby friends with gaming devices
+        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
+            return n.is_player_ally() && p->sees( n ) &&
+                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+            n.has_item_with( [&it]( const item & i ) {
+                return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+            } );
+        } );
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
@@ -4291,9 +4299,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
-        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        if( friends_w_game.empty() ) {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
+        } else {
+            as_m.entries.emplace_back( 6, true, '6', _( "Play something with friends" ) );
+            as_m.entries.emplace_back( 7, true, '7', _( "Play something alone" ) );
+        }
         as_m.query();
 
+        bool w_friends = false;
         switch( as_m.ret ) {
             case 1:
                 loaded_software = "robot_finds_kitten";
@@ -4312,7 +4326,15 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
                 break;
             case 6:
                 loaded_software = "null";
+                w_friends = !friends_w_game.empty();
                 break;
+            case 7: {
+                if( friends_w_game.empty() ) {
+                    return cata::nullopt;
+                }
+                loaded_software = "null";
+            }
+            break;
             default:
                 //Cancel
                 return cata::nullopt;
@@ -4320,11 +4342,38 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         //Play in 15-minute chunks
         const int moves = to_moves<int>( 15_minutes );
+        size_t num_friends = w_friends ? friends_w_game.size() : 0;
+        int winner = rng( 0, num_friends );
+        if( winner == 0 ) {
+            winner = get_player_character().getID().get_value();
+        } else {
+            winner = friends_w_game[winner - 1]->getID().get_value();
+        }
+        player_activity game_act( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), num_friends,
+                                  p->get_item_position( it ), w_friends ? "gaming with friends" : "gaming" );
+        game_act.values.emplace_back( winner );
 
-        p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( w_friends ) {
+            std::string it_name = it->type_name( num_friends + 1 );
+            if( num_friends > 1 ) {
+                p->add_msg_if_player( _( "You and your %1$u friends play on your %2$s for a while." ), num_friends,
+                                      it_name );
+            } else {
+                p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
+            }
+            for( npc *n : friends_w_game ) {
+                std::vector<item *> nit = n->items_with( [&it]( const item & i ) {
+                    return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+                } );
+                n->assign_activity( game_act );
+                n->activity.targets.emplace_back( *n, nit.front() );
+                n->activity.position = n->get_item_position( nit.front() );
+            }
+        } else {
+            p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        }
         if( loaded_software == "null" ) {
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
+            p->assign_activity( game_act );
             p->activity.targets.emplace_back( *p, it );
             return 0;
         }
@@ -8674,13 +8723,16 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
+        bool is_power_cord = it->has_flag( flag_id( "POWER_CORD" ) );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
                         !UPS, -1, _( "Attach loose end to vehicle" ) );
 
-        if( has_bio_cable && loose_ends ) {
+        if( has_bio_cable && loose_ends && !is_power_cord ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
@@ -9297,7 +9349,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
 cata::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
@@ -9512,6 +9564,126 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(),
                           SNIPPET.random_from_category( msg_category ).value_or( translation() ) );
     return 0;
+}
+
+cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
+        return cata::nullopt;
+    }
+
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "ELECTRICSTORAGE iuse called on item without ebook type pocket" );
+        return cata::nullopt;
+    }
+
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return cata::nullopt;
+    }
+
+    auto filter = []( const item & itm ) {
+        return !itm.is_broken() &&
+               itm.has_flag( flag_MC_USED ) &&
+               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
+    };
+
+    item_location storage_card = game_menus::inv::titled_filter_menu(
+                                     filter, *p->as_avatar(), _( "Use what storage device?" ),
+                                     _( "You don't have any empty book storage devices." ) );
+
+    if( !storage_card ) {
+        return cata::nullopt;
+    }
+
+    // list of books of from_it that are not in to_it
+    auto book_difference = []( const item & from_it, const item & to_it ) -> std::vector<const item *> {
+        std::set<itype_id> existing_ebooks;
+        for( const item *ebook : to_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            existing_ebooks.insert( ebook->typeId() );
+        }
+
+        std::vector<const item *> ebooks;
+        for( const item *ebook : from_it.ebooks() )
+        {
+            if( !ebook->is_book() ) {
+                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+                continue;
+            }
+
+            if( existing_ebooks.count( ebook->typeId() ) ) {
+                continue;
+            }
+
+            ebooks.emplace_back( ebook );
+        }
+        return ebooks;
+    };
+
+    std::vector<const item *> to_storage = book_difference( *it, *storage_card );
+    std::vector<const item *> to_device = book_difference( *storage_card, *it );
+
+    uilist smenu;
+    smenu.text = _( "What to do with your storage devices:" );
+
+    smenu.addentry( 1, !to_device.empty(), 't', _( "Copy to device from the card" ) );
+    smenu.addentry( 2, !to_storage.empty(), 'f', _( "Copy from device to the card" ) );
+    smenu.addentry( 3, !storage_card->ebooks().empty(), 'v', _( "View books in the card" ) );
+    smenu.query();
+
+    // were any books moved to or from the device
+    int books_moved = 0;
+
+    auto move_books = [&books_moved]( const std::vector<const item *> &fromset, item & toit ) -> void {
+        books_moved = fromset.size();
+        for( const item *ebook : fromset )
+        {
+            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
+        }
+    };
+
+    if( smenu.ret == 1 ) {
+        // to device
+        move_books( to_device, *it );
+    } else if( smenu.ret == 2 ) {
+        // from device
+        move_books( to_storage, *storage_card );
+    } else if( smenu.ret == 3 ) {
+        game_menus::inv::ebookread( *p, storage_card );
+        return cata::nullopt;
+    } else {
+        return cata::nullopt;
+    }
+
+    if( books_moved > 0 ) {
+        p->mod_moves( -to_moves<int>( 2_seconds ) );
+        if( smenu.ret == 1 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the device.",
+                                             "Copied %1$s books to the device.", books_moved ),
+                                  books_moved );
+        } else if( smenu.ret == 2 ) {
+            p->add_msg_if_player( m_info,
+                                  n_gettext( "Copied one book to the %2$s.",
+                                             "Copied %1$s books to the %2$s.", books_moved ),
+                                  books_moved, storage_card->tname() );
+        }
+    }
+
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoint & )

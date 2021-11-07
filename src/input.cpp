@@ -514,6 +514,7 @@ void input_manager::init_keycode_mapping()
     for( int i = F_KEY_NUM_BEG; i <= F_KEY_NUM_END; i++ ) {
         // not marked for translation here, but specially handled in get_keyname so
         // it gets properly translated.
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         add_keyboard_char_keycode_pair( KEY_F( i ), string_format( "F%d", i ) );
     }
 

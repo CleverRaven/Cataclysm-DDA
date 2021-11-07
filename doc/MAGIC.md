@@ -123,6 +123,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
 | `upgrade` | Immediately upgrades a target monster
+| `pull_to_caster` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
 | `guilt` | The target gets the guilt morale as if it killed the caster
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe
 | `emit` | Causes an emit at the target

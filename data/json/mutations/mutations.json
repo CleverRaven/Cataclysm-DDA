@@ -232,7 +232,7 @@
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
-    "description": "Whether due to exercise and good diet, or due to a natural abundance of physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
+    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is higher than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADCARDIO" ],
@@ -245,7 +245,7 @@
     "id": "GOODCARDIO2",
     "name": { "str": "Hyperactive" },
     "points": 4,
-    "description": "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
+    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your maximum stamina",
     "valid": false,
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
@@ -555,6 +555,7 @@
     "points": -1,
     "consume_time_modifier": 1.5,
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "starting_trait": true,
     "valid": false
   },
   {
@@ -631,6 +632,7 @@
     "consume_time_modifier": 1.25,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "category": [ "MOUSE", "LUPINE" ],
+    "starting_trait": true,
     "valid": false,
     "active": true,
     "stomach_size_multiplier": 2.0
@@ -771,6 +773,7 @@
     "name": { "str": "Stylish" },
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
+    "starting_trait": true,
     "valid": false
   },
   {
@@ -871,7 +874,6 @@
     "name": { "str": "Martial Arts Training" },
     "points": 2,
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
-    "starting_trait": true,
     "player_display": false,
     "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
     "valid": false
@@ -882,7 +884,6 @@
     "name": { "str": "Self-Defense Classes" },
     "points": 2,
     "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
-    "starting_trait": true,
     "player_display": false,
     "initial_ma_styles": [
       "style_krav_maga",
@@ -901,7 +902,6 @@
     "name": { "str": "Shaolin Adept" },
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
-    "starting_trait": true,
     "player_display": false,
     "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
     "valid": false
@@ -911,10 +911,10 @@
     "id": "MARTIAL_ARTS5",
     "name": { "str": "Melee Weapon Training" },
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
-    "starting_trait": true,
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
+      "style_barbaran",
       "style_eskrima",
       "style_fencing",
       "style_silat",
@@ -962,6 +962,7 @@
     "points": -1,
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
     "purifiable": false,
+    "starting_trait": true,
     "valid": false,
     "cancels": [ "XXXL" ]
   },
@@ -972,6 +973,7 @@
     "points": -1,
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
     "purifiable": false,
+    "starting_trait": true,
     "valid": false,
     "cancels": [ "XS" ]
   },
@@ -1013,7 +1015,7 @@
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
-    "description": "Whether due to lack of exercise and poor diet, or due to a natural lack of physical endurance, you tire from physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
+    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is lower than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "GOODCARDIO" ],
@@ -1452,6 +1454,7 @@
     "name": { "str": "Hoarder" },
     "points": -4,
     "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
+    "starting_trait": true,
     "valid": false
   },
   {
@@ -1520,6 +1523,7 @@
     "name": { "str": "Truth Teller" },
     "points": -1,
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
+    "starting_trait": true,
     "cancels": [ "LIAR" ],
     "social_modifiers": { "lie": -40 }
   },
@@ -3338,11 +3342,12 @@
     "name": { "str": "Rasping Tongue" },
     "visibility": 1,
     "points": 6,
-    "description": "You've developed an extremely long and mobile tongue capped with teeth.  You may use it to attack your enemies.",
+    "description": "You've developed an extremely long and mobile tongue capped with teeth.  You may use it to attack your enemies and pull them towards you.",
     "changes_to": [ "GASTROPOD_EXTREMITY3" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
     "cancels": [ "FANGS", "MANDIBLES" ],
+    "active": true,
     "attacks": {
       "attack_text_u": "You tear into %s with your rasping tongue.",
       "attack_text_npc": "%1$s tears into %2$s with their rasping tongue.",
@@ -3354,14 +3359,15 @@
   },
   {
     "type": "mutation",
-    "id": "GASTROPOD_EXTREMITY2",
+    "id": "GASTROPOD_EXTREMITY3",
     "name": { "str": "Harpoon Tongue" },
     "visibility": 5,
     "ugliness": 5,
     "points": 8,
-    "description": "Your tongue has increased its length and mobility.",
+    "description": "Your tongue has increased its length and mobility.  You may use it to pull your enemies towards you.",
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
+    "active": true,
     "attacks": {
       "attack_text_u": "You stab into %s with your harpoon tongue.",
       "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue.",
@@ -3593,12 +3599,13 @@
     "id": "EATPOISON",
     "name": { "str": "Intestinal Fortitude" },
     "points": 3,
-    "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
+    "description": "Your guts have developed the ability to handle the toxic elements of mutated flesh.  Mostly.",
     "changes_to": [ "EATDEAD" ],
     "prereqs": [ "NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
     "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN" ],
+    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN" ],
     "valid": false
   },
@@ -3607,10 +3614,11 @@
     "id": "EATDEAD",
     "name": { "str": "Eater Of The Dead" },
     "points": 4,
-    "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
+    "description": "Your digestion has evolved further.  In addition to mutated meat, you can also stomach the tainted and long-dead flesh of zombies… if you can stand the taste, of course.",
     "prereqs": [ "EATPOISON" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "RAT", "CHIMERA", "MOUSE" ],
     "flags": [ "IMMUNE_SPOIL" ],
     "valid": false
@@ -4287,6 +4295,7 @@
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ]
   },
   {
@@ -5129,10 +5138,11 @@
     "name": { "str": "Whipping Tongue" },
     "visibility": 1,
     "points": 3,
-    "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies.",
+    "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies and pull them towards you.",
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ],
     "cancels": [ "FANGS", "MANDIBLES" ],
+    "active": true,
     "attacks": {
       "attack_text_u": "You bash %s with your tongue.",
       "attack_text_npc": "%1$s smacks into %2$s with their tongue.",
@@ -6978,7 +6988,8 @@
     "id": "PYROMANIA",
     "name": { "str": "Pyromaniac" },
     "points": -2,
-    "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
+    "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
+    "starting_trait": true
   },
   {
     "type": "mutation",
@@ -7561,6 +7572,7 @@
     "name": { "str": "Nomad" },
     "points": -1,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "starting_trait": true,
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
   },
@@ -7724,5 +7736,13 @@
     "description": "Your ability to feel or express emotion has been greatly hampered.",
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOOMING_VOICE",
+    "name": { "str": "Booming Voice" },
+    "points": 0,
+    "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
+    "valid": false
   }
 ]

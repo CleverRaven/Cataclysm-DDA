@@ -1,0 +1,15 @@
+[
+  {
+    "id": "elder_thing",
+    "type": "harvest",
+    "message": "You crack open the hard chitin of the outer barrel to get at the alien flesh beneath.",
+    "entries": [
+      { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  }
+]

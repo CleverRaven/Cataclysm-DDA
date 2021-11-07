@@ -5,6 +5,7 @@
     "items": [
       [ "flyer", 10 ],
       [ "bag_plastic", 10 ],
+      [ "bag_zipper_gallon", 4 ],
       [ "bottle_plastic", 10 ],
       [ "cup_plastic", 10 ],
       [ "bottle_glass", 10 ],

@@ -520,12 +520,12 @@ static bool mx_military( map &m, const tripoint & )
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
-                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = item_group_id( "military_standard_sniper_rifles" );
-                    } else if( one_in( 20 ) ) {
+                    } else if( one_in( 19 ) ) {
                         group = item_group_id( "military_standard_shotguns" );
-                    } else if( one_in( 10 ) ) {
+                    } else if( one_in( 9 ) ) {
                         group = item_group_id( "military_standard_lmgs" );
                     } else {
                         group = item_group_id( "military_standard_assault_rifles" );
@@ -2760,7 +2760,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
             m.put_items_from_loc( item_group_id( "everyday_corpse" ), corpse_location );
         } else {
             //Pets' corpses
-            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS );
+            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS, true );
             const mtype_id &pet = random_entry_ref( pets );
             item body = item::make_corpse( pet, calendar::start_of_cataclysm );
             m.add_item_or_charges( corpse_location, body );

@@ -3556,7 +3556,9 @@ void map::bash_items( const tripoint &p, bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
+        int glass_portion = bashed_item->made_of( material_id( "glass" ) );
+        float glass_fraction = glass_portion / static_cast<float>( bashed_item->type->mat_portion_total );
+        if( glass_portion && !bashed_item->active && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
             params.did_bash = true;
             smashed_glass = true;
             for( const item *bashed_content : bashed_item->all_items_top() ) {
@@ -5403,6 +5405,17 @@ bool map::dangerous_field_at( const tripoint &p )
         }
     }
     return false;
+}
+
+bool map::mopsafe_field_at( const tripoint &p )
+{
+    for( const std::pair<const int_id<field_type>, field_entry> &pr : field_at( p ) ) {
+        const field_entry &fd = pr.second;
+        if( !fd.is_mopsafe() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool map::add_field( const tripoint &p, const field_type_id &type_id, int intensity,

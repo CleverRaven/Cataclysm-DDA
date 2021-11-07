@@ -1024,6 +1024,7 @@ class item : public visitable
         const material_type &get_random_material() const;
         /**
          * Get the basic (main) material of this item. May return the null-material.
+         * This is the material with the highest "portion" value.
          */
         const material_type &get_base_material() const;
         /**
@@ -1031,7 +1032,7 @@ class item : public visitable
          * This may return an empty vector.
          * The returned vector does not contain the null id.
          */
-        const std::vector<material_id> &made_of() const;
+        const std::map<material_id, int> &made_of() const;
         /**
         * The ids of all the qualities this contains.
         */
@@ -1055,8 +1056,9 @@ class item : public visitable
         /**
          * Check we are made of this material (e.g. matches at least one
          * in our set.)
+         * @return The portion of this item made up by the material
          */
-        bool made_of( const material_id &mat_ident ) const;
+        int made_of( const material_id &mat_ident ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */
@@ -1286,6 +1288,9 @@ class item : public visitable
 
         /** Returns true if the item is broken and can't be activated or used in crafting */
         bool is_broken() const;
+
+        /** Returns true if the item is broken or will be broken on activation */
+        bool is_broken_on_active() const;
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
@@ -2384,6 +2389,8 @@ class item : public visitable
         void favorite_settings_menu( const std::string &item_name );
 
         void combine( const item_contents &read_input, bool convert = false );
+
+        bool is_collapsed() const;
 
     private:
         /** migrates an item into this item. */

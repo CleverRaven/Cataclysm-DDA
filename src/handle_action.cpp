@@ -809,9 +809,13 @@ static void smash()
             if( player_character.get_skill_level( skill_melee ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
-                rng( 0, vol + 3 ) < vol ) {
+            const int glass_portion = weapon.made_of( material_id( "glass" ) );
+            float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
+            if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+                glass_fraction = 0.f;
+            }
+            const int vol = weapon.volume() * glass_fraction / units::legacy_volume_factor;
+            if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( player_character.pos() );
                 sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
@@ -1987,20 +1991,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else if( mouse_target ) {
-                pickup( *mouse_target );
             } else {
                 pickup();
-            }
-            break;
-
-        case ACTION_PICKUP_FEET:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
-            } else if( u.has_effect( effect_incorporeal ) ) {
-                add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else {
-                pickup_feet();
             }
             break;
 
@@ -2186,6 +2178,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
             unload_container();
+            break;
+
+        case ACTION_DROP:
+            drop_in_direction( player_character.pos() );
             break;
         case ACTION_DIR_DROP:
             if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {

@@ -1459,6 +1459,10 @@ class map
          */
         field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
+
+        // Check if player can move on top of it during mopping zone activity
+        bool mopsafe_field_at( const tripoint &p );
+
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1784,7 +1788,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
-        void draw_spider_pit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.

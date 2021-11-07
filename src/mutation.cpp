@@ -8,6 +8,7 @@
 
 #include "activity_type.h"
 #include "avatar_action.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
@@ -40,6 +41,7 @@
 #include "units.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 
 static const efftype_id effect_stunned( "stunned" );
 
@@ -73,6 +75,9 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
@@ -167,6 +172,10 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
 }
 
 void Character::do_mutation_updates()
@@ -647,6 +656,12 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_LONG_TONGUE2 ||
+               mut == trait_GASTROPOD_EXTREMITY2 ||
+               mut == trait_GASTROPOD_EXTREMITY3 ) {
+        tdata.powered = false;
+        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mut->name() );
+        return;
     } else if( mut == trait_SNAIL_TRAIL ) {
         get_map().add_field( pos(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
@@ -1052,6 +1067,10 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
+
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1432,6 +1451,10 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait

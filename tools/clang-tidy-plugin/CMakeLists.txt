@@ -25,6 +25,7 @@ add_library(CataAnalyzerPlugin MODULE
         TestFilenameCheck.cpp
         TestsMustRestoreGlobalStateCheck.cpp
         TextStyleCheck.cpp
+        TranslateStringLiteralCheck.cpp
         TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         UnsequencedCallsCheck.cpp

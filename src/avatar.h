@@ -207,6 +207,11 @@ class avatar : public Character
         void identify( const item &item ) override;
         void clear_identified();
 
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature. */
+        void longpull( const std::string name );
+
         void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -314,6 +319,7 @@ class avatar : public Character
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
@@ -328,7 +334,14 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
+        const mood_face_id &character_mood_face();
+        void clear_mood_face();
+
     private:
+
+        bool mood_face_horizontal = false;
+        cata::optional<mood_face_id> mood_face_cache;
+
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
 

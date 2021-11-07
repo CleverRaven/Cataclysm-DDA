@@ -28,6 +28,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
 #include "point.h"
@@ -534,13 +535,16 @@ void sounds::process_sound_markers( Character *you )
         if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
-                const std::string query = string_format( _( "Heard %s!" ), description );
+                const std::string query = string_format( _( "Heard %s!" ),
+                                          trim_trailing_punctuations( description ) );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
         // skip some sounds to avoid message spam
-        if( describe_sound( sound.category, pos == you->pos() ) ) {
+        const bool from_player = pos == you->pos() || ( sound.category == sound_t::movement &&
+                                 distance_to_sound <= 1 );
+        if( describe_sound( sound.category, from_player ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;

@@ -86,6 +86,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
 static const efftype_id effect_tied( "tied" );
 
@@ -350,9 +351,9 @@ bool aim_activity_actor::load_RAS_weapon()
         return false;
     }
 
-    // Burn 0.2% max base stamina x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
+                     ( get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -1498,7 +1499,8 @@ bool read_activity_actor::player_read( avatar &you )
             }
 
             if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
+                  one_in( 25 ) ) ) {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
                 } else {
@@ -1636,7 +1638,8 @@ bool read_activity_actor::npc_read( npc &learner )
 
         if( display_messages &&
             ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) ) {
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
+                one_in( 25 ) ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }

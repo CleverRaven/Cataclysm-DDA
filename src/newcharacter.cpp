@@ -183,8 +183,9 @@ static int skill_points_used( const avatar &u )
     }
     int skills = 0;
     for( const Skill &sk : Skill::skills ) {
-        std::vector<int> costs = {0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25};
-        skills += costs.at( u.get_skill_level( sk.ident() ) );
+        static std::array < int, 1 + MAX_SKILL > costs = { 0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25 };
+        int skill_level = u.get_skill_level( sk.ident() );
+        skills += costs.at( std::min<int>( skill_level, costs.size() - 1 ) );
     }
     return scenario + profession_points + hobbies + skills;
 }
@@ -498,6 +499,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         randomize_cosmetic_trait( type_facial_hair );
     }
 
+    // Restart cardio accumulator
+    reset_cardio_acc();
 }
 
 void avatar::add_profession_items()
@@ -804,6 +807,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
+
+    // Restart cardio accumulator
+    reset_cardio_acc();
 
     return true;
 }
@@ -1895,7 +1901,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
             if( sorted_profs[cur_id]->vehicle() ) {
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
-                buffer += veh_id->name.translated();
+                buffer += veh_id->name.translated() + "\n";
             } else {
                 buffer += pgettext( "set_profession_vehicle", "None" ) + std::string( "\n" );
             }
@@ -2302,7 +2308,6 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
     do {
         if( recalc_profs ) {
-            sorted_profs = get_scenario()->permitted_professions();
             sorted_profs = profession::get_all_hobbies();
 
             // Remove items based on filter
@@ -2393,9 +2398,11 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
 
             // Toggle hobby
+            bool enabling = false;
             if( u.hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
                 u.hobbies.insert( prof );
+                enabling = true;
             } else {
                 // Remove hobby and refund point cost
                 u.hobbies.erase( prof );
@@ -2403,6 +2410,21 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Add or remove traits from hobby
             for( const trait_id &trait : prof->get_locked_traits() ) {
+                if( enabling ) {
+                    if( !u.has_trait( trait ) ) {
+                        u.toggle_trait( trait );
+                    }
+                    continue;
+                }
+                int from_other_hobbies = u.prof->is_locked_trait( trait ) ? 1 : 0;
+                for( const profession *hby : u.hobbies ) {
+                    if( hby->ident() != prof->ident() && hby->is_locked_trait( trait ) ) {
+                        from_other_hobbies++;
+                    }
+                }
+                if( from_other_hobbies > 0 ) {
+                    continue;
+                }
                 u.toggle_trait( trait );
             }
 
@@ -3037,17 +3059,20 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            reset_scenario( u, sorted_scens[0] );
-
+            bool need_reset = true;
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
                 if( sorted_scens[i]->ident() == get_scenario()->ident() ) {
                     cur_id = i;
+                    need_reset = false;
                     break;
                 }
             }
             if( cur_id > scens_length - 1 ) {
                 cur_id = 0;
+            }
+            if( need_reset ) {
+                reset_scenario( u, sorted_scens[0] );
             }
 
             recalc_scens = false;

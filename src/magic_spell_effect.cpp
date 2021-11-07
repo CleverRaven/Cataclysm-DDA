@@ -1051,7 +1051,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
             num_mons--;
             sp.make_sound( *iter );
         } else {
-            add_msg( m_bad, "failed to place monster" );
+            debugmsg( "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
@@ -1124,6 +1124,11 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         sp.make_sound( target );
         ch->vomit();
     }
+}
+
+void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const tripoint &target )
+{
+    caster.longpull( sp.name(), target );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )

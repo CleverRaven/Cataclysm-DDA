@@ -221,7 +221,7 @@
       "msg": "The kiln's embers have died out; you can now disassemble it to harvest the charcoal.",
       "moves": 0,
       "type": "delayed_transform",
-      "transform_age": 3600,
+      "transform_age": 21600,
       "not_ready_msg": "The kiln is still burning."
     },
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]

@@ -2,8 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MINER",
-    "default": "mon_zombie_miner",
-    "monsters": [  ]
+    "monsters": [ { "monster": "mon_zombie_miner" } ]
   },
   {
     "type": "mapgen",
