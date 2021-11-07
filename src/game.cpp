@@ -1499,8 +1499,8 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const recipe &craft_recipe = recipe_dictionary::get_craft( it.is_craft() ?
-                                 it.get_making().result() : it.typeId() );
+    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
+                                 recipe_dictionary::get_craft( it.typeId() );
     if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
         return hint_rating::cant;
     }
@@ -1915,11 +1915,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 'V': {
-                    itype_id this_itype = oThisItem.typeId();
+                    int is_recipe = 0;
+                    std::string this_itype = oThisItem.typeId().str();
                     if( oThisItem.is_craft() ) {
-                        this_itype = oThisItem.get_making().result();
+                        this_itype = oThisItem.get_making().ident().str();
+                        is_recipe = 1;
                     }
-                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, -1, 0, this_itype.str() );
+                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
                     u.assign_activity( recipe_act );
                     break;
                 }

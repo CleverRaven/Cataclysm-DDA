@@ -2842,16 +2842,24 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     }
 
     recipe_id id( act->name );
-    itype_id it( act->name );
+    std::string itname;
+    if( act->index == 0 ) {
+        // act->name is itype_id
+        itype_id it( act->name );
+        itname = it->nname( 1U );
+    } else {
+        // act->name is recipe_id
+        itname = id->result_name();
+    }
     if( id.is_null() || !id.is_valid() ) {
-        add_msg( m_info, _( "You wonder if it's even possible to craft a %s…" ), item::nname( it ) );
+        add_msg( m_info, _( "You wonder if it's even possible to craft a %s…" ), itname );
         return;
     }
 
     const inventory &inven = you->crafting_inventory();
     const std::vector<npc *> &helpers = you->get_crafting_helpers();
     if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
-        add_msg( m_info, _( "You don't know how to craft a %s!" ), item::nname( it ) );
+        add_msg( m_info, _( "You don't know how to craft a %s!" ), itname );
         return;
     }
 
