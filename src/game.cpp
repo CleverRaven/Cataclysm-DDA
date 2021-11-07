@@ -5257,7 +5257,14 @@ void game::examine( const tripoint &examp )
 
 void game::pickup()
 {
-    u.pick_up( game_menus::inv::pickup( u ) );
+    const cata::optional<tripoint> where_ = choose_adjacent_highlight( _( "Pick up items where?" ),
+                                            _( "There is nothing to pick up nearby." ),
+                                            ACTION_PICKUP, false );
+    if( !where_ ) {
+        return;
+    }
+
+    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

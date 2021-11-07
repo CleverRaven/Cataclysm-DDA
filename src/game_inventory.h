@@ -84,7 +84,7 @@ bool compare_items( const item &first, const item &second,
  * @return A list of pairs of item_location, quantity.
  */
 drop_locations multidrop( avatar &you );
-drop_locations pickup( avatar &you );
+drop_locations pickup( avatar &you, const tripoint &target );
 
 /**
 * Consume an item via a custom menu.
