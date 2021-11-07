@@ -430,7 +430,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
     switch( type->goal ) {
         case MGOAL_GO_TO: {
             const tripoint_abs_omt cur_pos = player_character.global_omt_location();
-            return ( rl_dist( cur_pos, target ) <= 1 );
+            return rl_dist( cur_pos, target ) <= 1;
         }
 
         case MGOAL_GO_TO_TYPE: {
@@ -625,7 +625,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
             get_all_item_group_matches(
                 content, grp_type, matches,
-                required_container, ( itm->typeId() ), specific_container_required );
+                required_container, itm->typeId(), specific_container_required );
         }
     }
 }

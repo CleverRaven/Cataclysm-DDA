@@ -1837,8 +1837,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return ( f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
-                                      f.has_flag( MF_PET_HARNESSABLE ) ) );
+        return f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
+                                    f.has_flag( MF_PET_HARNESSABLE ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(

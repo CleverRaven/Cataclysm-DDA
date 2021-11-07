@@ -1446,7 +1446,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
         }
 
         const input_event hotkey = front_or( type.action.empty() ? "FIRE" : type.action, input_event() );
-        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+        if( panel_type == "compact" || panel_type == "labels-narrow" ) {
             if( display_type == "numbers" ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
                 t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
@@ -2215,7 +2215,7 @@ target_handler::trajectory target_ui::run()
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = ( mode == TargetMode::Spell && casting->damage() <= 0 );
+            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage() <= 0;
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -3138,7 +3138,7 @@ void target_ui::draw_ui_window()
         if( mode == TargetMode::Fire ) {
             panel_fire_mode_aim( text_y );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
-            bool blind = ( mode == TargetMode::ThrowBlind );
+            bool blind = mode == TargetMode::ThrowBlind;
             draw_throw_aim( *you, w_target, text_y, ctxt, *relevant, dst, blind );
         }
     }

@@ -383,7 +383,7 @@ void suffer::from_chemimbalance( Character &you )
         int pkilladd = 5 * rng( -1, 2 );
         if( pkilladd > 0 ) {
             you.add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
-        } else if( ( pkilladd < 0 ) && ( !( you.has_trait( trait_NOPAIN ) ) ) ) {
+        } else if( ( pkilladd < 0 ) && ( !you.has_trait( trait_NOPAIN ) ) ) {
             you.add_msg_if_player( m_bad, _( "You suddenly ache." ) );
         }
         you.mod_painkiller( pkilladd );
@@ -1039,13 +1039,13 @@ void suffer::from_other_mutations( Character &you )
             you.add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
             you.add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
         }
-        if( one_turn_in( 1_hours ) && !( you.has_effect( effect_blind ) ) ) {
+        if( one_turn_in( 1_hours ) && !you.has_effect( effect_blind ) ) {
             you.add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
             you.add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
         }
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
-        if( one_turn_in( 30_minutes ) && !( you.has_effect( effect_visuals ) ) ) {
+        if( one_turn_in( 30_minutes ) && !you.has_effect( effect_visuals ) ) {
             you.add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
             you.add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }

@@ -836,7 +836,7 @@ void sfx::do_vehicle_engine_sfx()
                             0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    if( ( safe_speed != 0 ) ) {
+    if( safe_speed != 0 ) {
         if( current_gear == 0 ) {
             pitch = 1.0;
         } else if( current_gear == -1 ) {
@@ -1765,7 +1765,7 @@ int sfx::get_heard_volume( const tripoint &source )
         heard_volume = 0;
     }
     heard_volume *= g_sfx_volume_multiplier;
-    return ( heard_volume );
+    return heard_volume;
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

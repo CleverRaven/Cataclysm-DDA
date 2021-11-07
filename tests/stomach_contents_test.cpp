@@ -133,7 +133,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
+    while( !dummy.has_trait( trait_id( "HUNGER3" ) ) ) {
         dummy.mutate_towards( trait_id( "HUNGER3" ) );
     }
     clear_stomach( dummy );
@@ -295,7 +295,7 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
+    while( !dummy.has_trait( trait_id( "HUNGER3" ) ) ) {
         dummy.mutate_towards( trait_id( "HUNGER3" ) );
     }
     for( int i = 0; i < 16; i++ ) {

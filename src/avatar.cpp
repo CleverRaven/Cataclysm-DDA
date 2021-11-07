@@ -1901,7 +1901,7 @@ void avatar::try_to_sleep( const time_duration &dur )
     }
     // Not sure how one would get Arachnid w/o web-making, but Just In Case
     if( has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-            ( has_trait( trait_WEB_WEAVER ) ) ) ) {
+            has_trait( trait_WEB_WEAVER ) ) ) {
         webforce = true;
     }
     if( websleep || webforce ) {

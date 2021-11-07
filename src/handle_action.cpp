@@ -965,8 +965,8 @@ static void wait()
     }
 
     // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
-                to_string_time_of_day( calendar::turn ) ) : "";
+    as_m.text = has_watch ? string_format( _( "It's %s now.  " ),
+                                           to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
@@ -997,7 +997,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
+        player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -2817,5 +2817,5 @@ bool game::handle_action()
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     to_turn<int>( calendar::turn ), before_action_moves, player_character.movecounter,
                                     player_character.moves );
-    return ( !player_character.is_dead_state() );
+    return !player_character.is_dead_state();
 }
