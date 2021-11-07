@@ -80,6 +80,7 @@
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -2839,7 +2840,22 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     if( !you->is_avatar() ) {
         return;
     }
-    you->craft( cata::nullopt, recipe_id( act->name ) );
+
+    recipe_id id( act->name );
+    itype_id it( act->name );
+    if( id.is_null() || !id.is_valid() ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft a %s..." ), item::nname( it ) );
+        return;
+    }
+
+    const inventory &inven = you->crafting_inventory();
+    const std::vector<npc *> &helpers = you->get_crafting_helpers();
+    if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        add_msg( m_info, _( "You don't know how to craft a %s!" ), item::nname( it ) );
+        return;
+    }
+
+    you->craft( cata::nullopt, id );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
