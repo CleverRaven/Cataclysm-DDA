@@ -136,6 +136,12 @@ static int stat_point_pool()
 {
     return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
 }
+
+static int calculate_nonmutated_strength( const avatar &u )
+{
+    return u.str_max - 4 * u.has_trait( trait_HUGE );
+}
+
 static int stat_points_used( const avatar &u )
 {
     int used = 0;
@@ -556,11 +562,6 @@ static int calculate_cumulative_experience( int level )
     }
 
     return sum;
-}
-
-static int calculate_nonmutated_strength( const avatar &u )
-{
-    return u.str_max - 4 * u.has_trait( trait_HUGE );
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
