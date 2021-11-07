@@ -2078,6 +2078,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
+    ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -5257,6 +5258,20 @@ void game::examine( const tripoint &examp )
 
 void game::pickup()
 {
+    // Prompt for which adjacent/current tile to pick up items from
+    const cata::optional<tripoint> where_ = choose_adjacent_highlight( _( "Pick up items where?" ),
+                                            _( "There is nothing to pick up nearby." ),
+                                            ACTION_PICKUP, false );
+    if( !where_ ) {
+        return;
+    }
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
+}
+
+void game::pickup_all()
+{
+    // Pick up items from current and all adjacent tiles
     u.pick_up( game_menus::inv::pickup( u ) );
 }
 

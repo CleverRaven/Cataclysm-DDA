@@ -1852,13 +1852,18 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you )
+drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
 {
     const pickup_inventory_preset preset( you );
 
     pickup_selector pick_s( you, preset );
 
-    pick_s.add_nearby_items();
+    // Add items from the selected tile, or from current and all surrounding tiles
+    if( target ) {
+        pick_s.add_map_items( *target );
+    } else {
+        pick_s.add_nearby_items();
+    }
     pick_s.set_title( _( "Pickup" ) );
     pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
 

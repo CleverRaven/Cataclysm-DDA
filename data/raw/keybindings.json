@@ -1883,10 +1883,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Nearby Item(s)",
+    "name": "Pick up items from one nearby tile",
     "category": "DEFAULTMODE",
     "id": "pickup",
     "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pick up items from all nearby tiles",
+    "category": "DEFAULTMODE",
+    "id": "pickup_all"
   },
   {
     "type": "keybinding",

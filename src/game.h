@@ -808,7 +808,9 @@ class game
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
 
+        // Pick up items from a single nearby tile, or from all nearby tiles
         void pickup(); // Pickup nearby items 'g'
+        void pickup_all();
 
         void unload_container(); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
