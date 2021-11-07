@@ -159,12 +159,12 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2",
     "type": "talk_topic",
-    "dynamic_line": "I don't know, why don't you ask them?  We haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources."
+    "dynamic_line": "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars3",
     "type": "talk_topic",
-    "dynamic_line": "Jesus, man, we aren't monsters.  I'm sure we could get them out if we really needed to, yeah, but why would we do that?  We're trying our best to help everyone we can right now, and forcing out people in need isn't a way to show our goodwill.  Altruism doesn't run the world, but it damn well makes it nicer to live in."
+    "dynamic_line": "Jesus, man, we aren't monsters.  I'm sure we could get them out if we really needed to, yeah, but why would we do that?  We need to be stringent with who we take on, that's true, but forcing out people in need isn't a great way to convince anyone that we're reliable allies.  The world doesn't run on good faith, but it's damn well nicer to live in because of it."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
@@ -209,13 +209,25 @@
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
         "condition": {
-          "not": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
+          "and": [
+            {
+              "not": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
         }
       },
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
-        "condition": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
+        "condition": {
+          "or": [
+            { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        }
       },
       { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -236,10 +248,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
         "effect": "start_trade"
       },
-      {
-        "text": "Radios?  That seems awfully specific.",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1"
-      },
+      { "text": "Radios?  That seems awfully specific.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" },
       { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
   },
@@ -256,7 +265,7 @@
       {
         "text": "I don't see that many of you around.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "u_knows_about_basement", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" } },
         "effect": { "u_add_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
