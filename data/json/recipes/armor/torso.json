@@ -421,7 +421,7 @@
     "using": [
       [ "sewing_standard", 60 ],
       [ "fabric_standard_nostretch", 25 ],
-      [ "fabric_standard_nostretch", 20 ],
+      [ "fabric_fauxfur", 20 ],
       [ "fastener_large", 1 ]
     ],
     "proficiencies": [
