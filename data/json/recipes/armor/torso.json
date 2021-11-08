@@ -824,7 +824,7 @@
     "time": "9 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 120 ], [ "fabric_standard_nostretch", 30 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 120 ], [ "fabric_felt", 30 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
