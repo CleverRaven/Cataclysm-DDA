@@ -139,7 +139,7 @@
     "type": "recipe",
     "copy-from": "armor_larmor",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 76 ], [ "fabric_leather_fur_hide", 6 ] ],
+    "using": [ [ "sewing_standard", 76 ], [ "fabric_leather_fur_hide", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
   {
