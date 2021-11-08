@@ -152,7 +152,7 @@
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
- {
+  {
     "id": "makeshift_scrambler",
     "type": "GUN",
     "copy-from": "hm12",
