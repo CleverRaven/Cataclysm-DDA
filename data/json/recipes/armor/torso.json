@@ -853,7 +853,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ], [ "fabric_fur", 30 ] ]
+    "using": [ [ "sewing_standard", 80 ], [ "fabric_felt", 30 ] ]
   },
   {
     "result": "poncho",
