@@ -1860,6 +1860,7 @@ drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoi
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
+        pick_s.add_vehicle_items( *target );
         pick_s.add_map_items( *target );
     } else {
         pick_s.add_nearby_items();
