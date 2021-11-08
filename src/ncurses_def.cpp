@@ -253,6 +253,7 @@ void catacurses::init_interface()
     // TODO: error checking
     start_color();
     init_colors();
+    use_default_colors(); // use terminal ISO 6429 colors for transparency
 }
 
 void input_manager::pump_events()
