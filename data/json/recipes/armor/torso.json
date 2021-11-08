@@ -1465,7 +1465,7 @@
     "time": "8 h 20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 14 ], [ "fabric_fur", 12 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 14 ], [ "fabric_fauxfur", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
