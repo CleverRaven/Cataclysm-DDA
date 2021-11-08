@@ -206,7 +206,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you, false );
+        inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -1840,7 +1840,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 
     inventory_drop_selector inv_s( you, preset );
 
-    inv_s.add_character_items( you, false );
+    inv_s.add_character_items( you );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 

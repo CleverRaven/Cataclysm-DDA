@@ -147,7 +147,7 @@ bool inventory_entry::is_hidden() const
         return false;
     }
     item_location prnt = it.parent_item();
-    return prnt.get_item()->contained_where( *it )->settings.is_collapsed();
+    return allow_hide && prnt.get_item()->contained_where( *it )->settings.is_collapsed();
 }
 
 int inventory_entry::get_total_charges() const
@@ -1411,7 +1411,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 void inventory_selector::add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
                                     const item_category *custom_category,
-                                    const size_t chosen_count )
+                                    const size_t chosen_count, bool allow_hide )
 {
     if( !preset.is_shown( locations.front() ) ) {
         return;
@@ -1423,6 +1423,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
                            /*chosen_count=*/chosen_count );
 
     entry.collapsed = locations.front()->is_collapsed();
+    entry.allow_hide = allow_hide;
     target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -1434,13 +1435,14 @@ void inventory_selector::add_entry( inventory_column &target_column,
 void inventory_selector::add_item( inventory_column &target_column,
                                    item_location &&location,
                                    const item_category *custom_category,
-                                   const bool include_hidden )
+                                   const bool allow_hide )
 {
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
-               custom_category );
+               custom_category, 0, allow_hide );
     for( item *it : location->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        add_item( target_column, item_location( location, it ), custom_category, include_hidden );
+        add_item( target_column, item_location( location, it ), custom_category,
+                  preset.is_shown( location ) );
     }
 }
 
@@ -1472,7 +1474,7 @@ void inventory_selector::add_contained_items( item_location &container )
 }
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column,
-        const item_category *const custom_category )
+        const item_category *const custom_category, bool allow_hide )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return;
@@ -1480,14 +1482,14 @@ void inventory_selector::add_contained_items( item_location &container, inventor
 
     for( item *it : container->all_items_top() ) {
         item_location child( container, it );
-        add_contained_items( child, column, custom_category );
+        add_contained_items( child, column, custom_category, preset.is_shown( child ) );
         const item_category *nat_category = nullptr;
         if( custom_category == nullptr ) {
             nat_category = &child->get_category_of_contents();
         } else if( preset.is_shown( child ) ) {
             nat_category = naturalize_category( *custom_category, child.position() );
         }
-        add_entry( column, std::vector<item_location>( 1, child ), nat_category );
+        add_entry( column, std::vector<item_location>( 1, child ), nat_category, 0, allow_hide );
     }
 }
 
@@ -1503,15 +1505,15 @@ void inventory_selector::add_contained_ebooks( item_location &container )
     }
 }
 
-void inventory_selector::add_character_items( Character &character, bool include_hidden )
+void inventory_selector::add_character_items( Character &character )
 {
-    character.visit_items( [ this, &character, &include_hidden ]( item * it, item * ) {
+    character.visit_items( [ this, &character ]( item * it, item * ) {
         if( it == &character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
-                      &item_category_id( "WEAPON_HELD" ).obj(), include_hidden );
+                      &item_category_id( "WEAPON_HELD" ).obj() );
         } else if( character.is_worn( *it ) ) {
             add_item( own_gear_column, item_location( character, it ),
-                      &item_category_id( "ITEMS_WORN" ).obj(), include_hidden );
+                      &item_category_id( "ITEMS_WORN" ).obj() );
         }
         return VisitResponse::NEXT;
     } );
@@ -1524,7 +1526,7 @@ void inventory_selector::add_character_items( Character &character, bool include
         for( item &it_elem : *elem ) {
             item_location parent( character, &it_elem );
             add_contained_items( parent, own_inv_column,
-                                 &item_category_id( "ITEMS_WORN" ).obj() );
+                                 &item_category_id( "ITEMS_WORN" ).obj(), preset.is_shown( parent ) );
         }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
@@ -1547,7 +1549,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
         for( item &it_elem : items ) {
             item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column, &map_cat );
+            add_contained_items( parent, map_column, &map_cat, preset.is_shown( parent ) );
         }
     }
 }
@@ -1573,7 +1575,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 
     for( item &it_elem : items ) {
         item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column, &vehicle_cat );
+        add_contained_items( parent, map_column, &vehicle_cat, preset.is_shown( parent ) );
     }
 }
 
@@ -2295,7 +2297,7 @@ void inventory_selector::toggle_categorize_contained()
                 }
                 add_entry( own_inv_column, std::move( entry->locations ),
                            /*custom_category=*/custom_category,
-                           /*chosen_count=*/entry->chosen_count );
+                           /*chosen_count=*/entry->chosen_count, entry->allow_hide );
             } else {
                 replacement_column.add_entry( *entry );
             }
@@ -2322,7 +2324,7 @@ void inventory_selector::toggle_categorize_contained()
             }
             add_entry( own_gear_column, std::move( entry->locations ),
                        /*custom_category=*/custom_category,
-                       /*chosen_count=*/entry->chosen_count );
+                       /*chosen_count=*/entry->chosen_count, entry->allow_hide );
         }
         own_gear_column.order_by_parent();
         own_inv_column.clear();
