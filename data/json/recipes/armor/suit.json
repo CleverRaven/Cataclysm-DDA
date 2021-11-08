@@ -721,11 +721,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "12 h",
     "autolearn": true,
-    "using": [
-      [ "sewing_standard", 200 ],
-      [ "fabric_standard_nostretch", 10 ],
-      [ "fabric_fauxfur", 20 ]
-    ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 10 ], [ "fabric_fauxfur", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
