@@ -320,7 +320,7 @@ void timed_event::per_turn()
             }
 
             if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
-                add_msg( m_info, "You hear someone whispering \"%s\"",
+                add_msg( m_info, _( "You hear someone whispering \"%s\"" ),
                          SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
             }
         }

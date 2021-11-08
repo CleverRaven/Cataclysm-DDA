@@ -66,6 +66,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
+    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "using": [ [ "tailoring_lycra", 1 ], [ "filament", 10 ] ]

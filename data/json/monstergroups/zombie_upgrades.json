@@ -65,6 +65,14 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_GRAB",
+    "monsters": [
+      { "monster": "mon_zombie_grappler", "weight": 960, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_biter", "weight": 40, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SOLDIER_UPGRADE",
     "default": "mon_zombie_kevlar_1",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
@@ -170,6 +178,16 @@
       { "monster": "mon_zombie_brute_ninja", "weight": 500 },
       { "monster": "mon_zombie_pupa_decoy_shady", "weight": 250 },
       { "monster": "mon_zombie_pupa_shady", "weight": 250 }
+    ]
+  },
+  {
+    "name": "GROUP_FERROUS_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_rust", "weight": 700 },
+      { "monster": "mon_zombie_plated", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_urchin", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "weight": 100, "cost_multiplier": 2 }
     ]
   },
   {

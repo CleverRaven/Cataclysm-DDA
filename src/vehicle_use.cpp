@@ -2042,8 +2042,6 @@ void vehicle::interact_with( const vpart_position &vp )
 {
     map &here = get_map();
     avatar &player_character = get_avatar();
-    const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( ter_furn_flag::TFLAG_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
@@ -2060,8 +2058,6 @@ void vehicle::interact_with( const vpart_position &vp )
     const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
     const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
     const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
-    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
-    const bool has_cargo = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
@@ -2073,8 +2069,6 @@ void vehicle::interact_with( const vpart_position &vp )
         HANDBRAKE,
         CONTROL,
         CONTROL_ELECTRONICS,
-        GET_ITEMS,
-        GET_ITEMS_ON_GROUND,
         FOLD_VEHICLE,
         UNLOAD_TURRET,
         RELOAD_TURRET,
@@ -2141,15 +2135,6 @@ void vehicle::interact_with( const vpart_position &vp )
                              ? _( "Deactivate the dishwasher" )
                              : _( "Activate the dishwasher (1.5 hours)" ) );
     }
-    if( has_cargo &&
-        ( !vp_autoclave || !vp_autoclave->part().enabled ) &&
-        ( !vp_washing_machine || !vp_washing_machine->part().enabled ) &&
-        ( !vp_dishwasher || !vp_dishwasher->part().enabled ) ) {
-        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
-    }
-    if( has_items_on_ground && !items_are_sealed ) {
-        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
-    }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
@@ -2197,7 +2182,7 @@ void vehicle::interact_with( const vpart_position &vp )
         selectmenu.query();
         choice = selectmenu.ret;
     }
-    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
+    if( choice != EXAMINE && choice != TRACK ) {
         if( !handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
             return;
         }
@@ -2348,18 +2333,6 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case TRACK: {
             toggle_tracking( );
-            return;
-        }
-        case GET_ITEMS_ON_GROUND: {
-            Pickup::pick_up( vp.pos(), 0, Pickup::from_ground );
-            return;
-        }
-        case GET_ITEMS: {
-            if( has_cargo ) {
-                Pickup::pick_up( vp.pos(), 0, Pickup::from_cargo );
-            } else {
-                Pickup::pick_up( vp.pos(), 0, Pickup::from_ground );
-            }
             return;
         }
         case RELOAD_PLANTER: {

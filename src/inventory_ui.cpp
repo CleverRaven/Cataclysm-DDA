@@ -139,6 +139,9 @@ static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
+    if( !is_item() ) {
+        return false;
+    }
     item_location it = locations.front();
     if( !it.has_parent() ) {
         return false;
@@ -698,9 +701,9 @@ void inventory_column::set_stack_favorite( std::vector<item_location> &locations
     }
 }
 
-void inventory_column::set_collapsed( std::vector<item_location> &locations,
-                                      const bool collapse )
+void inventory_column::set_collapsed( inventory_entry &entry, const bool collapse )
 {
+    std::vector<item_location> &locations = entry.locations;
     std::function<void( item_pocket *, bool )> do_collapse;
     do_collapse = [ collapse, &do_collapse ]( item_pocket * pock, bool clps ) {
         pock->settings.set_collapse( collapse );
@@ -713,17 +716,29 @@ void inventory_column::set_collapsed( std::vector<item_location> &locations,
         }
     };
 
+    bool collapsed = false;
     for( item_location &loc : locations ) {
         if( loc.get_item()->is_container() ) {
             for( item_pocket *pocket : loc->get_all_contained_pockets().value() ) {
                 pocket->settings.set_collapse( collapse );
                 do_collapse( pocket, collapse );
+                collapsed = true;
             }
         }
     }
+
+    if( collapsed ) {
+        entry.collapsed = collapse;
+
+        // recache cells in case the name changed
+        std::size_t const index =
+            std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) );
+        entries_cell_cache[index].assigned = false;
+        entries_cell_cache[index] = make_entry_cell_cache( entry );
+    }
 }
 
-void inventory_column::on_input( const inventory_input &input, const bool allow_hide )
+void inventory_column::on_input( const inventory_input &input )
 {
 
     if( !empty() && active ) {
@@ -742,12 +757,12 @@ void inventory_column::on_input( const inventory_input &input, const bool allow_
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             inventory_entry &selected = get_selected();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
-        } else if( allow_hide && input.action == "HIDE_CONTENTS" ) {
+        } else if( input.action == "HIDE_CONTENTS" ) {
             inventory_entry &selected = get_selected();
-            set_collapsed( selected.locations, true );
-        } else if( allow_hide && input.action == "SHOW_CONTENTS" ) {
+            set_collapsed( selected, true );
+        } else if( input.action == "SHOW_CONTENTS" ) {
             inventory_entry &selected = get_selected();
-            set_collapsed( selected.locations, false );
+            set_collapsed( selected, false );
         }
     }
 
@@ -910,10 +925,27 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
-    // First, remove all non-items
+    // restore entries revealed by SHOW_CONTENTS
+    // FIXME: replace by std::remove_copy_if in C++17
+    for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
+        if( it->is_item() && !it->is_hidden() ) {
+            add_entry( *it );
+            it = entries_hidden.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
+    // backup entries hidden by HIDE_CONTENTS
+    std::copy_if( entries.begin(), entries.end(), std::back_inserter( entries_hidden ),
+    []( const inventory_entry & entry ) {
+        return entry.is_hidden();
+    } );
+
+    // First, remove all non-items and hidden entries
     const auto new_end = std::remove_if( entries.begin(),
     entries.end(), [&filter_fn]( const inventory_entry & entry ) {
-        return !entry.is_item() || !filter_fn( entry );
+        return !entry.is_item() || !filter_fn( entry ) || entry.is_hidden();
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories (sort only once each UI session)
@@ -1038,6 +1070,18 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+{
+    for( auto &elem : entries ) {
+        if( elem.is_selectable() ) {
+            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
+                                 '\0';
+            cur_idx++;
+        }
+    }
+    return cur_idx;
+}
+
 static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
@@ -1047,8 +1091,7 @@ static int num_parents( const item_location &loc )
 }
 
 void inventory_column::draw( const catacurses::window &win, const point &p,
-                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
-                             const bool allow_hide )
+                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
     if( !visible() ) {
         return;
@@ -1120,19 +1163,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
 
             x2 += cells[cell_index].current_width;
             std::string text = entry_cell_cache.text[cell_index];
-            bool collapsed = false;
-            if( entry.is_item() && entry.any_item().get_item()->is_container() ) {
-                std::string hidden_text = allow_hide ? std::string( " " ) + string_format _( "hidden" ) :
-                                          std::string();
-                for( const item_pocket *pckt : entry.any_item().get_item()->get_all_contained_pockets().value() ) {
-                    // If one is collapsed then assume all are collapsed.
-                    if( pckt->settings.is_collapsed() && !pckt->empty() ) {
-                        text += hidden_text;
-                        collapsed = true;
-                        break;
-                    }
-                }
-            }
 
             size_t text_width = utf8_width( text, true );
             size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
@@ -1153,7 +1183,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( collapsed && allow_hide ) {
+                if( entry.collapsed && cell_index == 0 ) {
                     trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
                 }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
@@ -1391,6 +1421,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
                            preset.get_denial( locations.front() ).empty(),
                            /*chosen_count=*/chosen_count );
 
+    entry.collapsed = locations.front()->is_collapsed();
     target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -1404,13 +1435,6 @@ void inventory_selector::add_item( inventory_column &target_column,
                                    const item_category *custom_category,
                                    const bool include_hidden )
 {
-    // Skip this item if it is hidden.
-    if( location.has_parent() && !include_hidden ) {
-        item_location parent = location.parent_item();
-        if( parent->get_contents().contained_where( *location )->settings.is_collapsed() ) {
-            return;
-        }
-    }
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
                custom_category );
@@ -1669,13 +1693,18 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
+    reassign_custom_invlets();
+
+    refresh_active_column();
+}
+
+void inventory_selector::reassign_custom_invlets()
+{
     int custom_invlet = '0';
-    for( auto &elem : columns ) {
+    for( inventory_column *elem : columns ) {
         elem->prepare_paging();
         custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
     }
-
-    refresh_active_column();
 }
 
 void inventory_selector::prepare_layout()
@@ -1996,14 +2025,14 @@ void inventory_selector::draw_columns( const catacurses::window &w )
             x += gap_rounding_error;
         }
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, point( x, y ), rect_entry_map, allow_hide );
+            elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, point( active_x, y ), rect_entry_map, allow_hide );
+    get_active_column().draw( w, point( active_x, y ), rect_entry_map );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
@@ -2153,7 +2182,7 @@ void inventory_selector::on_input( const inventory_input &input )
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
-                elem->on_input( input, allow_hide );
+                elem->on_input( input );
             }
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
@@ -2164,13 +2193,11 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( allow_hide && ( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) ) {
+        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             if( current_ui ) {
                 std::vector<item_location> inv = get_selected().locations;
-                clear_items();
-                add_character_items( get_player_character(), false );
-                set_filter( filter );
+                current_ui->mark_resize();
                 select_one_of( inv );
             }
         }
@@ -2538,7 +2565,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
             break;
         case toggle_mode::NON_FAVORITE_NON_WORN: {
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
-                return entry.is_item() &&
+                return entry.is_selectable() &&
                        !entry.any_item()->is_favorite &&
                        !get_player_character().is_worn( *entry.any_item() );
             };
@@ -2907,4 +2934,111 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.volume_carried_with_tweaks( to_use ),
                u.volume_capacity_with_tweaks( to_use ),
                u.max_single_item_length(), u.max_single_item_volume() );
+}
+
+pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
+                                  const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title )
+{
+#if defined(__ANDROID__)
+    // allow user to type a drop number without dismissing virtual keyboard after each keypress
+    ctxt.allow_text_entry = true;
+#endif
+}
+
+drop_locations pickup_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    int count = 0;
+    while( true ) {
+        ui_manager::redraw();
+
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) { // Single Item from mouse
+            select( input.entry->any_item() );
+            toggle_entries( count );
+        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+        } else if( input.action == "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
+            int query_result = query_count();
+            if( query_result < 0 ) {
+                continue; // Skip selecting any if invalid result or user canceled prompt
+            }
+            toggle_entries( query_result );
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count );
+        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
+        } else if( input.action == "CONFIRM" ) {
+            if( to_use.empty() ) {
+                popup_getkey( _( "No items were selected.  Use %s to select them." ),
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                continue;
+            }
+            break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_locations();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            query_set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO: implement favoriting in multi selection menus while maintaining selection
+        } else {
+            on_input( input );
+        }
+    }
+
+    drop_locations dropped_pos_and_qty;
+    for( const std::pair<item_location, int> &drop_pair : to_use ) {
+        dropped_pos_and_qty.push_back( drop_pair );
+    }
+
+    return dropped_pos_and_qty;
+}
+
+void pickup_selector::reassign_custom_invlets()
+{
+    const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+    const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+    int cur_idx = 0;
+    for( inventory_column *elem : columns ) {
+        elem->prepare_paging();
+        cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+    }
+}
+
+inventory_selector::stats pickup_selector::get_raw_stats() const
+{
+    units::mass weight;
+    units::volume volume;
+
+    for( const drop_location &loc : to_use ) {
+        if( loc.first->count_by_charges() ) {
+            item copy( *loc.first.get_item() );
+            copy.charges = loc.second;
+            weight += copy.weight();
+            volume += copy.volume();
+        } else {
+            weight += loc.first->weight() * loc.second;
+            volume += loc.first->volume() * loc.second;
+        }
+    }
+
+    return get_weight_and_volume_stats(
+               u.weight_carried() + weight,
+               u.weight_capacity(),
+               u.volume_carried() + volume,
+               u.volume_capacity(),
+               u.max_single_item_length(),
+               u.max_single_item_volume() );
 }

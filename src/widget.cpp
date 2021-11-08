@@ -303,7 +303,7 @@ int widget::get_var_value( const avatar &ava )
     return value;
 }
 
-std::string widget::show( const avatar &ava )
+std::string widget::show( avatar &ava )
 {
     if( uses_text_function() ) {
         // Text functions are a carry-over from before widgets, with existing functions generating
@@ -350,7 +350,7 @@ bool widget::uses_text_function()
     }
 }
 
-std::string widget::color_text_function_string( const avatar &ava )
+std::string widget::color_text_function_string( avatar &ava )
 {
     std::string ret;
     std::pair<std::string, nc_color> desc;
@@ -554,7 +554,7 @@ std::string widget::graph( int value, int value_max )
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width )
+std::string widget::layout( avatar &ava, const unsigned int max_width )
 {
     std::string ret;
     if( _style == "layout" ) {
