@@ -58,6 +58,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_ter_furn_transform.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -3980,6 +3981,20 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
             if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
                 ter_set( t, from );
             }
+        }
+    }
+}
+
+void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p,
+                            const bool same_submap )
+{
+    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
+    for( const tripoint &t : points_on_zlevel() ) {
+        const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
+        const float radiX = trig_dist( p, t );
+        // within distance, and either no submap limitation or same overmap coords.
+        if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+            transform->transform( t );
         }
     }
 }
