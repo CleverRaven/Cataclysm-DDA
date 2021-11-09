@@ -647,11 +647,6 @@
     }
   },
   {
-    "name": "GROUP_MAPGEN_POOL",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 500 }, { "monster": "mon_zombie_swimmer", "weight": 500, "cost_multiplier": 0 } ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "pool_5",
@@ -748,6 +743,6 @@
   {
     "name": "GROUP_MAPGEN_POOL",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 700 }, { "monster": "mon_zombie_swimmer", "weight": 300, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_zombie_swimmer", "weight": 1 } ]
   }
 ]
