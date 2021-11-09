@@ -109,7 +109,14 @@
           "                        ",
           "                        "
         ],
-        "terrain": { "g": "t_region_groundcover", ".": "t_region_groundcover_barren", "a": "t_region_groundcover_barren", "b": "t_region_groundcover_barren", "R": "t_region_groundcover_barren", "F": "t_region_groundcover_barren" },
+        "terrain": {
+          "g": "t_region_groundcover",
+          ".": "t_region_groundcover_barren",
+          "a": "t_region_groundcover_barren",
+          "b": "t_region_groundcover_barren",
+          "R": "t_region_groundcover_barren",
+          "F": "t_region_groundcover_barren"
+        },
         "furniture": { "a": "f_ash" },
         "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
         "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
