@@ -198,6 +198,8 @@ void computer::serialize( JsonOut &jout ) const
     jout.member( "access_denied", access_denied );
     jout.member( "eocs", eocs );
     jout.member( "chat_topics", chat_topics );
+    jout.member( "values", values );
+    jout.member( "loc", loc );
     jout.end_object();
 }
 
@@ -217,6 +219,8 @@ void computer::deserialize( const JsonValue &jv )
         jo.read( "access_denied", access_denied );
         jo.read( "eocs", eocs );
         jo.read( "chat_topics", chat_topics );
+        jo.read( "values", values );
+        jo.read( "loc", loc );
     }
 }
 
