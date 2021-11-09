@@ -146,7 +146,8 @@ class inventory_entry
         bool highlight_as_parent = false;
         bool highlight_as_child = false;
         bool collapsed = false;
-        bool allow_hide = false;
+        // topmost visible parent, used for visibility checks
+        item *topmost_parent = nullptr;
 
     private:
         const item_category *custom_category = nullptr;
@@ -511,7 +512,7 @@ class inventory_selector
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
         void add_contained_items( item_location &container, inventory_column &column,
-                                  const item_category *custom_category = nullptr, bool allow_hide = false );
+                                  const item_category *custom_category = nullptr, item *topmost_parent = nullptr );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -560,12 +561,12 @@ class inventory_selector
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
                         const item_category *custom_category = nullptr,
-                        size_t chosen_count = 0, bool allow_hide = false );
+                        size_t chosen_count = 0, item *topmost_parent = nullptr );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
                        const item_category *custom_category = nullptr,
-                       const bool allow_hide = false );
+                       item *topmost_parent = nullptr );
 
         void add_items( inventory_column &target_column,
                         const std::function<item_location( item * )> &locator,
