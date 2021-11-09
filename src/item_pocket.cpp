@@ -853,7 +853,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
-    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
+    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined or just the plate size for ablative plates
+    // if( data->get_flag_restrictions())
     if( data->ammo_restriction.empty() ) {
         info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
         info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
