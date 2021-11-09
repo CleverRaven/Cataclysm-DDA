@@ -724,24 +724,12 @@ void inventory_column::set_stack_favorite( std::vector<item_location> &locations
 void inventory_column::set_collapsed( inventory_entry &entry, const bool collapse )
 {
     std::vector<item_location> &locations = entry.locations;
-    std::function<void( item_pocket *, bool )> do_collapse;
-    do_collapse = [ collapse, &do_collapse ]( item_pocket * pock, bool clps ) {
-        pock->settings.set_collapse( collapse );
-        for( item *lctn : pock->all_items_top() ) {
-            if( lctn->is_container() ) {
-                for( item_pocket *pocket : lctn->get_all_contained_pockets().value() ) {
-                    do_collapse( pocket, clps );
-                }
-            }
-        }
-    };
 
     bool collapsed = false;
     for( item_location &loc : locations ) {
         if( loc.get_item()->is_container() ) {
             for( item_pocket *pocket : loc->get_all_contained_pockets().value() ) {
                 pocket->settings.set_collapse( collapse );
-                do_collapse( pocket, collapse );
                 collapsed = true;
             }
         }
