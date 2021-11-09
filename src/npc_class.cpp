@@ -41,25 +41,25 @@ static const std::array<npc_class_id, 19> legacy_ids = {{
     }
 };
 
-const npc_class_id NC_NONE( "NC_NONE" );
-const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-const npc_class_id NC_HACKER( "NC_HACKER" );
+const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
+const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+const npc_class_id NC_COWBOY( "NC_COWBOY" );
 const npc_class_id NC_CYBORG( "NC_CYBORG" );
 const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-const npc_class_id NC_TRADER( "NC_TRADER" );
-const npc_class_id NC_NINJA( "NC_NINJA" );
-const npc_class_id NC_COWBOY( "NC_COWBOY" );
-const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-const npc_class_id NC_THUG( "NC_THUG" );
-const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-const npc_class_id NC_HUNTER( "NC_HUNTER" );
-const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+const npc_class_id NC_HACKER( "NC_HACKER" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
+const npc_class_id NC_HUNTER( "NC_HUNTER" );
+const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_NINJA( "NC_NINJA" );
+const npc_class_id NC_NONE( "NC_NONE" );
+const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
+const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
+const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
+const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
+const npc_class_id NC_THUG( "NC_THUG" );
+const npc_class_id NC_TRADER( "NC_TRADER" );
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 

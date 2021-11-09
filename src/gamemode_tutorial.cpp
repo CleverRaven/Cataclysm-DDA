@@ -44,6 +44,12 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
 
 static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
+static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
+static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
+static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
+static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
+static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
+static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
 static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
 static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
@@ -52,12 +58,6 @@ static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
 static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
 static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
 static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
-static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
-static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
-static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
-static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
-static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
-static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 
 namespace io
 {

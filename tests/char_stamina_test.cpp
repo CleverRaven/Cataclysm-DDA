@@ -10,9 +10,9 @@
 
 static const efftype_id effect_winded( "winded" );
 
-static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
 // These test cases cover stamina-related functions in the `Character` class, including:
 //
 // - stamina_move_cost_modifier

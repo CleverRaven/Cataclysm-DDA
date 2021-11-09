@@ -24,8 +24,8 @@
 #include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
-static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id itype_battery( "battery" );
 
 std::string vehicle::disp_name() const
 {

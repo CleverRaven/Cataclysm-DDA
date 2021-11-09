@@ -38,9 +38,9 @@
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
-static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
 
 struct itype;
