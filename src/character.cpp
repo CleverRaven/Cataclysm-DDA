@@ -743,6 +743,11 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
     int limit = 0;
+    // This value is used to calculate the number of sights.
+    // Redundant sights will make the character spend more time deciding which sights to use,
+    // thus reducing the efficiency of aiming.
+    // Sights without flag_DISABLE_SIGHTS are not counted in this value because they can be used simultaneously with other sights
+    int n_disabled_sights = 0;
     if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         sight_speed_modifier = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 : 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
@@ -751,19 +756,25 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         bool zoom = e->has_flag( flag_ZOOM );
+        if( e->has_flag( flag_DISABLE_SIGHTS ) ) {
+            n_disabled_sights++;
+        }
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
         int effective_aim_speed = mod.aim_speed;
         if( zoom && mod.aim_speed < 6 ) {
+            // Sights with magnification function will be compensated for aiming speed at low recoil
             effective_aim_speed += ( 6 - mod.aim_speed ) * logarithmic( -recoil / ( MAX_RECOIL / 5 ) ) * 2;
-            //effective_aim_speed = 6;
         }
         if( effective_dispersion( mod.sight_dispersion, zoom ) < recoil &&
             effective_aim_speed > sight_speed_modifier ) {
             sight_speed_modifier = effective_aim_speed;
             limit = effective_dispersion( mod.sight_dispersion, zoom );
         }
+    }
+    if( n_disabled_sights >= 2 || ( n_disabled_sights == 1 && !gun.has_flag( flag_DISABLE_SIGHTS ) ) ) {
+        sight_speed_modifier = std::max( 0, sight_speed_modifier - 2 );
     }
     return std::make_pair( sight_speed_modifier, limit );
 }
