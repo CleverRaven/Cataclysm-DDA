@@ -406,7 +406,6 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  update_fragment_cloud, accumulate_fragment_cloud>
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
-    Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint &target : area ) {
@@ -450,38 +449,8 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 }
             }
             int total_hits = damaging_hits + non_damaging_hits;
-            if( total_hits > 0 && player_character.sees( *critter ) ) {
-                // Building a phrase to summarize the fragment effects.
-                // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
-                std::map<int, std::string> impact_count_descriptions = {
-                    { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
-                    { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
-                    { std::numeric_limits<int>::max(), _( "an immense number of" ) }
-                };
-                std::string impact_count = std::find_if(
-                                               impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                [total_hits]( const std::pair<int, std::string> &desc ) {
-                    return desc.first >= total_hits;
-                } )->second;
-                std::string damage_description = ( damage_taken > 0 ) ?
-                                                 string_format( _( "dealing %d damage" ), damage_taken ) :
-                                                 _( "but they deal no damage" );
-                if( critter->is_avatar() ) {
-                    add_msg( n_gettext( "You are hit by %s bomb fragment, %s.",
-                                        "You are hit by %s bomb fragments, %s.", total_hits ),
-                             impact_count, damage_description );
-                } else if( critter->is_npc() ) {
-                    critter->add_msg_if_npc(
-                        n_gettext( "<npcname> is hit by %s bomb fragment, %s.",
-                                   "<npcname> is hit by %s bomb fragments, %s.",
-                                   total_hits ),
-                        impact_count, damage_description );
-                } else {
-                    add_msg( n_gettext( "%s is hit by %s bomb fragment, %s.",
-                                        "%s is hit by %s bomb fragments, %s.", total_hits ),
-                             critter->disp_name( false, true ), impact_count, damage_description );
-                }
-            }
+            multi_projectile_hit_message( critter, total_hits, damage_taken, n_gettext( "bomb fragment",
+                                          "bomb fragments", total_hits ) );
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
