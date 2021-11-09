@@ -49,7 +49,7 @@ static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
-static const json_character_flag json_flag_IGNORE_TEMP("IGNORE_TEMP");
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
