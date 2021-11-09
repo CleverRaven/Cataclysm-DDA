@@ -45,11 +45,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_TOWER",
-    "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 40 } ]
+    "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_FLOWERS",
-    "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 40 } ]
+    "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   }
 ]
