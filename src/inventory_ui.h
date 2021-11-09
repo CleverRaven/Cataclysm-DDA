@@ -397,6 +397,10 @@ class inventory_column
             indent_entries_override = entry_override;
         }
 
+        void invalidate_paging() {
+            paging_is_valid = false;
+        }
+
     protected:
         struct entry_cell_cache_t {
             bool assigned = false;
