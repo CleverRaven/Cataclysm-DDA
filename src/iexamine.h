@@ -47,7 +47,8 @@ namespace iexamine
 
 bool try_start_hacking( Character &you, const tripoint &examp, bool interactive );
 
-void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype, bool interactive );
+void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype,
+                       bool interactive );
 
 void none( Character &you, const tripoint &examp, bool interactive );
 
@@ -156,7 +157,8 @@ void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id 
 void harvest_plant_ex( Character &you, const tripoint &examp, bool interactive );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity, bool interactive );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
-itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player, bool rand_fert = false );
+itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player,
+                            bool rand_fert = false );
 ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions

@@ -537,7 +537,9 @@ void iexamine::attunement_altar( Character &you, const tripoint &, bool interact
     } else {
         attunement = random_entry( attunements );
     }
-    if( !interactive || query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ), attunement->name() ) ) ) {
+    if( !interactive ||
+        query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
+                                 attunement->name() ) ) ) {
         you.toggle_trait( attunement );
         you.add_msg_if_player( m_info, attunement->desc() );
     } else {
@@ -1708,7 +1710,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp, bo
 
     for( item *it : picklocks ) {
         if( interactive && !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
-                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+                                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
@@ -1998,7 +2000,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp, bool interac
     // Two y/n prompts is just too much
     if( can_drink_nectar( you ) ) {
         if( interactive && !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
-                       here.furnname( examp ) ) ) {
+                                      here.furnname( examp ) ) ) {
             return;
         }
         add_msg( _( "You slowly suck up the nectar." ) );
@@ -2092,7 +2094,9 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp, bool intera
             return;
         }
     } else {
-        if( interactive && !query_yn( _( "You don't have a digging tool to dig up roots.  Pick %s anyway?" ), here.furnname( examp ) ) ) {
+        if( interactive &&
+            !query_yn( _( "You don't have a digging tool to dig up roots.  Pick %s anyway?" ),
+                       here.furnname( examp ) ) ) {
             none( you, examp, interactive );
             return;
         }
@@ -2199,7 +2203,7 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp, bool inter
     map &here = get_map();
     if( can_drink_nectar( you ) ) {
         if( interactive && !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
-                       here.furnname( examp ) ) ) {
+                                      here.furnname( examp ) ) ) {
             return;
         }
         you.moves -= to_moves<int>( 30_seconds ); // Takes 30 seconds
@@ -2467,7 +2471,8 @@ void iexamine::harvest_plant_ex( Character &you, const tripoint &examp, bool int
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_activity, bool interactive )
+void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_activity,
+                              bool interactive )
 {
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -2621,7 +2626,8 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
     // Choose fertilizer from list
     int f_index = 0;
     if( f_types.size() > 1 ) {
-        f_index = rand_fert ? rng( 0, f_types.size() - 1 ) : uilist( _( "Use which fertilizer?" ), f_names );
+        f_index = rand_fert ? rng( 0, f_types.size() - 1 ) : uilist( _( "Use which fertilizer?" ),
+                  f_names );
     }
     if( f_index < 0 ) {
         return itype_id();
@@ -3859,7 +3865,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp, bool in
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
           get_creature_tracker().creature_at( examp ) != nullptr ) &&
-         interactive && !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
+        interactive && !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
         none( you, examp, interactive );
         return;
     }
@@ -4033,7 +4039,8 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload, bool interactive )
+static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload,
+                              bool interactive )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
@@ -4047,7 +4054,9 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     const int amount_in_furn = count_charges_in_list( ammo, items_here );
     const int amount_in_inv = you.crafting_inventory().charges_of( ammo->get_id() );
     if( allow_unload && amount_in_furn > 0 ) {
-        if( interactive && you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn, ammo->nname( amount_in_furn ) ) ) {
+        if( interactive &&
+            you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
+                          ammo->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
@@ -4075,7 +4084,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     if( interactive ) {
         //~ Loading fuel or other items into a piece of furniture.
         const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 ammo->nname( max_amount ), f.name() );
+                                     ammo->nname( max_amount ), f.name() );
         amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
