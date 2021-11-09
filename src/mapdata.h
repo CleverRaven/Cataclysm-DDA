@@ -479,7 +479,7 @@ struct map_data_common_t {
         bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_functions func );
-        void examine( Character &, const tripoint & ) const;
+        void examine( Character &, const tripoint &, bool interactive = true ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.

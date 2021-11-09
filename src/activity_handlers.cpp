@@ -2948,7 +2948,7 @@ void activity_handlers::armor_layers_do_turn( player_activity *, Character *you 
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
 {
-    iexamine::atm( *you, you->pos() );
+    iexamine::atm( *you, you->pos(), true );
 }
 
 // fish-with-rod fish catching function.

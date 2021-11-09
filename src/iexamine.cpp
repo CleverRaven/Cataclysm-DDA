@@ -245,7 +245,7 @@ static const time_duration milling_time = 6_hours;
 /**
  * Nothing player can interact with here.
  */
-void iexamine::none( Character &/*p*/, const tripoint &examp )
+void iexamine::none( Character &/*p*/, const tripoint &examp, bool )
 {
     add_msg( _( "That is a %s." ), get_map().name( examp ) );
 }
@@ -277,8 +277,12 @@ bool iexamine::harvestable_now( const tripoint &examp )
 /**
  * Pick an appropriate item and apply diamond coating if possible.
  */
-void iexamine::cvdmachine( Character &you, const tripoint & )
+void iexamine::cvdmachine( Character &you, const tripoint &, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     // Select an item to which it is possible to apply a diamond coating
     item_location loc = g->inv_map_splice( []( const item & e ) {
         return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
@@ -318,8 +322,12 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 /**
  * Change player eye and skin colour
  */
-void iexamine::change_appearance( Character &you, const tripoint & )
+void iexamine::change_appearance( Character &you, const tripoint &, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     uilist amenu;
     amenu.title = _( "Change what?" );
     amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
@@ -337,8 +345,12 @@ void iexamine::change_appearance( Character &you, const tripoint & )
  * TEMPLATE FABRICATORS
  * Generate items from found blueprints.
  */
-void iexamine::nanofab( Character &you, const tripoint &examp )
+void iexamine::nanofab( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     bool table_exists = false;
     tripoint spawn_point;
     map &here = get_map();
@@ -401,11 +413,11 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
 
 /// @brief Use "gas pump."
 /// @details Will pump any liquids on tile.
-void iexamine::gaspump( Character &you, const tripoint &examp )
+void iexamine::gaspump( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
-        none( you, examp );
+    if( !interactive || !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -454,7 +466,7 @@ static bool has_attunement_spell_prereqs( Character &you, const trait_id &attune
     return true;
 }
 
-void iexamine::attunement_altar( Character &you, const tripoint & )
+void iexamine::attunement_altar( Character &you, const tripoint &, bool interactive )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
@@ -507,21 +519,25 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
         you.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
         return;
     }
-    uilist attunement_list;
-    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
-    for( const trait_id &attunement : attunements ) {
-        attunement_list.addentry( attunement->name() );
+    trait_id attunement;
+    if( interactive ) {
+        uilist attunement_list;
+        attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
+        for( const trait_id &attunement : attunements ) {
+            attunement_list.addentry( attunement->name() );
+        }
+        attunement_list.query();
+        if( attunement_list.ret == UILIST_CANCEL ) {
+            you.add_msg_if_player( _( "Maybe later." ) );
+            return;
+        }
+        auto attunement_iter = attunements.begin();
+        std::advance( attunement_iter, attunement_list.ret );
+        attunement = *attunement_iter;
+    } else {
+        attunement = random_entry( attunements );
     }
-    attunement_list.query();
-    if( attunement_list.ret == UILIST_CANCEL ) {
-        you.add_msg_if_player( _( "Maybe later." ) );
-        return;
-    }
-    auto attunement_iter = attunements.begin();
-    std::advance( attunement_iter, attunement_list.ret );
-    const trait_id &attunement = *attunement_iter;
-    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
-                                 attunement->name() ) ) ) {
+    if( !interactive || query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ), attunement->name() ) ) ) {
         you.toggle_trait( attunement );
         you.add_msg_if_player( m_info, attunement->desc() );
     } else {
@@ -529,7 +545,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     }
 }
 
-void iexamine::translocator( Character &, const tripoint &examp )
+void iexamine::translocator( Character &, const tripoint &examp, bool interactive )
 {
     /// @todo fix point types
     const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
@@ -539,7 +555,7 @@ void iexamine::translocator( Character &, const tripoint &examp )
         player_character.translocators.activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+        if( !interactive || query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
             player_character.translocators.deactivate_teleporter( omt_loc, examp );
         }
     }
@@ -894,16 +910,24 @@ class atm_menu
 /**
  * launches the atm menu class which then handles all the atm interactions.
  */
-void iexamine::atm( Character &you, const tripoint & )
+void iexamine::atm( Character &you, const tripoint &, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     atm_menu {you}.start();
 }
 
 /**
  * Generates vending machine UI and allows players to purchase contained items with a cash card.
  */
-void iexamine::vending( Character &you, const tripoint &examp )
+void iexamine::vending( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = you.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
@@ -1083,8 +1107,12 @@ void iexamine::vending( Character &you, const tripoint &examp )
 /**
  * If there's water, allow its usage but add chance of poison.
  */
-void iexamine::toilet( Character &, const tripoint &examp )
+void iexamine::toilet( Character &, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map_stack items = get_map().i_at( examp );
     auto water = items.begin();
     for( ; water != items.end(); ++water ) {
@@ -1108,10 +1136,10 @@ void iexamine::toilet( Character &, const tripoint &examp )
 /**
  * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
  */
-void iexamine::elevator( Character &you, const tripoint &examp )
+void iexamine::elevator( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
+    if( interactive && !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
     int movez = examp.z < 0 ? 2 : -2;
@@ -1166,16 +1194,16 @@ void iexamine::elevator( Character &you, const tripoint &examp )
 /**
  * Open gate.
  */
-void iexamine::controls_gate( Character &you, const tripoint &examp )
+void iexamine::controls_gate( Character &you, const tripoint &examp, bool interactive )
 {
-    if( !query_yn( _( "Use the %s?" ), get_map().tername( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Use the %s?" ), get_map().tername( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
     g->open_gate( examp );
 }
 
-bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+bool iexamine::try_start_hacking( Character &you, const tripoint &examp, bool /*interactive*/ )
 {
     if( you.has_trait( trait_ILLITERATE ) ) {
         add_msg( _( "You cannot read!" ) );
@@ -1192,26 +1220,30 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     return true;
 }
 
-void iexamine::cardreader_robofac( Character &you, const tripoint &examp )
+void iexamine::cardreader_robofac( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     itype_id card_type = itype_id_science;
     if( you.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
         you.mod_moves( -100 );
         you.use_amount( card_type, 1 );
         add_msg( m_bad, _( "The card reader short circuits!" ) );
         get_map().ter_set( examp, t_card_reader_broken );
-        intercom( you, examp );
+        intercom( you, examp, interactive );
     } else {
         add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
     }
 }
 
-void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
+void iexamine::cardreader_foodplace( Character &you, const tripoint &examp, bool interactive )
 {
     bool open = false;
     if( ( you.is_wearing( itype_foodperson_mask ) ||
           you.is_wearing( itype_foodperson_mask_on ) ) &&
-        query_yn( _( "Press mask on the reader?" ) ) ) {
+        ( !interactive || query_yn( _( "Press mask on the reader?" ) ) ) ) {
         you.mod_moves( -100 );
         map &here = get_map();
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
@@ -1227,7 +1259,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
                            _( "\"Hello Foodperson.  Welcome home.\"" ), true, "speech", "welcome" );
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
-            if( query_yn( _( "Lock doors?" ) ) ) {
+            if( !interactive || query_yn( _( "Lock doors?" ) ) ) {
                 for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
                     if( here.ter( tmp ) == t_door_metal_o || here.ter( tmp ) == t_door_metal_c ) {
                         if( you.pos() == tmp ) {
@@ -1248,14 +1280,18 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
-        if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            try_start_hacking( you, examp );
+        if( interactive && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+            try_start_hacking( you, examp, interactive );
         }
     }
 }
 
-void iexamine::intercom( Character &you, const tripoint &examp )
+void iexamine::intercom( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
         return guy.myclass == NC_ROBOFAC_INTERCOM && rl_dist( guy.pos(), examp ) < 10;
     } );
@@ -1270,7 +1306,7 @@ void iexamine::intercom( Character &you, const tripoint &examp )
 /**
  * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */
-void iexamine::rubble( Character &you, const tripoint &examp )
+void iexamine::rubble( Character &you, const tripoint &examp, bool interactive )
 {
     int moves;
     if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ) {
@@ -1284,7 +1320,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
     map &here = get_map();
     if( ( here.veh_at( examp ) || here.can_see_trap_at( examp, you ) ||
           get_creature_tracker().creature_at( examp ) != nullptr ) &&
-        !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
+        interactive && !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
     you.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
@@ -1294,12 +1330,12 @@ void iexamine::rubble( Character &you, const tripoint &examp )
 /**
  * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
  */
-void iexamine::chainfence( Character &you, const tripoint &examp )
+void iexamine::chainfence( Character &you, const tripoint &examp, bool interactive )
 {
     // We're not going to do anything if we're already on that point.
     // Also prompt the player before taking an action.
-    if( you.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
-        none( you, examp );
+    if( you.pos() == examp || ( interactive && !query_yn( _( "Climb obstacle?" ) ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -1352,10 +1388,10 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
 /**
  * If player has amorphous trait, slip through the bars.
  */
-void iexamine::bars( Character &you, const tripoint &examp )
+void iexamine::bars( Character &you, const tripoint &examp, bool interactive )
 {
     if( !you.has_trait( trait_AMORPHOUS ) ) {
-        none( you, examp );
+        none( you, examp, interactive );
         return;
     }
     map &here = get_map();
@@ -1367,8 +1403,8 @@ void iexamine::bars( Character &you, const tripoint &examp )
             return;
         }
     }
-    if( !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
     you.moves -= to_moves<int>( 2_seconds );
@@ -1376,10 +1412,10 @@ void iexamine::bars( Character &you, const tripoint &examp )
     you.setpos( examp );
 }
 
-void iexamine::deployed_furniture( Character &you, const tripoint &pos )
+void iexamine::deployed_furniture( Character &you, const tripoint &pos, bool interactive )
 {
     map &here = get_map();
-    if( !query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
+    if( interactive && !query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
         return;
     }
     you.add_msg_if_player( m_info, _( "You take down the %s." ),
@@ -1412,7 +1448,7 @@ static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const fur
 /**
  * Determine structure's type and prompts its removal.
  */
-void iexamine::portable_structure( Character &you, const tripoint &examp )
+void iexamine::portable_structure( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     const furn_str_id fid = here.furn( examp ).id();
@@ -1431,7 +1467,7 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
         if( !actor.check_intact( examp ) ) {
             if( !actor.broken_type ) {
                 add_msg( _( "The %s is broken and can not be picked up." ), name );
-                none( you, examp );
+                none( you, examp, interactive );
                 return;
             }
             dropped = *actor.broken_type;
@@ -1442,8 +1478,8 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
         radius = std::max( 1, fid->bash.collapse_radius );
     }
 
-    if( !query_yn( _( "Take down the %s?" ), name ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Take down the %s?" ), name ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -1455,18 +1491,18 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
 /**
  * If there is a 2x4 around, prompt placing it across pit.
  */
-void iexamine::pit( Character &you, const tripoint &examp )
+void iexamine::pit( Character &you, const tripoint &examp, bool interactive )
 {
     const inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_amount( itype_2x4, 1 ) ) {
-        none( you, examp );
+        none( you, examp, interactive );
         return;
     }
     std::vector<item_comp> planks;
     planks.emplace_back( itype_2x4, 1 );
 
     map &here = get_map();
-    if( query_yn( _( "Place a plank over the pit?" ) ) ) {
+    if( !interactive || query_yn( _( "Place a plank over the pit?" ) ) ) {
         you.consume_items( planks, 1, is_crafting_component );
         if( here.ter( examp ) == t_pit ) {
             here.ter_set( examp, t_pit_covered );
@@ -1483,10 +1519,10 @@ void iexamine::pit( Character &you, const tripoint &examp )
 /**
  * Prompt removing the 2x4 placed across the pit
  */
-void iexamine::pit_covered( Character &you, const tripoint &examp )
+void iexamine::pit_covered( Character &you, const tripoint &examp, bool interactive )
 {
-    if( !query_yn( _( "Remove cover?" ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Remove cover?" ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -1508,7 +1544,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
 /**
  * Loop prompt to bet $10.
  */
-void iexamine::slot_machine( Character &you, const tripoint & )
+void iexamine::slot_machine( Character &you, const tripoint &, bool interactive )
 {
     const int price = 10;
     auto cents = []( int x ) {
@@ -1520,7 +1556,7 @@ void iexamine::slot_machine( Character &you, const tripoint & )
             add_msg( m_info, _( "You need $%d to play." ), price );
             break;
         }
-        if( !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
+        if( interactive && !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
             break;
         }
         you.cash -= cents( price );
@@ -1543,6 +1579,10 @@ void iexamine::slot_machine( Character &you, const tripoint & )
             popup( _( "No win." ) );
         }
         you.cash += cents( won );
+        // Only play once if triggered non-interactively
+        if( !interactive ) {
+            break;
+        }
     }
 }
 
@@ -1553,7 +1593,7 @@ void iexamine::slot_machine( Character &you, const tripoint & )
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
-void iexamine::safe( Character &you, const tripoint &examp )
+void iexamine::safe( Character &you, const tripoint &examp, bool interactive )
 {
     bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
@@ -1585,7 +1625,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
     } else if( you.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
-    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
+    } else if( !interactive || query_yn( _( "Attempt to crack the safe?" ) ) ) {
         you.assign_activity( player_activity( safecracking_activity_actor( examp ) ) );
     }
 }
@@ -1593,17 +1633,17 @@ void iexamine::safe( Character &you, const tripoint &examp )
 /**
  * Attempt to "hack" the gunsafe's electronic lock and open it.
  */
-void iexamine::gunsafe_el( Character &you, const tripoint &examp )
+void iexamine::gunsafe_el( Character &you, const tripoint &examp, bool interactive )
 {
-    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        try_start_hacking( you, examp );
+    if( !interactive || query_yn( _( "Attempt to hack this safe?" ) ) ) {
+        try_start_hacking( you, examp, interactive );
     }
 }
 
 /**
  * Checks whether PC has a crowbar then calls iuse.crowbar.
  */
-void iexamine::locked_object( Character &you, const tripoint &examp )
+void iexamine::locked_object( Character &you, const tripoint &examp, bool interactive )
 {
     item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
 
@@ -1612,7 +1652,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-            locked_object_pickable( you, examp );
+            locked_object_pickable( you, examp, interactive );
         } else {
             add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
@@ -1630,7 +1670,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 /**
 * Checks whether PC has picklocks then calls pick_lock iuse function OR assigns ACT_LOCKPICK
 */
-void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
+void iexamine::locked_object_pickable( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
 
@@ -1667,7 +1707,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+        if( interactive && !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
             return;
         }
@@ -1684,8 +1724,12 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::bulletin_board( Character &you, const tripoint &examp )
+void iexamine::bulletin_board( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     g->validate_camps();
     map &here = get_map();
     // TODO: fix point types
@@ -1713,13 +1757,13 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
 /**
  * Spawn 1d4 wyrms and sink pedestal into ground.
  */
-void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
+void iexamine::pedestal_wyrm( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     map_stack items = here.i_at( examp );
     if( !items.empty() ) {
         if( items.only_item().typeId() == itype_petrified_eye &&
-            query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
+            ( !interactive || query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) ) {
             here.i_clear( examp );
 
             item eye( itype_petrified_eye );
@@ -1740,7 +1784,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
             get_timed_events().add( timed_event_type::SPAWN_WYRMS,
                                     calendar::turn + rng( 30_seconds, 60_seconds ) );
         } else {
-            none( you, examp );
+            none( you, examp, interactive );
             add_msg( _( "You decided to leave the petrified eye on the pedestal…" ) );
             return;
         }
@@ -1750,7 +1794,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
 /**
  * Put petrified eye on pedestal causing it to sink into ground and open temple.
  */
-void iexamine::pedestal_temple( Character &you, const tripoint &examp )
+void iexamine::pedestal_temple( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     map_stack items = here.i_at( examp );
@@ -1760,7 +1804,7 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
         here.i_clear( examp );
         get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( you.has_amount( itype_petrified_eye, 1 ) &&
-               query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
+               ( !interactive || query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) ) {
         you.use_amount( itype_petrified_eye, 1 );
         add_msg( _( "The pedestal sinks into the ground…" ) );
         here.ter_set( examp, t_dirt );
@@ -1774,18 +1818,21 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
 /**
  * Unlock/open door or attempt to peek through peephole.
  */
-void iexamine::door_peephole( Character &you, const tripoint &examp )
+void iexamine::door_peephole( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     if( here.is_outside( you.pos() ) ) {
         // if door is a locked type attempt to open
         if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
-            locked_object( you, examp );
+            locked_object( you, examp, interactive );
         } else {
             you.add_msg_if_player( _( "You cannot look through the peephole from the outside." ) );
         }
 
         return;
+    }
+    if( !interactive ) {
+        return; // Don't show menu when running non-interactively
     }
 
     // Peek through the peephole, or open the door.
@@ -1805,11 +1852,11 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::fswitch( Character &you, const tripoint &examp )
+void iexamine::fswitch( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
-    if( !query_yn( _( "Flip the %s?" ), here.tername( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Flip the %s?" ), here.tername( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
     ter_id terid = here.ter( examp );
@@ -1874,7 +1921,7 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
 /**
  * If it's winter: show msg and return true. Otherwise return false
  */
-static bool dead_plant( bool flower, Character &you, const tripoint &examp )
+static bool dead_plant( bool flower, Character &you, const tripoint &examp, bool interactive )
 {
     if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
@@ -1883,7 +1930,7 @@ static bool dead_plant( bool flower, Character &you, const tripoint &examp )
             add_msg( m_info, _( "This plant is dead.  You can't get it." ) );
         }
 
-        iexamine::none( you, examp );
+        iexamine::none( you, examp, interactive );
         return true;
     }
 
@@ -1941,16 +1988,16 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
  * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
  * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
-void iexamine::flower_poppy( Character &you, const tripoint &examp )
+void iexamine::flower_poppy( Character &you, const tripoint &examp, bool interactive )
 {
-    if( dead_plant( true, you, examp ) ) {
+    if( dead_plant( true, you, examp, interactive ) ) {
         return;
     }
     map &here = get_map();
     // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
     if( can_drink_nectar( you ) ) {
-        if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
+        if( interactive && !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
                        here.furnname( examp ) ) ) {
             return;
         }
@@ -1964,8 +2011,8 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
             you.add_addiction( add_type::PKILLER, 1 );
         }
     }
-    if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -2000,15 +2047,15 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
 /**
  * Prompt pick cactus pad. Not safe for player.
  */
-void iexamine::flower_cactus( Character &you, const tripoint &examp )
+void iexamine::flower_cactus( Character &you, const tripoint &examp, bool interactive )
 {
-    if( dead_plant( true, you, examp ) ) {
+    if( dead_plant( true, you, examp, interactive ) ) {
         return;
     }
 
     map &here = get_map();
-    if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -2027,9 +2074,9 @@ void iexamine::flower_cactus( Character &you, const tripoint &examp )
 /**
  * Dig up its roots or drink its nectar if you can.
  */
-void iexamine::flower_dahlia( Character &you, const tripoint &examp )
+void iexamine::flower_dahlia( Character &you, const tripoint &examp, bool interactive )
 {
-    if( dead_plant( true, you, examp ) ) {
+    if( dead_plant( true, you, examp, interactive ) ) {
         return;
     }
 
@@ -2040,14 +2087,13 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp )
     map &here = get_map();
     bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW );
     if( can_get_root ) {
-        if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
-            none( you, examp );
+        if( interactive && !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
+            none( you, examp, interactive );
             return;
         }
     } else {
-        if( !query_yn( _( "You don't have a digging tool to dig up roots.  Pick %s anyway?" ),
-                       here.furnname( examp ) ) ) {
-            none( you, examp );
+        if( interactive && !query_yn( _( "You don't have a digging tool to dig up roots.  Pick %s anyway?" ), here.furnname( examp ) ) ) {
+            none( you, examp, interactive );
             return;
         }
     }
@@ -2074,7 +2120,7 @@ static bool query_pick( Character &who, const tripoint &target )
     if( harvest.is_null() || harvest->empty() ) {
         who.add_msg_if_player( m_info,
                                _( "Nothing can be harvested from this plant in current season." ) );
-        iexamine::none( who, target );
+        iexamine::none( who, target, true );
         return false;
     }
 
@@ -2086,51 +2132,51 @@ static bool query_pick( Character &who, const tripoint &target )
     }
 
     if( who.is_avatar() && !query_yn( query_string ) ) {
-        iexamine::none( who, target );
+        iexamine::none( who, target, true );
         return false;
     }
 
     return true;
 }
 
-void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
+void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp, bool interactive )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
-    if( !auto_forage && !query_pick( you, examp ) ) {
+    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
     you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
 }
 
-void iexamine::harvest_furn( Character &you, const tripoint &examp )
+void iexamine::harvest_furn( Character &you, const tripoint &examp, bool interactive )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "all";
-    if( !auto_forage && !query_pick( you, examp ) ) {
+    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
     you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
 }
 
-void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
+void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp, bool interactive )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
-    if( !auto_forage && !query_pick( you, examp ) ) {
+    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
     you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
 }
 
-void iexamine::harvest_ter( Character &you, const tripoint &examp )
+void iexamine::harvest_ter( Character &you, const tripoint &examp, bool interactive )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
-    if( !auto_forage && !query_pick( you, examp ) ) {
+    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
     you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
@@ -2139,20 +2185,20 @@ void iexamine::harvest_ter( Character &you, const tripoint &examp )
 /**
  * Only harvest a plant once per season.  Display message and call iexamine::none.
  */
-void iexamine::harvested_plant( Character &you, const tripoint &examp )
+void iexamine::harvested_plant( Character &you, const tripoint &examp, bool interactive )
 {
     you.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
-    iexamine::none( you, examp );
+    iexamine::none( you, examp, interactive );
 }
 
-void iexamine::flower_marloss( Character &you, const tripoint &examp )
+void iexamine::flower_marloss( Character &you, const tripoint &examp, bool interactive )
 {
     if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg( m_info, _( "This flower is still alive, despite the harsh conditions…" ) );
     }
     map &here = get_map();
     if( can_drink_nectar( you ) ) {
-        if( !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
+        if( interactive && !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
                        here.furnname( examp ) ) ) {
             return;
         }
@@ -2161,8 +2207,8 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
         // If you can drink flowers, you're post-thresh and the Mycus does not want you.
         you.add_effect( effect_teleglow, 10_minutes );
     }
-    if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
     here.furn_set( examp, f_null );
@@ -2177,14 +2223,15 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
  * @param you The player
  * @param examp Location of egg sack
  * @param montype The monster type of the created spiders.
+ * @param interactive Runs this action with input from the player (yes/no prompt)
  */
 void iexamine::egg_sack_generic( Character &you, const tripoint &examp,
-                                 const mtype_id &montype )
+                                 const mtype_id &montype, bool interactive )
 {
     map &here = get_map();
     const std::string old_furn_name = here.furnname( examp );
-    if( !query_yn( _( "Harvest the %s?" ), old_furn_name ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Harvest the %s?" ), old_furn_name ) ) {
+        none( you, examp, interactive );
         return;
     }
     here.furn_set( examp, f_egg_sacke );
@@ -2210,25 +2257,25 @@ void iexamine::egg_sack_generic( Character &you, const tripoint &examp,
     }
 }
 
-void iexamine::egg_sackbw( Character &you, const tripoint &examp )
+void iexamine::egg_sackbw( Character &you, const tripoint &examp, bool interactive )
 {
-    egg_sack_generic( you, examp, mon_spider_widow_giant_s );
+    egg_sack_generic( you, examp, mon_spider_widow_giant_s, interactive );
 }
 
-void iexamine::egg_sackcs( Character &you, const tripoint &examp )
+void iexamine::egg_sackcs( Character &you, const tripoint &examp, bool interactive )
 {
-    egg_sack_generic( you, examp, mon_spider_cellar_giant_s );
+    egg_sack_generic( you, examp, mon_spider_cellar_giant_s, interactive );
 }
 
-void iexamine::egg_sackws( Character &you, const tripoint &examp )
+void iexamine::egg_sackws( Character &you, const tripoint &examp, bool interactive )
 {
-    egg_sack_generic( you, examp, mon_spider_web_s );
+    egg_sack_generic( you, examp, mon_spider_web_s, interactive );
 }
 
 /**
  * Remove furniture. Add spore effect.
  */
-void iexamine::fungus( Character &you, const tripoint &examp )
+void iexamine::fungus( Character &you, const tripoint &examp, bool /*interactive*/ )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
@@ -2305,9 +2352,8 @@ void iexamine::plant_seed( Character &you, const tripoint &examp, const itype_id
 /**
  * If it's warm enough, pick one of the player's seeds and plant it.
  */
-void iexamine::dirtmound( Character &you, const tripoint &examp )
+void iexamine::dirtmound( Character &you, const tripoint &examp, bool interactive )
 {
-
     if( !warm_enough_to_plant( get_player_character().pos() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
@@ -2332,7 +2378,7 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
 
     auto seed_entries = get_seed_entries( seed_inv );
 
-    int seed_index = query_seed( seed_entries );
+    int seed_index = interactive ? query_seed( seed_entries ) : rng( 0, seed_entries.size() - 1 );
 
     // Did we cancel?
     if( seed_index < 0 || seed_index >= static_cast<int>( seed_entries.size() ) ) {
@@ -2395,7 +2441,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 }
 
 // Only harvest, used for autoforaging
-void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
+void iexamine::harvest_plant_ex( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -2411,15 +2457,17 @@ void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
         return;
     }
 
-    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
-        harvest_plant( you, examp, false );
+    const std::string pname = seed->get_plant_name();
+    if( ( !interactive || query_yn( _( "Harvest the %s?" ), pname ) ) &&
+        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+        harvest_plant( you, examp, false, interactive );
     }
 }
 
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_activity )
+void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_activity, bool interactive )
 {
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -2437,10 +2485,10 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
 
     const itype_id &seedType = seed->typeId();
     if( seedType == itype_fungal_seeds ) {
-        fungus( you, examp );
+        fungus( you, examp, interactive );
         here.i_clear( examp );
     } else if( seedType == itype_marloss_seed ) {
-        fungus( you, examp );
+        fungus( you, examp, interactive );
         here.i_clear( examp );
         if( you.has_trait( trait_M_DEPENDENT ) && ( you.get_kcal_percent() < 0.8f ||
                 you.get_thirst() > 300 ) ) {
@@ -2549,7 +2597,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
 }
 
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
-                                      bool ask_player )
+                                      bool ask_player, bool rand_fert )
 {
     std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
@@ -2573,7 +2621,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
     // Choose fertilizer from list
     int f_index = 0;
     if( f_types.size() > 1 ) {
-        f_index = uilist( _( "Use which fertilizer?" ), f_names );
+        f_index = rand_fert ? rng( 0, f_types.size() - 1 ) : uilist( _( "Use which fertilizer?" ), f_names );
     }
     if( f_index < 0 ) {
         return itype_id();
@@ -2582,7 +2630,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
     return f_types[f_index];
 
 }
-void iexamine::aggie_plant( Character &you, const tripoint &examp )
+void iexamine::aggie_plant( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -2601,14 +2649,14 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
     const std::string pname = seed->get_plant_name();
 
     if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
-        query_yn( _( "Harvest the %s?" ), pname ) ) {
-        harvest_plant( you, examp, false );
+        ( !interactive || query_yn( _( "Harvest the %s?" ), pname ) ) ) {
+        harvest_plant( you, examp, false, interactive );
     } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;
         }
-        itype_id fertilizer = choose_fertilizer( you, pname, true /*ask player for confirmation */ );
+        itype_id fertilizer = choose_fertilizer( you, pname, interactive );
 
         if( !fertilizer.is_empty() ) {
             fertilize_plant( you, examp, fertilizer );
@@ -2617,7 +2665,7 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 }
 
 // Highly modified fermenting vat functions
-void iexamine::kiln_empty( Character &you, const tripoint &examp )
+void iexamine::kiln_empty( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     furn_id cur_kiln_type = here.furn( examp );
@@ -2678,7 +2726,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     } else {
         add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
                  format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Fire the kiln?" ) ) ) {
+        if( interactive && !query_yn( _( "Fire the kiln?" ) ) ) {
             return;
         }
     }
@@ -2692,7 +2740,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     add_msg( _( "You fire the charcoal kiln." ) );
 }
 
-void iexamine::kiln_full( Character &, const tripoint &examp )
+void iexamine::kiln_full( Character &, const tripoint &examp, bool /*interactive*/ )
 {
     map &here = get_map();
     furn_id cur_kiln_type = here.furn( examp );
@@ -2750,7 +2798,7 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 //arc furnance start
-void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
+void iexamine::arcfurnace_empty( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     furn_id cur_arcfurnace_type = here.furn( examp );
@@ -2809,7 +2857,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
     } else {
         add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
                  format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Turn on the furnace?" ) ) ) {
+        if( interactive && !query_yn( _( "Turn on the furnace?" ) ) ) {
             return;
         }
     }
@@ -2823,7 +2871,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
     add_msg( _( "You turn on the furnace." ) );
 }
 
-void iexamine::arcfurnace_full( Character &, const tripoint &examp )
+void iexamine::arcfurnace_full( Character &, const tripoint &examp, bool /*interactive*/ )
 {
     map &here = get_map();
     furn_id cur_arcfurnace_type = here.furn( examp );
@@ -2880,7 +2928,7 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::autoclave_empty( Character &you, const tripoint &examp )
+void iexamine::autoclave_empty( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     furn_id cur_autoclave_type = here.furn( examp );
@@ -2919,11 +2967,13 @@ void iexamine::autoclave_empty( Character &you, const tripoint &examp )
     requirement_data reqs = *requirement_data_autoclave;
 
     if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
-        popup( "%s", reqs.list_missing() );
+        if( interactive ) {
+            popup( "%s", reqs.list_missing() );
+        }
         return;
     }
 
-    if( query_yn( _( "Start the autoclave?" ) ) ) {
+    if( !interactive || query_yn( _( "Start the autoclave?" ) ) ) {
 
         for( const auto &e : reqs.get_components() ) {
             you.consume_items( e, 1, is_crafting_component );
@@ -2940,7 +2990,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::autoclave_full( Character &, const tripoint &examp )
+void iexamine::autoclave_full( Character &, const tripoint &examp, bool /*interactive*/ )
 {
     map &here = get_map();
     furn_id cur_autoclave_type = here.furn( examp );
@@ -2998,8 +3048,12 @@ void iexamine::autoclave_full( Character &, const tripoint &examp )
     here.furn_set( examp, next_autoclave_type );
 }
 
-void iexamine::fireplace( Character &you, const tripoint &examp )
+void iexamine::fireplace( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     const bool already_on_fire = here.has_nearby_fire( examp, 0 );
     const bool furn_is_deployed = !here.furn( examp ).obj().deployed_item.is_empty();
@@ -3092,13 +3146,17 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
             return;
         }
         default:
-            none( you, examp );
+            none( you, examp, interactive );
             return;
     }
 }
 
-void iexamine::fvat_empty( Character &you, const tripoint &examp )
+void iexamine::fvat_empty( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     itype_id brew_type;
     std::string brew_nname;
     bool to_deposit = false;
@@ -3223,8 +3281,12 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::fvat_full( Character &you, const tripoint &examp )
+void iexamine::fvat_full( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     map_stack items_here = here.i_at( examp );
     if( items_here.empty() ) {
@@ -3336,9 +3398,13 @@ static void displace_items_except_one_liquid( const tripoint &examp )
     here.furn_set( examp, previous_furn );
 }
 
-void iexamine::keg( Character &you, const tripoint &examp )
+void iexamine::keg( Character &you, const tripoint &examp, bool interactive )
 {
-    none( you, examp );
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
+    none( you, examp, interactive );
     map &here = get_map();
     const auto keg_name = here.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
@@ -3536,14 +3602,15 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 }
 
 static void pick_plant( Character &you, const tripoint &examp,
-                        const itype_id &itemType, ter_id new_ter, bool seeds = false )
+                        const itype_id &itemType, ter_id new_ter,
+                        bool seeds = false, bool ask_player = true )
 {
     map &here = get_map();
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) != "off";
-    if( you.is_avatar() && !auto_forage &&
+    if( you.is_avatar() && !auto_forage && ask_player &&
         !query_yn( _( "Harvest the %s?" ), here.tername( examp ) ) ) {
-        iexamine::none( you, examp );
+        iexamine::none( you, examp, ask_player );
         return;
     }
 
@@ -3566,7 +3633,7 @@ static void pick_plant( Character &you, const tripoint &examp,
     here.ter_set( examp, new_ter );
 }
 
-void iexamine::tree_hickory( Character &you, const tripoint &examp )
+void iexamine::tree_hickory( Character &you, const tripoint &examp, bool interactive )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
@@ -3575,7 +3642,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
     bool digging_up = false;
 
     map &here = get_map();
-    if( !auto_forage && you.is_avatar() && you.has_quality( qual_DIG ) &&
+    if( !auto_forage && interactive && you.is_avatar() && you.has_quality( qual_DIG ) &&
         query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
@@ -3591,7 +3658,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         you.add_msg_if_player( _( "You could dig this tree up for roots…" ) );
     }
 
-    if( !auto_forage && !query_pick( you, examp ) ) {
+    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
 
@@ -3606,7 +3673,7 @@ static item_location maple_tree_sap_container()
     }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
 }
 
-void iexamine::tree_maple( Character &you, const tripoint &examp )
+void iexamine::tree_maple( Character &you, const tripoint &examp, bool interactive )
 {
     if( !you.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
@@ -3636,7 +3703,7 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     here.ter_set( examp, t_tree_maple_tapped );
     add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
 
-    item_location cont_loc = maple_tree_sap_container();
+    item_location cont_loc = interactive ? maple_tree_sap_container() : item_location();
 
     item *container = cont_loc.get_item();
     if( container ) {
@@ -3648,8 +3715,12 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
+void iexamine::tree_maple_tapped( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     bool has_sap = false;
     item *container = nullptr;
     int charges = 0;
@@ -3745,25 +3816,25 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::shrub_marloss( Character &you, const tripoint &examp )
+void iexamine::shrub_marloss( Character &you, const tripoint &examp, bool interactive )
 {
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_shrub_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, t_shrub_fungal, false, interactive );
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         map &here = get_map();
         here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
         here.ter_set( examp, t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_shrub_fungal );
+        pick_plant( you, examp, itype_marloss_berry, t_shrub_fungal, false, interactive );
     }
 }
 
-void iexamine::tree_marloss( Character &you, const tripoint &examp )
+void iexamine::tree_marloss( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_tree_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, t_tree_fungal, false, interactive );
         if( you.has_trait( trait_M_DEPENDENT ) && one_in( 3 ) ) {
             // Folks have a better shot at keeping fed.
             add_msg( m_info,
@@ -3776,11 +3847,11 @@ void iexamine::tree_marloss( Character &you, const tripoint &examp )
         here.ter_set( examp, t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_tree_fungal );
+        pick_plant( you, examp, itype_marloss_berry, t_tree_fungal, false, interactive );
     }
 }
 
-void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
+void iexamine::shrub_wildveggies( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     // Ask if there's something possibly more interesting than this shrub here
@@ -3788,8 +3859,8 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
           get_creature_tracker().creature_at( examp ) != nullptr ) &&
-        !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
-        none( you, examp );
+         interactive && !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
 
@@ -3914,15 +3985,23 @@ void trap::examine( const tripoint &examp ) const
     }
 }
 
-void iexamine::water_source( Character &, const tripoint &examp )
+void iexamine::water_source( Character &, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     item water = here.water_from( examp );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::clean_water_source( Character &, const tripoint &examp )
+void iexamine::clean_water_source( Character &, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
@@ -3954,7 +4033,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload )
+static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload, bool interactive )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
@@ -3968,8 +4047,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     const int amount_in_furn = count_charges_in_list( ammo, items_here );
     const int amount_in_inv = you.crafting_inventory().charges_of( ammo->get_id() );
     if( allow_unload && amount_in_furn > 0 ) {
-        if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
-                          ammo->nname( amount_in_furn ) ) ) {
+        if( interactive && you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn, ammo->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
@@ -3993,15 +4071,18 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         return;
     }
     const int max_amount = std::min( amount_in_inv, max_reload_amount );
-    //~ Loading fuel or other items into a piece of furniture.
-    const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
+    int amount = max_amount;
+    if( interactive ) {
+        //~ Loading fuel or other items into a piece of furniture.
+        const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
                                  ammo->nname( max_amount ), f.name() );
-    int amount = string_input_popup()
+        amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
                  .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
+    }
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
@@ -4033,20 +4114,24 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     you.invalidate_crafting_inventory();
 }
 
-void iexamine::reload_furniture( Character &you, const tripoint &examp )
+void iexamine::reload_furniture( Character &you, const tripoint &examp, bool interactive )
 {
-    return reload_furniture( you, examp, true );
+    return reload_furniture( you, examp, true, interactive );
 }
 
-void iexamine::curtains( Character &you, const tripoint &examp )
+void iexamine::curtains( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     const bool closed_window_with_curtains = here.has_flag(
                 ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
                 examp );
     if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
                                           closed_window_with_curtains ) ) {
-        locked_object( you, examp );
+        locked_object( you, examp, interactive );
         return;
     }
 
@@ -4082,7 +4167,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::sign( Character &you, const tripoint &examp )
+void iexamine::sign( Character &you, const tripoint &examp, bool interactive )
 {
     map &here = get_map();
     std::string existing_signage = here.get_signage( examp );
@@ -4090,11 +4175,25 @@ void iexamine::sign( Character &you, const tripoint &examp )
 
     // Display existing message, or lack thereof.
     if( you.has_trait( trait_ILLITERATE ) ) {
-        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+        const char *msg = _( "You're illiterate, and can't read the message on the sign." );
+        if( interactive ) {
+            popup( msg );
+        } else {
+            you.add_msg_if_player( m_neutral, msg );
+            return;
+        }
     } else if( previous_signage_exists ) {
-        popup( existing_signage );
+        if( interactive ) {
+            popup( existing_signage );
+        } else {
+            you.add_msg_if_player( m_neutral, _( "The sign reads: %s" ), existing_signage );
+            return;
+        }
     } else {
         you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
+        if( !interactive ) {
+            return;
+        }
     }
 
     // Allow chance to modify message.
@@ -4354,8 +4453,11 @@ static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel
     }
 }
 
-void iexamine::pay_gas( Character &you, const tripoint &examp )
+void iexamine::pay_gas( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
 
     int choice = -1;
     const int buy_gas = 1;
@@ -4505,7 +4607,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        try_start_hacking( you, examp );
+        try_start_hacking( you, examp, interactive );
     }
 
     if( refund == choice ) {
@@ -4551,8 +4653,11 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::ledge( Character &you, const tripoint &examp )
+void iexamine::ledge( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
@@ -4776,8 +4881,12 @@ inline void popup_player_or_npc( Character &you, const char *player_mes, const c
     }
 }
 
-void iexamine::autodoc( Character &you, const tripoint &examp )
+void iexamine::autodoc( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
@@ -5678,8 +5787,12 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
     }
 }
 
-void iexamine::quern_examine( Character &you, const tripoint &examp )
+void iexamine::quern_examine( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     if( here.furn( examp ) == furn_f_water_mill ) {
         if( !here.is_water_shallow_current( examp ) ) {
@@ -5846,8 +5959,12 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::smoker_options( Character &you, const tripoint &examp )
+void iexamine::smoker_options( Character &you, const tripoint &examp, bool interactive )
 {
+    if( !interactive ) {
+        return; // Don't run non-interactively
+    }
+
     map &here = get_map();
     const bool active = here.furn( examp ) == furn_f_smoking_rack_active ||
                         here.furn( examp ) == furn_f_metal_smoking_rack_active;
@@ -6025,7 +6142,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             break;
         case 3:
             // load charcoal
-            reload_furniture( you, examp, false );
+            reload_furniture( you, examp, false, interactive );
             break;
         case 4:
             // remove food
@@ -6069,18 +6186,18 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             break;
         case 8:
             here.furn_set( examp, f_metal_smoking_rack );
-            deployed_furniture( you, examp );
+            deployed_furniture( you, examp, interactive );
             break;
     }
 }
 
-void iexamine::open_safe( Character &, const tripoint &examp )
+void iexamine::open_safe( Character &, const tripoint &examp, bool /*interactive*/ )
 {
     add_msg( m_info, _( "You open the unlocked safe." ) );
     get_map().furn_set( examp, f_safe_o );
 }
 
-void iexamine::workbench( Character &you, const tripoint &examp )
+void iexamine::workbench( Character &you, const tripoint &examp, bool /*interactive*/ )
 {
     workbench_internal( you, examp, cata::nullopt );
 }
@@ -6213,22 +6330,22 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
             break;
         }
         case undeploy: {
-            deployed_furniture( you, examp );
+            deployed_furniture( you, examp, true );
             break;
         }
     }
 }
 
-void iexamine::workout( Character &you, const tripoint &examp )
+void iexamine::workout( Character &you, const tripoint &examp, bool interactive )
 {
-    if( !query_yn( _( "Use the %s to exercise?" ), get_map().furnname( examp ) ) ) {
-        none( you, examp );
+    if( interactive && !query_yn( _( "Use the %s to exercise?" ), get_map().furnname( examp ) ) ) {
+        none( you, examp, interactive );
         return;
     }
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
-void iexamine::invalid( Character &/*you*/, const tripoint &examp )
+void iexamine::invalid( Character &/*you*/, const tripoint &examp, bool /*interactive*/ )
 {
     debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
 }

@@ -140,7 +140,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             add_msg( _( redundant_msg ) );
         }
     } else if( allow_hacking && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( you, examp );
+        iexamine::try_start_hacking( you, examp, true );
     }
 }
 

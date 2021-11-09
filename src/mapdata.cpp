@@ -527,10 +527,10 @@ void map_data_common_t::set_examine( iexamine_functions func )
     examine_func = func;
 }
 
-void map_data_common_t::examine( Character &you, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint &examp, bool interactive ) const
 {
     if( !examine_actor ) {
-        examine_func.examine( you, examp );
+        examine_func.examine( you, examp, interactive );
         return;
     }
     examine_actor->call( you, examp );

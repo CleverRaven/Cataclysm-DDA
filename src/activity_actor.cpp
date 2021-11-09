@@ -3580,7 +3580,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         }
 
         if( who.manual_examine ) {
-            iexamine::none( who, target );
+            iexamine::none( who, target, true );
         }
 
         act.set_to_null();

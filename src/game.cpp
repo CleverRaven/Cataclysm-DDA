@@ -9412,12 +9412,12 @@ point game::place_player( const tripoint &dest_loc )
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
-                    xter_t.examine( u, pos );
+                    xter_t.examine( u, pos, false );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
                            ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
                            ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
-                    xfurn_t.examine( u, pos );
+                    xfurn_t.examine( u, pos, false );
                 }
             };
 
