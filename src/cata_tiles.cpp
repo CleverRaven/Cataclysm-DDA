@@ -1883,7 +1883,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
-    if( intensity_level >= 0 ) {
+    if( intensity_level > 0 ) {
         res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
         if( res ) {
             tt = &res -> tile();
