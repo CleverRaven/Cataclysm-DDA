@@ -107,7 +107,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_1",
     "blueprint_provides": [ { "id": "blacksmith_recipes_1" }, { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
-    "blueprint_resources": [ "char_forge" ],
+    "blueprint_resources": [ "fake_forge" ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
     "blueprint_name": "workbench and forge"
