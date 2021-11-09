@@ -119,7 +119,6 @@ enum vision_modes {
     NIGHTVISION_3,
     FULL_ELFA_VISION,
     ELFA_VISION,
-    CEPH_VISION,
     /// mutate w/ id "FEL_NV" & name "Feline Vision" see pretty well at night
     FELINE_VISION,
     /// Bird mutation named "Avian Eyes": Perception +4
@@ -1085,6 +1084,8 @@ class Character : public Creature, public visitable
         bool has_trait_flag( const json_character_flag &b ) const;
         /** Returns true if player has a bionic with a flag */
         bool has_bionic_with_flag( const json_character_flag &flag ) const;
+        /** Returns true if the player has any bodypart with a flag */
+        bool has_bodypart_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic or effect with a flag */
