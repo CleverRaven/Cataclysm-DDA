@@ -587,7 +587,7 @@
     "blueprint_name": "Kitchen charcoal smoker",
     "blueprint_provides": [ { "id": "kitchen_recipes_2" } ],
     "blueprint_requires": [ { "id": "faction_base_kitchen_2" } ],
-    "blueprint_resources": [ "char_smoker" ],
+    "blueprint_resources": [ "fake_char_smoker" ],
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
@@ -645,7 +645,7 @@
     "time": "360 m",
     "construction_blueprint": "faction_base_field_camp_kitchen_5",
     "blueprint_name": "Kitchen more smoking racks",
-    "blueprint_resources": [ "fake_fireplace", "char_smoker", "char_smoker" ],
+    "blueprint_resources": [ "fake_fireplace", "fake_char_smoker", "fake_char_smoker" ],
     "blueprint_requires": [ { "id": "faction_base_kitchen_4" } ],
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
@@ -796,7 +796,7 @@
     "blueprint_name": "Blacksmithy forge and kiln",
     "blueprint_provides": [ { "id": "blacksmith" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_blacksmith_0" } ],
-    "blueprint_resources": [ "char_forge", "char_kiln", "makeshift_hammer" ],
+    "blueprint_resources": [ "fake_forge", "fake_char_kiln", "makeshift_hammer" ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
