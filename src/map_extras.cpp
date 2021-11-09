@@ -360,8 +360,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
-                                         c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
+                                         c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
@@ -520,12 +520,12 @@ static bool mx_military( map &m, const tripoint & )
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
-                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = item_group_id( "military_standard_sniper_rifles" );
-                    } else if( one_in( 20 ) ) {
+                    } else if( one_in( 19 ) ) {
                         group = item_group_id( "military_standard_shotguns" );
-                    } else if( one_in( 10 ) ) {
+                    } else if( one_in( 9 ) ) {
                         group = item_group_id( "military_standard_lmgs" );
                     } else {
                         group = item_group_id( "military_standard_assault_rifles" );
@@ -3063,7 +3063,7 @@ void debug_spawn_test()
                 if( extra == nullptr ) {
                     results[_( "none" )]++;
                 } else {
-                    results[*( ex.values.pick() )]++;
+                    results[*ex.values.pick()]++;
                 }
             } else {
                 results[_( "none" )]++;

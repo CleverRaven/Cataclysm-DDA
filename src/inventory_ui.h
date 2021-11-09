@@ -145,6 +145,7 @@ class inventory_entry
         void update_cache();
         bool highlight_as_parent = false;
         bool highlight_as_child = false;
+        bool collapsed = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -316,15 +317,14 @@ class inventory_column
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, const point &p,
-                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map,
-                   const bool allow_hide = false );
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
-        void set_collapsed( std::vector<item_location> &locations, const bool collapse );
+        void set_collapsed( inventory_entry &entry, const bool collapse );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
@@ -358,12 +358,13 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
+        int reassign_custom_invlets( int cur_idx, const std::string pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
          * Event handlers
          */
-        virtual void on_input( const inventory_input &input, const bool allow_hide = false );
+        virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
         virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
@@ -434,6 +435,7 @@ class inventory_column
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
+        std::vector<inventory_entry> entries_hidden;
         std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
@@ -542,9 +544,6 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
-        // Whether to allow hiding/unhiding of container contents in this selector.
-        bool allow_hide = false;
-
     protected:
         Character &u;
         const inventory_selector_preset &preset;
@@ -632,6 +631,9 @@ class inventory_selector
         /** Show detailed item information for selected item. */
         void action_examine( const item *sitem );
 
+        virtual void reassign_custom_invlets();
+        std::vector<inventory_column *> columns;
+
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
         // and should not be made protected or public.
@@ -717,8 +719,6 @@ class inventory_selector
         weak_ptr_fast<ui_adaptor> ui;
 
         std::unique_ptr<string_input_popup> spopup;
-
-        std::vector<inventory_column *> columns;
 
         std::string title;
         std::string hint;
@@ -817,6 +817,17 @@ class inventory_drop_selector : public inventory_multiselector
 
     private:
         bool warn_liquid;
+};
+
+class pickup_selector : public inventory_multiselector
+{
+    public:
+        explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+        drop_locations execute();
+    protected:
+        stats get_raw_stats() const override;
+        void reassign_custom_invlets() override;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

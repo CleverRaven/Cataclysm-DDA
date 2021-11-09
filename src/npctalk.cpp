@@ -819,7 +819,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
-        say( "<acknowledged>" );
+        say( chatbin.snip_acknowledged );
     }
 
     if( sees( spos ) || is_hallucination() ) {
@@ -935,7 +935,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            d.actor( true )->say( _( "Bye." ) );
+            d.actor( true )->say( _( d.actor( true )->get_npc()->chatbin.snip_bye ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -1042,7 +1042,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return _( "Bye." );
+        return _( actor( true )->get_npc()->chatbin.snip_bye );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -3130,9 +3130,9 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
                 Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
                 item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
                 dialogue newDialog(
-                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                    creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
                         item_alpha ) : nullptr,
-                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                    creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
                         item_beta ) : nullptr
                 );
                 for( const effect_on_condition_id &eoc : eocs ) {

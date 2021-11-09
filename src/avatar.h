@@ -334,7 +334,14 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
+        const mood_face_id &character_mood_face();
+        void clear_mood_face();
+
     private:
+
+        bool mood_face_horizontal = false;
+        cata::optional<mood_face_id> mood_face_cache;
+
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
 

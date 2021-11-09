@@ -490,7 +490,7 @@
     "price_postapoc": 500,
     "//": "*May* have been commercially traded, what with stem-cell treatments and all.",
     "color": "pink",
-    "healthy": 5,
+    "healthy": -3,
     "addiction_potential": 8,
     "use_action": [ "PURIFIER" ]
   },

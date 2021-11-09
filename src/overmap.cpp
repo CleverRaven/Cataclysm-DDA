@@ -199,8 +199,8 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
         return line;
     }
     // Bitwise rotation to the left.
-    return ( ( ( line << static_cast<size_t>( dir ) ) |
-               ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
+    return ( ( line << static_cast<size_t>( dir ) ) |
+             ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits;
 }
 
 constexpr size_t set_segment( size_t line, om_direction::type dir )

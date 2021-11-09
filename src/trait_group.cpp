@@ -257,10 +257,10 @@ Trait_list Trait_group_collection::create( RecursionList &rec ) const
 {
     Trait_list result;
     for( const auto &creator : creators ) {
-        if( rng( 0, 99 ) >= ( creator )->probability ) {
+        if( rng( 0, 99 ) >= creator->probability ) {
             continue;
         }
-        Trait_list tmp = ( creator )->create( rec );
+        Trait_list tmp = creator->create( rec );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
     return result;
@@ -295,11 +295,11 @@ Trait_list Trait_group_distribution::create( RecursionList &rec ) const
     Trait_list result;
     int p = rng( 0, sum_prob - 1 );
     for( const auto &creator : creators ) {
-        p -= ( creator )->probability;
+        p -= creator->probability;
         if( p >= 0 ) {
             continue;
         }
-        Trait_list tmp = ( creator )->create( rec );
+        Trait_list tmp = creator->create( rec );
         result.insert( result.end(), tmp.begin(), tmp.end() );
         break;
     }

@@ -86,6 +86,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
 static const efftype_id effect_tied( "tied" );
 
@@ -352,7 +353,7 @@ bool aim_activity_actor::load_RAS_weapon()
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
     you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
-                     ( get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) ) );
+                     get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -847,7 +848,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 here.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : here.points_in_radius( ( examp ), 3 ) ) {
+                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
                     if( here.ter( tmp ) == t_door_metal_locked ) {
                         here.ter_set( tmp, t_door_metal_c );
                     }
@@ -1498,7 +1499,8 @@ bool read_activity_actor::player_read( avatar &you )
             }
 
             if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
+                  one_in( 25 ) ) ) {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
                 } else {
@@ -1636,7 +1638,8 @@ bool read_activity_actor::npc_read( npc &learner )
 
         if( display_messages &&
             ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) ) {
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
+                one_in( 25 ) ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }
@@ -3156,14 +3159,14 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
     bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
-    if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
+    if( hand_equipment && ( who.is_limb_broken( body_part_arm_l ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( ( who.is_limb_broken( body_part_leg_l ) ) ||
+    if( leg_equipment && ( who.is_limb_broken( body_part_leg_l ) ||
                            who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
@@ -3658,7 +3661,7 @@ void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
-    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
     critter.add_effect( effect_worked_on, 1_turns );
 }
 
@@ -3685,7 +3688,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
     // Should never be null as we just checked in do_turn
-    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
 
     if( reprogram ) {
         if( critter.has_effect( effect_docile ) ) {

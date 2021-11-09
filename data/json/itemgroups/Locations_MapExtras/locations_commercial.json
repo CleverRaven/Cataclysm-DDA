@@ -608,7 +608,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -1036,6 +1036,8 @@
       { "item": "box_small", "prob": 30 },
       { "item": "rag", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
+      { "item": "bag_zipper", "prob": 3 },
+      { "item": "bag_zipper_gallon", "prob": 1 },
       { "item": "news_regional", "prob": 15 },
       { "item": "mag_news", "prob": 15 },
       { "item": "scorecard", "prob": 40 }

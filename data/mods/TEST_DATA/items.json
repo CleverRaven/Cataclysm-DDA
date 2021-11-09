@@ -95,6 +95,44 @@
     "price_postapoc": 300
   },
   {
+    "type": "GENERIC",
+    "id": "test_glass_pipe_mostly_steel",
+    "name": "TEST pipe",
+    "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "glass", "portion": 1 } ],
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "bashing": 12,
+    "price": 7500,
+    "price_postapoc": 300
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_glass_pipe_mostly_glass",
+    "name": "TEST pipe",
+    "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ { "type": "steel", "portion": 1 }, { "type": "glass", "portion": 9 } ],
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "bashing": 12,
+    "price": 7500,
+    "price_postapoc": 300
+  },
+  {
     "type": "TOOL",
     "id": "test_shears",
     "name": { "str_sp": "shears" },
@@ -106,6 +144,40 @@
     "to_hit": -1,
     "cutting": 3,
     "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SHEAR", 1 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_mostly_steel",
+    "name": { "str_sp": "shears" },
+    "description": "This is a set of shears designed to obtain wool from sheep.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "plastic", "portion": 1 } ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SHEAR", 1 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_mostly_plastic",
+    "name": { "str_sp": "shears" },
+    "description": "This is a set of shears designed to obtain wool from sheep.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ { "type": "steel", "portion": 1 }, { "type": "plastic", "portion": 9 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SHEAR", 1 ] ],
@@ -365,6 +437,44 @@
     "bashing": 20,
     "cutting": 20,
     "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
+    "use_action": [ "CROWBAR" ]
+  },
+  {
+    "id": "test_fire_ax_mostly_steel",
+    "type": "TOOL",
+    "name": "TEST fire axe",
+    "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
+    "weight": "2520 g",
+    "volume": "2 L",
+    "price": 20000,
+    "to_hit": 1,
+    "bashing": 20,
+    "cutting": 20,
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "wood", "portion": 1 } ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
+    "use_action": [ "CROWBAR" ]
+  },
+  {
+    "id": "test_fire_ax_mostly_wood",
+    "type": "TOOL",
+    "name": "TEST fire axe",
+    "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
+    "weight": "2520 g",
+    "volume": "2 L",
+    "price": 20000,
+    "to_hit": 1,
+    "bashing": 20,
+    "cutting": 20,
+    "material": [ { "type": "steel", "portion": 1 }, { "type": "wood", "portion": 9 } ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
@@ -684,6 +794,62 @@
     ]
   },
   {
+    "id": "test_hazmat_suit_noranged",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "name": "TEST hazmat suit",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 0,
+        "cover_vitals": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_hazmat_suit_nomelee",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "name": "TEST hazmat suit",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "cover_melee": 0,
+        "cover_ranged": 100,
+        "cover_vitals": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_zentai",
     "type": "ARMOR",
     "name": { "str": "test zentai" },
@@ -701,6 +867,56 @@
     "armor": [
       {
         "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_zentai_noranged",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 0,
+        "cover_vitals": 0,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_zentai_nomelee",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "cover_melee": 0,
+        "cover_ranged": 100,
+        "cover_vitals": 0,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]

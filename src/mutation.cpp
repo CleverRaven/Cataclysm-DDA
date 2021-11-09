@@ -8,6 +8,7 @@
 
 #include "activity_type.h"
 #include "avatar_action.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
@@ -171,6 +172,10 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
 }
 
 void Character::do_mutation_updates()
@@ -881,8 +886,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -891,8 +896,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -1062,6 +1067,10 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
+
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1329,8 +1338,8 @@ bool Character::mutate_towards( const trait_id &mut )
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const
 {
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
-             has_same_type_trait( flag ) );
+    return has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
+           has_same_type_trait( flag );
 }
 
 std::unordered_set<trait_id> Character::get_conflicting_traits( const trait_id &flag ) const
@@ -1442,6 +1451,10 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait
@@ -1798,8 +1811,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
-             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+    return are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+           || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b );
 }
 
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )

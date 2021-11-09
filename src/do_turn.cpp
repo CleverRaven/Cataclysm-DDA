@@ -473,8 +473,8 @@ void monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
-            critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
             critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
             critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
             g->despawn_monster( critter );

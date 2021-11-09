@@ -1187,7 +1187,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
                   "to sell…" ) );
     } else {
-        liquidate = query_yn( _( "Do you wish to sell the crop of %d %s for a profit of $%d?" ),
+        liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of $%3$d?" ),
                               number_plants, plant_names[plant_index], money );
     }
 
@@ -1928,7 +1928,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
             std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
             if( std::any_of( camp_npcs.begin(), camp_npcs.end(),
             [guy]( const npc_ptr & i ) {
-            return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+            return ( i == guy ) && ( !guy->has_companion_mission() );
             } ) ) {
                 available.push_back( guy );
             }
@@ -1941,7 +1941,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
                 if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(),
                 [guy]( const npc_ptr & i ) {
-                return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+                return ( i == guy ) && ( !guy->has_companion_mission() );
                 } ) ) {
                     available.push_back( guy );
                 }
@@ -2054,7 +2054,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
     std::vector<std::string> npcs;
     npcs.reserve( available.size() );
     for( auto &elem : available ) {
-        npcs.push_back( ( elem )->get_name() );
+        npcs.push_back( elem->get_name() );
     }
     const size_t npc_choice = uilist( _( "Who should return?" ), npcs );
     if( npc_choice < available.size() ) {

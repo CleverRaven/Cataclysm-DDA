@@ -2217,8 +2217,8 @@ void basecamp::start_fortifications( std::string &bldg_exp )
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( bldg_exp ).obj();
-        bool change_x = ( start.x() != stop.x() );
-        bool change_y = ( start.y() != stop.y() );
+        bool change_x = start.x() != stop.x();
+        bool change_y = start.y() != stop.y();
         if( change_x && change_y ) {
             popup( _( "Construction line must be straight!" ) );
             return;

@@ -167,7 +167,7 @@
     "blueprint_requires": [ { "id": "fbmk_2_fire" }, { "id": "fbmk_2_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_2_smoking" }, { "id": "fbmk_2_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_smoking" } ],
-    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ],
+    "blueprint_resources": [ "char_smoker", "char_smoker", "char_smoker", "char_kiln" ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",

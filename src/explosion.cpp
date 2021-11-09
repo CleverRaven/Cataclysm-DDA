@@ -817,10 +817,10 @@ void resonance_cascade( const tripoint &p )
                                                 player_character.pos() ) ) );
         player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 );
-    int endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 );
-    int endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
+    int startx = p.x < 8 ? 0 : p.x - 8;
+    int endx = p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8;
+    int starty = p.y < 8 ? 0 : p.y - 8;
+    int endy = p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8;
     tripoint dest( startx, starty, p.z );
     map &here = get_map();
     for( int &i = dest.x; i <= endx; i++ ) {

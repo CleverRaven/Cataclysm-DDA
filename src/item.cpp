@@ -2715,12 +2715,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             if( iternum != 0 ) {
                 mod_str += "; ";
             }
-            const int free_slots = ( elem ).second - get_free_mod_locations( elem.first );
+            const int free_slots = elem.second - get_free_mod_locations( elem.first );
             mod_str += string_format( "<bold>%d/%d</bold> %s", free_slots,  elem.second,
                                       elem.first.name() );
             bool first_mods = true;
             for( const item *gmod : gunmods() ) {
-                if( gmod->type->gunmod->location == ( elem ).first ) { // if mod for this location
+                if( gmod->type->gunmod->location == elem.first ) { // if mod for this location
                     if( first_mods ) {
                         mod_str += ": ";
                         first_mods = false;
@@ -3177,7 +3177,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         int power_armor_encumbrance_reduction = 40;
         static const itype_id itype_rm13_armor( "rm13_armor" );
 
-        if( ( is_power_armor() ) || type->get_id() == itype_rm13_armor ) {
+        if( is_power_armor() || type->get_id() == itype_rm13_armor ) {
             item tmp = *this;
 
             //no need to clutter the ui with inactive versions when the armor is already active
@@ -4405,7 +4405,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
             bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-            []( armor_portion_data data ) {
+            []( const armor_portion_data & data ) {
                 return data.encumber != data.max_encumber;
             } );
             if( any_encumb_increase ) {
@@ -5612,7 +5612,20 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    return string_format( "%s%s%s", name, sidetxt, amt );
+    std::string collapsed;
+    if( is_collapsed() ) {
+        collapsed = string_format( " %s", _( "hidden" ) );
+    }
+
+    return string_format( "%s%s%s%s", name, sidetxt, amt, collapsed );
+}
+
+bool item::is_collapsed() const
+{
+    std::vector<const item_pocket *> const &pck = get_all_contained_pockets().value();
+    return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
+        return !it->empty() && it->settings.is_collapsed();
+    } );
 }
 
 nc_color item::color() const
@@ -7899,17 +7912,18 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return true;
     }
 
-    if( is_watertight_container() && !contents.empty_container() ) {
-        if( contents.num_item_stacks() != 1 ) {
-            return false;
-        } else if( contents.only_item().typeId() == ammo ) {
+    if( is_watertight_container() ) {
+        if( ammo.obj().phase == phase_id::LIQUID && contents.num_item_stacks() == 1 &&
+            contents.only_item().made_of_from_type( phase_id::LIQUID ) &&
+            contents.only_item().typeId() == ammo ) {
             return true;
         }
-    }
-
-    if( is_watertight_container() && contents.empty_container() &&
-        ammo.obj().phase == phase_id::LIQUID ) {
-        return true;
+        if( ammo.obj().phase == phase_id::LIQUID && contents.empty_container() ) {
+            return true;
+        }
+        if( !magazine_integral() && !uses_magazine() ) {
+            return false;
+        }
     }
 
     if( magazine_integral() ) {
@@ -7932,7 +7946,20 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
-    return can_contain( *ammo, !now );
+
+    // Some items such as multi cookers have both container and magazine well pockets.
+    // Prevent trying to reload ammo that is not reloadable.
+    if( !contents.magazine_flag_restrictions().empty() ) {
+        const itype::FlagsSetType &ammo_flags = ammo.obj().get_flags();
+        for( const flag_id &flag : contents.magazine_flag_restrictions() ) {
+            if( ammo_flags.count( flag ) > 0 ) {
+                return can_contain( *ammo, !now );
+            }
+        }
+        return false;
+    } else {
+        return can_contain( *ammo, !now );
+    }
 }
 
 bool item::is_salvageable() const
@@ -9662,11 +9689,11 @@ void item::set_item_specific_energy( const float new_specific_energy )
         // Item is liquid
         new_item_temperature = freezing_temperature + ( new_specific_energy -
                                completely_liquid_specific_energy ) /
-                               ( specific_heat_liquid );
+                               specific_heat_liquid;
         freeze_percentage = 0.0f;
     } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
-        new_item_temperature = new_specific_energy / ( specific_heat_solid );
+        new_item_temperature = new_specific_energy / specific_heat_solid;
     } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;
