@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mpp",
+    "name": "Military Profession Pack",
+    "authors": [ "" ],
+    "description": "Numerous military themed professions",
+    "category": "rebalance",
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  }
+]
