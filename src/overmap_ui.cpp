@@ -85,6 +85,8 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
+static const oter_str_id oter_forest( "forest" );
+
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 #if defined(__ANDROID__)
@@ -531,7 +533,7 @@ static void draw_ascii(
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_str_id( "forest" ).id();
+    const oter_id forest = oter_forest.id();
 
     std::string sZoneName;
     tripoint_abs_omt tripointZone( -1, -1, -1 );

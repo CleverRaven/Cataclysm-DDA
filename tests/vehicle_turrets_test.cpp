@@ -19,6 +19,12 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
+static const itype_id itype_battery( "battery" );
+
+static const vpart_id vpart_storage_battery( "storage_battery" );
+
+static const vproto_id vehicle_prototype_none( "none" );
+
 static std::vector<const vpart_info *> all_turret_types()
 {
     std::vector<const vpart_info *> res;
@@ -61,9 +67,9 @@ static void install_tank_with_ammo( vehicle *veh, const itype_id &ammo_itype )
 
 static void install_charged_battery( vehicle *veh )
 {
-    const int batt_idx = veh->install_part( point_zero, vpart_id( "storage_battery" ), "", true );
+    const int batt_idx = veh->install_part( point_zero, vpart_storage_battery, "", true );
     REQUIRE( batt_idx >= 0 );
-    veh->part( batt_idx ).ammo_set( itype_id( "battery" ), -1 );
+    veh->part( batt_idx ).ammo_set( itype_battery, -1 );
 }
 
 // Install, reload and fire every possible vehicle turret.
@@ -73,7 +79,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
     Character &player_character = get_player_character();
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees );
+            vehicle *veh = here.add_vehicle( vehicle_prototype_none, point( 65, 65 ), 270_degrees );
             REQUIRE( veh );
 
             const int turr_idx = veh->install_part( point_zero, turret_vpi->get_id(), "", true );

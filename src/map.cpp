@@ -101,13 +101,39 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const ammotype ammo_battery( "battery" );
+
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+
+static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
+
+static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+
+static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
+static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
+static const material_id material_glass( "glass" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
+
+static const oter_str_id oter_deep_rock( "deep_rock" );
+static const oter_str_id oter_empty_rock( "empty_rock" );
+static const oter_str_id oter_open_air( "open_air" );
+static const oter_str_id oter_solid_earth( "solid_earth" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
+
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -3557,7 +3583,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        int glass_portion = bashed_item->made_of( material_id( "glass" ) );
+        int glass_portion = bashed_item->made_of( material_glass );
         float glass_fraction = glass_portion / static_cast<float>( bashed_item->type->mat_portion_total );
         if( glass_portion && !bashed_item->active && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
             params.did_bash = true;
@@ -3905,7 +3931,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) &&
+            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
@@ -4410,8 +4436,6 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
-    static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
-
     if( item_is_blacklisted( new_item.typeId() ) ) {
         return null_item_reference();
     }
@@ -4667,7 +4691,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     continue;
                 }
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-                if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
+                if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
                     ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
@@ -5641,9 +5665,8 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.u_sight_impaired = player_character.sight_impaired();
     visibility_variables_cache.u_is_boomered = player_character.has_effect( effect_boomered );
     visibility_variables_cache.clairvoyance_field.reset();
-    const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
-    if( fd_clairvoyant.is_valid() ) {
-        visibility_variables_cache.clairvoyance_field = fd_clairvoyant;
+    if( field_fd_clairvoyant.is_valid() ) {
+        visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
@@ -6883,13 +6906,6 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 
 void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
 {
-    // Cache empty overmap types
-    static const oter_str_id rock( "empty_rock" );
-    static const oter_str_id air( "open_air" );
-    static const oter_str_id earth( "solid_earth" );
-    static const oter_str_id deep_rock( "deep_rock" );
-    static const ter_str_id t_soil( "t_soil" );
-
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
                   << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
 
@@ -6916,12 +6932,12 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
         // Short-circuit if the map tile is uniform
         // TODO: Replace with json mapgen functions.
-        if( terrain_type == air ) {
+        if( terrain_type == oter_open_air ) {
             generate_uniform( grid_abs_sub_rounded, t_open_air );
-        } else if( terrain_type == rock || terrain_type == deep_rock ) {
+        } else if( terrain_type == oter_empty_rock || terrain_type == oter_deep_rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
-        } else if( terrain_type == earth ) {
-            generate_uniform( grid_abs_sub_rounded, t_soil );
+        } else if( terrain_type == oter_solid_earth ) {
+            generate_uniform( grid_abs_sub_rounded, ter_t_soil );
         } else {
             tinymap tmp_map;
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
@@ -7247,13 +7263,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_str_id( "t_dirt" )},
-            {t_tree_young, ter_str_id( "t_dirt" )},
-            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
-            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
-            {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
-            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
-            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
+            {t_grass, ter_t_dirt},
+            {t_tree_young, ter_t_dirt},
+            {t_tree_pine, ter_t_tree_deadpine},
+            {t_tree_birch, ter_t_tree_birch_harvested},
+            {t_tree_willow, ter_t_tree_willow_harvested},
+            {t_tree_hickory, ter_t_tree_hickory_dead},
+            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -7266,7 +7282,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( ter_furn_flag::TFLAG_TREE ) ) {
-        ter_set( p, ter_str_id( "t_tree_dead" ) );
+        ter_set( p, ter_t_tree_dead );
     }
 }
 
@@ -8356,9 +8372,9 @@ void map::add_corpse( const tripoint &p )
         body.set_flag( flag_REVIVE_SPECIAL );
     }
 
-    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, calendar::turn_zero );
+    put_items_from_loc( Item_spawn_data_default_zombie_clothes, p, calendar::turn_zero );
     if( one_in( 3 ) ) {
-        put_items_from_loc( item_group_id( "default_zombie_items" ), p, calendar::turn_zero );
+        put_items_from_loc( Item_spawn_data_default_zombie_items, p, calendar::turn_zero );
     }
 
     add_item_or_charges( p, body );

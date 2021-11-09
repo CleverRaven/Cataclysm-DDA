@@ -62,6 +62,9 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+class event_statistic;
+using event_statistic_id = string_id<event_statistic>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -146,6 +149,12 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class overmap_connection;
+using overmap_connection_id = string_id<overmap_connection>;
+
+struct overmap_location;
+using overmap_location_id = string_id<overmap_location>;
+
 class overmap_special;
 using overmap_special_id = string_id<overmap_special>;
 
@@ -157,6 +166,9 @@ using recipe_id = string_id<recipe>;
 
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
+
+class score;
+using score_id = string_id<score>;
 
 class Skill;
 using skill_id = string_id<Skill>;

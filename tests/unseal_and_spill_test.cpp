@@ -30,6 +30,19 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
+// *INDENT-OFF*
+static const itype_id itype_test_liquid_1ml( "test_liquid_1ml" );
+static const itype_id itype_test_rag("test_rag");
+static const itype_id itype_test_restricted_container_holder( "test_restricted_container_holder" );
+static const itype_id itype_test_solid_1ml( "test_solid_1ml" );
+static const itype_id itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+static const itype_id itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
+static const itype_id itype_test_watertight_open_sealed_multipocket_container_2x1L( "test_watertight_open_sealed_multipocket_container_2x1L" );
+static const itype_id itype_test_watertight_open_sealed_multipocket_container_2x250ml( "test_watertight_open_sealed_multipocket_container_2x250ml" );
+
+static const vproto_id vehicle_prototype_test_cargo_space( "test_cargo_space" );
+// *INDENT-ON*
+
 namespace
 {
 template<typename ...Enums>
@@ -278,17 +291,6 @@ void test_scenario::run()
     const scenario cur_scenario = value.get<scenario>();
     const player_action cur_player_action = value.get<player_action>();
 
-    // *INDENT-OFF*
-    const itype_id test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
-    const itype_id test_watertight_open_sealed_multipocket_container_2x250ml( "test_watertight_open_sealed_multipocket_container_2x250ml" );
-    const itype_id test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
-    const itype_id test_watertight_open_sealed_multipocket_container_2x1L( "test_watertight_open_sealed_multipocket_container_2x1L" );
-    const itype_id test_liquid_1ml( "test_liquid_1ml" );
-    const itype_id test_solid_1ml( "test_solid_1ml" );
-    const itype_id test_rag("test_rag");
-    const itype_id test_restricted_container_holder( "test_restricted_container_holder" );
-    // *INDENT-ON*
-
     initialization init;
     std::string init_str;
     switch( cur_scenario ) {
@@ -296,12 +298,12 @@ void test_scenario::run()
             init_str = "scenario::contained_liquid";
             init = {
                 initialization {
-                    test_watertight_open_sealed_container_250ml,
+                    itype_test_watertight_open_sealed_container_250ml,
                     false,
                     true,
                     {
                         initialization {
-                            test_liquid_1ml,
+                            itype_test_liquid_1ml,
                             true,
                             false,
                             {}
@@ -315,17 +317,17 @@ void test_scenario::run()
             init_str = "scenario::nested_contained_liquid";
             init = {
                 initialization {
-                    test_watertight_open_sealed_container_1L,
+                    itype_test_watertight_open_sealed_container_1L,
                     false,
                     true,
                     {
                         initialization {
-                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                             false,
                             true,
                             {
                                 initialization {
-                                    test_liquid_1ml,
+                                    itype_test_liquid_1ml,
                                     true,
                                     false,
                                     {}
@@ -341,17 +343,17 @@ void test_scenario::run()
             init_str = "scenario::recursive_multi_pocket";
             init = {
                 initialization {
-                    test_watertight_open_sealed_multipocket_container_2x1L,
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
                     false,
                     true,
                     {
                         initialization {
-                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                             false,
                             true,
                             {
                                 initialization {
-                                    test_liquid_1ml,
+                                    itype_test_liquid_1ml,
                                     true,
                                     false,
                                     {}
@@ -359,7 +361,7 @@ void test_scenario::run()
                             }
                         },
                         initialization {
-                            test_solid_1ml,
+                            itype_test_solid_1ml,
                             true,
                             false,
                             {}
@@ -406,7 +408,7 @@ void test_scenario::run()
     switch( cur_container_loc ) {
         case container_location::inventory: {
             cata::optional<std::list<item>::iterator> worn = guy.wear_item( item(
-                        test_restricted_container_holder ), false );
+                        itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
             ret_val<bool> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
             INFO( ret.str() );
@@ -427,7 +429,7 @@ void test_scenario::run()
             break;
         }
         case container_location::vehicle: {
-            vehicle *veh = here.add_vehicle( vproto_id( "test_cargo_space" ), guy.pos(),
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos(),
                                              -90_degrees, 0, 0 );
             REQUIRE( veh );
             here.board_vehicle( guy.pos(), &guy );
@@ -451,7 +453,7 @@ void test_scenario::run()
     }
     if( guy.get_wielded_item().is_null() ) {
         // so the guy does not wield spilled solid items
-        item rag( test_rag );
+        item rag( itype_test_rag );
         REQUIRE( guy.wield( rag ) );
     }
 
@@ -480,7 +482,7 @@ void test_scenario::run()
     contents_change_handler handler;
     // TODO replace with actual activities
     unseal_items_containing( handler, it_loc,
-                             std::set<itype_id> { test_liquid_1ml, test_solid_1ml } );
+                             std::set<itype_id> { itype_test_liquid_1ml, itype_test_solid_1ml } );
     handler.handle_by( guy );
 
     // check final state
@@ -525,12 +527,12 @@ void test_scenario::run()
         case scenario::contained_liquid:
             if( !will_spill_outer ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_container_250ml,
+                    itype_test_watertight_open_sealed_container_250ml,
                     false,
                     false,
                     {
                         final_result {
-                            test_liquid_1ml,
+                            itype_test_liquid_1ml,
                             false,
                             false,
                             {}
@@ -539,14 +541,14 @@ void test_scenario::run()
                 };
             } else if( do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_container_250ml,
+                    itype_test_watertight_open_sealed_container_250ml,
                     false,
                     false,
                     {}
                 };
                 ground = {
                     final_result {
-                        test_liquid_1ml,
+                        itype_test_liquid_1ml,
                         false,
                         false,
                         {}
@@ -556,12 +558,12 @@ void test_scenario::run()
                 original_location = cata::nullopt;
                 ground = {
                     final_result {
-                        test_watertight_open_sealed_container_250ml,
+                        itype_test_watertight_open_sealed_container_250ml,
                         false,
                         false,
                         {
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
@@ -574,12 +576,12 @@ void test_scenario::run()
         case scenario::nested_contained_liquid:
             if( !will_spill_outer && do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_container_1L,
+                    itype_test_watertight_open_sealed_container_1L,
                     false,
                     false,
                     {
                         final_result {
-                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                             false,
                             false,
                             {}
@@ -588,7 +590,7 @@ void test_scenario::run()
                 };
                 ground = {
                     final_result {
-                        test_liquid_1ml,
+                        itype_test_liquid_1ml,
                         false,
                         false,
                         {}
@@ -596,25 +598,25 @@ void test_scenario::run()
                 };
             } else if( !do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_container_1L,
+                    itype_test_watertight_open_sealed_container_1L,
                     false,
                     false,
                     {}
                 };
                 ground = {
                     final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                         false,
                         false,
                         {
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
                             },
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
@@ -624,20 +626,20 @@ void test_scenario::run()
                 };
             } else {
                 original_location = final_result {
-                    test_watertight_open_sealed_container_1L,
+                    itype_test_watertight_open_sealed_container_1L,
                     false,
                     false,
                     {}
                 };
                 ground = {
                     final_result {
-                        test_liquid_1ml,
+                        itype_test_liquid_1ml,
                         false,
                         false,
                         {}
                     },
                     final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                         false,
                         false,
                         {}
@@ -648,24 +650,24 @@ void test_scenario::run()
         case scenario::recursive_multi_pocket:
             if( !will_spill_outer && do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_multipocket_container_2x1L,
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
                     false,
                     false,
                     {
                         final_result {
-                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                             false,
                             false,
                             {}
                         },
                         final_result {
-                            test_solid_1ml,
+                            itype_test_solid_1ml,
                             false,
                             false,
                             {}
                         },
                         final_result {
-                            test_solid_1ml,
+                            itype_test_solid_1ml,
                             false,
                             false,
                             {}
@@ -674,7 +676,7 @@ void test_scenario::run()
                 };
                 ground = {
                     final_result {
-                        test_liquid_1ml,
+                        itype_test_liquid_1ml,
                         false,
                         false,
                         {}
@@ -682,18 +684,18 @@ void test_scenario::run()
                 };
             } else if( !will_spill_outer && !do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_multipocket_container_2x1L,
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
                     false,
                     false,
                     {
                         final_result {
-                            test_solid_1ml,
+                            itype_test_solid_1ml,
                             false,
                             false,
                             {}
                         },
                         final_result {
-                            test_solid_1ml,
+                            itype_test_solid_1ml,
                             false,
                             false,
                             {}
@@ -702,18 +704,18 @@ void test_scenario::run()
                 };
                 ground = {
                     final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                         false,
                         false,
                         {
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
                             },
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
@@ -723,26 +725,26 @@ void test_scenario::run()
                 };
             } else if( do_spill ) {
                 original_location = final_result {
-                    test_watertight_open_sealed_multipocket_container_2x1L,
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
                     false,
                     false,
                     {}
                 };
                 ground = {
                     final_result {
-                        test_liquid_1ml,
+                        itype_test_liquid_1ml,
                         false,
                         false,
                         {}
                     },
                     final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                         false,
                         false,
                         {}
                     },
                     final_result {
-                        test_solid_1ml,
+                        itype_test_solid_1ml,
                         false,
                         false,
                         {}
@@ -750,25 +752,25 @@ void test_scenario::run()
                 };
             } else {
                 original_location = final_result {
-                    test_watertight_open_sealed_multipocket_container_2x1L,
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
                     false,
                     false,
                     {}
                 };
                 ground = {
                     final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
                         false,
                         false,
                         {
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
                             },
                             final_result {
-                                test_liquid_1ml,
+                                itype_test_liquid_1ml,
                                 false,
                                 false,
                                 {}
@@ -776,7 +778,7 @@ void test_scenario::run()
                         }
                     },
                     final_result {
-                        test_solid_1ml,
+                        itype_test_solid_1ml,
                         false,
                         false,
                         {}
@@ -798,14 +800,14 @@ void test_scenario::run()
         case container_location::inventory:
             if( original_location ) {
                 worn_results.emplace_back( final_result {
-                    test_restricted_container_holder,
+                    itype_test_restricted_container_holder,
                     false,
                     false,
                     { *original_location }
                 } );
             } else {
                 worn_results.emplace_back( final_result {
-                    test_restricted_container_holder,
+                    itype_test_restricted_container_holder,
                     false,
                     false,
                     {}
@@ -834,7 +836,7 @@ void test_scenario::run()
     if( cur_container_loc != container_location::wielded ) {
         REQUIRE( !wielded_results.has_value() );
         wielded_results = final_result {
-            test_rag,
+            itype_test_rag,
             false,
             false,
             {}

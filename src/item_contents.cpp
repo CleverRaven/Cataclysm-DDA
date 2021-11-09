@@ -31,6 +31,8 @@
 #include "ui.h"
 #include "units.h"
 
+static const flag_id json_flag_CASING( "CASING" );
+
 class pocket_favorite_callback : public uilist_callback
 {
     private:
@@ -836,7 +838,6 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
-        static const flag_id json_flag_CASING( "CASING" );
         if( pocket.front().has_flag( json_flag_CASING ) ) {
             for( const item *i : pocket.all_items_top() ) {
                 if( !i->has_flag( json_flag_CASING ) ) {

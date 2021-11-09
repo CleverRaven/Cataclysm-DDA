@@ -12,6 +12,12 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id test_bio_ench( "test_bio_ench" );
+
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_invisibility( "invisibility" );
+static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
+
 static void test_generic_ench( avatar &p, int str_before )
 {
     // wait a turn for the effect to kick in
@@ -19,7 +25,7 @@ static void test_generic_ench( avatar &p, int str_before )
 
     CHECK( p.get_str() == str_before + p.get_str_base() * 2 + 25 );
 
-    CHECK( p.has_effect( efftype_id( "invisibility" ) ) );
+    CHECK( p.has_effect( effect_invisibility ) );
 
     const field &fields_here = get_map().field_at( p.pos() );
     CHECK( fields_here.find_field( field_type_id( "fd_shadow" ) ) != nullptr );
@@ -31,7 +37,7 @@ static void test_generic_ench( avatar &p, int str_before )
 
     p.on_hit( &zombie, bodypart_id( "torso" ), 0.0, nullptr );
 
-    CHECK( zombie.has_effect( efftype_id( "blind" ) ) );
+    CHECK( zombie.has_effect( effect_blind ) );
 }
 
 TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
@@ -63,7 +69,7 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
     p.set_max_power_level( 100_kJ );
     p.set_power_level( 100_kJ );
 
-    give_and_activate_bionic( p, bionic_id( "test_bio_ench" ) );
+    give_and_activate_bionic( p, test_bio_ench );
 
     test_generic_ench( p, str_before );
 }
@@ -73,11 +79,10 @@ TEST_CASE( "mutation enchantments", "[enchantments][mutations]" )
     avatar p;
     clear_character( p );
 
-    const trait_id test_ink( "TEST_ENCH_MUTATION" );
     int str_before = p.get_str();
 
-    p.toggle_trait( test_ink );
-    REQUIRE( p.has_trait( test_ink ) );
+    p.toggle_trait( trait_TEST_ENCH_MUTATION );
+    REQUIRE( p.has_trait( trait_TEST_ENCH_MUTATION ) );
 
     p.recalculate_enchantment_cache();
 

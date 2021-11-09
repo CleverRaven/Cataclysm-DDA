@@ -41,6 +41,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const itype_id itype_swim_fins( "swim_fins" );
+
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
@@ -627,7 +629,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
             return player_character.swim_speed() < 500 ||
-                   player_character.is_wearing( itype_id( "swim_fins" ) );
+                   player_character.is_wearing( itype_swim_fins );
         }
     }
 

@@ -63,6 +63,9 @@
 
 static const efftype_id effect_amigara( "amigara" );
 
+static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
+static const furn_str_id furn_f_console_broken( "f_console_broken" );
+
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_c4( "c4" );
@@ -74,6 +77,14 @@ static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" )
 static const itype_id itype_sewage( "sewage" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
+
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
@@ -533,7 +544,7 @@ void computer_session::action_portal()
             }
         }
         if( numtowers >= 4 ) {
-            if( here.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
+            if( here.tr_at( tmp ).id == tr_portal ) {
                 here.remove_trap( tmp );
             } else {
                 here.trap_set( tmp, tr_portal );
@@ -840,7 +851,7 @@ void computer_session::action_amigara_start()
 void computer_session::action_complete_disable_external_power()
 {
     for( mission *miss : get_avatar().get_active_missions() ) {
-        static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+        static const mission_type_id commo_2 = mission_MISSION_OLD_GUARD_NEC_COMMO_2;
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
             print_error( _( "Mission Complete!" ) );
@@ -858,8 +869,8 @@ void computer_session::action_repeater_mod()
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" );
-            static const mission_type_id commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+            static const mission_type_id commo_3 = mission_MISSION_OLD_GUARD_NEC_COMMO_3;
+            static const mission_type_id commo_4 = mission_MISSION_OLD_GUARD_NEC_COMMO_4;
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
@@ -903,7 +914,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
+        if( here.furn( dest ) == furn_f_centrifuge ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1457,7 +1468,7 @@ void computer_session::failure_shutdown()
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-            here.furn_set( p, furn_str_id( "f_console_broken" ) );
+            here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
         }
@@ -1467,7 +1478,7 @@ void computer_session::failure_shutdown()
     }
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-            here.furn_set( p, furn_str_id( "f_console_broken" ) );
+            here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
         }
     }
@@ -1582,7 +1593,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
+        if( here.furn( dest ) == furn_f_centrifuge ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1632,7 +1643,7 @@ void computer_session::action_emerg_ref_center()
     reset_terminal();
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
-    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
+    const mission_type_id &mission_type = mission_MISSION_REACH_REFUGEE_CENTER;
     tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
@@ -1640,7 +1651,7 @@ void computer_session::action_emerg_ref_center()
     std::vector<mission *> missions = player_character.get_active_missions();
     missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
-    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), [
     &mission_target ]( mission * mission ) {
         if( mission->get_type().id == mission_type ) {
             mission_target = mission->get_target();

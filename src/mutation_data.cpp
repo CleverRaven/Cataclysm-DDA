@@ -22,6 +22,8 @@
 #include "trait_group.h"
 #include "translations.h"
 
+static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
+
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
@@ -681,7 +683,7 @@ void mutation_branch::reset_all()
     trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
-    trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
+    trait_groups.emplace( Trait_group_EMPTY_GROUP,
                           make_shared_fast<Trait_group_collection>( 100 ) );
 }
 
