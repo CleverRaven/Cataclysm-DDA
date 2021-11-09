@@ -8401,7 +8401,7 @@ int item::sight_dispersion() const
     return res;
 }
 
-damage_instance item::gun_damage( bool with_ammo ) const
+damage_instance item::gun_damage( bool with_ammo, bool shot ) const
 {
     if( !is_gun() ) {
         return damage_instance();
@@ -8413,7 +8413,11 @@ damage_instance item::gun_damage( bool with_ammo ) const
     }
 
     if( with_ammo && ammo_data() ) {
-        ret.add( ammo_data()->ammo->damage );
+        if( shot ) {
+            ret.add( ammo_data()->ammo->shot_damage );
+        } else {
+            ret.add( ammo_data()->ammo->damage );
+        }
     }
 
     int item_damage = damage_level();
