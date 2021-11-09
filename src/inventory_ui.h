@@ -442,7 +442,6 @@ class inventory_column
 
         std::vector<inventory_entry> entries;
         std::vector<inventory_entry> entries_hidden;
-        std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
