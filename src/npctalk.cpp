@@ -2236,6 +2236,20 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
     };
 }
 
+void talk_effect_fun_t::set_translate_radius( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string from = jo.get_string( "from" );
+    std::string to = jo.get_string( "to" );
+    int_or_var iov = get_int_or_var( jo, member );
+    bool toggle = jo.get_bool( "toggle", false );
+    bool same_submap = jo.get_bool( "same_submap", false );
+    function = [from, to, iov, toggle, same_submap, is_npc]( const dialogue & d ) {
+        get_map().translate_radius( ter_id( from ), ter_id( to ), iov.evaluate( d.actor( is_npc ) ),
+                                    d.actor( is_npc )->pos(), same_submap, toggle );
+    };
+}
+
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
@@ -3545,6 +3559,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_string( "u_translate_radius" ) || jo.has_int( "u_translate_radius" ) ) {
+        subeffect_fun.set_translate_radius( jo, "u_translate_radius", false );
+    } else if( jo.has_string( "npc_translate_radius" ) || jo.has_int( "npc_translate_radius" ) ) {
+        subeffect_fun.set_translate_radius( jo, "npc_translate_radius", true );
     } else if( jo.has_string( "u_buy_monster" ) ) {
         const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
         const int cost = jo.get_int( "cost", 0 );
