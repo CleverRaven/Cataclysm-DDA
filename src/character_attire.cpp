@@ -17,6 +17,9 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( it.has_flag( flag_CANT_WEAR ) ) {
+        return ret_val<bool>::make_failure( _( "Needs to be put in a pocket." ) );
+    }
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wear anything while incorporeal." ) );
     }

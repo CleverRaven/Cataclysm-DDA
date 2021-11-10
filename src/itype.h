@@ -282,6 +282,10 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */

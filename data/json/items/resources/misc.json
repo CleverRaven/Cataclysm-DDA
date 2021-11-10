@@ -225,7 +225,8 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 25,
-    "flags": ["ABLATIVE_MEDIUM", "CANT_WEAR"]
+    "flags": ["ABLATIVE_MEDIUM", "CANT_WEAR"],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": ["torso"] } ]
   },
   {
     "id": "ugl_buttstock",

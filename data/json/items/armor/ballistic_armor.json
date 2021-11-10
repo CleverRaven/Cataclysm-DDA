@@ -20,33 +20,29 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "proportional_coverage": 30,
-        "holster": true,
+        "ablative": true,
         "moves": 200,
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
         "pocket_type": "CONTAINER",
-        "proportional_coverage": 30,
-        "holster": true,
+        "ablative": true,
         "moves": 200,
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
         "pocket_type": "CONTAINER",
-        "proportional_coverage": 20,
-        "holster": true,
+        "ablative": true,
         "moves": 200,
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
         "pocket_type": "CONTAINER",
-        "proportional_coverage": 20,
-        "holster": true,
+        "ablative": true,
         "moves": 200,
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }],
-    "armor": [ { "encumbrance": [6, 8], "coverage": 85, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [6, 6], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "ballistic_vest_esapi",

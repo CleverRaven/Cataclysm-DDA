@@ -617,6 +617,12 @@ void Item_factory::finalize_post( itype &obj )
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
         }
+        for( const pocket_data &pocket : obj.pockets ) {
+            if( pocket.ablative ) {
+                obj.armor->ablative = true;
+                break;
+            }
+        }
     }
 
     if( obj.comestible ) {

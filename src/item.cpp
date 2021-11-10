@@ -888,6 +888,12 @@ bool item::swap_side()
     return set_side( opposite_side( get_side() ) );
 }
 
+bool item::is_ablative()
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ablative : false;
+}
+
 bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );

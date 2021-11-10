@@ -425,6 +425,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
 
             if( !destroy ) {
+                if( armor.is_ablative() ) {
+                    ablative_armor_absorb( elem, armor, bp );
+                }
                 destroy = armor_absorb( elem, armor, bp );
             }
 
@@ -534,5 +537,83 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 
     return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
+}
+
+bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    int roll = rng( 1, 100 );
+    for( item_pocket *const pocket : armor.get_all_contained_pockets().value() ) {
+        // if the pocket is ablative and not empty we should use its values
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            const item &ablative_armor = pocket->front();
+
+            int coverage = ablative_armor.get_coverage( bp, ctype );
+            // if the attack hits this plate
+            if( roll < coverage ) {
+                armor.mitigate_damage( du );
+
+                // check if the item breaks
+
+                // We want armor's own resistance to this type, not the resistance it grants
+                const float armors_own_resist = armor.damage_resist( du.type, true );
+                return false;
+
+            } else {
+                // reduce value and try for additional plates
+                roll = roll - coverage;
+            }
+        }
+    }
+    return false;
+
+    /*
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const float raw_dmg = du.amount;
+    if (raw_dmg > armors_own_resist) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if (one_in(raw_dmg) || one_in(2)) {
+            return false;
+        }
+    }
+    else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if (armor.has_flag(flag_STURDY) || armor.is_power_armor() || !one_in(200)) {
+            return false;
+        }
+    }
+
+    const material_type& material = armor.get_random_material();
+    std::string damage_verb = (du.type == damage_type::BASH) ? material.bash_dmg_verb() :
+        material.cut_dmg_verb();
+
+    const std::string pre_damage_name = armor.tname();
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj(armor.damage_level());
+
+    // add "further" if the damage adjective and verb are the same
+    std::string format_string = (pre_damage_adj == damage_verb) ?
+        _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
+    add_msg_if_player(m_bad, format_string, pre_damage_name, damage_verb);
+    //item is damaged
+    if (is_avatar()) {
+        SCT.add(point(posx(), posy()), direction::NORTH, remove_color_tags(pre_damage_name), m_neutral,
+            damage_verb,
+            m_info);
+    }
+
+    return armor.mod_damage(armor.has_flag(flag_FRAGILE) ?
+        rng(2 * itype::damage_scale, 3 * itype::damage_scale) : itype::damage_scale, du.type);
+        */
 }
 

@@ -1033,6 +1033,12 @@ class Character : public Creature, public visitable
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
         /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * If the armor is fully destroyed it is replaced
+         * @return true if the armor was completely destroyed.
+         */
+        bool ablative_armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
+        /**
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
          */
