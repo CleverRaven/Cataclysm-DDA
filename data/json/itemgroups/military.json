@@ -575,7 +575,7 @@
       { "item": "kevlar", "prob": 10 },
       { "item": "officer_uniform", "prob": 5 },
       { "item": "combo_cover", "prob": 5 },
-      { "group": "military_ballistic_vest", "damage": [4, 4], "prob": 40},
+      { "group": "military_ballistic_vest", "prob": 40},
       { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "helmet_army", "prob": 40 },

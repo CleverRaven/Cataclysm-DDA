@@ -27,7 +27,7 @@
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
-      { "group": "military_ballistic_vest", "damage": [4, 4], "prob": 15},
+      { "group": "military_ballistic_vest", "prob": 15},
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
       [ "suppressor_compact", 20 ],

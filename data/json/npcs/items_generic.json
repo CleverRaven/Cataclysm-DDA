@@ -286,7 +286,7 @@
       [ "vest", 10 ],
       [ "vest_leather", 5 ],
       [ "kevlar", 10 ],
-      { "group": "military_ballistic_vest", "damage": [4, 4], "prob": 5},
+      { "group": "military_ballistic_vest", "prob": 5},
       [ "waistcoat", 5 ],
       [ "flotation_vest", 10 ],
       [ "chainmail_vest", 5 ]
