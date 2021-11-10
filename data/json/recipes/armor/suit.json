@@ -560,6 +560,31 @@
     ]
   },
   {
+    "result": "xl_chainmail_suit_faraday",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "electronics", 4 ],
+    "time": "270 m",
+    "book_learn": [ [ "textbook_fabrication", 7 ], [ "advanced_electronics", 7 ], [ "textbook_electronics", 7 ] ],
+    "using": [ [ "chainmail_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_shock_weapons" } ],
+    "components": [
+      [ [ "link_sheet", 4 ], [ "xl_chainmail_hood", 1 ] ],
+      [ [ "link_sheet", 14 ], [ "xl_chainmail_vest", 1 ] ],
+      [ [ "link_sheet", 6 ], [ "xl_chainmail_arms", 1 ] ],
+      [ [ "link_sheet", 8 ], [ "xl_chainmail_legs", 1 ] ],
+      [ [ "link_sheet", 4 ], [ "xl_chainmail_hands", 1 ] ],
+      [ [ "link_sheet", 4 ], [ "xl_chainmail_feet", 1 ] ],
+      [ [ "chain_link", 1000 ] ],
+      [ [ "wire", 10 ] ],
+      [ [ "rag", 52 ] ]
+    ]
+  },
+  {
     "result": "cloak",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
