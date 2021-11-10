@@ -195,23 +195,6 @@
     "color": "dark_gray"
   },
   {
-    "id": "destroyed_medium_ceramic_plate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "shatterd ceramic side plate" },
-    "description": "The remains of a ceramic plate after taking a strong impact. No longer provides functional protection just weight.",
-    "weight": "1 kg",
-    "volume": "600 ml",
-    "price": 0,
-    "price_postapoc": 1,
-    "material": [ "ceramic" ],
-    "symbol": ",",
-    "color": "dark_gray",
-    "material_thickness": 25,
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 1, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "ugl_buttstock",
     "type": "GENERIC",
     "symbol": ",",

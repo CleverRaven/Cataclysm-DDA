@@ -23,10 +23,10 @@
     "container-item": "ballistic_vest_esapi",
     "subtype": "collection",
     "entries": [
-      { "item": "esapi_plate", "prob": 30 },
-      { "item": "esapi_plate", "prob": 30 },
-      { "item": "esbi_plate", "prob": 30 },
-      { "item": "esbi_plate", "prob": 30 }
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
     ]
   },
   {
