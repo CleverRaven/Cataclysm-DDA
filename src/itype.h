@@ -1190,6 +1190,7 @@ struct itype {
         /// @{
         int damage_min_ = -1000;
         int damage_max_ = +4000;
+        int degrade_increments_ = 50;
         /// @}
 
     public:
@@ -1223,6 +1224,9 @@ struct itype {
         }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
+        }
+        int degrade_increments() const {
+            return count_by_charges() ? 0 : degrade_increments_;
         }
 
         std::string get_item_type_string() const {

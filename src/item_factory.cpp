@@ -3314,6 +3314,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
+    float degrade_mult = 1.0f;
+    optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
+    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+        def.degrade_increments_ = 0;
+    } else {
+        float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
+        def.degrade_increments_ = std::isnan( adjusted_inc ) ||
+                                  std::isfinite( adjusted_inc ) ? 0 : std::round( adjusted_inc );
+    }
+
     // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
     // when changing this list
     static const std::set<std::string> needs_plural = {

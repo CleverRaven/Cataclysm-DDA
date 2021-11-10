@@ -723,6 +723,11 @@ int item::damage() const
     return damage_;
 }
 
+int item::degradation() const
+{
+    return degradation_;
+}
+
 int item::damage_level() const
 {
     if( damage_ == 0 ) {
@@ -739,6 +744,14 @@ int item::damage_level() const
 item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
+    degradation_ = std::max( std::min( damage_, degradation_ ), 0 );
+    return *this;
+}
+
+item &item::set_degradation( int qty )
+{
+    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
+    damage_ = std::max( std::min( damage_, degradation_ ), min_damage() );
     return *this;
 }
 
@@ -2070,6 +2083,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                charges );
             info.emplace_back( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
                                damage_ );
+            info.emplace_back( "BASE", _( "degradation: " ), "", iteminfo::lower_is_better,
+                               degradation_ );
             info.emplace_back( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -7575,6 +7590,11 @@ int item::max_damage() const
     return type->damage_max();
 }
 
+int item::degrade_increments() const
+{
+    return type->degrade_increments();
+}
+
 float item::get_relative_health() const
 {
     return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
@@ -7583,6 +7603,7 @@ float item::get_relative_health() const
 bool item::mod_damage( int qty, damage_type dt )
 {
     bool destroy = false;
+    int dmg_lvl = damage_level();
 
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
@@ -7596,7 +7617,14 @@ bool item::mod_damage( int qty, damage_type dt )
     if( !count_by_charges() ) {
         destroy |= damage_ + qty > max_damage();
 
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
+    }
+
+    if( qty > 0 && !destroy ) {
+        int degrade = std::max( damage_level() - dmg_lvl, 0 );
+        if( degrade_increments() > 0 ) {
+            degradation_ += degrade * ( max_damage() - min_damage() ) / degrade_increments();
+        }
     }
 
     return destroy;

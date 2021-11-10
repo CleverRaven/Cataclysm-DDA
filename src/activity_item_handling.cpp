@@ -660,7 +660,8 @@ static bool vehicle_activity( Character &you, const tripoint &src_loc, int vpind
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
         const vehicle_part part = veh->part( vpindex );
-        time_to_take = vp.repair_time( you ) * part.damage() / part.max_damage();
+        time_to_take = vp.repair_time( you ) * ( part.damage() - part.degradation() ) /
+                       ( part.max_damage() - part.degradation() );
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( you );
     }
@@ -1182,7 +1183,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                if( part_elem->is_broken() || part_elem->damage() <= part_elem->degradation() ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }

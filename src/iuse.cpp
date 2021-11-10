@@ -5523,13 +5523,18 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ),
-                              fix.tname() );
+    if( fix.damage() <= fix.min_damage() + fix.degradation() ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "You can't improve your %s any more, considering the degradation." ) :
+                          _( "You can't improve your %s any more this way." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname() );
+    if( fix.damage() <= fix.degradation() && p->get_skill_level( skill_mechanics ) < 8 ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "Your %s is in its best condition, considering the degradation." ) :
+                          _( "Your %s is already in peak condition." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return cata::nullopt;

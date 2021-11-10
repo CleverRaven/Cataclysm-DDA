@@ -400,6 +400,8 @@ struct vehicle_part {
 
         /** Current part damage in same units as item::damage. */
         int damage() const;
+        /** Current part degradation of part base */
+        int degradation() const;
         /** max damage of part base */
         int max_damage() const;
 
