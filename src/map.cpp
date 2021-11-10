@@ -3985,15 +3985,13 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     }
 }
 
-void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p,
-                            const bool same_submap )
+void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
-    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
     for( const tripoint &t : points_on_zlevel() ) {
         const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
-        const float radiX = trig_dist( p, t );
+        const float radiX = trig_dist( p, getabs( t ) );
         // within distance, and either no submap limitation or same overmap coords.
-        if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+        if( radiX <= radi ) {
             transform->transform( t );
         }
     }

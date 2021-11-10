@@ -1087,8 +1087,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p,
-                               const bool same_submap );
+        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction

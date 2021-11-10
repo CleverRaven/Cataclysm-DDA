@@ -2241,10 +2241,24 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
-    bool same_submap = jo.get_bool( "same_submap", false );
-    function = [iov, transform, same_submap, is_npc]( const dialogue & d ) {
-        get_map().transform_radius( transform, iov.evaluate( d.actor( is_npc ) ), d.actor( is_npc )->pos(),
-                                    same_submap );
+    cata::optional<std::string> set_var;
+    if( jo.has_member( "set_var" ) ) {
+        set_var = get_talk_varname( jo.get_object( "set_var" ), "value" );
+    }
+    cata::optional<std::string> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = get_talk_varname( jo.get_object( "target_var" ), "value" );
+    }
+    function = [iov, transform, set_var, target_var, is_npc]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_map().getabs( target->pos() );
+        if( set_var.has_value() ) {
+            target->set_value( set_var.value(), target_pos.to_string() );
+        }
+        if( target_var.has_value() ) {
+            target_pos = tripoint::from_string( target->get_value( target_var.value() ) );
+        }
+        get_map().transform_radius( transform, iov.evaluate( d.actor( is_npc ) ), target_pos );
     };
 }
 
