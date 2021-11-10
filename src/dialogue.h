@@ -138,6 +138,7 @@ struct talk_effect_fun_t {
         void set_npc_aim_rule( const std::string &setting );
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
+        void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );

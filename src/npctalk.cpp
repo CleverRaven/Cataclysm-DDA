@@ -113,6 +113,25 @@ static bool friendly_teacher( const Character &student, const Character &teacher
            ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
 }
 
+static tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
+                                       bool global )
+{
+    tripoint target_pos = get_map().getabs( target->pos() );
+    if( target_var.has_value() ) {
+        std::string value;
+        if( global ) {
+            global_variables &globvars = get_globals();
+            value = globvars.get_global_value( target_var.value() );
+        } else {
+            value = target->get_value( target_var.value() );
+        }
+        if( !value.empty() ) {
+            target_pos = tripoint::from_string( value );
+        }
+    }
+    return target_pos;
+}
+
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -2236,29 +2255,62 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
     };
 }
 
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    JsonObject member_obj = jo.get_object( member );
+    bool global = member_obj.get_bool( "global", false );
+    std::string var_name = get_talk_varname( member_obj, "value" );
+    int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
+    int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global,
+                    is_npc]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint talker_pos = get_map().getabs( target->pos() );
+        tripoint target_pos = talker_pos;
+        int max_radius = iov_max_radius.evaluate( target );
+        if( max_radius > 0 ) {
+            bool found = false;
+            int min_radius = iov_min_radius.evaluate( target );
+            for( int attempts = 0; attempts < 25; attempts++ ) {
+                target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
+                                                    0 );
+                if( ( !outdoor_only || get_map().is_outside( target_pos ) ) &&
+                    rl_dist( target_pos, talker_pos ) >= min_radius ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                return;
+            }
+        }
+        if( global ) {
+            global_variables &globvars = get_globals();
+            globvars.set_global_value( var_name, target_pos.to_string() );
+        } else {
+            target->set_value( var_name, target_pos.to_string() );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
-    cata::optional<std::string> set_var;
-    if( jo.has_member( "set_var" ) ) {
-        set_var = get_talk_varname( jo.get_object( "set_var" ), "value" );
-    }
     cata::optional<std::string> target_var;
+    bool global = false;
     if( jo.has_member( "target_var" ) ) {
-        target_var = get_talk_varname( jo.get_object( "target_var" ), "value" );
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
     }
-    function = [iov, transform, set_var, target_var, is_npc]( const dialogue & d ) {
+    function = [iov, transform, target_var, global, is_npc]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
-        tripoint target_pos = get_map().getabs( target->pos() );
-        if( set_var.has_value() ) {
-            target->set_value( set_var.value(), target_pos.to_string() );
-        }
-        if( target_var.has_value() ) {
-            target_pos = tripoint::from_string( target->get_value( target_var.value() ) );
-        }
-        get_map().transform_radius( transform, iov.evaluate( d.actor( is_npc ) ), target_pos );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        get_map().transform_radius( transform, iov.evaluate( target ), target_pos );
     };
 }
 
@@ -3090,10 +3142,17 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     } else {
         jo.throw_error( "Invalid message type." );
     }
-
-    function = [is_npc, message, volume, type]( const dialogue & d ) {
-
-        sounds::sound( d.actor( is_npc )->pos(), volume, type, _( message ) );
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
+    }
+    function = [is_npc, message, volume, type, target_var, global]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, _( message ) );
     };
 }
 
@@ -3255,9 +3314,16 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
 
     duration_or_var dov_lifespan_min = get_duration_or_var( jo, "lifespan_min", false, 0_seconds );
     duration_or_var dov_lifespan_max = get_duration_or_var( jo, "lifespan_max", false, 0_seconds );
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        target_var = get_talk_varname( target_obj, "value" );
+        global = target_obj.get_bool( "global" );
+    }
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                         iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
-            dov_lifespan_max]( const dialogue & d ) {
+            dov_lifespan_max, target_var, global]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3283,9 +3349,11 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         int real_count = iov_real_count.evaluate( d.actor( is_npc ) );
         int hallucination_count = iov_hallucination_count.evaluate( d.actor( is_npc ) );
         cata::optional<time_duration> lifespan;
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_map().getlocal( get_tripoint_from_var( target, target_var, global ) );
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
-            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
                 if( min > 0_seconds ) {
@@ -3296,7 +3364,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
@@ -3318,11 +3386,24 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
+
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        target_var = get_talk_varname( target_obj, "value" );
+        global = target_obj.get_bool( "global", false );
+    }
+
     function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-            hit_player]( const dialogue & d ) {
+            hit_player, target_var, global]( const dialogue & d ) {
         int radius = iov_radius.evaluate( d.actor( is_npc ) );
         int intensity = iov_intensity.evaluate( d.actor( is_npc ) );
-        for( const tripoint &dest : get_map().points_in_radius( d.actor( is_npc )->pos(), radius ) ) {
+
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
+                radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
                 get_map().add_field( dest, new_field, intensity, dov_age.evaluate( d.actor( is_npc ) ),
                                      hit_player );
@@ -3575,6 +3656,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
     } else if( jo.has_string( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
+    } else if( jo.has_object( "u_location_variable" ) ) {
+        subeffect_fun.set_location_variable( jo, "u_location_variable", false );
+    } else if( jo.has_object( "npc_location_variable" ) ) {
+        subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
     } else if( jo.has_string( "u_buy_monster" ) ) {
         const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
         const int cost = jo.get_int( "cost", 0 );
