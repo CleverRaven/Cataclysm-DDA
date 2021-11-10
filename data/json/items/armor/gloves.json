@@ -428,7 +428,7 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 7,
-    "material": [ "iron", "leather" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
