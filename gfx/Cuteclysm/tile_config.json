@@ -2093,7 +2093,7 @@
         { "id": "arrow_cf", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_exploding", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_field_point_fletched", "fg": 1252, "rotates": false, "multitile": false },
-        { "id": "arrow_fire_hardened_fletched", "fg": 1252, "rotates": false, "multitile": false },
+        { "id": "arrow_wood_crude", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_flamming", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_heavy_field_point_fletched", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_heavy_fire_hardened_fletched", "fg": 1252, "rotates": false, "multitile": false },

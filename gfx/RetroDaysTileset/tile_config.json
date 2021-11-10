@@ -1357,7 +1357,7 @@
           "rotates": false
         },
         {
-          "id": [ "bolt_wood", "arrow_fire_hardened_fletched", "arrow_heavy_fire_hardened_fletched" ],
+          "id": [ "bolt_wood", "arrow_wood_crude", "arrow_heavy_fire_hardened_fletched" ],
           "fg": 623,
           "rotates": false
         },

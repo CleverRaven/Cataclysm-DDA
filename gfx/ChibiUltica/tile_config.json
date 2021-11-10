@@ -2813,7 +2813,7 @@
         { "id": "arrow_cf", "fg": 2178 },
         { "id": "arrow_exploding", "fg": 2179 },
         { "id": "arrow_field_point_fletched", "fg": 2180 },
-        { "id": "arrow_fire_hardened_fletched", "fg": 2181 },
+        { "id": "arrow_wood_crude", "fg": 2181 },
         { "id": "flamable_arrow", "fg": 2195 },
         { "id": "arrow_flamming", "fg": 2182 },
         { "id": "arrow_heavy_fire_hardened_fletched", "fg": 2183 },
