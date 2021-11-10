@@ -32,7 +32,7 @@
   {
     "id": "flamable_arrow",
     "type": "MIGRATION",
-    "replace": "flammable_arrow"
+    "replace": "arrow_flammable"
   },
   {
     "id": "bolt_simple_wood",

@@ -32,7 +32,7 @@
         { "id": "arrow_exploding", "fg": 276 },
         { "id": "arrow_field_point_fletched", "fg": 277 },
         { "id": "arrow_wood_crude", "fg": 278 },
-        { "id": "flammable_arrow", "fg": 292 },
+        { "id": "arrow_flammable", "fg": 292 },
         { "id": "arrow_flaming", "fg": 279 },
         { "id": "arrow_heavy_fire_hardened_fletched", "fg": 280 },
         { "id": "arrow_metal", "fg": 281 },

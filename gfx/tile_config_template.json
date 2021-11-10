@@ -10398,7 +10398,7 @@
             "multitile":false
         },
         {
-            "id": "flammable_arrow",
+            "id": "arrow_flammable",
             "fg":-1,
             "bg":-1,
             "rotates":false,
