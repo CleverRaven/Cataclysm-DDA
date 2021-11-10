@@ -72,7 +72,7 @@
     "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 500,
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_2" ]
@@ -338,6 +338,25 @@
     "weapon_category": [ "KNIVES" ]
   },
   {
+    "id": "knife_baselard_steel",
+    "type": "TOOL",
+    "name": { "str": "baselard" },
+    "description": "A modern recreation of a large medieval dagger made of sturdy steel. Sharper, lighter and more durable than the historical artifact.",
+    "weight": "340 g",
+    "volume": "250 ml",
+    "longest_side": "60 cm",
+    "price": 19590,
+    "bashing": 5,
+    "cutting": 19,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "DURABLE_MELEE" ],
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
     "id": "makeshift_machete",
     "type": "TOOL",
     "category": "weapons",
@@ -524,7 +543,7 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
     "price": 93000,
     "price_postapoc": 3500,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
