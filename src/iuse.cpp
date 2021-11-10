@@ -231,7 +231,7 @@ static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_arrow_flamming( "arrow_flamming" );
+static const itype_id itype_arrow_flaming( "arrow_flaming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_barometer( "barometer" );
@@ -3714,11 +3714,11 @@ cata::optional<int> iuse::arrow_flammable( Character *p, item *it, bool, const t
     p->add_msg_if_player( _( "You light the arrow!" ) );
     p->moves -= to_moves<int>( 1_seconds );
     if( it->charges == 1 ) {
-        it->convert( itype_arrow_flamming );
+        it->convert( itype_arrow_flaming );
         return 0;
     }
     item lit_arrow( *it );
-    lit_arrow.convert( itype_arrow_flamming ).charges = 1;
+    lit_arrow.convert( itype_arrow_flaming ).charges = 1;
     p->i_add( lit_arrow );
     return 1;
 }

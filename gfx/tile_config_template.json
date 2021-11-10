@@ -4495,7 +4495,7 @@
             "multitile":false
         },
         {
-            "id": "arrow_flamming",
+            "id": "arrow_flaming",
             "fg":-1,
             "bg":-1,
             "rotates":false,

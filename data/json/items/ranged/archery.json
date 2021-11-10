@@ -346,7 +346,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_flamming",
+    "id": "arrow_flaming",
     "price": 1200,
     "name": { "str": "flaming arrow" },
     "symbol": "=",
