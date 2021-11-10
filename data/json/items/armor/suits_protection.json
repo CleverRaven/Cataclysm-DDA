@@ -502,7 +502,7 @@
     "price": 35000,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 4,
@@ -514,6 +514,14 @@
         "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "xl_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL faraday chainmail suit" },
+    "copy-from": "chainmail_suit_faraday",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "cleansuit",
