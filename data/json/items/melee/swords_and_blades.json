@@ -341,7 +341,7 @@
     "id": "knife_baselard_steel",
     "type": "TOOL",
     "name": { "str": "baselard" },
-    "description": "A modern recreation of a large medieval dagger made of sturdy steel. Sharper, lighter and more durable than the historical artifact.",
+    "description": "A modern recreation of a large medieval dagger made of sturdy steel.  Sharper, lighter and more durable than the historical artifact.",
     "weight": "380 g",
     "volume": "250 ml",
     "longest_side": "60 cm",
