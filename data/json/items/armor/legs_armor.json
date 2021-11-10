@@ -119,7 +119,7 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
