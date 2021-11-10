@@ -645,7 +645,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
         }
-        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ) {
+        if( npc_search && has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) {
             continue;
         }
         res.insert( elem );

@@ -366,7 +366,7 @@ void Character::update_bodytemp()
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
-        int adjusted_temp = ( Ctemperature - ambient_norm );
+        int adjusted_temp = Ctemperature - ambient_norm;
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
@@ -413,7 +413,7 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, mutation_heat_low );
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
-        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
+        int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
 
         if( get_part_frostbite_timer( bp ) > 0 ) {
             mod_part_frostbite_timer( bp, -std::max( 5, h_radiation ) );

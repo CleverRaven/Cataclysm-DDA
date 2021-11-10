@@ -797,8 +797,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -849,8 +849,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -933,8 +933,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,

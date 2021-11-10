@@ -2867,7 +2867,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
         std::vector<int> x_ret;
         // sort by Y-axis, since they're all on the same X-axis
         const auto x_sorter = [&]( const int lhs, const int rhs ) {
-            return( parts[lhs].mount.y > parts[rhs].mount.y );
+            return parts[lhs].mount.y > parts[rhs].mount.y;
         };
         std::sort( x_parts.begin(), x_parts.end(), x_sorter );
         int first_part = 0;
@@ -2894,7 +2894,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
     if( y_parts.size() > 1 ) {
         std::vector<int> y_ret;
         const auto y_sorter = [&]( const int lhs, const int rhs ) {
-            return( parts[lhs].mount.x > parts[rhs].mount.x );
+            return parts[lhs].mount.x > parts[rhs].mount.x;
         };
         std::sort( y_parts.begin(), y_parts.end(), y_sorter );
         int first_part = 0;
@@ -3009,7 +3009,7 @@ int vehicle::part_displayed_at( const point &dp ) const
         }
     }
 
-    int hide_z_at_or_above = ( in_vehicle ) ? ( ON_ROOF_Z ) : INT_MAX;
+    int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
 
     int top_part = 0;
     for( size_t index = 1; index < parts_in_square.size(); index++ ) {
@@ -3270,7 +3270,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
                       ( player_character.get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( player_character.has_two_arms_lifting() ) ) ) {
+                      player_character.has_two_arms_lifting() ) ) {
                     fl += 10;
                 }
             }
@@ -4487,7 +4487,7 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) = 5
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
+    const float diff_mod = ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned );
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 

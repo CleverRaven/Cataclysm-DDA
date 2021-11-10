@@ -185,7 +185,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) -
                                       buyer.get_skill_level( skill_speech ) );
-    return ( std::max( adjust, 1.0 ) );
+    return std::max( adjust, 1.0 );
 }
 
 template <typename T, typename Callback>

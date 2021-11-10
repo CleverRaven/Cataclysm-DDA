@@ -106,14 +106,6 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "kiln_pseudo",
-    "type": "TOOL",
-    "name": { "str": "clay kiln" },
-    "copy-from": "brick_kiln",
-    "sub": "brick_kiln",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
-  },
-  {
     "id": "carding_paddles",
     "type": "GENERIC",
     "category": "tools",

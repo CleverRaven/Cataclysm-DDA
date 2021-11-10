@@ -181,8 +181,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx = 55;
         mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe Mode enabled:" ) );
         locx += shortcut_print( w_header, point( locx, 1 ),
-                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_light_green : c_light_red ), c_white,
-                                ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
+                                ( get_option<bool>( "SAFEMODE" ) ? c_light_green : c_light_red ), c_white,
+                                ( get_option<bool>( "SAFEMODE" ) ? _( "True" ) : _( "False" ) ) );
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
@@ -235,7 +235,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                              );
                 };
 
-                draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
+                draw_column( COLUMN_RULE, rule.rule.empty() ? _( "<empty rule>" ) : rule.rule );
                 draw_column( COLUMN_ATTITUDE, ( rule.category == Categories::HOSTILE_SPOTTED ) ?
                              Creature::get_attitude_ui_data( rule.attitude ).first.translated() : "---" );
                 draw_column( COLUMN_PROXIMITY, ( ( rule.category == Categories::SOUND ) ||

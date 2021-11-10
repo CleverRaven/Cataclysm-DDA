@@ -500,7 +500,7 @@ static int alcohol( Character &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
         // Metabolizing it cancels out the depressant
         p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
@@ -672,7 +672,7 @@ cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoin
     }
 
     p->add_msg_player_or_npc( _( "You use your fungicide." ), _( "<npcname> uses some fungicide." ) );
-    if( has_fungus && ( one_in( 3 ) ) ) {
+    if( has_fungus && one_in( 3 ) ) {
         // this is not a medicine, the effect is shorter
         p->add_effect( effect_antifungal, 1_hours );
         if( p->has_effect( effect_fungus ) ) {
@@ -681,7 +681,7 @@ cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoin
         }
     }
     creature_tracker &creatures = get_creature_tracker();
-    if( has_spores && ( one_in( 2 ) ) ) {
+    if( has_spores && one_in( 2 ) ) {
         if( !p->has_effect( effect_fungus ) ) {
             p->add_msg_if_player( m_warning, _( "Your skin grows warm for a moment." ) );
         }
@@ -874,7 +874,7 @@ cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
     if( duration > 0_turns ) {
         // meth actually inhibits hunger, weaker characters benefit more
         /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
-        int hungerpen = ( p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ) );
+        int hungerpen = p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max );
         if( hungerpen > 0 ) {
             p->mod_hunger( -hungerpen );
         }
@@ -915,7 +915,7 @@ cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripo
 
 cata::optional<int> iuse::poison( Character *p, item *it, bool, const tripoint & )
 {
-    if( ( p->has_trait( trait_EATDEAD ) ) ) {
+    if( p->has_trait( trait_EATDEAD ) ) {
         return it->type->charges_to_use();
     }
 
@@ -927,7 +927,7 @@ cata::optional<int> iuse::poison( Character *p, item *it, bool, const tripoint &
         return cata::nullopt;
     }
     /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
-    if( ( p->has_trait( trait_EATPOISON ) ) && ( !( one_in( p->str_cur / 2 ) ) ) ) {
+    if( p->has_trait( trait_EATPOISON ) && ( !one_in( p->str_cur / 2 ) ) ) {
         return it->type->charges_to_use();
     }
     p->add_effect( effect_poison, 1_hours );
@@ -1212,7 +1212,7 @@ cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoin
         } else {
             p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
         }
-        if( !( p->has_trait( trait_NOPAIN ) ) ) {
+        if( !p->has_trait( trait_NOPAIN ) ) {
             p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
             p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
         }
@@ -4182,7 +4182,7 @@ cata::optional<int> iuse::solarpack( Character *p, item *it, bool, const tripoin
         p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
     }
 
-    if( it->is_armor() && !( p->is_worn( *it ) ) ) {
+    if( it->is_armor() && !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before you can unfold it." ),
                               it->tname() );
         return cata::nullopt;
@@ -4487,10 +4487,10 @@ cata::optional<int> iuse::vibe( Character *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do… that while mounted." ) );
         return cata::nullopt;
     }
-    if( ( p->is_underwater() ) && ( !( ( p->has_trait( trait_GILLS ) ) ||
-                                       ( p->is_wearing( itype_rebreather_on ) ) ||
-                                       ( p->is_wearing( itype_rebreather_xl_on ) ) ||
-                                       ( p->is_wearing( itype_mask_h20survivor_on ) ) ) ) ) {
+    if( p->is_underwater() && ( !( p->has_trait( trait_GILLS ) ||
+                                   p->is_wearing( itype_rebreather_on ) ||
+                                   p->is_wearing( itype_rebreather_xl_on ) ||
+                                   p->is_wearing( itype_mask_h20survivor_on ) ) ) ) {
         p->add_msg_if_player( m_info, _( "It might be waterproof, but your lungs aren't." ) );
         return cata::nullopt;
     }
@@ -5490,7 +5490,7 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         return cata::nullopt;
     }
     item_location loc = game_menus::inv::titled_menu( get_avatar(),
-                        ( "Select the firearm to repair:" ) );
+                        "Select the firearm to repair:" );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return cata::nullopt;
@@ -8989,7 +8989,7 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
 
 cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
 {
-    if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
+    if( it->is_armor() &&  !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
                               it->tname() );
         return cata::nullopt;

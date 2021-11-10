@@ -284,7 +284,7 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vote )
 {
     // Helper function suggested on discord by jbtw
-    return ( ( a_vote + b_vote + c_vote ) > 1 );
+    return ( a_vote + b_vote + c_vote ) > 1;
 }
 
 bool Creature::sees( const Creature &critter ) const
@@ -1082,7 +1082,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     attack.missed_by = goodhit;
 
-    // copy it, since we're mutating
+    // copy it, since we're mutating.
     damage_instance impact = proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         hit_selection.damage_mult = 1.0f;

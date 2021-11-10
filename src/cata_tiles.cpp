@@ -866,7 +866,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
-        auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
+        auto &sprites = *curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
             case LINE_OXOX_C:
@@ -1886,18 +1886,18 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     if( intensity_level > 0 ) {
         res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
         if( res ) {
-            tt = &( res -> tile() );
+            tt = &res -> tile();
         }
     }
     // if a tile with intensity hasn't already been found then fall back to a base tile
     if( !res ) {
         res = find_tile_looks_like( id, category, variant );
         if( res ) {
-            tt = &( res -> tile() );
+            tt = &res -> tile();
         }
     }
 
-    const std::string &found_id = res ? ( res->id() ) : id;
+    const std::string &found_id = res ? res->id() : id;
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
@@ -2894,34 +2894,82 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                fld_override->second : here.field_at( p ).displayed_field_type();
     bool ret_draw_field = false;
     bool ret_draw_items = false;
-    if( ( fld_overridden || !invisible[0] ) && fld.obj().display_field ) {
-        const lit_level lit = fld_overridden ? lit_level::LIT : ll;
-        const bool nv = fld_overridden ? false : nv_goggles_activated;
+    // go through each field and draw it
+    if( !fld_overridden ) {
+        for( std::map<field_type_id, field_entry>::iterator fd_it = here.field_at( p ).begin();
+             fd_it != here.field_at( p ).end(); ++fd_it ) {
+            const field_type_id &fld = fd_it->first;
+            if( !invisible[0] && fld.obj().display_field ) {
+                const lit_level lit = ll;
+                const bool nv = nv_goggles_activated;
 
-        auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
-            const auto it = field_override.find( q );
-            return it != field_override.end() ? it->second :
-            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
-        };
-        // for rotation information
-        const int neighborhood[4] = {
-            static_cast<int>( field_at( p + point_south, invisible[1] ) ),
-            static_cast<int>( field_at( p + point_east, invisible[2] ) ),
-            static_cast<int>( field_at( p + point_west, invisible[3] ) ),
-            static_cast<int>( field_at( p + point_north, invisible[4] ) )
-        };
+                auto has_field = [&]( field_type_id fld, const tripoint & q, const bool invis ) -> field_type_id {
+                    // go through the fields and see if they are equal
+                    field_type_id found = fd_null;
+                    for( std::map<field_type_id, field_entry>::iterator itt = here.field_at( q ).begin(); itt != here.field_at( q ).end(); ++itt )
+                    {
+                        if( itt->first == fld ) {
+                            found = fld;
+                        }
+                    }
+                    const auto it = field_override.find( q );
+                    return it != field_override.end() ? it->second :
+                           ( !fld_overridden || !invis ) ?  found : fd_null;
+                };
+                // for rotation information
+                const int neighborhood[4] = {
+                    static_cast<int>( has_field( fld, p + point_south, invisible[1] ) ),
+                    static_cast<int>( has_field( fld, p + point_east, invisible[2] ) ),
+                    static_cast<int>( has_field( fld, p + point_west, invisible[3] ) ),
+                    static_cast<int>( has_field( fld, p + point_north, invisible[4] ) )
+                };
 
-        int subtile = 0;
-        int rotation = 0;
-        get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
-        //get field intensity
-        //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
-        int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity() - 1;
-        int nullint = 0;
-        ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                              p, subtile, rotation, lit, nv, nullint, intensity );
+                int subtile = 0;
+                int rotation = 0;
+                get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+
+                //get field intensity
+                //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
+                int intensity = fd_it->second.get_field_intensity() - 1;
+                int nullint = 0;
+                ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
+                                                      p, subtile, rotation, lit, nv, nullint, intensity );
+            }
+        }
+    } else {
+        // draw the override
+        const field_type_id &fld = fld_override->second;
+        if( fld.obj().display_field ) {
+            const lit_level lit = lit_level::LIT;
+            const bool nv = false;
+
+            auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
+                const auto it = field_override.find( q );
+                return it != field_override.end() ? it->second :
+                ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
+            };
+            // for rotation information
+            const int neighborhood[4] = {
+                static_cast<int>( field_at( p + point_south, invisible[1] ) ),
+                static_cast<int>( field_at( p + point_east, invisible[2] ) ),
+                static_cast<int>( field_at( p + point_west, invisible[3] ) ),
+                static_cast<int>( field_at( p + point_north, invisible[4] ) )
+            };
+
+            int subtile = 0;
+            int rotation = 0;
+            get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+
+            //get field intensity
+            //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
+            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity() - 1;
+            int nullint = 0;
+            ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
+                                                  p, subtile, rotation, lit, nv, nullint, intensity );
+        }
     }
+
     if( fld.obj().display_items ) {
         const auto it_override = item_override.find( p );
         const bool it_overridden = it_override != item_override.end();

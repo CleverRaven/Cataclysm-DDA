@@ -844,7 +844,11 @@ class item : public visitable
         item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES,
                            bool sealed = true ) const;
 
-        bool item_has_uses_recursive() const;
+        /**
+        * True if item and its contents have any uses.
+        * @param contents_only Set to true to ignore the item itself and check only its contents.
+        */
+        bool item_has_uses_recursive( bool contents_only = false ) const;
 
         /*@{*/
         /**
@@ -2108,7 +2112,7 @@ class item : public visitable
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
          * Returns empty instance on non-gun items.
          */
-        damage_instance gun_damage( bool with_ammo = true ) const;
+        damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */

@@ -95,7 +95,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return item_pocket::pocket_type::MAGAZINE_WELL;
-    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+    } else if( container.is_magazine() && payload.is_ammo() ) {
         return item_pocket::pocket_type::MAGAZINE;
     }
     return item_pocket::pocket_type::CONTAINER;
@@ -656,20 +656,20 @@ Item_spawn_data::ItemList Item_group::create(
     ItemList result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= ( elem )->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->probability ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec, flags );
+            ItemList tmp = elem->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
+            p -= elem->probability;
             if( p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec, flags );
+            ItemList tmp = elem->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
             break;
         }
@@ -683,19 +683,19 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( rng( 0, 99 ) >= elem->probability ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
+            p -= elem->probability;
             if( p >= 0 ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     }
     return item( null_item_id, birthday );
@@ -704,7 +704,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
 void Item_group::check_consistency() const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency();
+        elem->check_consistency();
     }
     Item_spawn_data::check_consistency();
 }
@@ -730,14 +730,14 @@ bool Item_group::remove_item( const itype_id &itemid )
 void Item_group::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        ( elem )->replace_items( replacements );
+        elem->replace_items( replacements );
     }
 }
 
 bool Item_group::has_item( const itype_id &itemid ) const
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        if( ( elem )->has_item( itemid ) ) {
+        if( elem->has_item( itemid ) ) {
             return true;
         }
     }

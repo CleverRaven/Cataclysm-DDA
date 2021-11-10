@@ -1661,12 +1661,12 @@ float npc::vehicle_danger( int radius ) const
 
 bool npc::turned_hostile() const
 {
-    return ( op_of_u.anger >= hostile_anger_level() );
+    return op_of_u.anger >= hostile_anger_level();
 }
 
 int npc::hostile_anger_level() const
 {
-    return ( 20 + op_of_u.fear - personality.aggression );
+    return 20 + op_of_u.fear - personality.aggression;
 }
 
 void npc::make_angry()
@@ -2159,7 +2159,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
             return VisitResponse::NEXT;
         }
 
-        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *use->get_actor_ptr() );
         if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
             fix_p->bandage = true;
         }
@@ -2198,7 +2198,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
             return VisitResponse::NEXT;
         }
 
-        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *use->get_actor_ptr() );
         if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
             ( try_to_fix.disinfect && actor.disinfectant_power > 0.0f ) ||
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
@@ -2223,8 +2223,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
-    return ( has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
-             has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ) );
+    return has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
+           has_effect( effect_pkill3 ) || has_effect( effect_pkill_l );
 }
 
 int npc::get_faction_ver() const
@@ -2499,7 +2499,7 @@ float npc::average_damage_dealt()
 
 bool npc::bravery_check( int diff )
 {
-    return ( dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 ) );
+    return dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 );
 }
 
 bool npc::emergency() const
@@ -2509,7 +2509,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
+    return danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0;
 }
 
 //Check if this npc is currently in the list of active npcs.

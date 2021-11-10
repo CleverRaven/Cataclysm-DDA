@@ -1935,8 +1935,8 @@ void veh_interact::do_siphon()
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && !pt.base.empty() &&
-                pt.base.only_item().made_of( phase_id::LIQUID ) );
+        return pt.is_tank() && !pt.base.empty() &&
+               pt.base.only_item().made_of( phase_id::LIQUID );
     };
 
     auto act = [&]( const vehicle_part & pt ) {

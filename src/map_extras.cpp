@@ -360,8 +360,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
-                                         c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
+                                         c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
@@ -3063,7 +3063,7 @@ void debug_spawn_test()
                 if( extra == nullptr ) {
                     results[_( "none" )]++;
                 } else {
-                    results[*( ex.values.pick() )]++;
+                    results[*ex.values.pick()]++;
                 }
             } else {
                 results[_( "none" )]++;

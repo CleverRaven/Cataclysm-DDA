@@ -908,7 +908,7 @@ int Character::overmap_sight_range( int light_level ) const
         return 0;
     }
     if( sight <= SEEX * 4 ) {
-        return ( sight / ( SEEX / 2 ) );
+        return sight / ( SEEX / 2 );
     }
 
     sight = 6;
@@ -922,9 +922,9 @@ int Character::overmap_sight_range( int light_level ) const
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
-                             ( is_mounted() &&
-                               mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
+    const bool has_optic = has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
+                           ( is_mounted() &&
+                             mounted_creature->has_flag( MF_MECH_RECON_VISION ) );
     if( has_optic ) {
         multiplier += 1;
     }
@@ -953,16 +953,16 @@ int Character::clairvoyance() const
 bool Character::sight_impaired() const
 {
     const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
-    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
-                 has_effect( effect_darkness ) ) &&
-               ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
-             ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) &&
-               !worn_with_flag( flag_SWIM_GOGGLES ) ) ||
-             ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
-               !worn_with_flag( flag_FIX_NEARSIGHT ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( json_flag_ENHANCED_VISION ) ) ||
-             has_trait( trait_PER_SLIME ) || is_blind() );
+    return ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
+               has_effect( effect_darkness ) ) &&
+             ( !has_trait( trait_PER_SLIME_OK ) ) ) ||
+           ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) &&
+             !worn_with_flag( flag_SWIM_GOGGLES ) ) ||
+           ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
+             !worn_with_flag( flag_FIX_NEARSIGHT ) &&
+             !has_effect( effect_contacts ) &&
+             !has_flag( json_flag_ENHANCED_VISION ) ) ||
+           has_trait( trait_PER_SLIME ) || is_blind();
 }
 
 bool Character::has_alarm_clock() const
@@ -1085,7 +1085,7 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return ( ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ) ||
+    return ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ||
            has_effect( effect_downed ) || is_prone();
 }
 
@@ -1964,7 +1964,7 @@ void Character::recalc_sight_limits()
     if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) && is_avatar() ) ||
         has_effect( effect_narcosis ) ) {
         sight_max = 0;
-    } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
+    } else if( has_effect( effect_boomered ) && ( !has_trait( trait_PER_SLIME_OK ) ) ) {
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
     } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
@@ -2380,7 +2380,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     // for by the additional move cost as weapon weight increases
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
-                            ( 16_gram ) : thrown_item->weight() / ( 16_gram );
+                            16_gram : thrown_item->weight() / 16_gram;
     return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
 
@@ -3958,12 +3958,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp.id() ) && ( is_part_at_max_hp( bp ) ) ) {
+        if( has_effect( effect_bandaged, bp.id() ) && is_part_at_max_hp( bp ) ) {
             set_part_damage_bandaged( bp, 0 );
             remove_effect( effect_bandaged, bp );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp.id() ) && ( is_part_at_max_hp( bp ) ) ) {
+        if( has_effect( effect_disinfected, bp.id() ) && is_part_at_max_hp( bp ) ) {
             set_part_damage_disinfected( bp, 0 );
             remove_effect( effect_disinfected, bp );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -4369,7 +4369,7 @@ void Character::check_needs_extremes()
         get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         set_part_hp_cur( body_part_torso, 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
-        if( !( has_trait( trait_NOPAIN ) ) ) {
+        if( !has_trait( trait_NOPAIN ) ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your heart spasms painfully and stops." ),
                                    _( "<npcname>'s heart spasms painfully and stops." ) );
@@ -4660,7 +4660,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
     bool websleep = has_trait( trait_WEB_WALKER );
     bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-                    ( has_trait( trait_WEB_WEAVER ) ) );
+                    has_trait( trait_WEB_WEAVER ) );
     bool in_shell = has_active_mutation( trait_SHELL2 );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
@@ -5074,17 +5074,15 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 
 bool Character::is_blind() const
 {
-    return ( worn_with_flag( flag_BLIND ) ||
-             has_flag( json_flag_BLIND ) || vision_score() <= 0 );
+    return worn_with_flag( flag_BLIND ) ||
+           has_flag( json_flag_BLIND ) || vision_score() <= 0;
 }
 
 bool Character::is_invisible() const
 {
-    return (
-               has_flag( json_flag_INVISIBLE ) ||
-               is_wearing_active_optcloak() ||
-               has_trait( trait_DEBUG_CLOAK )
-           );
+    return has_flag( json_flag_INVISIBLE ) ||
+           is_wearing_active_optcloak() ||
+           has_trait( trait_DEBUG_CLOAK );
 }
 
 int Character::visibility( bool, int ) const
@@ -5975,8 +5973,8 @@ int Character::get_cardiofit() const
     // At some point we might have proficiencies that affect this.
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
-    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod +
-                                 cardio_acc_mod );
+    int final_cardio_fitness = bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod +
+                               cardio_acc_mod;
     if( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
         // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
         // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the
@@ -6802,8 +6800,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         spine_damage.add_damage( damage_type::STAB, spine );
         source->deal_damage( this, body_part_torso, spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
-        ( !( source->has_weapon() ) ) ) {
+    if( ( !wearing_something_on( bp_hit ) ) && has_trait( trait_THORNS ) &&
+        ( !source->has_weapon() ) ) {
         if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), get_name(),
@@ -6819,11 +6817,11 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         // so safer to target the torso
         source->deal_damage( this, body_part_torso, thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !wearing_something_on( bp_hit ) ) && has_trait( trait_CF_HAIR ) ) {
         if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
-                         get_name(), ( _( "hair" ) ) );
+                         get_name(), _( "hair" ) );
             }
         } else {
             add_msg( m_good, _( "Your hairs detach into %s!" ), source->disp_name() );
@@ -6946,7 +6944,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     // And slimespawners too
-    if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
+    if( has_trait( trait_SLIMESPAWNER ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
             slime->friendly = -1;
             add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
@@ -7452,7 +7450,7 @@ units::volume Character::small_pocket_volume( const units::volume &threshold ) c
         if( !w.is_holster() ) {
             for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
                 if( pocket->volume_capacity() <= threshold ) {
-                    small_spaces += ( pocket->volume_capacity() );
+                    small_spaces += pocket->volume_capacity();
                 }
             }
         }
@@ -7896,10 +7894,10 @@ int Character::floor_warmth( const tripoint &pos ) const
     int floor_mut_warmth = bodytemp_modifier_traits_floor();
     // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
-    if( ( !( has_trait( trait_DOWN ) ) ) && ( floor_mut_warmth >= 200 ) ) {
+    if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 200 ) ) {
         bedding_warmth = std::max( 0, bedding_warmth );
     }
-    return ( item_warmth + bedding_warmth + floor_mut_warmth );
+    return item_warmth + bedding_warmth + floor_mut_warmth;
 }
 
 int Character::bodytemp_modifier_traits( bool overheated ) const
@@ -8815,7 +8813,7 @@ float Character::hearing_ability() const
         // Random hearing :-/
         // (when it's working at all, see player.cpp)
         // changed from 0.5 to fix Mac compiling error
-        volume_multiplier *= ( rng( 1, 2 ) );
+        volume_multiplier *= rng( 1, 2 );
     }
 
     volume_multiplier *= Character::mutation_value( "hearing_modifier" );
@@ -10057,7 +10055,7 @@ void Character::recalc_speed_bonus()
         weight_cap = 1_milligram; //Prevent Clang warning about divide by zero
     }
     if( weight_carried() > weight_cap ) {
-        carry_penalty = 25 * ( weight_carried() - weight_cap ) / ( weight_cap );
+        carry_penalty = 25 * ( weight_carried() - weight_cap ) / weight_cap;
     }
     mod_speed_bonus( -carry_penalty );
 
