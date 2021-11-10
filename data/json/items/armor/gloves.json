@@ -52,7 +52,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
