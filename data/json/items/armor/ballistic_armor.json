@@ -1,18 +1,17 @@
 [
   {
-    "id": "ballistic_vest_empty",
+    "id": "ballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on US Army SPCS",
-    "name": { "str": "empty ballistic vest" },
-    "description": "Ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
+    "name": { "str": "US ballistic vest" },
+    "description": "Ballistic armor with pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "2911 g",
     "volume": "6 L",
     "price": 160000,
     "price_postapoc": 1000,
     "material": [ "nylon" ],
     "symbol": "[",
-    "looks_like": "ballistic_vest_esapi",
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 6,
@@ -42,26 +41,7 @@
         "moves": 200,
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }],
-    "armor": [ { "encumbrance": [6, 6], "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "ballistic_vest_esapi",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ESAPI ballistic vest" },
-    "description": "Ballistic armor with ESAPI ceramic armor plates.",
-    "weight": "9911 g",
-    "volume": "6 L",
-    "price": 280000,
-    "price_postapoc": 8000,
-    "material": [ "nylon", "ceramic" ],
-    "symbol": "[",
-    "looks_like": "ballistic_vest_empty",
-    "color": "light_gray",
-    "warmth": 15,
-    "material_thickness": 16,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [6, 6], "coverage": 100, "covers": [ "torso" ] } ]
   },
   {
     "id": "dragonskin",

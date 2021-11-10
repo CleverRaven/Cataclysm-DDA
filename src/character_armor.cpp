@@ -554,7 +554,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
         // if the pocket is ablative and not empty we should use its values
         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
             // get the contained plate
-            const item &ablative_armor = pocket->front();
+            item &ablative_armor = pocket->front();
 
             int coverage = ablative_armor.get_coverage( bp, ctype );
             // if the attack hits this plate
@@ -595,6 +595,14 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
                                  damage_verb,
                                  m_info );
                     }
+
+                    // delete the now destroyed item
+                    itype_id replacement = ablative_armor.find_armor_data()->non_functional;
+                    remove_item( ablative_armor );
+
+                    // replace it with its destroyed version
+                    pocket->add( item( replacement ) );
+
 
                     return true;
 

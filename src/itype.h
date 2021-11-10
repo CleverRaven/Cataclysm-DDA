@@ -266,6 +266,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
+    /**
      * How much warmth this item provides.
      */
     int warmth = 0;

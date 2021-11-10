@@ -208,6 +208,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 25,
+    "non_functional": "destroyed_large_ceramic_plate",
     "flags": ["ABLATIVE_LARGE", "CANT_WEAR"],
     "armor": [ { "encumbrance": 2, "coverage": 25, "covers": ["torso"] } ]
   },
@@ -225,6 +226,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 25,
+    "non_functional": "destroyed_medium_ceramic_plate",
     "flags": ["ABLATIVE_MEDIUM", "CANT_WEAR"],
     "armor": [ { "encumbrance": 1, "coverage": 15, "covers": ["torso"] } ]
   },
