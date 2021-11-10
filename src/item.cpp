@@ -888,7 +888,7 @@ bool item::swap_side()
     return set_side( opposite_side( get_side() ) );
 }
 
-bool item::is_ablative()
+bool item::is_ablative() const
 {
     const islot_armor *t = find_armor_data();
     return t ? t->ablative : false;
@@ -6624,6 +6624,21 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
+
+        // add the encumbrance values of any ablative plates
+        if( is_ablative() ) {
+            for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+                if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                    // get the contained plate
+                    const item &ablative_armor = pocket->front();
+
+                    if( const armor_portion_data *ablative_portion_data = ablative_armor.portion_for_bodypart(
+                                bodypart ) ) {
+                        encumber += ablative_portion_data->encumber;
+                    }
+                }
+            }
+        }
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.

@@ -1694,7 +1694,7 @@ class item : public visitable
         /**
          * Returns if the armor has ablative pockets
          */
-        bool is_ablative();
+        bool is_ablative() const;
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value

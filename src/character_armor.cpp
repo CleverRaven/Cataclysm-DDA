@@ -559,12 +559,48 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
             int coverage = ablative_armor.get_coverage( bp, ctype );
             // if the attack hits this plate
             if( roll < coverage ) {
-                armor.mitigate_damage( du );
+                // ablative plates are concerned with the damage they absorbe not what they don't absorb
+                float incoming_damage = du.amount;
+
+                // mitigate the actual damage instance
+                ablative_armor.mitigate_damage( du );
 
                 // check if the item breaks
-
                 // We want armor's own resistance to this type, not the resistance it grants
-                const float armors_own_resist = armor.damage_resist( du.type, true );
+                const float armors_own_resist = ablative_armor.damage_resist( du.type, true );
+
+                // plates are rated to survive 3 shots at the caliber they protect
+                // linearly scale off the scale value to find the chance it breaks
+                float break_chance = 33.3 * ( incoming_damage / armors_own_resist );
+
+                float roll_to_break = rng_float( 0.0, 100.0 );
+
+
+                // plates are rated to survive 3 shots at the caliber they protect
+                // linearly scale off the scale value to find the chance it breaks
+                if( roll_to_break < break_chance ) {
+                    //the plate is broken
+
+
+
+                    const std::string pre_damage_name = ablative_armor.tname();
+
+                    // TODO: add balistic and shattering verbs for ablative materials instead of hard coded
+                    std::string format_string = _( "Your %1$s is %2$s!" );
+                    std::string damage_verb = "shattered";
+                    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
+
+                    if( is_avatar() ) {
+                        SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
+                                 damage_verb,
+                                 m_info );
+                    }
+
+                    return true;
+
+                }
+
+
                 return false;
 
             } else {
@@ -575,45 +611,5 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
     }
     return false;
 
-    /*
-    // Don't damage armor as much when bypassed by armor piercing
-    // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float raw_dmg = du.amount;
-    if (raw_dmg > armors_own_resist) {
-        // If damage is above armor value, the chance to avoid armor damage is
-        // 50% + 50% * 1/dmg
-        if (one_in(raw_dmg) || one_in(2)) {
-            return false;
-        }
-    }
-    else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if (armor.has_flag(flag_STURDY) || armor.is_power_armor() || !one_in(200)) {
-            return false;
-        }
-    }
-
-    const material_type& material = armor.get_random_material();
-    std::string damage_verb = (du.type == damage_type::BASH) ? material.bash_dmg_verb() :
-        material.cut_dmg_verb();
-
-    const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj(armor.damage_level());
-
-    // add "further" if the damage adjective and verb are the same
-    std::string format_string = (pre_damage_adj == damage_verb) ?
-        _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
-    add_msg_if_player(m_bad, format_string, pre_damage_name, damage_verb);
-    //item is damaged
-    if (is_avatar()) {
-        SCT.add(point(posx(), posy()), direction::NORTH, remove_color_tags(pre_damage_name), m_neutral,
-            damage_verb,
-            m_info);
-    }
-
-    return armor.mod_damage(armor.has_flag(flag_FRAGILE) ?
-        rng(2 * itype::damage_scale, 3 * itype::damage_scale) : itype::damage_scale, du.type);
-        */
 }
 
