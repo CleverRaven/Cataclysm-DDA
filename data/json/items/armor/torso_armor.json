@@ -164,7 +164,7 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
