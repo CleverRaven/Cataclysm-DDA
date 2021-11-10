@@ -146,6 +146,8 @@ class inventory_entry
         bool highlight_as_parent = false;
         bool highlight_as_child = false;
         bool collapsed = false;
+        // topmost visible parent, used for visibility checks
+        item *topmost_parent = nullptr;
 
     private:
         const item_category *custom_category = nullptr;
@@ -395,6 +397,10 @@ class inventory_column
             indent_entries_override = entry_override;
         }
 
+        void invalidate_paging() {
+            paging_is_valid = false;
+        }
+
     protected:
         struct entry_cell_cache_t {
             bool assigned = false;
@@ -510,9 +516,9 @@ class inventory_selector
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
         void add_contained_items( item_location &container, inventory_column &column,
-                                  const item_category *custom_category = nullptr );
+                                  const item_category *custom_category = nullptr, item *topmost_parent = nullptr );
         void add_contained_ebooks( item_location &container );
-        void add_character_items( Character &character, const bool include_hidden = true );
+        void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
@@ -559,12 +565,12 @@ class inventory_selector
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
                         const item_category *custom_category = nullptr,
-                        size_t chosen_count = 0 );
+                        size_t chosen_count = 0, item *topmost_parent = nullptr );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
                        const item_category *custom_category = nullptr,
-                       const bool include_hidden = true );
+                       item *topmost_parent = nullptr );
 
         void add_items( inventory_column &target_column,
                         const std::function<item_location( item * )> &locator,
