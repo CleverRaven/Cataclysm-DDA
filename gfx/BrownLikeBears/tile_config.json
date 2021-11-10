@@ -1332,7 +1332,7 @@
         { "id": "fishing_rod_basic", "fg": 547, "rotates": false, "multitile": false },
         { "id": "fishing_rod_professional", "fg": 797, "rotates": false, "multitile": false },
         { "id": "fishspear", "fg": 682, "rotates": false, "multitile": false },
-        { "id": "flamable_arrow", "fg": 641, "rotates": false, "multitile": false },
+        { "id": "flammable_arrow", "fg": 641, "rotates": false, "multitile": false },
         { "id": "flamethrower", "fg": 573, "rotates": false, "multitile": false },
         { "id": "flamethrower_crude", "fg": 574, "rotates": false, "multitile": false },
         { "id": "flamethrower_simple", "fg": 573, "rotates": false, "multitile": false },

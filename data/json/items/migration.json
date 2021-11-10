@@ -25,6 +25,11 @@
     "replace": "arrow_metal"
   },
   {
+    "id": "flamable_arrow",
+    "type": "MIGRATION",
+    "replace": "flammable_arrow"
+  },
+  {
     "id": "bolt_simple_wood",
     "type": "MIGRATION",
     "replace": "bolt_wood_simple"

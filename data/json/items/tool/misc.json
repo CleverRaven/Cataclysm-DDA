@@ -184,7 +184,7 @@
     "color": "white"
   },
   {
-    "id": "flamable_arrow",
+    "id": "flammable_arrow",
     "type": "TOOL",
     "category": "ammo",
     "name": { "str": "flammable arrow" },
