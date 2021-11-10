@@ -48,6 +48,7 @@
     "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "rag", 3 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
+  {
     "result": "bundle_black_hide",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
