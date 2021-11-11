@@ -7622,8 +7622,9 @@ bool item::mod_damage( int qty, damage_type dt )
 
     if( qty > 0 && !destroy ) {
         int degrade = std::max( damage_level() - dmg_lvl, 0 );
-        if( degrade_increments() > 0 ) {
-            degradation_ += degrade * ( max_damage() - min_damage() ) / degrade_increments();
+        int incr = degrade_increments();
+        if( incr > 0 ) {
+            degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
         }
     }
 
