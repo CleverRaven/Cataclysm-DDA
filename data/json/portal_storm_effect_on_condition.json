@@ -244,6 +244,7 @@
           [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
           [ "EOC_PORTAL_PAIN", 1 ],
           [ "EOC_PORTAL_LIGHT", 2 ],
+          [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
           [ "EOC_PORTAL_MESSAGE", 5 ]
         ]
       }
@@ -533,5 +534,70 @@
         "duration": { "name": "ps_incorporeal_str", "type": "weather", "context": "ps", "default": "1 seconds", "global": true }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_GRASS_CHANGE",
+    "global": true,
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_transform_radius", "type": "weather", "context": "ps" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          "+",
+          { "const": 5 }
+        ]
+      },
+      {
+        "u_location_variable": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+        "min_radius": 1,
+        "max_radius": 15,
+        "outdoor_only": true
+      },
+      {
+        "u_make_sound": "a high pitched squeal.",
+        "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+        "volume": 60,
+        "type": "alert"
+      },
+      {
+        "u_transform_radius": { "name": "ps_transform_radius", "type": "weather", "context": "ps", "global": true, "default": 5 },
+        "ter_furn_transform": "portal_grass_transform",
+        "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true }
+      },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_ALIEN_GRASS_CHANGE",
+            "effect": [
+              {
+                "u_transform_radius": { "name": "ps_transform_radius", "type": "weather", "context": "ps", "global": true, "default": 5 },
+                "ter_furn_transform": "portal_alien_grass_transform",
+                "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true }
+              },
+              {
+                "u_make_sound": "a high pitched squeal.",
+                "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+                "volume": 60,
+                "type": "alert"
+              }
+            ]
+          }
+        ],
+        "time_in_future_min": "30 seconds",
+        "time_in_future_max": "5 minutes"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_grass_transform",
+    "terrain": [ { "result": [ "t_grass_alien" ], "valid_terrain": [ "t_grass" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_alien_grass_transform",
+    "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_grass_alien" ] } ]
   }
 ]
