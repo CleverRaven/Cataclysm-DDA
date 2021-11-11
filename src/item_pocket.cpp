@@ -859,10 +859,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined if its an ablative pocket don't display any info
-    if( data->ablative ) {
+    if( is_ablative() ) {
         // its an ablative pocket volume and weight maxes don't matter
         info.emplace_back( "DESCRIPTION",
-                           _( "This pocket holds a <info>single armored plate</info>." ) );
+                           _( "Holds a <info>single armored plate</info>." ) );
     } else if( data->ammo_restriction.empty() ) {
         info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
         info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
@@ -877,7 +877,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         }
     }
 
-    if( data->max_item_length != 0_mm && !data->ablative ) {
+    if( data->max_item_length != 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
         info.emplace_back( "BASE", _( "Maximum item length: " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
@@ -970,6 +970,9 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s pocket %d</bold>" ),
                                translated_sealed_prefix(),
                                pocket_number ) );
+        } else if( is_ablative() && !contents.empty() ) {
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>: %s" ),
+                               pocket_number, contents.front().display_name() ) );
         } else {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>" ),
                                pocket_number ) );
@@ -983,8 +986,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
 
-    if( data->ablative ) {
-        // if we have contents display the armor data
+    if( is_ablative() ) {
+        // if we have contents for an ablative pocket display the armor data
         if( !contents.empty() ) {
             const item &ablative_armor = contents.front();
             info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
@@ -1026,23 +1029,26 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
     }
 
-    bool contents_header = false;
-    for( const item &contents_item : contents ) {
-        if( !contents_header ) {
-            info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
-            contents_header = true;
-        }
+    // ablative pockets have their contents displayed earlier in the UI
+    if( !is_ablative() ) {
+        bool contents_header = false;
+        for( const item &contents_item : contents ) {
+            if( !contents_header ) {
+                info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
+                contents_header = true;
+            }
 
-        const translation &description = contents_item.type->description;
+            const translation &description = contents_item.type->description;
 
-        if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                               contents_item.color_in_inventory() ) );
-            info.emplace_back( vol_to_info( "CONTAINER", description + space,
-                                            contents_item.volume() ) );
-        } else {
-            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                               contents_item.color_in_inventory() ) );
+            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
+                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
+                info.emplace_back( vol_to_info( "CONTAINER", description + space,
+                                                contents_item.volume() ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
+            }
         }
     }
 }
