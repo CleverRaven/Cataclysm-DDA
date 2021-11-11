@@ -1220,7 +1220,12 @@ struct fixed_overmap_special_data : overmap_special_data {
     }
 
     std::vector<overmap_special_terrain> preview_terrains() const override {
-        return terrains;
+        std::vector<overmap_special_terrain> result;
+        std::copy_if( terrains.begin(), terrains.end(), std::back_inserter( result ),
+        []( const overmap_special_terrain & terrain ) {
+            return terrain.p.z == 0;
+        } );
+        return result;
     }
 
     std::vector<overmap_special_locations> required_locations() const override {
