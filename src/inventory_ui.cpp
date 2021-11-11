@@ -1083,7 +1083,8 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
 int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
 {
     for( auto &elem : entries ) {
-        if( elem.is_selectable() ) {
+        // Only items on map/in vehicles: those that the player does not possess.
+        if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
             elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
                                  '\0';
             cur_idx++;
@@ -1723,8 +1724,21 @@ void inventory_selector::reassign_custom_invlets()
     } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
         const std::string all_pickup_chars = use_invlet ?
                                              "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
-        const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+        std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
         int cur_idx = 0;
+        auto elemfilter = []( const inventory_entry & e ) {
+            return e.is_item() && e.any_item()->invlet > '\0';
+        };
+        // First pass -> remove letters taken by user-set invlets
+        for( inventory_column *elem : columns ) {
+            for( auto e : elem->get_entries( elemfilter ) ) {
+                const char c = e->any_item()->invlet;
+                if( pickup_chars.find_first_of( c ) != std::string::npos ) {
+                    pickup_chars.erase( std::remove( pickup_chars.begin(), pickup_chars.end(), c ),
+                                        pickup_chars.end() );
+                }
+            }
+        }
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
             cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
