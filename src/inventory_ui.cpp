@@ -1714,10 +1714,21 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 
 void inventory_selector::reassign_custom_invlets()
 {
-    int min_invlet = use_invlet ? '0' : '\0';
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
+    if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
+        int min_invlet = use_invlet ? '0' : '\0';
+        for( inventory_column *elem : columns ) {
+            elem->prepare_paging();
+            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
+        }
+    } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
+        const std::string all_pickup_chars = use_invlet ?
+                                             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
+        const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+        int cur_idx = 0;
+        for( inventory_column *elem : columns ) {
+            elem->prepare_paging();
+            cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+        }
     }
 }
 
@@ -3025,14 +3036,10 @@ drop_locations pickup_selector::execute()
 
 void pickup_selector::reassign_custom_invlets()
 {
-    const std::string all_pickup_chars = showing_invlet() ?
-                                         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
-    const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
-    int cur_idx = 0;
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+    if( invlet_type() == SELECTOR_INVLET_DEFAULT ) {
+        set_invlet_type( SELECTOR_INVLET_ALPHA );
     }
+    inventory_selector::reassign_custom_invlets();
 }
 
 inventory_selector::stats pickup_selector::get_raw_stats() const
