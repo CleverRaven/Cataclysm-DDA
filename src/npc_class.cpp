@@ -130,9 +130,10 @@ void npc_class::finalize_all()
 
 void npc_class::check_consistency()
 {
-    for( const auto &legacy : legacy_ids ) {
+    for( const npc_class_id &legacy : legacy_ids ) {
         if( !npc_class_factory.is_valid( legacy ) ) {
-            debugmsg( "Missing legacy npc class %s", legacy.c_str() );
+            debugmsg( "Missing legacy npc class %s (at index %d)",
+                      legacy.c_str(), &legacy - legacy_ids.data() );
         }
     }
 
