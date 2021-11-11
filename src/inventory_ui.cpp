@@ -1714,10 +1714,10 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 
 void inventory_selector::reassign_custom_invlets()
 {
-    int custom_invlet = '0';
+    int min_invlet = use_invlet ? '0' : '\0';
     for( inventory_column *elem : columns ) {
         elem->prepare_paging();
-        custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
+        min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
     }
 }
 
@@ -2768,12 +2768,12 @@ drop_locations inventory_iuse_selector::execute()
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
             toggle_entries( query_result, toggle_mode::SELECTED );
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count, toggle_mode::SELECTED );
         } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -3025,7 +3025,8 @@ drop_locations pickup_selector::execute()
 
 void pickup_selector::reassign_custom_invlets()
 {
-    const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+    const std::string all_pickup_chars = showing_invlet() ?
+                                         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
     const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
     int cur_idx = 0;
     for( inventory_column *elem : columns ) {

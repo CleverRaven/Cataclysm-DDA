@@ -546,6 +546,15 @@ class inventory_selector
         /** Get last filter string set by set_filter or entered by player */
         std::string get_filter() const;
 
+        /** Set whether to show inventory letters */
+        void show_invlet( bool show ) {
+            this->use_invlet = show;
+        }
+
+        bool showing_invlet() {
+            return this->use_invlet;
+        }
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
@@ -741,6 +750,7 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
+        bool use_invlet = true;
 
     public:
         std::string action_bound_to_key( char key ) const;
