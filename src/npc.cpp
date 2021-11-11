@@ -1825,6 +1825,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string formatted_line = line;
     Character &player_character = get_player_character();
     parse_tags( formatted_line, player_character, *this );
+    formatted_line = capitalize_sentences( formatted_line );
     if( has_trait( trait_MUTE ) ) {
         return;
     }

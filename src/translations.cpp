@@ -900,3 +900,62 @@ bool localized_comparator::operator()( const translation &l, const translation &
 #ifdef __STRICT_ANSI__
 #undef __STRICT_ANSI__
 #endif
+
+std::string capitalize_sentences( const std::string &text )
+{
+#if defined(LOCALIZE)
+    const std::string current_language = TranslationManager::GetInstance().GetCurrentLanguage();
+#else
+    const std::string current_language = "en";
+#endif
+    static const std::unordered_set<std::string> need_capitalization = { "en" };
+    if( need_capitalization.count( current_language ) == 1 ) {
+        utf8_wrapper utf8_text( text );
+        std::string result;
+
+        // isalpha/islower/toupper/ispunct are game language dependent lambda functions.
+        // we have to rebuild the wheel ourselves, because lower/upper functions
+        // from C standard library only support ASCII characters on some systems,
+        // where setting system locale does not make a difference at all.
+        std::function<bool( const std::uint32_t )> isalpha;
+        std::function<bool( const std::uint32_t )> islower;
+        std::function<std::uint32_t( const std::uint32_t )> toupper;
+        std::function<bool( const std::uint32_t )> ispunct;
+
+        if( current_language == "en" ) {
+            isalpha = []( const std::uint32_t ch ) {
+                return std::isalpha( static_cast<int>( ch ) );
+            };
+            islower = []( const std::uint32_t ch ) {
+                return std::islower( static_cast<int>( ch ) );
+            };
+            toupper = []( const std::uint32_t ch ) {
+                return static_cast<std::uint32_t>( std::toupper( static_cast<int>( ch ) ) );
+            };
+            ispunct = []( const std::uint32_t ch ) {
+                return ch == '.' || ch == '!' || ch == '?' || ch == 0x2026;
+            };
+        }
+        // else if ( current_language == "XX" ) { isalpha = ...; ... }
+        // TODO: Implement these custom lower/upper for other languages...
+
+        // expect_first_letter is set to true when a new sentence is about to start
+        bool expect_first_letter = true;
+        for( std::size_t i = 0; i < utf8_text.length(); i++ ) {
+            std::uint32_t ch = utf8_text.at( i );
+            if( expect_first_letter ) {
+                if( isalpha( ch ) ) {
+                    expect_first_letter = false;
+                    if( islower( ch ) ) {
+                        ch = toupper( ch );
+                    }
+                }
+            } else if( ( i + 1 < utf8_text.length() ) && utf8_text.at( i + 1 ) == ' ' && ispunct( ch ) ) {
+                expect_first_letter = true;
+            }
+            result.append( utf32_to_utf8( ch ) );
+        }
+        return result;
+    }
+    return text;
+}

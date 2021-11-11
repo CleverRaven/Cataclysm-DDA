@@ -206,6 +206,8 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
 void set_language();
 
+std::string capitalize_sentences( const std::string &text );
+
 class JsonIn;
 
 /**
