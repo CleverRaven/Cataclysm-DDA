@@ -1731,7 +1731,7 @@ void inventory_selector::reassign_custom_invlets()
         };
         // First pass -> remove letters taken by user-set invlets
         for( inventory_column *elem : columns ) {
-            for( auto e : elem->get_entries( elemfilter ) ) {
+            for( inventory_entry *e : elem->get_entries( elemfilter ) ) {
                 const char c = e->any_item()->invlet;
                 if( pickup_chars.find_first_of( c ) != std::string::npos ) {
                     pickup_chars.erase( std::remove( pickup_chars.begin(), pickup_chars.end(), c ),
