@@ -3045,10 +3045,7 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
 
 bool inventory_examiner::check_parent_item()
 {
-    if( parent_item->is_container_empty() || empty() ) {
-        return false;
-    }
-    return true;
+    return !( parent_item->is_container_empty() || empty() );
 }
 
 int inventory_examiner::cleanup()
@@ -3145,14 +3142,12 @@ int inventory_examiner::execute()
             return cleanup();
         }
 
-        if( input.action == "QUIT" ) {
+        if( input.action == "QUIT" || input.action == "CONFIRM" ) {
             return cleanup();
         } else if( input.action == "PAGE_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
         } else if( input.action == "PAGE_DOWN" ) {
             examine_window_scroll += scroll_item_info_lines;
-        } else if( input.action == "CONFIRM" ) {
-            return cleanup();
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
             if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
