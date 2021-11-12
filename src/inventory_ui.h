@@ -544,6 +544,28 @@ class inventory_selector
         /** Get last filter string set by set_filter or entered by player */
         std::string get_filter() const;
 
+        enum selector_invlet_type {
+            SELECTOR_INVLET_DEFAULT,
+            SELECTOR_INVLET_NUMERIC,
+            SELECTOR_INVLET_ALPHA
+        };
+        /** Set the letter group to use for automatic inventory letters */
+        void set_invlet_type( selector_invlet_type type ) {
+            this->invlet_type_ = type;
+        }
+        /** @return the letter group to use for automatic inventory letters */
+        selector_invlet_type invlet_type() {
+            return this->invlet_type_;
+        }
+        /** Set whether to show inventory letters */
+        void show_invlet( bool show ) {
+            this->use_invlet = show;
+        }
+        /** @return true if invlets should be used on this menu */
+        bool showing_invlet() {
+            return this->use_invlet;
+        }
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
@@ -752,6 +774,8 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
+        bool use_invlet = true;
+        selector_invlet_type invlet_type_ = SELECTOR_INVLET_DEFAULT;
 
     public:
         std::string action_bound_to_key( char key ) const;

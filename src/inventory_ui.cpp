@@ -1066,7 +1066,8 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
 int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
 {
     for( auto &elem : entries ) {
-        if( elem.is_selectable() ) {
+        // Only items on map/in vehicles: those that the player does not possess.
+        if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
             elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
                                  '\0';
             cur_idx++;
@@ -1700,10 +1701,34 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 
 void inventory_selector::reassign_custom_invlets()
 {
-    int custom_invlet = '0';
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
+    if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
+        int min_invlet = use_invlet ? '0' : '\0';
+        for( inventory_column *elem : columns ) {
+            elem->prepare_paging();
+            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
+        }
+    } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
+        const std::string all_pickup_chars = use_invlet ?
+                                             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
+        std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+        int cur_idx = 0;
+        auto elemfilter = []( const inventory_entry & e ) {
+            return e.is_item() && e.any_item()->invlet > '\0';
+        };
+        // First pass -> remove letters taken by user-set invlets
+        for( inventory_column *elem : columns ) {
+            for( inventory_entry *e : elem->get_entries( elemfilter ) ) {
+                const char c = e->any_item()->invlet;
+                if( pickup_chars.find_first_of( c ) != std::string::npos ) {
+                    pickup_chars.erase( std::remove( pickup_chars.begin(), pickup_chars.end(), c ),
+                                        pickup_chars.end() );
+                }
+            }
+        }
+        for( inventory_column *elem : columns ) {
+            elem->prepare_paging();
+            cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+        }
     }
 }
 
@@ -2774,12 +2799,12 @@ drop_locations inventory_iuse_selector::execute()
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
             toggle_entries( query_result, toggle_mode::SELECTED );
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count, toggle_mode::SELECTED );
         } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count, toggle_mode::SELECTED );
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -3008,13 +3033,10 @@ drop_locations pickup_selector::execute()
 
 void pickup_selector::reassign_custom_invlets()
 {
-    const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
-    const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
-    int cur_idx = 0;
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+    if( invlet_type() == SELECTOR_INVLET_DEFAULT ) {
+        set_invlet_type( SELECTOR_INVLET_ALPHA );
     }
+    inventory_selector::reassign_custom_invlets();
 }
 
 inventory_selector::stats pickup_selector::get_raw_stats() const
