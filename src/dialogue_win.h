@@ -27,13 +27,6 @@ class dialogue_window
         void resize( ui_adaptor &ui );
         void draw( const std::string &npc_name, const std::vector<talk_data> &responses );
 
-        void open_dialogue( bool text_only = false, bool is_computer = false );
-        void resize_dialogue( ui_adaptor &ui );
-        void print_header( const std::string &name );
-
-        bool text_only = false;
-        bool is_computer = false;
-        void clear_window_texts();
         void handle_scrolling( const std::string &action );
 
         void refresh_response_display();
