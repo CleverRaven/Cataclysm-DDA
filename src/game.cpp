@@ -8494,8 +8494,8 @@ void game::reload_weapon( bool try_everything )
         }
         // Second sort by affiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item().can_contain( *ap, true ).success();
-        const bool mag_bp = this->u.get_wielded_item().can_contain( *bp, true ).success();
+        const bool mag_ap = this->u.get_wielded_item().is_compatible( *ap ).success();
+        const bool mag_bp = this->u.get_wielded_item().is_compatible( *bp ).success();
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }

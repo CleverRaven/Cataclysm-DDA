@@ -68,7 +68,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
         // Empty battery won't work
         battery.ammo_set( battery.ammo_default(), 0 );
-        CHECK( !dummy.can_fuel_bionic_with( battery ) );
+        CHECK_FALSE( dummy.can_fuel_bionic_with( battery ) );
 
         // Full battery works
         battery.ammo_set( battery.ammo_default(), 50 );
@@ -78,7 +78,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         item flashlight = item( "flashlight" );
         flashlight.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( flashlight.ammo_remaining() == 50 );
-        CHECK( !dummy.can_fuel_bionic_with( flashlight ) );
+        CHECK_FALSE( dummy.can_fuel_bionic_with( flashlight ) );
 
     }
 

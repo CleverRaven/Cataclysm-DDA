@@ -1334,13 +1334,20 @@ class item : public visitable
         fuel_explosion_data get_explosion_data();
 
         /**
+         * returns whether any of the pockets is compatible with the specified item.
+         * Does not check if the item actually fits volume/weight wise
+         * Only checks CONTAINER, MAGAZINE and MAGAZINE WELL pockets
+         * @param it the item being put in
+         */
+        ret_val<bool> is_compatible( const item &it ) const;
+
+        /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
-        bool can_contain( const itype &tp, const bool ignore_fullness = false ) const;
+        ret_val<bool> can_contain( const item &it ) const;
+        bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
@@ -2005,7 +2012,7 @@ class item : public visitable
         /** Apply predicate to each contained spent casing removing it if predicate returns true */
         void casings_handle( const std::function<bool( item & )> &func );
 
-        /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
+        /** Can item load ammo like a magazine (has magazine pocket) */
         bool magazine_integral() const;
 
         /** Does item have magazine well */
