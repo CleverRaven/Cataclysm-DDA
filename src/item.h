@@ -1661,6 +1661,10 @@ class item : public visitable
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( const bodypart_id &bp ) const;
+        /**
+         * Whether this item (when worn) covers the given sub body part.
+         */
+        bool covers( const sub_bodypart_id &bp ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
         cata::optional<side> covers_overlaps( const item &rhs ) const;
         /**
@@ -1685,6 +1689,22 @@ class item : public visitable
         * @param s Specifies the side. Will be ignored for non-sided items.
         */
         body_part_set get_covered_body_parts( side s ) const;
+
+        /**
+         * returns a vector of all the sub_body_parts of this item
+         */
+        std::vector<sub_bodypart_id> get_covered_sub_body_parts() const;
+
+        /**
+         * returns a vector of all the sub_body_parts of this item accounting for a specific side
+         */
+        std::vector<sub_bodypart_id> get_covered_sub_body_parts( side s ) const;
+
+        /**
+         * returns true if the item has armor and if it has sub location coverage
+         */
+        bool has_sublocations() const;
+
         /**
           * Returns true if item is armor and can be worn on different sides of the body
           */
@@ -1736,12 +1756,17 @@ class item : public visitable
         int get_coverage( const bodypart_id &bodypart,
                           const cover_type &type = cover_type::COVER_DEFAULT ) const;
 
+        int get_coverage( const sub_bodypart_id &bodypart,
+                          const cover_type &type = cover_type::COVER_DEFAULT ) const;
+
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
+
+        const armor_portion_data *portion_for_bodypart( const sub_bodypart_id &bodypart ) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions
@@ -1755,6 +1780,9 @@ class item : public visitable
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
+                          encumber_flags = encumber_flags::none ) const;
+
+        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**
@@ -2414,6 +2442,8 @@ class item : public visitable
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
                 std::function<void( const bodypart_str_id & )> cb ) const;
+        void iterate_covered_sub_body_parts_internal( side s,
+                std::function<void( const sub_bodypart_str_id & )> cb ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
