@@ -195,6 +195,8 @@ class computer;
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
+
 static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -253,14 +255,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const faction_id faction_your_followers( "your_followers" );
-
-static const flag_id json_flag_SPLINT( "SPLINT" );
-
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
-
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
