@@ -39,18 +39,15 @@ static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-
 static const oter_str_id oter_cavern( "cavern" );
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
-static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_hiway_ew( "hiway_ew" );
-static const oter_str_id oter_hive( "hive" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
 static const oter_str_id oter_forest_trail_end_west( "forest_trail_end_west" );
@@ -61,10 +58,13 @@ static const oter_str_id oter_forest_trail_new( "forest_trail_new" );
 static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
 static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
 static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
+static const oter_str_id oter_hellmouth( "hellmouth" );
+static const oter_str_id oter_hive( "hive" );
+static const oter_str_id oter_hiway_ew( "hiway_ew" );
 static const oter_str_id oter_rift( "rift" );
+static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
 static const oter_str_id oter_river_c_not_sw( "river_c_not_sw" );
-static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_center( "river_center" );
 static const oter_str_id oter_river_east( "river_east" );
 static const oter_str_id oter_river_nw( "river_nw" );
@@ -83,8 +83,8 @@ static const oter_str_id oter_sewer_sw( "sewer_sw" );
 static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_subway_ns( "subway_ns" );
 static const oter_str_id oter_subway_ew( "subway_ew" );
+static const oter_str_id oter_subway_ns( "subway_ns" );
 
 static const oter_type_str_id oter_type_railroad( "railroad" );
 

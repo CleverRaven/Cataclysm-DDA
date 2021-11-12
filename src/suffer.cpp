@@ -97,9 +97,18 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
-static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+
+static const json_character_flag json_flag_GILLS( "GILLS" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -115,10 +124,10 @@ static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
-static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -135,8 +144,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
-static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
+static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -146,15 +155,6 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
-
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
-static const json_character_flag json_flag_GILLS( "GILLS" );
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 namespace suffer
 {

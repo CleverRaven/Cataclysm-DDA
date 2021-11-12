@@ -76,9 +76,15 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 
+static const bionic_id bio_railgun( "bio_railgun" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
 static const itype_id itype_12mm( "12mm" );
 static const itype_id itype_40x46mm( "40x46mm" );
@@ -91,26 +97,20 @@ static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
 
-static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
+static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
+static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-
+static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
-static const skill_id skill_archery( "archery" );
-
-static const bionic_id bio_railgun( "bio_railgun" );
-
-static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
-static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
-static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
+
+static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 

@@ -33,6 +33,7 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );
 static const itype_id itype_fire( "fire" );
@@ -41,11 +42,11 @@ static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 
 static std::map<requirement_id, requirement_data> requirements_all;
 

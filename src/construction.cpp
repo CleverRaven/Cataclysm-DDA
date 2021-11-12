@@ -75,19 +75,19 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-
-static const quality_id qual_CUT( "CUT" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 

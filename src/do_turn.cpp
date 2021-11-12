@@ -33,8 +33,8 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );

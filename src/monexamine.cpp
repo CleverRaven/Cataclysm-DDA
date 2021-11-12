@@ -40,30 +40,29 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const quality_id qual_SHEAR( "SHEAR" );
-
-static const efftype_id effect_sheared( "sheared" );
-
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_leashed( "leashed" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_monster_saddled( "monster_saddled" );
-static const efftype_id effect_leashed( "leashed" );
-static const efftype_id effect_led_by_leash( "led_by_leash" );
+static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_tied( "tied" );
+
+static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
+static const flag_id json_flag_TACK( "TACK" );
+static const flag_id json_flag_TIE_UP( "TIE_UP" );
 
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
-static const skill_id skill_survival( "survival" );
+static const quality_id qual_SHEAR( "SHEAR" );
 
-static const flag_id json_flag_TIE_UP( "TIE_UP" );
-static const flag_id json_flag_TACK( "TACK" );
-static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
+static const skill_id skill_survival( "survival" );
 
 namespace
 {

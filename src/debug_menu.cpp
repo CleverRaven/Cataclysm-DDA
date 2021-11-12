@@ -117,8 +117,8 @@ static const efftype_id effect_asthma( "asthma" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"

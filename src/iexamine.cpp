@@ -112,6 +112,10 @@ static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const ammotype ammo_money( "money" );
 
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -129,9 +133,6 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -142,13 +143,13 @@ static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
-static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
@@ -165,14 +166,30 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_water( "water" );
 
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
+static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
-
-static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -191,24 +208,6 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-static const quality_id qual_DIG( "DIG" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
-static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
-static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
-static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
-
-static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
-static const bionic_id bio_painkiller( "bio_painkiller" );
-
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -1234,7 +1233,7 @@ void iexamine::intercom( Character &you, const tripoint &examp )
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
         // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
     }
 }
 
