@@ -800,7 +800,7 @@
     "using": [ [ "tailoring_neoprene", 1 ] ]
   },
   {
-    "result": "chainmail_feet",
+    "result": "chainmail_feet_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
