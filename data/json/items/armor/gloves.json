@@ -81,7 +81,7 @@
     "id": "xl_chainmail_hands",
     "type": "ARMOR",
     "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
-    "copy-from": "chainmail_hands",
+    "copy-from": "chainmail_hands_steel",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
