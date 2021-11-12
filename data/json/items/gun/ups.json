@@ -209,8 +209,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "extend": { "effects": [ "MOUNTED_GUN" ] },
-    "delete": { "effects": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   },
   {
     "id": "recon_mech_laser_single",
@@ -230,7 +230,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "extend": { "effects": [ "MOUNTED_GUN" ] },
-    "delete": { "effects": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   }
 ]
