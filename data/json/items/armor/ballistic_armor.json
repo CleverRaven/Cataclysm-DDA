@@ -17,10 +17,38 @@
     "material_thickness": 6,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "ablative": true, "moves": 200, "flag_restriction": [ "ABLATIVE_LARGE" ] },
-      { "pocket_type": "CONTAINER", "ablative": true, "moves": 200, "flag_restriction": [ "ABLATIVE_LARGE" ] },
-      { "pocket_type": "CONTAINER", "ablative": true, "moves": 200, "flag_restriction": [ "ABLATIVE_MEDIUM" ] },
-      { "pocket_type": "CONTAINER", "ablative": true, "moves": 200, "flag_restriction": [ "ABLATIVE_MEDIUM" ] }
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
     ],
     "armor": [ { "encumbrance": [ 6, 6 ], "coverage": 100, "covers": [ "torso" ] } ]
   },

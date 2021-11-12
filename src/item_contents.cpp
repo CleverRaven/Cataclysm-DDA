@@ -578,7 +578,7 @@ units::length item_contents::max_containable_length() const
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ) {
             continue;
         }
         units::length candidate = pocket.max_containable_length();
@@ -604,7 +604,7 @@ units::volume item_contents::max_containable_volume() const
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ) {
             continue;
         }
         units::volume candidate = pocket.remaining_volume();
@@ -1370,7 +1370,7 @@ units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && !pocket.is_ablative() ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             total_vol += pocket.volume_capacity();
         }
     }
