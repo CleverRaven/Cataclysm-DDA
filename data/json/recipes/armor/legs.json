@@ -853,7 +853,7 @@
   {
     "result": "xl_chainmail_legs",
     "type": "recipe",
-    "copy-from": "chainmail_legs",
+    "copy-from": "chainmail_legs_steel",
     "time": "4 h 30 m",
     "using": [ [ "armor_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
   },
