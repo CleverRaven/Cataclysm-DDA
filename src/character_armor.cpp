@@ -549,14 +549,24 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
         ctype = item::cover_type::COVER_MELEE;
     }
 
-    int roll = rng( 1, 100 );
+    float roll = rng_float( 0.0, 100.0 );
     for( item_pocket *const pocket : armor.get_all_contained_pockets().value() ) {
         // if the pocket is ablative and not empty we should use its values
         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
             // get the contained plate
             item &ablative_armor = pocket->front();
 
-            int coverage = ablative_armor.get_coverage( bp, ctype );
+            float ablative_coverage = ablative_armor.get_coverage( bp, ctype );
+            float armor_coverage = armor.get_coverage( bp, ctype );
+
+            // ablative armor stores its overall coverage ex: covers 30% of the torso
+            // but if that plate is in a vest that only covers 60% of the torso then
+            // it covers 50% of the vest so need to scale the coverage appropriately
+            // since the attack has already hit the vest now we are checking if it hits
+            // a plate
+
+            float coverage = ( ablative_coverage / armor_coverage ) * 100;
+
             // if the attack hits this plate
             if( roll < coverage ) {
                 // ablative plates are concerned with the damage they absorbe not what they don't absorb
