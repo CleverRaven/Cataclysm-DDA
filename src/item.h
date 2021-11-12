@@ -32,6 +32,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "rng.h"
 
 class Character;
 class Creature;
@@ -2579,6 +2580,8 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completly dry.
+
+        int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.
