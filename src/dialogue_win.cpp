@@ -29,12 +29,6 @@ void dialogue_window::resize( ui_adaptor &ui )
     rebuild_folded_history();
 }
 
-void dialogue_window::open_dialogue( bool text_only, bool is_computer )
-{
-    this->text_only = text_only;
-    this->is_computer = is_computer;
-}
-
 void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_data> &responses )
 {
     werase( d_win );
