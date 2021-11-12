@@ -619,6 +619,7 @@ void Item_factory::finalize_post( itype &obj )
             // if sub coverage is empty we should add all coverage to the item
             if( !data.sub_coverage.empty() ) {
                 obj.armor->has_sub_coverage = true;
+            }
             // Precalc average thickness per portion
             int data_count = 0;
             float thic_acc = 0.0f;

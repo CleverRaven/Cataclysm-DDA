@@ -17,7 +17,7 @@
           "encumbrance": 10,
           "coverage": 5,
           "covers": [ "torso" ],
-	  "specifically_covers": [ "torso_upper" ]
+          "specifically_covers": [ "torso_upper" ]
         }
       ]
     },

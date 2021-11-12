@@ -52,7 +52,8 @@
           "material": [ { "type": "cotton", "portion_cover": 100, "thickness": 2.0 } ],
           "encumbrance": 3,
           "coverage": 5,
-          "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
         }
       ]
     },

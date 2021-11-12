@@ -704,7 +704,8 @@
             { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
           ],
           "coverage": 15,
-          "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
         }
       ]
     },
@@ -1694,7 +1695,12 @@
     ],
     "armor_data": {
       "armor": [
-        { "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ], "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] }
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 15,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
       ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
