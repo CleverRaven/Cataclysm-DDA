@@ -476,7 +476,7 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "xl_chainmail_hauberk",
+    "id": "xl_chainmail_hauberk_steel",
     "type": "ARMOR",
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk_steel",
@@ -504,7 +504,7 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "chainmail_suit",
+    "id": "chainmail_suit_steel",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail armor" },
@@ -528,6 +528,62 @@
     "type": "ARMOR",
     "name": { "str": "XL chainmail armor" },
     "copy-from": "chainmail_suit_steel",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
+  },
+  {
+    "id": "chainmail_hauberk_ksteel",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "kevlar-backed chainmail hauberk" },
+    "description": "A fully customized steel chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "weight": "16857 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "steel", "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 30,
+    "material_thickness": 6,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "xl_chainmail_hauberk_ksteel",
+    "type": "ARMOR",
+    "name": { "str": "kevlar-backed XL chainmail hauberk" },
+    "copy-from": "chainmail_hauberk_ksteel",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "chainmail_suit_ksteel",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "kevlar-backed chainmail armor" },
+    "description": "A fully customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "weight": "18863 g",
+    "volume": "3250 ml",
+    "price": 45000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "material": [ "steel", "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "warmth": 30,
+    "material_thickness": 6,
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "xl_chainmail_suit_ksteel",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar-backed chainmail armor" },
+    "copy-from": "chainmail_suit_ksteel",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
