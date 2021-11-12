@@ -2566,7 +2566,8 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 95,
     "cover_ranged": 50,
     "cover_vitals": 5,
-    "covers": [ "torso" ]
+    "covers": [ "torso" ],
+    "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ]
   },
   {
     "encumbrance": 2,
@@ -2574,7 +2575,8 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 80,
     "cover_ranged": 70,
     "cover_vitals": 5,
-    "covers": [ "arm_r", "arm_l" ]
+    "covers": [ "arm_r", "arm_l" ],
+    "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
   }
 ]
 ```
@@ -2595,6 +2597,13 @@ What percentage of time this piece of armor will be hit (and thus used as armor)
 ##### Covers
 (array of strings)
 What body parts this section of the armor covers. See the bodypart_ids defined in body_parts.json for valid values.
+
+##### Specifically Covers
+(array of strings)
+What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
+These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
+strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++

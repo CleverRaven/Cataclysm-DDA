@@ -47,13 +47,20 @@ class item_contents
         std::set<flag_id> magazine_flag_restrictions() const;
 
         /**
+         * returns whether any of the pockets contained is compatible with the specified item.
+         * Does not check if the item actually fits volume/weight wise
+         * Ignores mod, migration, corpse pockets
+         * @param it the item being put in
+         */
+        ret_val<bool> is_compatible( const item &it ) const;
+
+        /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
-         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
-        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         // does not ignore mods
@@ -137,9 +144,12 @@ class item_contents
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
-        // gets all pockets contained in this item
+        // gets all CONTAINER pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+
+        // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
+        std::vector<const item_pocket *> get_all_reloadable_pockets() const;
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;

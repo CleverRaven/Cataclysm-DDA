@@ -93,10 +93,10 @@ static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
@@ -1602,6 +1602,7 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
+    my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
@@ -1684,6 +1685,7 @@ void npc::make_angry()
     if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
+        my_fac->trusts_u = std::min( -15, my_fac->trusts_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
@@ -1874,6 +1876,15 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
         return false;
     }
 
+    for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
+        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+            continue;
+        }
+        if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
+            return false;
+        }
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }
@@ -1962,8 +1973,15 @@ void npc::shop_restock()
     if( is_player_ally() ) {
         return;
     }
-    const item_group_id &from = myclass->get_shopkeeper_items();
-    if( from == item_group_id( "EMPTY_GROUP" ) ) {
+
+    std::vector<item_group_id> from;
+    for( const auto &ig : myclass->get_shopkeeper_items() ) {
+        const faction *fac = get_faction();
+        if( !fac || ig.trust <= fac->trusts_u ) {
+            from.emplace_back( ig.id );
+        }
+    }
+    if( from.empty() ) {
         return;
     }
 
@@ -1991,7 +2009,7 @@ void npc::shop_restock()
     int count = 0;
     bool last_item = false;
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( from, calendar::turn );
+        item tmpit = item_group::item_from( random_entry( from ), calendar::turn );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             tmpit.set_owner( *this );
             ret.push_back( tmpit );

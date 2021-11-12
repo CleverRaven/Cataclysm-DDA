@@ -324,10 +324,11 @@ void cata_tiles::reinit()
 }
 
 static void get_tile_information( const std::string &config_path, std::string &json_path,
-                                  std::string &tileset_path )
+                                  std::string &tileset_path, std::string &layering_path )
 {
     const std::string default_json = PATH_INFO::defaulttilejson();
     const std::string default_tileset = PATH_INFO::defaulttilepng();
+    const std::string default_layering = PATH_INFO::defaultlayeringjson();
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -341,6 +342,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
             } else if( string_starts_with( sOption, "TILESET" ) ) {
                 fin >> tileset_path;
                 dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+            } else if( string_starts_with( sOption, "LAYERING" ) ) {
+                fin >> layering_path;
+                dbg( D_INFO ) << "LAYERING path set to [" << layering_path << "].";
+
             } else {
                 getline( fin, sOption );
             }
@@ -350,6 +355,7 @@ static void get_tile_information( const std::string &config_path, std::string &j
     if( !read_from_file( config_path, reader ) ) {
         json_path = default_json;
         tileset_path = default_tileset;
+        layering_path = default_layering;
     }
 
     if( json_path.empty() ) {
@@ -359,6 +365,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
     if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
+    }
+    if( layering_path.empty() ) {
+        layering_path = default_layering;
+        dbg( D_INFO ) << "TILESET set to default [" << layering_path << "].";
     }
 }
 
@@ -576,8 +586,11 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
                                   const bool pump_events )
 {
     std::string json_conf;
+    std::string layering;
     std::string tileset_path;
     std::string tileset_root;
+
+    bool has_layering = true;
 
     const auto tset_iter = TILESETS.find( tileset_id );
     if( tset_iter != TILESETS.end() ) {
@@ -585,16 +598,27 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " <<
                       tileset_root;
         get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
-                              json_conf, tileset_path );
+                              json_conf, tileset_path, layering );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
         json_conf = PATH_INFO::defaulttilejson();
         tileset_path = PATH_INFO::defaulttilepng();
+        layering = PATH_INFO::defaultlayeringjson();
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + tileset_path;
+    std::string layering_path = tileset_root + '/' + layering;
+
+    dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
+    cata::ifstream layering_file( fs::u8path( layering_path ),
+                                  std::ifstream::in | std::ifstream::binary );
+
+    if( !layering_file.good() ) {
+        has_layering = false;
+        //throw std::runtime_error(std::string("Failed to open layering info json: ") + layering_path);
+    }
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
     cata::ifstream config_file( fs::u8path( json_path ),
@@ -701,6 +725,22 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     ensure_default_item_highlight();
 
     ts.tileset_id = tileset_id;
+
+    // set up layering data
+    if( has_layering ) {
+        JsonIn layering_json( layering_file );
+        JsonObject layer_config = layering_json.get_object();
+        layer_config.allow_omitted_members();
+
+        // "item_variants" section must exist.
+        if( !layer_config.has_member( "item_variants" ) ) {
+            layer_config.throw_error( "\"item_variants\" missing" );
+        }
+
+        load_layers( layer_config );
+    }
+
+
 }
 
 void tileset_cache::loader::load_internal( const JsonObject &config,
@@ -764,6 +804,47 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
+}
+
+void tileset_cache::loader::load_layers( const JsonObject &config )
+{
+    for( const JsonObject item : config.get_array( "item_variants" ) ) {
+        if( item.has_member( "context" ) && item.has_array( "variants" ) ) {
+            std::string context;
+            context = item.get_string( "context" );
+            std::vector<layer_variant> variants;
+            for( const JsonObject vars : item.get_array( "variants" ) ) {
+                if( vars.has_member( "item" ) && vars.has_array( "sprite" ) && vars.has_member( "layer" ) ) {
+                    layer_variant v;
+                    v.item = vars.get_string( "item" );
+
+                    v.layer = vars.get_int( "layer" );
+
+                    int total_weight = 0;
+                    for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
+                        std::string id = sprites.get_string( "id" );
+                        int weight = sprites.get_int( "weight", 1 );
+                        v.sprite.emplace( id, weight );
+
+                        total_weight += weight;
+                    }
+                    v.total_weight = total_weight;
+                    variants.push_back( v );
+                } else {
+                    config.throw_error( "variants configured incorrectly" );
+                }
+            }
+            // sort them based on layering so we can draw them correctly
+            std::sort( variants.begin(), variants.end(), []( const layer_variant & a,
+            const layer_variant & b ) {
+                return a.layer < b.layer;
+            } );
+            ts.layer_data.emplace( context, variants );
+        } else {
+            config.throw_error( "layering configured incorrectly" );
+        }
+    }
+
 }
 
 void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
@@ -2930,8 +3011,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
                 //get field intensity
-                //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
-                int intensity = fd_it->second.get_field_intensity() - 1;
+                int intensity = fd_it->second.get_field_intensity();
                 int nullint = 0;
                 ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
                                                       p, subtile, rotation, lit, nv, nullint, intensity );
@@ -2962,8 +3042,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
             //get field intensity
-            //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
-            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity() - 1;
+            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
             int nullint = 0;
             ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
                                                   p, subtile, rotation, lit, nv, nullint, intensity );
@@ -2978,38 +3057,142 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         mtype_id mon_id;
         std::string variant;
         bool hilite = false;
+        bool drawtop = true;
         const itype *it_type;
-        if( it_overridden ) {
-            it_id = std::get<0>( it_override->second );
-            mon_id = std::get<1>( it_override->second );
-            hilite = std::get<2>( it_override->second );
-            it_type = item::find_type( it_id );
-        } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
-            const maptile &tile = here.maptile_at( p );
-            const item &itm = tile.get_uppermost_item();
-            if( itm.has_itype_variant() ) {
-                variant = itm.itype_variant().id;
-            }
-            const mtype *const mon = itm.get_mtype();
-            it_id = itm.typeId();
-            mon_id = mon ? mon->id : mtype_id::NULL_ID();
-            hilite = tile.get_item_count() > 1;
-            it_type = itm.type;
-        } else {
-            it_type = nullptr;
-        }
-        if( it_type && !it_id.is_null() ) {
-            const std::string disp_id = it_id == itype_corpse && mon_id ?
-                                        "corpse_" + mon_id.str() : it_id.str();
-            const std::string it_category = it_type->get_item_type_string();
-            const lit_level lit = it_overridden ? lit_level::LIT : ll;
-            const bool nv = it_overridden ? false : nv_goggles_activated;
+        const maptile &tile = here.maptile_at( p );
 
-            ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                                  0, lit, nv, height_3d, 0, variant );
-            if( ret_draw_items && hilite ) {
-                draw_item_highlight( p );
+        if( !invisible[0] ) {
+            // start by drawing the layering data if available
+            // start for checking if layer data is available for the furniture
+            auto itt = tileset_ptr->layer_data.find( tile.get_furn_t().id.str() );
+            if( itt != tileset_ptr->layer_data.end() ) {
+
+                // the furniture has layer info
+                // go through all the layer variants
+                for( const layer_variant &layer_var : itt->second ) {
+                    for( const item &i : tile.get_items() ) {
+                        if( i.typeId().str() == layer_var.item ) {
+                            // if an item matches draw it and break
+                            const std::string layer_it_category = i.typeId()->get_item_type_string();
+                            const lit_level layer_lit = ll;
+                            const bool layer_nv = nv_goggles_activated;
+
+                            // get the sprite to draw
+                            // roll should be based on the maptile seed to keep visuals consistent
+                            int roll = i.seed % layer_var.total_weight;
+                            std::string sprite_to_draw;
+                            for( const auto &sprite_list : layer_var.sprite ) {
+                                roll = roll - sprite_list.second;
+                                if( roll < 0 ) {
+                                    sprite_to_draw = sprite_list.first;
+                                    break;
+                                }
+                            }
+
+                            // if we have found info on the item go through and draw its stuff
+                            draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
+                                                 0, layer_lit, layer_nv, height_3d, 0, "" );
+
+
+                            // if the top item is already being layered don't draw it later
+                            if( i.typeId() == tile.get_uppermost_item().typeId() ) {
+                                drawtop = false;
+                            }
+
+                            break;
+                        }
+                    }
+
+                }
+
+            } else {
+                // check if the terrain has data
+                auto itt = tileset_ptr->layer_data.find( tile.get_ter_t().id.str() );
+                if( itt != tileset_ptr->layer_data.end() ) {
+
+                    // the furniture has layer info
+                    // go through all the layer variants
+                    for( const layer_variant &layer_var : itt->second ) {
+                        for( const item &i : tile.get_items() ) {
+                            if( i.typeId().str() == layer_var.item ) {
+                                // if an item matches draw it and break
+                                const std::string layer_it_category = i.typeId()->get_item_type_string();
+                                const lit_level layer_lit = ll;
+                                const bool layer_nv = nv_goggles_activated;
+
+                                // get the sprite to draw
+                                // roll should be based on the maptile seed to keep visuals consistent
+                                int roll = i.seed % layer_var.total_weight;
+                                std::string sprite_to_draw;
+                                for( const auto &sprite_list : layer_var.sprite ) {
+                                    roll = roll - sprite_list.second;
+                                    if( roll < 0 ) {
+                                        sprite_to_draw = sprite_list.first;
+                                        break;
+                                    }
+                                }
+
+                                // if we have found info on the item go through and draw its stuff
+                                draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
+                                                     0, layer_lit, layer_nv, height_3d, 0, "" );
+
+
+                                // if the top item is already being layered don't draw it later
+                                if( i.typeId() == tile.get_uppermost_item().typeId() ) {
+                                    drawtop = false;
+                                }
+
+                                break;
+                            }
+                        }
+
+                    }
+
+                }
             }
+        }
+
+
+        if( drawtop || it_overridden ) {
+            if( it_overridden ) {
+                it_id = std::get<0>( it_override->second );
+                mon_id = std::get<1>( it_override->second );
+                hilite = std::get<2>( it_override->second );
+                it_type = item::find_type( it_id );
+            } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
+                const item &itm = tile.get_uppermost_item();
+                if( itm.has_itype_variant() ) {
+                    variant = itm.itype_variant().id;
+                }
+                const mtype *const mon = itm.get_mtype();
+                it_id = itm.typeId();
+                mon_id = mon ? mon->id : mtype_id::NULL_ID();
+                hilite = tile.get_item_count() > 1;
+                it_type = itm.type;
+            } else {
+                it_type = nullptr;
+            }
+            if( it_type && !it_id.is_null() ) {
+
+                const std::string disp_id = it_id == itype_corpse && mon_id ?
+                                            "corpse_" + mon_id.str() : it_id.str();
+                const std::string it_category = it_type->get_item_type_string();
+                const lit_level lit = it_overridden ? lit_level::LIT : ll;
+                const bool nv = it_overridden ? false : nv_goggles_activated;
+
+
+
+
+                ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
+                                                      0, lit, nv, height_3d, 0, variant );
+                if( ret_draw_items && hilite ) {
+                    draw_item_highlight( p );
+                }
+            }
+        }
+        // we may still need to draw the highlight
+        else if( tile.get_item_count() > 1 && here.sees_some_items( p, get_player_character() ) ) {
+            draw_item_highlight( p );
         }
     }
     return ret_draw_field && ret_draw_items;

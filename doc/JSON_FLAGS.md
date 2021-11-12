@@ -233,6 +233,31 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```MOUTH```
 - ```TORSO```
 
+### Specifically Covers
+
+- ```torso_upper```
+- ```torso_neck```
+- ```torso_lower```
+- ```torso_hanging_front```
+- ```torso_hanging_back```
+- ```arm_shoulder_r```
+- ```arm_upper_r```
+- ```arm_elbow_r```
+- ```arm_lower_r```
+- ```arm_shoulder_l```
+- ```arm_upper_l```
+- ```arm_elbow_l```
+- ```arm_lower_l```
+- ```leg_hip_r```
+- ```leg_upper_r```
+- ```leg_knee_r```
+- ```leg_lower_r```
+- ```leg_hip_l```
+- ```leg_upper_l```
+- ```leg_knee_l```
+- ```leg_lower_l``` 
+
+
 ### Flags
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
