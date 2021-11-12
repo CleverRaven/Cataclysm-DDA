@@ -944,7 +944,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         d.add_topic( topic_id );
     }
     dialogue_window d_win;
-    d_win.open_dialogue( is_computer );
+    d_win.is_computer = is_computer;
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
@@ -1740,8 +1740,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                                    challenge.substr( 1 ) );
         d_win.add_to_history( challenge );
     } else {
+        npc *npc_actor = actor( true )->get_npc();
         d_win.add_to_history( challenge, actor( true )->disp_name(),
-                              actor( true )->get_npc()->basic_symbol_color() );
+                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
 
     apply_speaker_effects( topic );
@@ -2638,7 +2639,7 @@ void talk_effect_fun_t::set_open_dialogue()
         } else if( d.actor( true )->get_item() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
         } else if( d.actor( true )->get_computer() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, false, true );
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, true );
         }
     };
 }

@@ -180,7 +180,8 @@ class avatar : public Character
         void on_mission_finished( mission &cur_mission );
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false, bool is_computer = false );
+        void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
+                      bool is_computer = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
