@@ -46,9 +46,9 @@ static const efftype_id effect_infected( "infected" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
-static npc &create_test_talker()
+static npc &create_test_talker( bool shopkeep = false )
 {
-    const string_id<npc_template> test_talker( "test_talker" );
+    const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
     const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
     g->load_npcs();
 
@@ -99,7 +99,7 @@ static void change_om_type( const std::string &new_type )
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
-static npc &prep_test( dialogue &d )
+static npc &prep_test( dialogue &d, bool shopkeep = false )
 {
     clear_avatar();
     clear_vehicles();
@@ -113,7 +113,7 @@ static npc &prep_test( dialogue &d )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc &beta = create_test_talker();
+    npc &beta = create_test_talker( shopkeep );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -911,6 +911,29 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
+}
+
+TEST_CASE( "npc_faction_trust", "[npc_talk]" )
+{
+    dialogue d;
+    npc &beta = prep_test( d, true );
+    Character &player_character = get_avatar();
+
+    player_character.get_faction()->trusts_u = 0;
+    beta.get_faction()->trusts_u = 0;
+    d.add_topic( "TALK_TEST_FACTION_TRUST" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Add 50 to faction trust." );
+    CHECK( d.responses[2].text == "Start trade." );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    REQUIRE( beta.get_faction()->trusts_u == 50 );
+    gen_response_lines( d, 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Faction trust is at least 20." );
+    CHECK( d.responses[2].text == "Add 50 to faction trust." );
+    CHECK( d.responses[3].text == "Start trade." );
 }
 
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )

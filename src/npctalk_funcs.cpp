@@ -135,6 +135,7 @@ void talk_function::mission_success( npc &p )
         int fac_val = std::min( 1 + miss_val / 10, 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
+        p_fac->trusts_u += fac_val;
         p_fac->power += fac_val;
     }
     miss->wrap_up();

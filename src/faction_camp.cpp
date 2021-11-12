@@ -3875,6 +3875,7 @@ int camp_food_supply( int change, bool return_days )
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 1250;
         yours->respects_u += yours->food_supply / 625;
+        yours->trusts_u += yours->food_supply / 625;
         yours->food_supply = 0;
     }
     if( return_days ) {
