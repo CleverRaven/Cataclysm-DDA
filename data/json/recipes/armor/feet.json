@@ -815,7 +815,7 @@
   {
     "result": "xl_chainmail_feet",
     "type": "recipe",
-    "copy-from": "chainmail_feet",
+    "copy-from": "chainmail_feet_steel",
     "time": "5 h",
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
   },
