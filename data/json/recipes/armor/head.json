@@ -1817,7 +1817,7 @@
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
   },
   {
-    "result": "chainmail_hood",
+    "result": "chainmail_hood_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
