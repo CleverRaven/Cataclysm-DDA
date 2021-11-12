@@ -59,15 +59,15 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
-
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -193,7 +193,6 @@ void game_menus::inv::common( avatar &you )
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
-    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -207,7 +206,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you, false );
+        inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -477,12 +476,16 @@ class pickup_inventory_preset : public inventory_selector_preset
                     }
                 } else if( !you.can_pickVolume( *loc ) && you.has_wield_conflicts( *loc ) ) {
                     return _( "Too big to pick up!" );
-                } else if( !you.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up!" );
                 }
             }
 
             return std::string();
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return !( loc.has_parent() && loc.parent_item()->is_ammo_belt() );
         }
 
     private:
@@ -888,7 +891,7 @@ class fuel_inventory_preset : public inventory_selector_preset
                 mat_type = ammo.get_base_material().id;
             }
             if( you.get_fuel_capacity( mat_type ) <= 0 ) {
-                return ( _( "No space to store more" ) );
+                return _( "No space to store more" );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -1836,9 +1839,8 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
-    inv_s.allow_hide = true;
 
-    inv_s.add_character_items( you, false );
+    inv_s.add_character_items( you );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
@@ -1848,6 +1850,30 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     }
 
     return inv_s.execute();
+}
+
+drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
+{
+    const pickup_inventory_preset preset( you );
+
+    pickup_selector pick_s( you, preset );
+
+    // Add items from the selected tile, or from current and all surrounding tiles
+    if( target ) {
+        pick_s.add_vehicle_items( *target );
+        pick_s.add_map_items( *target );
+    } else {
+        pick_s.add_nearby_items();
+    }
+    pick_s.set_title( _( "Pickup" ) );
+    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
+
+    if( pick_s.empty() ) {
+        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return pick_s.execute();
 }
 
 bool game_menus::inv::compare_items( const item &first, const item &second,

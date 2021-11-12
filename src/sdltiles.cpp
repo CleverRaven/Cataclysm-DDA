@@ -1686,27 +1686,27 @@ static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
         return KEY_NUM( 9 );
     }
-    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+    if( mod == SDLK_UP    && key == SDLK_UP ) {
         return KEY_NUM( 8 );
     }
     if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
         ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
         return KEY_NUM( 7 );
     }
-    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+    if( mod == SDLK_RIGHT && key == SDLK_RIGHT ) {
         return KEY_NUM( 6 );
     }
     if( mod == sdl_keycode_opposite_arrow( key ) ) {
         return KEY_NUM( 5 );
     }
-    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+    if( mod == SDLK_LEFT  && key == SDLK_LEFT ) {
         return KEY_NUM( 4 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
         return KEY_NUM( 3 );
     }
-    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+    if( mod == SDLK_DOWN  && key == SDLK_DOWN ) {
         return KEY_NUM( 2 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||

@@ -208,12 +208,5 @@
     "info": "The scenario selected by default in the character creator menu.",
     "stype": "string_input",
     "value": "evacuee"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "WORKBENCH_ALL_OPTIONS",
-    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
-    "stype": "bool",
-    "value": true
   }
 ]

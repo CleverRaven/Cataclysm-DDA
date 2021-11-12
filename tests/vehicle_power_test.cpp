@@ -14,9 +14,10 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const efftype_id effect_blind( "blind" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
-static const efftype_id effect_blind( "blind" );
 
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()

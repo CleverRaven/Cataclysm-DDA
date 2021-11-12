@@ -77,14 +77,13 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
-static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
-
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_battery( "battery" );
-
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
+
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 
 struct monster_sound_event {
     int volume;
@@ -836,7 +835,7 @@ void sfx::do_vehicle_engine_sfx()
                             0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    if( ( safe_speed != 0 ) ) {
+    if( safe_speed != 0 ) {
         if( current_gear == 0 ) {
             pitch = 1.0;
         } else if( current_gear == -1 ) {
@@ -1765,7 +1764,7 @@ int sfx::get_heard_volume( const tripoint &source )
         heard_volume = 0;
     }
     heard_volume *= g_sfx_volume_multiplier;
-    return ( heard_volume );
+    return heard_volume;
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

@@ -1318,7 +1318,7 @@
   {
     "type": "effect_type",
     "id": "hallu",
-    "max_duration": "30 m",
+    "max_duration": "6 h",
     "blood_analysis_description": "Hallucinations"
   },
   {

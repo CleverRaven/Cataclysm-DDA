@@ -57,6 +57,7 @@ static void expect_can_contain( const item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
     const ret_val<item_pocket::contain_code> rate_can = pocket.can_contain( it );
+    INFO( rate_can.str() );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
     CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
