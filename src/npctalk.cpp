@@ -901,7 +901,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
-void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool radio_contact )
+void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
     if( !talk_with->will_talk_to_u( *this, has_mind_control ) ) {
@@ -923,11 +923,10 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
         d.add_topic( topic_id );
     }
     dialogue_window d_win;
-    d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, get_name(), d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -1681,10 +1680,18 @@ const talk_topic &special_talk( const std::string &action )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
-                          const talk_topic &topic )
+talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
-    bool text_only = d_win.text_only;
+    d_win.add_history_separator();
+
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
+    // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
@@ -1697,29 +1704,20 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 topic.item_type );
     capitalize_letter( challenge );
 
-    // Prepend "My Name: "
+    d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
         // No name prepended!
         challenge = challenge.substr( 1 );
+        d_win.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
+        // Prepend name
         challenge = string_format( pgettext( "npc does something", "%s %s" ), actor( true )->disp_name(),
                                    challenge.substr( 1 ) );
+        d_win.add_to_history( challenge );
     } else {
-        challenge = string_format( pgettext( "npc says something", "%s: %s" ), actor( true )->disp_name(),
-                                   challenge );
+        d_win.add_to_history( challenge, actor( true )->disp_name(),
+                              actor( true )->get_npc()->basic_symbol_color() );
     }
-
-    d_win.add_history_separator();
-
-    ui_adaptor ui;
-    const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    };
-    ui.on_screen_resize( resize_cb );
-    resize_cb( ui );
-
-    // Number of lines to highlight
-    const size_t hilight_lines = d_win.add_to_history( challenge );
 
     apply_speaker_effects( topic );
 
@@ -1738,6 +1736,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
     const auto generate_response_lines = [&]() {
@@ -1761,8 +1760,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.print_header( npc_name );
-        d_win.display_responses( hilight_lines, response_lines );
+        d_win.draw( actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
@@ -1773,13 +1771,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         do {
             ui_manager::redraw();
             input_event evt;
-            if( !text_only ) {
-                action = ctxt.handle_input();
-                evt = ctxt.get_raw_input();
-            } else {
-                action = "ANY_INPUT";
-                evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
-            }
+            action = ctxt.handle_input();
+            evt = ctxt.get_raw_input();
             d_win.handle_scrolling( action );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
@@ -1789,11 +1782,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
             } else if( action == "ANY_INPUT" ) {
+                // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
                                                   response_hotkeys.end(), evt );
                 response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+            } else if( action == "QUIT" ) {
+                response_ind = get_best_quit_response();
             }
-        } while( action != "ANY_INPUT" || response_ind >= response_hotkeys.size() );
+        } while( ( action != "ANY_INPUT" && action != "QUIT" ) || response_ind >= response_hotkeys.size() );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -1802,13 +1798,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
             okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );
+
     d_win.add_history_separator();
+    d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
 
     talk_response chosen = responses[response_ind];
-    std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[response_ind].text );
-    d_win.add_to_history( response_printed );
-
     if( chosen.mission_selected != nullptr ) {
         actor( true )->select_mission( chosen.mission_selected );
     }
@@ -1820,6 +1814,45 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
     return effects.apply( *this );
+}
+
+/**
+ * Finds the best response to use when the player is trying to quit.
+ *
+ * Returns the index into the response list.
+ */
+int dialogue::get_best_quit_response() const
+{
+    if( responses.size() == 1 ) {
+        // Only one response. Use it. Consequences will be prompted for by the caller.
+        return 0;
+    }
+
+    // Find relevant responses
+    for( size_t i = 0; i < responses.size(); ++i ) {
+        const talk_response &response = responses[i];
+        if( response.trial.calc_chance( *this ) < 100 ) {
+            // Don't pick anything with a chance to fail.
+            continue;
+        }
+
+        if( !response.success.effects.empty() ) {
+            // Don't pick anything with side effects
+            continue;
+        }
+
+        // Unfortunately, while we'd like to be able to go "back" from nested dialogue trees, the
+        // topic stack doesn't always shrink. Returning to the previous topic is sometimes done
+        // with TALK_NONE, or sometimes by referencing the topic id directly. No solution really
+        // gives us something that feels right in all cases, so we only support completely leaving
+        // the conversation via the quit key.
+
+        if( response.success.next_topic.id == "TALK_DONE" ) {
+            return i;
+        }
+    }
+
+    return responses.size(); // Didn't find a good option
 }
 
 talk_trial::talk_trial( const JsonObject &jo )

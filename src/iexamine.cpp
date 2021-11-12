@@ -1234,7 +1234,7 @@ void iexamine::intercom( Character &you, const tripoint &examp )
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
         // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
     }
 }
 
