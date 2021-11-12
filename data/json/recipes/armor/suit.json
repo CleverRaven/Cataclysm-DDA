@@ -496,9 +496,9 @@
     "copy-from": "chainmail_hauberk_steel",
     "time": "1h 45m",
     "components": [
-      [ [ "xl_chainmail_vest_steel", 1 ] ],
-      [ [ "xl_chainmail_arms_steel", 1 ] ],
-      [ [ "xl_chainmail_legs_steel", 1 ] ],
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
       [ [ "xl_gambeson", 1 ] ]
     ]
   },
@@ -583,10 +583,10 @@
     "copy-from": "chainmail_suit_steel",
     "time": "1h 50m",
     "components": [
-      [ [ "xl_chainmail_hood_steel", 1 ] ],
-      [ [ "xl_chainmail_vest_steel", 1 ] ],
-      [ [ "xl_chainmail_arms_steel", 1 ] ],
-      [ [ "xl_chainmail_legs_steel", 1 ] ],
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
       [ [ "xl_gambeson", 1 ] ]
     ]
   },
@@ -596,10 +596,10 @@
     "copy-from": "chainmail_suit_ksteel",
     "time": "1h 50m",
     "components": [
-      [ [ "xl_chainmail_hood_steel", 1 ] ],
-      [ [ "xl_chainmail_vest_steel", 1 ] ],
-      [ [ "xl_chainmail_arms_steel", 1 ] ],
-      [ [ "xl_chainmail_legs_steel", 1 ] ],
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
       [ [ "xl_k_gambeson", 1 ] ]
     ]
   },
