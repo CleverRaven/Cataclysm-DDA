@@ -463,7 +463,12 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest_steel", 1 ] ], [ [ "chainmail_arms_steel", 1 ] ], [ [ "chainmail_legs_steel", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_vest_steel", 1 ] ],
+      [ [ "chainmail_arms_steel", 1 ] ],
+      [ [ "chainmail_legs_steel", 1 ] ],
+      [ [ "gambeson", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_hauberk_ksteel",
@@ -478,7 +483,12 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest_steel", 1 ] ], [ [ "chainmail_arms_steel", 1 ] ], [ [ "chainmail_legs_steel", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_vest_steel", 1 ] ],
+      [ [ "chainmail_arms_steel", 1 ] ],
+      [ [ "chainmail_legs_steel", 1 ] ],
+      [ [ "k_gambeson", 1 ] ]
+    ]
   },
   {
     "result": "xl_chainmail_hauberk",
