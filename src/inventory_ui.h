@@ -9,7 +9,6 @@
 #include <iosfwd>
 #include <limits>
 #include <list>
-#include <map>
 #include <memory>
 #include <new>
 #include <string>
@@ -579,12 +578,18 @@ class inventory_selector
 
         inventory_input get_input();
 
-        /** Given an action from the input_context, try to act according to it. */
+        /** Given an action from the input_context, try to act according to it.
+        * Should handle all actions standard to derived classes. **/
         void on_input( const inventory_input &input );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
+        /** Used by derived class inventory_examiner to modify the size of the inventory_selector window.
+        * This is a bit of a brute force solution.  TODO: Add a set_minimum_window_size() or similar function
+        * to inventory_selector **/
+        bool force_max_window_size;
 
         size_t get_layout_width() const;
         size_t get_layout_height() const;
@@ -634,8 +639,15 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
-        /** Show detailed item information for selected item. */
-        void action_examine( const item *sitem );
+
+        /**
+         * Show detailed item information for the selected item.
+         *
+         * Called from on_input() after user input of EXAMINE action.
+         * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
+         *
+         * @param sitem the item to examine **/
+        void action_examine( const item_location sitem );
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;
@@ -834,6 +846,80 @@ class pickup_selector : public inventory_multiselector
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
+};
+
+/**
+ * Class for opening a container and quickly examining the items contained within
+ *
+ * Class that lists inventory entries in a pane on the left, and shows the results of 'e'xamining
+ * the selected item on the right.  To use, create it, add_contained_items(), then execute().
+ * TODO: Ideally, add_contained_items could be done automatically on creation without duplicating
+ * that code from inventory_selector. **/
+#define EXAMINED_CONTENTS_UNCHANGED 0
+#define EXAMINED_CONTENTS_WITH_CHANGES 1
+#define NO_CONTENTS_TO_EXAMINE 2
+class inventory_examiner : public inventory_selector
+{
+    private:
+        int examine_window_scroll;
+        int scroll_item_info_lines;
+    protected:
+        item_location parent_item;
+        item_location selected_item;
+        catacurses::window w_examine;
+        bool changes_made;
+        bool parent_was_collapsed;
+
+    public:
+        explicit inventory_examiner( Character &p,
+                                     item_location item_to_look_inside,
+                                     const inventory_selector_preset &preset = default_preset ) :
+            inventory_selector( p, preset ) {
+            force_max_window_size = true;
+            examine_window_scroll = 0;
+            selected_item = item_location::nowhere;
+            parent_item = item_to_look_inside;
+            changes_made = false;
+            parent_was_collapsed = false;
+
+            setup();
+        }
+
+        /**
+         * If parent_item has no contents or is otherwise unsuitable for inventory_examiner, return false.  Otherwise, true
+        **/
+        bool check_parent_item();
+
+        /**
+         * If the parent_item had items hidden, re-hides them.  Determines the appropriate return value for execute()
+        *
+         * Called at the end of execute().
+         * Checks if anything was changed (e.g. show/hide contents), and selects the appropriate return value
+              **/
+        int cleanup();
+
+        /**
+         * Draw the details of sitem in the w_examine window
+        **/
+        void draw_item_details( const item_location &sitem );
+
+        /**
+         * Method to display the inventory_examiner menu.
+         *
+        * Sets up ui_adaptor callbacks for w_examine to draw the item detail pane and allow it to be resized
+         * Figures out which item is currently selected and calls draw_item_details
+        * Passes essentially everything else back to inventory_selector for handling.
+         * If the user changed something while looking through the item's contents (e.g. collapsing a
+         * container), it should return EXAMINED_CONTENTS_WITH_CHANGES to inform the parent window.
+         * If the parent_item has no contents to examine, it should return NO_CONTENTS_TO_EXAMINE, telling
+         * the parent window to examine the item with action_examine()
+         **/
+        int execute();
+
+        /**
+         * Does initial setup work prior to display of the window
+         **/
+        void setup();
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H
