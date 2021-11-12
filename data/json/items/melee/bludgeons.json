@@ -556,7 +556,7 @@
     "price_postapoc": 1500,
     "material": [ "wood", "steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
