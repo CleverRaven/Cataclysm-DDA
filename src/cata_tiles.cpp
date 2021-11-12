@@ -2930,8 +2930,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
                 //get field intensity
-                //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
-                int intensity = fd_it->second.get_field_intensity() - 1;
+                int intensity = fd_it->second.get_field_intensity();
                 int nullint = 0;
                 ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
                                                       p, subtile, rotation, lit, nv, nullint, intensity );
@@ -2962,8 +2961,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
             //get field intensity
-            //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
-            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity() - 1;
+            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
             int nullint = 0;
             ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
                                                   p, subtile, rotation, lit, nv, nullint, intensity );
