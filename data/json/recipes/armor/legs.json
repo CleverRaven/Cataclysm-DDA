@@ -838,7 +838,7 @@
     "using": [ [ "tailoring_lycra", 3 ] ]
   },
   {
-    "result": "chainmail_legs",
+    "result": "chainmail_legs_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
