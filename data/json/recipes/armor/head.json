@@ -1834,7 +1834,7 @@
   {
     "result": "xl_chainmail_hood",
     "type": "recipe",
-    "copy-from": "chainmail_hood",
+    "copy-from": "chainmail_hood_steel",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
