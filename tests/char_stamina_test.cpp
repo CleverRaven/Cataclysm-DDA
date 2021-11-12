@@ -230,7 +230,7 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
         }
 
         WHEN( "they lose all of their remaining stamina" ) {
-            dummy.mod_stamina( -( dummy.get_stamina() ) );
+            dummy.mod_stamina( -dummy.get_stamina() );
 
             THEN( "stamina is at zero" ) {
                 CHECK( dummy.get_stamina() == 0 );

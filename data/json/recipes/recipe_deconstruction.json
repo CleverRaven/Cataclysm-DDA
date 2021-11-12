@@ -1195,6 +1195,30 @@
     ]
   },
   {
+    "result": "bot_turret_riot",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "m203", 6 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_science_bot",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

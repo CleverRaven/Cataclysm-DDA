@@ -1468,7 +1468,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        if( ( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) ) {
+        if( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) {
             continue;
         }
 
@@ -1882,7 +1882,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     /** @EFFECT_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
-    if( ( unarmed || force_unarmed ) ) {
+    if( unarmed || force_unarmed ) {
         if( martial_arts_data->can_limb_block( *this ) ) {
             // block_bonus for limb blocks will be added when the limb is decided
             block_score = str_cur + melee_skill + unarmed_skill;

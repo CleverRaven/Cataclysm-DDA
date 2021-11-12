@@ -570,6 +570,8 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
+    mood_face::reset();
+    speed_description::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();

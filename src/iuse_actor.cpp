@@ -1884,7 +1884,7 @@ bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
     bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != bodypart_id( "bp_null" ) ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
+        if( !p.has_trait( trait_NOPAIN ) ) {
             p.mod_pain( 15 );
             p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
         } else {
@@ -4236,7 +4236,7 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_avatar" part, implement NPC screams
-    if( p.is_avatar() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
@@ -4708,7 +4708,7 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
         char_ptr = n;
     }
 
-    item_location loc( *( p.as_character() ), &it );
+    item_location loc( *p.as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {

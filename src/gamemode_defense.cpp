@@ -275,8 +275,8 @@ void defense_game::init_map()
     for( int i = 0; i <= MAPSIZE * 2; i += 2 ) {
         for( int j = 0; j <= MAPSIZE * 2; j += 2 ) {
             point m( 100 - MAPSIZE + i, 100 - MAPSIZE + j );
-            int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
-                          ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
+            int percent = 100 * ( j / 2 + MAPSIZE * ( i / 2 ) ) /
+                          ( MAPSIZE * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();

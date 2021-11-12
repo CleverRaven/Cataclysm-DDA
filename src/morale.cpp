@@ -215,8 +215,8 @@ void player_morale::morale_point::decay( const time_duration &ticks )
 
 int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const
 {
-    return ( ( std::abs( bonus ) > std::abs( max_bonus ) && ( max_bonus != 0 ||
-               capped ) ) ? max_bonus : bonus );
+    return ( std::abs( bonus ) > std::abs( max_bonus ) && ( max_bonus != 0 ||
+             capped ) ) ? max_bonus : bonus;
 }
 
 bool player_morale::mutation_data::get_active() const
@@ -939,7 +939,7 @@ void player_morale::set_worn( const item &it, bool worn )
     const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
     const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
     const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
-    const int sign = ( worn ) ? 1 : -1;
+    const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
         if( fancy || super_fancy ) {

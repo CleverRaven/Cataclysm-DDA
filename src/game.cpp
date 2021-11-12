@@ -1800,10 +1800,15 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'a': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    if( !locThisItem.get_item()->is_container() ) {
+                    if( locThisItem.get_item()->type->has_use() &&
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
-                    } else {
+                    } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
+                    } else {
+                        add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
+                        break;
                     }
                     handler.handle_by( u );
                     break;
@@ -2078,6 +2083,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
+    ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -4520,17 +4526,17 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
+    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal;
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
     const optional_vpart_position vp = m.veh_at( p );
 
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return !m.is_outside( p ) ||
+           p.z < 0 ||
+           ( vp && vp->is_inside() );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
@@ -5257,6 +5263,20 @@ void game::examine( const tripoint &examp )
 
 void game::pickup()
 {
+    // Prompt for which adjacent/current tile to pick up items from
+    const cata::optional<tripoint> where_ = choose_adjacent_highlight( _( "Pick up items where?" ),
+                                            _( "There is nothing to pick up nearby." ),
+                                            ACTION_PICKUP, false );
+    if( !where_ ) {
+        return;
+    }
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
+}
+
+void game::pickup_all()
+{
+    // Pick up items from current and all adjacent tiles
     u.pick_up( game_menus::inv::pickup( u ) );
 }
 
@@ -5956,11 +5976,11 @@ void game::zones_manager()
                     iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
                     const auto &zone = i.get();
 
-                    nc_color colorLine = ( zone.get_enabled() ) ? c_white : c_light_gray;
+                    nc_color colorLine = zone.get_enabled() ? c_white : c_light_gray;
 
                     if( iNum == active_index ) {
                         mvwprintz( w_zones, point( 0, iNum - start_index ), c_yellow, "%s", ">>" );
-                        colorLine = ( zone.get_enabled() ) ? c_light_green : c_green;
+                        colorLine = zone.get_enabled() ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -6423,7 +6443,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 continue;
             }
 
-            const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
+            const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
@@ -8484,8 +8504,8 @@ void game::reload_weapon( bool try_everything )
             return ap->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ( ap->remaining_ammo_capacity() ) ) <
-               ( bp->get_reload_time() * ( bp->remaining_ammo_capacity() ) );
+        return ( ap->get_reload_time() * ap->remaining_ammo_capacity() ) <
+               ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
         std::vector<item::reload_option> ammo_list;
@@ -8733,7 +8753,7 @@ bool game::disable_robot( const tripoint &p )
 
 bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 {
-    return !( get_dangerous_tile( dest_loc ).empty() );
+    return !get_dangerous_tile( dest_loc ).empty();
 }
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
@@ -9977,7 +9997,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     int steps = 0;
     bool thru = true;
-    const bool is_u = ( c == &u );
+    const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
@@ -10534,7 +10554,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
-            if( ( rng( 4, 8 ) ) < u.get_skill_level( skill_dodge ) ) {
+            if( rng( 4, 8 ) < u.get_skill_level( skill_dodge ) ) {
                 add_msg( _( "You attach a web and dive down headfirst, flipping upright and landing on your feet." ) );
             } else {
                 add_msg( _( "You securely web up and work your way down, lowering yourself safely." ) );

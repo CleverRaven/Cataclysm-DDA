@@ -501,7 +501,7 @@ bool mattack::shriek_stun( monster *z )
         if( target == nullptr ) {
             continue;
         }
-        if( one_in( dist / 2 ) && !( target->is_immune_effect( effect_deaf ) ) ) {
+        if( one_in( dist / 2 ) && !target->is_immune_effect( effect_deaf ) ) {
             target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), false, rng( 1, ( 15 - dist ) / 3 ) );
         }
 
@@ -1807,8 +1807,8 @@ bool mattack::fungus_inject( monster *z )
         z->friendly = 1;
         return true;
     }
-    if( ( player_character.has_trait( trait_MARLOSS ) ) &&
-        ( player_character.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( player_character.has_trait( trait_MARLOSS ) &&
+        player_character.has_trait( trait_MARLOSS_BLUE ) &&
         !player_character.crossed_threshold() ) {
         add_msg( m_info, _( "The %s seems to wave you toward the tower…" ), z->name() );
         z->anger = 0;
@@ -1957,8 +1957,8 @@ bool mattack::fungus_fortify( monster *z )
         mycus = true;
     }
     map &here = get_map();
-    if( ( player_character.has_trait( trait_MARLOSS ) ) &&
-        ( player_character.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( player_character.has_trait( trait_MARLOSS ) &&
+        player_character.has_trait( trait_MARLOSS_BLUE ) &&
         !player_character.crossed_threshold() && !mycus ) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg( m_info, _( "The %s spreads its tendrils.  It seems as though it's expecting you…" ),
@@ -4079,7 +4079,7 @@ bool mattack::breathe( monster *z )
     // It takes a while
     z->moves -= 100;
 
-    bool able = ( z->type->id == mon_breather_hub );
+    bool able = z->type->id == mon_breather_hub;
     creature_tracker &creatures = get_creature_tracker();
     if( !able ) {
         for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
@@ -4599,8 +4599,8 @@ bool mattack::slimespring( monster *z )
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
-        if( ( player_character.has_effect( effect_bleed ) ) ||
-            ( player_character.has_effect( effect_bite ) ) ) {
+        if( player_character.has_effect( effect_bleed ) ||
+            player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
@@ -4649,8 +4649,8 @@ bool mattack::thrown_by_judo( monster *z )
         ///\EFFECT_DEX increases chance judo-throwing a monster
 
         ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
-        if( ( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
-                3 ) ) ) ) {
+        if( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
+                3 ) ) ) {
             target->add_msg_if_player( m_good, _( "but you grab its arm and flip it to the ground!" ) );
 
             // most of the time, when not isolated

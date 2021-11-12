@@ -1625,13 +1625,12 @@
   },
   {
     "type": "technique",
-    "id": "tec_zuiquan_counter",
-    "name": "Drunk Counter",
+    "id": "tec_zuiquan_fist",
+    "name": "Drunk Fist",
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ],
     "unarmed_allowed": true,
-    "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -1643,6 +1642,17 @@
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_zuiquan_spin",
+    "name": "Whirling Strikes",
+    "messages": [ "You spin, hitting %s and everyone around you", "<npcname> spins, hitting %s and everyone around them" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "aoe": "spin",
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
   },
   {
     "type": "technique",

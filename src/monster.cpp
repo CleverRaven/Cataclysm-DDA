@@ -1146,7 +1146,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
             // NOLINTNEXTLINE(bugprone-branch-clone)
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
+        } else if( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||

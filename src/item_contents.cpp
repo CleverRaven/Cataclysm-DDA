@@ -594,7 +594,7 @@ std::set<flag_id> item_contents::magazine_flag_restrictions() const
     std::set<flag_id> ret;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            ret = ( pocket.get_pocket_data() )->get_flag_restrictions();
+            ret = pocket.get_pocket_data()->get_flag_restrictions();
         }
     }
     return ret;

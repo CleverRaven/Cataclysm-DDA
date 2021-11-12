@@ -179,6 +179,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_ALL:
+            return "pickup_all";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -663,6 +665,18 @@ bool can_examine_at( const tripoint &p )
     return here.can_see_trap_at( p, get_player_character() );
 }
 
+static bool can_pickup_at( const tripoint &p )
+{
+    bool veh_has_items = false;
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    if( vp ) {
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    }
+    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
+}
+
 bool can_interact_at( action_id action, const tripoint &p )
 {
     map &here = get_map();
@@ -685,6 +699,8 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
             return can_examine_at( p );
+        case ACTION_PICKUP:
+            return can_pickup_at( p );
         default:
             return false;
     }
@@ -879,6 +895,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );

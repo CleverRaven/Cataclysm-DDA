@@ -531,7 +531,7 @@ void npc::assess_danger()
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
-        if( ( is_enemy() || !critter.friendly ) ) {
+        if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
@@ -2868,7 +2868,7 @@ void npc::find_item()
         }
         if( ::good_for_pickup( it, *this ) ) {
             wanted_item_pos = p;
-            wanted = &( it );
+            wanted = &it;
             best_value = has_item_whitelist() ? 1000 : value( it );
         }
     };
@@ -3391,8 +3391,8 @@ bool npc::do_player_activity()
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
-    bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
-    bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
+    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
+    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
     item &weapon = get_wielded_item();
 
@@ -3693,7 +3693,7 @@ void npc::heal_self()
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             const auto inv_filtered = items_with( [&filter]( const item & itm )
             {
-                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient( nullptr ) );
+                return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
         };

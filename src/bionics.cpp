@@ -2640,7 +2640,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
     int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
-    int fail_type = ( failure_level > 5 ? 5 : failure_level );
+    int fail_type = failure_level > 5 ? 5 : failure_level;
     bool drop_cbm = false;
     add_msg( m_neutral, _( "The installation is a failure." ) );
 
@@ -2662,7 +2662,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         switch( fail_type ) {
 
             case 1:
-                if( !( has_trait( trait_NOPAIN ) ) ) {
+                if( !has_trait( trait_NOPAIN ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
                     mod_pain( rng( 10, 30 ) );
                 }

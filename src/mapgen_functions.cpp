@@ -259,11 +259,10 @@ void mapgen_field( mapgendata &dat )
 {
     map *const m = &dat.m;
     // random area of increased vegetation. Or lava / toxic sludge / etc
-    const bool boosted_vegetation = ( dat.region.field_coverage.boost_chance > rng( 0, 1000000 ) );
-    const int &mpercent_bush = ( boosted_vegetation ?
-                                 dat.region.field_coverage.boosted_mpercent_coverage :
-                                 dat.region.field_coverage.mpercent_coverage
-                               );
+    const bool boosted_vegetation = dat.region.field_coverage.boost_chance > rng( 0, 1000000 );
+    const int &mpercent_bush = boosted_vegetation ?
+                               dat.region.field_coverage.boosted_mpercent_coverage :
+                               dat.region.field_coverage.mpercent_coverage;
 
     // one dominant plant type ( for boosted_vegetation == true )
     ter_furn_id altbush = dat.region.field_coverage.pick( true );
@@ -313,7 +312,7 @@ void mapgen_hive( mapgendata &dat )
     const bool is_center = dat.t_nesw[0] == oter_hive && dat.t_nesw[1] == oter_hive &&
                            dat.t_nesw[2] == oter_hive && dat.t_nesw[3] == oter_hive;
     for( int j = 5; j < SEEY * 2 - 5; j += 6 ) {
-        for( int i = ( j == 5 || j == 17 ? 3 : 6 ); i < SEEX * 2 - 5; i += 6 ) {
+        for( int i = j == 5 || j == 17 ? 3 : 6; i < SEEX * 2 - 5; i += 6 ) {
             if( !one_in( 8 ) ) {
                 // Caps are always there
                 m->ter_set( point( i, j - 5 ), t_wax );
@@ -529,7 +528,7 @@ void mapgen_road( mapgendata &dat )
     bool roads_nesw[4] = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), roads_nesw );
     // if this is a dead end, extend past the middle of the tile
-    int dead_end_extension = ( num_dirs == 1 ? 8 : 0 );
+    int dead_end_extension = num_dirs == 1 ? 8 : 0;
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
@@ -747,7 +746,7 @@ void mapgen_road( mapgendata &dat )
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
                             int ty = y;
-                            int tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
+                            int tx = curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x;
                             coord_rotate_cw( tx, ty, dir );
                             m->ter_set( point( tx, ty ), t_pavement );
                         }
@@ -964,7 +963,7 @@ void mapgen_road( mapgendata &dat )
     }
 
     // add some items
-    bool plaza = ( plaza_dir > -1 );
+    bool plaza = plaza_dir > -1;
     m->place_items( item_group_id( plaza ? "trash" : "road" ), 5, point_zero,
                     point( SEEX * 2 - 1, SEEX * 2 - 1 ), plaza, dat.when() );
 
@@ -3052,7 +3051,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const bool w_ravine_edge = is_ravine_edge( dat.west() );
 
     const auto any_orthogonal_ravine = [&]() {
-        return ( n_ravine || s_ravine || w_ravine || e_ravine );
+        return n_ravine || s_ravine || w_ravine || e_ravine;
     };
 
     const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&

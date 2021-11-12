@@ -1085,7 +1085,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
-    int movez = ( examp.z < 0 ? 2 : -2 );
+    int movez = examp.z < 0 ? 2 : -2;
 
     tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
@@ -1325,7 +1325,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
  */
 void iexamine::bars( Character &you, const tripoint &examp )
 {
-    if( !( you.has_trait( trait_AMORPHOUS ) ) ) {
+    if( !you.has_trait( trait_AMORPHOUS ) ) {
         none( you, examp );
         return;
     }
@@ -1668,7 +1668,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
 
-        const std::string title = ( "Base Missions" );
+        const std::string title = "Base Missions";
         mission_data mission_key;
         temp_camp->set_by_radio( false );
         temp_camp->get_available_missions( mission_key );
@@ -1868,7 +1868,7 @@ static bool can_drink_nectar( const Character &you )
 {
     return ( you.has_active_mutation( trait_PROBOSCIS )  ||
              you.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( you.get_hunger() ) > 0 ) && ( !( you.wearing_something_on( bodypart_id( "mouth" ) ) ) );
+           ( you.get_hunger() > 0 ) && ( !you.wearing_something_on( bodypart_id( "mouth" ) ) );
 }
 
 /**
@@ -2418,12 +2418,12 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             here.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
-        } else if( ( you.has_trait( trait_M_DEFENDER ) ) || ( ( you.has_trait( trait_M_SPORES ) ||
+        } else if( you.has_trait( trait_M_DEFENDER ) || ( ( you.has_trait( trait_M_SPORES ) ||
                    you.has_trait( trait_M_FERTILE ) ) &&
                    one_in( 2 ) ) ) {
             g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
-        } else if( ( you.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
+        } else if( you.has_trait( trait_THRESH_MYCUS ) || one_in( 4 ) ) {
             here.furn_set( examp, f_flower_marloss );
             add_msg( m_info, _( "The seed blossoms rather rapidly…" ) );
         } else {

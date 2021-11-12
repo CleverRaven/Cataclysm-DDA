@@ -3130,9 +3130,9 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
                 Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
                 item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
                 dialogue newDialog(
-                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                    creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
                         item_alpha ) : nullptr,
-                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                    creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
                         item_beta ) : nullptr
                 );
                 for( const effect_on_condition_id &eoc : eocs ) {
