@@ -476,7 +476,7 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "xl_chainmail_hauberk_steel",
+    "id": "xl_chainmail_hauberk",
     "type": "ARMOR",
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk_steel",
@@ -544,7 +544,7 @@
     "to_hit": -1,
     "material": [ "steel", "kevlar_layered" ],
     "symbol": "[",
-    "looks_like": "armor_blarmor",
+    "looks_like": "chainmail_hauberk",
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
@@ -572,7 +572,7 @@
     "to_hit": -1,
     "material": [ "steel", "kevlar_layered" ],
     "symbol": "[",
-    "looks_like": "touring_suit",
+    "looks_like": "chainmail_suit",
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
