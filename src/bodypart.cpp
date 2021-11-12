@@ -16,18 +16,18 @@
 #include "rng.h"
 
 
-const bodypart_str_id body_part_head( "head" );
-const bodypart_str_id body_part_eyes( "eyes" );
-const bodypart_str_id body_part_mouth( "mouth" );
-const bodypart_str_id body_part_torso( "torso" );
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
 const bodypart_str_id body_part_hand_l( "hand_l" );
 const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_leg_l( "leg_l" );
-const bodypart_str_id body_part_foot_l( "foot_l" );
 const bodypart_str_id body_part_leg_r( "leg_r" );
-const bodypart_str_id body_part_foot_r( "foot_r" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
 
 side opposite_side( side s )
 {

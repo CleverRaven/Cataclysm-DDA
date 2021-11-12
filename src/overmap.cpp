@@ -59,28 +59,14 @@
 #include "text_snippets.h"
 #include "translations.h"
 
-static const species_id species_ZOMBIE( "ZOMBIE" );
-
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
-class map_extra;
 
-#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
-
-static constexpr int BUILDINGCHANCE = 4;
-static constexpr int MIN_GOO_SIZE = 1;
-static constexpr int MAX_GOO_SIZE = 2;
-
-using oter_type_id = int_id<oter_type_t>;
-using oter_type_str_id = string_id<oter_type_t>;
-
-////////////////
-static oter_id ot_null;
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
 static const oter_str_id oter_forest( "forest" );
@@ -97,6 +83,22 @@ static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
+
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
+class map_extra;
+
+#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+
+static constexpr int BUILDINGCHANCE = 4;
+static constexpr int MIN_GOO_SIZE = 1;
+static constexpr int MAX_GOO_SIZE = 2;
+
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+////////////////
+static oter_id ot_null;
 
 const oter_type_t oter_type_t::null_type{};
 

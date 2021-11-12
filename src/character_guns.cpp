@@ -6,9 +6,10 @@
 #include "map_selector.h"
 #include "vehicle_selector.h"
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )

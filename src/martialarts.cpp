@@ -35,8 +35,6 @@
 #include "ui_manager.h"
 #include "value_ptr.h"
 
-static const skill_id skill_unarmed( "unarmed" );
-
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -44,6 +42,8 @@ static const bionic_id bio_cqb( "bio_cqb" );
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 static const matec_id tec_none( "tec_none" );
+
+static const skill_id skill_unarmed( "unarmed" );
 
 namespace
 {

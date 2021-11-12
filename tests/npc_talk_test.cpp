@@ -38,10 +38,10 @@
 #include "talker.h"
 #include "type_id.h"
 
-static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_currently_busy( "currently_busy" );
-static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_infection( "infection" );
 
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );

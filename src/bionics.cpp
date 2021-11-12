@@ -84,63 +84,7 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
-static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_antifungal( "antifungal" );
-static const efftype_id effect_assisted( "assisted" );
-static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_badpoison( "badpoison" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_dermatik( "dermatik" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_hallu( "hallu" );
-static const efftype_id effect_heating_bionic( "heating_bionic" );
-static const efftype_id effect_high( "high" );
-static const efftype_id effect_iodine( "iodine" );
-static const efftype_id effect_meth( "meth" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralysepoison( "paralysepoison" );
-static const efftype_id effect_pblue( "pblue" );
-static const efftype_id effect_pkill_l( "pkill_l" );
-static const efftype_id effect_pkill1( "pkill1" );
-static const efftype_id effect_pkill2( "pkill2" );
-static const efftype_id effect_pkill3( "pkill3" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stung( "stung" );
-static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
-static const efftype_id effect_took_flumed( "took_flumed" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-static const efftype_id effect_took_xanax( "took_xanax" );
-static const efftype_id effect_under_operation( "under_operation" );
-static const efftype_id effect_venom_dmg( "venom_dmg" );
-static const efftype_id effect_venom_weaken( "venom_weaken" );
-static const efftype_id effect_visuals( "visuals" );
-
-static const material_id fuel_type_battery( "battery" );
-static const material_id fuel_type_metabolism( "metabolism" );
-static const material_id fuel_type_muscle( "muscle" );
-static const material_id fuel_type_sun_light( "sunlight" );
-static const material_id fuel_type_wind( "wind" );
-
-static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_radiocontrol( "radiocontrol" );
-static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_water_clean( "water_clean" );
-
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_mechanics( "mechanics" );
-
+static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
@@ -168,11 +112,72 @@ static const bionic_id bio_shockwave( "bio_shockwave" );
 static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_time_freeze( "bio_time_freeze" );
 static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_tools_extend( "bio_tools_extend" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
-static const bionic_id bio_tools_extend( "bio_tools_extend" );
-// Aftershock stuff!
-static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_antifungal( "antifungal" );
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_heating_bionic( "heating_bionic" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paralysepoison( "paralysepoison" );
+static const efftype_id effect_pblue( "pblue" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_under_operation( "under_operation" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
+static const efftype_id effect_visuals( "visuals" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const itype_id itype_anesthetic( "anesthetic" );
+static const itype_id itype_radiocontrol( "radiocontrol" );
+static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
+static const itype_id itype_water_clean( "water_clean" );
+
+static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+
+static const material_id fuel_type_battery( "battery" );
+static const material_id fuel_type_metabolism( "metabolism" );
+static const material_id fuel_type_muscle( "muscle" );
+static const material_id fuel_type_sun_light( "sunlight" );
+static const material_id fuel_type_wind( "wind" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
@@ -182,12 +187,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
-
-static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
-static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
-static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
-static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
-static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;

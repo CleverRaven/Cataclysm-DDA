@@ -40,9 +40,9 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 
-static const skill_id skill_speech( "speech" );
-
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
+static const skill_id skill_speech( "speech" );
 
 std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &giver,
         Character &receiver, std::list<item_location *> &from_map, bool npc_gives )

@@ -100,13 +100,13 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_crushed( "crushed" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
-
-static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_crushed( "crushed" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
