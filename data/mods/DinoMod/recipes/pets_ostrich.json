@@ -25,7 +25,7 @@
   {
     "result": "chainmail_armor_ostrich",
     "type": "recipe",
-    "copy-from": "chainmail_vest",
+    "copy-from": "chainmail_vest_steel",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "time": "700 m",
