@@ -1757,7 +1757,7 @@
     "components": [ [ [ "felt_patch", 13 ] ] ]
   },
   {
-    "result": "chainmail_vest",
+    "result": "chainmail_vest_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
