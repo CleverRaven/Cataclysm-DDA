@@ -735,7 +735,7 @@
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
-    "result": "chainmail_hands",
+    "result": "chainmail_hands_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
