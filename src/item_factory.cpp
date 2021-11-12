@@ -1290,6 +1290,9 @@ void Item_factory::check_definitions() const
                         }
                     }
                 }
+                if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
+                    msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
+                }
             }
         }
 
