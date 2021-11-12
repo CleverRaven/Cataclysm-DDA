@@ -1773,7 +1773,7 @@
   {
     "result": "xl_chainmail_vest",
     "type": "recipe",
-    "copy-from": "chainmail_vest",
+    "copy-from": "chainmail_vest_steel",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ], [ [ "rag", 9 ] ] ]
