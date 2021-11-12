@@ -215,11 +215,7 @@
     "loudness": 12,
     "ups_charges": 20,
     "reload": 0,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "emitter", 1 ],
-      [ "lens", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ] ],
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MOUNTED_GUN" ]
@@ -248,18 +244,8 @@
     "loudness": 1,
     "ups_charges": 50,
     "reload": 0,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "emitter", 1 ],
-      [ "lens", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [
-      "NO_UNLOAD",
-      "NEVER_JAMS",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "MOUNTED_GUN"
-    ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MOUNTED_GUN" ]
   }
 ]
