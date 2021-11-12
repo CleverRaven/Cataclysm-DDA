@@ -360,7 +360,7 @@
     "using": [ [ "tailoring_leather", 2 ] ]
   },
   {
-    "result": "chainmail_arms",
+    "result": "chainmail_arms_steel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
