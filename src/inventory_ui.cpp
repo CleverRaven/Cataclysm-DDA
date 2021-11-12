@@ -502,7 +502,6 @@ size_t inventory_column::get_cells_width() const
 
 void inventory_column::set_filter( const std::string &filter )
 {
-    entries = entries_unfiltered;
     entries_cell_cache.clear();
     paging_is_valid = false;
     prepare_paging( filter );
@@ -782,18 +781,9 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
-void inventory_column::on_change( const inventory_entry &entry )
+void inventory_column::on_change( const inventory_entry &/* entry */ )
 {
-    if( !entry.locations.empty() ) {
-        // copy changes to the unfiltered entry
-        const auto unfiltered_it = std::find_if( entries_unfiltered.begin(), entries_unfiltered.end(),
-        [&]( const inventory_entry & unfiltered_entry ) {
-            return unfiltered_entry.locations == entry.locations;
-        } );
-        if( unfiltered_it != entries_unfiltered.end() ) {
-            *unfiltered_it = entry;
-        }
-    }
+    // stub
 }
 
 void inventory_column::order_by_parent()
@@ -904,7 +894,6 @@ void inventory_column::add_entry( const inventory_entry &entry )
     if( !has_loc ) {
         entries.insert( iter.base(), entry );
     }
-    entries_unfiltered.clear();
     entries_cell_cache.clear();
     expand_to_fit( entry );
     paging_is_valid = false;
@@ -937,7 +926,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     // restore entries revealed by SHOW_CONTENTS
     // FIXME: replace by std::remove_copy_if in C++17
     for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
-        if( it->is_item() && !it->is_hidden() ) {
+        if( it->is_item() && !it->is_hidden() && filter_fn( *it ) ) {
             add_entry( *it );
             it = entries_hidden.erase( it );
         } else {
@@ -945,51 +934,49 @@ void inventory_column::prepare_paging( const std::string &filter )
         }
     }
 
-    // backup entries hidden by HIDE_CONTENTS
-    std::copy_if( entries.begin(), entries.end(), std::back_inserter( entries_hidden ),
-    []( const inventory_entry & entry ) {
-        return entry.is_hidden();
-    } );
-
-    // First, remove all non-items and hidden entries
-    const auto new_end = std::remove_if( entries.begin(),
-    entries.end(), [&filter_fn]( const inventory_entry & entry ) {
-        return !entry.is_item() || !filter_fn( entry ) || entry.is_hidden();
-    } );
-    entries.erase( new_end, entries.end() );
-    // Then sort them with respect to categories (sort only once each UI session)
-    if( entries_unfiltered.empty() ) {
-        auto from = entries.begin();
-        while( from != entries.end() ) {
-            from->update_cache();
-            auto to = std::next( from );
-            while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-                to->update_cache();
-                std::advance( to, 1 );
+    // First, remove all non-items and backup hidden entries
+    for( auto it = entries.begin(); it != entries.end(); ) {
+        if( !it->is_item() || !filter_fn( *it ) || it->is_hidden() ) {
+            if( it->is_item() ) {
+                entries_hidden.emplace_back( std::move( *it ) );
             }
-            if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-                std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
-                    if( lhs.is_selectable() != rhs.is_selectable() ) {
-                        return lhs.is_selectable(); // Disabled items always go last
-                    }
-                    Character &player_character = get_player_character();
-                    // Place favorite items and items with an assigned inventory letter first,
-                    // since the player cared enough to assign them
-                    const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
-                    const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
-                    if( left_has_invlet != right_has_invlet ) {
-                        return left_has_invlet;
-                    }
-                    const bool left_fav = lhs.any_item()->is_favorite;
-                    const bool right_fav = rhs.any_item()->is_favorite;
-                    if( left_fav != right_fav ) {
-                        return left_fav;
-                    }
-                    return preset.sort_compare( lhs, rhs );
-                } );
-            }
-            from = to;
+            it = entries.erase( it );
+        } else {
+            ++it;
         }
+    }
+
+    // Then sort them with respect to categories
+    auto from = entries.begin();
+    while( from != entries.end() ) {
+        from->update_cache();
+        auto to = std::next( from );
+        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+            to->update_cache();
+            std::advance( to, 1 );
+        }
+        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
+            std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+                if( lhs.is_selectable() != rhs.is_selectable() ) {
+                    return lhs.is_selectable(); // Disabled items always go last
+                }
+                Character &player_character = get_player_character();
+                // Place favorite items and items with an assigned inventory letter first,
+                // since the player cared enough to assign them
+                const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
+                const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
+                if( left_has_invlet != right_has_invlet ) {
+                    return left_has_invlet;
+                }
+                const bool left_fav = lhs.any_item()->is_favorite;
+                const bool right_fav = rhs.any_item()->is_favorite;
+                if( left_fav != right_fav ) {
+                    return left_fav;
+                }
+                return preset.sort_compare( lhs, rhs );
+            } );
+        }
+        from = to;
     }
     // Recover categories
     const item_category *current_category = nullptr;
@@ -1021,9 +1008,6 @@ void inventory_column::prepare_paging( const std::string &filter )
     }
     entries_cell_cache.clear();
     paging_is_valid = true;
-    if( entries_unfiltered.empty() ) {
-        entries_unfiltered = entries;
-    }
     // Select the uppermost possible entry
     const size_t ind = selected_index >= entries.size() ? 0 : selected_index;
     select( ind, ind ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
@@ -1032,7 +1016,7 @@ void inventory_column::prepare_paging( const std::string &filter )
 void inventory_column::clear()
 {
     entries.clear();
-    entries_unfiltered.clear();
+    entries_hidden.clear();
     entries_cell_cache.clear();
     paging_is_valid = false;
 }
@@ -1323,7 +1307,6 @@ void selection_column::on_change( const inventory_entry &entry )
         } else {
             iter = entries.erase( iter );
         }
-        entries_unfiltered.clear();
         paging_is_valid = false;
         prepare_paging();
         if( iter != entries.end() ) {
