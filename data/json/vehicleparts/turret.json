@@ -111,7 +111,7 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "looks_like": "mounted_plasma_gun",
-    "name": { "str": "mounted RMES laser sniper" },
+    "name": { "str": "mounted RMES marksman laser" },
     "item": "recon_mech_laser_single",
     "color": "magenta",
     "broken_color": "magenta",
