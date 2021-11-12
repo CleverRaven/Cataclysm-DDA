@@ -529,10 +529,7 @@
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound1", "tec_fencing_compound2" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ],
-    "weapons": [
-      "bio_blade_weapon"
-    ]
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
