@@ -28,9 +28,9 @@
     "armor_data": {
       "material_thickness": 2,
       "material": [ "plastic" ],
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -909,9 +909,17 @@
     "armor_data": {
       "sided": true,
       "material_thickness": 2,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ], "material": [ "plastic" ] } ]
+      "armor": [
+        {
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "material": [ "plastic" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -1213,10 +1221,10 @@
       "sided": true,
       "material_thickness": 1,
       "material": [ "iron" ],
-      "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] } ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1542,9 +1550,9 @@
     "armor_data": {
       "material_thickness": 2,
       "material": [ "wood" ],
-      "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1600,9 +1608,9 @@
       "sided": true,
       "material_thickness": 2,
       "material": [ "leather" ],
-      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] } ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1629,8 +1637,12 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "material": [ "leather" ], "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "material_thickness": 2,
+      "material": [ "leather" ],
+      "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
