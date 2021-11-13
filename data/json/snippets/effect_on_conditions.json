@@ -1,6 +1,45 @@
 [
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_1",
+    "text": [
+      "A light breeze hits you from above.",
+      "You notice a small patch of dust appear nearby.",
+      "You smell a mild chemical odor you can't quite place.",
+      "Your hair stands on end as a faint electrical tingle washes over you.",
+      "For a split second a nearby object becomes hazy.",
+      "For a moment all colors grow slightly brighter.",
+      "For a moment all distances seem to grow slightly."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_2",
+    "text": [
+      "A gust of wind hits you from above.",
+      "You notice several small patches of dust appear nearby.",
+      "You smell a chemical odor you can't quite place.",
+      "Your hair stands on end as an electrical tingle washes over you.",
+      "For a split second several nearby objects become hazy.",
+      "For a moment all colors grow brighter.",
+      "For a moment all distances seem to grow."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_3",
+    "text": [
+      "A gust of wind hits you from above and below.",
+      "You notice several large patches of dust appear nearby.",
+      "You smell a harsh chemical odor you can't quite place.",
+      "Your hair stands on end as a powerfull electrical tingle washes over you.",
+      "For a split second all nearby objects become hazy.",
+      "For a moment all colors grow much brighter.",
+      "For a moment all distances seem to grow much longer."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_STORM_NIGHT_MESSAGES_1",
     "text": [
       "You see what seems to be a new constellation in the sky.  The stars are quite dense and are precisely aligned in several regular polyhedrons next to each other.",

@@ -69,13 +69,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN",
-    "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on",
+    "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on if they are outside",
     "//2": "base portal strength and if its day or night. Then it queues up either itself or the eoc that causes a portal storm.",
     "effect": [
       {
         "set_queue_effect_on_condition": [
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_1",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_1",
             "condition": {
               "and": [
                 "u_can_see",
@@ -100,7 +100,21 @@
             ]
           },
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_2",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_1",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": "<"
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_2",
             "condition": {
               "and": [
                 "u_can_see",
@@ -129,7 +143,25 @@
             ]
           },
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_3",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_2",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": "<"
+                },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_3",
             "condition": {
               "and": [
                 "u_can_see",
@@ -152,6 +184,20 @@
                 ]
               }
             ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_3",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
           }
         ]
       },
