@@ -64,10 +64,7 @@
     "copy-from": "chainmail_hands",
     "type": "ARMOR",
     "description": "Customized steel chainmail gloves that fully enclose the hands.",
-    "proportional": {
-    "weight": 0.9,
-    "price_postapoc": 1.25
-    },
+    "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
   },
   {
