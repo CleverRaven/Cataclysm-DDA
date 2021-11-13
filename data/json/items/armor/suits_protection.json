@@ -459,6 +459,7 @@
     "id": "chainmail_hauberk_steel",
     "copy-from": "chainmail_hauberk",
     "type": "ARMOR",
+    "name": { "str": "chainmail hauberk" },
     "description": "Customized steel chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
