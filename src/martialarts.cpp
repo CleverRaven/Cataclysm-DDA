@@ -561,7 +561,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     if( !weapon_categories_allowed.empty() ) {
         bool valid_weap_cat = false;
-        for( const std::string w_cat : weapon_categories_allowed ) {
+        for( const std::string &w_cat : weapon_categories_allowed ) {
             if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
                 valid_weap_cat = true;
             }
@@ -626,8 +626,8 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !weapon_categories_allowed.empty() ) {
-        dump += n_gettext( "<bold>Weapon categories required: </bold>",
-                           "<bold>Weapon category required: </bold>", weapon_categories_allowed.size() );
+        dump += n_gettext( "<bold>Weapon category required: </bold>",
+                           "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
         dump += enumerate_as_string( weapon_categories_allowed ) + "\n";
     }
 
