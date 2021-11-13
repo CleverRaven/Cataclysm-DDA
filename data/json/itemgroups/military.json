@@ -108,7 +108,8 @@
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
-      { "item": "shoulder_strap", "prob": 70 },
+      { "item": "shoulder_strap", "prob": 35 },
+      { "item": "single_sling", "prob": 35 },
       { "item": "rail_laser_sight", "prob": 30 },
       { "item": "suppressor", "prob": 70 }
     ]
@@ -293,6 +294,7 @@
       { "item": "survnote", "prob": 1 },
       { "item": "rm11b_sniper_rifle", "prob": 1 },
       { "item": "shoulder_strap", "prob": 16 },
+      { "item": "single_sling", "prob": 16 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "l-stick", "prob": 1 },
