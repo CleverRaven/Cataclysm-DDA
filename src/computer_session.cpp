@@ -1643,7 +1643,6 @@ void computer_session::action_emerg_ref_center()
     reset_terminal();
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
-    const mission_type_id &mission_type = mission_MISSION_REACH_REFUGEE_CENTER;
     tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
@@ -1651,18 +1650,20 @@ void computer_session::action_emerg_ref_center()
     std::vector<mission *> missions = player_character.get_active_missions();
     missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
-    const bool has_mission = std::any_of( missions.begin(), missions.end(), [
-    &mission_target ]( mission * mission ) {
-        if( mission->get_type().id == mission_type ) {
+    auto is_refugee_mission = [ &mission_target ]( mission * mission ) {
+        if( mission->get_type().id == mission_MISSION_REACH_REFUGEE_CENTER ) {
             mission_target = mission->get_target();
             return true;
         }
 
         return false;
-    } );
+    };
+
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), is_refugee_mission );
 
     if( !has_mission ) {
-        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        mission *new_mission =
+            mission::reserve_new( mission_MISSION_REACH_REFUGEE_CENTER, character_id() );
         new_mission->assign( player_character );
         mission_target = new_mission->get_target();
     }
