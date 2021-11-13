@@ -584,6 +584,7 @@
         "name": "the underbelly",
         "crit_mult": { "all": 1.5 },
         "difficulty": { "ranged": 7, "melee": 2 },
+        "armor_mult": { "physical": 0.35 },
         "coverage_mult": { "point": 0.45 },
         "coverage": 15
       }
