@@ -3426,7 +3426,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     }
 ```
 
-### random Descriptions
+### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
