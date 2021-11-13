@@ -2623,37 +2623,37 @@ bool mattack::ranged_pull( monster *z )
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
-	
 
-    if ( target->has_grab_break_tec() ) {
+
+    if( target->has_grab_break_tec() ) {
         Character *pl = dynamic_cast<Character *>( target );
         ///\EFFECT_STR increases chance to avoid being grabbed
-		///\EFFECT_DEX increases chance to avoid being grabbed
-		int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
-		int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
+        ///\EFFECT_DEX increases chance to avoid being grabbed
+        int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
+        int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
         const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
-			
-		if ( pl->is_throw_immune() ) {
-			defender_check = defender_check + 2;		
-		}
 
-		if ( pl->get_effect_int( effect_stunned ) ) {
-			defender_check = defender_check - 2;		
-		}		
+        if( pl->is_throw_immune() ) {
+            defender_check = defender_check + 2;
+        }
 
-		if ( pl->get_effect_int( effect_downed ) ) {
-			defender_check = defender_check - 2;		
-		}			
-        
-		if( defender_check > attacker_check ) {
-			game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
-			target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you..." ),
-										   _( "The %s's arms fly out at <npcname>..." ),
-										   z->name() );				
-			target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
-											   grab_break.npc_message.translated(), z->name() );
-			return true;
-		}   
+        if( pl->get_effect_int( effect_stunned ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( pl->get_effect_int( effect_downed ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( defender_check > attacker_check ) {
+            game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
+            target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you..." ),
+                                           _( "The %s's arms fly out at <npcname>..." ),
+                                           z->name() );
+            target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
+                                           grab_break.npc_message.translated(), z->name() );
+            return true;
+        }
 
     }
 
