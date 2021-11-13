@@ -97,6 +97,7 @@ Use the `Home` key to return to the top.
         - [Encumbrance](#encumbrance)
         - [Coverage](#coverage)
         - [Covers](#covers)
+        - [Specifically Covers](#specifically-covers)
       - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
