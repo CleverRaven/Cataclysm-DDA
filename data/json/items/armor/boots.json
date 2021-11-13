@@ -1113,22 +1113,16 @@
   },
   {
     "id": "chainmail_feet_steel",
+    "copy-from": "chainmail_feet",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
     "description": "Customized steel chainmail chausses that cover the feet, like booties made of chainmail.",
-    "weight": "2006 g",
-    "volume": "500 ml",
-    "price": 5012,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "steel", "cotton" ],
-    "symbol": "[",
-    "color": "light_red",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "proportional": {
+    "weight": 0.9,
+    "price_postapoc": 1.25
+    },
+    "material": [ "steel", "cotton" ]
   },
+
   {
     "id": "xl_chainmail_feet",
     "type": "ARMOR",
