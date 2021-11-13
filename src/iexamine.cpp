@@ -1564,25 +1564,29 @@ void iexamine::slot_machine( Character &you, const tripoint &, bool interactive 
         you.cash -= cents( price );
         played = true;
         int won;
+        std::string msg;
         if( one_in( 5 ) ) {
             won = price;
-            popup( _( "Three cherries… you get your money back!" ) );
+            msg = _( "Three cherries… you get your money back!" );
         } else if( one_in( 20 ) ) {
             won = 50;
-            popup( _( "Three bells… you win $%d!" ), won );
+            msg = string_format( _( "Three bells… you win $%d!" ), won );
         } else if( one_in( 50 ) ) {
             won = 200;
-            popup( _( "Three stars… you win $%d!" ), won );
+            msg = string_format( _( "Three stars… you win $%d!" ), won );
         } else if( one_in( 1000 ) ) {
             won = 3000;
-            popup( _( "JACKPOT!  You win $%d!" ), won );
+            msg = string_format( _( "JACKPOT!  You win $%d!" ), won );
         } else {
             won = 0;
-            popup( _( "No win." ) );
+            msg = _( "No win." );
         }
         you.cash += cents( won );
         // Only play once if triggered non-interactively
-        if( !interactive ) {
+        if( interactive ) {
+            popup( msg );
+        } else {
+            add_msg( won > 0 ? m_good : m_bad, msg );
             break;
         }
     }
@@ -2143,47 +2147,44 @@ static bool query_pick( Character &who, const tripoint &target )
     return true;
 }
 
-void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp, bool interactive )
+static void harvest_furn_ter( Character &you, const tripoint &examp, bool interactive,
+                              const std::vector<std::string> &autoforage_opts )
 {
-    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" );
+    if( auto_forage ) {
+        bool add_opt = false;
+        for( const std::string &opt : autoforage_opts ) {
+            if( get_option<std::string>( "AUTO_FORAGING" ) == opt ) {
+                add_opt = true;
+                break;
+            }
+        }
+        auto_forage = add_opt;
+    }
     if( !auto_forage && interactive && !query_pick( you, examp ) ) {
         return;
     }
     you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+}
+
+void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp, bool interactive )
+{
+    harvest_furn_ter( you, examp, interactive, { "all" } );
 }
 
 void iexamine::harvest_furn( Character &you, const tripoint &examp, bool interactive )
 {
-    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "all";
-    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
-        return;
-    }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    harvest_furn_ter( you, examp, interactive, { "all" } );
 }
 
 void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp, bool interactive )
 {
-    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
-                         get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
-                         get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
-    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
-        return;
-    }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    harvest_furn_ter( you, examp, interactive, { "all", "bushes", "trees" } );
 }
 
 void iexamine::harvest_ter( Character &you, const tripoint &examp, bool interactive )
 {
-    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       ( get_option<std::string>( "AUTO_FORAGING" ) == "all" ||
-                         get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
-    if( !auto_forage && interactive && !query_pick( you, examp ) ) {
-        return;
-    }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    harvest_furn_ter( you, examp, interactive, { "all", "trees" } );
 }
 
 /**
@@ -2444,9 +2445,17 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
-// Only harvest, used for autoforaging
-void iexamine::harvest_plant_ex( Character &you, const tripoint &examp, bool interactive )
+enum harvest_stage {
+    PLANTING,
+    FERTILIZING,
+    HARVESTING,
+    ALL
+};
+
+static void aggie_harvest_plant( Character &you, const tripoint &examp, bool interactive,
+                                 harvest_stage stage )
 {
+
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
@@ -2462,10 +2471,29 @@ void iexamine::harvest_plant_ex( Character &you, const tripoint &examp, bool int
     }
 
     const std::string pname = seed->get_plant_name();
-    if( ( !interactive || query_yn( _( "Harvest the %s?" ), pname ) ) &&
-        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
-        harvest_plant( you, examp, false, interactive );
+
+    if( ( stage == HARVESTING || stage == ALL ) &&
+        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
+        ( !interactive || query_yn( _( "Harvest the %s?" ), pname ) ) ) {
+        iexamine::harvest_plant( you, examp, false, interactive );
+    } else if( ( stage == FERTILIZING || stage == ALL ) &&
+               !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
+        if( here.i_at( examp ).size() > 1 ) {
+            add_msg( m_info, _( "This %s has already been fertilized." ), pname );
+            return;
+        }
+        itype_id fertilizer = iexamine::choose_fertilizer( you, pname, interactive );
+
+        if( !fertilizer.is_empty() ) {
+            iexamine::fertilize_plant( you, examp, fertilizer );
+        }
     }
+}
+
+// Only harvest, used for autoforaging
+void iexamine::harvest_plant_ex( Character &you, const tripoint &examp, bool interactive )
+{
+    aggie_harvest_plant( you, examp, interactive, HARVESTING );
 }
 
 /**
@@ -2638,73 +2666,51 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 }
 void iexamine::aggie_plant( Character &you, const tripoint &examp, bool interactive )
 {
-    map &here = get_map();
-    // Can't use item_stack::only_item() since there might be fertilizer
-    map_stack items = here.i_at( examp );
-    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.is_seed();
-    } );
-
-    if( seed == items.end() ) {
-        debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
-        here.i_clear( examp );
-        here.furn_set( examp, f_null );
-        return;
-    }
-
-    const std::string pname = seed->get_plant_name();
-
-    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
-        ( !interactive || query_yn( _( "Harvest the %s?" ), pname ) ) ) {
-        harvest_plant( you, examp, false, interactive );
-    } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
-        if( here.i_at( examp ).size() > 1 ) {
-            add_msg( m_info, _( "This %s has already been fertilized." ), pname );
-            return;
-        }
-        itype_id fertilizer = choose_fertilizer( you, pname, interactive );
-
-        if( !fertilizer.is_empty() ) {
-            fertilize_plant( you, examp, fertilizer );
-        }
-    }
+    aggie_harvest_plant( you, examp, interactive, ALL );
 }
 
-// Highly modified fermenting vat functions
-void iexamine::kiln_empty( Character &you, const tripoint &examp, bool interactive )
+static void furn_empty( Character &you, const tripoint &examp, bool interactive,
+                        const std::vector<std::pair<furn_id, furn_id>> &allowed_furns,
+                        const std::set<material_id> allowed_mats, const itype_id power_source,
+                        const itype_id inter_product, const itype_id produced, const std::string &act )
 {
     map &here = get_map();
-    furn_id cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = f_null;
-    if( cur_kiln_type == f_kiln_empty ) {
-        next_kiln_type = f_kiln_full;
-    } else if( cur_kiln_type == f_kiln_metal_empty ) {
-        next_kiln_type = f_kiln_metal_full;
-    } else {
-        debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+    furn_id cur_type = here.furn( examp );
+    furn_id next_type = f_null;
+    for( const auto &furn_pair : allowed_furns ) {
+        if( cur_type == furn_pair.first ) {
+            next_type = furn_pair.second;
+            break;
+        }
+    }
+    if( next_type == f_null ) {
+        debugmsg( "Examined furniture has action %s, but is of type %s",
+                  act, here.furn( examp ).id().c_str() );
         return;
     }
 
-    static const std::set<material_id> kilnable{ material_wood, material_bone };
     bool fuel_present = false;
     map_stack items = here.i_at( examp );
     for( const item &i : items ) {
-        if( i.typeId() == itype_charcoal ) {
-            add_msg( _( "This kiln already contains charcoal." ) );
-            add_msg( _( "Remove it before firing the kiln again." ) );
+        if( i.typeId() == produced ) {
+            add_msg( _( "This %1$s already contains %2$s." ), cur_type->name(), produced->nname( 1U ) );
+            add_msg( _( "Remove it before firing the %s again." ), cur_type->name() );
             return;
-        } else if( i.made_of_any( kilnable ) ) {
+        } else if( i.made_of_any( allowed_mats ) ) {
             fuel_present = true;
         } else {
-            add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
-                     false ) );
+            add_msg( m_bad, _( "This %1$s contains %2$s, which can't be made into %3$s!" ),
+                     cur_type->name(), i.tname( 1, false ), produced->nname( 1U ) );
             return;
         }
     }
 
     if( !fuel_present ) {
-        add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
+        add_msg( _( "This %1$s is empty.  Fill it with %2$s and try again." ),
+                 cur_type->name(), enumerate_as_string( allowed_mats.begin(),
+        allowed_mats.end(), []( const material_id & mat ) {
+            return mat.str();
+        }, enumeration_conjunction::or_ ) );
         return;
     }
 
@@ -2719,31 +2725,48 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp, bool interacti
         total_volume += i.volume();
     }
 
-    const itype *char_type = item::find_type( itype_unfinished_charcoal );
+    const itype *char_type = item::find_type( produced );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
-        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
+        add_msg( _( "The batch in this %1$s is too small to yield any %2$s." ),
+                 cur_type->name(), produced->nname( 1U ) );
         return;
     }
 
-    if( !you.has_charges( itype_fire, 1 ) ) {
-        add_msg( _( "This kiln is ready to be fired, but you have no fire source." ) );
+    if( ( power_source.is_null() && you.available_ups() < 1250 ) ||
+        ( !power_source.is_null() && !you.has_charges( power_source, 1 ) ) ) {
+        add_msg( _( "This %1$s is ready to be fired, but you don't have sufficient source of %2$s." ),
+                 next_type->name(), power_source.is_null() ? _( "UPS power" ) : power_source->nname( 1U ) );
         return;
     } else {
-        add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( interactive && !query_yn( _( "Fire the kiln?" ) ) ) {
+        //~ %1$s = furniture (ex: kiln), %2$s = quantity, %3$s = unit of measurement (ex: mL)
+        add_msg( _( "This %1$s contains %2$s %3$s of material, and is ready to be fired." ),
+                 next_type->name(), format_volume( total_volume ), volume_units_abbr() );
+        if( interactive && !query_yn( _( "Fire the %s?" ), next_type->name() ) ) {
             return;
         }
     }
 
-    you.use_charges( itype_fire, 1 );
+    if( power_source.is_null() ) {
+        you.consume_ups( 1250 );
+    } else {
+        you.use_charges( power_source, 1 );
+    }
     here.i_clear( examp );
-    here.furn_set( examp, next_kiln_type );
-    item result( "unfinished_charcoal", calendar::turn );
+    here.furn_set( examp, next_type );
+    item result( inter_product, calendar::turn );
     result.charges = char_charges;
     here.add_item( examp, result );
-    add_msg( _( "You fire the charcoal kiln." ) );
+    add_msg( _( "You fire the %s." ), next_type->name() );
+}
+
+// Highly modified fermenting vat functions
+void iexamine::kiln_empty( Character &you, const tripoint &examp, bool interactive )
+{
+    static const std::set<material_id> kilnable{ material_wood, material_bone };
+    furn_empty( you, examp, interactive,
+    {{f_kiln_empty, f_kiln_full}, {f_kiln_metal_empty, f_kiln_metal_full}},
+    kilnable, itype_fire, itype_unfinished_charcoal, itype_charcoal, "kiln_empty" );
 }
 
 void iexamine::kiln_full( Character &, const tripoint &examp, bool /*interactive*/ )
@@ -2806,75 +2829,10 @@ void iexamine::kiln_full( Character &, const tripoint &examp, bool /*interactive
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint &examp, bool interactive )
 {
-    map &here = get_map();
-    furn_id cur_arcfurnace_type = here.furn( examp );
-    furn_id next_arcfurnace_type = f_null;
-    if( cur_arcfurnace_type == f_arcfurnace_empty ) {
-        next_arcfurnace_type = f_arcfurnace_full;
-    } else {
-        debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
-        return;
-    }
-
     static const std::set<material_id> arcfurnaceable{ material_cac2powder };
-    bool fuel_present = false;
-    map_stack items = here.i_at( examp );
-    for( const item &i : items ) {
-        if( i.typeId() == itype_chem_carbide ) {
-            add_msg( _( "This furnace already contains calcium carbide." ) );
-            add_msg( _( "Remove it before activating the arc furnace again." ) );
-            return;
-        } else if( i.made_of_any( arcfurnaceable ) ) {
-            fuel_present = true;
-        } else {
-            add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
-                     i.tname( 1, false ) );
-            return;
-        }
-    }
-
-    if( !fuel_present ) {
-        add_msg( _( "This furnace is empty.  Fill it with powdered coke and lime mix, and try again." ) );
-        return;
-    }
-
-    ///\EFFECT_FABRICATION decreases loss when firing a furnace
-    const int skill = you.get_skill_level( skill_fabrication );
-    int loss = 60 - 2 *
-               skill; // Inefficiency is still fine, coal and limestone is abundant
-
-    // Burn stuff that should get charred, leave out the rest
-    units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
-    }
-
-    const itype *char_type = item::find_type( itype_unfinished_cac2 );
-    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
-    if( char_charges < 1 ) {
-        add_msg( _( "The batch in this furnace is too small to yield usable calcium carbide." ) );
-        return;
-    }
-    //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
-    if( you.available_ups() < 1250 ) {
-        add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
-        return;
-    } else {
-        add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( interactive && !query_yn( _( "Turn on the furnace?" ) ) ) {
-            return;
-        }
-    }
-
-    you.consume_ups( 1250 );
-    here.i_clear( examp );
-    here.furn_set( examp, next_arcfurnace_type );
-    item result( "unfinished_cac2", calendar::turn );
-    result.charges = char_charges;
-    here.add_item( examp, result );
-    add_msg( _( "You turn on the furnace." ) );
+    furn_empty( you, examp, interactive, {{f_arcfurnace_empty, f_arcfurnace_full}},
+    arcfurnaceable, itype_id::NULL_ID(), itype_unfinished_cac2, itype_chem_carbide,
+    "arcfurnace_empty" );
 }
 
 void iexamine::arcfurnace_full( Character &, const tripoint &examp, bool /*interactive*/ )
