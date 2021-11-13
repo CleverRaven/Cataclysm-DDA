@@ -11,6 +11,8 @@ static const itype_id itype_test_weapon2( "test_weapon2" );
 
 static const matype_id test_style_ma1( "test_style_ma1" );
 
+static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
+
 TEST_CASE( "martial arts", "[martial_arts]" )
 {
     SECTION( "martial art valid weapon" ) {
@@ -32,7 +34,7 @@ TEST_CASE( "Martial art required weapon categories", "[martial_arts]" )
         const mabuff_id &buff2 = test_style_ma1->onmiss_buffs[1];
 
         REQUIRE( buff1->reqs.weapon_categories_allowed[0] == *test_style_ma1->weapon_category.begin() );
-        standard_npc dude( "TestCharacter", tripoint_zero, {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         item weap2( itype_test_weapon2 );
         clear_character( dude, true );
         CHECK( !buff1->is_valid_character( dude ) );
@@ -49,7 +51,7 @@ TEST_CASE( "Martial art required weapon categories", "[martial_arts]" )
         const matec_id &tec = *test_style_ma1->techniques.begin();
 
         REQUIRE( tec->reqs.weapon_categories_allowed[0] == *test_style_ma1->weapon_category.begin() );
-        standard_npc dude( "TestCharacter", tripoint_zero, {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         item weap2( itype_test_weapon2 );
         clear_character( dude, true );
         CHECK( !tec->is_valid_character( dude ) );
