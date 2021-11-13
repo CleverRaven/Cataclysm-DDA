@@ -84,30 +84,28 @@ static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
 static const std::string part_location_onroof( "on_roof" );
 
-static const itype_id fuel_type_animal( "animal" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_mana( "mana" );
-
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
-
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_mana( "mana" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-
 static const itype_id itype_water_purifier( "water_purifier" );
+
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 

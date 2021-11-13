@@ -60,9 +60,6 @@
 #include "weather_type.h"
 #include "widget.h"
 
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -77,8 +74,11 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
-static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 // constructor
 window_panel::window_panel(

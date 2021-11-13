@@ -253,6 +253,9 @@ struct armor_portion_data {
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
+    std::vector<sub_bodypart_str_id> sub_coverage;
+
+
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
@@ -286,6 +289,11 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    /**
+     * If the item in question has any sub coverage when testing for encumberance
+     */
+    bool has_sub_coverage = false;
 
     // Layer, encumbrance and coverage information.
     std::vector<armor_portion_data> data;
@@ -744,6 +752,19 @@ struct islot_ammo : common_ranged_data {
      * Default charges.
      */
     int def_charges = 1;
+
+    /**
+     * Number of projectiles fired per round, e.g. shotgun shot.
+     */
+    int count = 1;
+    /**
+     * Spread/dispersion between projectiles fired from the same round.
+     */
+    int shot_spread = 0;
+    /**
+     * Damage for a single shot.
+     */
+    damage_instance shot_damage;
 
     /**
      * TODO: document me.

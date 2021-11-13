@@ -292,6 +292,17 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->cookoff = false;
             obj.ammo->special_cookoff = false;
         }
+        // Special casing for shot, since the damage per pellet can be tiny.
+        // Instead of handling fractional damage values, we scale the effective number
+        // of projectiles based on the damage so that they end up at 1.
+        if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
+            // Patch to fixup shot without shot_damage until I get all the definitions consistent.
+            if( obj.ammo->shot_damage.damage_units.empty() ) {
+                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1 );
+            }
+            obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
+            obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
+        }
     }
 
     // Helper for ammo migration in following sections
@@ -604,6 +615,10 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
+            }
+            // if sub coverage is empty we should add all coverage to the item
+            if( !data.sub_coverage.empty() ) {
+                obj.armor->has_sub_coverage = true;
             }
         }
     }
@@ -1424,6 +1439,12 @@ void Item_factory::check_definitions() const
             if( !type->ammo->drop.is_null() && !has_template( type->ammo->drop ) ) {
                 msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
+            if( type->ammo->shot_damage.empty() && type->ammo->count != 1 ) {
+                msg += string_format( "invalid shot definition, shot count with no shot damage." );
+            }
+            if( !type->ammo->shot_damage.empty() && type->ammo->count == 1 ) {
+                msg += string_format( "invalid shot definition, shot damage with no shot count." );
+            }
         }
         if( type->battery ) {
             if( type->battery->max_capacity < 0_mJ ) {
@@ -1763,6 +1784,9 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
+    optional( jo, was_loaded, "projectile_count", count, 1 );
+    optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
+    assign( jo, "shot_damage", shot_damage, strict );
     // Damage instance assign reader handles pierce and prop_damage
     assign( jo, "damage", damage, strict );
     assign( jo, "range", range, strict, 0 );
@@ -1996,6 +2020,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
+    optional( jo, false, "specifically_covers", sub_coverage );
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );

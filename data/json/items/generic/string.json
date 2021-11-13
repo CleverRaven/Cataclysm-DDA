@@ -49,7 +49,7 @@
     "armor_data": {
       "material": [ "cotton" ],
       "material_thickness": 2,
-      "armor": [ { "encumbrance": 3, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [ { "encumbrance": 3, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
     },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [

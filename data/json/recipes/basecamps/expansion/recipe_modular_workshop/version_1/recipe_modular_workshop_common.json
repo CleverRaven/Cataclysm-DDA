@@ -29,7 +29,7 @@
     "blueprint_requires": [ { "id": "fbmw_northeast" } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 2 } ],
-    "blueprint_resources": [ "char_forge", "char_kiln", "crucible", "makeshift_hammer" ],
+    "blueprint_resources": [ "fake_forge", "fake_char_kiln", "crucible", "makeshift_hammer" ],
     "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ], [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],
     "blueprint_needs": {
       "time": "5 h 30 m",

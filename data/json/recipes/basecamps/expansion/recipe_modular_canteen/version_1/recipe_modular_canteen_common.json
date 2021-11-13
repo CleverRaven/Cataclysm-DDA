@@ -149,7 +149,7 @@
     "blueprint_requires": [ { "id": "fbmk_canteen_fire" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_smoking" }, { "id": "kitchen_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_smoking" } ],
-    "blueprint_resources": [ "char_smoker", "char_smoker", "char_smoker", "char_kiln" ],
+    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ],
     "blueprint_needs": {
       "time": "6 h 30 m",
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],

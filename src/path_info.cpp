@@ -183,6 +183,10 @@ std::string PATH_INFO::defaulttilejson()
 {
     return "tile_config.json";
 }
+std::string PATH_INFO::defaultlayeringjson()
+{
+    return "layering.json";
+}
 std::string PATH_INFO::defaulttilepng()
 {
     return "tinytile.png";

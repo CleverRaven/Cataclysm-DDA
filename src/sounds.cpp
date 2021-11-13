@@ -77,14 +77,13 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
-static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
-
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_battery( "battery" );
-
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
+
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 
 struct monster_sound_event {
     int volume;

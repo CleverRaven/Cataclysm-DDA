@@ -19,7 +19,16 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 9,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "id": "armguard_chitin",
@@ -40,7 +49,16 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "cover_melee": 36,
+        "cover_ranged": 36,
+        "cover_vitals": 50,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_chitin",
@@ -94,7 +112,16 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 5,
+        "cover_melee": 72,
+        "cover_ranged": 76,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_hard",
@@ -125,7 +152,16 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "cover_melee": 38,
+        "cover_ranged": 38,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_larmor",
@@ -155,7 +191,16 @@
     "warmth": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 16,
+        "cover_melee": 76,
+        "cover_ranged": 76,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_lightplate",
@@ -186,7 +231,16 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 13,
+        "cover_melee": 71,
+        "cover_ranged": 68,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_metal",
@@ -216,7 +270,16 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "id": "improvised_armguard_tire",
@@ -236,7 +299,16 @@
     "warmth": 5,
     "material_thickness": 4,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "id": "armguard_scrap",
@@ -258,7 +330,16 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 6,
+        "cover_melee": 28,
+        "cover_ranged": 28,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_scrap",
@@ -288,7 +369,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 14,
+        "cover_melee": 60,
+        "cover_ranged": 60,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armguard_tire",
@@ -376,7 +466,16 @@
     "color": "dark_gray",
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 30, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 0,
+        "cover_melee": 5,
+        "cover_ranged": 5,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
   },
   {
     "id": "vambrace_larmor",
@@ -397,7 +496,16 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 8, "coverage": 50, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 5,
+        "cover_melee": 33,
+        "cover_ranged": 32,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "id": "xl_vambrace_larmor",
