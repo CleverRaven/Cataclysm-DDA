@@ -353,6 +353,7 @@
     "id": "chainmail_arms_steel",
     "copy-from": "chainmail_arms",
     "type": "ARMOR",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
     "description": "Customized steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
