@@ -132,10 +132,7 @@
     "copy-from": "chainmail_legs",
     "type": "ARMOR",
     "description": "Customized steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": {
-    "weight": 0.9,
-    "price_postapoc": 1.25
-    },
+    "proportional": { "weight": 1.25, "price": 1.25 },
     "material": [ "steel", "cotton" ]
   },
   {
