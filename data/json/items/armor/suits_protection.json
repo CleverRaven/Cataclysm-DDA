@@ -461,8 +461,7 @@
     "type": "ARMOR",
     "description": "Customized steel chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately."
     "proportional": { "weight": 0.9, "price": 1.25 },
-    "material": [ "steel", "cotton" ],
-    "looks_like": "chainmail_arms"
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -498,8 +497,7 @@
     "type": "ARMOR",
     "description": "Customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "proportional": { "weight": 0.9, "price": 1.25 },
-    "material": [ "steel", "cotton" ],
-    "looks_like": "chainmail_arms"
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_suit",
@@ -511,13 +509,12 @@
   },
   {
     "id": "chainmail_hauberk_ksteel",
-    "copy-from": "chainmail_suit_steel",
+    "copy-from": "chainmail_hauberk_steel",
     "name": { "str": "kevlar-backed chainmail hauberk" },
     "type": "ARMOR",
     "description": "Customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "proportional": { "weight": 1.15, "price": 1.5 },
-    "material": [ "steel", "kevlar_layered" ],
-    "looks_like": "chainmail_arms"
+    "material": [ "steel", "kevlar_layered" ]
   },
   {
     "id": "xl_chainmail_hauberk_ksteel",
@@ -529,7 +526,7 @@
   },
   {
     "id": "chainmail_suit_ksteel",
-    "copy-from": "chainmail_suit_ksteel",
+    "copy-from": "chainmail_suit_steel",
     "name": { "str": "kevlar-backed chainmail armor" },
     "type": "ARMOR",
     "description": "A fully customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
@@ -538,7 +535,7 @@
   },
   {
     "id": "xl_chainmail_suit_ksteel",
-    "type": "ARMOR",
+    "type": "ARMOR", 
     "name": { "str": "XL kevlar-backed chainmail armor" },
     "copy-from": "chainmail_suit_ksteel",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
