@@ -392,7 +392,6 @@
         "name": "the head",
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
-        "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 3 },
         "effects": [
           {
@@ -413,13 +412,12 @@
       },
       {
         "name": "the eye",
-        "armor_mult": { "physical": 0 },
+        "armor_mult": { "physical": 0.25 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 6, "melee": 4 },
         "coverage_mult": { "broad": 0.5 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
             "effect": "blind",
             "permanent": true,
@@ -431,6 +429,7 @@
       },
       {
         "name": "the wings",
+       "damage_mult": { "all": 0.25 },
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
@@ -791,10 +790,9 @@
       {
         "name": "the eye",
         "armor_mult": { "physical": 0 },
-        "coverage": 1,
+        "coverage": 8,
         "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 1 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -2398,7 +2396,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ],
     "weakpoints": [
       {
-        "name": "beneath the shell",
+        "name": "beneath the outer wings",
         "coverage": 35,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.25 },
