@@ -1105,6 +1105,7 @@ extract_specials = {
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
     "speed_description": extract_speed_description,
+    "weapon_category", extract_weapon_category,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
