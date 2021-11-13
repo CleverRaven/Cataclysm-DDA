@@ -905,6 +905,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "wheel_rail",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 6,
+    "time": "8 h",
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "hand_rims",
     "category": "CC_OTHER",

@@ -14,10 +14,10 @@
 #include "monster.h"
 #include "point.h"
 
-static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -50,8 +50,8 @@ static const itype_id itype_test_shears_off( "test_shears_off" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
-static const mtype_id mon_test_shearable( "mon_test_shearable" );
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
+static const mtype_id mon_test_shearable( "mon_test_shearable" );
 
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 

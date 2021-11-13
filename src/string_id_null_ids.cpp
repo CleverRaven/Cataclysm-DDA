@@ -44,6 +44,7 @@ MAKE_NULL_ID( update_mapgen, "null" )
 MAKE_NULL_ID( VehicleGroup, "null" )
 MAKE_NULL_ID( zone_type, "null" )
 MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
+MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
@@ -69,6 +70,7 @@ MAKE_NULL_ID2( species_type, "spec_null" )
 MAKE_NULL_ID2( mutation_branch, "" )
 MAKE_NULL_ID2( requirement_data, "null" )
 MAKE_NULL_ID2( body_part_type, "bp_null" )
+MAKE_NULL_ID2( sub_body_part_type, "sub_bp_null" )
 MAKE_NULL_ID2( bionic_data, "" )
 MAKE_NULL_ID2( construction, "constr_null" )
 MAKE_NULL_ID2( vehicle_prototype, "null" )

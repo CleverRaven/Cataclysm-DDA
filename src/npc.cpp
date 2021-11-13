@@ -93,10 +93,10 @@ static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
@@ -276,6 +276,219 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
     }
+    if( jsobj.has_string( "<acknowledged>" ) ) {
+        guy.chatbin.snip_acknowledged = jsobj.get_string( "<acknowledged>" );
+    }
+    if( jsobj.has_string( "<camp_food_thanks>" ) ) {
+        guy.chatbin.snip_camp_food_thanks = jsobj.get_string( "<camp_food_thanks>" );
+    }
+    if( jsobj.has_string( "<camp_larder_empty>" ) ) {
+        guy.chatbin.snip_camp_larder_empty = jsobj.get_string( "<camp_larder_empty>" );
+    }
+    if( jsobj.has_string( "<camp_water_thanks>" ) ) {
+        guy.chatbin.snip_camp_water_thanks = jsobj.get_string( "<camp_water_thanks>" );
+    }
+    if( jsobj.has_string( "<cant_flee>" ) ) {
+        guy.chatbin.snip_cant_flee = jsobj.get_string( "<cant_flee>" );
+    }
+    if( jsobj.has_string( "<close_distance>" ) ) {
+        guy.chatbin.snip_close_distance = jsobj.get_string( "<close_distance>" );
+    }
+    if( jsobj.has_string( "<combat_noise_warning>" ) ) {
+        guy.chatbin.snip_combat_noise_warning = jsobj.get_string( "<combat_noise_warning>" );
+    }
+    if( jsobj.has_string( "<danger_close_distance>" ) ) {
+        guy.chatbin.snip_danger_close_distance = jsobj.get_string( "<danger_close_distance>" );
+    }
+    if( jsobj.has_string( "<done_mugging>" ) ) {
+        guy.chatbin.snip_done_mugging = jsobj.get_string( "<done_mugging>" );
+    }
+    if( jsobj.has_string( "<far_distance>" ) ) {
+        guy.chatbin.snip_far_distance = jsobj.get_string( "<far_distance>" );
+    }
+    if( jsobj.has_string( "<fire_bad>" ) ) {
+        guy.chatbin.snip_fire_bad = jsobj.get_string( "<fire_bad>" );
+    }
+    if( jsobj.has_string( "<fire_in_the_hole_h>" ) ) {
+        guy.chatbin.snip_fire_in_the_hole_h = jsobj.get_string( "<fire_in_the_hole_h>" );
+    }
+    if( jsobj.has_string( "<fire_in_the_hole>" ) ) {
+        guy.chatbin.snip_fire_in_the_hole = jsobj.get_string( "<fire_in_the_hole>" );
+    }
+    if( jsobj.has_string( "<general_danger_h>" ) ) {
+        guy.chatbin.snip_general_danger_h = jsobj.get_string( "<general_danger_h>" );
+    }
+    if( jsobj.has_string( "<general_danger>" ) ) {
+        guy.chatbin.snip_general_danger = jsobj.get_string( "<general_danger>" );
+    }
+    if( jsobj.has_string( "<heal_self>" ) ) {
+        guy.chatbin.snip_heal_self = jsobj.get_string( "<heal_self>" );
+    }
+    if( jsobj.has_string( "<hungry>" ) ) {
+        guy.chatbin.snip_hungry = jsobj.get_string( "<hungry>" );
+    }
+    if( jsobj.has_string( "<im_leaving_you>" ) ) {
+        guy.chatbin.snip_im_leaving_you = jsobj.get_string( "<im_leaving_you>" );
+    }
+    if( jsobj.has_string( "<its_safe_h>" ) ) {
+        guy.chatbin.snip_its_safe_h = jsobj.get_string( "<its_safe_h>" );
+    }
+    if( jsobj.has_string( "<its_safe>" ) ) {
+        guy.chatbin.snip_its_safe = jsobj.get_string( "<its_safe>" );
+    }
+    if( jsobj.has_string( "<keep_up>" ) ) {
+        guy.chatbin.snip_keep_up = jsobj.get_string( "<keep_up>" );
+    }
+    if( jsobj.has_string( "<kill_npc_h>" ) ) {
+        guy.chatbin.snip_kill_npc_h = jsobj.get_string( "<kill_npc_h>" );
+    }
+    if( jsobj.has_string( "<kill_npc>" ) ) {
+        guy.chatbin.snip_kill_npc = jsobj.get_string( "<kill_npc>" );
+    }
+    if( jsobj.has_string( "<kill_player_h>" ) ) {
+        guy.chatbin.snip_kill_player_h = jsobj.get_string( "<kill_player_h>" );
+    }
+    if( jsobj.has_string( "<let_me_pass>" ) ) {
+        guy.chatbin.snip_let_me_pass = jsobj.get_string( "<let_me_pass>" );
+    }
+    if( jsobj.has_string( "<lets_talk>" ) ) {
+        guy.chatbin.snip_lets_talk = jsobj.get_string( "<lets_talk>" );
+    }
+    if( jsobj.has_string( "<medium_distance>" ) ) {
+        guy.chatbin.snip_medium_distance = jsobj.get_string( "<medium_distance>" );
+    }
+    if( jsobj.has_string( "<monster_warning_h>" ) ) {
+        guy.chatbin.snip_monster_warning_h = jsobj.get_string( "<monster_warning_h>" );
+    }
+    if( jsobj.has_string( "<monster_warning>" ) ) {
+        guy.chatbin.snip_monster_warning = jsobj.get_string( "<monster_warning>" );
+    }
+    if( jsobj.has_string( "<movement_noise_warning>" ) ) {
+        guy.chatbin.snip_movement_noise_warning = jsobj.get_string( "<movement_noise_warning>" );
+    }
+    if( jsobj.has_string( "<need_batteries>" ) ) {
+        guy.chatbin.snip_need_batteries = jsobj.get_string( "<need_batteries>" );
+    }
+    if( jsobj.has_string( "<need_booze>" ) ) {
+        guy.chatbin.snip_need_booze = jsobj.get_string( "<need_booze>" );
+    }
+    if( jsobj.has_string( "<need_fuel>" ) ) {
+        guy.chatbin.snip_need_fuel = jsobj.get_string( "<need_fuel>" );
+    }
+    if( jsobj.has_string( "<no_to_thorazine>" ) ) {
+        guy.chatbin.snip_no_to_thorazine = jsobj.get_string( "<no_to_thorazine>" );
+    }
+    if( jsobj.has_string( "<run_away>" ) ) {
+        guy.chatbin.snip_run_away = jsobj.get_string( "<run_away>" );
+    }
+    if( jsobj.has_string( "<speech_warning>" ) ) {
+        guy.chatbin.snip_speech_warning = jsobj.get_string( "<speech_warning>" );
+    }
+    if( jsobj.has_string( "<thirsty>" ) ) {
+        guy.chatbin.snip_thirsty = jsobj.get_string( "<thirsty>" );
+    }
+    if( jsobj.has_string( "<wait>" ) ) {
+        guy.chatbin.snip_wait = jsobj.get_string( "<wait>" );
+    }
+    if( jsobj.has_string( "<warn_sleep>" ) ) {
+        guy.chatbin.snip_warn_sleep = jsobj.get_string( "<warn_sleep>" );
+    }
+    if( jsobj.has_string( "<yawn>" ) ) {
+        guy.chatbin.snip_yawn = jsobj.get_string( "<yawn>" );
+    }
+    if( jsobj.has_string( "<yes_to_lsd>" ) ) {
+        guy.chatbin.snip_yes_to_lsd = jsobj.get_string( "<yes_to_lsd>" );
+    }
+    if( jsobj.has_string( "snip_pulp_zombie" ) ) {
+        guy.chatbin.snip_pulp_zombie = jsobj.get_string( "snip_pulp_zombie" );
+    }
+    if( jsobj.has_string( "snip_heal_player" ) ) {
+        guy.chatbin.snip_heal_player = jsobj.get_string( "snip_heal_player" );
+    }
+    if( jsobj.has_string( "snip_mug_dontmove" ) ) {
+        guy.chatbin.snip_mug_dontmove = jsobj.get_string( "snip_mug_dontmove" );
+    }
+    if( jsobj.has_string( "snip_wound_infected" ) ) {
+        guy.chatbin.snip_wound_infected = jsobj.get_string( "snip_wound_infected" );
+    }
+    if( jsobj.has_string( "snip_wound_bite" ) ) {
+        guy.chatbin.snip_wound_bite = jsobj.get_string( "snip_wound_bite" );
+    }
+    if( jsobj.has_string( "snip_radiation_sickness" ) ) {
+        guy.chatbin.snip_radiation_sickness = jsobj.get_string( "snip_radiation_sickness" );
+    }
+    if( jsobj.has_string( "snip_bleeding" ) ) {
+        guy.chatbin.snip_bleeding = jsobj.get_string( "snip_bleeding" );
+    }
+    if( jsobj.has_string( "snip_bleeding_badly" ) ) {
+        guy.chatbin.snip_bleeding_badly = jsobj.get_string( "snip_bleeding_badly" );
+    }
+    if( jsobj.has_string( "snip_lost_blood" ) ) {
+        guy.chatbin.snip_lost_blood = jsobj.get_string( "snip_lost_blood" );
+    }
+    if( jsobj.has_string( "snip_bye" ) ) {
+        guy.chatbin.snip_bye = jsobj.get_string( "snip_bye" );
+    }
+    if( jsobj.has_string( "snip_consume_cant_accept" ) ) {
+        guy.chatbin.snip_consume_cant_accept = jsobj.get_string( "snip_consume_cant_accept" );
+    }
+    if( jsobj.has_string( "snip_consume_cant_consume" ) ) {
+        guy.chatbin.snip_consume_cant_consume = jsobj.get_string( "snip_consume_cant_consume" );
+    }
+    if( jsobj.has_string( "snip_consume_rotten" ) ) {
+        guy.chatbin.snip_consume_rotten = jsobj.get_string( "snip_consume_rotten" );
+    }
+    if( jsobj.has_string( "snip_consume_eat" ) ) {
+        guy.chatbin.snip_consume_eat = jsobj.get_string( "snip_consume_eat" );
+    }
+    if( jsobj.has_string( "snip_consume_need_item" ) ) {
+        guy.chatbin.snip_consume_need_item = jsobj.get_string( "snip_consume_need_item" );
+    }
+    if( jsobj.has_string( "snip_consume_med" ) ) {
+        guy.chatbin.snip_consume_med = jsobj.get_string( "snip_consume_med" );
+    }
+    if( jsobj.has_string( "snip_consume_nocharge" ) ) {
+        guy.chatbin.snip_consume_nocharge = jsobj.get_string( "snip_consume_nocharge" );
+    }
+    if( jsobj.has_string( "snip_consume_use_med" ) ) {
+        guy.chatbin.snip_consume_use_med = jsobj.get_string( "snip_consume_use_med" );
+    }
+    if( jsobj.has_string( "snip_give_nope" ) ) {
+        guy.chatbin.snip_give_nope = jsobj.get_string( "snip_give_nope" );
+    }
+    if( jsobj.has_string( "snip_give_to_hallucination" ) ) {
+        guy.chatbin.snip_give_to_hallucination = jsobj.get_string( "snip_give_to_hallucination" );
+    }
+    if( jsobj.has_string( "snip_give_cancel" ) ) {
+        guy.chatbin.snip_give_cancel = jsobj.get_string( "snip_give_cancel" );
+    }
+    if( jsobj.has_string( "snip_give_dangerous" ) ) {
+        guy.chatbin.snip_give_dangerous = jsobj.get_string( "snip_give_dangerous" );
+    }
+    if( jsobj.has_string( "snip_give_wield" ) ) {
+        guy.chatbin.snip_give_wield = jsobj.get_string( "snip_give_wield" );
+    }
+    if( jsobj.has_string( "snip_give_weapon_weak" ) ) {
+        guy.chatbin.snip_give_weapon_weak = jsobj.get_string( "snip_give_weapon_weak" );
+    }
+    if( jsobj.has_string( "snip_give_carry" ) ) {
+        guy.chatbin.snip_give_carry = jsobj.get_string( "snip_give_carry" );
+    }
+    if( jsobj.has_string( "snip_give_carry_cant" ) ) {
+        guy.chatbin.snip_give_carry_cant = jsobj.get_string( "snip_give_carry_cant" );
+    }
+    if( jsobj.has_string( "snip_give_carry_cant_few_space" ) ) {
+        guy.chatbin.snip_give_carry_cant_few_space = jsobj.get_string( "snip_give_carry_cant_few_space" );
+    }
+    if( jsobj.has_string( "snip_give_carry_cant_no_space" ) ) {
+        guy.chatbin.snip_give_carry_cant_no_space = jsobj.get_string( "snip_give_carry_cant_no_space" );
+    }
+    if( jsobj.has_string( "snip_give_carry_too_heavy" ) ) {
+        guy.chatbin.snip_give_carry_too_heavy = jsobj.get_string( "snip_give_carry_too_heavy" );
+    }
+    if( jsobj.has_string( "snip_wear" ) ) {
+        guy.chatbin.snip_wear = jsobj.get_string( "snip_wear" );
+    }
     if( jsobj.has_int( "age" ) ) {
         guy.set_base_age( jsobj.get_int( "age" ) );
     }
@@ -375,6 +588,78 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    chatbin.snip_acknowledged = tguy.chatbin.snip_acknowledged;
+    chatbin.snip_camp_food_thanks = tguy.chatbin.snip_camp_food_thanks;
+    chatbin.snip_camp_larder_empty = tguy.chatbin.snip_camp_larder_empty;
+    chatbin.snip_camp_water_thanks = tguy.chatbin.snip_camp_water_thanks;
+    chatbin.snip_cant_flee = tguy.chatbin.snip_cant_flee;
+    chatbin.snip_close_distance = tguy.chatbin.snip_close_distance;
+    chatbin.snip_combat_noise_warning = tguy.chatbin.snip_combat_noise_warning;
+    chatbin.snip_danger_close_distance = tguy.chatbin.snip_danger_close_distance;
+    chatbin.snip_done_mugging = tguy.chatbin.snip_done_mugging;
+    chatbin.snip_far_distance = tguy.chatbin.snip_far_distance;
+    chatbin.snip_fire_bad = tguy.chatbin.snip_fire_bad;
+    chatbin.snip_fire_in_the_hole_h = tguy.chatbin.snip_fire_in_the_hole_h;
+    chatbin.snip_fire_in_the_hole = tguy.chatbin.snip_fire_in_the_hole;
+    chatbin.snip_general_danger_h = tguy.chatbin.snip_general_danger_h;
+    chatbin.snip_general_danger = tguy.chatbin.snip_general_danger;
+    chatbin.snip_heal_self = tguy.chatbin.snip_heal_self;
+    chatbin.snip_hungry = tguy.chatbin.snip_hungry;
+    chatbin.snip_im_leaving_you = tguy.chatbin.snip_im_leaving_you;
+    chatbin.snip_its_safe_h = tguy.chatbin.snip_its_safe_h;
+    chatbin.snip_its_safe = tguy.chatbin.snip_its_safe;
+    chatbin.snip_keep_up = tguy.chatbin.snip_keep_up;
+    chatbin.snip_kill_npc_h = tguy.chatbin.snip_kill_npc_h;
+    chatbin.snip_kill_npc = tguy.chatbin.snip_kill_npc;
+    chatbin.snip_kill_player_h = tguy.chatbin.snip_kill_player_h;
+    chatbin.snip_let_me_pass = tguy.chatbin.snip_let_me_pass;
+    chatbin.snip_lets_talk = tguy.chatbin.snip_lets_talk;
+    chatbin.snip_medium_distance = tguy.chatbin.snip_medium_distance;
+    chatbin.snip_monster_warning_h = tguy.chatbin.snip_monster_warning_h;
+    chatbin.snip_monster_warning = tguy.chatbin.snip_monster_warning;
+    chatbin.snip_movement_noise_warning = tguy.chatbin.snip_movement_noise_warning;
+    chatbin.snip_need_batteries = tguy.chatbin.snip_need_batteries;
+    chatbin.snip_need_booze = tguy.chatbin.snip_need_booze;
+    chatbin.snip_need_fuel = tguy.chatbin.snip_need_fuel;
+    chatbin.snip_no_to_thorazine = tguy.chatbin.snip_no_to_thorazine;
+    chatbin.snip_run_away = tguy.chatbin.snip_run_away;
+    chatbin.snip_speech_warning = tguy.chatbin.snip_speech_warning;
+    chatbin.snip_thirsty = tguy.chatbin.snip_thirsty;
+    chatbin.snip_wait = tguy.chatbin.snip_wait;
+    chatbin.snip_warn_sleep = tguy.chatbin.snip_warn_sleep;
+    chatbin.snip_yawn = tguy.chatbin.snip_yawn;
+    chatbin.snip_yes_to_lsd = tguy.chatbin.snip_yes_to_lsd;
+    chatbin.snip_pulp_zombie = tguy.chatbin.snip_pulp_zombie;
+    chatbin.snip_heal_player = tguy.chatbin.snip_heal_player;
+    chatbin.snip_mug_dontmove = tguy.chatbin.snip_mug_dontmove;
+    chatbin.snip_wound_infected = tguy.chatbin.snip_wound_infected;
+    chatbin.snip_wound_bite = tguy.chatbin.snip_wound_bite;
+    chatbin.snip_radiation_sickness = tguy.chatbin.snip_radiation_sickness;
+    chatbin.snip_bleeding = tguy.chatbin.snip_bleeding;
+    chatbin.snip_bleeding_badly = tguy.chatbin.snip_bleeding_badly;
+    chatbin.snip_lost_blood = tguy.chatbin.snip_lost_blood;
+    chatbin.snip_bye = tguy.chatbin.snip_bye;
+    chatbin.snip_consume_cant_accept = tguy.chatbin.snip_consume_cant_accept;
+    chatbin.snip_consume_cant_consume = tguy.chatbin.snip_consume_cant_consume;
+    chatbin.snip_consume_rotten = tguy.chatbin.snip_consume_rotten;
+    chatbin.snip_consume_eat = tguy.chatbin.snip_consume_eat;
+    chatbin.snip_consume_need_item = tguy.chatbin.snip_consume_need_item;
+    chatbin.snip_consume_med = tguy.chatbin.snip_consume_med;
+    chatbin.snip_consume_nocharge = tguy.chatbin.snip_consume_nocharge;
+    chatbin.snip_consume_use_med = tguy.chatbin.snip_consume_use_med;
+    chatbin.snip_give_nope = tguy.chatbin.snip_give_nope;
+    chatbin.snip_give_to_hallucination = tguy.chatbin.snip_give_to_hallucination;
+    chatbin.snip_give_cancel = tguy.chatbin.snip_give_cancel;
+    chatbin.snip_give_dangerous = tguy.chatbin.snip_give_dangerous;
+    chatbin.snip_give_wield = tguy.chatbin.snip_give_wield;
+    chatbin.snip_give_weapon_weak = tguy.chatbin.snip_give_weapon_weak;
+    chatbin.snip_give_carry = tguy.chatbin.snip_give_carry;
+    chatbin.snip_give_carry_cant = tguy.chatbin.snip_give_carry_cant;
+    chatbin.snip_give_carry_cant_few_space = tguy.chatbin.snip_give_carry_cant_few_space;
+    chatbin.snip_give_carry_cant_no_space = tguy.chatbin.snip_give_carry_cant_no_space;
+    chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
+    chatbin.snip_wear = tguy.chatbin.snip_wear;
+
     set_base_age( tguy.base_age() );
     set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
@@ -1028,7 +1313,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             if( is_limb_broken( bp ) && !has_effect( effect_mending, bp.id() ) &&
                 it.covers( bp ) ) {
-                reason = _( "Thanks, I'll wear that now." );
+                reason = _( chatbin.snip_wear );
                 return !!wear_item( it, false );
             }
         }
@@ -1042,7 +1327,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
 
             if( !!wear_item( it, false ) ) {
-                reason = _( "Thanks, I'll wear that now." );
+                reason = _( chatbin.snip_wear );
                 return true;
             } else {
                 reason = _( "I tried but couldn't wear it." );
@@ -1073,7 +1358,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             return false;
         }
     }
-    reason = _( "Thanks, I'll wear that now." );
+    reason = _( chatbin.snip_wear );
     return worn.empty() && wear_item( it, false );
 }
 
@@ -1317,6 +1602,7 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
+    my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
@@ -1376,12 +1662,12 @@ float npc::vehicle_danger( int radius ) const
 
 bool npc::turned_hostile() const
 {
-    return ( op_of_u.anger >= hostile_anger_level() );
+    return op_of_u.anger >= hostile_anger_level();
 }
 
 int npc::hostile_anger_level() const
 {
-    return ( 20 + op_of_u.fear - personality.aggression );
+    return 20 + op_of_u.fear - personality.aggression;
 }
 
 void npc::make_angry()
@@ -1399,6 +1685,7 @@ void npc::make_angry()
     if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
+        my_fac->trusts_u = std::min( -15, my_fac->trusts_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
@@ -1589,6 +1876,15 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
         return false;
     }
 
+    for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
+        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+            continue;
+        }
+        if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
+            return false;
+        }
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }
@@ -1677,8 +1973,15 @@ void npc::shop_restock()
     if( is_player_ally() ) {
         return;
     }
-    const item_group_id &from = myclass->get_shopkeeper_items();
-    if( from == item_group_id( "EMPTY_GROUP" ) ) {
+
+    std::vector<item_group_id> from;
+    for( const auto &ig : myclass->get_shopkeeper_items() ) {
+        const faction *fac = get_faction();
+        if( !fac || ig.trust <= fac->trusts_u ) {
+            from.emplace_back( ig.id );
+        }
+    }
+    if( from.empty() ) {
         return;
     }
 
@@ -1706,7 +2009,7 @@ void npc::shop_restock()
     int count = 0;
     bool last_item = false;
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( from, calendar::turn );
+        item tmpit = item_group::item_from( random_entry( from ), calendar::turn );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             tmpit.set_owner( *this );
             ret.push_back( tmpit );
@@ -1874,7 +2177,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
             return VisitResponse::NEXT;
         }
 
-        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *use->get_actor_ptr() );
         if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
             fix_p->bandage = true;
         }
@@ -1913,7 +2216,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
             return VisitResponse::NEXT;
         }
 
-        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *use->get_actor_ptr() );
         if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
             ( try_to_fix.disinfect && actor.disinfectant_power > 0.0f ) ||
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
@@ -1938,8 +2241,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
-    return ( has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
-             has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ) );
+    return has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
+           has_effect( effect_pkill3 ) || has_effect( effect_pkill_l );
 }
 
 int npc::get_faction_ver() const
@@ -2214,7 +2517,7 @@ float npc::average_damage_dealt()
 
 bool npc::bravery_check( int diff )
 {
-    return ( dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 ) );
+    return dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 );
 }
 
 bool npc::emergency() const
@@ -2224,7 +2527,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
+    return danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0;
 }
 
 //Check if this npc is currently in the list of active npcs.

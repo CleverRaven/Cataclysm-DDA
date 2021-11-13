@@ -233,6 +233,31 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```MOUTH```
 - ```TORSO```
 
+### Specifically Covers
+
+- ```torso_upper```
+- ```torso_neck```
+- ```torso_lower```
+- ```torso_hanging_front```
+- ```torso_hanging_back```
+- ```arm_shoulder_r```
+- ```arm_upper_r```
+- ```arm_elbow_r```
+- ```arm_lower_r```
+- ```arm_shoulder_l```
+- ```arm_upper_l```
+- ```arm_elbow_l```
+- ```arm_lower_l```
+- ```leg_hip_r```
+- ```leg_upper_r```
+- ```leg_knee_r```
+- ```leg_lower_r```
+- ```leg_hip_l```
+- ```leg_upper_l```
+- ```leg_knee_l```
+- ```leg_lower_l``` 
+
+
 ### Flags
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
@@ -569,7 +594,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
-- ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.

@@ -40,7 +40,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
+        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -145,7 +145,7 @@ struct conditional_t {
                                          bool is_npc = false );
         void set_has_activity( bool is_npc = false );
         void set_is_riding( bool is_npc = false );
-        void set_npc_has_class( const JsonObject &jo );
+        void set_npc_has_class( const JsonObject &jo, bool is_npc );
         void set_u_has_mission( const JsonObject &jo );
         void set_has_strength( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -172,32 +172,33 @@ struct conditional_t {
         void set_npc_allies( const JsonObject &jo );
         void set_u_has_cash( const JsonObject &jo );
         void set_u_are_owed( const JsonObject &jo );
-        void set_npc_aim_rule( const JsonObject &jo );
-        void set_npc_engagement_rule( const JsonObject &jo );
-        void set_npc_cbm_reserve_rule( const JsonObject &jo );
-        void set_npc_cbm_recharge_rule( const JsonObject &jo );
-        void set_npc_rule( const JsonObject &jo );
-        void set_npc_override( const JsonObject &jo );
+        void set_npc_aim_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_engagement_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_cbm_reserve_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_cbm_recharge_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_override( const JsonObject &jo, bool is_npc );
         void set_days_since( const JsonObject &jo );
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
-        void set_mission_goal( const JsonObject &jo );
+        void set_mission_goal( const JsonObject &jo, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
-        void set_no_available_mission();
-        void set_has_available_mission();
-        void set_has_many_available_missions();
-        void set_mission_complete();
-        void set_mission_incomplete();
-        void set_npc_available();
-        void set_npc_following();
-        void set_npc_friend();
-        void set_npc_hostile();
-        void set_npc_train_skills();
-        void set_npc_train_styles();
-        void set_npc_train_spells();
-        void set_at_safe_space();
+        void set_no_available_mission( bool is_npc );
+        void set_has_available_mission( bool is_npc );
+        void set_has_many_available_missions( bool is_npc );
+        void set_mission_complete( bool is_npc );
+        void set_mission_incomplete( bool is_npc );
+        void set_npc_available( bool is_npc );
+        void set_npc_following( bool is_npc );
+        void set_npc_friend( bool is_npc );
+        void set_npc_hostile( bool is_npc );
+        void set_npc_train_skills( bool is_npc );
+        void set_npc_train_styles( bool is_npc );
+        void set_npc_train_spells( bool is_npc );
+        void set_at_safe_space( bool is_npc );
         void set_can_stow_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
@@ -207,7 +208,7 @@ struct conditional_t {
         void set_is_underwater( bool is_npc = false );
         void set_is_by_radio();
         void set_u_has_camp();
-        void set_has_pickup_list();
+        void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );

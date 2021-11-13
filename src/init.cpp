@@ -60,6 +60,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
+#include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
@@ -260,6 +261,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "speed_description", &speed_description::load_speed_descriptions );
+    add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -438,6 +440,7 @@ void DynamicDataLoader::initialize()
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
     add( "body_part", &body_part_type::load_bp );
+    add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -531,6 +534,7 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
     behavior::reset();
     body_part_type::reset();
+    sub_body_part_type::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
@@ -568,6 +572,8 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
+    mood_face::reset();
+    speed_description::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
@@ -629,6 +635,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },

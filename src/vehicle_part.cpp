@@ -34,6 +34,8 @@ static const itype_id fuel_type_none( "null" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_muscle( "muscle" );
 
+static const ammotype ammo_battery( "battery" );
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -551,7 +553,7 @@ bool vehicle_part::contains_liquid() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
+    return base.is_magazine() && base.ammo_types().count( ammo_battery );
 }
 
 bool vehicle_part::is_reactor() const

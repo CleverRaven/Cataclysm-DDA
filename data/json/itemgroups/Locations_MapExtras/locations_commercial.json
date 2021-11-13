@@ -608,7 +608,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {

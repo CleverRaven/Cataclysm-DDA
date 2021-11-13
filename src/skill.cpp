@@ -520,7 +520,7 @@ bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+    return exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec );
 }
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const

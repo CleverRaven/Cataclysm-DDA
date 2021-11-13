@@ -23,8 +23,10 @@
 #include "input.h"
 #include "item.h"
 #include "item_category.h" // IWYU pragma: keep
+#include "item_group.h"
 #include "map_selector.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "output.h"
 #include "point.h"
 #include "skill.h"
@@ -38,9 +40,9 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 
-static const skill_id skill_speech( "speech" );
-
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
+static const skill_id skill_speech( "speech" );
 
 std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &giver,
         Character &receiver, std::list<item_location *> &from_map, bool npc_gives )
@@ -185,7 +187,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) -
                                       buyer.get_skill_level( skill_speech ) );
-    return ( std::max( adjust, 1.0 ) );
+    return std::max( adjust, 1.0 );
 }
 
 template <typename T, typename Callback>
@@ -714,10 +716,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(
-                                          _(
-                                              "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
-                                          format_money( np.max_willing_to_owe() )
-                                      );
+                                          _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                          format_money( np.max_willing_to_owe() ) );
 
                 if( trade_ok ) {
                     exit = true;

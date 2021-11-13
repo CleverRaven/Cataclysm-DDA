@@ -33,8 +33,8 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -473,8 +473,8 @@ void monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
-            critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
             critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
             critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
             g->despawn_monster( critter );

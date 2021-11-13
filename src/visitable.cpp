@@ -36,13 +36,13 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 
-static const itype_id itype_apparatus( "apparatus" );
+static const bionic_id bio_ups( "bio_ups" );
+
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
-
-static const bionic_id bio_ups( "bio_ups" );
 
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
