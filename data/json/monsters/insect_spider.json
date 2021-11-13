@@ -429,7 +429,7 @@
       },
       {
         "name": "the wings",
-       "damage_mult": { "all": 0.25 },
+        "damage_mult": { "all": 0.25 },
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
@@ -1579,7 +1579,7 @@
       },
       {
         "name": "the wings",
-       "damage_mult": { "all": 0.25 },
+        "damage_mult": { "all": 0.25 },
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
@@ -1942,7 +1942,7 @@
       },
       {
         "name": "the wings",
-       "damage_mult": { "all": 0.25 },
+        "damage_mult": { "all": 0.25 },
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
