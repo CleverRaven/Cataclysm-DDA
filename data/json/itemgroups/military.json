@@ -108,8 +108,7 @@
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
-      { "item": "shoulder_strap", "prob": 35 },
-      { "item": "single_sling", "prob": 35 },
+      { "item": "shoulder_strap", "prob": 70 },
       { "item": "rail_laser_sight", "prob": 30 },
       { "item": "suppressor", "prob": 70 }
     ]
