@@ -351,15 +351,22 @@
   },
   {
     "id": "chainmail_arms_steel",
-    "copy-from": "chainmail_arms",
     "type": "ARMOR",
-    "description": "Customized steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves."
-    "proportional": {
-    "weight": 0.9,
-    "price_postapoc": 1.25
-    },
+    "category": "armor",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "description": "Customized steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "weight": "2812 g",
+    "volume": "750 ml",
+    "price": 7500,
+    "price_postapoc": 2500,
+    "to_hit": -1,
     "material": [ "steel", "cotton" ],
-    "looks_like": "chainmail_arms"
+    "symbol": "[",
+    "looks_like": "chainmail_arms",
+    "color": "light_red",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_chainmail_arms",
