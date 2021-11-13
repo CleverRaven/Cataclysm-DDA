@@ -1116,10 +1116,7 @@
     "copy-from": "chainmail_feet",
     "type": "ARMOR",
     "description": "Customized steel chainmail chausses that cover the feet, like booties made of chainmail.",
-    "proportional": {
-    "weight": 0.9,
-    "price_postapoc": 1.25
-    },
+    "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
   },
 
