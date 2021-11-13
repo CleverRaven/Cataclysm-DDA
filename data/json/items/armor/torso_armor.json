@@ -177,13 +177,9 @@
     "copy-from": "chainmail_vest",
     "type": "ARMOR",
     "description": "Customized steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "proportional": {
-    "weight": 0.9,
-    "price_postapoc": 1.25
-    },
+    "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
   },
-
   {
     "id": "xl_chainmail_vest",
     "type": "ARMOR",
