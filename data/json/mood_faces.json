@@ -91,5 +91,15 @@
     "type": "mood_face",
     "id": "THRESH_URSINE_HORIZONTAL",
     "copy-from": "THRESH_FELINE_HORIZONTAL"
+  },
+  {
+    "type": "mood_face",
+    "id": "THRESH_SPIDER",
+    "copy-from": "DEFAULT"
+  },
+  {
+    "type": "mood_face",
+    "id": "THRESH_SPIDER_HORIZONTAL",
+    "copy-from": "DEFAULT_HORIZONTAL"
   }
 ]
