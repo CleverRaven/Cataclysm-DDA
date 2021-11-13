@@ -1119,7 +1119,6 @@
     "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
   },
-
   {
     "id": "xl_chainmail_feet",
     "type": "ARMOR",
