@@ -583,7 +583,7 @@
       {
         "name": "the underbelly",
         "crit_mult": { "all": 1.5 },
-        "difficulty": { "ranged": 4, "melee": 2 },
+        "difficulty": { "ranged": 7, "melee": 2 },
         "coverage_mult": { "point": 0.45 },
         "coverage": 15
       }
