@@ -2901,12 +2901,12 @@ void inventory_drop_selector::on_input( const inventory_input &input )
         if( query_result >= 0 ) {
             toggle_entries( query_result, toggle_mode::SELECTED );
         }
-    } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-        toggle_entries( count, toggle_mode::SELECTED );
     } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
         count = std::min( count, INT_MAX / 10 - 10 );
         count *= 10;
         count += input.ch - '0';
+    } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+        toggle_entries( count, toggle_mode::SELECTED );
     } else {
         inventory_multiselector::on_input( input );
     }
@@ -3007,12 +3007,12 @@ drop_locations pickup_selector::execute()
                 continue; // Skip selecting any if invalid result or user canceled prompt
             }
             toggle_entries( query_result );
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count );
         } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
+        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+            toggle_entries( count );
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
