@@ -400,9 +400,10 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         // Set up a roll for each layer
         // Roll against this to find a piece of armor on each layer that will be hit
-        // you can't have an attack hit the same layer twice. 
+        // you can't have an attack hit the same layer twice.
         std::vector<int> roll;
-        for( layer_level i = layer_level::PERSONAL; i < layer_level::NUM_LAYER_LEVELS; i++ ) {
+        roll.reserve( static_cast<size_t>( layer_level::NUM_LAYER_LEVELS ) );
+        for( layer_level i = layer_level::PERSONAL; i < layer_level::NUM_LAYER_LEVELS; ++i ) {
             roll.push_back( rng( 1, 100 ) );
         }
 
@@ -412,7 +413,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             item &armor = *iter;
 
             // roll is negative if we have already absorbed with an armor piece on this layer
-            if( !armor.covers( bp ) && roll[(int)armor.get_layer()] > 0 ) {
+            if( !armor.covers( bp ) || roll[static_cast<size_t>( armor.get_layer() )] < 0 ) {
                 ++iter;
                 continue;
             }
@@ -435,7 +436,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
 
             if( !destroy ) {
-                destroy = armor_absorb( elem, armor, bp, roll[( int )armor.get_layer()] );
+                destroy = armor_absorb( elem, armor, bp, roll[static_cast<size_t>( armor.get_layer() )] );
             }
 
             if( destroy ) {
@@ -484,6 +485,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                du.type == damage_type::STAB ) {
         ctype = item::cover_type::COVER_MELEE;
     }
+
 
     int coverage = armor.get_coverage( bp, ctype );
     if( roll > coverage ) {
