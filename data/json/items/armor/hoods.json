@@ -43,22 +43,11 @@
   },
   {
     "id": "chainmail_hood_steel",
+    "copy-from": "chainmail_hood",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "chainmail coif" },
-    "description": "A customized steel chainmail hood.  Can be worn comfortably under helmets.",
-    "weight": "2006 g",
-    "volume": "500 ml",
-    "price": 5012,
-    "price_postapoc": 2500,
-    "to_hit": -1,
-    "material": [ "steel", "cotton" ],
-    "symbol": "[",
-    "looks_like": "balclava",
-    "color": "light_red",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+    "description": "Customized steel chainmail hood.  Can be worn comfortably under helmets.",
+    "proportional": { "weight": 0.9, "price": 1.25 },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_hood",
