@@ -15,6 +15,7 @@ static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_beartrap( "beartrap" );
@@ -157,56 +158,82 @@ bool Character::try_remove_grab()
     int zed_number = 0;
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
-        if( mon->has_effect( effect_grabbed ) ) {
-            if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
-                        3 ) < get_effect_int( effect_grabbed ) ) ||
-                !one_in( 4 ) ) {
+        if( mon->has_effect( effect_grabbed ) || !one_in( 4 ) ) {
+            int mon_dice = dice( mon->type->melee_dice + mon->type->melee_sides, 3 );
+            int effect_num = get_effect_int( effect_grabbed );
+
+            if( mon_dice < effect_num || !one_in( 4 ) ) {
                 add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
                 return false;
             } else {
                 add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
                 remove_effect( effect_grabbed );
                 mon->remove_effect( effect_grabbed );
+                return true;
             }
         } else {
-            if( one_in( 4 ) ) {
-                add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
-                remove_effect( effect_grabbed );
-                forced_dismount();
-            }
-        }
-    } else {
-        map &here = get_map();
-        creature_tracker &creatures = get_creature_tracker();
-        for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number += mon->get_grab_strength();
-            }
-        }
-        if( zed_number == 0 ) {
-            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                   _( "<npcname> finds themselves no longer grabbed." ) );
+            add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
             remove_effect( effect_grabbed );
-
-            /** @EFFECT_STR increases chance to escape grab */
-        } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, body_part_torso ),
-                                              8 ) ) {
-            add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
-                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
-            return false;
-        } else {
-            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                   _( "<npcname> breaks out of the grab!" ) );
-            remove_effect( effect_grabbed );
-            for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                monster *mon = creatures.creature_at<monster>( dest );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
-                    mon->remove_effect( effect_grabbing );
-                }
-            }
+            forced_dismount();
+            return true;
         }
     }
+
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+
+    for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+        const monster *const mon = creatures.creature_at<monster>( dest );
+        if( mon && mon->has_effect( effect_grabbing ) ) {
+            zed_number += mon->get_grab_strength();
+        }
+    }
+
+    if( zed_number == 0 ) {
+        add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                               _( "<npcname> finds themselves no longer grabbed." ) );
+        remove_effect( effect_grabbed );
+        return true;
+    }
+
+    /** @EFFECT_STR increases chance to escape grab */
+    /** @EFFECT_DEX increases chance to escape grab */
+    int defender_check = rng( 0, std::max( get_str(), get_dex() ) );
+    int attacker_check = rng( get_effect_int( effect_grabbed, body_part_torso ), 8 );
+
+    if( has_grab_break_tec() ) {
+        defender_check = defender_check + 2;
+    }
+
+    if( is_throw_immune() ) {
+        defender_check = defender_check + 2;
+    }
+
+    if( get_effect_int( effect_stunned ) ) {
+        defender_check = defender_check - 2;
+    }
+
+    if( get_effect_int( effect_downed ) ) {
+        defender_check = defender_check - 2;
+    }
+
+    if( defender_check < attacker_check ) {
+        add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
+                               _( "<npcname> tries to break out of the grab, but fails!" ) );
+        return false;
+    } else {
+        add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                               _( "<npcname> breaks out of the grab!" ) );
+        remove_effect( effect_grabbed );
+        for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+            monster *mon = creatures.creature_at<monster>( dest );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                mon->remove_effect( effect_grabbing );
+            }
+        }
+        return true;
+    }
+
     return true;
 }
 
