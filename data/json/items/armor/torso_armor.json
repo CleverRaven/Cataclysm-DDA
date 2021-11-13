@@ -513,7 +513,7 @@
     "id": "cuirass_chitin",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chitinous cuirass", "str_pl": "chitnous cuirasses },
+    "name": { "str": "chitinous cuirass", "str_pl": "chitinous cuirasses" },
     "description": "A hard cuirass made from the exoskeletons of insects.",
     "weight": "1740 g",
     "volume": "12000 ml",
