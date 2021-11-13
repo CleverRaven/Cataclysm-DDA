@@ -63,6 +63,9 @@ struct ma_requirements {
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
 
+    /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
+    std::vector<std::string> weapon_categories_allowed;
+
     /** Minimum amount of given skill to trigger this bonus */
     std::vector<std::pair<skill_id, int>> min_skill;
 
