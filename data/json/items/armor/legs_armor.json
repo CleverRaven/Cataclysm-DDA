@@ -129,22 +129,14 @@
   },
   {
     "id": "chainmail_legs_steel",
+    "copy-from": "chainmail_legs",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
     "description": "Customized steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "weight": "4212 g",
-    "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "steel", "cotton" ],
-    "symbol": "[",
-    "looks_like": "legguard_hard",
-    "color": "light_red",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "proportional": {
+    "weight": 0.9,
+    "price_postapoc": 1.25
+    },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_legs",
