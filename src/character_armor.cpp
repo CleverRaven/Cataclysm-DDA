@@ -411,7 +411,8 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
             item &armor = *iter;
 
-            if( !armor.covers( bp ) ) {
+            // roll is negative if we have already absorbed with an armor piece on this layer
+            if( !armor.covers( bp ) && roll[(int)armor.get_layer()] > 0 ) {
                 ++iter;
                 continue;
             }
@@ -489,6 +490,9 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         roll = roll - coverage;
         return false;
     }
+
+    // set the roll to negative so that no other armor will be selected
+    roll = -1;
 
     // TODO: add some check for power armor
     armor.mitigate_damage( du );
