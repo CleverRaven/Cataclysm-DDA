@@ -512,7 +512,7 @@
     "copy-from": "chainmail_hauberk_steel",
     "name": { "str": "kevlar-backed chainmail hauberk" },
     "type": "ARMOR",
-    "description": "Customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "description": "Customized steel chainmail suit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "proportional": { "weight": 1.15, "price": 1.5 },
     "material": [ "steel", "kevlar_layered" ]
   },
