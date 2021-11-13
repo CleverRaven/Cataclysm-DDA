@@ -63,6 +63,7 @@
     "id": "chainmail_hands_steel",
     "copy-from": "chainmail_hands",
     "type": "ARMOR",
+    "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
     "description": "Customized steel chainmail gloves that fully enclose the hands.",
     "proportional": { "weight": 0.9, "price": 1.25 },
     "material": [ "steel", "cotton" ]
