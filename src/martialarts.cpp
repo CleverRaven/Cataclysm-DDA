@@ -1753,7 +1753,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     w_cat = weaps.first.str() + " - MISSING JSON DEFINITION";
                 }
 
-                std::replace( w_cat.begin(), w_cat.end(), '_', ' ' );
                 buffer += std::string( "<header>" ) + w_cat + std::string( ":</header> " );
                 buffer += enumerate_as_string( weaps.second ) + "\n";
             }
