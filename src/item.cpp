@@ -8267,6 +8267,19 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
             }
         }
 
+        if( ammo.has_flag( flag_SPEEDLOADER ) ) {
+            if( !pocket->allows_speedloader( ammo.typeId() ) ) {
+                continue;
+            }
+
+            // Speedloader works only if
+            // pocket is empty and the ammo from the speedloader is compatible
+            if( pocket->empty() && pocket->is_compatible( ammo.loaded_ammo() ).success() ) {
+                return true;
+            }
+            continue;
+        }
+
         if( now ) {
             // Require that the new ammo fits in with current ammo
             if( pocket->can_contain( ammo ).success() ) {
@@ -11575,7 +11588,8 @@ bool item::is_reloadable() const
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+    } else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ||
+               contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
         return true;
 
     } else if( !is_container_full() && is_watertight_container() ) {
