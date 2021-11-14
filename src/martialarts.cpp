@@ -165,7 +165,9 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     if( jo.has_string( "weapon_categories_allowed" ) ) {
-        weapon_categories_allowed.emplace_back( jo.get_string( "weapon_categories_allowed" ) );
+        weapon_category_id tmp_id;
+        mandatory( jo, was_loaded, "weapon_categories_allowed", tmp_id );
+        weapon_categories_allowed.emplace_back( tmp_id );
     } else {
         optional( jo, was_loaded, "weapon_categories_allowed", weapon_categories_allowed );
     }
@@ -561,7 +563,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     if( !weapon_categories_allowed.empty() ) {
         bool valid_weap_cat = false;
-        for( const std::string &w_cat : weapon_categories_allowed ) {
+        for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
             if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
                 valid_weap_cat = true;
             }
@@ -628,7 +630,13 @@ std::string ma_requirements::get_description( bool buff ) const
     if( !weapon_categories_allowed.empty() ) {
         dump += n_gettext( "<bold>Weapon category required: </bold>",
                            "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
-        dump += enumerate_as_string( weapon_categories_allowed ) + "\n";
+        dump += enumerate_as_string( weapon_categories_allowed.begin(),
+        weapon_categories_allowed.end(), []( const weapon_category_id & w_cat ) {
+            if( !w_cat.is_valid() ) {
+                return w_cat.str();
+            }
+            return w_cat->name().translated();
+        } ) + "\n";
     }
 
     if( !req_buffs_all.empty() ) {
