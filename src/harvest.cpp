@@ -39,6 +39,24 @@ bool string_id<harvest_drop_type>::is_valid() const
     return harvest_drop_type_factory.is_valid( *this );
 }
 
+const translation harvest_drop_type::field_dress_msg( bool succeeded ) const
+{
+    return SNIPPET.random_from_category( succeeded ? msg_fielddress_success :
+                                         msg_fielddress_fail ).value_or( translation() );
+}
+
+const translation harvest_drop_type::butcher_msg( bool succeeded ) const
+{
+    return SNIPPET.random_from_category( succeeded ? msg_butcher_success : msg_butcher_fail ).value_or(
+               translation() );
+}
+
+const translation harvest_drop_type::dissect_msg( bool succeeded ) const
+{
+    return SNIPPET.random_from_category( succeeded ? msg_dissect_success : msg_dissect_fail ).value_or(
+               translation() );
+}
+
 /** @relates string_id */
 template<>
 const harvest_list &string_id<harvest_list>::obj() const
@@ -89,6 +107,12 @@ void harvest_drop_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "group", is_group_, false );
     optional( jo, was_loaded, "dissect_only", dissect_only_, false );
+    optional( jo, was_loaded, "msg_fielddress_fail", msg_fielddress_fail, "" );
+    optional( jo, was_loaded, "msg_fielddress_success", msg_fielddress_success, "" );
+    optional( jo, was_loaded, "msg_butcher_fail", msg_butcher_fail, "" );
+    optional( jo, was_loaded, "msg_butcher_success", msg_butcher_success, "" );
+    optional( jo, was_loaded, "msg_dissect_fail", msg_dissect_fail, "" );
+    optional( jo, was_loaded, "msg_dissect_success", msg_dissect_success, "" );
 }
 
 const std::vector<harvest_drop_type> &harvest_drop_type::get_all()

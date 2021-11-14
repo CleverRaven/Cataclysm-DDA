@@ -41,12 +41,24 @@ class harvest_drop_type
         bool dissect_only() const {
             return dissect_only_;
         }
+        // Message to display for the associated drop when field dressing
+        const translation field_dress_msg( bool succeeded ) const;
+        // Message to display for the associated drop when doing quick/full butchery
+        const translation butcher_msg( bool succeeded ) const;
+        // Message to display when failed to dissect the associated drop
+        const translation dissect_msg( bool succeeded ) const;
 
     private:
         harvest_drop_type_id id;
         bool is_group_;
         bool dissect_only_;
         bool was_loaded = false;
+        std::string msg_fielddress_success;
+        std::string msg_fielddress_fail;
+        std::string msg_butcher_success;
+        std::string msg_butcher_fail;
+        std::string msg_dissect_success;
+        std::string msg_dissect_fail;
         friend class generic_factory<harvest_drop_type>;
 };
 
