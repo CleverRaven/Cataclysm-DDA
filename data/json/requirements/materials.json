@@ -225,5 +225,11 @@
     "type": "requirement",
     "//": "Materials used for repairing upgraded solar panels",
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
+    "id": "paint",
+    "type": "requirement",
+    "//": "Materials used for painting something of any color",
+    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
   }
 ]
