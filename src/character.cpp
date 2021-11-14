@@ -9791,10 +9791,21 @@ bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
     return false;
 }
 
+bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
+{
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
-    return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
+    return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag ) ||
+           has_bodypart_with_flag( flag );
 }
 
 bool Character::is_driving() const
