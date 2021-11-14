@@ -313,8 +313,12 @@ struct islot_armor {
      */
     bool has_sub_coverage = false;
 
-    // Layer, encumbrance and coverage information.
+    // Layer, encumbrance and coverage information for each body part.
     std::vector<armor_portion_data> data;
+
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
 
     bool was_loaded = false;
 

@@ -606,7 +606,7 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        for( armor_portion_data &data : obj.armor->data ) {
+        for( armor_portion_data &data : obj.armor->sub_data ) {
             if( data.max_encumber == -1 ) {
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {
@@ -629,6 +629,78 @@ void Item_factory::finalize_post( itype &obj )
             }
             if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
                 data.avg_thickness = thic_acc;
+            }
+        }
+
+        // now consolidate all the loaded sub_data to one entry per body part
+        for (const armor_portion_data& sub_armor : obj.armor->sub_data) {
+            // for each body part this covers we need to add to the overall data for that bp
+            for (const bodypart_str_id& bp : sub_armor.covers.value()) {
+                bool found = false;
+                // go through and find if the body part already exists
+                for (armor_portion_data& it : obj.armor->data) {
+                    // if it contains the body part update the values with data from this
+                    if (it.covers->test(bp)) {
+                        found = true;
+                        // modify the values with additional info
+                        
+                        it.encumber += sub_armor.encumber;
+                        it.max_encumber += sub_armor.max_encumber;
+                        it.coverage += sub_armor.coverage;
+                        it.cover_melee += sub_armor.cover_melee;
+                        it.cover_ranged += sub_armor.cover_ranged;
+                        it.cover_vitals += sub_armor.cover_vitals;
+
+                        it.avg_thickness += sub_armor.avg_thickness;
+                        it.env_resist += sub_armor.env_resist;
+                        it.env_resist_w_filter += sub_armor.env_resist_w_filter;
+
+                        // go through the materials list and update data
+                        for (const part_material& new_mat : sub_armor.materials) {
+                            bool mat_found = false;
+                            for (part_material& old_mat : it.materials) {
+                                if (old_mat.id == new_mat.id) {
+                                    mat_found = true;
+                                    // thickness should be averaged however I can't envision this ever being used
+                                    int total_cover = old_mat.cover + new_mat.cover;
+                                    // thickness is the portion of each thickness value
+                                    // dividing by 0 is bad
+                                    if (total_cover == 0) {
+                                        total_cover = .5; //if both items coverage is 0 just count half each thickness
+                                    }
+                                    old_mat.thickness = (old_mat.cover / total_cover * old_mat.thickness) +
+                                        (new_mat.cover / total_cover * new_mat.thickness);
+                                    old_mat.cover = total_cover;
+                                }
+                            }
+                            // if we didn't find an entry for this material
+                            if (!mat_found) {
+                                it.materials.push_back(new_mat);
+                            }
+                        }
+                        it.materials = sub_armor.materials;
+                        
+                    }
+                }
+                // if not found create a new bp entry
+                if (!found) {
+                    // copy values to data
+                    armor_portion_data entry;
+                    entry.encumber = sub_armor.encumber;
+                    entry.max_encumber = sub_armor.max_encumber;
+                    entry.coverage = sub_armor.coverage;
+                    entry.cover_melee = sub_armor.cover_melee;
+                    entry.cover_ranged = sub_armor.cover_ranged;
+                    entry.cover_vitals = sub_armor.cover_vitals;
+
+                    entry.avg_thickness = sub_armor.avg_thickness;
+                    entry.env_resist = sub_armor.env_resist;
+                    entry.env_resist_w_filter = sub_armor.env_resist_w_filter;
+                    entry.materials = sub_armor.materials;
+                    entry.covers->set(bp);
+
+                    obj.armor->data.push_back(entry);
+                }
             }
         }
     }
@@ -2079,7 +2151,7 @@ static void apply_optional( T &value, const cata::optional<T> &applied )
 
 void islot_armor::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "armor", data );
+    optional( jo, was_loaded, "armor", sub_data );
 
     cata::optional<float> thickness;
     cata::optional<int> env_resist;
@@ -2091,7 +2163,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
 
-    for( armor_portion_data &armor : data ) {
+    for( armor_portion_data &armor : sub_data ) {
         apply_optional( armor.avg_thickness, thickness );
         apply_optional( armor.env_resist, env_resist );
         apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
