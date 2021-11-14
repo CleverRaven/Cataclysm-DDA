@@ -164,7 +164,9 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
-      [ [ "water", 10 ], [ "water_clean", 10 ], [ "sugar", 2 ], [ "yeast", 1 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+	  [ [ "sugar", 2 ] ],
+	  [ [ "yeast", 1 ] ],
       [
         [ "juice", 2 ],
         [ "apple_cider", 4 ],
