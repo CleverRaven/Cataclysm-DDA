@@ -571,8 +571,7 @@
       { "item": "smpistol_primer", "prob": 80 },
       { "item": "smrifle_primer", "prob": 80 },
       { "item": "lgpistol_primer", "prob": 40 },
-      { "item": "lgrifle_primer", "prob": 40 },
-      { "group": "ammo_launcher_grenade_adapter", "prob": 1 }
+      { "item": "lgrifle_primer", "prob": 40 }
     ]
   },
   {
