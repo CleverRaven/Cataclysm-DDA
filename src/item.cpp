@@ -750,11 +750,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        if( bp == sub_bodypart_id( "torso_hanging_back" ) ) {
-            return true;
-        }
-
-        return false;
+        return bp == sub_bodypart_id( "torso_hanging_back" );
     }
 
     // if the item has no armor data it doesn't cover that part
