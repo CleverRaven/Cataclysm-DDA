@@ -1506,5 +1506,33 @@
     "freezing_point": -5,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hb_seltzer",
+    "name": { "str_sp": "hombebrew hard seltzer" },
+    "weight": "249 g",
+    "color": "yellow",
+    "addiction_type": "alcohol",
+    "use_action": [ "ALCOHOL_WEAK" ],
+    "stim": -4,
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 18,
+    "healthy": -1,
+    "addiction_potential": 2,
+    "calories": 70,
+    "description": "Homebreded seltzer. Alcoholic sparkling water,  perfect for a hot summer day.",
+    "price": 260,
+    "price_postapoc": 100,
+    "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -5,
+    "fun": 10,
+    "vitamins": [ [ "calcium", 1 ] ]
   }
 ]
