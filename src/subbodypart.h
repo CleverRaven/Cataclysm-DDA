@@ -42,6 +42,8 @@ struct sub_body_part_type {
     sub_bodypart_str_id id;
     sub_bodypart_str_id opposite;
 
+
+
     bool was_loaded = false;
 
     //name of the sub part
@@ -50,6 +52,11 @@ struct sub_body_part_type {
     translation name_multiple;
 
     side part_side = side::BOTH;
+
+    // the maximum coverage value for this part
+    // if something entirely covered this part it
+    // would have this value
+    int max_coverage = 0;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

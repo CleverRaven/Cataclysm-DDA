@@ -1510,7 +1510,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 8, 42 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 8, 42 ], "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "rifle_case_soft",

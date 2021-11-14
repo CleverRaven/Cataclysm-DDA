@@ -633,21 +633,21 @@ void Item_factory::finalize_post( itype &obj )
         }
 
         // now consolidate all the loaded sub_data to one entry per body part
-        for (const armor_portion_data& sub_armor : obj.armor->sub_data) {
+        for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
             // for each body part this covers we need to add to the overall data for that bp
-            if (sub_armor.covers.has_value()) {
-                for (const bodypart_str_id& bp : sub_armor.covers.value()) {
+            if( sub_armor.covers.has_value() ) {
+                for( const bodypart_str_id &bp : sub_armor.covers.value() ) {
                     bool found = false;
                     // go through and find if the body part already exists
 
-                    for (armor_portion_data& it : obj.armor->data) {
+                    for( armor_portion_data &it : obj.armor->data ) {
                         // if it contains the body part update the values with data from this
                         //body_part_set set = it.covers.value();
-                        if (it.covers->test(bp)) {
+                        if( it.covers->test( bp ) ) {
                             found = true;
                             // modify the values with additional info
 
-                            
+
                             it.encumber += sub_armor.encumber;
                             it.max_encumber += sub_armor.max_encumber;
                             it.coverage += sub_armor.coverage;
@@ -659,54 +659,62 @@ void Item_factory::finalize_post( itype &obj )
                             it.env_resist += sub_armor.env_resist;
                             it.env_resist_w_filter += sub_armor.env_resist_w_filter;
 
-                            // add additional sub coverage locations for info reasons
-                            for (const sub_bodypart_str_id& sbp : sub_armor.sub_coverage) {
-                                if (std::find(it.sub_coverage.begin(), it.sub_coverage.end(), sbp) == it.sub_coverage.end()) {
-                                    it.sub_coverage.push_back(sbp);
+                            // if you are trying to add a new data entry and either the original data
+                            // or the new data has an empty sublocations list then say that you are
+                            // redefining a limb
+                            if( it.sub_coverage.empty() || sub_armor.sub_coverage.empty() ) {
+                                debugmsg( "item %s has multiple entries for %s.",
+                                          obj.id.str(), bp.str() );
+                            }
+
+                            // add additional sub coverage locations to the original list
+                            for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
+                                if( std::find( it.sub_coverage.begin(), it.sub_coverage.end(), sbp ) == it.sub_coverage.end() ) {
+                                    it.sub_coverage.push_back( sbp );
                                 }
                             }
 
                             // go through the materials list and update data
-                            for (const part_material& new_mat : sub_armor.materials) {
+                            for( const part_material &new_mat : sub_armor.materials ) {
                                 bool mat_found = false;
-                                for (part_material& old_mat : it.materials) {
-                                    if (old_mat.id == new_mat.id) {
+                                for( part_material &old_mat : it.materials ) {
+                                    if( old_mat.id == new_mat.id ) {
                                         mat_found = true;
                                         // thickness should be averaged however I can't envision this ever being used
                                         int total_cover = old_mat.cover + new_mat.cover;
                                         // thickness is the portion of each thickness value
                                         // dividing by 0 is bad
-                                        if (total_cover == 0) {
+                                        if( total_cover == 0 ) {
                                             total_cover = .5; //if both items coverage is 0 just count half each thickness
                                         }
-                                        old_mat.thickness = (old_mat.cover / total_cover * old_mat.thickness) +
-                                            (new_mat.cover / total_cover * new_mat.thickness);
+                                        old_mat.thickness = ( old_mat.cover / total_cover * old_mat.thickness ) +
+                                                            ( new_mat.cover / total_cover * new_mat.thickness );
                                         old_mat.cover = total_cover;
                                     }
                                 }
                                 // if we didn't find an entry for this material
-                                if (!mat_found) {
-                                    it.materials.push_back(new_mat);
+                                if( !mat_found ) {
+                                    it.materials.push_back( new_mat );
                                 }
                             }
                             it.materials = sub_armor.materials;
-                            
 
-                            }
+
                         }
+                    }
 
-                        // if not found create a new bp entry
+                    // if not found create a new bp entry
 
-                    if (!found) {
+                    if( !found ) {
                         // copy values to data but only have one limb
                         armor_portion_data new_limb = sub_armor;
                         new_limb.covers->clear();
-                        new_limb.covers->set(bp);
-                        obj.armor->data.push_back(new_limb);
+                        new_limb.covers->set( bp );
+                        obj.armor->data.push_back( new_limb );
                     }
                 }
             }
-            
+
         }
     }
 
@@ -1380,6 +1388,41 @@ void Item_factory::check_definitions() const
                 }
                 if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
                     msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
+                }
+            }
+
+            // do tests for the sub bp armor data arrays
+            std::vector<sub_bodypart_str_id> observed_sub_bps;
+            for( const armor_portion_data &portion : type->armor->sub_data ) {
+                for( const sub_bodypart_str_id &bp : portion.sub_coverage ) {
+                    if( std::find( observed_sub_bps.begin(), observed_sub_bps.end(), bp ) != observed_sub_bps.end() ) {
+                        msg += string_format(
+                                   "multiple portions with same sub_body_part %s defined\n",
+                                   bp.str() );
+                    }
+                    observed_sub_bps.push_back( bp );
+                }
+                if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
+                    msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
+                }
+            }
+
+            // check that no item has more coverage on any location than the max coverage
+            if( type->armor->has_sub_coverage ) {
+                for( const armor_portion_data &portion : type->armor->sub_data ) {
+                    if( portion.sub_coverage.empty() ) {
+                        //this entry has no sub coverage skip it
+                        continue;
+                    }
+                    int max_coverage = 0;
+                    for( const sub_bodypart_str_id &bp : portion.sub_coverage ) {
+                        max_coverage += bp->max_coverage;
+                    }
+                    if( max_coverage < portion.coverage || max_coverage < portion.cover_melee ||
+                        max_coverage < portion.cover_ranged ) {
+                        msg += string_format( "coverage exceeds the maximum ammount for the sub locations max coverage: %d, item coverage: %d\n",
+                                              max_coverage, portion.coverage );
+                    }
                 }
             }
         }

@@ -422,12 +422,14 @@
   {
     "id": "torso_upper",
     "type": "sub_body_part",
+    "max_coverage": 60,
     "opposite": "torso_lower",
     "name_multiple": "torso",
     "name": "upper torso"
   },
   {
     "id": "torso_neck",
+    "max_coverage": 10,
     "type": "sub_body_part",
     "opposite": "sub_limb_debug",
     "name": "neck"
@@ -435,6 +437,7 @@
   {
     "id": "torso_lower",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "opposite": "torso_upper",
     "name_multiple": "torso",
     "name": "lower torso"
@@ -442,6 +445,7 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "name": "item hangs off your front",
     "opposite": "torso_hanging_back",
     "name_multiple": "item hangs off you"
@@ -449,6 +453,7 @@
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
+    "max_coverage": 50,
     "name": "item hangs off your back",
     "opposite": "torso_hanging_front",
     "name_multiple": "item hangs off you"
@@ -456,6 +461,7 @@
   {
     "id": "arm_shoulder_r",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "side": 2,
     "opposite": "arm_shoulder_l",
     "name_multiple": "shoulders",
@@ -464,6 +470,7 @@
   {
     "id": "arm_upper_r",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "side": 2,
     "opposite": "arm_upper_l",
     "name_multiple": "upper arms",
@@ -472,6 +479,7 @@
   {
     "id": "arm_elbow_r",
     "type": "sub_body_part",
+    "max_coverage": 5,
     "side": 2,
     "opposite": "arm_elbow_l",
     "name_multiple": "elbows",
@@ -480,6 +488,7 @@
   {
     "id": "arm_lower_r",
     "type": "sub_body_part",
+    "max_coverage": 35,
     "side": 2,
     "opposite": "arm_lower_l",
     "name_multiple": "lower arms",
@@ -488,6 +497,7 @@
   {
     "id": "arm_shoulder_l",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "side": 1,
     "opposite": "arm_shoulder_r",
     "name_multiple": "shoulders",
@@ -496,6 +506,7 @@
   {
     "id": "arm_upper_l",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "side": 1,
     "opposite": "arm_upper_r",
     "name_multiple": "upper arms",
@@ -504,6 +515,7 @@
   {
     "id": "arm_elbow_l",
     "type": "sub_body_part",
+    "max_coverage": 5,
     "side": 1,
     "opposite": "arm_elbow_r",
     "name_multiple": "elbows",
@@ -512,6 +524,7 @@
   {
     "id": "arm_lower_l",
     "type": "sub_body_part",
+    "max_coverage": 35,
     "side": 1,
     "opposite": "arm_lower_r",
     "name_multiple": "lower arms",
@@ -520,6 +533,7 @@
   {
     "id": "leg_hip_r",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "side": 2,
     "opposite": "leg_hip_l",
     "name_multiple": "hips",
@@ -528,6 +542,7 @@
   {
     "id": "leg_upper_r",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "side": 2,
     "opposite": "leg_upper_l",
     "name_multiple": "thighs",
@@ -536,6 +551,7 @@
   {
     "id": "leg_knee_r",
     "type": "sub_body_part",
+    "max_coverage": 5,
     "side": 2,
     "opposite": "leg_knee_l",
     "name_multiple": "knees",
@@ -544,6 +560,7 @@
   {
     "id": "leg_lower_r",
     "type": "sub_body_part",
+    "max_coverage": 35,
     "side": 2,
     "opposite": "leg_lower_l",
     "name_multiple": "lower legs",
@@ -552,6 +569,7 @@
   {
     "id": "leg_hip_l",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "side": 1,
     "opposite": "leg_hip_r",
     "name_multiple": "hips",
@@ -560,6 +578,7 @@
   {
     "id": "leg_upper_l",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "side": 1,
     "opposite": "leg_upper_r",
     "name_multiple": "thighs",
@@ -568,6 +587,7 @@
   {
     "id": "leg_knee_l",
     "type": "sub_body_part",
+    "max_coverage": 5,
     "side": 1,
     "opposite": "leg_knee_r",
     "name_multiple": "knees",
@@ -576,6 +596,7 @@
   {
     "id": "leg_lower_l",
     "type": "sub_body_part",
+    "max_coverage": 35,
     "side": 1,
     "opposite": "leg_lower_r",
     "name_multiple": "lower legs",
