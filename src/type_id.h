@@ -89,6 +89,9 @@ using item_group_id = string_id<Item_spawn_data>;
 struct itype;
 using itype_id = string_id<itype>;
 
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 

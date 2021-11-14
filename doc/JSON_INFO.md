@@ -3450,7 +3450,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     }
 ```
 
-###random Descriptions
+### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
@@ -3583,6 +3583,16 @@ For `type`s `bionic` and `bionic_group`, the following entries can scale the res
 ### leftovers
 
 itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
+
+### Weapon Category
+
+```c++
+{
+    "type": "weapon_category",
+    "id": "WEAP_CAT"
+    "name": "Weapon Category"
+}
+```
 
 ### Furniture
 
