@@ -22,6 +22,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 9,
+        "coverage": 28,
         "cover_melee": 28,
         "cover_ranged": 28,
         "cover_vitals": 0,
@@ -52,6 +53,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 2,
+        "coverage": 36,
         "cover_melee": 36,
         "cover_ranged": 36,
         "cover_vitals": 50,
@@ -176,6 +178,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
+        "coverage": 75,
         "cover_melee": 76,
         "cover_ranged": 72,
         "cover_vitals": 100,
@@ -269,6 +272,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 0,
+        "coverage": 5,
         "cover_melee": 5,
         "cover_ranged": 5,
         "cover_vitals": 90,
@@ -298,6 +302,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 5,
+        "coverage": 38,
         "cover_melee": 38,
         "cover_ranged": 36,
         "cover_vitals": 70,
@@ -337,6 +342,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 10,
+        "coverage": 75,
         "cover_melee": 72,
         "cover_ranged": 76,
         "cover_vitals": 90,
@@ -366,6 +372,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 8,
+        "coverage": 76,
         "cover_melee": 76,
         "cover_ranged": 76,
         "cover_vitals": 90,
@@ -404,6 +411,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 3,
+        "coverage": 38,
         "cover_melee": 38,
         "cover_ranged": 36,
         "cover_vitals": 70,
@@ -442,6 +450,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
+        "coverage": 28,
         "cover_melee": 28,
         "cover_ranged": 28,
         "cover_vitals": 0,
@@ -471,6 +480,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
+        "coverage": 28,
         "cover_melee": 28,
         "cover_ranged": 28,
         "cover_vitals": 0,
@@ -502,6 +512,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 6,
+        "coverage": 28,
         "cover_melee": 28,
         "cover_ranged": 28,
         "cover_vitals": 0,
@@ -540,6 +551,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
+        "coverage": 60,
         "cover_melee": 60,
         "cover_ranged": 60,
         "cover_vitals": 0,
