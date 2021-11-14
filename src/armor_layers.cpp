@@ -85,7 +85,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
             continue;
         }
         // if no subparts do the old way
-        if( bp->sub_parts.size() == 0 ) {
+        if( bp->sub_parts.empty() ) {
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
             [layer, bp]( const item & i ) {
                 return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
@@ -108,7 +108,6 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                 }
             }
         }
-
 
         std::set<std::string> bad_items_within;
         for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
