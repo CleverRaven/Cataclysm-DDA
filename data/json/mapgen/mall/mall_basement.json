@@ -158,7 +158,7 @@
         " ": "t_rock",
         "#": "t_brick_wall",
         "%": "t_railroad_track_on_tie",
-        ";": "t_rock_floor",
+        ";": "t_thconc_floor",
         "4": "t_railroad_rubble",
         "-": "t_railroad_tie_h",
         "{": "t_linoleum_gray",

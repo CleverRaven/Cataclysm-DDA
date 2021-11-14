@@ -671,7 +671,7 @@ ter_id t_null,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
-       t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
+       t_thconc_floor, t_thconc_floor_olight, t_strconc_floor, t_strconc_wall,
        t_floor, t_floor_waxed,
        t_dirtfloor,//Dirt floor(Has roof)
        t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green,
@@ -817,6 +817,7 @@ void set_ter_ids()
     t_thconc_floor = ter_id( "t_thconc_floor" );
     t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
     t_strconc_floor = ter_id( "t_strconc_floor" );
+    t_strconc_wall = ter_id( "t_strconc_wall" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
