@@ -199,6 +199,16 @@ static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
+static const harvest_drop_type_id harvest_drop_bionic( "bionic" );
+static const harvest_drop_type_id harvest_drop_bionic_group( "bionic_group" );
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+static const harvest_drop_type_id harvest_drop_bone( "bone" );
+static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
+static const harvest_drop_type_id harvest_drop_mutagen( "mutagen" );
+static const harvest_drop_type_id harvest_drop_mutagen_group( "mutagen_group" );
+static const harvest_drop_type_id harvest_drop_offal( "offal" );
+static const harvest_drop_type_id harvest_drop_skin( "skin" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
@@ -396,7 +406,7 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
     return false;
 }
 
-static bool check_butcher_cbm( const int roll )
+static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -409,16 +419,16 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<flag_id> &flags,
-                              const std::vector<fault_id> &faults )
+static void butcher_dissect_item( const itype_id &what, const tripoint &pos,
+                                  const time_point &age, const int roll, const std::vector<flag_id> &flags,
+                                  const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
     }
     map &here = get_map();
     if( item::find_type( what )->bionic ) {
-        item cbm( check_butcher_cbm( roll ) ? what : itype_burnt_out_bionic, age );
+        item cbm( check_butcher_dissect( roll ) ? what : itype_burnt_out_bionic, age );
         for( const flag_id &flg : flags ) {
             cbm.set_flag( flg );
         }
@@ -427,7 +437,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
         }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         here.add_item( pos, cbm );
-    } else if( check_butcher_cbm( roll ) ) {
+    } else if( check_butcher_dissect( roll ) ) {
         item something( what, age );
         for( const flag_id &flg : flags ) {
             something.set_flag( flg );
@@ -442,7 +452,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
     }
 }
 
-static void butcher_cbm_group(
+static void butcher_dissect_group(
     const item_group_id &group, const tripoint &pos, const time_point &age, const int roll,
     const std::vector<flag_id> &flags, const std::vector<fault_id> &faults )
 {
@@ -451,8 +461,9 @@ static void butcher_cbm_group(
     }
 
     map &here = get_map();
+    const std::set<const itype *> &gr_it = item_group::every_possible_item_from( group );
     //To see if it spawns a random additional CBM
-    if( check_butcher_cbm( roll ) ) {
+    if( check_butcher_dissect( roll ) ) {
         //The CBM works
         const std::vector<item *> spawned = here.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
@@ -464,7 +475,9 @@ static void butcher_cbm_group(
             }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
-    } else {
+    } else if( std::any_of( gr_it.begin(), gr_it.end(), []( const itype * it ) {
+    return !!it->bionic;
+} ) ) {
         //There is a burnt out CBM
         item cbm( itype_burnt_out_bionic, age );
         for( const flag_id &flg : flags ) {
@@ -475,6 +488,8 @@ static void butcher_cbm_group(
         }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         here.add_item( pos, cbm );
+    } else {
+        add_msg( m_bad, _( "You discover only damaged organs." ) );
     }
 }
 
@@ -588,7 +603,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
         if( !( corpse_item.has_flag( flag_FIELD_DRESS ) ||
                corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
-            corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
+            corpse_item.get_mtype()->harvest->has_entry_type( harvest_drop_offal ) ) {
             you.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                    corpse.nname() );
             act.targets.pop_back();
@@ -711,7 +726,8 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static int corpse_damage_effect( int weight, const harvest_drop_type_id &entry_type,
+                                 int damage_level )
 {
     const float slight_damage = 0.9f;
     const float damage = 0.75f;
@@ -721,43 +737,43 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
     switch( damage_level ) {
         case 2:
             // "damaged"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * slight_damage );
             }
             break;
         case 3:
             // "mangled"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return destroyed;
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return std::round( weight * high_damage );
             }
-            if( entry_type == "bone" ) {
+            if( entry_type == harvest_drop_bone ) {
                 return std::round( weight * slight_damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * damage );
             }
             break;
         case 4:
             // "pulped"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return destroyed;
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return destroyed;
             }
-            if( entry_type == "bone" ) {
+            if( entry_type == harvest_drop_bone ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * high_damage );
             }
             break;
@@ -806,7 +822,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+        } else if( !entry.type->dissect_only() ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -814,15 +830,15 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
-        if( entry.type != "bionic_group" ) {
+        if( entry.type->is_itype() ) {
             drop_id = itype_id( entry.drop );
             drop = item::find_type( drop_id );
         }
 
-        // BIONIC handling - no code for DISSECT to let the bionic drop fall through
-        if( entry.type == "bionic" || entry.type == "bionic_group" ) {
+        if( entry.type->dissect_only() ) {
             if( action == butcher_type::FIELD_DRESS ) {
-                if( drop != nullptr && !drop->bionic ) {
+                if( entry.type == harvest_drop_mutagen || entry.type == harvest_drop_mutagen_group ||
+                    ( drop != nullptr && !drop->bionic ) ) {
                     if( one_in( 3 ) ) {
                         you.add_msg_if_player( m_bad,
                                                _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
@@ -836,7 +852,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             if( action == butcher_type::QUICK ||
                 action == butcher_type::FULL ||
                 action == butcher_type::DISMEMBER ) {
-                if( drop != nullptr && !drop->bionic ) {
+                if( entry.type == harvest_drop_mutagen || entry.type == harvest_drop_mutagen_group ||
+                    ( drop != nullptr && !drop->bionic ) ) {
                     if( one_in( 3 ) ) {
                         you.add_msg_if_player( m_bad,
                                                _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
@@ -866,33 +883,35 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
-            if( entry.type == "bionic" ) {
-                butcher_cbm_item( drop_id, you.pos(), calendar::turn, roll, entry.flags, entry.faults );
-            } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( item_group_id( entry.drop ), you.pos(), calendar::turn, roll,
-                                   entry.flags, entry.faults );
+            if( entry.type->is_itype() ) {
+                butcher_dissect_item( drop_id, you.pos(), calendar::turn, roll, entry.flags, entry.faults );
+            } else if( entry.type->is_item_group() ) {
+                butcher_dissect_group( item_group_id( entry.drop ), you.pos(), calendar::turn, roll,
+                                       entry.flags, entry.faults );
             }
             continue;
         }
 
         // Check if monster was gibbed, and handle accordingly
-        if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == "flesh" || entry.type == "bone" ) ) {
+        if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
+                entry.type == harvest_drop_bone ) ) {
             roll /= 2;
         }
 
-        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) {
+        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
             roll = 0;
         }
 
         // QUICK BUTCHERY
         if( action == butcher_type::QUICK ) {
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 roll /= 4;
-            } else if( entry.type == "bone" ) { // NOLINT(bugprone-branch-clone)
+            } else if( entry.type == harvest_drop_bone ) { // NOLINT(bugprone-branch-clone)
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= creature_size::medium && entry.type == "skin" ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium &&
+                       entry.type == harvest_drop_skin ) {
                 roll /= 2;
-            } else if( entry.type == "offal" ) {
+            } else if( entry.type == harvest_drop_offal ) {
                 roll /= 5;
             } else {
                 continue;
@@ -900,7 +919,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 roll /= 6;
             } else {
                 continue;
@@ -908,27 +927,27 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = rng( 0, roll / 2 );
             }
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 continue;
             }
-            if( entry.type == "skin" ) {
+            if( entry.type == harvest_drop_skin ) {
                 continue;
             }
         }
 
         // you only get the blood from bleeding
         if( action == butcher_type::BLEED ) {
-            if( entry.type != "blood" ) {
+            if( entry.type != harvest_drop_blood ) {
                 continue;
             }
         }
 
         // you only get the skin from skinning
         if( action == butcher_type::SKIN ) {
-            if( entry.type != "skin" ) {
+            if( entry.type != harvest_drop_skin ) {
                 continue;
             }
             if( corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
@@ -939,29 +958,29 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         // field dressing removed innards and bones from meatless limbs
         if( ( action == butcher_type::FULL || action == butcher_type::QUICK ) &&
             corpse_item->has_flag( flag_FIELD_DRESS ) ) {
-            if( entry.type == "offal" ) {
+            if( entry.type == harvest_drop_offal ) {
                 continue;
             }
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
         if( ( action == butcher_type::FULL || action == butcher_type::QUICK ) &&
             corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
-            if( entry.type == "offal" ) {
+            if( entry.type == harvest_drop_offal ) {
                 continue;
             }
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
-            if( entry.type == "flesh" || entry.type == "skin" ) {
+            if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_skin ) {
                 roll = rng( 0, roll );
             }
         }
         // quartering ruins skin
         if( corpse_item->has_flag( flag_QUARTERED ) ) {
-            if( entry.type == "skin" ) {
+            if( entry.type == harvest_drop_skin ) {
                 //not continue to show fail effect
                 roll = 0;
             } else {
@@ -969,7 +988,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
 
-        if( entry.type != "bionic_group" ) {
+        if( entry.type->is_itype() ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined

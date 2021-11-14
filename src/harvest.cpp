@@ -21,8 +21,23 @@ static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 namespace
 {
+generic_factory<harvest_drop_type> harvest_drop_type_factory( "harvest_drop_type" );
 generic_factory<harvest_list> harvest_list_factory( "harvest_list" );
 } //namespace
+
+/** @relates string_id */
+template<>
+const harvest_drop_type &string_id<harvest_drop_type>::obj() const
+{
+    return harvest_drop_type_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<harvest_drop_type>::is_valid() const
+{
+    return harvest_drop_type_factory.is_valid( *this );
+}
 
 /** @relates string_id */
 template<>
@@ -50,7 +65,7 @@ bool harvest_list::is_null() const
     return id == harvest_id::NULL_ID();
 }
 
-bool harvest_list::has_entry_type( const std::string &type ) const
+bool harvest_list::has_entry_type( const harvest_drop_type_id &type ) const
 {
     for( const harvest_entry &entry : entries() ) {
         if( entry.type == type ) {
@@ -60,11 +75,32 @@ bool harvest_list::has_entry_type( const std::string &type ) const
     return false;
 }
 
+void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std::string &src )
+{
+    harvest_drop_type_factory.load( jo, src );
+}
+
+void harvest_drop_type::reset()
+{
+    harvest_drop_type_factory.reset();
+}
+
+void harvest_drop_type::load( const JsonObject &jo, const std::string & )
+{
+    optional( jo, was_loaded, "group", is_group_, false );
+    optional( jo, was_loaded, "dissect_only", dissect_only_, false );
+}
+
+const std::vector<harvest_drop_type> &harvest_drop_type::get_all()
+{
+    return harvest_drop_type_factory.get_all();
+}
+
 void harvest_entry::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "drop", drop );
 
-    optional( jo, was_loaded, "type", type );
+    optional( jo, was_loaded, "type", type, harvest_drop_type_id::NULL_ID() );
     optional( jo, was_loaded, "base_num", base_num, { 1.0f, 1.0f } );
     optional( jo, was_loaded, "scale_num", scale_num, { 0.0f, 0.0f } );
     optional( jo, was_loaded, "max", max, 1000 );
@@ -121,28 +157,22 @@ void harvest_list::check_consistency()
         const std::string hl_id = hl.id.c_str();
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
-            bool item_valid = true;
-            if( !( item::type_is_defined( itype_id( entry.drop ) ) ||
-                   ( entry.type == "bionic_group" &&
-                     item_group::group_is_defined( item_group_id( entry.drop ) ) ) ) ) {
-                item_valid = false;
-                errorlist += entry.drop;
-            }
-            // non butchery harvests need to be excluded
-            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
-                if( entry.type == "null" ) {
-                    if( !item_valid ) {
-                        errorlist += ", ";
-                    }
-                    errorlist += "null type";
-                } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
-                              entry.type == "blood" ||
-                              entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
-                    if( !item_valid ) {
-                        errorlist += ", ";
-                    }
-                    errorlist += entry.type;
+            // Type id is null
+            if( entry.type.is_null() ) {
+                if( item::type_is_defined( itype_id( entry.drop ) ) ) {
+                    return errorlist;
                 }
+                errorlist += "null type";
+                // Type id is invalid
+            } else if( !entry.type.is_valid() ) {
+                errorlist += "invalid type \"" + entry.type.str() + "\"";
+                // Specified as item_group but no such group exists
+            } else if( entry.type->is_item_group() &&
+                       !item_group::group_is_defined( item_group_id( entry.drop ) ) ) {
+                errorlist += entry.drop;
+                // Specified as single itype but no such itype exists
+            } else if( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) {
+                errorlist += entry.drop;
             }
             return errorlist;
         };

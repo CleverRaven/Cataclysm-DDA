@@ -1,0 +1,44 @@
+[
+  {
+    "type": "harvest_drop_type",
+    "id": "flesh"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bone"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "skin"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "blood"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "mutagen",
+    "dissect_only": true
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "mutagen_group",
+    "group": true,
+    "dissect_only": true
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "offal"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bionic",
+    "dissect_only": true
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bionic_group",
+    "group": true,
+    "dissect_only": true
+  }
+]
