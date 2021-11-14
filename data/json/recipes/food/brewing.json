@@ -170,7 +170,7 @@
         [ "apple_cider", 4 ],
         [ "cheap_wine", 2, "LIST" ],
         [ "worthy_wine", 1, "LIST" ],
-        [ "sweet_fruit", 1, "LIST" ],
+        [ "sweet_fruit", 1, "LIST" ]
       ]
     ]
   },
