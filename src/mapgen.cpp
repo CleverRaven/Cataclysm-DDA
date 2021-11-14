@@ -2511,6 +2511,8 @@ class jmapgen_computer : public jmapgen_piece
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
+        std::vector<std::string> chat_topics;
+        std::vector<effect_on_condition_id> eocs;
         bool target;
         jmapgen_computer( const JsonObject &jsi, const std::string &/*context*/ ) {
             jsi.read( "name", name );
@@ -2525,6 +2527,16 @@ class jmapgen_computer : public jmapgen_piece
             if( jsi.has_array( "failures" ) ) {
                 for( JsonObject jo : jsi.get_array( "failures" ) ) {
                     failures.emplace_back( computer_failure::from_json( jo ) );
+                }
+            }
+            if( jsi.has_array( "eocs" ) ) {
+                for( const std::string &eoc : jsi.get_string_array( "eocs" ) ) {
+                    eocs.emplace_back( effect_on_condition_id( eoc ) );
+                }
+            }
+            if( jsi.has_array( "chat_topics" ) ) {
+                for( const std::string &topic : jsi.get_string_array( "chat_topics" ) ) {
+                    chat_topics.emplace_back( topic );
                 }
             }
         }
@@ -2543,7 +2555,12 @@ class jmapgen_computer : public jmapgen_piece
             if( target && dat.mission() ) {
                 cpu->set_mission( dat.mission()->get_id() );
             }
-
+            for( const effect_on_condition_id &eoc : eocs ) {
+                cpu->add_eoc( eoc );
+            }
+            for( const std::string &chat_topic : chat_topics ) {
+                cpu->add_chat_topic( chat_topic );
+            }
             // The default access denied message is defined in computer's constructor
             if( !access_denied.empty() ) {
                 cpu->set_access_denied_msg( access_denied.translated() );
@@ -6230,10 +6247,10 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
-        static computer null_computer = computer( name, security );
+        static computer null_computer = computer( name, security, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security ) );
+    place_on_submap->set_computer( l, computer( name, security, p ) );
     return place_on_submap->get_computer( l );
 }
 
