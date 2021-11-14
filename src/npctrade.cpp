@@ -165,7 +165,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( fac != nullptr || fac->currency != it->typeId() ) {
+    if( fac == nullptr || fac->currency != it->typeId() ) {
         return static_cast<int>( price * adjust );
     }
 
