@@ -2029,9 +2029,9 @@ std::string enum_to_string<layer_level>( layer_level data )
 void part_material::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "type", id );
-    optional( jo, false, "portion_cover", cover, 100 );
+    optional( jo, false, "covered_by_mat", cover, 100 );
     if( cover < 1 || cover > 100 ) {
-        jo.throw_error( string_format( "invalid portion_cover \"%d\"", cover ) );
+        jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
     }
     optional( jo, false, "thickness", thickness, 0.0f );
 }
