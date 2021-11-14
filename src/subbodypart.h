@@ -53,6 +53,12 @@ struct sub_body_part_type {
 
     side part_side = side::BOTH;
 
+    // this flags that the sub location
+    // is in addition to the normal limb
+    // parts. Currently used for torso for
+    // hanging locations.
+    bool secondary = false;
+
     // the maximum coverage value for this part
     // if something entirely covered this part it
     // would have this value

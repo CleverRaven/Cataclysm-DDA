@@ -6827,13 +6827,23 @@ int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) co
 int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type ) const
 {
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
+        // get the max coverage of this piece
+        int max_coverage = 0;
+        for( const sub_bodypart_str_id sbp : portion_data->sub_coverage ) {
+            if( bodypart->secondary == sbp->secondary ) {
+                max_coverage += sbp->max_coverage;
+            }
+        }
+
+        // for each piece we need to figure out how much of the sub part we are
+        // actually covering and then convert that to a number out of 100
         switch( type ) {
             case cover_type::COVER_DEFAULT:
-                return portion_data->coverage;
+                return portion_data->coverage / max_coverage * 100;
             case cover_type::COVER_MELEE:
-                return portion_data->cover_melee;
+                return portion_data->cover_melee / max_coverage * 100;
             case cover_type::COVER_RANGED:
-                return portion_data->cover_ranged;
+                return portion_data->cover_ranged / max_coverage * 100;
             case cover_type::COVER_VITALS:
                 return portion_data->cover_vitals;
         }

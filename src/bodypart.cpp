@@ -204,6 +204,27 @@ bool body_part_type::has_flag( const std::string &flag ) const
     return flags.count( flag ) > 0;
 }
 
+sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
+{
+    int total_weight = 0;
+    for( const sub_bodypart_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            total_weight += bp->max_coverage;
+        }
+    }
+    int roll = rng( 1, total_weight );
+    for( const sub_bodypart_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            if( roll < bp->max_coverage ) {
+                return bp;
+            }
+            roll = roll - bp->max_coverage;
+        }
+    }
+}
+
 const std::vector<body_part_type> &body_part_type::get_all()
 {
     return body_part_factory.get_all();

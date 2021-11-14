@@ -430,6 +430,7 @@
   {
     "id": "torso_neck",
     "max_coverage": 10,
+    "secondary": true,
     "type": "sub_body_part",
     "opposite": "sub_limb_debug",
     "name": "neck"
@@ -446,6 +447,7 @@
     "id": "torso_hanging_front",
     "type": "sub_body_part",
     "max_coverage": 40,
+    "secondary": true,
     "name": "item hangs off your front",
     "opposite": "torso_hanging_back",
     "name_multiple": "item hangs off you"
@@ -454,6 +456,7 @@
     "id": "torso_hanging_back",
     "type": "sub_body_part",
     "max_coverage": 50,
+    "secondary": true,
     "name": "item hangs off your back",
     "opposite": "torso_hanging_front",
     "name_multiple": "item hangs off you"

@@ -395,6 +395,19 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         armor_enchantment_adjust( *this, elem );
 
+        sub_bodypart_id sbp;
+        sub_bodypart_id secondary_sbp;
+        // if this body part has sub part locations roll one
+        if( !bp->sub_parts.empty() ) {
+            sbp = bp->random_sub_part( false );
+            if( bp == body_part_torso ) {
+                secondary_sbp = bp->random_sub_part( true );
+            }
+        }
+
+        // generate a single roll for determining if hit
+        int roll = rng( 1, 100 );
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
@@ -425,7 +438,12 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
 
             if( !destroy ) {
-                destroy = armor_absorb( elem, armor, bp );
+                // if we don't have sub parts data
+                if( bp->sub_parts.empty() || !armor.has_sublocations() ) {
+                    destroy = armor_absorb( elem, armor, bp, roll );
+                } else {
+                    destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                }
             }
 
             if( destroy ) {
@@ -465,7 +483,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 }
 
 
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
 {
     item::cover_type ctype = item::cover_type::COVER_DEFAULT;
     if( du.type == damage_type::BULLET ) {
@@ -475,7 +493,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         ctype = item::cover_type::COVER_MELEE;
     }
 
-    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
+    if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
 
@@ -534,5 +552,24 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 
     return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
+                              const sub_bodypart_id &sbp, int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( roll > armor.get_coverage( bp, ctype ) ) {
+        return false;
+    }
+
+    // if we hit the specific location then we should continue with absorption as normal
+    return armor_absorb( du, armor, bp, roll );
 }
 
