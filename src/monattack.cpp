@@ -2647,8 +2647,8 @@ bool mattack::ranged_pull( monster *z )
 
         if( defender_check > attacker_check ) {
             game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
-            target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you..." ),
-                                           _( "The %s's arms fly out at <npcname>..." ),
+            target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you…" ),
+                                           _( "The %s's arms fly out at <npcname>…" ),
                                            z->name() );
             target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
                                            grab_break.npc_message.translated(), z->name() );
