@@ -752,9 +752,9 @@ bool item::covers( const sub_bodypart_id &bp ) const
         // go on another bodypart.
         if( bp == sub_bodypart_id( "torso_hanging_back" ) ) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     // if the item has no armor data it doesn't cover that part
