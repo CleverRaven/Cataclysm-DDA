@@ -7828,6 +7828,7 @@ bool Character::can_use_floor_warmth() const
            has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
            has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
            has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
+           has_activity( activity_id( "ACT_VIEW_RECIPE" ) ) ||
            has_activity( activity_id( "ACT_STUDY_SPELL" ) );
 }
 

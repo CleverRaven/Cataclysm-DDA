@@ -30,6 +30,7 @@
 #include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "trade_ui.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -277,6 +278,12 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
+}
+
+bool inventory_selector_preset::cat_sort_compare( const inventory_entry &lhs,
+        const inventory_entry &rhs ) const
+{
+    return *lhs.get_category_ptr() < *rhs.get_category_ptr();
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
@@ -859,12 +866,13 @@ void inventory_column::add_entry( const inventory_entry &entry )
         return;
     }
     const auto iter = std::find_if( entries.rbegin(), entries.rend(),
-    [ &entry ]( const inventory_entry & cur ) {
+    [ this, &entry ]( const inventory_entry & cur ) {
         const item_category *cur_cat = cur.get_category_ptr();
         const item_category *new_cat = entry.get_category_ptr();
 
-        return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
-                                       && ( *cur_cat == *new_cat || *cur_cat < *new_cat ) );
+        return cur_cat == new_cat ||
+               ( cur_cat != nullptr && new_cat != nullptr &&
+                 ( *cur_cat == *new_cat || preset.cat_sort_compare( cur, entry ) ) );
     } );
     bool has_loc = false;
     if( entry.is_item() && entry.locations.front().where() == item_location::type::container ) {
@@ -1690,10 +1698,6 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
-    if( force_max_window_size && !visible_columns.empty() ) {
-        visible_columns.front()->set_width( client_width / 3, columns );
-    }
-
     reassign_custom_invlets();
 
     refresh_active_column();
@@ -1743,17 +1747,13 @@ void inventory_selector::prepare_layout()
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
-    int win_width;
-    int win_height;
+    int const win_width =
+        _fixed_size.x < 0 ? snap( get_layout_width() + nc_width, TERMX ) : _fixed_size.x;
+    int const win_height =
+        _fixed_size.y < 0
+        ? snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ), TERMY )
+        : _fixed_size.y;
 
-    if( !force_max_window_size ) {
-        win_width  = snap( get_layout_width() + nc_width, TERMX );
-        win_height = snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ),
-                           TERMY );
-    } else {
-        win_width  = TERMX;
-        win_height = TERMY;
-    }
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
@@ -1933,8 +1933,11 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    w_inv = catacurses::newwin( height, width,
-                                point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+    point origin = _fixed_origin;
+    if( origin.x < 0 || origin.y < 0 ) {
+        origin = { ( TERMX - width ) / 2, ( TERMY - height ) / 2 };
+    }
+    w_inv = catacurses::newwin( height, width, origin );
     if( spopup ) {
         spopup->window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 );
     }
@@ -2159,8 +2162,6 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
-
-    force_max_window_size = false;
 }
 
 inventory_selector::~inventory_selector() = default;
@@ -2620,10 +2621,10 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
             selected = get_active_column().get_all_selected();
             break;
         case toggle_mode::NON_FAVORITE_NON_WORN: {
-            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+            const auto filter_to_nonfavorite_and_nonworn = [this]( const inventory_entry & entry ) {
                 return entry.is_selectable() &&
                        !entry.any_item()->is_favorite &&
-                       !get_player_character().is_worn( *entry.any_item() );
+                       !u.is_worn( *entry.any_item() );
             };
 
             selected = get_active_column().get_entries( filter_to_nonfavorite_and_nonworn );
@@ -2885,48 +2886,54 @@ void inventory_multiselector::deselect_contained_items()
     }
 }
 
+void inventory_drop_selector::on_input( const inventory_input &input )
+{
+    bool const noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
+
+    if( input.entry != nullptr ) { // Single Item from mouse
+        select( input.entry->any_item() );
+        toggle_entries( count );
+    } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+        toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
+    } else if( input.action ==
+               "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
+        int query_result = query_count();
+        if( query_result >= 0 ) {
+            toggle_entries( query_result, toggle_mode::SELECTED );
+        }
+    } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
+        toggle_entries( count, toggle_mode::SELECTED );
+    } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
+        count = std::min( count, INT_MAX / 10 - 10 );
+        count *= 10;
+        count += input.ch - '0';
+    } else {
+        inventory_multiselector::on_input( input );
+    }
+}
+
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
-    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
-        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
-
-        if( input.entry != nullptr ) { // Single Item from mouse
-            select( input.entry->any_item() );
-            toggle_entries( count );
-        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
-            int query_result = query_count();
-            if( query_result < 0 ) {
-                continue; // Skip selecting any if invalid result or user canceled prompt
-            }
-            toggle_entries( query_result, toggle_mode::SELECTED );
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count, toggle_mode::SELECTED );
-        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.action == "CONFIRM" ) {
+        if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
-        } else if( input.action == "QUIT" ) {
-            return drop_locations();
-        } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
-        } else {
-            on_input( input );
         }
+
+        if( input.action == "QUIT" ) {
+            return drop_locations();
+        }
+
+        on_input( input );
     }
 
     drop_locations dropped_pos_and_qty;
@@ -3097,6 +3104,13 @@ void inventory_examiner::draw_item_details( const item_location &sitem )
     draw_item_info( w_examine, data );
 }
 
+void inventory_examiner::force_max_window_size()
+{
+    constexpr int border_width = 1;
+    _fixed_size = { TERMX / 3 + 2 * border_width, TERMY };
+    _fixed_origin = point_zero;
+}
+
 int inventory_examiner::execute()
 {
     if( !check_parent_item() ) {
@@ -3119,17 +3133,12 @@ int inventory_examiner::execute()
     ui_adaptor ui_examine;
 
     ui_examine.on_screen_resize( [&]( ui_adaptor & ui_examine ) {
-        // NOTE: This assumes that the first column (currently own_inv_column) is used for the item list:
-        int inv_column_width = get_all_columns().front()->get_width();
-        /* NOTE: By flagging force_max_window_size as true, this forces the inventory_selector window to be
-         * TERMX x TERMY , allowing us to assume the window starts at 0,0 and is TERMX by TERMY.  If this is
-         * changed in inventory_selector::prepare_layout, then everything breaks.  This obviously isn't a
-         * great solution */
-        int border_width = 1; //Assumed, since the value in inventory_selector is private, but reasonable
-        int width = TERMX - 2 * border_width  - inv_column_width;
-        int height = TERMY  - get_header_height() - 1;
-        point start_position = point( ( inv_column_width + border_width + 1 ),
-                                      get_header_height() + 1 );
+        force_max_window_size();
+        ui->mark_resize();
+
+        int const width = TERMX - _fixed_size.x;
+        int const height = TERMY;
+        point const start_position = point( TERMX - width, 0 );
 
         scroll_item_info_lines = TERMY / 2;
 
@@ -3187,4 +3196,67 @@ void inventory_examiner::setup()
     } else {
         set_title( parent_item->display_name() );
     }
+}
+
+trade_selector::trade_selector( trade_ui *parent, Character &u,
+                                inventory_selector_preset const &preset,
+                                std::string const &selection_column_title,
+                                point const &size, point const &origin )
+    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent )
+{
+    ctxt.register_action( ACTION_SWITCH_PANES );
+    ctxt.register_action( ACTION_TRADE_CANCEL );
+    ctxt.register_action( ACTION_TRADE_OK );
+    resize( size, origin );
+    _ui = create_or_get_ui_adaptor();
+}
+
+trade_selector::select_t trade_selector::to_trade() const
+{
+    return to_use;
+}
+
+void trade_selector::execute()
+{
+    bool exit = false;
+
+    get_active_column().on_activate();
+
+    while( !exit ) {
+        _ui->invalidate_ui();
+        ui_manager::redraw_invalidated();
+        inventory_input const input = get_input();
+        if( input.action == ACTION_SWITCH_PANES ) {
+            _parent->pushevent( trade_ui::event::SWITCH );
+            get_active_column().on_deactivate();
+            exit = true;
+        } else if( input.action == ACTION_TRADE_OK ) {
+            _parent->pushevent( trade_ui::event::TRADEOK );
+            exit = true;
+        } else if( input.action == ACTION_TRADE_CANCEL ) {
+            _parent->pushevent( trade_ui::event::TRADECANCEL );
+            exit = true;
+        } else {
+            inventory_drop_selector::on_input( input );
+            // FIXME: this would be better done in a callback from toggle_entries()
+            if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
+                input.entry != nullptr ) {
+                _parent->recalc_values_cpane();
+            }
+        }
+    }
+}
+
+void trade_selector::resize( point const &size, point const &origin )
+{
+    _fixed_size = size;
+    _fixed_origin = origin;
+    if( _ui ) {
+        _ui->mark_resize();
+    }
+}
+
+shared_ptr_fast<ui_adaptor> trade_selector::get_ui() const
+{
+    return _ui;
 }
