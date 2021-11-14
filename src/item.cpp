@@ -8235,63 +8235,52 @@ bool item::allows_speedloader( const itype_id &speedloader_id ) const
     return contents.allows_speedloader( speedloader_id );
 }
 
-bool item::can_reload_with( const itype_id &ammo ) const
+
+bool item::can_reload_with( const item &ammo ) const
 {
     return is_reloadable_helper( ammo, false );
 }
 
-bool item::is_reloadable_with( const itype_id &ammo ) const
+bool item::is_reloadable_with( const item &ammo ) const
 {
     return is_reloadable_helper( ammo, true );
 }
 
-bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
+bool item::is_reloadable_helper( const item &ammo, bool now ) const
 {
     if( !is_reloadable() ) {
         return false;
     }
 
-    // empty ammo is passed for listing possible ammo, so it needs to return true.
-    if( ammo.is_empty() ) {
-        return true;
-    }
+    // Check if the item is in general compatible with any reloadable pocket.
+    for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
 
-    if( is_watertight_container() ) {
-        if( ammo.obj().phase == phase_id::LIQUID && contents.num_item_stacks() == 1 &&
-            contents.only_item().made_of_from_type( phase_id::LIQUID ) &&
-            contents.only_item().typeId() == ammo ) {
-            return true;
-        }
-        if( ammo.obj().phase == phase_id::LIQUID && contents.empty_container() ) {
-            return true;
-        }
-        if( !magazine_integral() && !uses_magazine() ) {
-            return false;
-        }
-    }
+        if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // Only watertight container pockets are reloadable
+            if( !pocket->watertight() ) {
+                continue;
+            }
 
-    if( magazine_integral() ) {
-        if( ammo_data() ) {
-            if( ammo_current() != ammo ) {
-                return false;
+            // CONTAINER pockets can reload liquids only
+            if( !ammo.made_of( phase_id::LIQUID ) ) {
+                continue;
+            }
+        }
+
+        if( now ) {
+            // Require that the new ammo fits in with current ammo
+            if( pocket->can_contain( ammo ).success() ) {
+                return true;
             }
         } else {
-            if( ( !ammo->ammo || !ammo_types().count( ammo->ammo->type ) ) &&
-                !can_contain( *ammo ) ) {
-                return false;
+            // Generic check for compatible items
+            if( pocket->is_compatible( ammo ).success() ) {
+                return true;
             }
         }
-        //Now single shoted gun also has magazine_well slot for speedloader
-        //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
-        //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
-        if( now && !ammo->ammo ) {
-            return can_contain( *ammo );
-        }
-
-        return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
 
-    return is_compatible( item( ammo ) ).success();
+    return false;
 }
 
 bool item::is_salvageable() const
@@ -9603,7 +9592,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
-    if( !can_reload_with( ammo->typeId() ) ) {
+    if( !can_reload_with( *ammo.get_item() ) ) {
         return false;
     }
 

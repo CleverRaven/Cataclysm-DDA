@@ -8452,7 +8452,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         it = &it->only_item();
     }
 
-    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
+    item::reload_option opt = u.ammo_location && it->can_reload_with( *u.ammo_location.get_item() ) ?
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 

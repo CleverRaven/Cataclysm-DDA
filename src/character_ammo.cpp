@@ -49,9 +49,9 @@ int Character::ammo_count_for( const item &gun )
     return ret;
 }
 
-bool Character::can_reload( const item &it, const itype_id &ammo ) const
+bool Character::can_reload( const item &it, const item *ammo ) const
 {
-    if( !it.can_reload_with( ammo ) ) {
+    if( ammo && !it.can_reload_with( *ammo ) ) {
         return false;
     }
 
@@ -89,20 +89,18 @@ bool Character::list_ammo( const item &base, std::vector<item::reload_option> &a
     for( auto  p : opts ) {
         for( item_location &ammo : find_ammo( *p.first, empty, ammo_search_range ) ) {
 
-            itype_id id = ammo->typeId();
             bool speedloader = false;
-            if( p.first->can_reload_with( id ) ) {
+            if( p.first->can_reload_with( *ammo.get_item() ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
-            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( id ) &&
+            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( ammo->typeId() ) &&
                        ammo->ammo_remaining() > 1 && p.first->ammo_remaining() < 1 ) {
-                id = ammo->ammo_current();
                 // Again, this is "are they compatible", later check handles "can we do it now".
-                ammo_match_found = p.first->can_reload_with( id );
+                ammo_match_found = p.first->can_reload_with( *ammo.get_item() );
                 speedloader = true;
             }
-            if( can_reload( *p.first, id ) &&
+            if( can_reload( *p.first, ammo.get_item() ) &&
                 ( speedloader || p.first->ammo_remaining() == 0 ||
                   p.first->ammo_remaining() < ammo->ammo_remaining() ||
                   p.first->loaded_ammo().stacks_with( *ammo ) ||

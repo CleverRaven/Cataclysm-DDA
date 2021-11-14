@@ -1374,9 +1374,10 @@ class item : public visitable
          */
         bool is_reloadable() const;
         /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
-        bool can_reload_with( const itype_id &ammo ) const;
+        bool can_reload_with( const item &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
-        bool is_reloadable_with( const itype_id &ammo ) const;
+        bool is_reloadable_with( const item &ammo ) const;
+
         /**
           * Returns true if any of the contents are not frozen or not empty if it's liquid
           */
@@ -2480,7 +2481,7 @@ class item : public visitable
         void set_temp_flags( float new_temperature, float freeze_percentage );
 
         /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+        bool is_reloadable_helper( const item &ammo, bool now ) const;
 
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
