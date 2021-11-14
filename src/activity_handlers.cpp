@@ -965,7 +965,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
 
-        if( entry.type->is_itype() ) {
+        if( drop != nullptr ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined

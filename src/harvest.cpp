@@ -181,21 +181,20 @@ void harvest_list::check_consistency()
         const std::string hl_id = hl.id.c_str();
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
-            // Type id is null
             if( entry.type.is_null() ) {
+                // Type id is null
                 if( item::type_is_defined( itype_id( entry.drop ) ) ) {
                     return errorlist;
                 }
                 errorlist += "null type";
-                // Type id is invalid
             } else if( !entry.type.is_valid() ) {
+                // Type id is invalid
                 errorlist += "invalid type \"" + entry.type.str() + "\"";
-                // Specified as item_group but no such group exists
-            } else if( entry.type->is_item_group() &&
-                       !item_group::group_is_defined( item_group_id( entry.drop ) ) ) {
-                errorlist += entry.drop;
-                // Specified as single itype but no such itype exists
-            } else if( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) {
+            } else if( ( entry.type->is_item_group() &&
+                         !item_group::group_is_defined( item_group_id( entry.drop ) ) ||
+                         ( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) ) ) {
+                // Specified as item_group but no such group exists, or
+                // specified as single itype but no such itype exists
                 errorlist += entry.drop;
             }
             return errorlist;
