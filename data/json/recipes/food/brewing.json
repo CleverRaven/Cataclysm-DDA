@@ -192,7 +192,7 @@
 			["sweet_fruit", 1, "LIST"]
 		]
 	]
-}
+  },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
