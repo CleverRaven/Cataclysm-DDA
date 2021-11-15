@@ -1523,7 +1523,7 @@
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 70,
-    "description": "Alcoholic sparkling water. Perfect for a hot summer day.  There's a little hint of yeast in it.",
+    "description": "Alcoholic sparkling water.  Perfect for a hot summer day.  There's a little hint of yeast in it.",
     "price": 260,
     "price_postapoc": 100,
     "material": [ "alcohol", "water" ],
