@@ -909,6 +909,9 @@ class inventory_examiner : public inventory_selector
             changes_made = false;
             parent_was_collapsed = false;
 
+            //Space in inventory isn't particularly relevant, so don't display it
+            set_display_stats( false );
+
             setup();
         }
 
