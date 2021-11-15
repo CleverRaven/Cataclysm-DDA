@@ -39,19 +39,19 @@ bool string_id<harvest_drop_type>::is_valid() const
     return harvest_drop_type_factory.is_valid( *this );
 }
 
-const translation harvest_drop_type::field_dress_msg( bool succeeded ) const
+translation harvest_drop_type::field_dress_msg( bool succeeded ) const
 {
     return SNIPPET.random_from_category( succeeded ? msg_fielddress_success :
                                          msg_fielddress_fail ).value_or( translation() );
 }
 
-const translation harvest_drop_type::butcher_msg( bool succeeded ) const
+translation harvest_drop_type::butcher_msg( bool succeeded ) const
 {
     return SNIPPET.random_from_category( succeeded ? msg_butcher_success : msg_butcher_fail ).value_or(
                translation() );
 }
 
-const translation harvest_drop_type::dissect_msg( bool succeeded ) const
+translation harvest_drop_type::dissect_msg( bool succeeded ) const
 {
     return SNIPPET.random_from_category( succeeded ? msg_dissect_success : msg_dissect_fail ).value_or(
                translation() );
@@ -191,8 +191,8 @@ void harvest_list::check_consistency()
                 // Type id is invalid
                 errorlist += "invalid type \"" + entry.type.str() + "\"";
             } else if( ( entry.type->is_item_group() &&
-                         !item_group::group_is_defined( item_group_id( entry.drop ) ) ||
-                         ( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) ) ) {
+                         !item_group::group_is_defined( item_group_id( entry.drop ) ) ) ||
+                       ( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) ) {
                 // Specified as item_group but no such group exists, or
                 // specified as single itype but no such itype exists
                 errorlist += entry.drop;

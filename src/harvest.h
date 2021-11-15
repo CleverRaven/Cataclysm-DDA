@@ -42,11 +42,11 @@ class harvest_drop_type
             return dissect_only_;
         }
         // Message to display for the associated drop when field dressing
-        const translation field_dress_msg( bool succeeded ) const;
+        translation field_dress_msg( bool succeeded ) const;
         // Message to display for the associated drop when doing quick/full butchery
-        const translation butcher_msg( bool succeeded ) const;
+        translation butcher_msg( bool succeeded ) const;
         // Message to display when failed to dissect the associated drop
-        const translation dissect_msg( bool succeeded ) const;
+        translation dissect_msg( bool succeeded ) const;
 
     private:
         harvest_drop_type_id id;

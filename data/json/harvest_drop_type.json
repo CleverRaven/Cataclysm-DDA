@@ -20,6 +20,11 @@
   },
   {
     "type": "harvest_drop_type",
+    "id": "offal",
+    "msg_dissect_fail": "harvest_drop_tissue_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
     "id": "mutagen",
     "dissect_only": true,
     "msg_fielddress_fail": "harvest_drop_mutagen_field_dress",
@@ -34,10 +39,6 @@
     "msg_fielddress_fail": "harvest_drop_mutagen_field_dress",
     "msg_butcher_fail": "harvest_drop_mutagen_butcher",
     "msg_dissect_fail": "harvest_drop_mutagen_dissect_failed"
-  },
-  {
-    "type": "harvest_drop_type",
-    "id": "offal"
   },
   {
     "type": "harvest_drop_type",
