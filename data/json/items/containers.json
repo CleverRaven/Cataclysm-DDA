@@ -167,8 +167,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_paper_powder",
@@ -193,8 +192,7 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -219,8 +217,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -267,8 +264,7 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "dark_gray"
   },
   {
     "id": "bag_iv",
@@ -293,8 +289,7 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -1746,8 +1741,7 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "TRADER_AVOID" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
   },
   {
     "id": "wrapper_pr",

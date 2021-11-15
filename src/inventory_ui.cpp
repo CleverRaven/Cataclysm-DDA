@@ -3209,6 +3209,7 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     ctxt.register_action( ACTION_TRADE_OK );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
+    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 }
 
 trade_selector::select_t trade_selector::to_trade() const

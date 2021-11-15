@@ -553,8 +553,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "type": "GENERIC",
