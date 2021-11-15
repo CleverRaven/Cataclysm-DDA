@@ -1293,6 +1293,13 @@ void options_manager::add_options_general()
          true
        );
 
+    add( "AUTOSAVE_ON_DEATH", "general", to_translation( "Autosave on death" ),
+         to_translation( "If true, game will perform a save immediately on death." ),
+         false
+       );
+
+    get_option( "AUTOSAVE_ON_DEATH" ).setPrerequisite( "AUTOSAVE" );
+
     add( "AUTOSAVE_TURNS", "general", to_translation( "Game turns between autosaves" ),
          to_translation( "Number of game turns between autosaves" ),
          10, 1000, 50

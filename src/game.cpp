@@ -2341,6 +2341,9 @@ bool game::is_game_over()
             return false;
         }
         Messages::deactivate();
+        if( get_option<bool> ( "AUTOSAVE_ON_DEATH" ) ) {
+            save();
+        }
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
         } else if( get_option<std::string>( "DEATHCAM" ) == "ask" ) {
