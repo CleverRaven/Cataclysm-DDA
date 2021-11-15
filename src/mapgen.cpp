@@ -2372,9 +2372,6 @@ class jmapgen_furniture : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             furn_id chosen_id = id.get( dat );
-            if( chosen_id.id().is_null() ) {
-                return;
-            }
             dat.m.furn_set( point( x.get(), y.get() ), chosen_id );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
