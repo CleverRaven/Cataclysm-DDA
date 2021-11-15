@@ -87,7 +87,7 @@
         "type": "spell",
         "spell_data": { "id": "mi-go_slaver_beam", "min_level": 3 },
         "cooldown": 100,
-        "monster_message": "The mi-go's numerous antennae sync their movement only for a moment."
+        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       }
     ],
     "flags": [
@@ -196,7 +196,7 @@
         "type": "spell",
         "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 },
         "cooldown": 100,
-        "monster_message": "The mi-go's numerous antennae sync their movement only for a moment."
+        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       }
     ],
     "flags": [
@@ -255,7 +255,7 @@
         "type": "spell",
         "spell_data": { "id": "mi-go_slaver_beam", "min_level": 2 },
         "cooldown": 100,
-        "monster_message": "The mi-go's numerous antennae sync their movement only for a moment."
+        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       }
     ],
     "flags": [
