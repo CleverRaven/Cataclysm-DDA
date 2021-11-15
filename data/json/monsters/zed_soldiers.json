@@ -261,6 +261,27 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "weakpoints": [
+      {
+        "name": "the softer hide of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      {
+        "name": "the weaker hide on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a softer part on the stomach hide",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 2
+      },
+      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
@@ -300,6 +321,21 @@
     "armor_bash": 30,
     "armor_cut": 50,
     "armor_bullet": 40,
+    "weakpoints": [
+      {
+        "name": "the softer hide of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the face", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      {
+        "name": "the softer hide of the neck",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 1
+      }
+    ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 10,
