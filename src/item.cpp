@@ -6836,6 +6836,11 @@ int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type 
             }
         }
 
+        // if you aren't covering anything return 0
+        if( max_coverage == 0 ) {
+            return 0;
+        }
+
         // for each piece we need to figure out how much of the sub part we are
         // actually covering and then convert that to a number out of 100
         switch( type ) {
