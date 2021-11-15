@@ -585,14 +585,8 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
 
                 float roll_to_break = rng_float( 0.0, 100.0 );
 
-
-                // plates are rated to survive 3 shots at the caliber they protect
-                // linearly scale off the scale value to find the chance it breaks
                 if( roll_to_break < break_chance ) {
                     //the plate is broken
-
-
-
                     const std::string pre_damage_name = ablative_armor.tname();
 
                     // TODO: add balistic and shattering verbs for ablative materials instead of hard coded
@@ -613,14 +607,9 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
                     // replace it with its destroyed version
                     pocket->add( item( replacement ) );
 
-
                     return true;
-
                 }
-
-
                 return false;
-
             } else {
                 // reduce value and try for additional plates
                 roll = roll - coverage;
