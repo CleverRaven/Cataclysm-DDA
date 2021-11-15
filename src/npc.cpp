@@ -2060,7 +2060,7 @@ int npc::value( const item &it ) const
 int npc::value( const item &it, int market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives or spilled liquids
+        // NPCs won't be interested in buying active explosives
         return -1000;
     }
 
