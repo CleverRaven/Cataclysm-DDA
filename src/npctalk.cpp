@@ -3164,7 +3164,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 
     int volume;
     mandatory( jo, false, "volume", volume );
-
+    bool snippet = jo.get_bool("snippet", false);
+    bool same_snippet = jo.get_bool("same_snippet", false);
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -3201,10 +3202,28 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
         global = target_obj.get_bool( "global", false );
         target_var = get_talk_varname( target_obj, "value" );
     }
-    function = [is_npc, message, volume, type, target_var, global]( const dialogue & d ) {
+    function = [is_npc, message, volume, type, target_var, global, snippet, same_snippet]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, _( message ) );
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
+        }
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
     };
 }
 
