@@ -83,7 +83,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
         item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
+        REQUIRE( flashlight.is_reloadable_with( item( "light_battery_cell" ) ) );
 
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammotype( "battery" ) );

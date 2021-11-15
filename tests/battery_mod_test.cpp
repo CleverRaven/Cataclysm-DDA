@@ -70,7 +70,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         // Mods are not directly compatible with magazines, nor reloadable
         CHECK( med_mod.magazine_compatible().empty() );
         CHECK_FALSE( med_mod.is_reloadable() );
-        CHECK_FALSE( med_mod.is_reloadable_with( itype_id( "battery" ) ) );
+        CHECK_FALSE( med_mod.is_reloadable_with( item( "battery" ) ) );
 
         // Mod magazine is not integral
         CHECK_FALSE( med_mod.magazine_integral() );
@@ -79,7 +79,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
     GIVEN( "tool compatible with light batteries" ) {
         item flashlight( "flashlight" );
         REQUIRE( flashlight.is_reloadable() );
-        REQUIRE( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
+        REQUIRE( flashlight.is_reloadable_with( item( "light_battery_cell" ) ) );
 
         // Flashlight must be free of battery or existing mods
         REQUIRE_FALSE( flashlight.magazine_current() );
@@ -100,11 +100,11 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
-                CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );
-                CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );
-                CHECK( flashlight.is_reloadable_with( itype_id( "medium_plus_battery_cell" ) ) );
-                CHECK( flashlight.is_reloadable_with( itype_id( "medium_atomic_battery_cell" ) ) );
-                CHECK( flashlight.is_reloadable_with( itype_id( "medium_disposable_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with( item( "medium_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with(item( "medium_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with(item( "medium_plus_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with(item( "medium_atomic_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with(item( "medium_disposable_cell" ) ) );
                 CHECK( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
             }
 
@@ -115,7 +115,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
             }
 
             THEN( "light batteries no longer fit" ) {
-                CHECK_FALSE( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
+                CHECK_FALSE( flashlight.is_reloadable_with( item( "light_battery_cell" ) ) );
                 CHECK_FALSE( flashlight.magazine_compatible().count( itype_id( "light_battery_cell" ) ) );
             }
 
@@ -245,8 +245,8 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
 
         SECTION( "is reloadable with a magazine" ) {
             CHECK( flashlight.is_reloadable() );
-            CHECK( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
-            CHECK( flashlight.is_reloadable_with( itype_id( "light_disposable_cell" ) ) );
+            CHECK( flashlight.is_reloadable_with( item( "light_battery_cell" ) ) );
+            CHECK( flashlight.is_reloadable_with(item( "light_disposable_cell" ) ) );
         }
 
         SECTION( "has compatible magazines" ) {

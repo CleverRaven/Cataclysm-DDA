@@ -42,15 +42,20 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
 
     item &mag = player_character.i_add( item( mag_id ) );
+	const item ammo_it( "556" ); // any type of compatible ammo
+    const item alt_ammo_it( "223" ); // any alternative type of compatible ammo
+    const item bad_ammo_it( "9mm" ); // any type of incompatible ammo
+    const item mag_it( "stanag30" ); // must be set to default magazine
+    const item bad_mag_it( "glockmag" ); // any incompatible magazine
     CHECK( mag.is_magazine() == true );
     CHECK( mag.is_reloadable() == true );
-    CHECK( mag.is_reloadable_with( ammo_id ) == true );
-    CHECK( mag.is_reloadable_with( alt_ammo ) == true );
-    CHECK( mag.is_reloadable_with( bad_ammo ) == false );
-    CHECK( player_character.can_reload( mag ) == true );
-    CHECK( player_character.can_reload( mag, ammo_id ) == true );
-    CHECK( player_character.can_reload( mag, alt_ammo ) == true );
-    CHECK( player_character.can_reload( mag, bad_ammo ) == false );
+    CHECK( mag.is_reloadable_with( ammo_it ) == true );
+    CHECK( mag.is_reloadable_with( alt_ammo_it ) == true );
+    CHECK( mag.is_reloadable_with( bad_ammo_it ) == false );
+    CHECK( player_character.can_reload( mag_it ) == true );
+    CHECK( player_character.can_reload( mag, &ammo_it ) == true );
+    CHECK( player_character.can_reload( mag, &alt_ammo_it ) == true );
+    CHECK( player_character.can_reload( mag, &bad_ammo_it ) == false );
     CHECK( mag.ammo_types().count( gun_ammo ) );
     CHECK( mag.ammo_capacity( gun_ammo ) == mag_cap );
     CHECK( mag.ammo_current().is_null() );
@@ -184,8 +189,8 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
         CHECK( gun.is_gun() == true );
         CHECK( gun.is_reloadable() == true );
         CHECK( player_character.can_reload( gun ) == true );
-        CHECK( player_character.can_reload( gun, mag_id ) == true );
-        CHECK( player_character.can_reload( gun, ammo_id ) == false );
+        CHECK( player_character.can_reload( gun, &mag_it) == true );
+        CHECK( player_character.can_reload( gun, &ammo_it) == false );
         CHECK( gun.magazine_integral() == false );
         CHECK( gun.magazine_default() == mag_id );
         CHECK( gun.magazine_compatible().count( mag_id ) == 1 );
@@ -328,6 +333,8 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
     const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
     const int mag_cap = 7; // amount of bullets that fit into cylinder
 
+    const item ammo_it("38_special"); // any type of compatible ammo
+
     CHECK( ammo_id != alt_ammo );
     CHECK( ammo_id != bad_ammo );
     CHECK( alt_ammo != bad_ammo );
@@ -343,7 +350,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
         CHECK( gun.is_gun() == true );
         CHECK( gun.is_reloadable() == true );
         CHECK( player_character.can_reload( gun ) == true );
-        CHECK( player_character.can_reload( gun, ammo_id ) == true );
+        CHECK( player_character.can_reload( gun, &ammo_it) == true );
         CHECK( gun.magazine_integral() == true );
         CHECK( gun.ammo_capacity( gun_ammo ) == mag_cap );
         CHECK( gun.ammo_remaining() == 0 );
