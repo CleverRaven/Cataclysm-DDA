@@ -13,7 +13,7 @@
     "material": [ "steel" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "370 ml",
     "bashing": 12,
     "price": 7500,
