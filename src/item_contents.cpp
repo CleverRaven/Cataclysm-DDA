@@ -1387,7 +1387,7 @@ std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() co
     std::vector<const item_pocket *> pockets;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+        if( ( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.watertight() ) ||
             pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
             pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             pockets.push_back( &pocket );

@@ -11588,16 +11588,17 @@ bool item::is_reloadable() const
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ||
-               contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-        return true;
+    }
 
-    } else if( !is_container_full() && is_watertight_container() ) {
-        if( is_container_empty() ) {
+    for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
+        if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ||
+            pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
             return true;
         }
-        if( contents.num_item_stacks() == 1 &&
-            contents.only_item().made_of_from_type( phase_id::LIQUID ) ) {
+        // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
+        if( pocket->full( false ) ) {
+            continue;
+        } else if( pocket->empty() || pocket->front().made_of( phase_id::LIQUID ) ) {
             return true;
         }
     }
