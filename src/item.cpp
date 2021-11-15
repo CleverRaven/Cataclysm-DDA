@@ -6830,7 +6830,8 @@ int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type 
         // get the max coverage of this piece
         int max_coverage = 0;
         for( const sub_bodypart_str_id sbp : portion_data->sub_coverage ) {
-            if( bodypart->secondary == sbp->secondary ) {
+            if( bodypart->secondary == sbp->secondary && bodypart->parent == sbp->parent ) {
+                // add all sublocations that share the same parent limb
                 max_coverage += sbp->max_coverage;
             }
         }
@@ -6839,11 +6840,11 @@ int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type 
         // actually covering and then convert that to a number out of 100
         switch( type ) {
             case cover_type::COVER_DEFAULT:
-                return portion_data->coverage / max_coverage * 100;
+                return portion_data->coverage * 100 / max_coverage ;
             case cover_type::COVER_MELEE:
-                return portion_data->cover_melee / max_coverage * 100;
+                return portion_data->cover_melee * 100 / max_coverage;
             case cover_type::COVER_RANGED:
-                return portion_data->cover_ranged / max_coverage * 100;
+                return portion_data->cover_ranged * 100 / max_coverage;
             case cover_type::COVER_VITALS:
                 return portion_data->cover_vitals;
         }

@@ -408,6 +408,10 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         // generate a single roll for determining if hit
         int roll = rng( 1, 100 );
 
+        add_msg_if_player( m_bad, _( "part %s" ), bp->name );
+        add_msg_if_player( m_bad, _( "roll %s" ), std::to_string( roll ) );
+        add_msg_if_player( m_bad, _( "sub part %s" ), sbp->name );
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
@@ -443,6 +447,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                     destroy = armor_absorb( elem, armor, bp, roll );
                 } else {
                     destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                    if( bp == body_part_torso ) {
+                        destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
+                    }
                 }
             }
 
@@ -482,21 +489,8 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
-
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
-    if( du.type == damage_type::BULLET ) {
-        ctype = item::cover_type::COVER_RANGED;
-    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
-               du.type == damage_type::STAB ) {
-        ctype = item::cover_type::COVER_MELEE;
-    }
-
-    if( roll > armor.get_coverage( bp, ctype ) ) {
-        return false;
-    }
-
     // TODO: add some check for power armor
     armor.mitigate_damage( du );
 
@@ -565,11 +559,32 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         ctype = item::cover_type::COVER_MELEE;
     }
 
+    add_msg_if_player( m_bad, _( "converted roll %s" ), armor.get_coverage( sbp, ctype ) );
+
+    if( roll > armor.get_coverage( sbp, ctype ) ) {
+        return false;
+    }
+
+    add_msg_if_player( m_bad, _( "blocking with armor %s" ), armor.display_name() );
+    // if we hit the specific location then we should continue with absorption as normal
+    return armor_absorb( du, armor, bp );
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
 
-    // if we hit the specific location then we should continue with absorption as normal
-    return armor_absorb( du, armor, bp, roll );
+    add_msg_if_player( m_bad, _( "blocking with armor %s" ), armor.display_name() );
+    return armor_absorb( du, armor, bp );
 }
 

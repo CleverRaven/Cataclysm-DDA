@@ -46,12 +46,15 @@ struct sub_body_part_type {
 
     bool was_loaded = false;
 
-    //name of the sub part
+    // name of the sub part
     translation name;
 
     translation name_multiple;
 
     side part_side = side::BOTH;
+
+    // the body part this belongs to
+    std::string parent;
 
     // this flags that the sub location
     // is in addition to the normal limb

@@ -667,29 +667,27 @@ void Item_factory::finalize_post( itype &obj )
                                           obj.id.str(), bp.str() );
                             }
 
-                            // add additional sub coverage locations to the original list
-                            for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
-                                if( std::find( it.sub_coverage.begin(), it.sub_coverage.end(), sbp ) == it.sub_coverage.end() ) {
-                                    it.sub_coverage.push_back( sbp );
-                                }
-                            }
-
                             // go through the materials list and update data
                             for( const part_material &new_mat : sub_armor.materials ) {
                                 bool mat_found = false;
                                 for( part_material &old_mat : it.materials ) {
                                     if( old_mat.id == new_mat.id ) {
                                         mat_found = true;
-                                        // thickness should be averaged however I can't envision this ever being used
-                                        int total_cover = old_mat.cover + new_mat.cover;
-                                        // thickness is the portion of each thickness value
-                                        // dividing by 0 is bad
-                                        if( total_cover == 0 ) {
-                                            total_cover = .5; //if both items coverage is 0 just count half each thickness
+                                        // values should be averaged however I can't envision this ever being used
+                                        float max_coverage_new = 0;
+                                        float max_coverage_mats = 0;
+                                        for( const sub_bodypart_str_id &bp : sub_armor.sub_coverage ) {
+                                            max_coverage_new += bp->max_coverage;
                                         }
-                                        old_mat.thickness = ( old_mat.cover / total_cover * old_mat.thickness ) +
-                                                            ( new_mat.cover / total_cover * new_mat.thickness );
-                                        old_mat.cover = total_cover;
+                                        for( const sub_bodypart_str_id &bp : it.sub_coverage ) {
+                                            max_coverage_mats += bp->max_coverage;
+                                        }
+
+                                        // with the max values we can get the weight that each should have
+                                        old_mat.cover = ( max_coverage_new * new_mat.cover + max_coverage_mats * old_mat.cover ) /
+                                                        ( max_coverage_mats + max_coverage_new );
+                                        old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
+                                                              old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
                                     }
                                 }
                                 // if we didn't find an entry for this material
@@ -697,9 +695,13 @@ void Item_factory::finalize_post( itype &obj )
                                     it.materials.push_back( new_mat );
                                 }
                             }
-                            it.materials = sub_armor.materials;
 
-
+                            // add additional sub coverage locations to the original list
+                            for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
+                                if( std::find( it.sub_coverage.begin(), it.sub_coverage.end(), sbp ) == it.sub_coverage.end() ) {
+                                    it.sub_coverage.push_back( sbp );
+                                }
+                            }
                         }
                     }
 

@@ -217,12 +217,14 @@ sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
     for( const sub_bodypart_id &bp : sub_parts ) {
         // filter for secondary sub locations
         if( secondary == bp->secondary ) {
-            if( roll < bp->max_coverage ) {
+            if( roll <= bp->max_coverage ) {
                 return bp;
             }
             roll = roll - bp->max_coverage;
         }
     }
+    // should never get here
+    return ( sub_bodypart_id() );
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()

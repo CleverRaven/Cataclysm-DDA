@@ -222,7 +222,7 @@ struct body_part_type {
 
         // return a random sub part from the weighted list of subparts
         // if secondary is true instead returns a part from only the secondary sublocations
-        sub_bodypart_id random_sub_part(bool secondary) const;
+        sub_bodypart_id random_sub_part( bool secondary ) const;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();

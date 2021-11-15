@@ -75,6 +75,7 @@ void sub_body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "parent", parent );
     optional( jo, was_loaded, "secondary", secondary );
     optional( jo, was_loaded, "max_coverage", max_coverage );
     optional( jo, was_loaded, "side", part_side );
