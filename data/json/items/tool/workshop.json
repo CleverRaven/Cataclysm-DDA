@@ -390,8 +390,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BATONS" ]
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "hand_drill",
@@ -1289,8 +1288,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS" ]
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "wrench_large",
