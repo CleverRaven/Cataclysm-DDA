@@ -3164,8 +3164,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 
     int volume;
     mandatory( jo, false, "volume", volume );
-    bool snippet = jo.get_bool("snippet", false);
-    bool same_snippet = jo.get_bool("same_snippet", false);
+    bool snippet = jo.get_bool( "snippet", false );
+    bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -3202,7 +3202,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
         global = target_obj.get_bool( "global", false );
         target_var = get_talk_varname( target_obj, "value" );
     }
-    function = [is_npc, message, volume, type, target_var, global, snippet, same_snippet]( const dialogue & d ) {
+    function = [is_npc, message, volume, type, target_var, global, snippet,
+            same_snippet]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
         std::string translated_message;
