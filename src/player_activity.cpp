@@ -132,7 +132,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
         type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
         type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
-        type == activity_id( "ACT_EAT_MENU" ) ) {
+        type == activity_id( "ACT_EAT_MENU" ) ||
+        type == activity_id( "ACT_VIEW_RECIPE" ) ) {
         return cata::nullopt;
     }
 

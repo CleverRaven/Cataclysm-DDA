@@ -698,7 +698,7 @@
   },
   {
     "id": "insecticidalbomb_makeshift_act",
-    "copy-from": "gasbomb",
+    "copy-from": "gasbomb_act",
     "type": "GENERIC",
     "name": { "str": "armed makeshift insecticidal gas canister" },
     "description": "This makeshift insecticidal bomb has had its pin removed and is expelling highly toxic haze.",

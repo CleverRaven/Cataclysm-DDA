@@ -79,6 +79,12 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
+const recipe &recipe_dictionary::get_craft( const itype_id &id )
+{
+    auto iter = recipe_dict.recipes.find( recipe_id( id.str() ) );
+    return iter != recipe_dict.recipes.end() ? iter->second : null_recipe;
+}
+
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
 bool search_reqs( group gp, const std::string &txt )

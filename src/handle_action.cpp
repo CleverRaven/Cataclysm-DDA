@@ -761,7 +761,7 @@ static void smash()
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
             for( const item &i : player_character.worn ) {
                 if( i.covers( bp ) ) {
-                    tmp_bash_armor += i.bash_resist();
+                    tmp_bash_armor += i.bash_resist( false, bp );
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
