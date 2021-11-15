@@ -6,11 +6,11 @@
 
 #include <algorithm>
 
-static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_base_immobile" );
-static const mtype_id mon_test_speed_desc_base_25( "mon_test_speed_desc_base_25" );
-static const mtype_id mon_test_speed_desc_base_50( "mon_test_speed_desc_base_50" );
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_150( "mon_test_speed_desc_base_150" );
+static const mtype_id mon_test_speed_desc_base_25( "mon_test_speed_desc_base_25" );
+static const mtype_id mon_test_speed_desc_base_50( "mon_test_speed_desc_base_50" );
+static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_base_immobile" );
 static const mtype_id mon_test_speed_desc_multiple( "mon_test_speed_desc_multiple" );
 
 TEST_CASE( "monster_speed_description", "[monster][speed_description]" )

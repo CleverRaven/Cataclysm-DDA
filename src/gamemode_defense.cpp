@@ -40,14 +40,14 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-static const skill_id skill_speech( "speech" );
-
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
 static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
+static const skill_id skill_speech( "speech" );
 
 // One in X chance of single-flavor wave
 static constexpr int SPECIAL_WAVE_CHANCE = 5;

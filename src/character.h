@@ -1085,6 +1085,8 @@ class Character : public Creature, public visitable
         bool has_trait_flag( const json_character_flag &b ) const;
         /** Returns true if player has a bionic with a flag */
         bool has_bionic_with_flag( const json_character_flag &flag ) const;
+        /** Returns true if the player has any bodypart with a flag */
+        bool has_bodypart_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic or effect with a flag */
@@ -2912,10 +2914,13 @@ class Character : public Creature, public visitable
         /**
          * Start various types of crafts
          * @param loc the location of the workbench. cata::nullopt indicates crafting from inventory.
+         * @param goto_recipe the recipe to display initially. A null recipe_id opens the default crafting screen.
          */
-        void craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void craft( const cata::optional<tripoint> &loc = cata::nullopt,
+                    const recipe_id &goto_recipe = recipe_id() );
         void recraft( const cata::optional<tripoint> &loc = cata::nullopt );
-        void long_craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void long_craft( const cata::optional<tripoint> &loc = cata::nullopt,
+                         const recipe_id &goto_recipe = recipe_id() );
         void make_craft( const recipe_id &id, int batch_size,
                          const cata::optional<tripoint> &loc = cata::nullopt );
         void make_all_craft( const recipe_id &id, int batch_size,

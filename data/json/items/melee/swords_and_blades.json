@@ -439,7 +439,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
@@ -595,6 +595,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
@@ -1051,7 +1052,8 @@
     "cutting": 2,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_epee",
@@ -1070,7 +1072,8 @@
     "cutting": 7,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_sabre",
@@ -1089,7 +1092,8 @@
     "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_foil_sharpened",
@@ -1210,7 +1214,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ]
+    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "sword_cane",
@@ -1230,7 +1235,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "broadsword",
@@ -1251,7 +1257,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
@@ -1311,6 +1317,7 @@
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
