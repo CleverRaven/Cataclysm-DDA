@@ -1662,7 +1662,6 @@
     "description": "A mutated wasp worker, buzzing around their nest.  While their foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp_small",
     "aggression": 0,
-    "morale": 100,
     "melee_skill": 6,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
@@ -1740,7 +1739,6 @@
     "description": "A wasp worker grown to the size of a person, buzzing around their home.  While their foraging sisters are relatively content to live and let live, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp",
     "aggression": 4,
-    "morale": 100,
     "melee_skill": 9,
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] }
