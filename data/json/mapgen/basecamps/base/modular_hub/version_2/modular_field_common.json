@@ -9,7 +9,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2",
     "method": "json",
-    "object": { 
+    "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,              ,,,,,",
