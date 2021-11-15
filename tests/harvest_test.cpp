@@ -10,9 +10,12 @@
 
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 
-static const item_group_id item_group_bovine_sample( "bovine_sample" );
+static const item_group_id Item_spawn_data_bovine_sample( "bovine_sample" );
 
 static const itype_id itype_scalpel( "scalpel" );
+
+static const mtype_id mon_test_CBM( "mon_test_CBM" );
+static const mtype_id mon_test_bovine( "mon_test_bovine" );
 
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
@@ -44,7 +47,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         for( const item &it : here.i_at( cow_loc ) ) {
             if( it.is_bionic() ) {
                 ( *cbm_count )++;
-            } else if( item_group::group_contains_item( item_group_bovine_sample, it.typeId() ) ) {
+            } else if( item_group::group_contains_item( Item_spawn_data_bovine_sample, it.typeId() ) ) {
                 ( *sample_count )++;
             } else {
                 ( *other_count )++;
@@ -61,7 +64,7 @@ TEST_CASE( "Harvest drops from dissecting corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mtype_id( "mon_test_bovine" ), ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_bovine, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count == 0 );
         CHECK( sample_count > 0 );
@@ -71,7 +74,7 @@ TEST_CASE( "Harvest drops from dissecting corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mtype_id( "mon_test_CBM" ), ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_CBM, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count > 0 );
         CHECK( sample_count == 0 );
