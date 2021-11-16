@@ -66,7 +66,6 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
-static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -74,7 +73,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
-static const species_id species_ROBOT( "ROBOT" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
@@ -82,6 +80,9 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+
+static const species_id species_ROBOT( "ROBOT" );
 
 
 const std::map<std::string, creature_size> Creature::size_map = {
