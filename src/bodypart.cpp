@@ -12,7 +12,6 @@
 #include "generic_factory.h"
 #include "subbodypart.h"
 #include "json.h"
-#include "type_id.h"
 #include "rng.h"
 
 
@@ -198,8 +197,7 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-
-bool body_part_type::has_flag( const std::string &flag ) const
+bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
 }
