@@ -779,7 +779,8 @@ static int corpse_damage_effect( int weight, const harvest_drop_type_id &entry_t
     return weight;
 }
 
-static int butchery_dissect_skill_level( Character &you, int tool_quality, const harvest_drop_type_id &htype )
+static int butchery_dissect_skill_level( Character &you, int tool_quality,
+        const harvest_drop_type_id &htype )
 {
     // DISSECT has special case factor calculation and results.
     if( htype.is_valid() ) {
@@ -813,12 +814,12 @@ static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 // as a fraction of the maximum possible amount.
 static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_quality )
 {
-        const double skill_score = skill_level / 10.0;
-        const double tool_score = ( tool_quality + 50.0 ) / 100.0;
-        const double dex_score = dex / 20.0;
-        return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
-               0.3 * clamp( tool_score, 0.0, 1.0 ) +
-               0.2 * clamp( dex_score, 0.0, 1.0 );
+    const double skill_score = skill_level / 10.0;
+    const double tool_score = ( tool_quality + 50.0 ) / 100.0;
+    const double dex_score = dex / 20.0;
+    return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
+           0.3 * clamp( tool_score, 0.0, 1.0 ) +
+           0.2 * clamp( dex_score, 0.0, 1.0 );
 }
 
 // Returns false if the calling function should abort
@@ -829,7 +830,9 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                              qual_BUTCHER, PICKUP_RANGE );
 
     //all BUTCHERY types - FATAL FAILURE
-    if( action != butcher_type::DISSECT && roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur, tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
+    if( action != butcher_type::DISSECT &&
+        roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+                               tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
         return false;
     }
 
@@ -902,7 +905,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
         if( action == butcher_type::DISSECT ) {
-            int roll = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality ) - corpse_item->damage_level();
+            int roll = roll_butchery_dissect( skill_level, you.dex_cur,
+                                              tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
             roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
@@ -1161,10 +1165,11 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
         for( item *content : corpse_item->all_items_top() ) {
-            if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur, tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
+            if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+                                         tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 you.add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
-                                        corpse_item->get_mtype()->nname() );
+                                       corpse_item->get_mtype()->nname() );
                 here.add_item_or_charges( you.pos(), *content );
             } else if( content->is_bionic() ) {
                 here.spawn_item( you.pos(), itype_burnt_out_bionic, 1, 0, calendar::turn );
@@ -1294,7 +1299,8 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::FIELD_DRESS: {
-            bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur, you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+            bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
