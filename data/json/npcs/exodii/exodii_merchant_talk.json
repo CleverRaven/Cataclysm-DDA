@@ -301,6 +301,7 @@
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
     "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
+	"//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
         "and": [
@@ -348,13 +349,14 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1b",
     "type": "talk_topic",
-    "dynamic_line": "Thank ye.  When you an' Rubik first met, howw long'd it been since the mess begun?",
+    "dynamic_line": "Thank ye.  When you an' Rubik first met, how long'd it been since the mess begun?",
     "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
     "type": "talk_topic",
     "dynamic_line": "Lovely!  Benzete's gonna be a pair, that's a track!  I mean, they'll be right happy.  This is their first jump, and it's a flappin' duck.",
+	"//~": "Lovely!  Benzete (this is a name) is going to be beside themselves, that's for sure.  I mean, they'll be really happy.  This is their first jump, and it's a lucky one.",
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "midpoint", "value": "yes" } },
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
@@ -367,6 +369,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2a",
     "type": "talk_topic",
     "dynamic_line": "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
+	"//~": "As I recall, we were talking about Benzete and how this is a great jump for their first time.",
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
@@ -378,6 +381,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3",
     "type": "talk_topic",
     "dynamic_line": "Us gotta leave the old world afore it's worn right to the gums, an y'ken, and find a nice twitchy one on t'other side.  Your deadland be a brand shiny",
+	"//~": "We've got to leave the old world before it gets too worn out, you see, and find a nice fresh one on the other side.  Your deadland is as fresh as it gets.",
     "responses": [
       { "text": "I'm not following that at all.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3a" },
       {
@@ -394,6 +398,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3a",
     "type": "talk_topic",
     "dynamic_line": "Neverken.  Right and so, the enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
+	"//~": "No worries.  I mean, the enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
     "responses": [
       {
         "text": "Oh, you mean you got here early in the cataclysm.  Why is that so good?",
