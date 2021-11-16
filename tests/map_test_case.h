@@ -7,7 +7,7 @@
 #include <sstream>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"

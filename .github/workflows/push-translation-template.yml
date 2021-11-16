@@ -1,0 +1,55 @@
+name: "Push translation template"
+
+concurrency: push_transifex
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.json'
+      - 'src/**.cpp'
+      - 'src/**.h'
+      - 'lang/extract_json_strings.py'
+      - 'lang/strip_line_numbers.py'
+      - 'lang/update_pot.sh'
+      - 'lang/unicode_check.py'
+
+
+jobs:
+  push-template:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext python3-pip
+          sudo pip3 install transifex-client
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      - name: "Generate translation template"
+        run: |
+          lang/update_pot.sh
+      - name: "Set up Transifex token"
+        env: 
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          cat << EOF > ~/.transifexrc
+          [https://www.transifex.com]
+          api_hostname = https://api.transifex.com
+          hostname = https://www.transifex.com
+          password = $TX_TOKEN
+          username = api
+          EOF
+      - name: "Push translation template to Transifex server"
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          command: |
+            tx push --source --no-interactive --resource cataclysm-dda.master-cataclysm-dda
+      - name: Sleep for 5 minutes
+        run: sleep 5m
+        shell: bash

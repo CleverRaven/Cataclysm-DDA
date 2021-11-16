@@ -1,0 +1,21 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "test_weapon1",
+    "name": { "str": "test melee weapon 1" },
+    "description": "Test melee weapon 1.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_weapon2",
+    "name": { "str": "test melee weapon 2" },
+    "description": "Test melee weapon 2.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "weapon_category": [ "TEST_CAT1" ]
+  }
+]

@@ -1,7 +1,7 @@
 #include <array>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"

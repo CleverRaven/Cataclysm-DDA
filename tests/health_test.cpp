@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <array>
 #include <cstddef>
@@ -62,7 +62,7 @@ TEST_CASE( "oat_diet", "[health]" )
     // Oatmeal is 1 healthy, 48 nutriton
     // 6 oats per day, we're skipping night snack
     // Low, but above 0 (because oats are above 0)
-    test_diet( calendar::year_length(), dude, {{ 2, 2, 2, 0 }}, 0, 30 );
+    test_diet( calendar::year_length(), dude, {{ 2, 2, 2, 0 }}, 0, 38 );
 }
 
 // A character that eats one meal per day, like that fad diet

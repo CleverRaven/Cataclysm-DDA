@@ -95,7 +95,7 @@
     "color": "light_gray"
   },
   {
-    "id": "small_wooded_trail",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small wooded trail",
@@ -161,7 +161,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "communitygarden",
+    "id": [ "communitygarden", "communitygarden_2", "communitygarden_3" ],
     "name": "community garden",
     "sym": "g",
     "color": "yellow",
@@ -171,7 +171,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "publicgarden",
+    "id": [ "publicgarden", "publicgarden_2" ],
     "name": "public garden",
     "sym": "g",
     "color": "light_green",
@@ -697,7 +697,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park_maze",
+    "id": [ "park_maze", "park_maze_2" ],
     "name": "hedge maze",
     "sym": "g",
     "color": "light_green",

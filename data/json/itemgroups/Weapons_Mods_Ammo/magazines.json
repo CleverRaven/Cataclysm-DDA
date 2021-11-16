@@ -309,6 +309,32 @@
   },
   {
     "type": "item_group",
+    "id": "mags_rifle_common_gunstore",
+    "//": "Factory specification rifle magazines commonly owned by citizens.",
+    "items": [
+      { "item": "blrmag", "prob": 5 },
+      { "item": "m14mag", "prob": 40 },
+      { "item": "m14smallmag", "prob": 40 },
+      [ "marlin_tubeloader", 5 ],
+      { "item": "ruger1022mag", "prob": 80 },
+      { "item": "ruger5", "prob": 50 },
+      { "item": "ruger10", "prob": 30 },
+      { "item": "stanag10", "prob": 80 },
+      { "item": "ruger20", "prob": 15 },
+      { "item": "ruger30", "prob": 15 },
+      { "item": "ruger90", "prob": 5 },
+      { "item": "ruger100", "prob": 5 },
+      { "item": "stanag5", "prob": 60 },
+      { "item": "stanag10", "prob": 5 },
+      { "item": "stanag20", "prob": 5 },
+      { "item": "stanag30", "prob": 5 },
+      { "item": "stanag40", "prob": 3 },
+      { "item": "ar10mag_20rd", "prob": 30 },
+      { "item": "akmag30", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mags_rifle_makeshift",
     "//": "Makeshift or otherwise poor quality rifle magazines.",
     "items": [ [ "survivor223mag", 50 ] ]
@@ -344,7 +370,7 @@
     "type": "item_group",
     "id": "mags_shotgun_common",
     "//": "Factory specification shotgun magazines commonly owned by citizens.",
-    "items": [  ]
+    "items": [ [ "shot_speedloader6", 15 ], [ "shot_speedloader8", 15 ] ]
   },
   {
     "type": "item_group",
@@ -357,12 +383,10 @@
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
     "items": [
-      { "item": "saiga10mag", "prob": 50, "charges": [ 0, 10 ] },
-      { "item": "saiga30mag", "prob": 10, "charges": [ 0, 30 ] },
-      { "item": "saiga410mag_10rd", "prob": 30, "charges": [ 0, 10 ] },
-      { "item": "saiga410mag_30rd", "prob": 10, "charges": [ 0, 30 ] },
-      [ "shot_speedloader6", 15 ],
-      [ "shot_speedloader8", 15 ]
+      { "item": "saiga10mag", "prob": 50 },
+      { "item": "saiga30mag", "prob": 10 },
+      { "item": "saiga410mag_10rd", "prob": 30 },
+      { "item": "saiga410mag_30rd", "prob": 10 }
     ]
   },
   {
@@ -388,11 +412,21 @@
     "id": "mags_common",
     "//": "Common magazines for guns typically owned by citizens.",
     "items": [
-      { "group": "mags_pistol_common", "prob": 30 },
-      { "group": "mags_rifle_common", "prob": 20 },
-      { "group": "mags_smg_common", "prob": 10 },
+      { "group": "mags_pistol_common", "prob": 70 },
+      { "group": "mags_rifle_common", "prob": 50 },
+      { "group": "mags_smg_rare", "prob": 5 },
       { "group": "mags_shotgun_common", "prob": 5 },
       { "group": "mags_other_common", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_common_gunstore",
+    "//": "Common magazines for guns typically owned by citizens.",
+    "items": [
+      { "group": "mags_pistol_common", "prob": 70 },
+      { "group": "mags_rifle_common_gunstore", "prob": 50 },
+      { "group": "mags_shotgun_common", "prob": 10 }
     ]
   },
   {
@@ -411,13 +445,7 @@
     "type": "item_group",
     "id": "mags_rare",
     "//": "Aftermarket or otherwise uncommon magazines.",
-    "items": [
-      { "group": "mags_pistol_rare", "prob": 30 },
-      { "group": "mags_rifle_rare", "prob": 20 },
-      { "group": "mags_smg_rare", "prob": 10 },
-      { "group": "mags_shotgun_rare", "prob": 5 },
-      { "group": "mags_other_rare", "prob": 5 }
-    ]
+    "items": [ { "group": "mags_pistol_rare", "prob": 70 }, { "group": "mags_rifle_rare", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -440,6 +468,22 @@
       [ "rpk74mag", 10 ],
       [ "skorpion61mag", 10 ],
       [ "skorpion82mag", 10 ],
+      [ "tokarevmag", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_obscure_gunstore",
+    "//": "Magazines for imported firearms.",
+    "items": [
+      [ "762x39_clip", 10 ],
+      [ "762R_clip", 10 ],
+      [ "clip9mm_10rd", 5 ],
+      [ "makarovmag", 10 ],
+      [ "mausermag_10rd", 3 ],
+      [ "mausermag_20rd", 2 ],
+      [ "p08mag_32rd", 1 ],
+      [ "p08mag_8rd", 10 ],
       [ "tokarevmag", 10 ]
     ]
   },

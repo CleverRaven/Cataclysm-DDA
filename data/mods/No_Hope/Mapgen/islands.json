@@ -1,0 +1,145 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_sand",
+    "object": {
+      "fill_ter": "t_sand",
+      "rows": [
+        "********~./////.....~***",
+        "***ddddddd/////.....~~**",
+        "***ddddddd////........~*",
+        "******~..///////....~~~*",
+        "******~.//////////...~~*",
+        "******~///////////....~~",
+        "*~~~...///////////..~~~~",
+        "~~.....////////////..~~~",
+        "~~..////////////////...~",
+        "~~..//////////////////.~",
+        "~~..//////////////////.~",
+        "~../////./////////////.~",
+        "~..///////////////////.~",
+        "~..///////////////////~~",
+        "~..///////////////////.~",
+        "~~.///////////////////.~",
+        "~..////.//////////////~~",
+        "~..///////////////////~~",
+        "~..///////////////////.~",
+        "~~.////////////.//////.~",
+        "~~...///////////////..~~",
+        "*~~.../////////////..~~*",
+        "**~~~~~~~~////~..~~~****",
+        "****~~**~~~//~~~~~~*****"
+      ],
+      "place_vehicles": [
+        { "vehicle": "boat_motor_single", "x": 4, "y": 5, "rotation": 180, "chance": 5, "status": 3 },
+        { "vehicle": "canoe", "x": 5, "y": 0, "rotation": 180, "chance": 5, "status": 0 }
+      ],
+      "place_loot": [ { "item": "rope_30", "x": 4, "y": 1, "chance": 50 }, { "item": "rope_30", "x": 7, "y": 2, "chance": 50 } ],
+      "terrain": { "/": "t_sand", "~": "t_water_sh", "*": "t_water_dp", "8": "t_railroad_rubble", ".": "t_sand", "d": "t_dock" },
+      "furniture": { ".": [ [ "f_boulder_medium", 1 ], [ "f_boulder_small", 1 ], [ "f_boulder_large", 2 ] ] },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest_thick",
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest_water",
+    "object": {
+      "predecessor_mapgen": "forest_water",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_field",
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  }
+]

@@ -1,6 +1,6 @@
 [
   {
-    "id": "door",
+    "abstract": "door_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -22,11 +22,66 @@
     },
     "size": 10,
     "symbol": "+",
-    "symbols": { "ne": "+", "nw": "+", "se": "+", "sw": "+", "vertical_left": "+", "vertical_right": "+", "front": "+", "rear": "+" },
+    "symbols": {
+      "ne": "+",
+      "nw": "+",
+      "se": "+",
+      "sw": "+",
+      "vertical_left": "+",
+      "vertical_right": "+",
+      "front": "+",
+      "front_left": "+",
+      "front_right": "+",
+      "rear": "+"
+    },
     "type": "vehicle_part"
   },
   {
-    "id": "door_opaque",
+    "copy-from": "door_abstract",
+    "id": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_full",
+    "looks_like": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "abstract": "cloth_door_abstract",
+    "type": "vehicle_part",
+    "item": "sheet",
+    "broken_color": "dark_gray",
+    "durability": 15,
+    "folded_volume": "2500 ml",
+    "breaks_into": "ig_vp_cloth",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 0, "bash": 3 },
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR", "FOLDABLE" ]
+  },
+  {
+    "copy-from": "cloth_door_abstract",
+    "id": "cloth_flap_door",
+    "looks_like": "door",
+    "type": "vehicle_part",
+    "name": { "str": "cloth flap door" },
+    "description": "A cloth sheet that can be fastened into a closed position to act as a door."
+  },
+  {
+    "copy-from": "cloth_door_abstract",
+    "id": "cloth_curtain_door",
+    "looks_like": "door",
+    "type": "vehicle_part",
+    "name": { "str": "cloth curtain door" },
+    "description": "A cloth sheet that can be slid into a closed position to act as a door."
+  },
+  {
+    "abstract": "door_opaque_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -52,7 +107,18 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor",
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque_full",
+    "looks_like": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -78,7 +144,18 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor_opaque",
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor_full",
+    "looks_like": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_opaque_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -101,6 +178,17 @@
     "size": 10,
     "symbol": "+",
     "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque_full",
+    "looks_like": "hddoor_opaque",
     "type": "vehicle_part"
   },
   {

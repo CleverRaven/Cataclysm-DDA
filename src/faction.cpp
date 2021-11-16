@@ -30,6 +30,7 @@
 #include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
@@ -48,6 +49,7 @@ faction_template::faction_template()
 {
     likes_u = 0;
     respects_u = 0;
+    trusts_u = 0;
     known_by_u = true;
     food_supply = 0;
     wealth = 0;
@@ -102,6 +104,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
+    , trusts_u( jsobj.get_int( "trusts_u", 0 ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
@@ -464,6 +467,12 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     return nullptr;
 }
 
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
+}
+
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int y = 2;
@@ -635,9 +644,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
-    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
-    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
-    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
+    const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
+    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
@@ -646,7 +655,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + weapon.tname() );
+                                _( "Wielding: " ) + get_wielded_item().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -910,7 +919,7 @@ void faction_manager::display() const
                     guy->reset_companion_mission();
                     popup( _( "%s returns from their mission" ), guy->disp_name() );
                 } else if( interactable || radio_interactable ) {
-                    player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
+                    player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }
             } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                 camp->query_new_name();

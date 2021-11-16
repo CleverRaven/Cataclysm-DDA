@@ -2,10 +2,9 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "options.h"
-#include "player.h"
 #include "type_id.h"
 
 // Tests for Character healing, including:
@@ -36,7 +35,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_disinfected( "disinfected" );
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
-static void give_one_trait( player &dummy, const std::string &trait_name )
+static void give_one_trait( Character &dummy, const std::string &trait_name )
 {
     const trait_id trait( trait_name );
     dummy.clear_mutations();

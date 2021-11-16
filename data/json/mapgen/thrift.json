@@ -69,7 +69,7 @@
         "L": "f_locker",
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
-      "vendingmachines": { "W": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } },
+      "vendingmachines": { "W": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "B": {  } },
       "items": {
         "J": { "item": "office", "chance": 30, "repeat": [ 3, 4 ] },

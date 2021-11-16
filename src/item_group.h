@@ -251,6 +251,11 @@ class Item_modifier
         std::vector<flag_id> custom_flags;
 
         /**
+         * gun variant id, for guns with variants
+         */
+        std::string variant;
+
+        /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
          */
         std::vector<snippet_id> snippets;
@@ -344,7 +349,8 @@ class Item_group : public Item_spawn_data
          */
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
-        void add_item_entry( const itype_id &itemid, int probability );
+        void add_item_entry( const itype_id &itemid, int probability,
+                             const std::string &variant = "" );
         void add_group_entry( const item_group_id &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from

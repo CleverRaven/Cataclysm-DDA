@@ -146,5 +146,45 @@
       [ "straw_pile", 20 ],
       [ "survnote", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_supplies",
+    "subtype": "distribution",
+    "items": [
+      [ "fertilizer_liquid", 10 ],
+      [ "fertilizer_commercial", 10 ],
+      [ "insecticide", 10 ],
+      [ "pot_canning", 5 ],
+      { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },
+      { "item": "wooden_barrel", "prob": 20, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_tools",
+    "subtype": "collection",
+    "items": [
+      [ "shovel", 5 ],
+      { "item": "trimmer_off", "prob": 5, "charges": [ 0, 600 ] },
+      [ "bucket", 5 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 5 ],
+      [ "stepladder", 15 ],
+      { "item": "pointy_stick", "prob": 20, "count": [ 3, 10 ] },
+      [ "hammer", 10 ],
+      [ "rope_makeshift_6", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stored_pulp",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wooden_barrel", "prob": 100, "sealed": true },
+      { "item": "juice_pulp", "prob": 100, "charges": [ 7, 77 ], "container-item": "wooden_barrel" }
+    ]
   }
 ]

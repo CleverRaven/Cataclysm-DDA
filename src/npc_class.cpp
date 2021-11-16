@@ -41,25 +41,25 @@ static const std::array<npc_class_id, 19> legacy_ids = {{
     }
 };
 
-const npc_class_id NC_NONE( "NC_NONE" );
-const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-const npc_class_id NC_HACKER( "NC_HACKER" );
+const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
+const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+const npc_class_id NC_COWBOY( "NC_COWBOY" );
 const npc_class_id NC_CYBORG( "NC_CYBORG" );
 const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-const npc_class_id NC_TRADER( "NC_TRADER" );
-const npc_class_id NC_NINJA( "NC_NINJA" );
-const npc_class_id NC_COWBOY( "NC_COWBOY" );
-const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-const npc_class_id NC_THUG( "NC_THUG" );
-const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-const npc_class_id NC_HUNTER( "NC_HUNTER" );
-const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+const npc_class_id NC_HACKER( "NC_HACKER" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
+const npc_class_id NC_HUNTER( "NC_HUNTER" );
+const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_NINJA( "NC_NINJA" );
+const npc_class_id NC_NONE( "NC_NONE" );
+const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
+const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
+const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
+const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
+const npc_class_id NC_THUG( "NC_THUG" );
+const npc_class_id NC_TRADER( "NC_TRADER" );
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -137,8 +137,10 @@ void npc_class::check_consistency()
     }
 
     for( const npc_class &cl : npc_class_factory.get_all() ) {
-        if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
-            debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
+        for( const shopkeeper_item_group &ig : cl.shop_item_groups ) {
+            if( !item_group::group_is_defined( ig.id ) ) {
+                debugmsg( "Missing shopkeeper item group %s", ig.id.c_str() );
+            }
         }
 
         if( !cl.worn_override.is_empty() && !item_group::group_is_defined( cl.worn_override ) ) {
@@ -230,6 +232,13 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     jo.throw_error( "Invalid distribution type", name );
 }
 
+void shopkeeper_item_group::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "group", id );
+    optional( jo, false, "trust", trust, 0 );
+    optional( jo, false, "strict", strict, false );
+}
+
 void npc_class::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
@@ -241,8 +250,17 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
 
-    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group,
-              item_group_id( "EMPTY_GROUP" ) );
+    if( jo.has_member( "shopkeeper_item_group" ) ) {
+        if( jo.has_array( "shopkeeper_item_group" ) &&
+            jo.get_array( "shopkeeper_item_group" ).test_object() ) {
+            mandatory( jo, was_loaded, "shopkeeper_item_group", shop_item_groups );
+        } else if( jo.has_string( "shopkeeper_item_group" ) ) {
+            const std::string &ig_str = jo.get_string( "shopkeeper_item_group" );
+            shop_item_groups.emplace_back( ig_str, 0, false );
+        } else {
+            jo.throw_error( string_format( "invalid format for shopkeeper_item_group in npc class %s", name ) );
+        }
+    }
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -355,9 +373,9 @@ std::string npc_class::get_job_description() const
     return job_description.translated();
 }
 
-const item_group_id &npc_class::get_shopkeeper_items() const
+const std::vector<shopkeeper_item_group> &npc_class::get_shopkeeper_items() const
 {
-    return shopkeeper_item_group;
+    return shop_item_groups;
 }
 
 int npc_class::roll_strength() const

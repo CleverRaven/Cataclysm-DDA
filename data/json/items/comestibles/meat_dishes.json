@@ -24,7 +24,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 37 ] ],
     "fun": -10
   },
   {
@@ -85,6 +85,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "blutwurst_sausage",
+    "name": { "str": "blutwurst" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Menschenblutwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "Mein teil" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
+    ],
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "sausage",
+    "quench": -1,
+    "calories": 385,
+    "description": "A type of German sausage made of pre-cooked meat and blood.  Better eat it hot and fresh.",
+    "price": 1800,
+    "volume": "1500 ml",
+    "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
+    "material": [ "flesh" ],
+    "charges": 10,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
@@ -126,7 +152,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ], [ "vitB", 323 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -149,17 +175,15 @@
     "material": [ "flesh" ],
     "charges": 2,
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 39 ] ],
     "fun": 5
   },
   {
     "id": "sausage_wasteland",
-    "copy-from": "sausage_raw",
+    "copy-from": "sausage",
     "type": "COMESTIBLE",
     "name": { "str": "wasteland sausage" },
     "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
-    "parasites": 0,
-    "healthy": 0,
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,
@@ -196,6 +220,7 @@
     "material": [ "flesh" ],
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "vitB", 19 ] ],
     "fun": 4
   },
   {
@@ -398,7 +423,7 @@
     "name": { "str": "stuffed clam" },
     "copy-from": "fish_fried",
     "weight": "150 g",
-    "calories": 572,
+    "calories": 115,
     "description": "Quahog clams stuffed with bread crumbs and fried.",
     "volume": "175 ml",
     "looks_like": "fish_fried",
@@ -451,7 +476,7 @@
     "material": [ "flesh" ],
     "volume": "750 ml",
     "charges": 10,
-    "vitamins": [ [ "iron", 15 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ], [ "vitB", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +522,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "vitB", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -581,7 +606,7 @@
     "price_postapoc": 350,
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 24 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
     "fun": 3
   },
   {
@@ -629,7 +654,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "charges": 2,
-    "vitamins": [ [ "vitA", 6 ], [ "calcium", 16 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "calcium", 5 ], [ "iron", 27 ], [ "vitB", 64 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -664,7 +689,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "charges": 2,
-    "vitamins": [ [ "vitA", 14 ], [ "vitC", 7 ], [ "calcium", 6 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ], [ "vitB", 66 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -686,7 +711,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 14 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -930,7 +955,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 10 ], [ "calcium", 28 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitA", 19 ], [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ], [ "vitB", 63 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -945,13 +970,17 @@
     "price_postapoc": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ], [ "vitB", 53 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe scrambled eggheads" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman's scrambled eggs" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } }
+    ],
     "weight": "198 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -967,7 +996,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 410 ] ]
+    "vitamins": [ [ "vitA", 19 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 97 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1035,7 +1064,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "vitB", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1063,7 +1092,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 19 ], [ "calcium", 22 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ], [ "vitB", 79 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1094,7 +1123,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 380,
-    "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
+    "description": "A sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the cataclysm.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh", "wheat", "milk" ],
@@ -1102,7 +1131,63 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cheeseburger_wheat_free",
+    "name": { "str": "wheat-free cheeseburger" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+    ],
+    "weight": "333 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 380,
+    "description": "A wheat-free sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the cataclysm.",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ "flesh", "veggy", "milk" ],
+    "primary_material": "processed_food",
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
+    "fun": 5,
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_cheeseburger",
+    "copy-from": "cheeseburger",
+    "name": { "str": "deluxe cheeseburger" },
+    "weight": "380 g",
+    "calories": 500,
+    "description": "A cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
+    "price_postapoc": 300,
+    "material": [ "flesh", "wheat", "milk", "veggy", "tomato" ],
+    "primary_material": "processed_food",
+    "volume": "350 ml",
+    "fun": 7,
+    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_cheeseburger_wheat_free",
+    "copy-from": "cheeseburger_wheat_free",
+    "name": { "str": "deluxe wheat-free cheeseburger" },
+    "weight": "380 g",
+    "calories": 500,
+    "description": "A wheat-free cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
+    "price_postapoc": 300,
+    "material": [ "flesh", "milk", "veggy", "tomato" ],
+    "primary_material": "processed_food",
+    "volume": "350 ml",
+    "fun": 7,
+    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1127,7 +1212,32 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hamburger_wheat_free",
+    "name": { "str": "wheat-free hamburger" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "wheat-free bobburger" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "wheat-free Moreauburger" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+    ],
+    "weight": "300 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 258,
+    "description": "A wheat-free sandwich of minced meat with condiments.",
+    "price": 900,
+    "price_postapoc": 200,
+    "material": [ "flesh", "veggy" ],
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4,
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1160,6 +1270,39 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sloppyjoe_wheat_free",
+    "name": { "str": "wheat-free sloppy joe" },
+    "conditional_names": [
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "wheat-free manwich", "str_pl": "wheat-free manwiches" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "wheat-free manfriendwich", "str_pl": "wheat-free manfriendwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
+    ],
+    "weight": "313 g",
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 391,
+    "description": "A wheat-free sandwich, consisting of ground meat and tomato sauce served on a hamburger bun.",
+    "price": 900,
+    "price_postapoc": 250,
+    "material": [ "flesh", "tomato", "veggy" ],
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4,
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "taco",
     "name": { "str": "taco" },
     "conditional_names": [
@@ -1181,7 +1324,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 9 ], [ "vitB", 36 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "vitB", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1258,7 +1401,7 @@
     "symbol": "%",
     "quench": 2,
     "healthy": 1,
-    "calories": 441,
+    "calories": 979,
     "description": "This traditional Scottish savory pudding is made of meat and offal mixed with oatmeal, which is sewn into an animal's stomach and boiled.  Surprisingly tasty and quite filling, it is best served with boiled root vegetables and strong whisky.",
     "price": 750,
     "price_postapoc": 250,
@@ -1266,7 +1409,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ] ]
+    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ], [ "vitB", 87 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1384,6 +1527,49 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ], [ "vitB", 17 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball_raw",
+    "name": { "str": "raw meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "weight": "85g",
+    "color": "pink",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 230,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A round, seasoned lump of meat, ready to fry.",
+    "price": 800,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "85 ml",
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball",
+    "name": { "str": "meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "copy-from": "meatball_raw",
+    "parasites": 0,
+    "healthy": 0,
+    "spoils_in": "4 days",
+    "price_postapoc": 300,
+    "description": "A seasoned, fried, round lump of meat.  Just like mom used to make!",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 6
   }
 ]

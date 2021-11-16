@@ -27,6 +27,11 @@ struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
 
+
+struct sub_body_part_type;
+using sub_bodypart_id = int_id<sub_body_part_type>;
+using sub_bodypart_str_id = string_id<sub_body_part_type>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
@@ -35,6 +40,9 @@ using construction_group_str_id = string_id<construction_group>;
 
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
+
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
 
 class effect_type;
 using efftype_id = string_id<effect_type>;
@@ -81,6 +89,9 @@ using item_group_id = string_id<Item_spawn_data>;
 struct itype;
 using itype_id = string_id<itype>;
 
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -89,6 +100,9 @@ using matype_id = string_id<martialart>;
 
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -112,8 +126,14 @@ using morale_type = string_id<morale_type_data>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
+class nested_mapgen;
+using nested_mapgen_id = string_id<nested_mapgen>;
+
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class npc_template;
+using npc_template_id = string_id<npc_template>;
 
 class faction;
 using faction_id = string_id<faction>;
@@ -125,6 +145,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 class profession;
 using profession_id = string_id<profession>;
@@ -143,6 +166,12 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;
+
+class speed_description;
+using speed_description_id = string_id<speed_description>;
+
+class mood_face;
+using mood_face_id = string_id<mood_face>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;
@@ -180,6 +209,9 @@ using trap_str_id = string_id<trap>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
+class update_mapgen;
+using update_mapgen_id = string_id<update_mapgen>;
+
 struct quality;
 using quality_id = string_id<quality>;
 
@@ -212,5 +244,8 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+class widget;
+using widget_id = string_id<widget>;
 
 #endif // CATA_SRC_TYPE_ID_H

@@ -28,7 +28,8 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.25,
-    "time_to_learn": "10 h"
+    "time_to_learn": "10 h",
+    "//": "The 'closures' part of the name is historical."
   },
   {
     "type": "proficiency",
@@ -86,7 +87,7 @@
   {
     "type": "proficiency",
     "id": "prof_knitting",
-    "name": { "str": "Knitting" },
+    "name": { "str": "Skilled Knitting" },
     "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
@@ -102,7 +103,8 @@
     "default_time_multiplier": 5,
     "default_fail_multiplier": 1,
     "time_to_learn": "20 h",
-    "required_proficiencies": [ "prof_knitting" ]
+    "required_proficiencies": [ "prof_knitting" ],
+    "ignore_focus": true
   },
   {
     "type": "proficiency",
@@ -117,7 +119,7 @@
   {
     "type": "proficiency",
     "id": "prof_leatherworking",
-    "name": { "str": "Leatherworking" },
+    "name": { "str": "Skilled Leatherworking" },
     "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
     "default_time_multiplier": 2,
@@ -162,7 +164,7 @@
     "type": "proficiency",
     "id": "prof_polymerworking",
     "name": { "str": "Advanced polymer sewing" },
-    "description": "You know the tricks for working with kevlar, nomex, and other advanced polymer cloth.",
+    "description": "You know the tricks for working with Kevlar, Nomex, and other advanced polymer cloth.",
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.25,

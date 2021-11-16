@@ -114,7 +114,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Put a stopper in death?  No you never will."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },
   {
     "id": "MISSION_FRANKENSTEIN_2",
@@ -139,7 +139,7 @@
       "success_lie": "How could you possibly lie to me about an object you have not put in my hands.",
       "failure": "Do you have any head cybernetics?  I could possibly salvage one out of your skull."
     },
-    "end": { "effect": [ { "u_buy_item": "afs_energy_storage_4", "count": 4 } ] }
+    "end": { "effect": [ { "u_spawn_item": "afs_energy_storage_4", "count": 4 } ] }
   },
   {
     "id": "MISSION_FRANKENSTEIN_3",
@@ -164,7 +164,7 @@
       "success_lie": "Lies and the lying liars who tell them.",
       "failure": "You are keeping me from my experiments.  Would you like to become one?"
     },
-    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },
   {
     "id": "MISSION_FRANKENSTEIN_4",
@@ -189,7 +189,7 @@
       "success_lie": "Lies and the lying liars who tell them.",
       "failure": "What kinds of body modifications do you have?"
     },
-    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },
   {
     "id": "MISSION_FRANKENSTEIN_5",
@@ -214,6 +214,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
-    "end": { "effect": [ { "u_buy_item": "inactive_frankenstein", "count": 1 } ] }
+    "end": { "effect": [ { "u_spawn_item": "inactive_frankenstein", "count": 1 } ] }
   }
 ]

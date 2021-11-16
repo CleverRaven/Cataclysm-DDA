@@ -41,6 +41,34 @@
     "phase": "gas"
   },
   {
+    "id": "fd_safe_shoppers",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "hair on your neck",
+        "effects": [
+          {
+            "effect_id": "safe_shoppers",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "100 seconds",
+            "max_duration": "950 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 70,
+    "outdoor_age_speedup": "9 minutes",
+    "priority": 8,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
     "id": "fd_darkness",
     "type": "field_type",
     "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],

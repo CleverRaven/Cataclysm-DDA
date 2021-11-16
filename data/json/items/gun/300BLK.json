@@ -24,6 +24,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
     "built_in_mods": [ "folding_stock" ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -84,6 +85,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

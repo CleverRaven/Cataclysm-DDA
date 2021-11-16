@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include "creature.h"
 #include "item.h"
@@ -97,7 +97,7 @@ TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?
-    attacker.activate_bionic( 0 );
+    attacker.activate_bionic( 1 );
     test_zapback( attacker, false );
 }
 

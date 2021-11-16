@@ -14,7 +14,8 @@ def get_data(argsDict, resource_name):
     for resource_filename in resource_sources:
         if resource_filename.endswith(".json"):
             try:
-                with open(resource_filename) as resource_file:
+                with open(
+                        resource_filename, encoding="utf-8") as resource_file:
                     resource += json.load(resource_file)
             except FileNotFoundError:
                 exit("Failed: could not find {}".format(resource_filename))

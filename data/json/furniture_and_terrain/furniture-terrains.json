@@ -43,7 +43,6 @@
       "ORGANIC",
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
-      "BASHABLE",
       "HIDE_PLACE",
       "NO_SIGHT"
     ],
@@ -82,7 +81,6 @@
       "ORGANIC",
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
-      "BASHABLE",
       "HIDE_PLACE",
       "NO_SIGHT",
       "BLOCK_WIND"
@@ -112,7 +110,7 @@
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
         { "item": "rag", "count": 50 },
-        { "item": "paper", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
       ]
@@ -127,7 +125,7 @@
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
         { "item": "rag", "count": [ 20, 50 ] },
-        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
       ]
@@ -676,7 +674,7 @@
     "coverage": 45,
     "required_str": 16,
     "crafting_pseudo_item": "boulder_anvil",
-    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 32,
       "str_max": 80,
@@ -695,7 +693,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,
@@ -722,7 +720,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -749,7 +747,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -775,7 +773,6 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 26,
-    "flags": [ "BASHABLE" ],
     "bash": {
       "str_min": 20,
       "str_max": 100,

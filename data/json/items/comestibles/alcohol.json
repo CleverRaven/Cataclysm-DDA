@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_mycus",
-    "name": { "str_sp": "marloss wine" },
+    "name": { "str_sp": "mycus wine" },
     "weight": "33 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -14,7 +14,7 @@
     "quench": 5,
     "addiction_potential": 5,
     "calories": 40,
-    "description": "Goopy white wine, made from the fruit of the marloss.",
+    "description": "Goopy white wine, made of the mycus fruit.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "alcohol", "water", "mushroom" ],
@@ -24,7 +24,34 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "MYCUS_OK" ],
     "fun": 25,
-    "freezing_point": 17
+    "freezing_point": -8
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "wine_marloss",
+    "name": { "str_sp": "marloss wine" },
+    "weight": "33 g",
+    "color": "pink",
+    "addiction_type": "marloss_r",
+    "use_action": [ "MARLOSS" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 5,
+    "addiction_potential": 5,
+    "calories": 40,
+    "description": "A viscous soft pink wine, made from the fruit of the marloss.",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "alcohol", "water", "fruit" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 5,
+    "flags": [ "EATEN_COLD", "MYCUS_OK" ],
+    "fun": 25,
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -52,7 +79,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
     "fun": 15,
-    "freezing_point": 17
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -80,7 +107,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
     "fun": 15,
-    "freezing_point": 17
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -106,7 +133,7 @@
     "phase": "liquid",
     "charges": 5,
     "fun": 15,
-    "freezing_point": 17
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -133,7 +160,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
     "fun": 16,
-    "freezing_point": 15
+    "freezing_point": -9
   },
   {
     "type": "COMESTIBLE",
@@ -160,7 +187,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
     "fun": 15,
-    "freezing_point": 17
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -187,7 +214,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
     "fun": 15,
-    "freezing_point": 17
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
@@ -213,7 +240,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -240,7 +267,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
     "fun": 15
@@ -269,7 +296,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 15
   },
   {
@@ -296,7 +323,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 15
   },
   {
@@ -324,7 +351,7 @@
     "charges": 7,
     "fun": 15,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22
+    "freezing_point": -30
   },
   {
     "type": "COMESTIBLE",
@@ -351,7 +378,7 @@
     "charges": 7,
     "fun": 18,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22
+    "freezing_point": -30
   },
   {
     "type": "COMESTIBLE",
@@ -375,7 +402,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "freezing_point": 0,
+    "freezing_point": -17,
     "phase": "liquid",
     "charges": 7,
     "fun": 10
@@ -407,7 +434,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 10,
-    "freezing_point": 22
+    "freezing_point": -6
   },
   {
     "type": "COMESTIBLE",
@@ -433,7 +460,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 5
   },
   {
@@ -461,7 +488,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 4
   },
   {
@@ -483,14 +510,14 @@
     "description": "Cheap booze made from fermented fruit juice.  Tastes just like it sounds.",
     "price": 550,
     "price_postapoc": 100,
-    "material": [ "alcohol", "water" ],
+    "material": [ "alcohol", "water", "fruit" ],
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 2,
-    "freezing_point": 20
+    "freezing_point": -7
   },
   {
     "type": "COMESTIBLE",
@@ -514,7 +541,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
     "fun": 12
@@ -597,7 +624,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -29,
+    "freezing_point": -34,
     "fun": 20,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
@@ -625,7 +652,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -29,
+    "freezing_point": -34,
     "fun": 20,
     "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
@@ -653,7 +680,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 20
   },
   {
@@ -679,7 +706,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -707,7 +734,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14
   },
   {
@@ -736,7 +763,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 16,
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "type": "COMESTIBLE",
@@ -763,7 +790,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 16,
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "type": "COMESTIBLE",
@@ -790,7 +817,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 12
   },
   {
@@ -817,7 +844,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 8,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -846,7 +873,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -49,
+    "freezing_point": -45,
     "fun": 12
   },
   {
@@ -873,7 +900,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -901,7 +928,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -929,7 +956,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -956,7 +983,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "EATEN_COLD" ]
@@ -985,7 +1012,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
   },
@@ -1015,7 +1042,7 @@
     "fun": 18,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23
+    "freezing_point": -5
   },
   {
     "type": "COMESTIBLE",
@@ -1044,7 +1071,7 @@
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 20 ] ],
-    "freezing_point": -22
+    "freezing_point": -30
   },
   {
     "type": "COMESTIBLE",
@@ -1073,7 +1100,7 @@
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": -12,
     "vitamins": [ [ "vitC", 20 ] ],
-    "freezing_point": -22
+    "freezing_point": -30
   },
   {
     "type": "COMESTIBLE",
@@ -1098,7 +1125,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
     "fun": 17
@@ -1155,7 +1182,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
     "fun": 17
@@ -1205,7 +1232,7 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -27,
+    "freezing_point": -33,
     "fun": 20
   },
   {
@@ -1233,7 +1260,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 20
   },
   {
@@ -1259,7 +1286,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 20
   },
   {
@@ -1285,7 +1312,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 20
   },
   {
@@ -1302,7 +1329,7 @@
     "symbol": "~",
     "quench": 20,
     "healthy": 2,
-    "calories": 347,
+    "calories": 475,
     "description": "A mixed drink containing all the advantages of its ingredients and none of their disadvantages.  It tastes great and it's a good source of nourishment.",
     "price": 350,
     "price_postapoc": 300,
@@ -1368,7 +1395,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "fun": 20,
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
-    "freezing_point": 12
+    "freezing_point": -11
   },
   {
     "type": "COMESTIBLE",
@@ -1394,7 +1421,7 @@
     "charges": 5,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": 20
   },
   {
@@ -1421,9 +1448,36 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -29,
+    "freezing_point": -34,
     "fun": 25,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "drink_bloody_mary_blood",
+    "name": { "str_sp": "'very' bloody mary cocktail" },
+    "weight": "258 g",
+    "color": "red",
+    "addiction_type": "alcohol",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "healthy": -1,
+    "addiction_potential": 4,
+    "calories": 240,
+    "description": "This is definitely not colored with tomato.",
+    "price": 300,
+    "price_postapoc": 125,
+    "material": [ "alcohol", "blood" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -34,
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
@@ -1449,7 +1503,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
+    "freezing_point": -5,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
   }

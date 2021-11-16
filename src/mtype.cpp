@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -35,7 +36,7 @@ mtype::mtype()
     size = creature_size::medium;
     volume = 62499_ml;
     weight = 81499_gram;
-    mat = { material_id( "flesh" ) };
+    mat = { { material_id( "flesh" ), 1 } };
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
@@ -53,8 +54,8 @@ mtype::mtype()
     biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
-    dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
+    melee_training_cap = MAX_SKILL;
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
@@ -88,7 +89,7 @@ void mtype::set_flag( m_flag flag, bool state )
 
 bool mtype::made_of( const material_id &material ) const
 {
-    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
+    return mat.find( material ) != mat.end();
 }
 
 bool mtype::made_of_any( const std::set<material_id> &materials ) const
@@ -97,8 +98,8 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
         return false;
     }
 
-    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
-        return materials.count( e );
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const std::pair<material_id, int> &e ) {
+        return materials.count( e.first );
     } );
 }
 
@@ -201,10 +202,9 @@ field_type_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
-            return itype_meat_tainted;
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
             //In the future, insects could drop insect flesh rather than plain ol' meat.
+            made_of( material_id( "iflesh" ) ) ) {
             return itype_meat_tainted;
         } else if( made_of( material_id( "veggy" ) ) ) {
             return itype_veggy_tainted;

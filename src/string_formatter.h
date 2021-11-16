@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <typeinfo>
 
+#include "demangle.h"
 // TODO: replace with std::optional
 #include "optional.h"
 
@@ -150,8 +151,8 @@ inline RT convert( RT *, const string_formatter &sf, T &&, ... )
                    std::is_enum<typename std::decay<T>::type>::value ||
                    is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
-                 std::string( typeid( T ).name() ) + " to " +
-                 std::string( typeid( RT ).name() ) + ", which is not possible" );
+                 demangle( typeid( T ).name() ) + " to " +
+                 demangle( typeid( RT ).name() ) + ", which is not possible" );
 }
 /**@}*/
 
@@ -267,7 +268,7 @@ class string_formatter
                 consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
                 consume_next_input_if( 'h' );
-            } else if( consume_next_input_if( 'z' ) ) {
+            } else if( consume_next_input_if( 'z' ) ) { // NOLINT(bugprone-branch-clone)
                 // done with it
             } else if( consume_next_input_if( 't' ) ) {
                 // done with it
@@ -365,6 +366,13 @@ class string_formatter
 #else
 #define PRINTF_LIKE(a,b)
 #endif
+
+        // A stupid thing happens in certain situations. On Windows, when using clang, the PRINTF_LIKE
+        // macro expands to something containing the token printf, which might be defined to libintl_printf,
+        // which is not a valid __attribute__ name. To prevent that we use an *MSVC* pragma which gcc and clang
+        // support to temporarily suppress expanding printf to libintl_printf so the attribute applies correctly.
+#pragma push_macro("printf")
+#undef printf
         /**
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
@@ -373,6 +381,8 @@ class string_formatter
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
+#pragma pop_macro("printf")
+
 #undef PRINTF_LIKE
 };
 

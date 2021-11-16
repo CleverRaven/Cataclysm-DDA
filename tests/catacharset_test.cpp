@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "catacharset.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "translations.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )

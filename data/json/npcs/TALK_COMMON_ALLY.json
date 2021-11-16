@@ -131,6 +131,37 @@
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
       {
+        "text": "Can you host a training seminar?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
         "text": "Let's trade items.",
         "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
         "topic": "TALK_FRIEND",
@@ -164,16 +195,16 @@
         "effect": "assign_guard"
       },
       {
-        "text": "I want to assign you to work at this camp.",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_camp"
-      },
-      {
         "text": "Find a horse and mount up!",
         "condition": { "not": "npc_is_riding" },
         "topic": "TALK_DONE",
         "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
       },
       {
         "text": "Get off your mount, please.",
@@ -181,46 +212,8 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
-      {
-        "text": "Please go to this location.",
-        "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
-        "effect": "goto_location"
-      },
-      {
-        "text": "I want you to build a camp here.",
-        "topic": "TALK_HALLU_CAMP",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true
-      },
-      {
-        "text": "I want you to build a camp here.",
-        "topic": "TALK_DONE",
-        "effect": "start_camp",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
-        "switch": true,
-        "default": true
-      },
-      {
-        "text": "Since we can't build a camp here, I want you to tell me where can we build a camp?",
-        "topic": "TALK_CAMP_SITES",
-        "condition": { "not": { "npc_at_om_location": "FACTION_CAMP_START" } },
-        "switch": true,
-        "default": true
-      },
-      {
-        "text": "We need to abandon this camp.",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_DONE",
-        "effect": "abandon_camp"
-      },
-      {
-        "text": "Show me what needs to be done at the camp.",
-        "topic": "TALK_DONE",
-        "effect": "basecamp_mission",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
-      },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
@@ -654,6 +647,21 @@
     ]
   },
   {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I host a training seminar?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_MISC_RULES",
     "type": "talk_topic",
     "dynamic_line": {
@@ -865,6 +873,12 @@
         "effect": "do_mining"
       },
       {
+        "text": "Please go mop the area.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_mopping"
+      },
+      {
         "text": "Please study from a book.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
@@ -911,6 +925,12 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_farming"
+      },
+      {
+        "text": "Please disassemble anything in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_disassembly"
       }
     ]
   },
@@ -931,5 +951,66 @@
     "type": "talk_topic",
     "dynamic_line": "<hallu_dont_trade>",
     "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "What about the camp?",
+    "responses": [
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
+      {
+        "text": "Please go to this location.",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Since we can't build a camp here, I want you to tell me where can we build a camp?",
+        "topic": "TALK_CAMP_SITES",
+        "condition": { "not": { "npc_at_om_location": "FACTION_CAMP_START" } },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_ABANDON"
+      },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_ABANDON",
+    "type": "talk_topic",
+    "dynamic_line": "Are you sure?",
+    "responses": [
+      { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
+      { "text": "Actually, never mind.", "topic": "TALK_NONE" }
+    ]
   }
 ]

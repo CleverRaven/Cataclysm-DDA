@@ -58,7 +58,9 @@ class safe_reference_anchor
     public:
         safe_reference_anchor();
         safe_reference_anchor( const safe_reference_anchor & );
+        safe_reference_anchor( safe_reference_anchor && ) noexcept;
         safe_reference_anchor &operator=( const safe_reference_anchor & );
+        safe_reference_anchor &operator=( safe_reference_anchor && ) noexcept;
 
         template<typename T>
         safe_reference<T> reference_to( T *object ) {

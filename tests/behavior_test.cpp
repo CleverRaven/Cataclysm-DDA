@@ -6,7 +6,7 @@
 
 #include "behavior.h"
 #include "behavior_strategy.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"
@@ -160,7 +160,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.worn.push_back( item( "backpack" ) );
+        test_npc.worn.emplace_back( "backpack" );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
         CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );

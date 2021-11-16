@@ -44,6 +44,33 @@
     "time": "30 m"
   },
   {
+    "id": "theater_props",
+    "type": "BOOK",
+    "looks_like": "glassblowing_book",
+    "name": {
+      "str": "The Prop Builder's Molding and Casting Handbook",
+      "str_pl": "copies of The Prop Builder's Molding and Casting Handbook"
+    },
+    "description": "The first book to contain, in one comprehensive volume, every molding and casting procedure of use to the theater props builder of any skill level.  The author demonstrates the techniques involved in over thirty materials from papier-mache to breakaway glass.",
+    "weight": "1620 g",
+    "volume": "1250 ml",
+    "price": 4500,
+    "price_postapoc": 250,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "brown_yellow",
+    "skill": "fabrication",
+    "required_level": 2,
+    "max_level": 4,
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "time_factor": 0.3, "fail_factor": 0.4 },
+      { "proficiency": "prof_carpentry_basic", "time_factor": 0.2, "fail_factor": 0.2 }
+    ],
+    "intelligence": 8,
+    "time": "30 m"
+  },
+  {
     "id": "jewelry_book",
     "type": "BOOK",
     "name": { "str": "Antique Adornments", "str_pl": "copies of Antique Adornments" },
@@ -155,6 +182,7 @@
     "skill": "fabrication",
     "required_level": 3,
     "max_level": 6,
+    "proficiencies": [ { "proficiency": "prof_handloading", "time_factor": 0.8, "fail_factor": 0.5 } ],
     "intelligence": 9,
     "time": "30 m"
   },

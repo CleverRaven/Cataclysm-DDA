@@ -111,6 +111,87 @@
     "components": [ [ [ "chunk_rubber", 3 ] ] ]
   },
   {
+    "result": "tire_medium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_medium_slick",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "7 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 2 ] ] ]
+  },
+  {
+    "result": "tire_motorbike",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_motorbike_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_wide",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
+  },
+  {
+    "result": "tire_wide_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
+  },
+  {
+    "result": "tire_bicycle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
+  },
+  {
+    "result": "tire_bicycle_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
+  },
+  {
+    "result": "rubber_tire_strip",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 5 ] ] ]
+  },
+  {
     "result": "rubber_slug",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

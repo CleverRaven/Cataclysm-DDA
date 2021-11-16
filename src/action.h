@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
 namespace cata
@@ -66,6 +67,8 @@ enum action_id : int {
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -104,10 +107,10 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from current/adjacent squares */
+    /** Pick up items from one current/adjacent square */
     ACTION_PICKUP,
-    /** Pick up items from current square. Auto pickup if only one item */
-    ACTION_PICKUP_FEET,
+    /** Pick up items from all current/adjacent squares */
+    ACTION_PICKUP_ALL,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -176,6 +179,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Unload container in a given direction */
+    ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -322,6 +327,7 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
+    ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */

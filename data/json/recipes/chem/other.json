@@ -14,7 +14,7 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ], [ "skewer_bone", 500 ] ] ]
   },
   {
     "result": "superglue",
@@ -34,6 +34,7 @@
         [ "bleach", 1 ],
         [ "lye_powder", 100 ],
         [ "bone_any", 20, "LIST" ],
+        [ "skewer_bone", 1000 ],
         [ "cured_hide", 2 ],
         [ "pine_bough", 10 ],
         [ "raw_dandelion", 20 ],

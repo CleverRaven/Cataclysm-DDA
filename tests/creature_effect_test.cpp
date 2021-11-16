@@ -1,6 +1,6 @@
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"
@@ -222,7 +222,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
 
     // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
-        monster mummy( mtype_id( "debug_mon" ) );
+        monster mummy( mtype_id( "mon_hallu_mom" ) );
 
         mummy.clear_effects();
 
@@ -314,9 +314,9 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_invisibility( "invisibility" );
-    const flag_id invisibility_flag( "EFFECT_INVISIBLE" );
+    const flag_id invisibility_flag( "INVISIBLE" );
 
-    monster mummy( mtype_id( "debug_mon" ) );
+    monster mummy( mtype_id( "mon_hallu_mom" ) );
 
     mummy.clear_effects();
 
@@ -455,9 +455,10 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         fungaloid.clear_effects();
         REQUIRE_FALSE( fungaloid.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( fungaloid.type->in_species( species_FUNGUS ) );
+        REQUIRE( fungaloid.type->bleed_rate == 0 );
 
-        THEN( "they bleed plant sap for now" ) {
-            CHECK_FALSE( fungaloid.is_immune_effect( effect_bleed ) );
+        THEN( "their zero bleed rate makes them immune to bleed" ) {
+            CHECK( fungaloid.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they can't be poisoned" ) {
@@ -537,27 +538,6 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
 
             THEN( "they are no longer immune to the downed effect" ) {
                 CHECK_FALSE( dummy.is_immune_effect( effect_downed ) );
-            }
-        }
-    }
-
-    WHEN( "character has Strong Stomach mutation" ) {
-        const trait_id trait_strong_stomach( "STRONGSTOMACH" );
-        const efftype_id effect_nausea( "nausea" );
-
-        dummy.toggle_trait( trait_strong_stomach );
-        REQUIRE( dummy.has_trait( trait_strong_stomach ) );
-
-        THEN( "they are immune to the nausea effect" ) {
-            CHECK( dummy.is_immune_effect( effect_nausea ) );
-        }
-
-        AND_WHEN( "they lose their Strong Stomach mutation" ) {
-            dummy.toggle_trait( trait_strong_stomach );
-            REQUIRE_FALSE( dummy.has_trait( trait_strong_stomach ) );
-
-            THEN( "they are no longer immune to the nausea effect" ) {
-                CHECK_FALSE( dummy.is_immune_effect( effect_nausea ) );
             }
         }
     }

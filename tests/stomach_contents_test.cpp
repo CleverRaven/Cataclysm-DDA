@@ -4,10 +4,9 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -77,12 +76,12 @@ static void print_stomach_contents( Character &p, const bool print )
 
 // this represents an amount of food you can eat to keep you fed for an entire day
 // accounting for appropriate vitamins
-static void eat_all_nutrients( player &p )
+static void eat_all_nutrients( Character &you )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item f( "debug_nutrition" );
-    p.consume( f );
+    you.consume( f );
 }
 
 // how long does it take to starve to death
@@ -134,7 +133,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
+    while( !dummy.has_trait( trait_id( "HUNGER3" ) ) ) {
         dummy.mutate_towards( trait_id( "HUNGER3" ) );
     }
     clear_stomach( dummy );
@@ -296,7 +295,7 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
+    while( !dummy.has_trait( trait_id( "HUNGER3" ) ) ) {
         dummy.mutate_towards( trait_id( "HUNGER3" ) );
     }
     for( int i = 0; i < 16; i++ ) {

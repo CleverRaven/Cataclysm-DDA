@@ -1,0 +1,16 @@
+[
+  {
+    "type": "AMMO",
+    "//": "High quality energy extracted by our advanced forbearers. Gives lasers extra damage and range. Don't think too much about how it works.",
+    "id": "afs_battery_plus",
+    "copy-from": "battery",
+    "category": "spare_parts",
+    "name": { "str_sp": "electric charge" },
+    "symbol": "=",
+    "color": "blue",
+    "description": "Electric charge collected and stored through methods now undecipherable.  Somehow increases the performance of laser weaponry.",
+    "ammo_type": "battery",
+    "damage": { "damage_type": "heat", "constant_damage_multiplier": 1.5 },
+    "range_multiplier": 1.5
+  }
+]

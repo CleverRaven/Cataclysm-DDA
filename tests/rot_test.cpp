@@ -1,5 +1,5 @@
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "enums.h"
 #include "item.h"
 #include "point.h"
@@ -12,7 +12,7 @@ static void set_map_temperature( int new_temperature )
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Rate of rotting" )
+TEST_CASE( "Rate of rotting", "[rot]" )
 {
     SECTION( "Passage of time" ) {
         // Item rot is a time duration.
@@ -72,7 +72,7 @@ TEST_CASE( "Rate of rotting" )
     }
 }
 
-TEST_CASE( "Items rot away" )
+TEST_CASE( "Items rot away", "[rot]" )
 {
     SECTION( "Item in reality bubble rots away" ) {
         // Item should rot away when it has 2x of its shelf life in rot.
@@ -94,4 +94,34 @@ TEST_CASE( "Items rot away" )
                 temperature_flag::HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }
+}
+
+TEST_CASE( "Hourly rotpoints", "[rot]" )
+{
+    item normal_item( "meat_cooked" );
+
+    // No rot below 32F/0C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 30 ) == 0 );
+
+    // No rot above 145F/63C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 150 ) == 0 );
+
+    // Make sure no off by one error at the border
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 145 ) == Approx( 20364.67 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 146 ) == 0 );
+
+    // 3200 point/h at 65F/18C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 ) == Approx( 3600 ).margin( 0.1 ) );
+
+    // Doubles after +16F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600.0 * 2 ).margin( 0.1 ) );
+
+    // Halves after -16F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600.0 / 2 ).margin( 0.1 ) );
+
+    // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
+
+    // Maximum rot at above 105 F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 20364.67 ).margin( 0.1 ) );
 }

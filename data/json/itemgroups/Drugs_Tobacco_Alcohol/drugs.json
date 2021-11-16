@@ -213,8 +213,8 @@
         ]
       },
       { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
-      { "item": "aspirin", "count": [ 0, 5 ], "charges": [ 1, 20 ] },
-      { "item": "cola", "count": [ 0, 2 ] },
+      { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
+      { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
       { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
     ]
   },
@@ -223,8 +223,8 @@
     "id": "meth_ingredients",
     "items": [
       { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
-      { "item": "aspirin", "prob": 40, "charges": [ 1, 20 ] },
-      { "item": "adderall", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
       [ "energy_drink", 2 ],
       { "item": "caffeine", "prob": 20, "charges": [ 1, 10 ] }
     ]

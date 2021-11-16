@@ -2,7 +2,7 @@
 #include <map>
 #include <utility>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "player_helpers.h"

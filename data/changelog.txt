@@ -1,5 +1,23 @@
-# 0.F (2021-06-19)
+# 0.F (Frank)
 
+## Highlights
+Nested Containers rationalize inventory management and enable dropping and retrieving go-bags during fights.
+Achievements track your deeds and misdeeds across games.
+Proficiencies better represent deeper knowledge required for various endeavors, mostly crafting.
+Bleeding added to both the player and monsters as the first step toward a more comprehensive wound and wound treatment system.
+Weariness tracking added to represent longer-term physical exhaustion.
+Elevated bridges over navigable rivers added, allowing better navigability while using boats.
+Large-scale audit of weapon and armor values for better representativeness and consistency.
+Improved armor handling by separating ballistic damage into its own damage type.
+Pervasive performance enhancements throughout the game.
+Tileset vehicle support for more cohesive vehicle rendering.
+Aftershock changes direction to a total conversion mod with a new far-future setting on a frozen world.
+Dinomod added 238 dinosaurs, pterosaurs, mosasaurs, and dino-related NPCs with missions and dino locations.
+Added many dino features, including zombie, fungal, evolved, bionic, baby, and mutant dino variants.
+Dinomod added many dino interactions, including farming, riding, butchering, cooking, and special attacks.
+Magiclysm added a huge content update including many new traits called Attunements that switch up gameplay at the endgame.
+
+## Statistics
 3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
 10,463 commits
 ~454 contributors

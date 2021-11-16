@@ -155,7 +155,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bunker_basement_1",
+    "name": "military bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "outpost",
+    "name": "military outpost",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 2,
+    "extras": "build",
+    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outpost_cross",
     "name": "military outpost",
     "sym": "M",
     "color": "red",

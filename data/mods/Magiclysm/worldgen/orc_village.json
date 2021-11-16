@@ -57,7 +57,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "orc_village" ],
-    "name": "orc_village",
+    "name": "orc village",
     "sym": "o",
     "color": "green",
     "see_cost": 6,

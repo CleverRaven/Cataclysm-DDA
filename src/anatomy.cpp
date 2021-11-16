@@ -137,6 +137,14 @@ std::vector<bodypart_id> anatomy::get_bodyparts() const
     return cached_bps;
 }
 
+anatomy::anatomy( const std::vector<bodypart_id> &parts )
+{
+    for( const bodypart_id &part : parts ) {
+        add_body_part( part.id() );
+        unloaded_bps.push_back( part.id() );
+    }
+}
+
 void anatomy::add_body_part( const bodypart_str_id &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
@@ -181,7 +189,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg_debug( "%s = %.3f", pr.obj.obj().name, pr.weight );
+        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -190,6 +198,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_str_id::NULL_ID().id();
     }
 
-    add_msg_debug( "selected part: %s", ret->id().obj().name );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

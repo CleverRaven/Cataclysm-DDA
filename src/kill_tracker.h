@@ -9,7 +9,7 @@
 #include "event_subscriber.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 
 namespace cata
@@ -29,8 +29,8 @@ class kill_tracker : public event_subscriber
         int kill_count( const species_id & ) const;
         int monster_kill_count() const;
         int npc_kill_count() const;
-        // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
+        // TEMPORARY until 0.G
+        int legacy_kill_xp() const;
 
         std::string get_kills_text() const;
 
@@ -39,7 +39,7 @@ class kill_tracker : public event_subscriber
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &data );
     private:
         std::map<mtype_id, int> kills;         // Player's kill count
         std::vector<std::string> npc_kills;    // names of NPCs the player killed

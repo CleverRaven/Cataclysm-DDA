@@ -34,6 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -132,6 +133,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 }, "allowed_speedloaders": [ "762x39_clip" ] } ]
   },
   {

@@ -59,7 +59,7 @@
     "type": "GUN",
     "name": "sporter carbine",
     "ammo": [ "ammo_rifle" ],
-    "description": "Though often mislabeled an asssault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
+    "description": "Though often mislabeled an assault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

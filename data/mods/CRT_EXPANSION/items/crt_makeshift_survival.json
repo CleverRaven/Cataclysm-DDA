@@ -12,12 +12,10 @@
     "material": [ "dry_plant" ],
     "symbol": "[",
     "color": "black_green",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 50,
-    "encumbrance": 15,
     "warmth": 7,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "armor": [ { "encumbrance": 15, "coverage": 50, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_plant_band",
@@ -32,10 +30,9 @@
     "material": [ "dry_plant" ],
     "symbol": "[",
     "color": "black_green",
-    "coverage": 0,
-    "encumbrance": 0,
     "warmth": 7,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0 } ]
   }
 ]

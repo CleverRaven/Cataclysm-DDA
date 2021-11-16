@@ -69,9 +69,8 @@ void harvest_entry::load( const JsonObject &jo )
     optional( jo, was_loaded, "faults", faults );
 }
 
-void harvest_entry::deserialize( JsonIn &jsin )
+void harvest_entry::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 

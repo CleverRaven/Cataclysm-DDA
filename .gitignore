@@ -7,6 +7,7 @@
 *.o
 *.tmp
 *.zip
+*.apk
 /WinDepend/
 /bindist/
 /build/
@@ -50,6 +51,7 @@ json_formatter
 *.opensdf
 *.pdb
 *.lib
+*.manifest
 *.sdf
 *.suo
 *.user
@@ -99,6 +101,9 @@ tags
 
 # Compiled binary translations
 /lang/mo/
+
+# Stampfile for binary translations
+/lang/mo_built.stamp
 
 # Directory for translatable strings
 /lang/json/*
@@ -204,3 +209,12 @@ Xcode/
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
+weather.output
+
+# bundler local directories and files for jekyll site
+/.bundle/
+/_site/
+/vendor/
+.sass-cache
+.jekyll-metadata
+Gemfile.lock

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "npc.h"
@@ -61,8 +61,9 @@ static void test_encumbrance(
 {
     CAPTURE( clothing_types );
     std::vector<item> clothing;
+    clothing.reserve( clothing_types.size() );
     for( const std::string &type : clothing_types ) {
-        clothing.push_back( item( type ) );
+        clothing.emplace_back( type );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }

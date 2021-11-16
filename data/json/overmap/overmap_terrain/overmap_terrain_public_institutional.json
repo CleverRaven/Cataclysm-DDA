@@ -434,6 +434,7 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "sealab_small_roof",
       "sealab_small_surface",
       "sealab_small_-1",
       "sealab_small_-2",

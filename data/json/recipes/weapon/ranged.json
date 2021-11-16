@@ -158,7 +158,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -187,7 +187,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -216,7 +216,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -326,13 +326,8 @@
     "difficulty": 1,
     "time": "4 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 },
-      { "id": "WELD", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_00", -1 ],
@@ -435,13 +430,8 @@
     "difficulty": 2,
     "time": "5 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 },
-      { "id": "WELD", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_00", -1 ],
@@ -485,13 +475,8 @@
     "difficulty": 2,
     "time": "2 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 },
-      { "id": "WELD", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic" },
@@ -515,9 +500,9 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "FILE", "level": 1 },
       { "id": "WRENCH", "level": 1 },
-      { "id": "DRILL", "level": 2 },
-      { "id": "WELD", "level": 1 }
+      { "id": "DRILL", "level": 2 }
     ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_00", -1 ],
@@ -645,6 +630,7 @@
     "skill_used": "fabrication",
     "time": "15 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ] ] ]
   },
@@ -676,7 +662,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
-    "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
+    "book_learn": [ [ "manual_archery", 4 ], [ "recipe_bows", 3 ], [ "book_archery", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
@@ -774,7 +760,7 @@
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [
       [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
@@ -1162,8 +1148,8 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1182,7 +1168,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1198,7 +1184,8 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 3 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
@@ -1326,7 +1313,7 @@
     "time": "8 h",
     "reversible": true,
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
@@ -1334,7 +1321,7 @@
       { "proficiency": "prof_gunsmithing_improv" },
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "laptop", -1 ] ] ],
+    "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
       [ [ "superglue", 1 ] ],

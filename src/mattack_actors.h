@@ -13,7 +13,6 @@
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "mtype.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -21,6 +20,7 @@
 class Creature;
 class JsonObject;
 class monster;
+struct mon_effect_data;
 
 class leap_actor : public mattack_actor
 {
@@ -62,6 +62,8 @@ class melee_actor : public mattack_actor
     public:
         // Maximum damage from the attack
         damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+        // Percent chance for the attack to happen if the mob tries it
+        int attack_chance = 100;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -71,6 +73,16 @@ class melee_actor : public mattack_actor
         // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
         int accuracy = INT_MIN;
+        // Attack range, 1 means melee only
+        int range = 1;
+        // Attack fails if aimed at adjacent targets
+        bool no_adjacent = false;
+        // Determines if a special attack can be dodged
+        bool dodgeable = true;
+        // Determines if a special attack can be blocked
+        bool blockable = true;
+        // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
+        int throw_strength = 0;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -88,6 +100,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_u;
         /** Message for damaging hit against the player. */
         translation hit_dmg_u;
+        /** Message for throwing the player. */
+        translation throw_msg_u;
 
         /** Message for missed attack against a non-player. */
         translation miss_msg_npc;
@@ -95,6 +109,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_npc;
         /** Message for damaging hit against a non-player. */
         translation hit_dmg_npc;
+        /** Message for throwing a non-player. */
+        translation throw_msg_npc;
 
         melee_actor();
         ~melee_actor() override = default;
@@ -112,7 +128,7 @@ class bite_actor : public melee_actor
     public:
         // one_in( this - damage dealt ) chance of getting infected
         // i.e. the higher is this, the lower chance of infection
-        int no_infection_chance = 0;
+        int infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;
@@ -179,7 +195,10 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
+        bool try_target( monster &z, Creature &target ) const;
+        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                    int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;

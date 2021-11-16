@@ -1,0 +1,351 @@
+[
+  {
+    "type": "palette",
+    "id": "exodii_crash_ground_palette",
+    "terrain": {
+      " ": "t_null",
+      ".": [ [ "t_glassed_sand", 10 ], "t_sandmound" ],
+      ",": [ [ "t_glassed_sand", 3 ], [ "t_grass_dead", 3 ], "t_sandmound", "t_sand" ],
+      ";": [ "t_rock_floor_no_roof", [ "t_sand", 5 ], "t_sandmound" ],
+      "|": [ [ "t_rock_floor_no_roof", 10 ], "t_sand" ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ] ],
+      ",": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ], [ "f_boulder_small", 12 ], "f_boulder_medium" ],
+      ";": [ [ "f_null", 2000 ], [ "f_rubble_rock", 30 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      "|": [ [ "f_null", 2000 ], [ "f_rubble_rock", 10 ], "f_wreckage" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "exodii_crash_palette",
+    "terrain": {
+      " ": "t_null",
+      "|": "t_wall_metal",
+      "M": "t_door_metal_locked",
+      "m": "t_secretdoor_metal_c",
+      "_": "t_metal_floor",
+      ".": "t_metal_floor"
+    },
+    "//": "The following section jankily leverages a bug to make sure furniture doesn't spawn on the walls. When the bug is fixed it may start glitching.",
+    "furniture": {
+      "|": [ "f_null", "f_null" ],
+      "M": [ "f_null", "f_null" ],
+      "m": [ "f_null", "f_null" ],
+      "_": [ "f_null", "f_null" ],
+      ".": [ "f_null", "f_null" ],
+      "*": [ "f_wreckage", "f_null" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_exodii_crash_big_1",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;;;;;;;,,,,....",
+        "...,,,,;;;||||;;,,,,,...",
+        "...,;,;;|||||;;;;,,,,...",
+        "...,,;;;;||||||;;,,,,...",
+        "...,;,;|||||||;;;,,,,...",
+        "...,,,,;;||||||;,,,,,...",
+        "...,;,,;;|||||;;,,,,,...",
+        "...,,,;;|||||||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;;;;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "palettes": [ "exodii_crash_ground_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "nest_exodii_crash_building_big_1", 30 ],
+            [ "nest_exodii_crash_building_big_2", 10 ],
+            [ "nest_exodii_crash_building_small_1", 40 ],
+            [ "nest_exodii_crash_building_smashed", 20 ]
+          ],
+          "x": [ 6, 10 ],
+          "y": [ 6, 10 ]
+        },
+        { "chunks": [ [ "nest_exodii_scouts", 5 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_exodii_crash_big_2",
+    "object": {
+      "rows": [
+        "          .   .         ",
+        "     ...  ..  ..   .    ",
+        "      ....,, ,,. ...    ",
+        "  ...   .,,,,,,,,.. ..  ",
+        "   ..,.. ,,,,,,,,,,..   ",
+        "    .,,,;;;;;;;,,,,. .  ",
+        "      ,;;;;;;;;;,,,,..  ",
+        "  ..,,;;;;;;;;;;,,,,    ",
+        "...  ,,;;;;|||;;,,,,,...",
+        "   ,;,;;|||||;;;;,,,,.. ",
+        "...,,;;;;||||||;;,,,    ",
+        "   ,;,;|||||||;;;,,,,.. ",
+        "... ,,,;|||||||;,,,,,...",
+        "..., ,,;;|||||;;,,,,,.. ",
+        "   ,,,;;|||||||;;,,,    ",
+        "...   ,,;;||;;;;,,,,,...",
+        "   .,,;,;;;;;;;,,,,,... ",
+        " ...  ,,,,;;;;;;;,,,.   ",
+        "    .,,,,,;;;;;,,,, ..  ",
+        " ....,,,,,,,,,,,,,,  .. ",
+        "  ..  ...,,,,, .. ..    ",
+        "    ..  ...... .. ...   ",
+        "      ...  ..  .   .    ",
+        "      .                 "
+      ],
+      "palettes": [ "exodii_crash_ground_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "nest_exodii_crash_building_big_1", 30 ],
+            [ "nest_exodii_crash_building_big_2", 10 ],
+            [ "nest_exodii_crash_building_small_1", 40 ],
+            [ "nest_exodii_crash_building_smashed", 20 ]
+          ],
+          "x": [ 7, 10 ],
+          "y": [ 7, 10 ]
+        },
+        { "chunks": [ [ "nest_exodii_scouts", 5 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_scouts",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_monster": [
+        { "monster": "mon_exodii_quad", "x": 0, "y": [ 0, 2 ] },
+        { "monster": "mon_exodii_worker", "x": [ 1, 2 ], "y": [ 0, 2 ], "chance": 50, "repeat": [ 1, 3 ] }
+      ],
+      "place_furniture": [ { "furn": "f_scrap_antenna", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_zombies",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_monster": [ { "monster": "mon_zomborg", "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "||||||",
+        "|____|",
+        "|____|",
+        "|_.._|",
+        "||MM||",
+        "||mm||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "||||||",
+        "||||||",
+        "||__||",
+        "||__||",
+        "||MM||",
+        "||mm||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " |||| ",
+        "||||||",
+        "||__||",
+        "||__||",
+        "||MM||",
+        " |mm| "
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "||||||",
+        "||||||",
+        "||__||",
+        "||__||",
+        "||||||",
+        "||||||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "|||||",
+        "||_||",
+        "||M||",
+        "||m||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "|||||",
+        "||_||",
+        "|||||",
+        "|||||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " |m| ",
+        "||M||",
+        "||_||",
+        "|||||",
+        " ||| "
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_small_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "|||",
+        "|_|",
+        "|m|"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_small_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "|||",
+        "|_|",
+        "|||"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_smashed",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "    * ",
+        " * ** ",
+        " *** *",
+        " **** ",
+        " ***  ",
+        "      "
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": {
+        "*": [ { "item": "recycle_steel", "chance": 50, "repeat": [ 1, 3 ] } ],
+        " ": [ { "item": "recycle_steel", "chance": 20 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_smashed",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "*     ",
+        " * ** ",
+        "****  ",
+        "  *** ",
+        "***** ",
+        " *   *"
+      ],
+      "palettes": [ "exodii_crash_palette" ],
+      "items": {
+        "*": [ { "item": "recycle_steel", "chance": 50, "repeat": [ 1, 3 ] } ],
+        " ": [ { "item": "recycle_steel", "chance": 20 } ]
+      }
+    }
+  }
+]

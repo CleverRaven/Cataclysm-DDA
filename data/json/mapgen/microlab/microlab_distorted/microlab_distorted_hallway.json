@@ -1,0 +1,106 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_distorted_hallway_end",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_end_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_distorted_hallway_straight",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_straight_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
+        { "chunks": [ "hallway_shrapnel", "null" ], "x": 6, "y": 6 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_distorted_hallway_curved",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_curved_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_distorted_hallway_tee",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_tee_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_distorted_hallway_four_way",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_four_way_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
+        { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  }
+]

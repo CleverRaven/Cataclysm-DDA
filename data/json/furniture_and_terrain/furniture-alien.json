@@ -187,7 +187,7 @@
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 0, 2 ] },
-        { "item": "scrap_copper", "count": [ 2, 10 ] }
+        { "item": "scrap_copper", "count": [ 2, 12 ] }
       ]
     }
   },
@@ -216,7 +216,7 @@
         { "item": "sheet_metal_small", "count": [ 20, 30 ] },
         { "item": "exodii_chassis", "count": [ 0, 1 ] },
         { "item": "exodii_drone_chassis", "count": [ 0, 1 ] },
-        { "item": "scrap_copper", "count": [ 5, 20 ] },
+        { "item": "scrap_copper", "count": [ 6, 25 ] },
         { "item": "e_scrap", "count": [ 5, 20 ] }
       ]
     }
@@ -241,7 +241,7 @@
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 2, 10 ] },
-        { "item": "scrap_copper", "count": [ 2, 10 ] },
+        { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 0, 3 ] },
@@ -260,7 +260,7 @@
     "move_cost_mod": 3,
     "coverage": 30,
     "required_str": 6,
-    "light_emitted": 20,
+    "light_emitted": 90,
     "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,
@@ -270,7 +270,7 @@
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 2, 10 ] },
-        { "item": "scrap_copper", "count": [ 2, 10 ] },
+        { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "amplifier", "count": [ 0, 5 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 0, 5 ] }
@@ -298,7 +298,7 @@
         { "item": "pipe", "count": [ 2, 4 ] },
         { "item": "55gal_drum", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 2, 10 ] },
-        { "item": "scrap_copper", "count": [ 5, 10 ] },
+        { "item": "scrap_copper", "count": [ 5, 12 ] },
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 2 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] }
@@ -325,7 +325,7 @@
         { "item": "scrap", "count": [ 20, 120 ] },
         { "item": "pipe", "count": [ 20, 40 ] },
         { "item": "sheet_metal_small", "count": [ 20, 100 ] },
-        { "item": "scrap_copper", "count": [ 50, 100 ] },
+        { "item": "scrap_copper", "count": [ 62, 124 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "exodii_module", "count": [ 0, 6 ] },
         { "item": "exodii_motor", "count": [ 0, 8 ] },
@@ -354,7 +354,7 @@
         { "item": "pipe", "count": [ 10, 20 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
-        { "item": "scrap_copper", "count": [ 20, 40 ] },
+        { "item": "scrap_copper", "count": [ 25, 62 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
         { "item": "exodii_module", "count": [ 0, 5 ] },
         { "item": "exodii_motor", "count": [ 0, 6 ] },
@@ -385,7 +385,7 @@
         { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
-        { "item": "scrap_copper", "count": [ 20, 40 ] },
+        { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
@@ -419,7 +419,7 @@
         { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
-        { "item": "scrap_copper", "count": [ 20, 40 ] },
+        { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
@@ -455,7 +455,7 @@
         { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
-        { "item": "scrap_copper", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
@@ -489,7 +489,7 @@
         { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
-        { "item": "scrap_copper", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 15, 30 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "power_supply", "count": [ 2, 8 ] },
@@ -621,5 +621,18 @@
         { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_crystalline_flower",
+    "name": "crystalline flower",
+    "description": "A crystalline structure that resembles a plant.",
+    "symbol": "f",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "//": "decorative flora for breather biome.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

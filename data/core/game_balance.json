@@ -15,15 +15,22 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_MAX_STAMINA",
-    "info": "Sets max stamina value of the player.",
+    "name": "PLAYER_MAX_STAMINA_BASE",
+    "info": "Sets the base max stamina value of the player, before cardio modifiers.",
     "stype": "int",
-    "value": 10000
+    "value": 3500
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
+    "info": "Sets the effect of cardio on maximum stamina.",
+    "stype": "int",
+    "value": 3
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
-    "info": "Sets base stamina regeneration per turn of the player.  May be used as an offset in stamina draining effects.",
+    "info": "Sets base stamina regeneration per turn of the player, before cardio modifiers.  May be used as an offset in stamina draining effects.",
     "stype": "float",
     "value": 20
   },
@@ -190,9 +197,16 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "WORKBENCH_ALL_OPTIONS",
-    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
-    "stype": "bool",
-    "value": true
+    "name": "GENERIC_PROFESSION_ID",
+    "info": "The profession selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "unemployed"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_SCENARIO_ID",
+    "info": "The scenario selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "evacuee"
   }
 ]

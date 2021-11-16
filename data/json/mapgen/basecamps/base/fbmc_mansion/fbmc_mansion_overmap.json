@@ -1,0 +1,86 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_e1" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_e2" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t1" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t2" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t3" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t4" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t5" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t6" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t7" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c1" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c2" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c3" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c4" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c5" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  }
+]

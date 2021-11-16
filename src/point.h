@@ -105,6 +105,7 @@ struct point {
     }
 
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -228,7 +229,15 @@ struct tripoint {
         return point( x, y );
     }
 
+    /**
+     * Rotates just the x,y component of the tripoint. See point::rotate()
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    tripoint rotate( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -244,6 +253,7 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
+
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
         if( a.x != b.x ) {
             return a.x < b.x;

@@ -104,6 +104,7 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "kill_horde_master", mission_start::kill_horde_master },
+        { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
@@ -157,8 +158,7 @@ std::string enum_to_string<mission_origin>( mission_origin data )
         case mission_origin::NUM_ORIGIN:
             break;
     }
-    debugmsg( "Invalid mission_origin" );
-    abort();
+    cata_fatal( "Invalid mission_origin" );
 }
 
 template<>
@@ -178,6 +178,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
+        case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
         case MGOAL_RECRUIT_NPC: return "MGOAL_RECRUIT_NPC";
         case MGOAL_RECRUIT_NPC_CLASS: return "MGOAL_RECRUIT_NPC_CLASS";
         case MGOAL_COMPUTER_TOGGLE: return "MGOAL_COMPUTER_TOGGLE";
@@ -187,8 +188,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case mission_goal::NUM_MGOAL:
             break;
     }
-    debugmsg( "Invalid mission_goal" );
-    abort();
+    cata_fatal( "Invalid mission_goal" );
 }
 } // namespace io
 
@@ -380,6 +380,7 @@ mission_type_id mission_type::from_legacy( int old_id )
             mission_type_id( "MISSION_KILL_JABBERWOCK" ),
             mission_type_id( "MISSION_KILL_100_Z" ),
             mission_type_id( "MISSION_KILL_HORDE_MASTER" ),
+            mission_type_id( "MISSION_KILL_NEMESIS" ),
             mission_type_id( "MISSION_RECRUIT_TRACKER" ),
             mission_type_id( "MISSION_JOIN_TRACKER" ),
             mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_1" ),

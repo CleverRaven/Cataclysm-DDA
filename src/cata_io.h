@@ -292,6 +292,26 @@ class JsonObjectInputArchive : public JsonObject
             load( ident );
             return true;
         }
+        /**
+         * The 'I-give-up' template for gun variant data
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, T &pointer,
+                 const LoadFunc &load,
+                 const SaveFunc &save, bool required = false ) {
+            // Only used by the matching function in the output archive classes.
+            ( void ) save;
+            std::string ident;
+            if( !io( name, ident ) ) {
+                if( required ) {
+                    JsonObject::throw_error( std::string( "required member is missing: " ) + name );
+                }
+                pointer = nullptr;
+                return false;
+            }
+            load( ident );
+            return true;
+        }
         template<typename T>
         bool io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
@@ -420,6 +440,21 @@ class JsonObjectOutputArchive
                 return false;
             }
             return io( name, save( *pointer ) );
+        }
+        /**
+         * The I-give-up load function for gun variants
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, const T &pointer,
+                 const LoadFunc &,
+                 const SaveFunc &save, bool required = false ) {
+            if( pointer == nullptr ) {
+                if( required ) {
+                    throw JsonError( "a required member is null: " + name );
+                }
+                return false;
+            }
+            return io( name, save( pointer ) );
         }
         template<typename T>
         bool io( const std::string &name, const T *pointer,
