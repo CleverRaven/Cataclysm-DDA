@@ -101,6 +101,14 @@ struct inventory_input {
     inventory_entry *entry;
 };
 
+static int contained_offset( const item_location &loc )
+{
+    if( loc.where() != item_location::type::container ) {
+        return 0;
+    }
+    return 2 + contained_offset( loc.parent_item() );
+}
+
 bool inventory_entry::operator==( const inventory_entry &other ) const
 {
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
@@ -1056,6 +1064,10 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     if( allows_selecting() && activatable() && multiselect ) {
         res += 2;
     }
+    if( entry.is_item() && indent_entries() ) {
+        res += contained_offset( entry.locations.front() ) - parent_indentation;
+    }
+
     return res;
 }
 
@@ -1084,14 +1096,6 @@ int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pi
     return cur_idx;
 }
 
-static int num_parents( const item_location &loc )
-{
-    if( loc.where() != item_location::type::container ) {
-        return 0;
-    }
-    return 2 + num_parents( loc.parent_item() );
-}
-
 void inventory_column::draw( const catacurses::window &win, const point &p,
                              std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
@@ -1115,19 +1119,13 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         }
         const inventory_column::entry_cell_cache_t &entry_cell_cache = get_entry_cell_cache( index );
 
-        int contained_offset = 0;
-        if( entry.is_item() && indent_entries() ) {
-            // indent items that are contained
-            contained_offset = num_parents( entry.locations.front() );
-        }
-
-        int x1 = p.x + get_entry_indent( entry ) + contained_offset;
+        int x1 = p.x + get_entry_indent( entry );
         int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = p.y + line;
 
         const bool selected = active && is_selected( entry );
 
-        const int hx_max = p.x + get_width() + contained_offset;
+        const int hx_max = p.x + get_width();
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
                                           point( hx_max - 1, yy ) );
         rect_entry_map.emplace_back( rect,
@@ -1686,6 +1684,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         elem->reset_width( columns );
         elem->prepare_paging( filter );
     }
+
     // Handle screen overflow
     rearrange_columns( client_width );
     if( initial ) {
@@ -3127,6 +3126,9 @@ int inventory_examiner::execute()
         }
         set_title( parent_item->display_name() ); //Update the title to reflect that things aren't hidden
     }
+
+    //Account for the indentation from the fact we're looking into a container
+    get_visible_columns().front()->set_parent_indentation( contained_offset( parent_item ) + 2 );
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
