@@ -124,6 +124,7 @@
 struct dealt_projectile_attack;
 
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
@@ -331,6 +332,7 @@ static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
 static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
 static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
@@ -3056,8 +3058,110 @@ void Character::do_skill_rust()
     }
 }
 
+int Character::focus_equilibrium_fatigue_cap( int equilibrium ) const
+{
+    if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && equilibrium > 20 ) {
+        return 20;
+    } else if( get_fatigue() >= fatigue_levels::EXHAUSTED && equilibrium > 40 ) {
+        return 40;
+    } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && equilibrium > 60 ) {
+        return 60;
+    } else if( get_fatigue() >= fatigue_levels::TIRED && equilibrium > 80 ) {
+        return 80;
+    }
+    return equilibrium;
+}
+
+int Character::calc_focus_equilibrium( bool ignore_pain ) const
+{
+    int focus_equilibrium = 100;
+
+    if( activity.id() == ACT_READ ) {
+        const item_location book = activity.targets[0];
+        if( book && book->is_book() ) {
+            const cata::value_ptr<islot_book> &bt = book->type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
+                focus_equilibrium -= 50;
+            }
+        }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
+        int perceived_pain = get_perceived_pain();
+        if( has_trait( trait_MASOCHIST ) ) {
+            if( perceived_pain > 20 ) {
+                eff_morale = eff_morale - ( perceived_pain - 20 );
+            }
+        } else {
+            eff_morale = eff_morale - perceived_pain;
+        }
+    }
+
+    if( eff_morale < -99 ) {
+        // At very low morale, focus is at it's minimum
+        focus_equilibrium = 1;
+    } else if( eff_morale <= 50 ) {
+        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
+        focus_equilibrium += eff_morale;
+    } else {
+        /* Above 50 morale, we apply strong diminishing returns.
+        * Each block of 50 takes twice as many morale points as the previous one:
+        * 150 focus at 50 morale (as before)
+        * 200 focus at 150 morale (100 more morale)
+        * 250 focus at 350 morale (200 more morale)
+        * ...
+        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+        */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while( focus_equilibrium < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_equilibrium += 50;
+                block_multiplier *= 2;
+            } else {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1 focus, and then we're done.
+                focus_equilibrium += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if( focus_equilibrium < 1 ) {
+        focus_equilibrium = 1;
+    } else if( focus_equilibrium > 400 ) {
+        focus_equilibrium = 400;
+    }
+    return focus_equilibrium;
+}
+
+int Character::calc_focus_change() const
+{
+    return focus_equilibrium_fatigue_cap( calc_focus_equilibrium() ) - get_focus();
+}
+
+void Character::update_mental_focus()
+{
+    // calc_focus_change() returns percentile focus, applying it directly
+    // to focus pool is an implicit / 100.
+    focus_pool += 10 * calc_focus_change();
+}
+
 void Character::reset_stats()
 {
+    if( calendar::once_every( 1_minutes ) ) {
+        update_mental_focus();
+    }
+
     // Bionic buffs
     if( has_active_bionic( bio_hydraulics ) ) {
         mod_str_bonus( 20 );

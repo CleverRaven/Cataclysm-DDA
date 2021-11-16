@@ -741,6 +741,15 @@ class Character : public Creature, public visitable
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
 
+        /** Returns focus equilibrium cap due to fatigue **/
+        int focus_equilibrium_fatigue_cap( int equilibrium ) const;
+        /** Uses morale and other factors to return the character's focus target goto value */
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the character's current focus */
+        void update_mental_focus();
+
         /** Resets the value of all bonus fields to 0. */
         void reset_bonuses() override;
         /** Resets stats, and applies effects in an idempotent manner */

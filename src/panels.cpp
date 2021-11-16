@@ -1582,9 +1582,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
-    if( u.get_focus() < u.calc_focus_equilibrium() ) {
+    if( u.calc_focus_change() > 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
+    } else if( u.calc_focus_change() < 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
 
