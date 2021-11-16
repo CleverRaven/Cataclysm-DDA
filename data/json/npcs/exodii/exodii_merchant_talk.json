@@ -1,5 +1,19 @@
 [
   {
+    "type": "GENERIC",
+    "id": "rubik_farthing",
+    "name": { "str": "shiny farthing" },
+    "description": "A small, shiny brass coin with a picture of a stern-looking older man on one side and the words 'For all of Angland and her children' in an arc beneath him.  On the other side is a large number '1' wreathed in what appear to be nettle leaves.",
+    "weight": "2 g",
+    "to_hit": -1,
+    "color": "yellow",
+    "symbol": ".",
+    "material": [ "copper" ],
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 1
+  },
+  {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [
       "TALK_EXODII_MERCHANT_New",
@@ -301,7 +315,7 @@
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
     "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
-	"//~": "For a card an' a wink, eh? --> That was a good exchange",
+    "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
         "and": [
@@ -356,7 +370,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
     "type": "talk_topic",
     "dynamic_line": "Lovely!  Benzete's gonna be a pair, that's a track!  I mean, they'll be right happy.  This is their first jump, and it's a flappin' duck.",
-	"//~": "Lovely!  Benzete (this is a name) is going to be beside themselves, that's for sure.  I mean, they'll be really happy.  This is their first jump, and it's a lucky one.",
+    "//~": "Lovely!  Benzete (this is a name) is going to be beside themselves, that's for sure.  I mean, they'll be really happy.  This is their first jump, and it's a lucky one.",
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "midpoint", "value": "yes" } },
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
@@ -369,7 +383,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2a",
     "type": "talk_topic",
     "dynamic_line": "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
-	"//~": "As I recall, we were talking about Benzete and how this is a great jump for their first time.",
+    "//~": "As I recall, we were talking about Benzete and how this is a great jump for their first time.",
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
@@ -381,7 +395,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3",
     "type": "talk_topic",
     "dynamic_line": "Us gotta leave the old world afore it's worn right to the gums, an y'ken, and find a nice twitchy one on t'other side.  Your deadland be a brand shiny",
-	"//~": "We've got to leave the old world before it gets too worn out, you see, and find a nice fresh one on the other side.  Your deadland is as fresh as it gets.",
+    "//~": "We've got to leave the old world before it gets too worn out, you see, and find a nice fresh one on the other side.  Your deadland is as fresh as it gets.",
     "responses": [
       { "text": "I'm not following that at all.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3a" },
       {
@@ -398,7 +412,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3a",
     "type": "talk_topic",
     "dynamic_line": "Neverken.  Right and so, the enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
-	"//~": "No worries.  I mean, the enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
+    "//~": "No worries.  I mean, the enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
     "responses": [
       {
         "text": "Oh, you mean you got here early in the cataclysm.  Why is that so good?",
@@ -413,6 +427,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro4a",
     "type": "talk_topic",
     "dynamic_line": "That be a part an' switch, but this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+    "//~": "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
     "responses": [
       { "text": "I don't know what fusillies and mobbings are.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro5" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -423,6 +438,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro4b",
     "type": "talk_topic",
     "dynamic_line": "You kennit rightly!  That and this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+    "//~": "That's exactly it!  This is nice for many reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
     "responses": [
       {
         "text": "I don't know what fusillies and mobbings are.",
@@ -437,6 +453,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro5",
     "type": "talk_topic",
     "dynamic_line": "Oh, rights.  Many lands be'd assert on thosun's.  A fusilly, she's a weapon, shoots a shot at high speeds usin' bang.  A mobbing, he's a grand box o' metal, pushed by burnin' and boomin' from wit'in, kennit?",
+    "//~": "Oh, yeah.  Lots of places have different words for those.  A fusilly is a weapon that fires a bullet at high speeds using propellant.  A mobbing is a big metal box that's moved around by an internal explosion.  Do you get it?",
     "responses": [
       {
         "text": "[int 7] Sounds like you mean a fusilly is a gun, and a mobbing is a car?",
@@ -452,7 +469,13 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro6",
     "type": "talk_topic",
     "dynamic_line": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation.",
-    "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+    "//~": "Great, I'll put that in the dictionary.  Here's a token of my gratitude for your explanation.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" },
+        { "u_spawn_item": "rubik_farthing" }
+      ]
+    },
     "responses": [
       { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
