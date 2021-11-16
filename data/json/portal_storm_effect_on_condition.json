@@ -700,7 +700,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_1",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
       {
         "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
@@ -720,7 +720,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_2",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
       {
         "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
@@ -740,7 +740,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_3",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
       {
         "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
@@ -760,21 +760,21 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_1",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_2",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_3",
     "global": true,
-    "condition": { "x_in_y_chance": { "x": 1, "y": 30 } },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
   }
 ]
