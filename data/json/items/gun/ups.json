@@ -203,13 +203,8 @@
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
-      [ "grip", 1 ],
       [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "sling", 1 ]
     ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
@@ -224,13 +219,8 @@
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
-      [ "grip", 1 ],
       [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "sling", 1 ]
     ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
