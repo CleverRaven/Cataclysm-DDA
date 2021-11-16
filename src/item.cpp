@@ -6829,7 +6829,7 @@ int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type 
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         // get the max coverage of this piece
         int max_coverage = 0;
-        for( const sub_bodypart_str_id sbp : portion_data->sub_coverage ) {
+        for( const sub_bodypart_str_id &sbp : portion_data->sub_coverage ) {
             if( bodypart->secondary == sbp->secondary && bodypart->parent == sbp->parent ) {
                 // add all sublocations that share the same parent limb
                 max_coverage += sbp->max_coverage;
