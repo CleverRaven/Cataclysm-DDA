@@ -1510,7 +1510,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hb_seltzer",
-    "name": { "str_sp": "hombebrew hard seltzer" },
+    "name": { "str_sp": "homebrew hard seltzer" },
     "weight": "249 g",
     "color": "yellow",
     "addiction_type": "alcohol",
