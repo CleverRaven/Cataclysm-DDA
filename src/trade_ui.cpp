@@ -165,7 +165,9 @@ void trade_ui::recalc_values_cpane()
         _trade_values[_cpane] +=
             npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane], it );
     }
-    _balance = _cost + _trade_values[_you] - _trade_values[_trader];
+    if( !_parties[_trader]->as_npc()->will_exchange_items_freely() ) {
+        _balance = _cost + _trade_values[_you] - _trade_values[_trader];
+    }
     _header_ui.invalidate_ui();
 }
 
