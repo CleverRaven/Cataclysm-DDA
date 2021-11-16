@@ -1373,9 +1373,9 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
+        /** Returns true if this item can be reloaded with specified ammo (ignores currently contained ammo). */
         bool can_reload_with( const item &ammo ) const;
-        /** Returns true if this item can be reloaded with specified ammo type at this moment. */
+        /** Returns true if this item can be reloaded with specified ammo type at this moment (considers currently contained ammo). */
         bool is_reloadable_with( const item &ammo ) const;
 
         /**

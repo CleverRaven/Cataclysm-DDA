@@ -8248,8 +8248,8 @@ bool item::is_reloadable_with( const item &ammo ) const
 
 bool item::is_reloadable_helper( const item &ammo, bool now ) const
 {
-    if( !is_reloadable() ) {
-        return false;
+    if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
+        return false; // turrets ignore NO_RELOAD flag
     }
 
     // Check if the item is in general compatible with any reloadable pocket.
@@ -8280,16 +8280,41 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
             continue;
         }
 
-        if( now ) {
-            // Require that the new ammo fits in with current ammo
-            if( pocket->can_contain( ammo ).success() ) {
-                return true;
-            }
+        if( !pocket->is_compatible( ammo ).success() ) {
+            continue;
+        }
+
+        if( !now ) {
+            return true;
         } else {
-            // Generic check for compatible items
-            if( pocket->is_compatible( ammo ).success() ) {
+            // Reloading is refused if
+            // Pocket contains ammo that can't combine (empty casings ignored)
+            // Pocket is full and does not contain empty casings
+
+            if( pocket->empty() ) {
                 return true;
             }
+
+            bool has_casings = false;
+            bool can_combine = true;
+
+            for( const item *loaded : all_items_top() ) {
+                if( loaded->has_flag( flag_CASING ) ) {
+                    has_casings = true;
+                    continue;
+                }
+                if( !loaded->can_combine( ammo ) ) {
+                    can_combine = false;
+                    break;
+                }
+            }
+
+            bool is_full = has_casings ? false : pocket->remaining_ammo_capacity( ammo.ammo_type() ) == 0;
+
+            if( !is_full && can_combine ) {
+                return true;
+            }
+
         }
     }
 
@@ -9605,7 +9630,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
-    if( !can_reload_with( *ammo.get_item() ) ) {
+    if( !is_reloadable_with( *ammo.get_item() ) ) {
         return false;
     }
 
