@@ -3592,6 +3592,7 @@ For `type`s `bionic` and `bionic_group`, the following entries can scale the res
   "id": "mutagen",
   "dissect_only": true,
   "group": false,
+  "harvest_skills": [ "firstaid", "chemistry" ],
   "msg_fielddress_fail": "harvest_drop_mutagen_field_dress",
   "msg_fielddress_success": "",
   "msg_butcher_fail": "harvest_drop_mutagen_butcher",
@@ -3602,6 +3603,8 @@ For `type`s `bionic` and `bionic_group`, the following entries can scale the res
 ```
 
 Harvest drop types are used in harvest drop entries to control how the drop is processed. `dissect_only` only allows the drop to be produced when dissecting. `group` indicates that an associated `drop` refers to an item group instead of a single item type.
+
+`harvest_skills` refers to the id of skills that affect the yields of this harvest drop type. If omitted, this defaults to the survival skill. For example, dissecting a zomborg for CBMs will produce better results when the "electronics" and "firstaid" skills are high. `harvest_skills` can be either a single string (just one skill) or an array of strings.
 
 `msg_<butcher_type>_<result>` refers to a snippet to be printed when the specified butcher type either succeeds or fails. Currently, the following message types are available:
 - `"msg_fielddress_fail"`

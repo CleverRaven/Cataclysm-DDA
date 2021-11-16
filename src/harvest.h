@@ -29,6 +29,10 @@ class harvest_drop_type
         const harvest_drop_type_id &getId() {
             return id;
         }
+        // Get skills required for harvesting rolls
+        const std::vector<skill_id> &get_harvest_skills() const {
+            return harvest_skills;
+        }
         // Is the associated harvest drop an item group?
         bool is_item_group() const {
             return is_group_;
@@ -53,6 +57,7 @@ class harvest_drop_type
         bool is_group_;
         bool dissect_only_;
         bool was_loaded = false;
+        std::vector<skill_id> harvest_skills;
         std::string msg_fielddress_success;
         std::string msg_fielddress_fail;
         std::string msg_butcher_success;

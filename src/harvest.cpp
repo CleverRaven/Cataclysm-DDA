@@ -105,6 +105,7 @@ void harvest_drop_type::reset()
 
 void harvest_drop_type::load( const JsonObject &jo, const std::string & )
 {
+    harvest_skills.clear();
     optional( jo, was_loaded, "group", is_group_, false );
     optional( jo, was_loaded, "dissect_only", dissect_only_, false );
     optional( jo, was_loaded, "msg_fielddress_fail", msg_fielddress_fail, "" );
@@ -113,6 +114,15 @@ void harvest_drop_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "msg_butcher_success", msg_butcher_success, "" );
     optional( jo, was_loaded, "msg_dissect_fail", msg_dissect_fail, "" );
     optional( jo, was_loaded, "msg_dissect_success", msg_dissect_success, "" );
+    if( jo.has_string( "harvest_skills" ) ) {
+        skill_id sk;
+        mandatory( jo, was_loaded, "harvest_skills", sk );
+        harvest_skills.emplace_back( sk );
+    } else if( jo.has_member( "harvest_skills" ) ) {
+        optional( jo, was_loaded, "harvest_skills", harvest_skills );
+    } else {
+        harvest_skills.emplace_back( skill_id( "survival" ) );
+    }
 }
 
 const std::vector<harvest_drop_type> &harvest_drop_type::get_all()
