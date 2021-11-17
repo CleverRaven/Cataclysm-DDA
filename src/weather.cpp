@@ -51,16 +51,16 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
-static const itype_id itype_water( "water" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
-static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
-static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
 
 /**
  * \defgroup Weather "Weather and its implications."

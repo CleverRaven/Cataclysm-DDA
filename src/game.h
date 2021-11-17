@@ -808,12 +808,12 @@ class game
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
 
-        void pickup(); // Pickup nearby items 'g', min 0
-        void pickup( const tripoint &p );
-        void pickup_feet(); // Pick items at player position ',', min 1
+        // Pick up items from a single nearby tile, or from all nearby tiles
+        void pickup(); // Pickup nearby items 'g'
+        void pickup_all();
 
-        void drop(); // Drop an item  'd'
-        void drop_in_direction(); // Drop w/ direction  'D'
+        void unload_container(); // Unload a container w/ direction  'd'
+        void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
 

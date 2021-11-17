@@ -576,7 +576,7 @@ cata::flat_set<itype_id> item_pocket::item_type_restrictions() const
 item *item_pocket::magazine_current()
 {
     auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
-        return it.is_magazine();
+        return !it.is_null();
     } );
     return iter != contents.end() ? &*iter : nullptr;
 }
@@ -864,12 +864,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
+        std::vector<std::pair<std::string, int>> fmts;
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( n_gettext( "<num> round of %s",
-                                                   "<num> rounds of %s", ammo_capacity( at ) ),
-                                                   at->name() );
-            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
-                               ammo_capacity( at ) );
+            int capacity = ammo_capacity( at );
+            fmts.emplace_back( string_format( n_gettext( "<num> round of %s",
+                                              "<num> rounds of %s", capacity ),
+                                              at->name() ),
+                               capacity );
+        }
+        std::sort( fmts.begin(), fmts.end(), localized_compare );
+        for( const std::pair<std::string, int> &fmt : fmts ) {
+            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt.first, iteminfo::no_flags,
+                               fmt.second );
         }
     }
 
@@ -948,7 +954,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                     info.emplace_back( "DESCRIPTION", string_format( "* %s", f.restriction() ) );
                     first = false;
                 } else {
-                    info.emplace_back( "DESCRIPTION", string_format( "* <bold>or</bold> %s", f.restriction() ) );
+                    info.emplace_back( "DESCRIPTION", string_format( _( "* <bold>or</bold> %s" ), f.restriction() ) );
                 }
             }
         }
@@ -1019,17 +1025,11 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
     settings.info( info );
 }
 
-ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        const bool ignore_fullness ) const
+ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_MOD, _( "cannot unwield item" ) );
-    }
-
-    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
-    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
-        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( data->type == item_pocket::pocket_type::CORPSE ) {
@@ -1064,15 +1064,6 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
         }
     }
 
-    if( !ignore_fullness && data->holster && !contents.empty() ) {
-        if( contents.front().can_combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
-        }
-    }
-
     // ammo restriction overrides item volume/weight and watertight/airtight data
     if( !data->ammo_restriction.empty() ) {
         if( !it.is_ammo() ) {
@@ -1089,11 +1080,6 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }
 
-        if( !ignore_fullness && it.count() > remaining_ammo_capacity( it_ammo ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) );
-        }
-
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
@@ -1102,28 +1088,12 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
         }
-        if( !ignore_fullness && size() != 0 && !contents.front().can_combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
-        }
-    } else if( !ignore_fullness && size() == 1 && !it.is_frozen_liquid() &&
-               ( contents.front().made_of( phase_id::LIQUID ) ||
-                 contents.front().is_frozen_liquid() ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }
     if( it.made_of( phase_id::GAS ) ) {
         if( !data->airtight ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't contain gas" ) );
         }
-        if( !ignore_fullness && size() != 0 && !contents.front().can_combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
-        }
-    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
     }
 
     // liquids and gases avoid the size limit altogether
@@ -1145,11 +1115,73 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_SMALL, _( "item is too small" ) );
     }
+    return ret_val<item_pocket::contain_code>::make_success();
+}
+
+ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
+{
+    ret_val<item_pocket::contain_code> compatible = is_compatible( it );
+
+    if( data->type == item_pocket::pocket_type::CORPSE ) {
+        // corpses can't have items stored in them the normal way,
+        // we simply don't want them to "spill"
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( !compatible.success() ) {
+        return compatible;
+    }
+
+    if( data->holster && !contents.empty() ) {
+        if( contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
+        }
+    }
+
+    if( it.made_of( phase_id::LIQUID ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
+        }
+    } else if( size() == 1 && !it.is_frozen_liquid() &&
+               ( contents.front().made_of( phase_id::LIQUID ) ||
+                 contents.front().is_frozen_liquid() ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
+    }
+    if( it.made_of( phase_id::GAS ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
+        }
+    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
+    }
+
+
+    if( !data->ammo_restriction.empty() ) {
+        const ammotype it_ammo = it.ammo_type();
+        if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) );
+        }
+        // ammo restriction overrides item volume/weight and watertight/airtight data
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+
     if( it.weight() > weight_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
-    if( !ignore_fullness && it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
+    if( it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
@@ -1157,7 +1189,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
-    if( !ignore_fullness && it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
+    if( it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_NO_SPACE, _( "not enough space" ) );
     }

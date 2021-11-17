@@ -134,8 +134,8 @@
       { "group": "candy_chocolate", "prob": 45 },
       { "item": "licorice", "prob": 15 },
       { "group": "salty_snacks", "prob": 80 },
-      [ "peanut_unshelled", 20 ],
-      [ "almond_unshelled", 20 ],
+      [ "peanut_shelled", 20 ],
+      [ "almond_shelled", 20 ],
       [ "cereal", 25 ],
       [ "cereal3", 25 ],
       [ "soup_tomato", 25 ],
@@ -608,7 +608,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -710,6 +710,7 @@
       [ "emer_blanket", 20 ],
       [ "flyer", 10 ],
       [ "helmet_liner", 20 ],
+      [ "jacket_army", 40 ],
       [ "pur_tablets", 10 ],
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
@@ -1035,6 +1036,8 @@
       { "item": "box_small", "prob": 30 },
       { "item": "rag", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
+      { "item": "bag_zipper", "prob": 3 },
+      { "item": "bag_zipper_gallon", "prob": 1 },
       { "item": "news_regional", "prob": 15 },
       { "item": "mag_news", "prob": 15 },
       { "item": "scorecard", "prob": 40 }

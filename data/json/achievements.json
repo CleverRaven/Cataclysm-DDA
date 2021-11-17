@@ -823,7 +823,7 @@
     "id": "achievement_lvl_10_tailor",
     "type": "achievement",
     "name": "Fashion Designer",
-    "description": "Male, female, and mutant fashion alike.",
+    "description": "From catwalk to cataclysm.",
     "requirements": [ { "event_statistic": "num_gains_tailor_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_tailor" ]
   },

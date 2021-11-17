@@ -66,11 +66,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
-static const itype_id itype_rock( "rock" );
-
-static const species_id species_FUNGUS( "FUNGUS" );
-
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
@@ -81,29 +76,34 @@ static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rock( "rock" );
+
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+
+static const species_id species_FUNGUS( "FUNGUS" );
+
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 using namespace map_field_processing;
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
-    std::vector<material_id> all_mats = fuel.made_of();
+    const std::map<material_id, int> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }
-    // Items that are multiple materials are assumed to be equal parts each.
-    const units::mass by_weight = burned_mass / all_mats.size();
-    for( material_id &mat : all_mats ) {
-        for( const auto &bp : mat->burn_products() ) {
+    const units::mass by_weight = burned_mass;
+    const float mat_total = fuel.type->mat_portion_total == 0 ? 1 : fuel.type->mat_portion_total;
+    for( const auto &mat : all_mats ) {
+        for( const auto &bp : mat.first->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
             // and leads to infinite recursion.
@@ -111,7 +111,9 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            // distribute byproducts by weight AND portion of item
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) *
+                                      ( mat.second / mat_total ) );
 
             if( n <= 0 ) {
                 continue;

@@ -8,6 +8,7 @@
 
 #include "activity_type.h"
 #include "avatar_action.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
@@ -35,12 +36,19 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 
+static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_stunned( "stunned" );
+
+static const json_character_flag json_flag_HUGE( "HUGE" );
+static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_TINY( "TINY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -48,15 +56,18 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
-static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
@@ -72,11 +83,6 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-
-static const json_character_flag json_flag_TINY( "TINY" );
-static const json_character_flag json_flag_SMALL( "SMALL" );
-static const json_character_flag json_flag_LARGE( "LARGE" );
-static const json_character_flag json_flag_HUGE( "HUGE" );
 
 namespace io
 {
@@ -166,6 +172,10 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
 }
 
 void Character::do_mutation_updates()
@@ -646,6 +656,12 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_LONG_TONGUE2 ||
+               mut == trait_GASTROPOD_EXTREMITY2 ||
+               mut == trait_GASTROPOD_EXTREMITY3 ) {
+        tdata.powered = false;
+        assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mut->name() );
+        return;
     } else if( mut == trait_SNAIL_TRAIL ) {
         get_map().add_field( pos(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
@@ -665,17 +681,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
-        if( one_in( 3 ) ) {
-            add_msg_if_player( m_good,
-                               //~ Usual enthusiastic slimespring small voices! :D
-                               _( "wow!  you look just like me!  we should look out for each other!" ) );
-        } else if( one_in( 2 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
-        } else {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "we're a team, we've got this!" ) );
-        }
+        add_msg_if_player( m_good, SNIPPET.random_from_category( "slime_generate" ).value_or(
+                               translation() ).translated() );
         tdata.powered = false;
         return;
     } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
@@ -746,7 +753,7 @@ void Character::activate_mutation( const trait_id &mut )
         int npower;
         if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
             mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            add_msg_if_player( m_good, _( "Bionic power increased by %dmJ." ), npower );
             tdata.powered = false;
         }
         return;
@@ -879,8 +886,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -889,8 +896,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -1060,6 +1067,10 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
+    }
+
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1327,8 +1338,8 @@ bool Character::mutate_towards( const trait_id &mut )
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const
 {
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
-             has_same_type_trait( flag ) );
+    return has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
+           has_same_type_trait( flag );
 }
 
 std::unordered_set<trait_id> Character::get_conflicting_traits( const trait_id &flag ) const
@@ -1440,6 +1451,10 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait
@@ -1796,8 +1811,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
-             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+    return are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+           || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b );
 }
 
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )

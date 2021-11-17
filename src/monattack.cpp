@@ -89,6 +89,8 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -149,14 +151,51 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke( "mininuke" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 
+static const matec_id tec_none( "tec_none" );
+
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_biollante( "mon_biollante" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
+static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
+static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
+static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
+static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
+static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
+static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
+static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
+static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_triffid( "mon_triffid" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
+static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_SLIME( "SLIME" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
+static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
@@ -172,45 +211,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_biollante( "mon_biollante" );
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_blob_brain( "mon_blob_brain" );
-static const mtype_id mon_blob_large( "mon_blob_large" );
-static const mtype_id mon_blob_small( "mon_blob_small" );
-static const mtype_id mon_breather( "mon_breather" );
-static const mtype_id mon_breather_hub( "mon_breather_hub" );
-static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
-static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
-static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
-static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
-static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
-static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
-static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
-static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
-static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
-static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
-static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
-static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
-
-static const matec_id tec_none( "tec_none" );
-
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -501,7 +501,7 @@ bool mattack::shriek_stun( monster *z )
         if( target == nullptr ) {
             continue;
         }
-        if( one_in( dist / 2 ) && !( target->is_immune_effect( effect_deaf ) ) ) {
+        if( one_in( dist / 2 ) && !target->is_immune_effect( effect_deaf ) ) {
             target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), false, rng( 1, ( 15 - dist ) / 3 ) );
         }
 
@@ -797,11 +797,13 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
-        if( !weapon.has_flag( flag_NO_UNWIELD ) &&
-            ( weapon.made_of( material_id( "iron" ) ) ||
-              weapon.made_of( material_id( "hardsteel" ) ) ||
-              weapon.made_of( material_id( "steel" ) ) ||
-              weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        const int metal_portion = weapon.made_of( material_id( "iron" ) ) +
+                                  weapon.made_of( material_id( "hardsteel" ) ) +
+                                  weapon.made_of( material_id( "steel" ) ) +
+                                  weapon.made_of( material_id( "budget_steel" ) );
+        // Take the total portion of metal in the item into account
+        const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
+        if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
             const int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -809,7 +811,8 @@ bool mattack::pull_metal_weapon( monster *z )
             ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
             if( foe->str_cur > min_str ) {
                 ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ), 0 );
+                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ),
+                                    0.0f );
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
@@ -1804,8 +1807,8 @@ bool mattack::fungus_inject( monster *z )
         z->friendly = 1;
         return true;
     }
-    if( ( player_character.has_trait( trait_MARLOSS ) ) &&
-        ( player_character.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( player_character.has_trait( trait_MARLOSS ) &&
+        player_character.has_trait( trait_MARLOSS_BLUE ) &&
         !player_character.crossed_threshold() ) {
         add_msg( m_info, _( "The %s seems to wave you toward the tower…" ), z->name() );
         z->anger = 0;
@@ -1954,8 +1957,8 @@ bool mattack::fungus_fortify( monster *z )
         mycus = true;
     }
     map &here = get_map();
-    if( ( player_character.has_trait( trait_MARLOSS ) ) &&
-        ( player_character.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( player_character.has_trait( trait_MARLOSS ) &&
+        player_character.has_trait( trait_MARLOSS_BLUE ) &&
         !player_character.crossed_threshold() && !mycus ) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg( m_info, _( "The %s spreads its tendrils.  It seems as though it's expecting you…" ),
@@ -4076,7 +4079,7 @@ bool mattack::breathe( monster *z )
     // It takes a while
     z->moves -= 100;
 
-    bool able = ( z->type->id == mon_breather_hub );
+    bool able = z->type->id == mon_breather_hub;
     creature_tracker &creatures = get_creature_tracker();
     if( !able ) {
         for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
@@ -4596,8 +4599,8 @@ bool mattack::slimespring( monster *z )
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
-        if( ( player_character.has_effect( effect_bleed ) ) ||
-            ( player_character.has_effect( effect_bite ) ) ) {
+        if( player_character.has_effect( effect_bleed ) ||
+            player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
@@ -4646,8 +4649,8 @@ bool mattack::thrown_by_judo( monster *z )
         ///\EFFECT_DEX increases chance judo-throwing a monster
 
         ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
-        if( ( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
-                3 ) ) ) ) {
+        if( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
+                3 ) ) ) {
             target->add_msg_if_player( m_good, _( "but you grab its arm and flip it to the ground!" ) );
 
             // most of the time, when not isolated

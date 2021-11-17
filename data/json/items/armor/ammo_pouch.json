@@ -123,7 +123,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "chestrig",
@@ -175,7 +175,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xl_chestrig",
@@ -184,7 +184,7 @@
     "name": { "str": "XL chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "javelin_bag",
@@ -249,7 +249,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 10, "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "legpouch",
@@ -315,7 +315,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
   },
   {
     "id": "quiver",
@@ -374,7 +374,7 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 3, "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -393,7 +393,7 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 14, "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 14, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "tacvest",
@@ -468,7 +468,7 @@
       },
       { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
     ],
-    "flags": [ "WATER_FRIENDLY" ],
+    "flags": [ "WATER_FRIENDLY", "WAIST" ],
     "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {

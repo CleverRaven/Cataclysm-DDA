@@ -195,14 +195,9 @@ class computer;
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_survival( "survival" );
-
-static const species_id species_PLANT( "PLANT" );
+static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_blind( "blind" );
@@ -222,18 +217,30 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
 
-static const bionic_id bio_remote( "bio_remote" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id species_PLANT( "PLANT" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -241,19 +248,13 @@ static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
-static const trait_id trait_THICKSKIN( "THICKSKIN" );
-static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
-static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const faction_id faction_your_followers( "your_followers" );
-
-static const flag_id json_flag_SPLINT( "SPLINT" );
-
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
@@ -1056,8 +1057,8 @@ void game::calc_driving_offset( vehicle *veh )
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 1 * vehicles::vmiph_per_tile;
     // velocity at or above this results in maximal offset
-    static const float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
-                                        vehicles::vmiph_per_tile;
+    const float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
+                                 vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
     if( !veh->skidding && veh->player_in_control( u ) &&
@@ -1244,6 +1245,24 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+            for( npc &n : all_npcs() ) {
+                // Also cancel activities for students
+                for( const int st_id : u.activity.values ) {
+                    if( n.getID().get_value() == st_id ) {
+                        n.cancel_activity();
+                    }
+                }
+            }
+            u.remove_effect( efftype_id( "asked_to_train" ) );
+        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            for( npc &n : all_npcs() ) {
+                // If the player is the only student, cancel the teacher's activity
+                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                    n.cancel_activity();
+                }
+            }
+        }
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();
@@ -1472,6 +1491,23 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
     }
 }
 
+static hint_rating rate_action_view_recipe( avatar &you, const item &it )
+{
+    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
+                                 recipe_dictionary::get_craft( it.typeId() );
+    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+        return hint_rating::cant;
+    }
+    const inventory &inven = you.crafting_inventory();
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        return hint_rating::good;
+    } else if( craft_recipe.ident().is_valid() ) {
+        return hint_rating::iffy;
+    }
+    return hint_rating::cant;
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -1698,6 +1734,7 @@ int game::inventory_item_menu( item_location locThisItem,
             addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
+        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
         addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
         addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
@@ -1783,10 +1820,15 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'a': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    if( !locThisItem.get_item()->is_container() ) {
+                    if( locThisItem.get_item()->type->has_use() &&
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
-                    } else {
+                    } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
+                    } else {
+                        add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
+                        break;
                     }
                     handler.handle_by( u );
                     break;
@@ -1866,6 +1908,17 @@ int game::inventory_item_menu( item_location locThisItem,
                         oThisItem.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
+                case 'V': {
+                    int is_recipe = 0;
+                    std::string this_itype = oThisItem.typeId().str();
+                    if( oThisItem.is_craft() ) {
+                        this_itype = oThisItem.get_making().ident().str();
+                        is_recipe = 1;
+                    }
+                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
+                    u.assign_activity( recipe_act );
+                    break;
+                }
                 case 'i':
                     if( oThisItem.is_container() ) {
                         game_menus::inv::insert_items( u, locThisItem );
@@ -2061,7 +2114,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
-    ctxt.register_action( "pickup_feet" );
+    ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -2092,6 +2145,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "drop" );
+    ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
@@ -4197,8 +4251,14 @@ void game::use_computer( const tripoint &p )
         }
         return;
     }
-
-    computer_session( *used ).use();
+    if( used->eocs.empty() ) {
+        computer_session( *used ).use();
+    } else {
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( used ) );
+        for( const effect_on_condition_id &eoc : used->eocs ) {
+            eoc->activate( d );
+        }
+    }
 }
 
 template<typename T>
@@ -4503,17 +4563,17 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
+    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal;
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
     const optional_vpart_position vp = m.veh_at( p );
 
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return !m.is_outside( p ) ||
+           p.z < 0 ||
+           ( vp && vp->is_inside() );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
@@ -4748,7 +4808,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -5232,38 +5294,27 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
-            if( !u.is_mounted() && !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
-                Pickup::pick_up( examp, 0 );
-            }
         }
     }
 }
 
 void game::pickup()
 {
-    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
+    // Prompt for which adjacent/current tile to pick up items from
+    const cata::optional<tripoint> where_ = choose_adjacent_highlight( _( "Pick up items where?" ),
                                             _( "There is nothing to pick up nearby." ),
                                             ACTION_PICKUP, false );
-    if( !examp_ ) {
+    if( !where_ ) {
         return;
     }
-    pickup( *examp_ );
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
 }
 
-void game::pickup( const tripoint &p )
+void game::pickup_all()
 {
-    // Highlight target
-    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
-    } );
-    add_draw_callback( hilite_cb );
-
-    Pickup::pick_up( p, 0 );
-}
-
-void game::pickup_feet()
-{
-    Pickup::pick_up( u.pos(), 1 );
+    // Pick up items from current and all adjacent tiles
+    u.pick_up( game_menus::inv::pickup( u ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -5962,11 +6013,11 @@ void game::zones_manager()
                     iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
                     const auto &zone = i.get();
 
-                    nc_color colorLine = ( zone.get_enabled() ) ? c_white : c_light_gray;
+                    nc_color colorLine = zone.get_enabled() ? c_white : c_light_gray;
 
                     if( iNum == active_index ) {
                         mvwprintz( w_zones, point( 0, iNum - start_index ), c_yellow, "%s", ">>" );
-                        colorLine = ( zone.get_enabled() ) ? c_light_green : c_green;
+                        colorLine = zone.get_enabled() ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -6341,7 +6392,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon ) {
+            if( mon && u.sees( *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
@@ -6429,7 +6480,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 continue;
             }
 
-            const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
+            const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
@@ -7771,16 +7822,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::drop()
+void game::unload_container()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
+        u.drop( game_menus::inv::unload_container( u ), *pnt );
+    }
 }
 
-void game::drop_in_direction()
+void game::drop_in_direction( const tripoint &pnt )
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
-    }
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -8480,8 +8531,8 @@ void game::reload_weapon( bool try_everything )
         }
         // Second sort by affiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item().can_contain( *ap, true ).success();
-        const bool mag_bp = this->u.get_wielded_item().can_contain( *bp, true ).success();
+        const bool mag_ap = this->u.get_wielded_item().is_compatible( *ap ).success();
+        const bool mag_bp = this->u.get_wielded_item().is_compatible( *bp ).success();
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }
@@ -8490,8 +8541,8 @@ void game::reload_weapon( bool try_everything )
             return ap->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ( ap->remaining_ammo_capacity() ) ) <
-               ( bp->get_reload_time() * ( bp->remaining_ammo_capacity() ) );
+        return ( ap->get_reload_time() * ap->remaining_ammo_capacity() ) <
+               ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
         std::vector<item::reload_option> ammo_list;
@@ -8739,7 +8790,7 @@ bool game::disable_robot( const tripoint &p )
 
 bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 {
-    return !( get_dangerous_tile( dest_loc ).empty() );
+    return !get_dangerous_tile( dest_loc ).empty();
 }
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
@@ -9087,50 +9138,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
-    if( !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        int volume = u.is_stealthy() ? 3 : 6;
-        volume *= u.mutation_value( "noise_modifier" );
-        if( volume > 0 ) {
-            if( u.is_wearing( itype_rm13_armor_on ) ) {
-                volume = 2;
-            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                volume = 12;
-            }
-
-            volume *= u.current_movement_mode()->sound_mult();
-            if( u.is_mounted() ) {
-                monster *mons = u.mounted_creature.get();
-                switch( mons->get_size() ) {
-                    case creature_size::tiny:
-                        volume = 0; // No sound for the tinies
-                        break;
-                    case creature_size::small:
-                        volume /= 3;
-                        break;
-                    case creature_size::medium:
-                        break;
-                    case creature_size::large:
-                        volume *= 1.5;
-                        break;
-                    case creature_size::huge:
-                        volume *= 2;
-                        break;
-                    default:
-                        break;
-                }
-                if( mons->has_flag( MF_LOUDMOVES ) ) {
-                    volume += 6;
-                }
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), false,
-                               "none", "none" );
-            } else {
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
-                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
-            }
-            sfx::do_footstep();
-        }
-
-    }
+    u.make_footstep_noise();
 
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
@@ -9332,21 +9340,24 @@ point game::place_player( const tripoint &dest_loc )
             const auto forage = [&]( const tripoint & pos ) {
                 const ter_t &xter_t = *m.ter( pos );
                 const furn_t &xfurn_t = *m.furn( pos );
-                const bool forage_everything = forage_type == "both";
+                const bool forage_everything = forage_type == "all";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( !xter_t.can_examine( pos ) ) {
+                const bool forage_crops = forage_everything || forage_type == "crops";
+                if( !xter_t.can_examine( pos ) && !xfurn_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
                            ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
-                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_crops && xter_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xter_t.examine( u, pos );
                 } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
-                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) )
+                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) ) ||
+                           ( forage_crops && xfurn_t.has_examine( iexamine::harvest_plant_ex ) )
                          ) {
                     xfurn_t.examine( u, pos );
                 }
@@ -10023,7 +10034,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     int steps = 0;
     bool thru = true;
-    const bool is_u = ( c == &u );
+    const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
@@ -10580,7 +10591,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
-            if( ( rng( 4, 8 ) ) < u.get_skill_level( skill_dodge ) ) {
+            if( rng( 4, 8 ) < u.get_skill_level( skill_dodge ) ) {
                 add_msg( _( "You attach a web and dive down headfirst, flipping upright and landing on your feet." ) );
             } else {
                 add_msg( _( "You securely web up and work your way down, lowering yourself safely." ) );

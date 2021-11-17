@@ -44,6 +44,10 @@ class mapgen_function
         virtual void setup() { } // throws
         virtual void finalize_parameters() { }
         virtual void check() const { }
+        virtual void check_consistent_with( const oter_t & ) const { }
+        virtual bool expects_predecessor() const {
+            return false;
+        }
         virtual void generate( mapgendata & ) = 0;
         virtual mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const {
             return {};
@@ -400,7 +404,6 @@ class mapgen_function_json_base
 
     private:
         json_source_location jsrcloc;
-        std::string context_;
     protected:
         mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
@@ -417,6 +420,7 @@ class mapgen_function_json_base
 
         mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
+        std::string context_;
         bool is_ready;
 
         point mapgensize;
@@ -435,6 +439,8 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         void finalize_parameters() override;
         void check() const override;
+        void check_consistent_with( const oter_t & ) const override;
+        bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
@@ -449,6 +455,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 
     private:
         jmapgen_int rotation;
+        oter_str_id fallback_predecessor_mapgen_;
 };
 
 class update_mapgen_function_json : public mapgen_function_json_base
@@ -539,6 +546,10 @@ int register_mapgen_function( const std::string &key );
  * Check that @p key is present in @ref oter_mapgen.
  */
 bool has_mapgen_for( const std::string &key );
+/**
+ * Verify that the properties of a particular mapgen match the properties of
+ * its overmap_terrain */
+void check_mapgen_consistent_with( const std::string &key, const oter_t & );
 /**
  * Check whether @p key is a valid update_mapgen id.
  */

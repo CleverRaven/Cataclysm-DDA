@@ -87,6 +87,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_warmth";
         case widget_var::bp_wetness:
             return "bp_wetness";
+        case widget_var::cardio_fit:
+            return "cardio_fit";
+        case widget_var::cardio_acc:
+            return "cardio_acc";
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
@@ -279,6 +283,12 @@ int widget::get_var_value( const avatar &ava )
             // Encumbrance for body part
             value = ava.get_part_encumbrance_data( _bp_id ).encumbrance;
             break;
+        case widget_var::cardio_fit:
+            value = ava.get_cardiofit();
+            break;
+        case widget_var::cardio_acc:
+            value = ava.get_cardio_acc();
+            break;
 
         // TODO
         case widget_var::mood:
@@ -293,7 +303,7 @@ int widget::get_var_value( const avatar &ava )
     return value;
 }
 
-std::string widget::show( const avatar &ava )
+std::string widget::show( avatar &ava )
 {
     if( uses_text_function() ) {
         // Text functions are a carry-over from before widgets, with existing functions generating
@@ -340,7 +350,7 @@ bool widget::uses_text_function()
     }
 }
 
-std::string widget::color_text_function_string( const avatar &ava )
+std::string widget::color_text_function_string( avatar &ava )
 {
     std::string ret;
     std::pair<std::string, nc_color> desc;
@@ -544,7 +554,7 @@ std::string widget::graph( int value, int value_max )
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width )
+std::string widget::layout( avatar &ava, const unsigned int max_width )
 {
     std::string ret;
     if( _style == "layout" ) {

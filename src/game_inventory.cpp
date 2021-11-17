@@ -56,16 +56,18 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
-
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -191,7 +193,6 @@ void game_menus::inv::common( avatar &you )
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
-    inv_s.allow_hide = true;
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -205,7 +206,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you, false );
+        inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -323,7 +324,7 @@ class armor_inventory_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int storage_ml = to_milliliter( loc->get_total_capacity() );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
-            }, string_format( "STORAGE (%s)", volume_units_abbr() ) );
+            }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }
 
     protected:
@@ -475,12 +476,16 @@ class pickup_inventory_preset : public inventory_selector_preset
                     }
                 } else if( !you.can_pickVolume( *loc ) && you.has_wield_conflicts( *loc ) ) {
                     return _( "Too big to pick up!" );
-                } else if( !you.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up!" );
                 }
             }
 
             return std::string();
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return !( loc.has_parent() && loc.parent_item()->is_ammo_belt() );
         }
 
     private:
@@ -886,7 +891,7 @@ class fuel_inventory_preset : public inventory_selector_preset
                 mat_type = ammo.get_base_material().id;
             }
             if( you.get_fuel_capacity( mat_type ) <= 0 ) {
-                return ( _( "No space to store more" ) );
+                return _( "No space to store more" );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -1617,8 +1622,7 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
                                          /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
-    insert_menu.add_map_items( you.pos() );
-    insert_menu.add_vehicle_items( you.pos() );
+    insert_menu.add_nearby_items( 1 );
     insert_menu.set_display_stats( false );
 
     insert_menu.set_title( title );
@@ -1644,6 +1648,86 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             player_activity(
                 insert_item_activity_actor( holster, holstered_list ) ) );
     }
+}
+
+static bool valid_unload_container( const item_location &container )
+{
+    // Item must be a container.
+    if( !container->is_container() ) {
+        return false;
+    }
+
+    // Container must contain at least one item
+    if( container->empty_container() ) {
+        return false;
+    }
+
+    // This item must not be a liquid, relies on containers
+    // only being able to store one liquid at a time
+    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+// Due to current item_location limitations, these won't work.
+// When item_location gets updated to get items inside containers outside the player inventory
+// uncomment this
+// static item_location unload_container_item( drop_location &droplc, item *it, avatar &you )
+// {
+//     switch( droplc.first.where() ) {
+//         case item_location::type::invalid:
+//             return item_location();
+//         case item_location::type::character:
+//             return item_location( you, it );
+//         case item_location::type::map:
+//             return item_location( map_cursor( droplc.first.position() ), it );
+//         case item_location::type::vehicle: {
+//             const cata::optional<vpart_reference> vp =
+//                 get_map().veh_at( droplc.first.position() ).part_with_feature( "CARGO", true );
+//             if( !vp ) {
+//                 return item_location();
+//             }
+//             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
+//         }
+//         case item_location::type::container:
+//             return item_location( droplc.first, it );
+//         default:
+//             return item_location();
+//     }
+// }
+
+drop_locations game_menus::inv::unload_container( avatar &you )
+{
+    inventory_filter_preset unload_preset( valid_unload_container );
+
+    inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
+                                         /*warn_liquid=*/false );
+    insert_menu.add_character_items( you );
+    // When item_location gets updated to get items inside containers outside the player inventory
+    // uncomment this
+    //insert_menu.add_nearby_items( 1 );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( _( "Select containers to unload" ) );
+
+    drop_locations dropped;
+    for( drop_location &droplc : insert_menu.execute() ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            // no liquids
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                dropped.emplace_back( item_location( droplc.first, it ), it->count() );
+                // When item_location gets updated to get items inside containers outside the player inventory
+                // uncomment this
+                // item_location iloc = unload_container_item( droplc, it, you );
+                // if( iloc ) {
+                //     dropped.emplace_back( iloc, it->count() );
+                // }
+            }
+        }
+    }
+    return dropped;
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset
@@ -1755,9 +1839,8 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     } );
 
     inventory_drop_selector inv_s( you, preset );
-    inv_s.allow_hide = true;
 
-    inv_s.add_character_items( you, false );
+    inv_s.add_character_items( you );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
@@ -1767,6 +1850,30 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     }
 
     return inv_s.execute();
+}
+
+drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
+{
+    const pickup_inventory_preset preset( you );
+
+    pickup_selector pick_s( you, preset );
+
+    // Add items from the selected tile, or from current and all surrounding tiles
+    if( target ) {
+        pick_s.add_vehicle_items( *target );
+        pick_s.add_map_items( *target );
+    } else {
+        pick_s.add_nearby_items();
+    }
+    pick_s.set_title( _( "Pickup" ) );
+    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
+
+    if( pick_s.empty() ) {
+        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return pick_s.execute();
 }
 
 bool game_menus::inv::compare_items( const item &first, const item &second,

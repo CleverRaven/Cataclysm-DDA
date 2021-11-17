@@ -42,15 +42,15 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_animal( "animal" );
-static const itype_id fuel_type_battery( "battery" );
-
-static const skill_id skill_driving( "driving" );
-
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+
+static const skill_id skill_driving( "driving" );
 
 static const std::string part_location_structure( "structure" );
 
@@ -907,10 +907,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).base_item );
     const auto &mats = type->materials;
+    float mat_total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     float vpart_dens = 0.0f;
     if( !mats.empty() ) {
-        for( const material_id &mat_id : mats ) {
-            vpart_dens += mat_id.obj().density();
+        for( const std::pair<const material_id, int> &mat_id : mats ) {
+            vpart_dens += mat_id.first->density() * ( static_cast<float>( mat_id.second ) / mat_total );
         }
         // average
         vpart_dens /= mats.size();
@@ -1526,7 +1527,7 @@ rl_vec2d vehicle::dir_vec() const
 float get_collision_factor( const float delta_v )
 {
     if( std::abs( delta_v ) <= 31 ) {
-        return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );
+        return 1 - ( 0.9 * std::abs( delta_v ) ) / 31;
     } else {
         return 0.1;
     }

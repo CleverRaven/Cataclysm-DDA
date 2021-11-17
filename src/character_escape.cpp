@@ -192,7 +192,7 @@ bool Character::try_remove_grab()
             /** @EFFECT_STR increases chance to escape grab */
         } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, body_part_torso ),
                                               8 ) ) {
-            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+            add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {

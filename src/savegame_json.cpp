@@ -135,10 +135,10 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
-static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
@@ -529,7 +529,6 @@ void activity_tracker::serialize( JsonOut &json ) const
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
-    json.member( "tick_counter", tick_counter );
     json.end_object();
 }
 
@@ -547,7 +546,10 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    jo.read( "tick_counter", tick_counter );
+    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
+        tracker *= 1000;
+        intake *= 1000;
+    }
 }
 
 // migration handling of items that used to have charges instead of real items.
@@ -599,6 +601,7 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
+    data.read( "cardio_acc", cardio_acc );
     // Legacy read, remove after 0.F
     data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
@@ -613,6 +616,7 @@ void Character::load( const JsonObject &data )
     data.read( "pkill", pkill );
 
     data.read( "type_of_scent", type_of_scent );
+    data.read( "focus_pool", focus_pool );
 
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
@@ -1095,6 +1099,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
+    json.member( "cardio_acc", cardio_acc );
     json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
@@ -1123,6 +1128,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+    json.member( "focus_pool", focus_pool );
 
     // stats through kills
     json.member( "kill_xp", kill_xp );
@@ -1316,9 +1322,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "grab_point", grab_point );
     json.member( "grab_type", obj_type_name[static_cast<int>( grab_type ) ] );
 
-    // misc player specific stuff
-    json.member( "focus_pool", focus_pool );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1419,8 +1422,6 @@ void avatar::load( const JsonObject &data )
     grab( iter == obj_type_name.end() ?
           object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
-
-    data.read( "focus_pool", focus_pool );
 
     data.read( "magic", magic );
 
@@ -1621,6 +1622,78 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
     json.member( "talk_friend_guard", talk_friend_guard );
+    json.member( "snip_acknowledged", snip_acknowledged );
+    json.member( "snip_camp_food_thanks", snip_camp_food_thanks );
+    json.member( "snip_camp_larder_empty", snip_camp_larder_empty );
+    json.member( "snip_camp_water_thanks", snip_camp_water_thanks );
+    json.member( "snip_cant_flee", snip_cant_flee );
+    json.member( "snip_close_distance", snip_close_distance );
+    json.member( "snip_combat_noise_warning", snip_combat_noise_warning );
+    json.member( "snip_danger_close_distance", snip_danger_close_distance );
+    json.member( "snip_done_mugging", snip_done_mugging );
+    json.member( "snip_far_distance", snip_far_distance );
+    json.member( "snip_fire_bad", snip_fire_bad );
+    json.member( "snip_fire_in_the_hole_h", snip_fire_in_the_hole_h );
+    json.member( "snip_fire_in_the_hole", snip_fire_in_the_hole );
+    json.member( "snip_general_danger_h", snip_general_danger_h );
+    json.member( "snip_general_danger", snip_general_danger );
+    json.member( "snip_heal_self", snip_heal_self );
+    json.member( "snip_hungry", snip_hungry );
+    json.member( "snip_im_leaving_you", snip_im_leaving_you );
+    json.member( "snip_its_safe_h", snip_its_safe_h );
+    json.member( "snip_its_safe", snip_its_safe );
+    json.member( "snip_keep_up", snip_keep_up );
+    json.member( "snip_kill_npc_h", snip_kill_npc_h );
+    json.member( "snip_kill_npc", snip_kill_npc );
+    json.member( "snip_kill_player_h", snip_kill_player_h );
+    json.member( "snip_let_me_pass", snip_let_me_pass );
+    json.member( "snip_lets_talk", snip_lets_talk );
+    json.member( "snip_medium_distance", snip_medium_distance );
+    json.member( "snip_monster_warning_h", snip_monster_warning_h );
+    json.member( "snip_monster_warning", snip_monster_warning );
+    json.member( "snip_movement_noise_warning", snip_movement_noise_warning );
+    json.member( "snip_need_batteries", snip_need_batteries );
+    json.member( "snip_need_booze", snip_need_booze );
+    json.member( "snip_need_fuel", snip_need_fuel );
+    json.member( "snip_no_to_thorazine", snip_no_to_thorazine );
+    json.member( "snip_run_away", snip_run_away );
+    json.member( "snip_speech_warning", snip_speech_warning );
+    json.member( "snip_thirsty", snip_thirsty );
+    json.member( "snip_wait", snip_wait );
+    json.member( "snip_warn_sleep", snip_warn_sleep );
+    json.member( "snip_yawn", snip_yawn );
+    json.member( "snip_yes_to_lsd", snip_yes_to_lsd );
+    json.member( "snip_pulp_zombie", snip_pulp_zombie );
+    json.member( "snip_heal_player", snip_heal_player );
+    json.member( "snip_mug_dontmove", snip_mug_dontmove );
+    json.member( "snip_wound_infected", snip_wound_infected );
+    json.member( "snip_wound_bite", snip_wound_bite );
+    json.member( "snip_radiation_sickness", snip_radiation_sickness );
+    json.member( "snip_bleeding", snip_bleeding );
+    json.member( "snip_bleeding_badly", snip_bleeding_badly );
+    json.member( "snip_lost_blood", snip_lost_blood );
+    json.member( "snip_bye", snip_bye );
+    json.member( "snip_consume_cant_accept", snip_consume_cant_accept );
+    json.member( "snip_consume_cant_consume", snip_consume_cant_consume );
+    json.member( "snip_consume_rotten", snip_consume_rotten );
+    json.member( "snip_consume_eat", snip_consume_eat );
+    json.member( "snip_consume_need_item", snip_consume_need_item );
+    json.member( "snip_consume_med", snip_consume_med );
+    json.member( "snip_consume_nocharge", snip_consume_nocharge );
+    json.member( "snip_consume_use_med", snip_consume_use_med );
+    json.member( "snip_give_nope", snip_give_nope );
+    json.member( "snip_give_to_hallucination", snip_give_to_hallucination );
+    json.member( "snip_give_cancel", snip_give_cancel );
+    json.member( "snip_give_dangerous", snip_give_dangerous );
+    json.member( "snip_give_wield", snip_give_wield );
+    json.member( "snip_give_weapon_weak", snip_give_weapon_weak );
+    json.member( "snip_give_carry", snip_give_carry );
+    json.member( "snip_give_carry_cant", snip_give_carry_cant );
+    json.member( "snip_give_carry_cant_few_space", snip_give_carry_cant_few_space );
+    json.member( "snip_give_carry_cant_no_space", snip_give_carry_cant_no_space );
+    json.member( "snip_give_carry_too_heavy", snip_give_carry_too_heavy );
+    json.member( "snip_wear", snip_wear );
+
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -1660,6 +1733,77 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
     data.read( "proficiency", proficiency );
+    data.read( "snip_acknowledged", snip_acknowledged );
+    data.read( "snip_camp_food_thanks", snip_camp_food_thanks );
+    data.read( "snip_camp_larder_empty", snip_camp_larder_empty );
+    data.read( "snip_camp_water_thanks", snip_camp_water_thanks );
+    data.read( "snip_cant_flee", snip_cant_flee );
+    data.read( "snip_close_distance", snip_close_distance );
+    data.read( "snip_combat_noise_warning", snip_combat_noise_warning );
+    data.read( "snip_danger_close_distance", snip_danger_close_distance );
+    data.read( "snip_done_mugging", snip_done_mugging );
+    data.read( "snip_far_distance", snip_far_distance );
+    data.read( "snip_fire_bad", snip_fire_bad );
+    data.read( "snip_fire_in_the_hole_h", snip_fire_in_the_hole_h );
+    data.read( "snip_fire_in_the_hole", snip_fire_in_the_hole );
+    data.read( "snip_general_danger_h", snip_general_danger_h );
+    data.read( "snip_general_danger", snip_general_danger );
+    data.read( "snip_heal_self", snip_heal_self );
+    data.read( "snip_hungry", snip_hungry );
+    data.read( "snip_im_leaving_you", snip_im_leaving_you );
+    data.read( "snip_its_safe_h", snip_its_safe_h );
+    data.read( "snip_its_safe", snip_its_safe );
+    data.read( "snip_keep_up", snip_keep_up );
+    data.read( "snip_kill_npc_h", snip_kill_npc_h );
+    data.read( "snip_kill_npc", snip_kill_npc );
+    data.read( "snip_kill_player_h", snip_kill_player_h );
+    data.read( "snip_let_me_pass", snip_let_me_pass );
+    data.read( "snip_lets_talk", snip_lets_talk );
+    data.read( "snip_medium_distance", snip_medium_distance );
+    data.read( "snip_monster_warning_h", snip_monster_warning_h );
+    data.read( "snip_monster_warning", snip_monster_warning );
+    data.read( "snip_movement_noise_warning", snip_movement_noise_warning );
+    data.read( "snip_need_batteries", snip_need_batteries );
+    data.read( "snip_need_booze", snip_need_booze );
+    data.read( "snip_need_fuel", snip_need_fuel );
+    data.read( "snip_no_to_thorazine", snip_no_to_thorazine );
+    data.read( "snip_run_away", snip_run_away );
+    data.read( "snip_speech_warning", snip_speech_warning );
+    data.read( "snip_thirsty", snip_thirsty );
+    data.read( "snip_wait", snip_wait );
+    data.read( "snip_warn_sleep", snip_warn_sleep );
+    data.read( "snip_yawn", snip_yawn );
+    data.read( "snip_yes_to_lsd", snip_yes_to_lsd );
+    data.read( "snip_pulp_zombie", snip_pulp_zombie );
+    data.read( "snip_heal_player", snip_heal_player );
+    data.read( "snip_mug_dontmove", snip_mug_dontmove );
+    data.read( "snip_wound_infected", snip_wound_infected );
+    data.read( "snip_wound_bite", snip_wound_bite );
+    data.read( "snip_radiation_sickness", snip_radiation_sickness );
+    data.read( "snip_bleeding", snip_bleeding );
+    data.read( "snip_bleeding_badly", snip_bleeding_badly );
+    data.read( "snip_lost_blood", snip_lost_blood );
+    data.read( "snip_bye", snip_bye );
+    data.read( "snip_consume_cant_accept", snip_consume_cant_accept );
+    data.read( "snip_consume_cant_consume", snip_consume_cant_consume );
+    data.read( "snip_consume_rotten", snip_consume_rotten );
+    data.read( "snip_consume_eat", snip_consume_eat );
+    data.read( "snip_consume_need_item", snip_consume_need_item );
+    data.read( "snip_consume_med", snip_consume_med );
+    data.read( "snip_consume_nocharge", snip_consume_nocharge );
+    data.read( "snip_consume_use_med", snip_consume_use_med );
+    data.read( "snip_give_nope", snip_give_nope );
+    data.read( "snip_give_to_hallucination", snip_give_to_hallucination );
+    data.read( "snip_give_cancel", snip_give_cancel );
+    data.read( "snip_give_dangerous", snip_give_dangerous );
+    data.read( "snip_give_wield", snip_give_wield );
+    data.read( "snip_give_weapon_weak", snip_give_weapon_weak );
+    data.read( "snip_give_carry", snip_give_carry );
+    data.read( "snip_give_carry_cant", snip_give_carry_cant );
+    data.read( "snip_give_carry_cant_few_space", snip_give_carry_cant_few_space );
+    data.read( "snip_give_carry_cant_no_space", snip_give_carry_cant_no_space );
+    data.read( "snip_give_carry_too_heavy", snip_give_carry_too_heavy );
+    data.read( "snip_wear", snip_wear );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -3367,6 +3511,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
+    jo.read( "trusts_u", trusts_u );
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
@@ -3390,6 +3535,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
+    json.member( "trusts_u", trusts_u );
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
@@ -4575,13 +4721,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
+                                                      tripoint_zero ) ).first;
                 jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
             jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {

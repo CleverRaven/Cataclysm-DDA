@@ -69,6 +69,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "MINING" ),
                    zone_type( to_translation( "Mine Terrain" ),
                               to_translation( "Designate an area to mine." ) ) );
+    types.emplace( zone_type_id( "MOPPING" ),
+                   zone_type( to_translation( "Mop tile" ),
+                              to_translation( "Designate an area to mop clean." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
                               to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
@@ -642,7 +645,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
         }
-        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ) {
+        if( npc_search && has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) {
             continue;
         }
         res.insert( elem );

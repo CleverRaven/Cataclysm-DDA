@@ -192,7 +192,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NOGIB).
 - ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
 - ```PLASMA``` Creates a trail of superheated plasma.
@@ -233,6 +233,31 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```MOUTH```
 - ```TORSO```
 
+### Specifically Covers
+
+- ```torso_upper```
+- ```torso_neck```
+- ```torso_lower```
+- ```torso_hanging_front```
+- ```torso_hanging_back```
+- ```arm_shoulder_r```
+- ```arm_upper_r```
+- ```arm_elbow_r```
+- ```arm_lower_r```
+- ```arm_shoulder_l```
+- ```arm_upper_l```
+- ```arm_elbow_l```
+- ```arm_lower_l```
+- ```leg_hip_r```
+- ```leg_upper_r```
+- ```leg_knee_r```
+- ```leg_lower_r```
+- ```leg_hip_l```
+- ```leg_upper_l```
+- ```leg_knee_l```
+- ```leg_lower_l``` 
+
+
 ### Flags
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
@@ -248,6 +273,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DEAF``` Makes the player deaf.
 - ```MUTE``` Makes the player mute.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
@@ -568,7 +594,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
-- ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
@@ -605,7 +630,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
-- ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by teh tiles code to align furniture sprites away from the window.
+- ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
@@ -764,7 +789,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
 - ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
-- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Cataclysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
@@ -838,7 +863,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```PLAYER_WEAK``` Raises monster aggression by  10 - (percent of hp remaining / 10) if a potential enemy has less than 70% hp remaining - Anger trigger only!
 - ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!
 - ```SOUND``` Not an actual trigger, monsters above 10 aggression and 0 morale will wander towards, monsters below 0 morale will wander away from the source of the sound for 1 turn (6, if they have the GOODHEARING flag).
-- ```STALK``` Raises monster aggresssion by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
+- ```STALK``` Raises monster aggression by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
 - ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
 - ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!
 
@@ -1061,7 +1086,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
 - ```GRENADIER_ELITE``` Deploys grenade/flashbang/c4/mininuke hacks from its ammo.
 - ```HOWL``` "an ear-piercing howl!"
-- ```IMPALE``` Stabbing attack agains the target's torso, with a chance to down (superseded by the JSON-defined `impale` attack)
+- ```IMPALE``` Stabbing attack against the target's torso, with a chance to down (superseded by the JSON-defined `impale` attack)
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
 - ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
 - ```LASER``` Laser turret fires.
@@ -1172,6 +1197,13 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+- ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs
+  neighbour checks, the directions will be treated as absolute, rather than
+  rotated to account for the rotation of the mapgen itself.  Probably only
+  useful for hardcoded mapgen.
+- ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it
+  will update the mapgen from the terrain it replaced.  This allows the
+  corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
@@ -1540,6 +1572,7 @@ Gun fault flags:
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
+- ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
 - ```COLD_IMMUNE``` You are immune to cold damage.
 - ```BIO_IMMUNE``` You are immune to biological damage.
@@ -1555,6 +1588,7 @@ Gun fault flags:
 - ```FEATHER_FALL``` You are immune to fall damage.
 - ```INVISIBLE``` You can't be seen.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
+- ```PORTAL_PROOF``` You are immune to personal portal storm effects.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.

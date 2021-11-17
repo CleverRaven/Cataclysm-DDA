@@ -126,7 +126,8 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2, "material_thickness": 1 },
+    "relative": { "bashing": 2 },
+    "material_thickness": 5,
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
@@ -412,6 +413,7 @@
     "name": { "str": "pair of western boots", "str_pl": "pairs of western boots" },
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  These may look good, but these boots are made for walking.  Each boot is large enough to conceal a small holdout pistol.",
     "price_postapoc": 750,
+    "material": [ "leather" ],
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
@@ -1163,7 +1165,7 @@
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "socks",

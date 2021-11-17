@@ -86,8 +86,9 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_worked_on( "worked_on" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -97,29 +98,28 @@ static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
+static const quality_id qual_SHEAR( "SHEAR" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
-
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
-static const quality_id qual_SHEAR( "SHEAR" );
-static const quality_id qual_PRY( "PRY" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -350,9 +350,9 @@ bool aim_activity_actor::load_RAS_weapon()
         return false;
     }
 
-    // Burn 0.2% max base stamina x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
+                     get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -824,7 +824,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             map &here = get_map();
             if( type == hack_type::GAS ) {
                 int tankUnits;
-                std::string fuelType;
+                fuel_station_fuel_type fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
                                                         fuelType );
                 if( !pTank_ ) {
@@ -847,7 +847,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 here.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : here.points_in_radius( ( examp ), 3 ) ) {
+                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
                     if( here.ter( tmp ) == t_door_metal_locked ) {
                         here.ter_set( tmp, t_door_metal_c );
                     }
@@ -1498,7 +1498,8 @@ bool read_activity_actor::player_read( avatar &you )
             }
 
             if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
+                  one_in( 25 ) ) ) {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
                 } else {
@@ -1636,7 +1637,8 @@ bool read_activity_actor::npc_read( npc &learner )
 
         if( display_messages &&
             ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) ) {
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
+                one_in( 25 ) ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }
@@ -3156,14 +3158,14 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
     bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
-    if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
+    if( hand_equipment && ( who.is_limb_broken( body_part_arm_l ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( ( who.is_limb_broken( body_part_leg_l ) ) ||
+    if( leg_equipment && ( who.is_limb_broken( body_part_leg_l ) ||
                            who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
@@ -3658,7 +3660,7 @@ void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
-    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
     critter.add_effect( effect_worked_on, 1_turns );
 }
 
@@ -3685,7 +3687,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
     // Should never be null as we just checked in do_turn
-    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
 
     if( reprogram ) {
         if( critter.has_effect( effect_docile ) ) {

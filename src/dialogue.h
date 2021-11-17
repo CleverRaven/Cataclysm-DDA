@@ -112,6 +112,8 @@ struct talk_effect_fun_t {
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_lightning();
+        void set_next_weather();
         void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_mod_fatigue( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -136,6 +138,8 @@ struct talk_effect_fun_t {
         void set_npc_aim_rule( const std::string &setting );
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
+        void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
@@ -148,6 +152,8 @@ struct talk_effect_fun_t {
         void set_npc_first_topic( const std::string &chat_topic );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_faction_trust( const JsonObject &jo, const std::string &member );
+        void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
         std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
@@ -259,7 +265,7 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
+        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         talker *actor( const bool is_beta ) const;
@@ -356,6 +362,8 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      const itype_id &item_type, bool first = false );
+
+        int get_best_quit_response() const;
 };
 
 /**

@@ -77,7 +77,13 @@ TEST_CASE( "repair_vehicle_part" )
         item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", calendar::turn_zero, 500 );
+
+        item ups( "UPS_off" );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( ups );
+
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, true );
     }
@@ -97,7 +103,13 @@ TEST_CASE( "repair_vehicle_part" )
         item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", calendar::turn_zero, 5 );
+
+        item ups( "UPS_off" );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 5 );
+        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( ups );
+
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }

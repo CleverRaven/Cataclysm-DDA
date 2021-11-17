@@ -95,8 +95,10 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -104,7 +106,8 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+
+static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -115,20 +118,18 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
-static const skill_id skill_melee( "melee" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+
+static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const quality_id qual_CUT( "CUT" );
 
-static const bionic_id bio_remote( "bio_remote" );
+static const skill_id skill_melee( "melee" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
-
-static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
-
-static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -760,7 +761,7 @@ static void smash()
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
             for( const item &i : player_character.worn ) {
                 if( i.covers( bp ) ) {
-                    tmp_bash_armor += i.bash_resist();
+                    tmp_bash_armor += i.bash_resist( false, bp );
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
@@ -808,9 +809,13 @@ static void smash()
             if( player_character.get_skill_level( skill_melee ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
-                rng( 0, vol + 3 ) < vol ) {
+            const int glass_portion = weapon.made_of( material_id( "glass" ) );
+            float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
+            if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
+                glass_fraction = 0.f;
+            }
+            const int vol = weapon.volume() * glass_fraction / units::legacy_volume_factor;
+            if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( player_character.pos() );
                 sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
@@ -960,8 +965,8 @@ static void wait()
     }
 
     // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
-                to_string_time_of_day( calendar::turn ) ) : "";
+    as_m.text = has_watch ? string_format( _( "It's %s now.  " ),
+                                           to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
@@ -992,7 +997,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
+        player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -1136,7 +1141,8 @@ static void loot()
         Multirepairvehicle = 2048,
         MultiButchery = 4096,
         MultiMining = 8192,
-        MultiDis = 16384
+        MultiDis = 16384,
+        MultiMopping = 32768
     };
 
     Character &player_character = get_player_character();
@@ -1171,6 +1177,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "MINING" ), player_character.pos() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_id( "zone_disassemble" ),
                                  player_character.pos() ) ? MultiDis : 0;
+    flags |= g->check_near_zone( zone_type_id( "MOPPING" ), player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1231,6 +1238,9 @@ static void loot()
                             _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
 
     }
+    if( flags & MultiMopping ) {
+        menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1271,6 +1281,9 @@ static void loot()
             break;
         case MultiDis:
             player_character.assign_activity( ACT_MULTIPLE_DIS );
+            break;
+        case MultiMopping:
+            player_character.assign_activity( ACT_MULTIPLE_MOP );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1847,6 +1860,29 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.clear_destination();
                 }
+
+                if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
+                    player_character.used_weapon().typeId() == STATIC( itype_id( "mop" ) ) ) {
+                    map &here = get_map();
+                    const bool is_blind = player_character.is_blind();
+                    for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {
+                        bool did_mop = false;
+                        if( is_blind ) {
+                            // blind character have a 1/3 chance of actually mopping
+                            if( one_in( 3 ) ) {
+                                did_mop = here.mop_spills( point );
+                            } else {
+                                did_mop = here.terrain_moppable( point );
+                            }
+                        } else {
+                            did_mop = here.mop_spills( point );
+                        }
+                        // iuse::mop costs 15 moves per use
+                        if( did_mop ) {
+                            player_character.mod_moves( -15 );
+                        }
+                    }
+                }
             }
             break;
         case ACTION_MOVE_DOWN:
@@ -1949,26 +1985,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_PICKUP:
+        case ACTION_PICKUP_ALL:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else if( mouse_target ) {
-                pickup( *mouse_target );
             } else {
-                pickup();
-            }
-            break;
-
-        case ACTION_PICKUP_FEET:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
-            } else if( u.has_effect( effect_incorporeal ) ) {
-                add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else {
-                pickup_feet();
+                if( act == ACTION_PICKUP_ALL ) {
+                    pickup_all();
+                } else {
+                    pickup();
+                }
             }
             break;
 
@@ -2151,16 +2180,22 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
-        case ACTION_DROP:
+        case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
-            drop();
+            unload_container();
             break;
 
+        case ACTION_DROP:
+            drop_in_direction( player_character.pos() );
+            break;
         case ACTION_DIR_DROP:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
-            } else {
-                drop_in_direction();
+            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos() &&
+                    player_character.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
+                } else {
+                    drop_in_direction( *pnt );
+                }
             }
             break;
         case ACTION_BIONICS:
@@ -2782,5 +2817,5 @@ bool game::handle_action()
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     to_turn<int>( calendar::turn ), before_action_moves, player_character.movecounter,
                                     player_character.moves );
-    return ( !player_character.is_dead_state() );
+    return !player_character.is_dead_state();
 }

@@ -48,7 +48,7 @@ Monsters may also have any of these optional properties:
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 | `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
-| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0 
+| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -77,7 +77,7 @@ Monsters may also have any of these optional properties:
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
-| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
+| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md)
 | `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
 | `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
@@ -331,7 +331,7 @@ Weakpoints in the monster's protection.
 | `name`              | name of the weakpoint. Used in hit messages.
 | `coverage`          | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
 | `coverage_mult`     | object mapping weapon types to constant coverage multipliers.
-| `difficulty`        | object mapping weakon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
+| `difficulty`        | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
 | `armor_mult`        | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
 | `armor_penalty`     | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 | `damage_mult`       | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
@@ -377,7 +377,7 @@ A monster should have at most 1 default weakpoint.
 ## "families"
 (array of objects, optional)
 
-Weakpoint families that the monster belongs to. 
+Weakpoint families that the monster belongs to.
 
 | field               | description
 | ---                 | ---
@@ -487,7 +487,7 @@ The upgrades object may have the following members:
 | field        | description
 | ---          | ---
 | `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group.
 | `into`       | (string, optional) The upgraded monster's type.
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
@@ -649,8 +649,8 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
-| `damage_max_instance` | Array of objects, see ## "melee_damage" 
-| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
+| `damage_max_instance` | Array of objects, see ## "melee_damage"
+| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a
 |						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
@@ -676,7 +676,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 
 | field                 | description
 | ---                   | ---
-| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100. 
+| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100.
 
 
 ## "leap"

@@ -27,6 +27,11 @@ struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
 
+
+struct sub_body_part_type;
+using sub_bodypart_id = int_id<sub_body_part_type>;
+using sub_bodypart_str_id = string_id<sub_body_part_type>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
@@ -83,6 +88,9 @@ using item_group_id = string_id<Item_spawn_data>;
 
 struct itype;
 using itype_id = string_id<itype>;
+
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
@@ -161,6 +169,9 @@ using species_id = string_id<species_type>;
 
 class speed_description;
 using speed_description_id = string_id<speed_description>;
+
+class mood_face;
+using mood_face_id = string_id<mood_face>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;

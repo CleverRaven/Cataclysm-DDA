@@ -71,23 +71,22 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const itype_id fuel_type_battery( "battery" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
-static const skill_id skill_mechanics( "mechanics" );
-
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const skill_id skill_mechanics( "mechanics" );
 
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static inline std::string status_color( bool status )
 {
@@ -1935,8 +1934,8 @@ void veh_interact::do_siphon()
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && !pt.base.empty() &&
-                pt.base.only_item().made_of( phase_id::LIQUID ) );
+        return pt.is_tank() && !pt.base.empty() &&
+               pt.base.only_item().made_of( phase_id::LIQUID );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -2039,7 +2038,6 @@ void veh_interact::do_change_shape()
             for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
                 std::string disp_name = sel_vpart_info->name();
                 // getting all the available shape variants from vpart_variants
-                std::size_t variants_offset = 0;
                 for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
                     if( vp_variant_pair.first == vp_variant.first ) {
                         disp_name += " " + vp_variant_pair.second;
@@ -2049,7 +2047,6 @@ void veh_interact::do_change_shape()
                         }
                         break;
                     }
-                    variants_offset += 1;
                 }
                 uilist_entry entry( disp_name );
                 entry.retval = ret_code++;
@@ -2255,7 +2252,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met );
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
 }
 
 /**
@@ -2294,6 +2291,10 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
+                if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
+                    // exclude "appliances" from vehicle part list
+                    continue;
+                }
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;

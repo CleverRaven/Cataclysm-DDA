@@ -2,29 +2,17 @@
   {
     "name": "GROUP_BEARS",
     "type": "monstergroup",
-    "default": "mon_bear",
-    "monsters": [
-      { "monster": "mon_bear", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombear", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_bear", "weight": 950 }, { "monster": "mon_zombear", "weight": 50 } ]
   },
   {
     "name": "GROUP_MOOSE",
     "type": "monstergroup",
-    "default": "mon_moose",
-    "monsters": [
-      { "monster": "mon_moose", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zoose", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_moose", "weight": 950 }, { "monster": "mon_zoose", "weight": 50 } ]
   },
   {
     "name": "GROUP_PIGS",
     "type": "monstergroup",
-    "default": "mon_pig",
-    "monsters": [
-      { "monster": "mon_pig", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_pig", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_pig", "weight": 950 }, { "monster": "mon_zombie_pig", "weight": 50 } ]
   },
   {
     "method": "json",

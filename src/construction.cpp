@@ -75,19 +75,19 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-
-static const quality_id qual_CUT( "CUT" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 
@@ -119,6 +119,7 @@ static void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
+void done_appliance( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -573,7 +574,7 @@ construction_id construction_menu( const bool blueprint )
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             const construction_group_str_id &group = constructs[current];
-            bool highlight = ( current == select );
+            bool highlight = current == select;
             const point print_from( 0, i );
             if( highlight ) {
                 cursor_pos = print_from;
@@ -1309,6 +1310,25 @@ void construct::done_vehicle( const tripoint &p )
     here.add_vehicle_to_cache( veh );
 }
 
+void construct::done_appliance( const tripoint &p )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
+    veh->install_part( point_zero, vpart );
+    veh->add_tag( "APPLIANCE" );
+
+    veh->name = vpart->name();
+    // Update the vehicle cache immediately,
+    // or the appliance will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+}
+
 void construct::done_deconstruct( const tripoint &p )
 {
     map &here = get_map();
@@ -1412,7 +1432,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
+        if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
             here.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {
@@ -1664,6 +1684,7 @@ void load_construction( const JsonObject &jo )
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
+            { "done_appliance", construct::done_appliance },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },

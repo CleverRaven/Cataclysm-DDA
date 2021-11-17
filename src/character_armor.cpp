@@ -12,8 +12,6 @@
 static const bionic_id bio_ads( "bio_ads" );
 static const efftype_id effect_onfire( "onfire" );
 
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
@@ -82,7 +80,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             int ret = 0;
             for( const item &i : worn ) {
                 if( i.covers( bp ) ) {
-                    ret += i.damage_resist( dt );
+                    ret += i.damage_resist( dt, false, bp );
                 }
             }
 
@@ -133,7 +131,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case damage_type::COLD:
             case damage_type::ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->damage_resist( dt );
+                    per_bp.second += it->damage_resist( dt, false, bp );
                 }
 
                 per_bp.second += mutation_armor( bp, dt );
@@ -154,7 +152,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bash_resist();
+            ret += i.bash_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -173,7 +171,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.cut_resist();
+            ret += i.cut_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -192,7 +190,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bullet_resist();
+            ret += i.bullet_resist( false, bp );
         }
     }
 
@@ -329,6 +327,42 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
+static void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
+{
+    switch( du.type ) {
+        case damage_type::ACID:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ACID );
+            break;
+        case damage_type::BASH:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BASH );
+            break;
+        case damage_type::BIOLOGICAL:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BIO );
+            break;
+        case damage_type::COLD:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_COLD );
+            break;
+        case damage_type::CUT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_CUT );
+            break;
+        case damage_type::ELECTRIC:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ELEC );
+            break;
+        case damage_type::HEAT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_HEAT );
+            break;
+        case damage_type::STAB:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_STAB );
+            break;
+        case damage_type::BULLET:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BULLET );
+            break;
+        default:
+            return;
+    }
+    du.amount = std::max( 0.0f, du.amount );
+}
+
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
                                         damage_instance &dam )
 {
@@ -408,7 +442,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype( iter )( worn.erase( --( iter.base() ) ) );
+                iter = decltype( iter )( worn.erase( --iter.base() ) );
             } else {
                 ++iter;
                 outermost = false;
@@ -417,15 +451,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         passive_absorb_hit( bp, elem );
 
-        if( elem.type == damage_type::BASH ) {
-            if( has_trait( trait_LIGHT_BONES ) ) {
-                elem.amount *= 1.4;
-            }
-            if( has_trait( trait_HOLLOW_BONES ) ) {
-                elem.amount *= 1.8;
-            }
-        }
-
+        post_absorbed_damage_enchantment_adjust( *this, elem );
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();
@@ -441,7 +467,15 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
 
@@ -449,7 +483,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = armor.damage_resist( du.type, true );
+    const float armors_own_resist = armor.damage_resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
         // This is some weird type that doesn't damage armors
         return false;

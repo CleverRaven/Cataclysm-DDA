@@ -185,9 +185,45 @@ bool itype::can_have_charges() const
 bool itype::is_basic_component() const
 {
     for( const auto &mat : materials ) {
-        if( mat->salvaged_into() && *mat->salvaged_into() == get_id() ) {
+        if( mat.first->salvaged_into() && *mat.first->salvaged_into() == get_id() ) {
             return true;
         }
     }
     return false;
+}
+
+int islot_armor::avg_env_resist() const
+{
+    int acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.env_resist;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
+}
+
+int islot_armor::avg_env_resist_w_filter() const
+{
+    int acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.env_resist_w_filter;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
+}
+
+float islot_armor::avg_thickness() const
+{
+    float acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.avg_thickness;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
 }

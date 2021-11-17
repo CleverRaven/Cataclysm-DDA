@@ -38,6 +38,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "omdata.h"
@@ -59,12 +60,6 @@
 #include "weather_type.h"
 #include "widget.h"
 
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
-static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
-
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -79,8 +74,11 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
-static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 // constructor
 window_panel::window_panel(
@@ -589,18 +587,15 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-std::pair<std::string, nc_color> display::morale_face_color( const Character &u )
+std::pair<std::string, nc_color> display::morale_face_color( avatar &u )
 {
-    const int morale_int = u.get_morale_level();
-    nc_color morale_color = c_white;
-    if( morale_int >= 10 ) {
-        morale_color = c_green;
-    } else if( morale_int <= -10 ) {
-        morale_color = c_red;
+    const mood_face_id &face = u.character_mood_face();
+    if( face.is_null() ) {
+        return std::make_pair( "ERR", c_white );
     }
-    const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    const std::string smiley = morale_emotion( morale_int, display::get_face_type( u ), m_style );
-    return std::make_pair( smiley, morale_color );
+
+    const int morale_int = u.get_morale_level();
+    return morale_emotion( morale_int, face.obj() );
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
@@ -749,99 +744,18 @@ static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int trun
     return "-";
 }
 
-face_type display::get_face_type( const Character &u )
+std::pair<std::string, nc_color> display::morale_emotion( const int morale_cur,
+        const mood_face &face )
 {
-    face_type fc = face_human;
-    if( u.has_trait( trait_THRESH_FELINE ) ) {
-        fc = face_cat;
-    } else if( u.has_trait( trait_THRESH_URSINE ) ) {
-        fc = face_bear;
-    } else if( u.has_trait( trait_THRESH_BIRD ) ) {
-        fc = face_bird;
-    }
-    return fc;
-}
-
-std::string display::morale_emotion( const int morale_cur, const face_type face,
-                                     const bool horizontal_style )
-{
-    if( horizontal_style ) {
-        if( face == face_bear || face == face_cat ) {
-            if( morale_cur >= 200 ) {
-                return "@W@";
-            } else if( morale_cur >= 100 ) {
-                return "OWO";
-            } else if( morale_cur >= 50 ) {
-                return "owo";
-            } else if( morale_cur >= 10 ) {
-                return "^w^";
-            } else if( morale_cur >= -10 ) {
-                return "-w-";
-            } else if( morale_cur >= -50 ) {
-                return "-m-";
-            } else if( morale_cur >= -100 ) {
-                return "TmT";
-            } else if( morale_cur >= -200 ) {
-                return "XmX";
-            } else {
-                return "@m@";
-            }
-        } else if( face == face_bird ) {
-            if( morale_cur >= 200 ) {
-                return "@v@";
-            } else if( morale_cur >= 100 ) {
-                return "OvO";
-            } else if( morale_cur >= 50 ) {
-                return "ovo";
-            } else if( morale_cur >= 10 ) {
-                return "^v^";
-            } else if( morale_cur >= -10 ) {
-                return "-v-";
-            } else if( morale_cur >= -50 ) {
-                return ".v.";
-            } else if( morale_cur >= -100 ) {
-                return "TvT";
-            } else if( morale_cur >= -200 ) {
-                return "XvX";
-            } else {
-                return "@^@";
-            }
-        } else if( morale_cur >= 200 ) {
-            return "@U@";
-        } else if( morale_cur >= 100 ) {
-            return "OuO";
-        } else if( morale_cur >= 50 ) {
-            return "^u^";
-        } else if( morale_cur >= 10 ) {
-            return "n_n";
-        } else if( morale_cur >= -10 ) {
-            return "-_-";
-        } else if( morale_cur >= -50 ) {
-            return "-n-";
-        } else if( morale_cur >= -100 ) {
-            return "TnT";
-        } else if( morale_cur >= -200 ) {
-            return "XnX";
-        } else {
-            return "@n@";
+    for( const mood_face_value &face_value : face.values() ) {
+        if( face_value.value() <= morale_cur ) {
+            const nc_color colour = get_color_from_tag( face_value.face() ).color;
+            return std::make_pair( remove_color_tags( face_value.face() ), colour );
         }
-    } else if( morale_cur >= 100 ) {
-        return "8D";
-    } else if( morale_cur >= 50 ) {
-        return ":D";
-    } else if( face == face_cat && morale_cur >= 10 ) {
-        return ":3";
-    } else if( face != face_cat && morale_cur >= 10 ) {
-        return ":)";
-    } else if( morale_cur >= -10 ) {
-        return ":|";
-    } else if( morale_cur >= -50 ) {
-        return "):";
-    } else if( morale_cur >= -100 ) {
-        return "D:";
-    } else {
-        return "D8";
     }
+
+    debugmsg( "morale_emotion no matching face found for: %s", face.getId().str() );
+    return std::make_pair( "ERR", c_light_gray );
 }
 
 std::pair<std::string, nc_color> display::power_text_color( const Character &u )
@@ -1109,8 +1023,8 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - ( std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                    0 ) );
+    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
+                                            0 );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -1140,6 +1054,10 @@ std::pair<std::string, nc_color> display::thirst_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
 {
+    // NPCs who do not need food have no hunger
+    if( !u.needs_food() ) {
+        return std::make_pair( _( "Without Hunger" ), c_white );
+    }
     // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
     // like all of the effect_* string_id variables which are const string_id, then it fails to
     // initialize the array with tuples successfully complaining that
@@ -1668,9 +1586,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
-    if( u.get_focus() < u.calc_focus_equilibrium() ) {
+    if( u.calc_focus_change() > 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
+    } else if( u.calc_focus_change() < 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
 
@@ -2369,7 +2287,7 @@ void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_pa
     // Print monster names, starting with those at location 8 (nearby).
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
         // Separate names by some number of spaces (more for local monsters).
-        int namesep = ( j == 8 ? 2 : 1 );
+        int namesep = j == 8 ? 2 : 1;
         for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
             const mtype *const type = mon.first;
             const int count = mon.second;
@@ -3194,7 +3112,7 @@ void panel_manager::show_adm()
         for( i = 0; i < current_col; i++ ) {
             col_offset += column_widths[i];
         }
-        mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
+        mvwprintz( w, point( 1 + col_offset, current_row + 1 ), c_yellow, ">>" );
         // Draw vertical separators
         mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
         mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );

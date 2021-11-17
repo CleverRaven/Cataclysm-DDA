@@ -8,6 +8,7 @@
 #include "units_fwd.h"
 #include <list>
 
+class computer;
 class faction;
 class item;
 class item_location;
@@ -58,6 +59,12 @@ class talker
             return nullptr;
         }
         virtual const Creature *get_creature() const {
+            return nullptr;
+        }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual const computer *get_computer() const {
             return nullptr;
         }
         // identity and location
@@ -169,6 +176,12 @@ class talker
             return false;
         }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {

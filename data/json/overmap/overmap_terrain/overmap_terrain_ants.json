@@ -6,7 +6,7 @@
     "sym": "%",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

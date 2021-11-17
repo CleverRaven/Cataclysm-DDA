@@ -12,7 +12,7 @@
   {
     "type": "proficiency",
     "id": "prof_knapping_speed",
-    "name": { "str": "Knapping" },
+    "name": { "str": "Speed Knapping" },
     "description": "You've banged rocks together so much and for so long, you've become extremely fast at it.",
     "can_learn": true,
     "default_time_multiplier": 5,

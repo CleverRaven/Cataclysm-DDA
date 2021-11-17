@@ -841,7 +841,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_core_kitchen_stove_south",
     "blueprint_name": "south wood stove",
-    "blueprint_resources": [ "fake_stove" ],
+    "blueprint_resources": [ "fake_woodstove" ],
     "blueprint_requires": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" }, { "id": "kitchen_recipes_1" } ],
     "blueprint_needs": {

@@ -89,9 +89,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
     optional( jo, was_loaded, "global", global, false );
-    if( type != eoc_type::RECURRING && ( global || run_for_npcs ) ) {
-        jo.throw_error( "run_for_npcs and global should only be true for RECURRING effect_on_conditions." );
-    } else if( !global && run_for_npcs ) {
+    if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
     }
 }
@@ -158,11 +156,12 @@ static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued
     }
     eoc_queue = temp_queued_eocs;
     for( auto eoc = eoc_vector.begin();
-         eoc != eoc_vector.end(); eoc++ ) {
+         eoc != eoc_vector.end(); ) {
         if( !eoc->is_valid() ) {
             eoc = eoc_vector.erase( eoc );
         } else {
             new_eocs[*eoc] = false;
+            eoc++;
         }
     }
 }

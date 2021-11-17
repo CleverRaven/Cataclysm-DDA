@@ -37,7 +37,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",

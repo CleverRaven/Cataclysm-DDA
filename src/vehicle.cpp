@@ -84,30 +84,28 @@ static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
 static const std::string part_location_onroof( "on_roof" );
 
-static const itype_id fuel_type_animal( "animal" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_mana( "mana" );
-
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
-
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_mana( "mana" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-
 static const itype_id itype_water_purifier( "water_purifier" );
+
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
@@ -1243,8 +1241,9 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
-    //First part in an empty square MUST be a structural part
-    if( parts_in_square.empty() && part.location != part_location_structure ) {
+    //First part in an empty square MUST be a structural part or be an appliance
+    if( parts_in_square.empty() &&  part.location != part_location_structure &&
+        !part.has_flag( "APPLIANCE" ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.
@@ -2866,7 +2865,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
         std::vector<int> x_ret;
         // sort by Y-axis, since they're all on the same X-axis
         const auto x_sorter = [&]( const int lhs, const int rhs ) {
-            return( parts[lhs].mount.y > parts[rhs].mount.y );
+            return parts[lhs].mount.y > parts[rhs].mount.y;
         };
         std::sort( x_parts.begin(), x_parts.end(), x_sorter );
         int first_part = 0;
@@ -2893,7 +2892,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
     if( y_parts.size() > 1 ) {
         std::vector<int> y_ret;
         const auto y_sorter = [&]( const int lhs, const int rhs ) {
-            return( parts[lhs].mount.x > parts[rhs].mount.x );
+            return parts[lhs].mount.x > parts[rhs].mount.x;
         };
         std::sort( y_parts.begin(), y_parts.end(), y_sorter );
         int first_part = 0;
@@ -3008,7 +3007,7 @@ int vehicle::part_displayed_at( const point &dp ) const
         }
     }
 
-    int hide_z_at_or_above = ( in_vehicle ) ? ( ON_ROOF_Z ) : INT_MAX;
+    int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
 
     int top_part = 0;
     for( size_t index = 1; index < parts_in_square.size(); index++ ) {
@@ -3269,7 +3268,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
                       ( player_character.get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( player_character.has_two_arms_lifting() ) ) ) {
+                      player_character.has_two_arms_lifting() ) ) {
                     fl += 10;
                 }
             }
@@ -4486,7 +4485,7 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) = 5
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
+    const float diff_mod = ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned );
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
@@ -4598,8 +4597,11 @@ void vehicle::consume_fuel( int load, bool idling )
         // But only if the player is actually there!
         int eff_load = load / 10;
         int mod = 4 * st; // strain
-        int base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) -
-                        3;
+        const int base_staminaRegen = static_cast<int>
+                                      ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        const int actual_staminaRegen = static_cast<int>( base_staminaRegen *
+                                        player_character.get_cardiofit() / player_character.base_bmr() );
+        int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
@@ -6229,7 +6231,7 @@ void vehicle::shed_loose_parts()
             tow_data.clear_towing();
         }
         const vehicle_part *part = &parts[elem];
-        if( !magic ) {
+        if( !magic && !part->properties_to_item().has_flag( flag_id( "POWER_CORD" ) ) ) {
             item drop = part->properties_to_item();
             here.add_item_or_charges( global_part_pos3( *part ), drop );
         }
@@ -7270,6 +7272,16 @@ tripoint vehicle::exhaust_dest( int part ) const
     }
     point q = coord_translate( p );
     return global_pos3() + tripoint( q, 0 );
+}
+
+void vehicle::add_tag( std::string tag )
+{
+    tags.insert( tag );
+}
+
+bool vehicle::has_tag( std::string tag )
+{
+    return tags.count( tag ) > 0;
 }
 
 template<>

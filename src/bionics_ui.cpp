@@ -646,7 +646,7 @@ void avatar::power_bionics()
             return;
         }
 
-        sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
 
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
@@ -725,7 +725,7 @@ void avatar::power_bionics()
         ui_manager::redraw();
 
         //track which list we are looking at
-        ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        ::sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
         cursor = clamp<int>( cursor, 0, current_bionic_list->size() );

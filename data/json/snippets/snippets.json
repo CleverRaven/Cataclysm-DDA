@@ -282,5 +282,23 @@
         }
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "slime_generate",
+    "text": [
+      {
+        "text": {
+          "//~": "Usual enthusiastic slimespring small voices! :D",
+          "str": "\"wow!  you look just like me!  we should look out for each other!\""
+        }
+      },
+      {
+        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"come on, big me, let's go!\"" }
+      },
+      {
+        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"we're a team, we've got this!\"" }
+      }
+    ]
   }
 ]

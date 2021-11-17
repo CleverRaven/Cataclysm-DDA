@@ -1311,7 +1311,6 @@
     "skills_required": [ [ "computer", 3 ], [ "fabrication", 3 ] ],
     "difficulty": 5,
     "time": "8 h",
-    "reversible": true,
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],

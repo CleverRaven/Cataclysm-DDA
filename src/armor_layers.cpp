@@ -84,12 +84,29 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-        [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
-        } );
-        if( num_items > 1 ) {
-            body_parts_with_stacking_penalty.push_back( bp );
+        // if no subparts do the old way
+        if( bp->sub_parts.empty() ) {
+            const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+            [layer, bp]( const item & i ) {
+                return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+            } );
+            if( num_items > 1 ) {
+                body_parts_with_stacking_penalty.push_back( bp );
+            }
+        } else {
+            for( const auto &sbp : bp->sub_parts ) {
+                if( !worn_item_it->covers( sbp ) ) {
+                    continue;
+                }
+                const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+                [layer, bp, sbp]( const item & i ) {
+                    return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                           i.covers( sbp );
+                } );
+                if( num_items > 1 ) {
+                    body_parts_with_stacking_penalty.push_back( bp );
+                }
+            }
         }
 
         std::set<std::string> bad_items_within;
@@ -288,16 +305,33 @@ std::vector<std::string> clothing_properties(
 
     const std::string space = "  ";
 
-    const int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
-                         worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
-                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
+
+    int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
+                   worn_item.get_coverage( bp );
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_MELEE ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_MELEE );
+    props.push_back( name_and_value( space + _( "Coverage (Melee):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_RANGED ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_RANGED );
+    props.push_back( name_and_value( space + _( "Coverage (Ranged):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_VITALS ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_VITALS );
+    props.push_back( name_and_value( space + _( "Coverage (Vitals):" ),
+                                     string_format( "%3d", coverage ), width ) );
+
+    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
+                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", encumbrance ),
-                                     width ) );
+                                     string_format( "%3d", encumbrance ), width ) );
+
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     return props;
@@ -866,7 +900,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
@@ -891,7 +925,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {

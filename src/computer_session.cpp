@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "computer.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
@@ -45,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -73,13 +75,13 @@ static const itype_id itype_sewage( "sewage" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
 
 static catacurses::window init_window()
 {
@@ -229,7 +231,7 @@ bool computer_session::hack_attempt( Character &you, int Security )
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
-    bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
+    bool successful_attempt = dice( player_roll, 6 ) >= dice( Security, 6 );
     you.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
@@ -287,6 +289,7 @@ computer_session::computer_action_functions = {
     { COMPACT_MAP_SUBWAY, &computer_session::action_map_subway },
     { COMPACT_MAPS, &computer_session::action_maps },
     { COMPACT_MISS_DISARM, &computer_session::action_miss_disarm },
+    { COMPACT_MISS_LAUNCH, &computer_session::action_miss_launch },
     { COMPACT_OPEN, &computer_session::action_open },
     { COMPACT_OPEN_GATE, &computer_session::action_open_gate },
     { COMPACT_CLOSE_GATE, &computer_session::action_close_gate },
@@ -662,6 +665,64 @@ void computer_session::action_miss_disarm()
         add_msg( m_neutral, _( "Nuclear missile remains active." ) );
         return;
     }
+}
+
+void computer_session::action_miss_launch()
+{
+    // Target Acquisition.
+    const tripoint_abs_omt target( ui::omap::choose_point( 0 ) );
+    if( target == overmap::invalid_tripoint ) {
+        add_msg( m_info, _( "Target acquisition canceled." ) );
+        return;
+    }
+
+    if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
+        add_msg( m_info, _( "Nuclear missile launched!" ) );
+        //Remove the option to fire another missile.
+        comp.options.clear();
+    } else {
+        add_msg( m_info, _( "Nuclear missile launch aborted." ) );
+        return;
+    }
+
+    //Put some smoke gas and explosions at the nuke location.
+    const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
+    for( const auto &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+        if( one_in( 4 ) ) {
+            get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
+        }
+    }
+
+    //Only explode once. But make it large.
+    explosion_handler::explosion( nuke_location, 2000, 0.7, true );
+
+    //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
+    // For each level between here and the surface, remove the missile
+    for( int level = get_map().get_abs_sub().z; level <= 0; level++ ) {
+        map tmpmap;
+        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().x, get_map().get_abs_sub().y, level ),
+                     false );
+
+        if( level < 0 ) {
+            tmpmap.translate( t_missile, t_hole );
+        } else {
+            tmpmap.translate( t_metal_floor, t_hole );
+        }
+        tmpmap.save();
+    }
+
+    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
+        // give it a nice rounded shape
+        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
+            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+        }
+    }
+    explosion_handler::nuke( target );
+
+    activate_failure( COMPFAIL_SHUTDOWN );
 }
 
 void computer_session::action_list_bionics()

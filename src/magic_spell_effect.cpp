@@ -108,7 +108,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( const point &a, const point &b, const point &c )
 {
-    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+    int cross = ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
@@ -1051,7 +1051,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
             num_mons--;
             sp.make_sound( *iter );
         } else {
-            add_msg( m_bad, "failed to place monster" );
+            debugmsg( "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
@@ -1124,6 +1124,11 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         sp.make_sound( target );
         ch->vomit();
     }
+}
+
+void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const tripoint &target )
+{
+    caster.longpull( sp.name(), target );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
@@ -1287,9 +1292,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( ( guy.has_trait_flag( json_flag_PRED1 ) ) ||
-                   ( guy.has_trait_flag( json_flag_PRED2 ) ) ) {
-            msg = ( _( "Culling the weak is distasteful, but necessary." ) );
+        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
+                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+            msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {

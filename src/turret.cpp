@@ -25,9 +25,9 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const itype_id fuel_type_battery( "battery" );
-
 static const efftype_id effect_on_roof( "on_roof" );
+
+static const itype_id fuel_type_battery( "battery" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -539,6 +539,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     cpu.dex_cur = 8;
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
+    cpu.recalc_sight_limits();
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
     cpu.set_fac( get_owner() );
