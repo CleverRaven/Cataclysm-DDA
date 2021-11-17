@@ -1070,7 +1070,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
 
         if( ammo_restriction_iter == data->ammo_restriction.end() || ( !contents.empty() &&
-                it_ammo != contents.front().ammo_type() ) ) {
+                !contents.front().has_flag( flag_CASING ) && it_ammo != contents.front().ammo_type() ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }

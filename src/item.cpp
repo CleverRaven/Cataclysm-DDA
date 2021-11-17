@@ -8316,7 +8316,7 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                     }
                 }
 
-                bool is_full = has_casings ? false : pocket->remaining_ammo_capacity( ammo.ammo_type() ) == 0;
+                bool is_full = has_casings ? false : pocket->full( false );
 
                 if( !is_full && can_combine ) {
                     return true;
@@ -8326,11 +8326,20 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                 // There already is full magazine here
                 // The new magazine has incompatible ammo
 
+                // Reloading is accepted if all of the following are true
+                // Current magazine is not full or there is no magazine
+                // New magazine contains compatible ammo
+
                 // This assumes only one magazine can go into a magazine well.
                 // This assumes that a magazine can have only one pocket.
 
-                // TODO
-                return true;
+                if( pocket->front().is_magazine_full() ) {
+                    continue;
+                }
+
+                if( ammo_types().count( ammo.only_item().ammo_type() ) ) {
+                    return true;
+                }
 
 
             }
