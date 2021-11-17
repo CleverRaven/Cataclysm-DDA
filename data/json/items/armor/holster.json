@@ -163,6 +163,35 @@
     "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
+    "id": "single_sling",
+    "type": "ARMOR",
+    "name": { "str": "single point sling" },
+    "description": "A harness going over your shoulder and across your chest.  Designed to connect to a rifle at a single point with the rifle hanging off your front.  Great for fighting, not great for travel.  Activate to holster/draw your weapon.",
+    "weight": "320 g",
+    "volume": "500 ml",
+    "price": 8000,
+    "price_postapoc": 500,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "green",
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "moves": 30
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 0, 16 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+  },
+  {
     "id": "holster",
     "type": "ARMOR",
     "name": { "str": "holster" },

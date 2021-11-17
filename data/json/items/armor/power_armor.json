@@ -27,36 +27,10 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
         "moves": 60
       },
@@ -65,6 +39,36 @@
         "rigid": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -72,8 +76,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "12 L",
-        "max_contains_weight": "15875 g",
-        "max_item_length": "146 cm",
+        "max_contains_weight": "16500 g",
+        "max_item_length": "154 cm",
         "moves": 100
       }
     ],
@@ -139,36 +143,10 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
         "moves": 60
       },
@@ -177,6 +155,36 @@
         "rigid": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -184,8 +192,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "12 L",
-        "max_contains_weight": "15875 g",
-        "max_item_length": "146 cm",
+        "max_contains_weight": "16500 g",
+        "max_item_length": "154 cm",
         "moves": 100
       }
     ],
@@ -276,36 +284,10 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
         "moves": 60
       },
@@ -314,6 +296,36 @@
         "rigid": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -321,8 +333,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "12 L",
-        "max_contains_weight": "15875 g",
-        "max_item_length": "146 cm",
+        "max_contains_weight": "16500 g",
+        "max_item_length": "154 cm",
         "moves": 100
       }
     ],
@@ -452,36 +464,10 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
         "moves": 60
       },
@@ -490,6 +476,36 @@
         "rigid": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -497,8 +513,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "12 L",
-        "max_contains_weight": "15875 g",
-        "max_item_length": "146 cm",
+        "max_contains_weight": "16500 g",
+        "max_item_length": "154 cm",
         "moves": 100
       }
     ],

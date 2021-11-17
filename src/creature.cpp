@@ -80,9 +80,10 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+
 static const species_id species_ROBOT( "ROBOT" );
 
-static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},

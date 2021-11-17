@@ -84,17 +84,28 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        for( const auto &sbp : bp->sub_parts ) {
-            if( !worn_item_it->covers( sbp ) ) {
-                continue;
-            }
+        // if no subparts do the old way
+        if( bp->sub_parts.empty() ) {
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-            [layer, bp, sbp]( const item & i ) {
-                return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-                       i.covers( sbp );
+            [layer, bp]( const item & i ) {
+                return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
             } );
             if( num_items > 1 ) {
                 body_parts_with_stacking_penalty.push_back( bp );
+            }
+        } else {
+            for( const auto &sbp : bp->sub_parts ) {
+                if( !worn_item_it->covers( sbp ) ) {
+                    continue;
+                }
+                const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+                [layer, bp, sbp]( const item & i ) {
+                    return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                           i.covers( sbp );
+                } );
+                if( num_items > 1 ) {
+                    body_parts_with_stacking_penalty.push_back( bp );
+                }
             }
         }
 
