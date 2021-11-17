@@ -220,7 +220,7 @@ float islot_armor::avg_thickness() const
 {
     float acc = 0;
     for( const armor_portion_data &datum : data ) {
-        acc += datum.thickness;
+        acc += datum.avg_thickness;
     }
     if( data.empty() ) {
         return 0;
