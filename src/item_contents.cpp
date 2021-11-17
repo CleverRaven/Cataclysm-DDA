@@ -305,11 +305,11 @@ bool item_contents::is_magazine_full() const
 {
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE )
-            && !pocket.full( false ) ) {
-            return false;
+            && pocket.full( false ) ) {
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 bool item_contents::bigger_on_the_inside( const units::volume &container_volume ) const

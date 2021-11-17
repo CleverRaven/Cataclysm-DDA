@@ -1428,6 +1428,8 @@ bool item_pocket::full( bool allow_bucket ) const
     if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
         if( !empty() && ammo_capacity( front().ammo_type() ) != 0 ) {
             return remaining_ammo_capacity( front().ammo_type() ) == 0;
+        } else if( !data->ammo_restriction.empty() ) {
+            return false;
         }
     }
 
