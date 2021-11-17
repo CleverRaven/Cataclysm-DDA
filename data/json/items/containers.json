@@ -917,13 +917,12 @@
     ],
     "armor_data": {
       "sided": true,
-
       "armor": [
         {
           "encumbrance": 2,
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
           "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
         }
       ]
