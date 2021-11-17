@@ -8287,33 +8287,48 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
         if( !now ) {
             return true;
         } else {
-            // Reloading is refused if
-            // Pocket contains ammo that can't combine (empty casings ignored)
-            // Pocket is full and does not contain empty casings
+			
+			if( pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ){
+				// Reloading is refused if
+				// Pocket contains ammo that can't combine (empty casings ignored)
+				// Pocket is full and does not contain empty casings
 
-            if( pocket->empty() ) {
-                return true;
-            }
+				if( pocket->empty() ) {
+					return true;
+				}
 
-            bool has_casings = false;
-            bool can_combine = true;
+				bool has_casings = false;
+				bool can_combine = true;
 
-            for( const item *loaded : all_items_top() ) {
-                if( loaded->has_flag( flag_CASING ) ) {
-                    has_casings = true;
-                    continue;
-                }
-                if( !loaded->can_combine( ammo ) ) {
-                    can_combine = false;
-                    break;
-                }
-            }
+				for( const item *loaded : all_items_top() ) {
+					if( loaded->has_flag( flag_CASING ) ) {
+						has_casings = true;
+						continue;
+					}
+					if( !loaded->can_combine( ammo ) ) {
+						can_combine = false;
+						break;
+					}
+				}
 
-            bool is_full = has_casings ? false : pocket->remaining_ammo_capacity( ammo.ammo_type() ) == 0;
+				bool is_full = has_casings ? false : pocket->remaining_ammo_capacity( ammo.ammo_type() ) == 0;
 
-            if( !is_full && can_combine ) {
-                return true;
-            }
+				if( !is_full && can_combine ) {
+					return true;
+				}
+			} else if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ){
+				// Reloading is refused if
+				// There already is full magazine here
+				// The new magazine has incompatible ammo
+				
+				// This assumes only one magazine can go into a magazine well.
+				// This assumes that a magazine can have only one pocket.
+				
+				// TODO
+				return true;
+				
+				
+			}
 
         }
     }
