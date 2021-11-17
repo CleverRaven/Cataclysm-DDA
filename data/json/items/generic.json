@@ -274,6 +274,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "rubbercement",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "rubber cement" },
+    "description": "A tin of adhesive typically used to glue rubber. It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility.",
+    "price": 1800,
+    "price_postapoc": 80,
+    "material": [ "plastic" ],
+    "weight": "45 g",
+    "volume": "250 ml",
+    "to_hit": -2,
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "bone_glue",
     "symbol": ",",
     "category": "spare_parts",
