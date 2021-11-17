@@ -1572,6 +1572,7 @@ Gun fault flags:
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
+- ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
 - ```COLD_IMMUNE``` You are immune to cold damage.
 - ```BIO_IMMUNE``` You are immune to biological damage.

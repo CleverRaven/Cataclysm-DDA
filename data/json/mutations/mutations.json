@@ -7010,7 +7010,7 @@
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
-    "flags": [ "EYE_MEMBRANE" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
   },
   {
