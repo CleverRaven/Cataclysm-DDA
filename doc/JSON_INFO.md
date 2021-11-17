@@ -3558,32 +3558,31 @@ Optional message to be printed when a creature using the harvest definition is b
 #### `entries`
 
 Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
-`drop` value should be the `id` string of the item to be produced.
+`drop` value should be the `id` string of the item to be produced.  
 
-`type` value should refer to an existing `harvest_drop_type` associated with body part the item comes from.
-    Acceptable values are as follows:
-    `flesh`: the "meat" of the creature.
-    `offal`: the "organs" of the creature. these are removed when field dressing.
-    `skin`: the "skin" of the creature. this is what is ruined while quartering.
-    `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.
-    `mutagen`: an item from harvested mutagenic samples obtained from dissection.
-    `mutagen_group`: an item group that can produce an item from harvested mutagenic samples obtained from dissection.
-    `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
-    `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
+`type` value should refer to an existing `harvest_drop_type` associated with body part the item comes from.  
+    Acceptable values are as follows:  
+    `flesh`: the "meat" of the creature.  
+    `offal`: the "organs" of the creature. these are removed when field dressing.  
+    `skin`: the "skin" of the creature. this is what is ruined while quartering.  
+    `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.  
+    `mutagen`: an item from harvested mutagenic samples obtained from dissection.  
+    `mutagen_group`: an item group that can produce an item from harvested mutagenic samples obtained from dissection.  
+    `bionic`: an item gained by dissecting the creature. not restricted to CBMs.  
+    `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.  
 
-`flags` value should be an array of strings.  These flags will be added to the items of that entry upon harvesting.
+`flags` value should be an array of strings.  These flags will be added to the items of that entry upon harvesting.  
 
-`faults` value should be an array of `fault_id` strings.  These faults will be added to the items of that entry upon harvesting.
+`faults` value should be an array of `fault_id` strings.  These faults will be added to the items of that entry upon harvesting.  
 
-For every `type` other then `bionic` and `bionic_group` following entries scale the results:
-    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
-    `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using
-    `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
+For every `type` other then those with "dissect_only" (see below) the following entries scale the results:  
+    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.  
+    `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.  
+    `max` upper limit after `bas_num` and `scale_num` are calculated using  
+    `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`  
 
-
-For `type`s `bionic` and `bionic_group`, the following entries can scale the results:
-    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+For `type`s with "dissect_only" (see below), the following entries can scale the results:  
+    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function  
 
 ### Harvest Drop Type
 ```json
