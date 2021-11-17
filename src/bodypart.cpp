@@ -253,6 +253,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         token = body_part::num_bp;
     }
 
+    optional( jo, was_loaded, "env_protection", env_protection, 0 );
+
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 
     mandatory( jo, was_loaded, "main_part", main_part );
