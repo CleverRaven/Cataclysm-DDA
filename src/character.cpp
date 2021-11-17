@@ -3710,8 +3710,7 @@ std::string Character::debug_weary_info() const
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
-    if( !npc_no_food ) {
+    if( needs_food() ) {
         mod_stored_calories( nkcal * 1000, ignore_weariness );
     }
 }
@@ -3769,8 +3768,7 @@ int Character::get_hunger() const
 
 void Character::mod_hunger( int nhunger )
 {
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
-    if( !npc_no_food ) {
+    if( needs_food() ) {
         set_hunger( hunger + nhunger );
     }
 }
@@ -3806,7 +3804,7 @@ int Character::get_thirst() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_flag( json_flag_NO_THIRST ) || ( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) ) {
+    if( has_flag( json_flag_NO_THIRST ) || !needs_food() ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -4141,6 +4139,11 @@ float Character::activity_level() const
     return std::min( max, attempted_level );
 }
 
+bool Character::needs_food() const
+{
+    return !( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) );
+}
+
 void Character::update_needs( int rate_multiplier )
 {
     const int current_stim = get_stim();
@@ -4149,7 +4152,6 @@ void Character::update_needs( int rate_multiplier )
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
                        activity.id() == ACT_TRY_SLEEP;
@@ -4173,7 +4175,7 @@ void Character::update_needs( int rate_multiplier )
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
 
-            if( npc_no_food && get_fatigue() > fatigue_levels::TIRED ) {
+            if( !needs_food() && get_fatigue() > fatigue_levels::TIRED ) {
                 set_fatigue( fatigue_levels::TIRED );
                 set_sleep_deprivation( 0 );
             }

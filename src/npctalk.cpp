@@ -1544,7 +1544,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
             if( guy->current_activity_id ) {
-                activity_name = guy->current_activity_id.obj().verb().translated();
+                activity_name = guy->get_current_activity();
             } else {
                 activity_name = _( "doing this and that" );
             }
