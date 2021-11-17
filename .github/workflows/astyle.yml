@@ -33,6 +33,14 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: trigger basic build
+      if: success()
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        workflow: Basic Build
+        token: ${{ secrets.TX_PR_CREATOR }}
+        ref: ${{ github.event.pull_request.head.ref }}
+
     - name: Display Corrections
       if: failure()
       run: |
