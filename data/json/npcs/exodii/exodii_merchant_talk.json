@@ -486,6 +486,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1",
     "type": "talk_topic",
     "dynamic_line": "Them's an otherlander from thrice jumps an' change, wide as the sky.  They's got happily on sommat for the tracking, you ken?",
+    "//~": "They're an otherlander from around three jumps ago, a real optimistic greenhorn.  They're really interested in how we do tracking, you see?",
     "responses": [
       { "text": "I… didn't really follow that.", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -496,6 +497,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
     "type": "talk_topic",
     "dynamic_line": "Hmm.  They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
+    "//~": "Hmm.  They… planned out the last jump?  Like an apprentice to the old tracker.",
     "responses": [
       { "text": "Oh, like a navigator?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -520,6 +522,7 @@
     "id": "TALK_EXODII_MERCHANT_Aliens",
     "type": "talk_topic",
     "dynamic_line": "Yeah, you could call us as it.  Us're from otherlands mostlike.  Not otherworlds though.  Too risky bringin' them squelchies into the fold.",
+    "//~": "Yeah, you could say that.  We're from otherlands, most of the time.  Not otherworlds though.  Too risky bringing those monsters into our safe haven.",
     "responses": [
       { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -530,6 +533,7 @@
     "id": "TALK_EXODII_MERCHANT_Aliens2",
     "type": "talk_topic",
     "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown.",
+    "//~": "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different earth. You shouldn't be asking what the exodii are doing in earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town.",
     "responses": [
       { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "Tell me about your own world.", "topic": "TALK_EXODII_MERCHANT_Home" },
