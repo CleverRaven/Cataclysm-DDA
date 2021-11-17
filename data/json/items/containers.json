@@ -26,9 +26,15 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "plastic" ],
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -162,8 +168,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_paper_powder",
@@ -188,8 +193,7 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -214,8 +218,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -262,8 +265,7 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "dark_gray"
   },
   {
     "id": "bag_iv",
@@ -288,8 +290,7 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -692,9 +693,17 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 1,
-      "material": [ "cotton", "plastic" ],
-      "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "cotton", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+          ],
+          "coverage": 15,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "flags": [ "BELTED" ]
   },
@@ -908,14 +917,14 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
+
       "armor": [
         {
           "encumbrance": 2,
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ],
-          "material": [ "plastic" ],
           "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
         }
       ]
     },
@@ -1219,9 +1228,14 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 1,
-      "material": [ "iron" ],
-      "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "iron", "portion_cover": 100, "thickness": 1.0 } ],
+          "coverage": 2,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
@@ -1548,9 +1562,15 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "wood" ],
-      "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 2.0 } ],
+          "encumbrance": 5,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1606,9 +1626,14 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "material": [ "leather" ],
-      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1638,9 +1663,14 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "leather" ],
-      "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1670,9 +1700,14 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "leather" ],
-      "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "coverage": 15,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1717,8 +1752,7 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "TRADER_AVOID" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
   },
   {
     "id": "wrapper_pr",
