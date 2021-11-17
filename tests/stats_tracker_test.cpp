@@ -25,9 +25,9 @@
 #include "point.h"
 #include "type_id.h"
 
-static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {

@@ -41,8 +41,8 @@ static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 

@@ -75,13 +75,13 @@ static const itype_id itype_sewage( "sewage" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
 
 static catacurses::window init_window()
 {

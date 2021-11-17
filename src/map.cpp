@@ -58,6 +58,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_ter_furn_transform.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -100,13 +101,13 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_crushed( "crushed" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
-
-static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_crushed( "crushed" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -3980,6 +3981,17 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
             if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
                 ter_set( t, from );
             }
+        }
+    }
+}
+
+void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
+{
+    for( const tripoint &t : points_on_zlevel() ) {
+        const float radiX = trig_dist( p, getabs( t ) );
+        // within distance, and either no submap limitation or same overmap coords.
+        if( radiX <= radi ) {
+            transform->transform( t );
         }
     }
 }

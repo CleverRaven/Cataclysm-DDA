@@ -616,6 +616,20 @@ void Item_factory::finalize_post( itype &obj )
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
+            // if sub coverage is empty we should add all coverage to the item
+            if( !data.sub_coverage.empty() ) {
+                obj.armor->has_sub_coverage = true;
+            }
+            // Precalc average thickness per portion
+            int data_count = 0;
+            float thic_acc = 0.0f;
+            for( part_material &m : data.materials ) {
+                thic_acc += m.thickness * m.cover / 100.0f;
+                data_count++;
+            }
+            if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
+                data.avg_thickness = thic_acc;
+            }
         }
     }
 
@@ -1104,6 +1118,7 @@ void Item_factory::init()
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
+    add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
@@ -1285,6 +1300,9 @@ void Item_factory::check_definitions() const
                             observed_bps.insert( bp );
                         }
                     }
+                }
+                if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
+                    msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
                 }
             }
         }
@@ -2009,6 +2027,16 @@ std::string enum_to_string<layer_level>( layer_level data )
 }
 } // namespace io
 
+void part_material::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", id );
+    optional( jo, false, "portion_cover", cover, 100 );
+    if( cover < 1 || cover > 100 ) {
+        jo.throw_error( string_format( "invalid portion_cover \"%d\"", cover ) );
+    }
+    optional( jo, false, "thickness", thickness, 0.0f );
+}
+
 void armor_portion_data::deserialize( const JsonObject &jo )
 {
     assign_coverage_from_json( jo, "covers", covers );
@@ -2016,6 +2044,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
+    optional( jo, false, "specifically_covers", sub_coverage );
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
@@ -2023,12 +2052,22 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     } else {
         optional( jo, false, "encumbrance", encumber, 0 );
     }
-    optional( jo, false, "material_thickness", thickness, 0.0f );
+    optional( jo, false, "material_thickness", avg_thickness, 0.0f );
     optional( jo, false, "environmental_protection", env_resist, 0 );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, 0 );
 
     // TODO: Make mandatory - once we remove the old loading below
-    optional( jo, false, "material", materials );
+    if( jo.has_member( "material" ) ) {
+        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
+            mandatory( jo, false, "material", materials );
+        } else {
+            // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
+            // TODO: Depricate and remove
+            for( const std::string &mat : jo.get_tags( "material" ) ) {
+                materials.emplace_back( mat, 100, 0.0f );
+            }
+        }
+    }
 }
 
 template<typename T>
@@ -2046,31 +2085,17 @@ void islot_armor::load( const JsonObject &jo )
     cata::optional<float> thickness;
     cata::optional<int> env_resist;
     cata::optional<int> env_resist_w_filter;
-    cata::optional<std::vector<material_id>> materials;
     cata::optional<body_part_set> covers;
 
-    bool all_data_have_material = true;
-    if( jo.has_member( "armor" ) ) {
-        for( JsonObject armor_jo : jo.get_array( "armor" ) ) {
-            armor_jo.allow_omitted_members();
-            if( !armor_jo.has_member( "material" ) ) {
-                all_data_have_material = false;
-            }
-        }
-    }
-    if( !all_data_have_material ) {
-        mandatory( jo, false, "material", materials );
-    }
     assign_coverage_from_json( jo, "covers", covers );
     optional( jo, false, "material_thickness", thickness, cata::nullopt );
     optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
 
     for( armor_portion_data &armor : data ) {
-        apply_optional( armor.thickness, thickness );
+        apply_optional( armor.avg_thickness, thickness );
         apply_optional( armor.env_resist, env_resist );
         apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
-        apply_optional( armor.materials, materials );
         if( covers ) {
             armor.covers = covers;
         }
@@ -3007,7 +3032,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
-    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<std::string> {} );
+    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
 
     if( jo.has_member( "damage_states" ) ) {
         JsonArray arr = jo.get_array( "damage_states" );
@@ -3059,6 +3084,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
+        def.mats_ordered.clear();
+        def.mat_portion_total = 0;
         auto add_mat = [&def]( const material_id & m, int portion ) {
             const auto res = def.materials.emplace( m, portion );
             if( res.second ) {

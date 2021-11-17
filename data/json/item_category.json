@@ -40,7 +40,7 @@
     "name": { "str": "CLOTHING" },
     "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
-    "sort_rank": -18
+    "sort_rank": 19
   },
   {
     "id": "food",

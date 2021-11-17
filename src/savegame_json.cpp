@@ -135,10 +135,10 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
-static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
@@ -616,6 +616,7 @@ void Character::load( const JsonObject &data )
     data.read( "pkill", pkill );
 
     data.read( "type_of_scent", type_of_scent );
+    data.read( "focus_pool", focus_pool );
 
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
@@ -1127,6 +1128,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+    json.member( "focus_pool", focus_pool );
 
     // stats through kills
     json.member( "kill_xp", kill_xp );
@@ -1320,9 +1322,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "grab_point", grab_point );
     json.member( "grab_type", obj_type_name[static_cast<int>( grab_type ) ] );
 
-    // misc player specific stuff
-    json.member( "focus_pool", focus_pool );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1423,8 +1422,6 @@ void avatar::load( const JsonObject &data )
     grab( iter == obj_type_name.end() ?
           object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
-
-    data.read( "focus_pool", focus_pool );
 
     data.read( "magic", magic );
 
@@ -3514,6 +3511,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
+    jo.read( "trusts_u", trusts_u );
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
@@ -3537,6 +3535,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
+    json.member( "trusts_u", trusts_u );
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
@@ -4722,13 +4721,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
+                                                      tripoint_zero ) ).first;
                 jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
             jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {

@@ -40,10 +40,6 @@
 #include "units.h"
 #include "viewer.h"
 
-static const skill_id skill_throw( "throw" );
-
-static const species_id species_ROBOT( "ROBOT" );
-
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 
 static const efftype_id effect_beartrap( "beartrap" );
@@ -58,14 +54,18 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const skill_id skill_throw( "throw" );
+
+static const species_id species_ROBOT( "ROBOT" );
+
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
-
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )

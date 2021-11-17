@@ -43,8 +43,8 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
-static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_anemia( "anemia" );
+static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
@@ -88,8 +88,8 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
@@ -97,8 +97,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
-static const vitamin_id vitamin_blood( "blood" );
-static const vitamin_id vitamin_redcells( "redcells" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -112,12 +112,12 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -1018,7 +1018,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
         // People who can see while sleeping are acclimated to the light.
-        if( !u.has_trait( trait_SEESLEEP ) ) {
+        if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
@@ -1044,7 +1044,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 it.set_duration( 0_turns );
                 woke_up = true;
             }
-        } else if( u.has_active_mutation( trait_SEESLEEP ) ) {
+        } else if( u.has_flag( json_flag_SEESLEEP ) ) {
             Creature *hostile_critter = g->is_hostile_very_close();
             if( hostile_critter != nullptr ) {
                 u.add_msg_if_player( _( "You see %s approaching!" ),

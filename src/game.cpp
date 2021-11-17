@@ -195,14 +195,9 @@ class computer;
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_survival( "survival" );
-
-static const species_id species_PLANT( "PLANT" );
+static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_blind( "blind" );
@@ -222,7 +217,9 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
 
-static const bionic_id bio_remote( "bio_remote" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -234,25 +231,30 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id species_PLANT( "PLANT" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
-static const trait_id trait_THICKSKIN( "THICKSKIN" );
-static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
-static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const faction_id faction_your_followers( "your_followers" );
-
-static const flag_id json_flag_SPLINT( "SPLINT" );
-
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
@@ -1489,6 +1491,23 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
     }
 }
 
+static hint_rating rate_action_view_recipe( avatar &you, const item &it )
+{
+    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
+                                 recipe_dictionary::get_craft( it.typeId() );
+    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+        return hint_rating::cant;
+    }
+    const inventory &inven = you.crafting_inventory();
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        return hint_rating::good;
+    } else if( craft_recipe.ident().is_valid() ) {
+        return hint_rating::iffy;
+    }
+    return hint_rating::cant;
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -1715,6 +1734,7 @@ int game::inventory_item_menu( item_location locThisItem,
             addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
+        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
         addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
         addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
@@ -1888,6 +1908,17 @@ int game::inventory_item_menu( item_location locThisItem,
                         oThisItem.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
+                case 'V': {
+                    int is_recipe = 0;
+                    std::string this_itype = oThisItem.typeId().str();
+                    if( oThisItem.is_craft() ) {
+                        this_itype = oThisItem.get_making().ident().str();
+                        is_recipe = 1;
+                    }
+                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
+                    u.assign_activity( recipe_act );
+                    break;
+                }
                 case 'i':
                     if( oThisItem.is_container() ) {
                         game_menus::inv::insert_items( u, locThisItem );
@@ -4220,8 +4251,14 @@ void game::use_computer( const tripoint &p )
         }
         return;
     }
-
-    computer_session( *used ).use();
+    if( used->eocs.empty() ) {
+        computer_session( *used ).use();
+    } else {
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( used ) );
+        for( const effect_on_condition_id &eoc : used->eocs ) {
+            eoc->activate( d );
+        }
+    }
 }
 
 template<typename T>
@@ -8494,8 +8531,8 @@ void game::reload_weapon( bool try_everything )
         }
         // Second sort by affiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item().can_contain( *ap, true ).success();
-        const bool mag_bp = this->u.get_wielded_item().can_contain( *bp, true ).success();
+        const bool mag_ap = this->u.get_wielded_item().is_compatible( *ap ).success();
+        const bool mag_bp = this->u.get_wielded_item().is_compatible( *bp ).success();
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }

@@ -87,22 +87,6 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
-
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_speech( "speech" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_swimming( "swimming" );
-static const skill_id skill_traps( "traps" );
-static const skill_id skill_unarmed( "unarmed" );
-
 static const mtype_id mon_bear( "mon_bear" );
 static const mtype_id mon_beaver( "mon_beaver" );
 static const mtype_id mon_black_rat( "mon_black_rat" );
@@ -136,7 +120,23 @@ static const mtype_id mon_wolf( "mon_wolf" );
 static const oter_str_id oter_faction_hide_site_0( "faction_hide_site_0" );
 static const oter_str_id oter_forest_wet( "forest_wet" );
 
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 struct mass_volume {
     units::mass wgt = 0_gram;
@@ -496,11 +496,13 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     bool avail = false;
     for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
-        entry += " " +  comp->get_name() + " [" + to_string( elapsed ) + "/" +
-                 to_string( duration ) + "]\n";
+        entry += "\n  " +  comp->get_name() + " [" + to_string( elapsed ) + " / " +
+                 to_string( duration ) + "]";
         avail |= elapsed >= duration;
     }
-    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    if( avail ) {
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    }
     return avail;
 }
 
@@ -1377,6 +1379,15 @@ void basecamp::get_available_missions( mission_data &mission_key )
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
                                     base_camps::base_dir, entry, avail );
+        }
+    } else {
+        // Unless maximum expansions have been reached, show "Expand Base",
+        // but in a disabled state, with a message about what is required.
+        if( directions.size() < 8 ) {
+            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_expansion" ];
+            entry = _( "You will need more beds before you can expand your base." );
+            mission_key.add_return( miss_info.miss_id, miss_info.desc.translated(),
+                                    base_camps::base_dir, entry, false );
         }
     }
 
@@ -3875,6 +3886,7 @@ int camp_food_supply( int change, bool return_days )
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 1250;
         yours->respects_u += yours->food_supply / 625;
+        yours->trusts_u += yours->food_supply / 625;
         yours->food_supply = 0;
     }
     if( return_days ) {

@@ -86,9 +86,9 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
-static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -98,29 +98,28 @@ static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
+static const quality_id qual_SHEAR( "SHEAR" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
-
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
-static const quality_id qual_SHEAR( "SHEAR" );
-static const quality_id qual_PRY( "PRY" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -825,7 +824,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             map &here = get_map();
             if( type == hack_type::GAS ) {
                 int tankUnits;
-                std::string fuelType;
+                fuel_station_fuel_type fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
                                                         fuelType );
                 if( !pTank_ ) {

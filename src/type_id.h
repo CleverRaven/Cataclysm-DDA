@@ -27,6 +27,11 @@ struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
 
+
+struct sub_body_part_type;
+using sub_bodypart_id = int_id<sub_body_part_type>;
+using sub_bodypart_str_id = string_id<sub_body_part_type>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
@@ -83,6 +88,9 @@ using item_group_id = string_id<Item_spawn_data>;
 
 struct itype;
 using itype_id = string_id<itype>;
+
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
