@@ -8333,13 +8333,21 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                 // This assumes only one magazine can go into a magazine well.
                 // This assumes that a magazine can have only one pocket.
 
-                if( pocket->front().is_magazine_full() ) {
+                if( !pocket->empty() && pocket->front().is_magazine_full() ) {
                     continue;
                 }
 
-                if( ammo_types().count( ammo.only_item().ammo_type() ) ) {
-                    return true;
+                if( is_tool() ) {
+                    // Dirty hack because "ammo" on tools is actually completely separate thing from "ammo" on guns.
+                    if( type->tool->ammo_id.count( ammo.contents.first_ammo().ammo_type() ) ) {
+                        return true;
+                    }
+                } else {
+                    if( ammo_types().count( ammo.contents.first_ammo().ammo_type() ) ) {
+                        return true;
+                    }
                 }
+
 
 
             }
