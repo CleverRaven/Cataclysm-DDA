@@ -47,9 +47,9 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
-static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
@@ -757,7 +757,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    const bool npc_no_food = !needs_food();
     const bool foodless = debug_ls || npc_no_food;
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );

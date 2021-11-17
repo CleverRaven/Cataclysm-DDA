@@ -2059,9 +2059,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ||
-        it.made_of( phase_id::LIQUID ) ) {
-        // NPCs won't be interested in buying active explosives or spilled liquids
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        // NPCs won't be interested in buying active explosives
         return -1000;
     }
 
@@ -3056,6 +3055,15 @@ void npc::on_load()
             }
         }
     };
+    const auto advance_focus = [this]( const int minutes ) {
+        // scale to match focus_pool magnitude
+        const int equilibrium = 1000 * focus_equilibrium_fatigue_cap( calc_focus_equilibrium() );
+        const double focus_ratio = std::pow( 0.99, minutes );
+        // Approximate new focus pool, every minute focus_pool contributes 99%, the remainder comes from equilibrium
+        // This is pretty accurate as long as the equilibrium doesn't change too much during the period
+        focus_pool = static_cast<int>( focus_ratio * focus_pool + ( 1 - focus_ratio ) * equilibrium );
+    };
+
     // Cap at some reasonable number, say 2 days
     const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
@@ -3066,14 +3074,19 @@ void npc::on_load()
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
         advance_effects( 30_minutes );
+        advance_focus( 30 );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
         update_body( cur, cur + 5_minutes );
         advance_effects( 5_minutes );
+        advance_focus( 5 );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
         update_body( cur, cur + 1_turns );
         process_effects();
+        if( ( cur - calendar::turn_zero ) % 1_minutes == 0_turns ) {
+            update_mental_focus();
+        }
     }
 
     if( dt > 0_turns ) {
@@ -3688,11 +3701,19 @@ std::string npc::describe_mission() const
 std::string npc::name_and_activity() const
 {
     if( current_activity_id ) {
-        const std::string activity_name = current_activity_id.obj().verb().translated();
         //~ %1$s - npc name, %2$s - npc current activity name.
-        return string_format( _( "%1$s (%2$s)" ), get_name(), activity_name );
+        return string_format( _( "%1$s (%2$s)" ), get_name(), get_current_activity() );
     } else {
         return get_name();
+    }
+}
+
+std::string npc::get_current_activity() const
+{
+    if( current_activity_id ) {
+        return current_activity_id.obj().verb().translated();
+    } else {
+        return _( "nothing" );
     }
 }
 

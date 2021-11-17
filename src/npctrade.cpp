@@ -165,7 +165,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( fac != nullptr || fac->currency != it->typeId() ) {
+    if( fac == nullptr || fac->currency != it->typeId() ) {
         return static_cast<int>( price * adjust );
     }
 
@@ -258,10 +258,11 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     //               np.volume_carried() - np.volume_capacity() );
     np.drop_invalid_inventory();
 
-    trade_ui tradeui( get_avatar(), np, cost, deal );
-    trade_ui::trade_result_t trade_result = tradeui.perform_trade();
+    std::unique_ptr<trade_ui> tradeui = std::make_unique<trade_ui>( get_avatar(), np, cost, deal );
+    trade_ui::trade_result_t trade_result = tradeui->perform_trade();
 
     if( trade_result.traded ) {
+        tradeui.reset();
 
         std::list<item_location *> from_map;
 

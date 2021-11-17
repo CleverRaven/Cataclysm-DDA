@@ -13,7 +13,7 @@
 #include "vehicle.h"
 
 class time_duration;
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
 {
@@ -443,7 +443,7 @@ void talker_character::set_mana_cur( int value )
 bool talker_character_const::can_see() const
 {
     return !me_chr_const->is_blind() && ( !me_chr_const->in_sleep_state() ||
-                                          me_chr_const->has_trait( trait_SEESLEEP ) );
+                                          me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
 void talker_character::set_fatigue( int amount )
