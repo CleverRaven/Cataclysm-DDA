@@ -812,10 +812,10 @@ class map
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
-        void furn_clear( const tripoint& p ) {
+        void furn_clear( const tripoint &p ) {
             furn_set( p, f_clear );
         };
-        void furn_clear( const point& p ) {
+        void furn_clear( const point &p ) {
             furn_clear( tripoint( p, abs_sub.z ) );
         }
         std::string furnname( const tripoint &p );
