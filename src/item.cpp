@@ -8351,9 +8351,18 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                         return true;
                     }
                 }
+            } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+                // Reloading is possible if either
+                // Pocket is empty
+                // Ammo combines with already contained ammo
 
+                if( pocket->empty() ) {
+                    return true;
+                }
 
-
+                if( pocket->front().can_combine( ammo ) ) {
+                    return true;
+                }
             }
 
         }
