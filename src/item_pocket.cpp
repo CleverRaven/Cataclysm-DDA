@@ -1424,6 +1424,13 @@ bool item_pocket::full( bool allow_bucket ) const
     if( !allow_bucket && will_spill() ) {
         return true;
     }
+
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        if( ammo_capacity( front().ammo_type() ) != 0 ) {
+            return remaining_ammo_capacity( front().ammo_type() ) == 0;
+        }
+    }
+
     return remaining_volume() == 0_ml;
 }
 
