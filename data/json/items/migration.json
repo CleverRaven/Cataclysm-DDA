@@ -22,7 +22,7 @@
   {
     "id": "shaft_metal",
     "type": "MIGRATION",
-    "replace": "arrow_metal"
+    "replace": "arrow_aluminum"
   },
   {
     "id": "arrow_flamming",
@@ -48,6 +48,26 @@
     "id": "bolt_crude",
     "type": "MIGRATION",
     "replace": "bolt_wood_crude"
+  },
+  {
+    "id": "arrow_metal_sharpened_fletched",
+    "type": "MIGRATION",
+    "replace": "arrow_metal_fletched"
+  },
+  {
+    "id": "arrow_metal",
+    "type": "MIGRATION",
+    "replace": "arrow_aluminum"
+  },
+  {
+    "id": "arrow_metal_target",
+    "type": "MIGRATION",
+    "replace": "arrow_aluminum_small_game"
+  },
+  {
+    "id": "arrow_metal_bodkin",
+    "type": "MIGRATION",
+    "replace": "arrow_aluminum_bodkin"
   },
   {
     "id": "arrow_fire_hardened_fletched",
@@ -82,7 +102,7 @@
   {
     "id": "arrow_metal_sharpened",
     "type": "MIGRATION",
-    "replace": "arrow_metal_sharpened_fletched"
+    "replace": "arrow_metal_fletched"
   },
   {
     "id": "shaft_plastic",

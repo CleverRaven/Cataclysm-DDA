@@ -204,7 +204,7 @@
       [ "crowbar", 25 ],
       [ "machete", 25 ],
       [ "ax", 25 ],
-      [ "arrow_metal", 25 ],
+      [ "arrow_aluminum", 25 ],
       [ "bolt_steel", 10 ]
     ]
   },

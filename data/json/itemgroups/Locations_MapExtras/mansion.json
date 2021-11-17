@@ -1553,7 +1553,7 @@
     "ammo": 100,
     "items": [
       { "group": "ammo_obscure", "prob": 90 },
-      [ "arrow_metal", 60 ],
+      [ "arrow_aluminum", 60 ],
       [ "bolt_metal", 60 ],
       { "group": "ammo_reloaded", "prob": 30 },
       { "group": "mags_obscure", "prob": 30 },

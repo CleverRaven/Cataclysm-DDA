@@ -58,9 +58,9 @@
     "//": "archery ammo",
     "subtype": "collection",
     "entries": [
-      { "item": "arrow_metal", "prob": 20 },
-      { "item": "arrow_metal_bodkin", "prob": 20 },
-      { "item": "arrow_metal_target", "prob": 30 },
+      { "item": "arrow_aluminum", "prob": 20 },
+      { "item": "arrow_aluminum_bodkin", "prob": 20 },
+      { "item": "arrow_aluminum_small_game", "prob": 30 },
       { "item": "arrow_cf", "prob": 10 }
     ]
   },

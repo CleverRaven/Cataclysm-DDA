@@ -185,7 +185,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_metal_sharpened_fletched",
+    "id": "arrow_metal_fletched",
     "price": 500,
     "name": { "str": "simple metal arrow" },
     "symbol": "=",
@@ -209,7 +209,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_metal",
+    "id": "arrow_aluminum",
     "price": 1200,
     "name": { "str": "aluminum broadhead arrow" },
     "symbol": "=",
@@ -234,7 +234,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_metal_bodkin",
+    "id": "arrow_aluminum_bodkin",
     "price": 1200,
     "name": { "str": "aluminum field point arrow" },
     "symbol": "=",
@@ -259,7 +259,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_metal_target",
+    "id": "arrow_aluminum_small_game",
     "price": 1200,
     "name": { "str": "aluminum small game arrow" },
     "symbol": "=",
