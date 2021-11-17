@@ -61,6 +61,13 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
+    - name: trigger matrix builds
+      if: success()
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        workflow: General build matrix
+        token: ${{ secrets.TX_PR_CREATOR }}
+        ref: ${{ github.event.pull_request.head.ref }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()
