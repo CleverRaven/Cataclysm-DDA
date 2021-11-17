@@ -251,7 +251,6 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
-    "reversible": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap_small", 2 ] ]
   },
