@@ -1821,12 +1821,12 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     if( locThisItem.get_item()->type->has_use() &&
-                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
-                    } else if( locThisItem.get_item()->has_relic_activation() ) { // NOLINT(bugprone-branch-clone)
+                    } else if( locThisItem.get_item()->has_relic_activation() ) {
                         avatar_action::use_item( u, locThisItem );
                     } else {
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
