@@ -604,6 +604,7 @@
       { "group": "mixed_alcoholic_drinks", "prob": 141 },
       { "item": "dandelion_wine", "prob": 8 },
       { "item": "hb_beer", "prob": 8 },
+      { "item": "hb_seltzer", "prob": 8 },
       { "item": "moonshine", "prob": 8 },
       { "item": "brandied_fruit", "prob": 2, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
@@ -704,7 +705,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "beer", "prob": 15 },
+      { "group": "beer", "prob": 15 },
       { "item": "meat", "prob": 65 },
       { "item": "glazed_tenderloin", "prob": 55 },
       { "item": "fish", "prob": 10 },
