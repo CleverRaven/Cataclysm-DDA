@@ -5294,6 +5294,10 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
+            // Pick up items, unless there is reason to not to
+            if( !u.is_mounted() && !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
+                pickup( examp );
+            }
         }
     }
 }
@@ -5315,6 +5319,18 @@ void game::pickup_all()
 {
     // Pick up items from current and all adjacent tiles
     u.pick_up( game_menus::inv::pickup( u ) );
+}
+
+void game::pickup( const tripoint &p )
+{
+    // Highlight target
+    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
+    } );
+    add_draw_callback( hilite_cb );
+
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, p ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
