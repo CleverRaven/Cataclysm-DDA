@@ -8337,6 +8337,10 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                     continue;
                 }
 
+                if( ammo.empty() ) {
+                    return true;
+                }
+
                 if( is_tool() ) {
                     // Dirty hack because "ammo" on tools is actually completely separate thing from "ammo" on guns.
                     if( type->tool->ammo_id.count( ammo.contents.first_ammo().ammo_type() ) ) {
