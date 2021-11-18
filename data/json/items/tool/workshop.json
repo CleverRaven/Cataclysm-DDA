@@ -1073,7 +1073,7 @@
     "id": "toolset_extended",
     "type": "TOOL",
     "name": { "str": "extended welder" },
-    "description": "Your welding kit, extended. Ready to do some delicate repair work.",
+    "description": "Your welding kit, extended.  Ready to do repair work.",
     "symbol": "#",
     "color": "white",
     "weight": "226 g",
