@@ -72,9 +72,9 @@
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],
         [ "gum", 20 ],
-        [ "sheet_neoprene", 20 ],
-        [ "scrap_neoprene", 32 ],
-        [ "neoprene", 2 ]
+        [ "sheet_neoprene", 11 ],
+        [ "scrap_neoprene", 16 ],
+        [ "neoprene", 1 ]
       ]
     ]
   },
