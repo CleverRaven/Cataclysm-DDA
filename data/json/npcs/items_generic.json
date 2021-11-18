@@ -503,7 +503,7 @@
       { "item": "dogfood", "prob": 3, "container-item": "can_medium" },
       [ "doublespeargun", 1 ],
       [ "drink_boozeberry", 1 ],
-      [ "drink_hard_seltzer", 1],
+      [ "drink_hard_seltzer", 1 ],
       [ "drink_rumcola", 1 ],
       [ "drink_screwdriver", 1 ],
       [ "drink_strawberry_surprise", 1 ],
