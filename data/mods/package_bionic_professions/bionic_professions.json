@@ -782,7 +782,7 @@
         "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "UPS_off", "ammo-item": "heavy_battery_cell", "charges": 1250 },
+          { "item": "heavy_battery_cell", "ammo-item": "battery", "charges": 1000, "container-item": "UPS_off" },
           { "item": "makeshift_scrambler" }
         ]
       },
