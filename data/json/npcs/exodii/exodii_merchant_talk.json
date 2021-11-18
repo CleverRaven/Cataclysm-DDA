@@ -508,6 +508,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3",
     "type": "talk_topic",
     "dynamic_line": "Sure an' that's a fine enough word, an I'm ken.",
+    "//~": "Sure, that word is fine, I think.",
     "responses": [
       {
         "text": "You said this was an especially good jump?",
@@ -545,6 +546,7 @@
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
     "dynamic_line": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
+    "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
@@ -557,6 +559,7 @@
     "id": "TALK_EXODII_MERCHANT_Metal",
     "type": "talk_topic",
     "dynamic_line": "Us'n saw this were a pidgeon's road, I'd razz.  Only one way, I'm ken, if I'm not to join the rank an' file.",
+    "//~": "I realized that it was a no-brainer question.  There was only one other option, you see, if I didn't join the Exodii.",
     "responses": [
       {
         "text": "I think I know what you mean.  The only way to survive is to… \"upgrade\".  Can you help me with that?",
@@ -581,6 +584,7 @@
     "id": "TALK_EXODII_MERCHANT_Robot",
     "type": "talk_topic",
     "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.",
+    "//~": "Robot?  What does that word mean?  Hang on. … Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
     "speaker_effect": { "effect": { "u_add_var": "rubik_is_cyborg", "type": "knowledge", "context": "exodiilore", "value": "yes" } },
     "responses": [
       {
@@ -616,6 +620,7 @@
     "id": "TALK_EXODII_MERCHANT_Robot2",
     "type": "talk_topic",
     "dynamic_line": "Yeah, that be the soggy leaves, an I'm ken.  A bit o' both, but Rubik were once as a kin, to you be.",
+    "//~": "Yeah, that's the basic explanation.  A bit of both now, but I used to be just like you.",
     "responses": [
       { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "Can we talk about something else?  This is confusing.", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -628,6 +633,7 @@
     "id": "TALK_EXODII_MERCHANT_Base",
     "type": "talk_topic",
     "dynamic_line": "A junker base, innit?  Pile o' gamp.  Us'll pack it up and sing along soon enough.",
+    "//~": "A junker base, obviously.  A jury-rigged mess.  We'll pack it up and leave eventually.",
     "responses": [
       { "text": "Pack it up?  How can you pack up something like this?", "topic": "TALK_EXODII_MERCHANT_Base2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -638,6 +644,7 @@
     "id": "TALK_EXODII_MERCHANT_Base2",
     "type": "talk_topic",
     "dynamic_line": "For an' how, ye be needin' to think wi' them elevens o' directions, kennit?  Us'll open a gate an' wibble-an-wobble.  Same as us came.",
+    "//~": "To understand how, you've gotta think eleven-dimensionally.  We'll open up a gate and teleport out, the same as we came.",
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -647,6 +654,7 @@
     "id": "TALK_EXODII_MERCHANT_Dialect",
     "type": "talk_topic",
     "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
+    "//~": "Sure you can, at least a bit.  I'll do my best to speak your Anglic, but seeing as we're from otherlands and all, it's not that simple.",
     "responses": [
       {
         "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
@@ -661,6 +669,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodus",
     "type": "talk_topic",
     "dynamic_line": "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
+    "//~": "Oh yeah, just that.  Every one of us.  We wander, we make do.  It's a living.",
     "responses": [
       { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -671,6 +680,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodus2",
     "type": "talk_topic",
     "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead.",
+    "//~": "Same as you, I'd guess.  The enemy.  The dead.",
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -691,6 +701,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose",
     "type": "talk_topic",
     "dynamic_line": "Makin' do, makin' do, same as you, an I'm ken.  Last home got a bit too dead 'n putrid roun' the edges, like.  Happens to the best of 'em.  Caught a jibber that made us ken 'bout your place here, fired up the ol' wibble-wammles and boom!  Now it's all tick-tock on a zimmer, here we be.  Got a good timing this time, I razz you only been dead a few days when we wobbled in.  Freshest corpse this'n's seen in a kitchen sink.",
+    "//~": "Making do, making do, same as you I'd imagine.  Our last home got too dead and putrid around the edges, basically.  It happens to the best of them.  We caught some news that brought us along to your place here, fired up the engines, and boom!  Now, quick as can be, here we are.  We got a good timing this time, seems to me you'd only been dead a few days when we got here.  Freshest corpse I've seen in a while.",
     "responses": [
       { "text": "…what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
       {
@@ -796,6 +807,7 @@
     "id": "TALK_EXODII_MERCHANT_Survival2",
     "type": "talk_topic",
     "dynamic_line": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.",
+    "//~": "Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid.",
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -805,6 +817,7 @@
     "id": "TALK_EXODII_MERCHANT_Tech",
     "type": "talk_topic",
     "dynamic_line": "Not to me it don't.  We ain't tassed from around here though.  Looks fine an' fine to you I'd razz.",
+    "//~": "Not to me it doesn't.  We didn't get it from around here though.  I bet it looks pretty nice to you.",
     "responses": [
       {
         "text": "[int or per 7] Not from around here?  Are you aliens or something?",
@@ -819,6 +832,7 @@
     "id": "TALK_EXODII_MERCHANT_Bionic_Install",
     "type": "talk_topic",
     "dynamic_line": "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing.",
+    "//~": "If you've got what I need, I'm happy to call ahead and make the arrangements, for a fee.",
     "responses": [
       { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
       { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
