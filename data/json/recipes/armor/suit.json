@@ -866,10 +866,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_articulation" }, { "proficiency": "prof_polymerworking" } ],
     "difficulty": 8,
-    "time": "6 h",
+    "time": "8 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
   },
