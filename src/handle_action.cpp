@@ -1963,12 +1963,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_EXAMINE:
+        case ACTION_EXAMINE_AND_PICKUP:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
             } else if( mouse_target ) {
-                examine( *mouse_target );
+                // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
+                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
             } else {
-                examine();
+                examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
             break;
 

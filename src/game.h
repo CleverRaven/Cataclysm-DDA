@@ -805,8 +805,9 @@ class game
         bool grabbed_veh_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p ); // Examine nearby terrain  'e'
-        void examine();
+        // Examine nearby terrain 'e', with or without picking up items
+        void examine( const tripoint &p, bool with_pickup = false );
+        void examine( bool with_pickup = true );
 
         // Pick up items from a single nearby tile (prompting first)
         void pickup();

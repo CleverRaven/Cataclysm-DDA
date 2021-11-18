@@ -2997,7 +2997,9 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
-    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
+    if( here.has_items( examp ) ) {
+        selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
+    }
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire… you'll need a fire source." ) );
@@ -6123,7 +6125,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft or disassembly" ) );
-    if( !part ) {
+    if( !part && here.has_items( examp ) ) {
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
     if( is_undeployable ) {
