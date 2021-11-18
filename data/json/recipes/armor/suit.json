@@ -867,9 +867,9 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_articulation" }, { "proficiency": "prof_polymerworking" } ],
-    "difficulty": 8,
+    "difficulty": 6,
     "time": "8 h",
-    "autolearn": true,
+    "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
@@ -880,7 +880,7 @@
     "copy-from": "gambeson",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "rag", 62 ] ] ]
+    "components": [ [ [ "rag", 52 ] ] ]
   },
   {
     "result": "xl_k_gambeson",
@@ -888,7 +888,7 @@
     "copy-from": "k_gambeson",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 85 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 72 ] ] ]
   },
   {
     "result": "h20survivor_suit",
