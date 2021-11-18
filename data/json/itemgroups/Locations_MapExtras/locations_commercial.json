@@ -1681,6 +1681,8 @@
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
       [ "breadboard", 50 ],
+      { "item": "voltmeter", "prob": 50, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],
