@@ -461,6 +461,11 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
+const difficulty_impact &scenario::difficulty() const
+{
+    return _difficulty_impact;
+}
+
 bool scenario::custom_start_date() const
 {
     return _custom_start_date;

@@ -111,6 +111,7 @@ class profession
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
+        const difficulty_impact &difficulty() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

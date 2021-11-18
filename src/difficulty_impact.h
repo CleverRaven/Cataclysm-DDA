@@ -8,12 +8,12 @@
 
 struct difficulty_impact {
     enum difficulty_option {
-        DIFF_NONE,
-        DIFF_VERY_EASY,
-        DIFF_EASY,
-        DIFF_MEDIUM,
-        DIFF_HARD,
-        DIFF_VERY_HARD
+        DIFF_NONE      = 0,
+        DIFF_VERY_EASY = 1,
+        DIFF_EASY      = 2,
+        DIFF_MEDIUM    = 3,
+        DIFF_HARD      = 4,
+        DIFF_VERY_HARD = 5
     };
 
     difficulty_option offence = DIFF_NONE;
@@ -22,7 +22,7 @@ struct difficulty_impact {
     difficulty_option wilderness = DIFF_NONE;
     difficulty_option social = DIFF_NONE;
 
-    const std::string get_diff_desc( const difficulty_option &diff ) const;
+    static const std::string get_diff_desc( const difficulty_option &diff );
     difficulty_option get_opt_from_str( const std::string &diff_str ) const;
 
     void load( const JsonObject &jo );

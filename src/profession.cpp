@@ -526,6 +526,11 @@ profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
+const difficulty_impact &profession::difficulty() const
+{
+    return _difficulty_impact;
+}
+
 bool profession::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) != 0;

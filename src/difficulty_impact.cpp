@@ -4,7 +4,7 @@
 #include "difficulty_impact.h"
 #include "generic_factory.h"
 
-const std::string difficulty_impact::get_diff_desc( const difficulty_option &diff ) const
+const std::string difficulty_impact::get_diff_desc( const difficulty_option &diff )
 {
     static const std::map<difficulty_option, std::string> diff_map {
         //~ Describes game difficulty

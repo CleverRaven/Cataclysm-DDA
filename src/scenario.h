@@ -91,6 +91,7 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+        const difficulty_impact &difficulty() const;
 
         bool custom_start_date() const;
         bool is_random_hour() const;
