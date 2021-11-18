@@ -153,10 +153,10 @@ void tab_manager::draw( const catacurses::window &w )
     draw_border_below_tabs( w );
 
     for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 4 ), BORDER_COLOR, LINE_OXOX );
+        mvwputch( w, point( i, 5 ), BORDER_COLOR, LINE_OXOX );
     }
-    mvwputch( w, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w, point( 0, 5 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( w, point( TERMX - 1, 5 ), BORDER_COLOR, LINE_XOXX ); // -|
 }
 
 bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
@@ -351,6 +351,81 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
             return _( "Freeform" );
     }
     return "If you see this, this is a bug";
+}
+
+static std::string difficulty_to_string( const avatar &u )
+{
+    float off_diff = 3.0f;
+    float def_diff = 3.0f;
+    float cft_diff = 3.0f;
+    float wld_diff = 3.0f;
+    float scl_diff = 3.0f;
+    int off_cnt = 0;
+    int def_cnt = 0;
+    int cft_cnt = 0;
+    int wld_cnt = 0;
+    int scl_cnt = 0;
+
+    auto mod_diff = [&]( const difficulty_impact &diff ) {
+        if( diff.offence != difficulty_impact::DIFF_NONE ) {
+            off_diff += static_cast<int>( diff.offence );
+            off_cnt++;
+        } else if( diff.defence != difficulty_impact::DIFF_NONE ) {
+            def_diff += static_cast<int>( diff.defence );
+            def_cnt++;
+        } else if( diff.crafting != difficulty_impact::DIFF_NONE ) {
+            cft_diff += static_cast<int>( diff.crafting );
+            cft_cnt++;
+        } else if( diff.wilderness != difficulty_impact::DIFF_NONE ) {
+            wld_diff += static_cast<int>( diff.wilderness );
+            wld_cnt++;
+        } else if( diff.social != difficulty_impact::DIFF_NONE ) {
+            scl_diff += static_cast<int>( diff.social );
+            scl_cnt++;
+        }
+    };
+
+    if( u.prof != nullptr ) {
+        mod_diff( u.prof->difficulty() );
+    }
+    if( get_scenario() != nullptr ) {
+        mod_diff( get_scenario()->difficulty() );
+    }
+    for( const profession *prof : u.hobbies ) {
+        if( prof != nullptr ) {
+            mod_diff( prof->difficulty() );
+        }
+    }
+    for( const trait_id &tr : u.my_traits ) {
+        mod_diff( tr->impact_on_difficulty );
+    }
+
+    int off = std::round( off_diff / ( off_cnt > 0 ? off_cnt : 1 ) );
+    int def = std::round( def_diff / ( def_cnt > 0 ? def_cnt : 1 ) );
+    int cft = std::round( cft_diff / ( cft_cnt > 0 ? cft_cnt : 1 ) );
+    int wld = std::round( wld_diff / ( wld_cnt > 0 ? wld_cnt : 1 ) );
+    int scl = std::round( scl_diff / ( scl_cnt > 0 ? scl_cnt : 1 ) );
+
+    auto diff_colr = []( int diff ) {
+        switch( diff ) {
+            case 1: return "light_green";
+            case 2: return "light_cyan";
+            case 4: return "brown";
+            case 5: return "light_red";
+            default: return "yellow";
+        }
+    };
+
+    auto diff_desc = []( int diff ) {
+        return difficulty_impact::get_diff_desc( static_cast<difficulty_impact::difficulty_option>( diff > 0 ? diff : 3 ) );
+    };
+
+    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>", _( "Difficulty" ),
+                          _( "Offense" ), diff_colr( off ), diff_desc( off ),
+                          _( "Defense" ), diff_colr( def ), diff_desc( def ),
+                          _( "Crafting" ), diff_colr( cft ), diff_desc( cft ),
+                          _( "Wilderness" ), diff_colr( wld ), diff_desc( wld ),
+                          _( "Social" ), diff_colr( scl ), diff_desc( scl ) );
 }
 
 static void set_points( tab_manager &tabs, avatar &u, pool_type & );
@@ -912,6 +987,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
+    mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     std::string points_msg = pools_to_string( u, pool );
     int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
@@ -921,6 +997,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
     } else if( netPointCost < 0 ) {
         mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
     }
+    print_colored_text( w, point( 2, 4 ), color, c_light_gray, difficulty_to_string( u ) );
 }
 
 template <class Compare>
@@ -956,7 +1033,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     catacurses::window w_description;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( TERMY - 10, TERMX - 35, point( 31, 5 ) );
+        w_description = catacurses::newwin( TERMY - 11, TERMX - 35, point( 31, 6 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1016,7 +1093,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
             } else {
                 color = highlighted == i ? COL_SELECT : c_light_gray;
             }
-            mvwprintz( w, point( 2, 5 + i ), color, std::get<1>( opts[i] ) );
+            mvwprintz( w, point( 2, 6 + i ), color, std::get<1>( opts[i] ) );
         }
 
         fold_and_print( w_description, point_zero, getmaxx( w_description ),
@@ -1073,7 +1150,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 8, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, 5 ) );
+                                            point( iSecondColumn, 6 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1099,20 +1176,21 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         // This is description line, meaning its length excludes first column and border
         const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
         mvwprintz( w, point( iSecondColumn, 3 ), c_black, clear_line );
-        for( int i = 6; i < 13; i++ ) {
+        mvwprintz( w, point( iSecondColumn, 4 ), c_black, clear_line );
+        for( int i = 7; i < 14; i++ ) {
             mvwprintz( w, point( iSecondColumn, i ), c_black, clear_line );
         }
 
         draw_points( w, pool, u );
 
-        mvwprintz( w, point( 2, 5 ), c_light_gray, _( "Strength:" ) );
-        mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
-        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Dexterity:" ) );
-        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
-        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Intelligence:" ) );
-        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
-        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Perception:" ) );
-        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
+        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Strength:" ) );
+        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
+        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
+        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
+        mvwprintz( w, point( 2, 9 ), c_light_gray, _( "Perception:" ) );
+        mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
 
         werase( w_description );
         u.reset_stats();
@@ -1120,8 +1198,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
-                mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
-                mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
+                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
+                mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
@@ -1140,8 +1218,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 break;
 
             case 2:
-                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Dexterity:" ) );
-                mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
+                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
+                mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Dex further costs 2 points" ) );
@@ -1161,8 +1239,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 break;
 
             case 3: {
-                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Intelligence:" ) );
-                mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
+                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
+                mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
@@ -1180,8 +1258,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             break;
 
             case 4:
-                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Perception:" ) );
-                mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
+                mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
+                mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Per further costs 2 points" ) );
@@ -1393,7 +1471,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
         ui.position_from_window( w );
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
-        iContentHeight = TERMY - 9;
+        iContentHeight = TERMY - 10;
 
         pos_calc();
     };
@@ -1523,14 +1601,14 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     cLine = c_light_gray;
                 }
 
-                int cur_line_y = 5 + i - start;
+                int cur_line_y = 6 + i - start;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( cursor.name(),
                            page_width - 2 ) );
             }
 
             trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
-            .offset_y( 5 )
+            .offset_y( 6 )
             .content_size( traits_size[iCurrentPage] )
             .viewport_pos( start )
             .viewport_size( iContentHeight )
@@ -1967,7 +2045,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_details_pane;
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
-    const int iHeaderHeight = 5;
+    const int iHeaderHeight = 6;
     scrollbar list_sb;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
@@ -2063,12 +2141,12 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
+            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 5 )
+        .offset_y( 6 )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
@@ -2271,7 +2349,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_details_pane;
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
-    const int iHeaderHeight = 5;
+    const int iHeaderHeight = 6;
     scrollbar list_sb;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
@@ -2363,7 +2441,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 5 )
+        .offset_y( 6 )
         .content_size( hobbies_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
@@ -2569,7 +2647,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_keybindings;
     std::vector<std::string> keybinding_hint;
     int iContentHeight = 0;
-    const int iHeaderHeight = 5;
+    const int iHeaderHeight = 6;
     scrollbar list_sb;
     input_context ctxt( "NEW_CHAR_SKILLS" );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
@@ -2598,7 +2676,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
-        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 5 ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 6 ) );
         details_recalc = true;
         w_keybindings = catacurses::newwin( static_cast<int>( keybinding_hint.size() ), TERMX - 2, point( 1,
                                             iHeaderHeight + iContentHeight ) );
@@ -2756,7 +2834,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 5 )
+        .offset_y( 6 )
         .content_size( num_skills )
         .viewport_pos( cur_offset )
         .viewport_size( iContentHeight )
@@ -2981,7 +3059,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_details_pane;
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
-    const int iHeaderHeight = 5;
+    const int iHeaderHeight = 6;
     scrollbar list_sb;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
@@ -3079,13 +3157,13 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
+            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
                        sorted_scens[i]->gender_appropriate_name( u.male ) );
 
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 5 )
+        .offset_y( 6 )
         .content_size( scens_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
@@ -3289,38 +3367,38 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         const int begin_sncol = TERMX / 2;
         if( isWide ) {
             w = catacurses::newwin( TERMY, TERMX, point_zero );
-            w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
-            w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
-            w_location = catacurses::newwin( 1, ncol3, point( beginx3, 5 ) );
-            w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
-            w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
-            w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-            w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
-            w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
-            w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
+            w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 6 ) );
+            w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 8 ) );
+            w_location = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
+            w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
+            w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 8 ) );
+            w_stats = catacurses::newwin( 6, 20, point( 2, 10 ) );
+            w_traits = catacurses::newwin( TERMY - 11, ncol2, point( beginx2, 10 ) );
+            w_bionics = catacurses::newwin( TERMY - 11, ncol3, point( beginx3, 10 ) );
+            w_proficiencies = catacurses::newwin( TERMY - 21, 19, point( 2, 16 ) );
             // Extra - 11 to avoid overlap with long text in w_guide.
-            w_hobbies = catacurses::newwin( TERMY - 10 - 11, ncol4, point( beginx4, 9 ) );
+            w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
-            w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
+            w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
             w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
-            w_height = catacurses::newwin( 1, ncol2, point( beginx2, 5 ) );
-            w_age = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
-            w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
+            w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
+            w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
+            w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
             ui.position_from_window( w );
         } else {
             w = catacurses::newwin( TERMY, TERMX, point_zero );
-            w_name = catacurses::newwin( 1, ncol_small, point( 2, 5 ) );
-            w_gender = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
-            w_height = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
-            w_age = catacurses::newwin( 1, ncol_small, point( begin_sncol, 5 ) );
-            w_blood = catacurses::newwin( 1, ncol_small, point( begin_sncol, 6 ) );
-            w_location = catacurses::newwin( 1, ncol_small, point( begin_sncol, 7 ) );
-            w_stats = catacurses::newwin( 6, ncol_small, point( 2, 9 ) );
-            w_scenario = catacurses::newwin( 1, ncol_small, point( begin_sncol, 9 ) );
-            w_profession = catacurses::newwin( 1, ncol_small, point( begin_sncol, 10 ) );
-            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 12 ) );
-            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 14 ) );
+            w_name = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
+            w_gender = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
+            w_height = catacurses::newwin( 1, ncol_small, point( 2, 8 ) );
+            w_age = catacurses::newwin( 1, ncol_small, point( begin_sncol, 6 ) );
+            w_blood = catacurses::newwin( 1, ncol_small, point( begin_sncol, 7 ) );
+            w_location = catacurses::newwin( 1, ncol_small, point( begin_sncol, 8 ) );
+            w_stats = catacurses::newwin( 6, ncol_small, point( 2, 10 ) );
+            w_scenario = catacurses::newwin( 1, ncol_small, point( begin_sncol, 10 ) );
+            w_profession = catacurses::newwin( 1, ncol_small, point( begin_sncol, 11 ) );
+            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 13 ) );
+            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 15 ) );
             w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
             ui.position_from_window( w );
         }
@@ -3398,7 +3476,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         //Draw the line between editable and non-editable stuff.
         for( int i = 0; i < getmaxx( w ); ++i ) {
             if( i == 0 ) {
-                mvwputch( w, point( i, 8 ), BORDER_COLOR, LINE_XXXO );
+                mvwputch( w, point( i, 9 ), BORDER_COLOR, LINE_XXXO );
             } else if( i == getmaxx( w ) - 1 ) {
                 wputch( w, BORDER_COLOR, LINE_XOXX );
             } else {

@@ -98,6 +98,7 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+        const difficulty_impact &difficulty() const;
 
         std::optional<achievement_id> get_requirement() const;
 
