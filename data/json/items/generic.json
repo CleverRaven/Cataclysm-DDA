@@ -280,7 +280,7 @@
     "color": "white",
     "name": { "str_sp": "rubber cement" },
     "looks_like": "superglue",
-    "description": "A tin of adhesive typically used to glue rubber. It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility. Typically smelly and toxic.",
+    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility.  Typically smelly and toxic.",
     "price": 1800,
     "price_postapoc": 80,
     "material": [ "plastic" ],
