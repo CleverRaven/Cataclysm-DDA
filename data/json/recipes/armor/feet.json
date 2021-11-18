@@ -23,7 +23,8 @@
     "difficulty": 2,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 12 ], [ "fastener_small", 1 ] ],
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 12 ], [ "fastener_shoes", 1 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -35,7 +36,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots",
-    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_small", 2 ] ],
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
     "time": "11 h 15 m"
   },
   {
@@ -137,8 +139,9 @@
     "skills_required": [ "survival", 1 ],
     "time": "12 h",
     "autolearn": true,
+    "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_small", 7 ], [ "tailoring_fur_small", 7 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_small", 7 ], [ "tailoring_fur_small", 7 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
@@ -151,7 +154,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_fur",
-    "using": [ [ "sewing_standard", 16 ], [ "tailoring_leather_small", 8 ], [ "tailoring_fur_small", 8 ], [ "fastener_small", 2 ] ],
+    "reversible": true,
+    "using": [ [ "sewing_standard", 16 ], [ "tailoring_leather_small", 8 ], [ "tailoring_fur_small", 8 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
     "time": "13 h 30 m"
   },
   {
@@ -424,11 +428,14 @@
     "difficulty": 6,
     "time": "12 h",
     "autolearn": true,
+    "reversible": true,
     "using": [
       [ "tailoring_felt_patchwork", 4 ],
       [ "plastic_molding", 4 ],
       [ "waterproofing_plastic_bags", 2 ],
-      [ "fastener_small", 2 ]
+      [ "fastener_shoes", 2 ], 
+      [ "shoe_rubber", 1 ], 
+      [ "adhesive_rubber", 1 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
@@ -441,11 +448,14 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_winter",
+    "reversible": true,
     "using": [
       [ "tailoring_felt_patchwork", 6 ],
       [ "plastic_molding", 5 ],
       [ "waterproofing_plastic_bags", 2 ],
-      [ "fastener_small", 2 ]
+      [ "fastener_shoes", 2 ], 
+      [ "shoe_rubber", 1 ], 
+      [ "adhesive_rubber", 1 ]
     ],
     "time": "13 h 30 m"
   },
