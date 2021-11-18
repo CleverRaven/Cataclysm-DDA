@@ -304,49 +304,59 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
 
 static std::string difficulty_to_string( const avatar &u )
 {
-    float off_diff = 3.0f;
-    float def_diff = 3.0f;
-    float cft_diff = 3.0f;
-    float wld_diff = 3.0f;
-    float scl_diff = 3.0f;
+    float off_diff = 0.0f;
+    float def_diff = 0.0f;
+    float cft_diff = 0.0f;
+    float wld_diff = 0.0f;
+    float scl_diff = 0.0f;
     int off_cnt = 0;
     int def_cnt = 0;
     int cft_cnt = 0;
     int wld_cnt = 0;
     int scl_cnt = 0;
 
-    auto mod_diff = [&]( const difficulty_impact &diff ) {
+    auto mod_diff = [&]( const difficulty_impact & diff, float mod ) {
         if( diff.offence != difficulty_impact::DIFF_NONE ) {
-            off_diff += static_cast<int>( diff.offence );
+            off_diff += static_cast<int>( diff.offence ) * mod;
             off_cnt++;
-        } else if( diff.defence != difficulty_impact::DIFF_NONE ) {
-            def_diff += static_cast<int>( diff.defence );
+        }
+        if( diff.defence != difficulty_impact::DIFF_NONE ) {
+            def_diff += static_cast<int>( diff.defence ) * mod;
             def_cnt++;
-        } else if( diff.crafting != difficulty_impact::DIFF_NONE ) {
-            cft_diff += static_cast<int>( diff.crafting );
+        }
+        if( diff.crafting != difficulty_impact::DIFF_NONE ) {
+            cft_diff += static_cast<int>( diff.crafting ) * mod;
             cft_cnt++;
-        } else if( diff.wilderness != difficulty_impact::DIFF_NONE ) {
-            wld_diff += static_cast<int>( diff.wilderness );
+        }
+        if( diff.wilderness != difficulty_impact::DIFF_NONE ) {
+            wld_diff += static_cast<int>( diff.wilderness ) * mod;
             wld_cnt++;
-        } else if( diff.social != difficulty_impact::DIFF_NONE ) {
-            scl_diff += static_cast<int>( diff.social );
+        }
+        if( diff.social != difficulty_impact::DIFF_NONE ) {
+            scl_diff += static_cast<int>( diff.social ) * mod;
             scl_cnt++;
         }
     };
 
-    if( u.prof != nullptr ) {
-        mod_diff( u.prof->difficulty() );
-    }
     if( get_scenario() != nullptr ) {
-        mod_diff( get_scenario()->difficulty() );
+        mod_diff( get_scenario()->difficulty(), 1.0f );
+        off_diff = off_diff < 1.f ? 3.f : off_diff;
+        def_diff = def_diff < 1.f ? 3.f : def_diff;
+        cft_diff = cft_diff < 1.f ? 3.f : cft_diff;
+        wld_diff = wld_diff < 1.f ? 3.f : wld_diff;
+        scl_diff = scl_diff < 1.f ? 3.f : scl_diff;
+    }
+    if( u.prof != nullptr ) {
+        mod_diff( u.prof->difficulty(), 1.0f );
     }
     for( const profession *prof : u.hobbies ) {
         if( prof != nullptr ) {
-            mod_diff( prof->difficulty() );
+            // Hobbies have less effect on difficulty
+            mod_diff( prof->difficulty(), 0.5f );
         }
     }
     for( const trait_id &tr : u.my_traits ) {
-        mod_diff( tr->impact_on_difficulty );
+        mod_diff( tr->impact_on_difficulty, 0.8f );
     }
 
     int off = std::round( off_diff / ( off_cnt > 0 ? off_cnt : 1 ) );
@@ -357,19 +367,26 @@ static std::string difficulty_to_string( const avatar &u )
 
     auto diff_colr = []( int diff ) {
         switch( diff ) {
-            case 1: return "light_green";
-            case 2: return "light_cyan";
-            case 4: return "brown";
-            case 5: return "light_red";
-            default: return "yellow";
+            case 1:
+                return "light_green";
+            case 2:
+                return "light_cyan";
+            case 4:
+                return "brown";
+            case 5:
+                return "light_red";
+            default:
+                return "yellow";
         }
     };
 
     auto diff_desc = []( int diff ) {
-        return difficulty_impact::get_diff_desc( static_cast<difficulty_impact::difficulty_option>( diff > 0 ? diff : 3 ) );
+        return difficulty_impact::get_diff_desc( static_cast<difficulty_impact::difficulty_option>
+                ( diff > 0 ? diff : 3 ) );
     };
 
-    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>", _( "Difficulty" ),
+    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>",
+                          _( "Difficulty" ),
                           _( "Offense" ), diff_colr( off ), diff_desc( off ),
                           _( "Defense" ), diff_colr( def ), diff_desc( def ),
                           _( "Crafting" ), diff_colr( cft ), diff_desc( cft ),
