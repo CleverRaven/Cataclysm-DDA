@@ -67,7 +67,6 @@ jobs:
       with:
         workflow: General build matrix
         token: ${{ secrets.TX_PR_CREATOR }}
-        ref: ${{ github.event.pull_request.head.ref }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()

@@ -39,7 +39,6 @@ jobs:
       with:
         workflow: Basic Build
         token: ${{ secrets.TX_PR_CREATOR }}
-        ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Display Corrections
       if: failure()
