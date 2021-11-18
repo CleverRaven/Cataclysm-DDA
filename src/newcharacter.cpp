@@ -77,11 +77,11 @@ static const flag_id json_flag_auto_wield( "auto_wield" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
+static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
-static const trait_id trait_HUGE( "HUGE" );
 
 // Responsive screen behavior for small terminal sizes
 static bool isWide = false;
