@@ -54,6 +54,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ]
   },
   {
@@ -125,7 +126,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "shovel",

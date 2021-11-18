@@ -3406,7 +3406,6 @@
     "points": 1,
     "visibility": 1,
     "description": "Your legs have gained muscle mass to propel you across any terrain.",
-    "types": [ "LEGS" ],
     "leads_to": [ "LEAPING_LEGS" ],
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
@@ -3419,7 +3418,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap from a standing position.",
     "spells_learned": [ [ "spell_short_leap", 1 ] ],
     "changes_to": [ "LEAPING_LEGS2" ],
@@ -3432,7 +3430,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
     "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
@@ -7013,7 +7010,7 @@
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
-    "flags": [ "EYE_MEMBRANE" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
   },
   {

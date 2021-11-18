@@ -66,11 +66,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
-static const itype_id itype_rock( "rock" );
-
-static const species_id species_FUNGUS( "FUNGUS" );
-
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
@@ -81,16 +76,21 @@ static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rock( "rock" );
+
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+
+static const species_id species_FUNGUS( "FUNGUS" );
+
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 using namespace map_field_processing;
 

@@ -158,7 +158,7 @@ static void load_json_dir( const std::string &dirname )
             JsonIn jsin( iss );
             load_all_from_json( jsin );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( *( it ) + ": " + err.what() );
+            throw std::runtime_error( *it + ": " + err.what() );
         }
     }
 }

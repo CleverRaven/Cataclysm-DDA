@@ -289,7 +289,7 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
         }
 
         if( screen_center_pos.x >= ( text_x_min - 1 ) &&
-            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.x <= text_x_max &&
             screen_center_pos.y >= ( text_y - 1 ) &&
             screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
@@ -328,7 +328,7 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
         }
 
         if( screen_center_pos.x >= ( text_x_min - 1 ) &&
-            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.x <= text_x_max &&
             screen_center_pos.y >= ( text_y - 1 ) &&
             screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
@@ -515,7 +515,7 @@ static void draw_ascii(
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
     const bool viewing_weather =
-        ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10 );
+        ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10;
 
     avatar &player_character = get_avatar();
     // Target of current mission
@@ -1061,8 +1061,8 @@ static void draw_om_sidebar(
 
     // Describe the weather conditions on the following line, if weather is visible
     if( viewing_weather ) {
-        const bool weather_is_visible = ( uistate.overmap_debug_weather ||
-                                          player_character.overmap_los( center, sight_points * 2 ) );
+        const bool weather_is_visible = uistate.overmap_debug_weather ||
+                                        player_character.overmap_los( center, sight_points * 2 );
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( center )->color,

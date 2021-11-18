@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "ammo_effect.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
@@ -37,6 +38,9 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     range = other.range;
+    count = other.count;
+    shot_spread = other.shot_spread;
+    shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
     critical_multiplier = other.critical_multiplier;
     set_drop( other.get_drop() );
@@ -166,4 +170,38 @@ int max_aoe_size( const std::set<std::string> &tags )
         }
     }
     return aoe_size;
+}
+
+void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
+                                   std::string projectile_name )
+{
+    if( hit_count > 0 && get_player_character().sees( *critter ) ) {
+        // Building a phrase to summarize the fragment effects.
+        // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
+        std::map<int, std::string> impact_count_descriptions = {
+            { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
+            { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
+            { std::numeric_limits<int>::max(), _( "an immense number of" ) }
+        };
+        std::string impact_count = std::find_if(
+                                       impact_count_descriptions.begin(), impact_count_descriptions.end(),
+        [hit_count]( const std::pair<int, std::string> &desc ) {
+            return desc.first >= hit_count;
+        } )->second;
+        std::string damage_description = ( damage_taken > 0 ) ?
+                                         string_format( _( "dealing %d damage" ), damage_taken ) :
+                                         _( "but they deal no damage" );
+        if( critter->is_avatar() ) {
+            //~ Phrase describing getting hit by multiple projectiles, i.e. "You are hit by many bomb fragments, dealing 50 damage."
+            add_msg( _( "You are hit by %s %s, %s." ), impact_count, projectile_name, damage_description );
+        } else if( critter->is_npc() ) {
+            //~ Phrase describing getting hit by multiple projectiles, i.e. "Fred Johnson is hit by many bomb fragments, dealing 50 damage."
+            critter->add_msg_if_npc( _( "<npcname> is hit by %s %s, %s." ), impact_count, projectile_name,
+                                     damage_description );
+        } else {
+            //~ Phrase describing getting hit by multiple projectiles, i.e. "The zombie is hit by many bomb fragments, dealing 50 damage."
+            add_msg( _( "%s is hit by %s %s, %s." ), critter->disp_name( false, true ), impact_count,
+                     projectile_name, damage_description );
+        }
+    }
 }

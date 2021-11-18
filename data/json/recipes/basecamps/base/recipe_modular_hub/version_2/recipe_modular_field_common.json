@@ -440,7 +440,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_2_center_stove",
     "blueprint_name": "central wood stove",
-    "blueprint_resources": [ "fake_stove" ],
+    "blueprint_resources": [ "fake_woodstove" ],
     "blueprint_requires": [ { "id": "fbmh_2_center_east" } ],
     "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" }, { "id": "fbmh_2_cooking_recipes_1" } ]
   },

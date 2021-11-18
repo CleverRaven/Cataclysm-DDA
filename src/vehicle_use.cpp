@@ -62,11 +62,17 @@
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_tied( "tied" );
+
+static const fault_id fault_engine_starter( "fault_engine_starter" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
-
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
@@ -78,14 +84,7 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_tied( "tied" );
-
-static const fault_id fault_engine_starter( "fault_engine_starter" );
-
 static const skill_id skill_mechanics( "mechanics" );
-
-static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -1837,8 +1836,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return ( f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
-                                      f.has_flag( MF_PET_HARNESSABLE ) ) );
+        return f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
+                                    f.has_flag( MF_PET_HARNESSABLE ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(

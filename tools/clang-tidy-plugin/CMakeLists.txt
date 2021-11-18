@@ -16,6 +16,7 @@ add_library(CataAnalyzerPlugin MODULE
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
         PointInitializationCheck.cpp
+        RedundantParenthesesCheck.cpp
         SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp

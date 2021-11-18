@@ -316,10 +316,10 @@ bool Character::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-void Character::craft( const cata::optional<tripoint> &loc )
+void Character::craft( const cata::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size );
+    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
             make_craft( rec->ident(), batch_size, loc );
@@ -336,10 +336,10 @@ void Character::recraft( const cata::optional<tripoint> &loc )
     }
 }
 
-void Character::long_craft( const cata::optional<tripoint> &loc )
+void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size );
+    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
             make_all_craft( rec->ident(), batch_size, loc );
@@ -2026,7 +2026,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                     }
                     break;
                 case usage_from::both:
-                    if( !( crafting_inventory() ).has_charges( type, count ) ) {
+                    if( !crafting_inventory().has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting" ),
                             _( "<npcname> has insufficient %s charges and can't continue crafting" ),
@@ -2529,7 +2529,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     std::list<item> drop_items;
 
     for( const item &newit : components ) {
-        const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
+        const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides );
         if( dis.difficulty != 0 && !comp_success ) {
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );

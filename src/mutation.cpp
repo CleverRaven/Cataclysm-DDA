@@ -40,10 +40,15 @@
 #include "translations.h"
 #include "units.h"
 
-static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_stunned( "stunned" );
+
+static const json_character_flag json_flag_HUGE( "HUGE" );
+static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_TINY( "TINY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -51,15 +56,18 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
+static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
-static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
@@ -75,14 +83,6 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
-static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
-static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
-
-static const json_character_flag json_flag_TINY( "TINY" );
-static const json_character_flag json_flag_SMALL( "SMALL" );
-static const json_character_flag json_flag_LARGE( "LARGE" );
-static const json_character_flag json_flag_HUGE( "HUGE" );
 
 namespace io
 {
@@ -886,8 +886,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -896,8 +896,8 @@ void Character::mutate()
             for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
-                if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
-                    ( valid_ok ) ) {
+                if( mutation_ok( mutation, force_good, force_bad ) &&
+                    valid_ok ) {
                     upgrades.push_back( mutation );
                 }
             }
@@ -1338,8 +1338,8 @@ bool Character::mutate_towards( const trait_id &mut )
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const
 {
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
-             has_same_type_trait( flag ) );
+    return has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
+           has_same_type_trait( flag );
 }
 
 std::unordered_set<trait_id> Character::get_conflicting_traits( const trait_id &flag ) const
@@ -1811,8 +1811,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
-             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+    return are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+           || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b );
 }
 
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )

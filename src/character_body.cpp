@@ -37,8 +37,8 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
+static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
@@ -47,6 +47,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
@@ -360,13 +361,13 @@ void Character::update_bodytemp()
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
 
-        if( bp->has_flag( "IGNORE_TEMP" ) ) {
+        if( bp->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
-        int adjusted_temp = ( Ctemperature - ambient_norm );
+        int adjusted_temp = Ctemperature - ambient_norm;
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
@@ -413,7 +414,7 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, mutation_heat_low );
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
-        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
+        int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
 
         if( get_part_frostbite_timer( bp ) > 0 ) {
             mod_part_frostbite_timer( bp, -std::max( 5, h_radiation ) );
@@ -756,7 +757,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    const bool npc_no_food = !needs_food();
     const bool foodless = debug_ls || npc_no_food;
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );

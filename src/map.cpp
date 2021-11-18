@@ -58,6 +58,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_ter_furn_transform.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -100,13 +101,13 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_crushed( "crushed" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
-
-static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_crushed( "crushed" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2654,10 +2655,10 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     point p2( p );
     bool result = true;
     bool loop = true;
-    while( ( loop ) && ( ( dir == direction::NORTH && p2.y >= 0 ) ||
-                         ( dir == direction::SOUTH && p2.y < max.y ) ||
-                         ( dir == direction::WEST  && p2.x >= 0 ) ||
-                         ( dir == direction::EAST  && p2.x < max.x ) ) ) {
+    while( loop && ( ( dir == direction::NORTH && p2.y >= 0 ) ||
+                     ( dir == direction::SOUTH && p2.y < max.y ) ||
+                     ( dir == direction::WEST  && p2.x >= 0 ) ||
+                     ( dir == direction::EAST  && p2.x < max.x ) ) ) {
         if( no_furn && has_furn( p2 ) ) {
             loop = false;
             result = false;
@@ -3984,6 +3985,17 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     }
 }
 
+void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
+{
+    for( const tripoint &t : points_on_zlevel() ) {
+        const float radiX = trig_dist( p, getabs( t ) );
+        // within distance, and either no submap limitation or same overmap coords.
+        if( radiX <= radi ) {
+            transform->transform( t );
+        }
+    }
+}
+
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
     if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
@@ -4910,9 +4922,9 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( std::abs( p.x - from.x ) <= 1 &&
-                 std::abs( p.y - from.y ) <= 1 &&
-                 std::abs( p.z - from.z ) <= 1 );
+        return std::abs( p.x - from.x ) <= 1 &&
+               std::abs( p.y - from.y ) <= 1 &&
+               std::abs( p.z - from.z ) <= 1;
     }
     return true;
 }
@@ -5371,7 +5383,7 @@ time_duration map::get_field_age( const tripoint &p, const field_type_id &type )
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
     const field_entry *field_ptr = get_field( p, type );
-    return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
+    return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
 bool map::has_field_at( const tripoint &p, bool check_bounds ) const
@@ -7147,15 +7159,11 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
         const time_point last_actualize = calendar::turn - time_since_last_actualize;
         const time_duration last_actualize_tof = time_past_new_year( last_actualize );
-        bool last_producing = (
-                                  last_actualize_tof >= late_winter_start ||
-                                  last_actualize_tof < early_spring_end
-                              );
+        bool last_producing = last_actualize_tof >= late_winter_start ||
+                              last_actualize_tof < early_spring_end;
         const time_duration current_tof = time_past_new_year( calendar::turn );
-        bool current_producing = (
-                                     current_tof >= late_winter_start ||
-                                     current_tof < early_spring_end
-                                 );
+        bool current_producing = current_tof >= late_winter_start ||
+                                 current_tof < early_spring_end;
 
         const time_duration non_producing_length = 3.25 * calendar::season_length();
 
@@ -7291,7 +7299,7 @@ void map::actualize( const tripoint &grid )
     }
 
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
-    const bool do_funnels = ( grid.z >= 0 );
+    const bool do_funnels = grid.z >= 0;
 
     // check spoiled stuff, and fill up funnels while we're at it
     process_items_in_submap( *tmpsub, grid );
@@ -7835,14 +7843,14 @@ void map::build_outside_cache( const int zlev )
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
-    const size_t padded_w = ( MAPSIZE_X ) + 2;
-    const size_t padded_h = ( MAPSIZE_Y ) + 2;
+    const size_t padded_w = MAPSIZE_X + 2;
+    const size_t padded_h = MAPSIZE_Y + 2;
     bool padded_cache[padded_w][padded_h];
 
     auto &outside_cache = ch.outside_cache;
     if( zlev < 0 ) {
         std::uninitialized_fill_n(
-            &outside_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), false );
+            &outside_cache[0][0], MAPSIZE_X * MAPSIZE_Y, false );
         return;
     }
 
@@ -7991,7 +7999,7 @@ bool map::build_floor_cache( const int zlev )
 
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
-        &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
+        &floor_cache[0][0], MAPSIZE_X * MAPSIZE_Y, true );
     bool &no_floor_gaps = ch.no_floor_gaps;
     no_floor_gaps = true;
 
@@ -8019,7 +8027,7 @@ bool map::build_floor_cache( const int zlev )
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                         terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
                         if( below_submap &&
-                            ( below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) ) {
+                            below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;
                         }
                         const point p( sx + smx * SEEX, sy + smy * SEEY );

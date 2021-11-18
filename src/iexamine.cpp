@@ -112,6 +112,10 @@ static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const ammotype ammo_money( "money" );
 
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -129,9 +133,6 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -142,13 +143,13 @@ static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
-static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
@@ -165,14 +166,30 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_water( "water" );
 
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
+static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
-
-static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -191,24 +208,6 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-static const quality_id qual_DIG( "DIG" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
-static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
-static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
-static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
-
-static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
-static const bionic_id bio_painkiller( "bio_painkiller" );
-
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -1085,7 +1084,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
-    int movez = ( examp.z < 0 ? 2 : -2 );
+    int movez = examp.z < 0 ? 2 : -2;
 
     tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
@@ -1234,7 +1233,7 @@ void iexamine::intercom( Character &you, const tripoint &examp )
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
         // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
     }
 }
 
@@ -1325,7 +1324,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
  */
 void iexamine::bars( Character &you, const tripoint &examp )
 {
-    if( !( you.has_trait( trait_AMORPHOUS ) ) ) {
+    if( !you.has_trait( trait_AMORPHOUS ) ) {
         none( you, examp );
         return;
     }
@@ -1668,7 +1667,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
 
-        const std::string title = ( "Base Missions" );
+        const std::string title = "Base Missions";
         mission_data mission_key;
         temp_camp->set_by_radio( false );
         temp_camp->get_available_missions( mission_key );
@@ -1868,7 +1867,7 @@ static bool can_drink_nectar( const Character &you )
 {
     return ( you.has_active_mutation( trait_PROBOSCIS )  ||
              you.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( you.get_hunger() ) > 0 ) && ( !( you.wearing_something_on( bodypart_id( "mouth" ) ) ) );
+           ( you.get_hunger() > 0 ) && ( !you.wearing_something_on( bodypart_id( "mouth" ) ) );
 }
 
 /**
@@ -2418,12 +2417,12 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             here.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
-        } else if( ( you.has_trait( trait_M_DEFENDER ) ) || ( ( you.has_trait( trait_M_SPORES ) ||
+        } else if( you.has_trait( trait_M_DEFENDER ) || ( ( you.has_trait( trait_M_SPORES ) ||
                    you.has_trait( trait_M_FERTILE ) ) &&
                    one_in( 2 ) ) ) {
             g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
-        } else if( ( you.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
+        } else if( you.has_trait( trait_THRESH_MYCUS ) || one_in( 4 ) ) {
             here.furn_set( examp, f_flower_marloss );
             add_msg( m_info, _( "The seed blossoms rather rapidly…" ) );
         } else {
@@ -4106,7 +4105,7 @@ void iexamine::sign( Character &you, const tripoint &examp )
     }
 }
 
-static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
+static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_type )
 {
     int result = 0;
     map &here = get_map();
@@ -4114,17 +4113,17 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
         const auto t = here.ter( tmp );
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
-            fuel_type = _( "gasoline" );
+            fuel_type = FUEL_TYPE_GASOLINE;
         } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
             result++;
-            fuel_type = _( "diesel" );
+            fuel_type = FUEL_TYPE_DIESEL;
         }
     }
     return result;
 }
 
 cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
-        const std::string &fuel_type )
+        fuel_station_fuel_type &fuel_type )
 {
     cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
@@ -4135,16 +4134,9 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
         auto check_for_fuel_tank = here.furn( tmp );
 
-        if( fuel_type == _( "gasoline" ) ) {
-            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
-                here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
-                continue;
-            }
-        } else if( fuel_type == _( "diesel" ) ) {
-            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
-                here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
-                continue;
-            }
+        if( ( fuel_type == FUEL_TYPE_GASOLINE && check_for_fuel_tank != furn_str_id( "f_gas_tank" ) ) ||
+            ( fuel_type == FUEL_TYPE_DIESEL && check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) ) ) {
+            continue;
         }
 
         const int new_distance = rl_dist( center, tmp );
@@ -4306,13 +4298,13 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     return -1;
 }
 
-static void turnOnSelectedPump( const tripoint &p, int number, const std::string &fuel_type )
+static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel_type &fuel_type )
 {
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
         const auto t = here.ter( tmp );
-        if( fuel_type == _( "gasoline" ) ) {
+        if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
@@ -4320,7 +4312,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
                     here.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
-        } else if( fuel_type == _( "diesel" ) ) {
+        } else if( fuel_type == FUEL_TYPE_DIESEL ) {
             if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
@@ -4345,17 +4337,20 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
-    std::string fuelType;
+    fuel_station_fuel_type fuelType = FUEL_TYPE_NONE;
+    std::string fuelTypeStr;
     int pumpCount = getNearPumpCount( examp, fuelType );
+    fuelTypeStr = fuelType == FUEL_TYPE_GASOLINE ? _( "gasoline" ) : fuelType == FUEL_TYPE_DIESEL ?
+                  _( "diesel" ) : "";
     if( pumpCount == 0 ) {
-        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s pumps found!" ), fuelType ) ) );
+        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s pumps found!" ), fuelTypeStr ) ) );
         return;
     }
 
     int tankUnits;
     const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
     if( !pTank_ ) {
-        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelType ) ) );
+        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelTypeStr ) ) );
         return;
     }
     const tripoint pTank = *pTank_;
@@ -4363,7 +4358,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     if( tankUnits == 0 ) {
         popup( str_to_illiterate_str(
                    string_format( _( "This station is out of %s.  We apologize for the inconvenience." ),
-                                  fuelType ) ) );
+                                  fuelTypeStr ) ) );
         return;
     }
 
@@ -4384,18 +4379,18 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
 
     amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( string_format( _( "Buy %s." ),
-                    fuelType ) ) );
+                    fuelTypeStr ) ) );
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
-                                  fuelType ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
+                                  fuelTypeStr ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
-                    str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
+                    str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelTypeStr ) ) );
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
     amenu.addentry( 0, false, -1, string_format( str_to_illiterate_str(
-                        _( "Your price per %s unit: " ) ), fuelType )
+                        _( "Your price per %s unit: " ) ), fuelTypeStr )
                     +
                     format_money( pricePerUnit ) );
 
@@ -4409,7 +4404,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     if( choose_pump == choice ) {
         uilist amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump;
-        amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
+        amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelTypeStr ) );
 
         std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {

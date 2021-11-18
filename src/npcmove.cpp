@@ -82,10 +82,9 @@
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 
-static const skill_id skill_firstaid( "firstaid" );
-
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_chain_lightning( "bio_chain_lightning" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
@@ -93,7 +92,6 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_chain_lightning( "bio_chain_lightning" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -124,12 +122,14 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
-static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
-static const material_id material_battery( "battery" );
 static const material_id material_alcohol( "alcohol" );
+static const material_id material_battery( "battery" );
+
+static const skill_id skill_firstaid( "firstaid" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -531,7 +531,7 @@ void npc::assess_danger()
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
-        if( ( is_enemy() || !critter.friendly ) ) {
+        if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
@@ -2868,7 +2868,7 @@ void npc::find_item()
         }
         if( ::good_for_pickup( it, *this ) ) {
             wanted_item_pos = p;
-            wanted = &( it );
+            wanted = &it;
             best_value = has_item_whitelist() ? 1000 : value( it );
         }
     };
@@ -3391,8 +3391,8 @@ bool npc::do_player_activity()
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
-    bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
-    bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
+    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
+    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
     item &weapon = get_wielded_item();
 
@@ -3693,7 +3693,7 @@ void npc::heal_self()
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             const auto inv_filtered = items_with( [&filter]( const item & itm )
             {
-                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient( nullptr ) );
+                return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
         };

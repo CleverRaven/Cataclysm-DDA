@@ -75,19 +75,19 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-
-static const quality_id qual_CUT( "CUT" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 
@@ -574,7 +574,7 @@ construction_id construction_menu( const bool blueprint )
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             const construction_group_str_id &group = constructs[current];
-            bool highlight = ( current == select );
+            bool highlight = current == select;
             const point print_from( 0, i );
             if( highlight ) {
                 cursor_pos = print_from;
@@ -1432,7 +1432,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
+        if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
             here.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {

@@ -553,8 +553,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "type": "GENERIC",
@@ -1364,7 +1363,7 @@
     "id": "book_binder",
     "type": "TOOL",
     "category": "books",
-    "use_action": "BINDER_ADD_RECIPE",
+    "use_action": [ "BINDER_ADD_RECIPE", "BINDER_MANAGE_RECIPE" ],
     "symbol": "/",
     "looks_like": "story_book",
     "color": "light_gray",
@@ -1535,7 +1534,7 @@
     "price": 1000,
     "price_postapoc": 500,
     "material": [ "steel" ],
-    "weight": "100 kg",
+    "weight": "52 kg",
     "volume": "50500 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -2624,10 +2623,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 6,
-      "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
+          "encumbrance": 25,
+          "coverage": 70,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -2666,10 +2670,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -2708,10 +2717,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "portion_cover": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -3544,7 +3558,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",
@@ -3607,7 +3621,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "type": "GENERIC",
@@ -3619,9 +3633,9 @@
     "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "4 kg",
+    "volume": "600 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3637,9 +3651,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3655,9 +3669,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3673,9 +3687,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3691,9 +3705,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3709,9 +3723,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3727,9 +3741,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,

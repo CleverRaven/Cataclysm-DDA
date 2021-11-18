@@ -94,19 +94,19 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_music( "music" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
@@ -120,24 +120,24 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
 
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -1884,7 +1884,7 @@ bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
     bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != bodypart_id( "bp_null" ) ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
+        if( !p.has_trait( trait_NOPAIN ) ) {
             p.mod_pain( 15 );
             p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
         } else {
@@ -4236,7 +4236,7 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_avatar" part, implement NPC screams
-    if( p.is_avatar() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
@@ -4708,7 +4708,7 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
         char_ptr = n;
     }
 
-    item_location loc( *( p.as_character() ), &it );
+    item_location loc( *p.as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {

@@ -61,14 +61,10 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
-static const trap_str_id tr_caltrops( "tr_caltrops" );
-static const trap_str_id tr_nailboard( "tr_nailboard" );
-
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -78,6 +74,7 @@ static const itype_id itype_crowbar( "crowbar" );
 static const itype_id itype_fedora( "fedora" );
 static const itype_id itype_glasses_eye( "glasses_eye" );
 static const itype_id itype_hatchet( "hatchet" );
+static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_indoor_volleyball( "indoor_volleyball" );
 static const itype_id itype_jacket_leather( "jacket_leather" );
@@ -104,15 +101,6 @@ static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
 static const itype_id itype_wrench( "wrench" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
-static const ter_str_id ter_t_stump( "t_stump" );
-static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
-static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
-static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
-static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
-static const ter_str_id ter_t_trunk( "t_trunk" );
-
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
@@ -124,23 +112,35 @@ static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
-static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
+
+static const trap_str_id tr_caltrops( "tr_caltrops" );
+static const trap_str_id tr_nailboard( "tr_nailboard" );
 
 class npc_template;
 
@@ -360,8 +360,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
-                                         c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
+                                         c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
@@ -3063,7 +3063,7 @@ void debug_spawn_test()
                 if( extra == nullptr ) {
                     results[_( "none" )]++;
                 } else {
-                    results[*( ex.values.pick() )]++;
+                    results[*ex.values.pick()]++;
                 }
             } else {
                 results[_( "none" )]++;

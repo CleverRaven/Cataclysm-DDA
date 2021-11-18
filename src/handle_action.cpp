@@ -95,6 +95,7 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
@@ -105,7 +106,8 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+
+static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -116,20 +118,18 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
-static const skill_id skill_melee( "melee" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+
+static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const quality_id qual_CUT( "CUT" );
 
-static const bionic_id bio_remote( "bio_remote" );
+static const skill_id skill_melee( "melee" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
-
-static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
-
-static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -761,7 +761,7 @@ static void smash()
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
             for( const item &i : player_character.worn ) {
                 if( i.covers( bp ) ) {
-                    tmp_bash_armor += i.bash_resist();
+                    tmp_bash_armor += i.bash_resist( false, bp );
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
@@ -965,8 +965,8 @@ static void wait()
     }
 
     // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
-                to_string_time_of_day( calendar::turn ) ) : "";
+    as_m.text = has_watch ? string_format( _( "It's %s now.  " ),
+                                           to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
@@ -997,7 +997,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
+        player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -1985,6 +1985,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_PICKUP:
+        case ACTION_PICKUP_ALL:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
@@ -1992,7 +1993,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
             } else {
-                pickup();
+                if( act == ACTION_PICKUP_ALL ) {
+                    pickup_all();
+                } else {
+                    pickup();
+                }
             }
             break;
 
@@ -2812,5 +2817,5 @@ bool game::handle_action()
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     to_turn<int>( calendar::turn ), before_action_moves, player_character.movecounter,
                                     player_character.moves );
-    return ( !player_character.is_dead_state() );
+    return !player_character.is_dead_state();
 }

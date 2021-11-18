@@ -95,7 +95,7 @@
     "id": "mon_mutant_antler",
     "type": "MONSTER",
     "name": { "str": "ungulate mutant" },
-    "description": "A gigantic mutated test subject, still wearing the tattered reamins of an orange jumpsuit.  It walks on four warped legs ending in hooves, and its head is dominated by a glistening, tangled crown of antlers that scratch the ceiling.",
+    "description": "A gigantic mutated test subject, still wearing the tattered remains of an orange jumpsuit.  It walks on four warped legs ending in hooves, and its head is dominated by a glistening, tangled crown of antlers that scratch the ceiling.",
     "symbol": "M",
     "color": "brown",
     "bodytype": "horse",
