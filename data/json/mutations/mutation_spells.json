@@ -75,8 +75,9 @@
     "min_range": 6,
     "max_range": 6,
     "spell_class": "NONE",
+    "difficulty": -20,
     "base_casting_time": 200,
-    "base_energy_cost": 100,
+    "base_energy_cost": 2000,
     "max_level": 1,
     "energy_source": "STAMINA"
   },
@@ -97,8 +98,9 @@
     "min_range": 8,
     "max_range": 8,
     "spell_class": "NONE",
+    "difficulty": -20,
     "base_casting_time": 300,
-    "base_energy_cost": 300,
+    "base_energy_cost": 6000,
     "max_level": 1,
     "energy_source": "STAMINA"
   }
