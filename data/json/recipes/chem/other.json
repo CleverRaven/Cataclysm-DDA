@@ -54,12 +54,7 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": false,
-    "book_learn": [
-      [ "textbook_fabrication", 3 ],
-      [ "adv_chemistry", 3 ],
-      [ "textbook_chemistry", 3 ],
-      [ "textbook_tailor", 5 ]
-    ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "textbook_tailor", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
