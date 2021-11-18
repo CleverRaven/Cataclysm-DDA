@@ -71,7 +71,10 @@
         [ "gloves_medical", 2 ],
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],
-        [ "gum", 20 ]
+        [ "gum", 20 ],
+        [ "sheet_neoprene", 20 ],
+        [ "scrap_neoprene", 32 ],
+        [ "neoprene", 2 ]
       ]
     ]
   },
