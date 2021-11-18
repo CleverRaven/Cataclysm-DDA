@@ -2714,12 +2714,17 @@ static bool has_only_special_pockets( const itype &def )
     if( def.pockets.empty() ) {
         return true;
     }
-    if( def.pockets.size() != 3 ) {
-        return false;
+
+    const std::vector<item_pocket::pocket_type> special_pockets = { item_pocket::pocket_type::CORPSE, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MIGRATION };
+
+    for( const pocket_data &pocket : def.pockets ) {
+        if( std::find( special_pockets.begin(), special_pockets.end(),
+                       pocket.type ) == special_pockets.end() ) {
+            return false;
+        }
     }
-    return has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) &&
-           has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) &&
-           has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION );
+
+    return true;
 }
 
 void Item_factory::check_and_create_magazine_pockets( itype &def )
@@ -2805,10 +2810,11 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
 
 void Item_factory::add_special_pockets( itype &def )
 {
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
+    if( def.has_flag( flag_CORPSE ) &&
+        !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::CORPSE );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
+    if( ( def.tool || def.gun ) && !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::MOD );
     }
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
