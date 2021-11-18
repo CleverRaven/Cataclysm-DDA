@@ -39,6 +39,7 @@ jobs:
       with:
         workflow: Basic Build
         token: ${{ secrets.TX_PR_CREATOR }}
+        ref: refs/remotes/pull/${{ github.event.pull_request.number }}/merge
 
     - name: Display Corrections
       if: failure()
