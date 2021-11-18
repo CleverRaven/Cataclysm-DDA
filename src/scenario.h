@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "difficulty_impact.h"
 #include "effect_on_condition.h"
 #include "translations.h"
 #include "type_id.h"
@@ -45,6 +46,7 @@ class scenario
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
         int _point_cost = 0;
+        difficulty_impact _difficulty_impact;
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;

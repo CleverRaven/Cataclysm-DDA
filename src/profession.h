@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "difficulty_impact.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -50,6 +51,7 @@ class profession
         translation _description_male;
         translation _description_female;
         signed int _point_cost = 0;
+        difficulty_impact _difficulty_impact;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;

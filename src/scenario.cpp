@@ -77,6 +77,9 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
+    if( jo.has_object( "difficulty_impact" ) ) {
+        _difficulty_impact.load( jo.get_object( "difficulty_impact" ) );
+    }
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
     optional( jo, was_loaded, "add_professions", extra_professions );

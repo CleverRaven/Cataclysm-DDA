@@ -193,6 +193,9 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
+    if( jo.has_object( "difficulty_impact" ) ) {
+        _difficulty_impact.load( jo.get_object( "difficulty_impact" ) );
+    }
 
     if( !was_loaded || jo.has_member( "items" ) ) {
         std::string c = "items for profession " + id.str();
