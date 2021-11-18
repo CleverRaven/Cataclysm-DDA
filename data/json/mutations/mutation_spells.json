@@ -48,6 +48,7 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION" ],
     "spell_class": "NONE",
     "energy_source": "STAMINA",
+    "difficulty": -20,
     "base_energy_cost": 350,
     "min_damage": 0,
     "max_damage": 0,
