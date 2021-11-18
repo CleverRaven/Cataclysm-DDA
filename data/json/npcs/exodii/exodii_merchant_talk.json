@@ -329,6 +329,62 @@
       ]
     },
     "responses": [
+      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
+      {
+        "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
+        "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
+    "type": "talk_topic",
+    "dynamic_line": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
+    "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
+    "responses": [
+      {
+        "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
+        "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
+    "type": "talk_topic",
+    "dynamic_line": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.",
+    "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
+    "responses": [
+      { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
+      { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
+      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
+    "type": "talk_topic",
+    "dynamic_line": "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz.",
+    "//~": "This and that, you know.  It's made for a travelling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
+    "responses": [
+      { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
+      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad3",
+    "type": "talk_topic",
+    "dynamic_line": "'Tis as simple as comes to a wobble.  Our vestment be oft made from the fine clothes and hides of the land, and our jibber tears the stuff o' life apart here and there when us'n travel.  For as some can be saved if care be taken, there be no case to store nigh enough o' this.  That, an' our manuc-makers run as hot as a sunstone, no spit'n taste for that which we don't use usselves.",
+    "//~": "It's a simple matter of how we teleport.  Our clothes are often made from cloth and hides from wherever we visit, and our teleporter tears living stuff apart here and there when we travel.  Some can be saved if we take care, but there's no room to store nearly enough extra.  That, and our fabricators are always busy, no time to waste on stuff we don't need for ourselves",
+    "responses": [
+      { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
+      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
