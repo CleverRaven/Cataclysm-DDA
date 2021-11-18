@@ -22,7 +22,7 @@ struct difficulty_impact {
     difficulty_option wilderness = DIFF_NONE;
     difficulty_option social = DIFF_NONE;
 
-    static const std::string get_diff_desc( const difficulty_option &diff );
+    static std::string get_diff_desc( const difficulty_option &diff );
     difficulty_option get_opt_from_str( const std::string &diff_str ) const;
 
     void load( const JsonObject &jo );

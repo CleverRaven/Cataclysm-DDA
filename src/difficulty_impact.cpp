@@ -4,22 +4,22 @@
 #include "difficulty_impact.h"
 #include "generic_factory.h"
 
-const std::string difficulty_impact::get_diff_desc( const difficulty_option &diff )
+std::string difficulty_impact::get_diff_desc( const difficulty_option &diff )
 {
     static const std::map<difficulty_option, std::string> diff_map {
         //~ Describes game difficulty
-        { DIFF_VERY_EASY, _( "Very Easy" ) },
+        { DIFF_VERY_EASY, translate_marker( "Very Easy" ) },
         //~ Describes game difficulty
-        { DIFF_EASY, _( "Easy" ) },
+        { DIFF_EASY, translate_marker( "Easy" ) },
         //~ Describes game difficulty
-        { DIFF_MEDIUM, _( "Normal" ) },
+        { DIFF_MEDIUM, translate_marker( "Normal" ) },
         //~ Describes game difficulty
-        { DIFF_HARD, _( "Hard" ) },
+        { DIFF_HARD, translate_marker( "Hard" ) },
         //~ Describes game difficulty
-        { DIFF_VERY_HARD, _( "Very Hard" ) }
+        { DIFF_VERY_HARD, translate_marker( "Very Hard" ) }
     };
     auto d = diff_map.find( diff );
-    return d == diff_map.end() ? _( "None" ) : d->second;
+    return d == diff_map.end() ? _( "None" ) : _( d->second );
 }
 
 difficulty_impact::difficulty_option difficulty_impact::get_opt_from_str(
