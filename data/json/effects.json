@@ -433,7 +433,8 @@
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "BLIND" ]
   },
   {
     "type": "effect_type",
