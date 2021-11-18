@@ -21,6 +21,7 @@
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
+#include "localized_comparator.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"

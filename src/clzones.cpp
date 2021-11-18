@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"

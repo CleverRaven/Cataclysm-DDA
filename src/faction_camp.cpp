@@ -42,6 +42,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

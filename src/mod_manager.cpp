@@ -14,6 +14,7 @@
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "worldfactory.h"

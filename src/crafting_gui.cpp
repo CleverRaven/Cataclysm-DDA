@@ -25,6 +25,7 @@
 #include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"

@@ -42,6 +42,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"

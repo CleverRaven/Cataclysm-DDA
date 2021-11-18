@@ -72,6 +72,7 @@
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "veh_type.h"
