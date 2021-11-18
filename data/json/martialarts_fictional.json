@@ -65,7 +65,7 @@
       "tec_biojutsu_takedown",
       "tec_biojutsu_wide"
     ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+    "weapon_category": [ "BIONIC_WEAPONRY" ]
   },
   {
     "type": "martial_art",
