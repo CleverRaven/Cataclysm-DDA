@@ -129,7 +129,7 @@
     "description": "A beanbag round for shotguns, not deadly but designed to disable.",
     "price": 500,
     "price_postapoc": 200,
-    "range": 15,
+    "range": 10,
     "count": 10,
     "damage": { "damage_type": "bullet", "amount": 5 },
     "recoil": 1000,
