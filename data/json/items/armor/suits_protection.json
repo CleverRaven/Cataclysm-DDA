@@ -596,13 +596,13 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 8 ],
+        "encumbrance": 8,
         "specifically_covers": [ "torso_upper", "torso_lower" ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 8 ],
+        "encumbrance": 8,
         "specifically_covers": [
           "arm_elbow_l",
           "arm_elbow_r",
@@ -644,13 +644,13 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 12 ],
+        "encumbrance": 12,
         "specifically_covers": [ "torso_upper", "torso_lower" ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 16 ],
+        "encumbrance": 16,
         "specifically_covers": [
           "arm_elbow_l",
           "arm_elbow_r",
