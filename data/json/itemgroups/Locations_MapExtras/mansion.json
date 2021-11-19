@@ -1400,6 +1400,7 @@
       [ "leotard", 5 ],
       [ "unitard", 5 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "halter_top", 50 ],
       [ "nanoskirt", 10 ]
     ]
@@ -1436,6 +1437,7 @@
       [ "jedi_cloak", 1 ],
       [ "apron_leather", 1 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "chestwrap", 5 ],
       [ "boots_combat", 10 ],
       [ "pants_army", 10 ],

@@ -1077,6 +1077,7 @@
       [ "nanoskirt", 30 ],
       [ "camisole", 60 ],
       [ "corset", 20 ],
+      [ "corset_waist", 20 ],
       [ "unitard", 5 ],
       [ "leotard", 10 ],
       [ "stockings", 50 ],
@@ -1626,7 +1627,8 @@
       [ "bikini_top", 10 ],
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
-      [ "corset", 5 ]
+      [ "corset", 5 ],
+      [ "corset_waist", 5 ]
     ]
   },
   {
@@ -1778,6 +1780,7 @@
       { "item": "uttarasanga", "prob": 1 },
       { "item": "samghati", "prob": 1 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "chestwrap", "prob": 5 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
@@ -2329,6 +2332,7 @@
       [ "ballistic_vest_esapi", 4 ],
       [ "dragonskin", 1 ],
       [ "corset", 1 ],
+      [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
@@ -2682,6 +2686,7 @@
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "pants_army", 10 ],
       [ "army_top", 20 ],
       [ "tux", 1 ],
@@ -2919,6 +2924,7 @@
       { "item": "bikini_top_leather", "prob": 10 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "sports_bra", "prob": 50 },
       { "item": "stockings", "prob": 20 },
       { "item": "tights", "prob": 20 }

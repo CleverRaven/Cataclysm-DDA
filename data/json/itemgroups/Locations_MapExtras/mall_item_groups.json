@@ -342,6 +342,7 @@
       [ "cloak_wool", 40 ],
       [ "jedi_cloak", 10 ],
       [ "corset", 5 ],
+      [ "corset_waist", 5 ],
       [ "tux", 10 ],
       [ "gown", 5 ],
       [ "dress_wedding", 5 ],

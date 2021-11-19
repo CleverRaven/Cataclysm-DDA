@@ -1517,6 +1517,7 @@
     "//": "for cs_sex_shop",
     "items": [
       [ "corset", 20 ],
+      [ "corset_waist", 10 ],
       { "item": "vibrator", "prob": 20, "charges": [ 0, 100 ] },
       [ "leather_cat_tail", 20 ],
       [ "leather_cat_ears", 20 ],
