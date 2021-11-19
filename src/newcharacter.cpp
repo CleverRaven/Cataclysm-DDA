@@ -304,94 +304,59 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
 
 static std::string difficulty_to_string( const avatar &u )
 {
-    float off_diff = 0.0f;
-    float def_diff = 0.0f;
-    float cft_diff = 0.0f;
-    float wld_diff = 0.0f;
-    float scl_diff = 0.0f;
-    int off_cnt = 0;
-    int def_cnt = 0;
-    int cft_cnt = 0;
-    int wld_cnt = 0;
-    int scl_cnt = 0;
+    std::string diff_str = _( "Difficulty" ) + std::string( " |" );
+    const scenario *scen = get_scenario();
+    const profession *prof = u.prof;
+    const int avg_val = difficulty_opt::avg_value();
 
-    auto mod_diff = [&]( const difficulty_impact & diff, float mod ) {
-        if( diff.offence != difficulty_impact::DIFF_NONE ) {
-            off_diff += static_cast<int>( diff.offence ) * mod;
-            off_cnt++;
+    for( const difficulty_impact &diff_imp : difficulty_impact::get_all() ) {
+        if( !diff_imp.getId().is_valid() ) {
+            continue;
         }
-        if( diff.defence != difficulty_impact::DIFF_NONE ) {
-            def_diff += static_cast<int>( diff.defence ) * mod;
-            def_cnt++;
-        }
-        if( diff.crafting != difficulty_impact::DIFF_NONE ) {
-            cft_diff += static_cast<int>( diff.crafting ) * mod;
-            cft_cnt++;
-        }
-        if( diff.wilderness != difficulty_impact::DIFF_NONE ) {
-            wld_diff += static_cast<int>( diff.wilderness ) * mod;
-            wld_cnt++;
-        }
-        if( diff.social != difficulty_impact::DIFF_NONE ) {
-            scl_diff += static_cast<int>( diff.social ) * mod;
-            scl_cnt++;
-        }
-    };
 
-    if( get_scenario() != nullptr ) {
-        mod_diff( get_scenario()->difficulty(), 1.0f );
-        off_diff = off_diff < 1.f ? 3.f : off_diff;
-        def_diff = def_diff < 1.f ? 3.f : def_diff;
-        cft_diff = cft_diff < 1.f ? 3.f : cft_diff;
-        wld_diff = wld_diff < 1.f ? 3.f : wld_diff;
-        scl_diff = scl_diff < 1.f ? 3.f : scl_diff;
-    }
-    if( u.prof != nullptr ) {
-        mod_diff( u.prof->difficulty(), 1.0f );
-    }
-    for( const profession *prof : u.hobbies ) {
+        float diff = 0.f;
+        int diff_cnt = 0;
+
+        auto mod_diff = [&]( const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map,
+        float mod ) {
+            auto diff_iter = diff_map.find( diff_imp.getId() );
+            if( diff_iter != diff_map.end() ) {
+                float mod_val = ( diff_iter->second->value() - avg_val ) * mod;
+                diff += mod_val + avg_val;
+                diff_cnt++;
+            }
+        };
+
+        if( scen != nullptr ) {
+            mod_diff( scen->difficulty(), 1.0f );
+            if( diff < 1.f ) {
+                diff = avg_val;
+                diff_cnt = 1;
+            }
+        }
         if( prof != nullptr ) {
+            mod_diff( prof->difficulty(), 1.0f );
+        }
+        for( const profession *hob : u.hobbies ) {
+            if( hob == nullptr ) {
+                continue;
+            }
             // Hobbies have less effect on difficulty
-            mod_diff( prof->difficulty(), 0.5f );
+            mod_diff( hob->difficulty(), 0.5f );
         }
-    }
-    for( const trait_id &tr : u.my_traits ) {
-        mod_diff( tr->impact_on_difficulty, 0.8f );
-    }
-
-    int off = std::round( off_diff / ( off_cnt > 0 ? off_cnt : 1 ) );
-    int def = std::round( def_diff / ( def_cnt > 0 ? def_cnt : 1 ) );
-    int cft = std::round( cft_diff / ( cft_cnt > 0 ? cft_cnt : 1 ) );
-    int wld = std::round( wld_diff / ( wld_cnt > 0 ? wld_cnt : 1 ) );
-    int scl = std::round( scl_diff / ( scl_cnt > 0 ? scl_cnt : 1 ) );
-
-    auto diff_colr = []( int diff ) {
-        switch( diff ) {
-            case 1:
-                return "light_green";
-            case 2:
-                return "light_cyan";
-            case 4:
-                return "brown";
-            case 5:
-                return "light_red";
-            default:
-                return "yellow";
+        for( const trait_id &tr : u.my_traits ) {
+            if( !tr.is_valid() ) {
+                continue;
+            }
+            mod_diff( tr->difficulty, 0.8f );
         }
-    };
+        int diff_val = std::round( diff / ( diff_cnt > 0 ? diff_cnt : 1 ) );
+        difficulty_opt_id diff_id = difficulty_opt::getId( diff_val );
+        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name().translated(),
+                                   diff_id->color(), diff_id->name() );
+    }
 
-    auto diff_desc = []( int diff ) {
-        return difficulty_impact::get_diff_desc( static_cast<difficulty_impact::difficulty_option>
-                ( diff > 0 ? diff : 3 ) );
-    };
-
-    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>",
-                          _( "Difficulty" ),
-                          _( "Offense" ), diff_colr( off ), diff_desc( off ),
-                          _( "Defense" ), diff_colr( def ), diff_desc( def ),
-                          _( "Crafting" ), diff_colr( cft ), diff_desc( cft ),
-                          _( "Wilderness" ), diff_colr( wld ), diff_desc( wld ),
-                          _( "Social" ), diff_colr( scl ), diff_desc( scl ) );
+    return diff_str;
 }
 
 static tab_direction set_points( avatar &u, pool_type & );

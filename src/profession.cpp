@@ -193,8 +193,14 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
-    if( jo.has_object( "difficulty_impact" ) ) {
-        _difficulty_impact.load( jo.get_object( "difficulty_impact" ) );
+
+    if( jo.has_member( "difficulty" ) ) {
+        const JsonArray &diff_arr = jo.get_array( "difficulty" );
+        for( const JsonValue &diff : diff_arr ) {
+            difficulty_impact_id imp( diff.get_array().get_string( 0 ) );
+            difficulty_opt_id opt( diff.get_array().get_string( 1 ) );
+            _difficulty.emplace( imp, opt );
+        }
     }
 
     if( !was_loaded || jo.has_member( "items" ) ) {
@@ -352,6 +358,16 @@ void profession::check_definition() const
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const auto &diff : _difficulty ) {
+        if( !diff.first.is_valid() ) {
+            debugmsg( "difficulty impact %s for profession %s does not exist", diff.first.c_str(), id.c_str() );
+        }
+        if( !diff.second.is_valid() ) {
+            debugmsg( "difficulty rating %s for profession %s does not exist", diff.second.c_str(),
+                      id.c_str() );
         }
     }
 }
@@ -526,9 +542,9 @@ profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
-const difficulty_impact &profession::difficulty() const
+const std::map<difficulty_impact_id, difficulty_opt_id> &profession::difficulty() const
 {
-    return _difficulty_impact;
+    return _difficulty;
 }
 
 bool profession::has_flag( const std::string &flag ) const

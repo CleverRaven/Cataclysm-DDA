@@ -323,8 +323,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
-    if( jo.has_object( "difficulty_impact" ) ) {
-        impact_on_difficulty.load( jo.get_object( "difficulty_impact" ) );
+
+    if( jo.has_member( "difficulty" ) ) {
+        const JsonArray &diff_arr = jo.get_array( "difficulty" );
+        for( const JsonValue &diff : diff_arr ) {
+            difficulty_impact_id imp( diff.get_array().get_string( 0 ) );
+            difficulty_opt_id opt( diff.get_array().get_string( 1 ) );
+            difficulty.emplace( imp, opt );
+        }
     }
 
     optional( jo, was_loaded, "visibility", visibility, 0 );
@@ -638,6 +644,16 @@ void mutation_branch::check_consistency()
         for( const std::pair<species_id, int> elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
+            }
+        }
+        for( const auto &diff : mdata.difficulty ) {
+            if( !diff.first.is_valid() ) {
+                debugmsg( "difficulty impact %s for mutation %s does not exist", diff.first.c_str(),
+                          mdata.id.c_str() );
+            }
+            if( !diff.second.is_valid() ) {
+                debugmsg( "difficulty rating %s for mutation %s does not exist", diff.second.c_str(),
+                          mdata.id.c_str() );
             }
         }
         if( s_id && !s_id.value().is_valid() ) {

@@ -145,7 +145,7 @@ struct mutation_branch {
         int ugliness   = 0;
         int cost       = 0;
         // How does the mutation affect the game's difficulty?
-        difficulty_impact impact_on_difficulty;
+        std::map<difficulty_impact_id, difficulty_opt_id> difficulty;
         // costs are consumed every cooldown turns,
         int cooldown   = 0;
         // bodytemp elements:

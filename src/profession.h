@@ -51,7 +51,7 @@ class profession
         translation _description_male;
         translation _description_female;
         signed int _point_cost = 0;
-        difficulty_impact _difficulty_impact;
+        std::map<difficulty_impact_id, difficulty_opt_id> _difficulty;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -111,7 +111,7 @@ class profession
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
-        const difficulty_impact &difficulty() const;
+        const std::map<difficulty_impact_id, difficulty_opt_id> &difficulty() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

@@ -77,8 +77,14 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
-    if( jo.has_object( "difficulty_impact" ) ) {
-        _difficulty_impact.load( jo.get_object( "difficulty_impact" ) );
+
+    if( jo.has_member( "difficulty" ) ) {
+        const JsonArray &diff_arr = jo.get_array( "difficulty" );
+        for( const JsonValue &diff : diff_arr ) {
+            difficulty_impact_id imp( diff.get_array().get_string( 0 ) );
+            difficulty_opt_id opt( diff.get_array().get_string( 1 ) );
+            _difficulty.emplace( imp, opt );
+        }
     }
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
@@ -242,6 +248,15 @@ void scenario::check_definition() const
     if( _starting_vehicle && !_starting_vehicle.is_valid() ) {
         debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle.c_str(),
                   id.c_str() );
+    }
+
+    for( const auto &diff : _difficulty ) {
+        if( !diff.first.is_valid() ) {
+            debugmsg( "difficulty impact %s for scenario %s does not exist", diff.first.c_str(), id.c_str() );
+        }
+        if( !diff.second.is_valid() ) {
+            debugmsg( "difficulty rating %s for scenario %s does not exist", diff.second.c_str(), id.c_str() );
+        }
     }
 }
 
@@ -461,9 +476,9 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-const difficulty_impact &scenario::difficulty() const
+const std::map<difficulty_impact_id, difficulty_opt_id> &scenario::difficulty() const
 {
-    return _difficulty_impact;
+    return _difficulty;
 }
 
 bool scenario::custom_start_date() const

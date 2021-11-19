@@ -46,7 +46,7 @@ class scenario
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
         int _point_cost = 0;
-        difficulty_impact _difficulty_impact;
+        std::map<difficulty_impact_id, difficulty_opt_id> _difficulty;
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
@@ -91,7 +91,7 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
-        const difficulty_impact &difficulty() const;
+        const std::map<difficulty_impact_id, difficulty_opt_id> &difficulty() const;
 
         bool custom_start_date() const;
         bool is_random_hour() const;

@@ -58,6 +58,12 @@ using scenttype_id = string_id<scent_type>;
 class ascii_art;
 using ascii_art_id = string_id<ascii_art>;
 
+struct difficulty_opt;
+using difficulty_opt_id = string_id<difficulty_opt>;
+
+struct difficulty_impact;
+using difficulty_impact_id = string_id<difficulty_impact>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 

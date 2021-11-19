@@ -247,6 +247,8 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
+    add( "difficulty_opt", &difficulty_opt::load_difficulty_opts );
+    add( "difficulty_impact", &difficulty_impact::load_difficulty_impacts );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -546,6 +548,8 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    difficulty_opt::reset();
+    difficulty_impact::reset();
     dreams.clear();
     emit::reset();
     enchantment::reset();
@@ -649,6 +653,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
+            { _( "Difficulty ratings" ), &difficulty_opt::finalize },
             { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()

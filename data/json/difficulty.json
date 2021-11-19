@@ -1,0 +1,67 @@
+[
+  {
+    "type": "difficulty_opt",
+    "id": "very_easy",
+    "value": 1,
+    "name": "Very Easy",
+    "color": "light_green"
+  },
+  {
+    "type": "difficulty_opt",
+    "id": "easy",
+    "value": 2,
+    "name": "Easy",
+    "color": "light_cyan"
+  },
+  {
+    "type": "difficulty_opt",
+    "id": "normal",
+    "value": 3,
+    "name": "Normal",
+    "color": "yellow"
+  },
+  {
+    "type": "difficulty_opt",
+    "id": "hard",
+    "value": 4,
+    "name": "Hard",
+    "color": "brown"
+  },
+  {
+    "type": "difficulty_opt",
+    "id": "very_hard",
+    "value": 5,
+    "name": "Very Hard",
+    "color": "light_red"
+  },
+  {
+    "type": "difficulty_impact",
+    "//": "Difficulty impacting melee and ranged combat",
+    "id": "combat",
+    "name": "Combat"
+  },
+  {
+    "type": "difficulty_impact",
+    "//": "Difficulty impacting speed and dexterity",
+    "id": "mobility",
+    "name": "Mobility"
+  },
+  {
+    "type": "difficulty_impact",
+    "//": "Difficulty impacting learning and applying skills",
+    "id": "crafting",
+    "name": "Crafting"
+  },
+  {
+    "type": "difficulty_impact",
+    "//": "Difficulty impacting how safe the environment is",
+    "id": "environment",
+    "name": "Environment"
+  },
+  {
+    "type": "difficulty_impact",
+    "//": "Difficulty impacting interaction with NPCs",
+    "id": "social",
+    "name": "Social"
+  }
+]
