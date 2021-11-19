@@ -30,6 +30,8 @@ Use the `Home` key to return to the top.
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
     - [Bionics](#bionics)
+    - [Difficulty Rating](#difficulty-rating)
+    - [Difficulty Impact](#difficulty-impact)
     - [Dreams](#dreams)
     - [Disease](#disease)
     - [Item Groups](#item-groups)
@@ -48,6 +50,7 @@ Use the `Home` key to return to the top.
       - [`description`](#description)
       - [`name`](#name)
       - [`points`](#points)
+      - [`difficulty`](#difficulty)
       - [`addictions`](#addictions)
       - [`skills`](#skills)
       - [`proficiencies`](#proficiencies)
@@ -204,6 +207,7 @@ Use the `Home` key to return to the top.
   - [`description`](#description-1)
   - [`name`](#name-2)
   - [`points`](#points-1)
+  - [`difficulty`](#difficulty-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
   - [`cbms`](#cbms-1)
@@ -861,6 +865,35 @@ mod = min( max, ( nominator / limb_score ) - subtract );
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
 When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
 
+### Difficulty Rating
+
+```json
+{
+  "type": "difficulty_opt",
+  "id": "very_hard",
+  "value": 5,
+  "name": "Very Hard",
+  "color": "light_red"
+}
+```
+
+- `value`: Difficulty value relative to other `difficulty_opt`s
+- `name`: Translatable name for this difficulty rating
+- `color`: _(optional)_ Defines the color used to highlight the difficulty name in the interface
+
+### Difficulty Impact
+
+Difficulty impacts different aspects of gameplay, so these represent different categories that are affected by gameplay.
+
+```json
+{
+  "type": "difficulty_impact",
+  "//": "Difficulty impacting melee and ranged combat",
+  "id": "combat",
+  "name": "Combat"
+}
+```
+
 ### Dreams
 
 | Identifier | Description
@@ -1268,6 +1301,22 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 (integer)
 
 Point cost of profession. Positive values cost points and negative values grant points.
+
+## `difficulty`
+(array of strings)
+
+Represents the difficulty impact on different aspects of gameplay. Each entry is a pair of strings: a [`difficulty_impact`](#difficulty-impact) and a [`difficulty_opt`](#difficulty-rating).
+
+Example:
+```json
+"difficulty": [
+  [ "combat", "very_hard" ],
+  [ "mobility", "very_hard" ],
+  [ "crafting", "normal" ],
+  [ "environment", "very_hard" ],
+  [ "social", "normal" ]
+]
+```
 
 #### `addictions`
 (optional, array of addictions)
@@ -2075,6 +2124,13 @@ The `id` must be exact as it is hardcoded to look for that.
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
+"difficulty": [                   // Represents the difficulty impact on
+  [ "combat", "very_hard" ],      // different aspects of gameplay. Each
+  [ "mobility", "very_hard" ],    // entry is a pair of strings, refering to
+  [ "crafting", "normal" ],       // "difficulty_impact" and "difficulty_opt"
+  [ "environment", "very_hard" ],
+  [ "social", "normal" ]
+],
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
@@ -4412,6 +4468,22 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 (integer)
 
 Point cost of scenario. Positive values cost points and negative values grant points.
+
+## `difficulty`
+(array of strings)
+
+Represents the difficulty impact on different aspects of gameplay. Each entry is a pair of strings: a [`difficulty_impact`](#difficulty-impact) and a [`difficulty_opt`](#difficulty-rating).
+
+Example:
+```json
+"difficulty": [
+  [ "combat", "very_hard" ],
+  [ "mobility", "very_hard" ],
+  [ "crafting", "normal" ],
+  [ "environment", "very_hard" ],
+  [ "social", "normal" ]
+]
+```
 
 ## `items`
 (optional, object with optional members "both", "male" and "female")
