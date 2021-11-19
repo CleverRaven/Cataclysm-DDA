@@ -302,72 +302,137 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
     return "If you see this, this is a bug";
 }
 
-static std::string difficulty_to_string( const avatar &u )
+static void modify_diff_impact( const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map,
+                                const difficulty_impact_id &cur_imp, float &diff, int &count )
+{
+    auto diff_iter = diff_map.find( cur_imp );
+    if( diff_iter != diff_map.end() ) {
+        diff += diff_iter->second->value() - difficulty_opt::avg_value();
+        count++;
+    }
+}
+
+static std::pair<float, int> get_diff_val_for( const scenario *scen,
+        const difficulty_impact &impact )
+{
+    float diff = 0.0f;
+    int count = 0;
+
+    if( scen != nullptr ) {
+        modify_diff_impact( scen->difficulty(), impact.getId(), diff, count );
+    }
+
+    return { diff, count };
+}
+
+static std::pair<float, int> get_diff_val_for( const profession *prof,
+        const difficulty_impact &impact )
+{
+    float diff = 0.0f;
+    int count = 0;
+
+    if( prof != nullptr ) {
+        modify_diff_impact( prof->difficulty(), impact.getId(), diff, count );
+    }
+
+    return { diff, count };
+}
+
+static std::pair<float, int> get_diff_val_for( const trait_id &mut,
+        const difficulty_impact &impact )
+{
+    float diff = 0.0f;
+    int count = 0;
+
+    if( mut.is_valid() ) {
+        modify_diff_impact( mut->difficulty, impact.getId(), diff, count );
+    }
+
+    return { diff, count };
+}
+
+static std::pair<float, int> get_diff_val_for( const std::set<const profession *> &hobbies,
+        const difficulty_impact &impact )
+{
+    float diff = 0.0f;
+    int count = 0;
+
+    for( const profession *hob : hobbies ) {
+        std::pair<float, int> val = get_diff_val_for( hob, impact );
+        diff += val.first;
+        count += val.second;
+    }
+    diff = count > 0 ? ( diff / count ) : 0.0f;
+
+    return { diff, count };
+}
+
+static std::pair<float, int> get_diff_val_for( const std::unordered_set<trait_id> &muts,
+        const difficulty_impact &impact )
+{
+    float diff = 0.0f;
+    int count = 0;
+
+    for( const trait_id &mut : muts ) {
+        std::pair<float, int> val = get_diff_val_for( mut, impact );
+        diff += val.first;
+        count += val.second;
+    }
+    diff = count > 0 ? ( diff / count ) : 0.0f;
+
+    return { diff, count };
+}
+
+static std::string difficulty_to_string( const std::map<difficulty_impact_id, difficulty_opt_id>
+        &diff_map )
 {
     std::string diff_str = _( "Difficulty" ) + std::string( " |" );
+
+    for( const auto &diff_pair : diff_map ) {
+        std::string rating = "";
+        std::string colr = "light_gray";
+        if( !diff_pair.first.is_valid() ) {
+            continue;
+        } else if( diff_pair.second.is_valid() ) {
+            rating = diff_pair.second->name().translated();
+            colr = diff_pair.second->color();
+        }
+        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_pair.first->name().translated(), colr,
+                                   rating );
+    }
+
+    return diff_str;
+}
+
+static std::string difficulty_to_string( const avatar &u )
+{
+    std::string diff_str = _( "Overview" ) + std::string( " |" );
     const scenario *scen = get_scenario();
     const profession *prof = u.prof;
     const int avg_val = difficulty_opt::avg_value();
-
-    auto mod_diff = [avg_val]( const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map,
-    const difficulty_impact_id & cur_imp, float & diff, int &count ) {
-        auto diff_iter = diff_map.find( cur_imp );
-        if( diff_iter != diff_map.end() ) {
-            diff += diff_iter->second->value() - avg_val;
-            count++;
-        }
-    };
 
     for( const difficulty_impact &diff_imp : difficulty_impact::get_all() ) {
         if( !diff_imp.getId().is_valid() ) {
             continue;
         }
 
-        float scen_diff = 0.0f;
-        float prof_diff = 0.0f;
-        float hobb_diff = 0.0f;
-        float mut_diff = 0.0f;
-        int scen_cnt = 0;
-        int prof_cnt = 0;
-        int hobb_cnt = 0;
-        int mut_cnt = 0;
-
-        if( scen != nullptr ) {
-            mod_diff( scen->difficulty(), diff_imp.getId(), scen_diff, scen_cnt );
-        }
-
-        if( prof != nullptr ) {
-            mod_diff( prof->difficulty(), diff_imp.getId(), prof_diff, prof_cnt );
-        }
-
-        for( const profession *hob : u.hobbies ) {
-            if( hob == nullptr ) {
-                continue;
-            }
-            mod_diff( hob->difficulty(), diff_imp.getId(), hobb_diff, hobb_cnt );
-        }
-        hobb_diff = hobb_cnt > 0 ? ( hobb_diff / hobb_cnt ) : 0.0f;
-
-        for( const trait_id &tr : u.my_traits ) {
-            if( !tr.is_valid() ) {
-                continue;
-            }
-            mod_diff( tr->difficulty, diff_imp.getId(), mut_diff, mut_cnt );
-        }
-        mut_diff = mut_cnt > 0 ? ( mut_diff / mut_cnt ) : 0.0f;
+        std::pair<float, int> scen_diff = get_diff_val_for( scen, diff_imp );
+        std::pair<float, int> prof_diff = get_diff_val_for( prof, diff_imp );
+        std::pair<float, int> hobb_diff = get_diff_val_for( u.hobbies, diff_imp );
+        std::pair<float, int> mut_diff = get_diff_val_for( u.my_traits, diff_imp );
 
         const float weight_total =
-            diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_cnt > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_cnt > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_cnt > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_cnt > 0 ? 1.f : 0.f );
+            diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_diff.second > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_diff.second > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_diff.second > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_diff.second > 0 ? 1.f : 0.f );
         const float weight_scen = diff_imp.weight( difficulty_impact::SCENARIO ) / weight_total;
         const float weight_prof = diff_imp.weight( difficulty_impact::PROFFESION ) / weight_total;
         const float weight_hobb = diff_imp.weight( difficulty_impact::HOBBY ) / weight_total;
         const float weight_mut = diff_imp.weight( difficulty_impact::MUTATION ) / weight_total;
 
-        float diff = scen_diff * weight_scen + prof_diff * weight_prof +
-                     hobb_diff * weight_hobb + mut_diff * weight_mut;
+        float diff = scen_diff.first * weight_scen + prof_diff.first * weight_prof +
+                     hobb_diff.first * weight_hobb + mut_diff.first * weight_mut;
         int diff_val = std::round( diff + avg_val );
         difficulty_opt_id diff_id = difficulty_opt::getId( diff_val > 0 ? diff_val : avg_val );
         diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name().translated(),
@@ -963,7 +1028,22 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
     } else if( netPointCost < 0 ) {
         mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
     }
-    print_colored_text( w, point( 2, 4 ), color, c_light_gray, difficulty_to_string( u ) );
+}
+
+static void draw_difficulty( const catacurses::window &w, const avatar &u )
+{
+    nc_color color = c_light_gray;
+    mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
+    print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( u ) );
+}
+
+static void draw_difficulty( const catacurses::window &w,
+                             const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map =
+                                 std::map<difficulty_impact_id, difficulty_opt_id>() )
+{
+    nc_color color = c_light_gray;
+    mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
+    print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( diff_map ) );
 }
 
 template <class Compare>
@@ -1533,6 +1613,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                         } else if( u.has_trait( cur_trait ) ) {
                             cLine = hi_on;
                         }
+                        draw_difficulty( w, cur_trait->difficulty );
                     } else {
                         if( u.has_conflicting_trait( cur_trait ) || get_scenario()->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
@@ -1851,6 +1932,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             }
             // Draw header.
             draw_points( w, pool, u, netPointCost );
+            draw_difficulty( w, sorted_profs[cur_id]->difficulty() );
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
@@ -2270,6 +2352,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
             // Draw header.
             draw_points( w, pool, u, netPointCost );
+            draw_difficulty( w, sorted_profs[cur_id]->difficulty() );
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
@@ -2974,6 +3057,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
             // Draw header.
             draw_points( w, pool, u, netPointCost );
+            draw_difficulty( w, sorted_scens[cur_id]->difficulty() );
 
             const char *scen_msg_temp;
             if( isWide ) {
@@ -3472,6 +3556,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         draw_character_tabs( w, _( "DESCRIPTION" ) );
 
         draw_points( w, pool, you );
+        draw_difficulty( w, you );
 
         //Draw the line between editable and non-editable stuff.
         for( int i = 0; i < getmaxx( w ); ++i ) {
