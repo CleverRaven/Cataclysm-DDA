@@ -69,13 +69,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN",
-    "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on",
+    "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on if they are outside",
     "//2": "base portal strength and if its day or night. Then it queues up either itself or the eoc that causes a portal storm.",
     "effect": [
       {
         "set_queue_effect_on_condition": [
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_1",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_1",
             "condition": {
               "and": [
                 "u_can_see",
@@ -100,7 +100,21 @@
             ]
           },
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_2",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_1",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": "<"
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_2",
             "condition": {
               "and": [
                 "u_can_see",
@@ -129,7 +143,25 @@
             ]
           },
           {
-            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_3",
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_2",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": "<"
+                },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_3",
             "condition": {
               "and": [
                 "u_can_see",
@@ -152,6 +184,20 @@
                 ]
               }
             ]
+          },
+          {
+            "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_3",
+            "condition": {
+              "and": [
+                "u_can_see",
+                { "not": "u_is_outside" },
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
+                  "op": ">="
+                }
+              ]
+            },
+            "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
           }
         ]
       },
@@ -170,8 +216,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CAUSE_PORTAL_STORM",
-    "//": "This sets up all the variables for the start of a portal storm. The storm won't happen until the current weather",
-    "//2": "ends though.  This will usually be 5 minutes at most.",
+    "//": "This sets up all the variables for the start of a portal storm.",
     "condition": {
       "not": {
         "or": [
@@ -235,27 +280,42 @@
     "recurrence_min": "15 seconds",
     "recurrence_max": "75 seconds",
     "global": true,
-    "condition": { "is_weather": "portal_storm" },
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 4 } ],
+          "op": "<="
+        }
+      ]
+    },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [
-      {
-        "set_weighted_list_eocs": [
-          [ "EOC_PORTAL_WRAITH", 5 ],
-          [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-          [ "EOC_PORTAL_PAIN", 1 ],
-          [ "EOC_PORTAL_LIGHT", 2 ],
-          [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
-          [ "EOC_PORTAL_MESSAGE", 5 ]
-        ]
-      }
-    ]
+    "effect": {
+      "set_queue_effect_on_condition": [
+        {
+          "id": "EOC_INDOOR_OUTDOOR_EFFECTS_1",
+          "condition": "u_is_outside",
+          "effect": {
+            "set_weighted_list_eocs": [
+              [ "EOC_PORTAL_WRAITH", 5 ],
+              [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
+              [ "EOC_PORTAL_PAIN", 1 ],
+              [ "EOC_PORTAL_LIGHT", 2 ],
+              [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
+              [ "EOC_PORTAL_MESSAGE", 5 ]
+            ]
+          },
+          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_1", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ] ] }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_2",
     "//": "Stronger effects.",
-    "recurrence_min": "45 seconds",
-    "recurrence_max": "90 seconds",
+    "recurrence_min": "10 seconds",
+    "recurrence_max": "70 seconds",
     "global": true,
     "condition": {
       "and": [
@@ -263,27 +323,43 @@
         {
           "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 4 } ],
           "op": ">"
+        },
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 8 } ],
+          "op": "<="
         }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [
-      {
-        "set_weighted_list_eocs": [
-          [ "EOC_PORTAL_RADIATION", 1 ],
-          [ "EOC_PORTAL_NETHER_SPAWN", 1 ],
-          [ "EOC_PORTAL_SMOKE", 1 ],
-          [ "EOC_PORTAL_MESSAGE", 3 ]
-        ]
-      }
-    ]
+    "effect": {
+      "set_queue_effect_on_condition": [
+        {
+          "id": "EOC_INDOOR_OUTDOOR_EFFECTS_2",
+          "condition": "u_is_outside",
+          "effect": {
+            "set_weighted_list_eocs": [
+              [ "EOC_PORTAL_WRAITH", 1 ],
+              [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
+              [ "EOC_PORTAL_PAIN", 3 ],
+              [ "EOC_PORTAL_LIGHT", 2 ],
+              [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
+              [ "EOC_PORTAL_RADIATION", 1 ],
+              [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
+              [ "EOC_PORTAL_SMOKE", 2 ],
+              [ "EOC_PORTAL_MESSAGE", 7 ]
+            ]
+          },
+          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_2", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ] ] }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_3",
     "//": "The most painful stuff.",
-    "recurrence_min": "60 seconds",
-    "recurrence_max": "90 seconds",
+    "recurrence_min": "5 seconds",
+    "recurrence_max": "60 seconds",
     "global": true,
     "condition": {
       "and": [
@@ -295,7 +371,27 @@
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [ { "set_weighted_list_eocs": [ [ "EOC_PORTAL_GIANT_APPENDAGE", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ] } ]
+    "effect": {
+      "set_queue_effect_on_condition": [
+        {
+          "id": "EOC_INDOOR_OUTDOOR_EFFECTS_3",
+          "condition": "u_is_outside",
+          "effect": {
+            "set_weighted_list_eocs": [
+              [ "EOC_PORTAL_GIANT_APPENDAGE", 2 ],
+              [ "EOC_PORTAL_INCORPOREAL", 2 ],
+              [ "EOC_PORTAL_WRAITH", 1 ],
+              [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
+              [ "EOC_PORTAL_LIGHT", 2 ],
+              [ "EOC_PORTAL_RADIATION", 1 ],
+              [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
+              [ "EOC_PORTAL_MESSAGE", 5 ]
+            ]
+          },
+          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ] ] }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -599,5 +695,86 @@
     "type": "ter_furn_transform",
     "id": "portal_alien_grass_transform",
     "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_grass_alien" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_VOICES_1",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [
+      {
+        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "min_radius": 3,
+        "max_radius": 10
+      },
+      {
+        "u_make_sound": "PORTAL_STORM_VOICES_1",
+        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "volume": 40,
+        "type": "speech",
+        "snippet": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_VOICES_2",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [
+      {
+        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "min_radius": 3,
+        "max_radius": 10
+      },
+      {
+        "u_make_sound": "PORTAL_STORM_VOICES_2",
+        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "volume": 60,
+        "type": "speech",
+        "snippet": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_VOICES_3",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [
+      {
+        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "min_radius": 3,
+        "max_radius": 10
+      },
+      {
+        "u_make_sound": "PORTAL_STORM_VOICES_3",
+        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "volume": 80,
+        "type": "speech",
+        "snippet": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_1",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_2",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_3",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
   }
 ]

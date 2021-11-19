@@ -292,7 +292,6 @@
     "skills_required": [ "electronics", 3 ],
     "difficulty": 4,
     "time": "1 h",
-    "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "proficiencies": [
@@ -321,7 +320,6 @@
     "skills_required": [ "electronics", 3 ],
     "difficulty": 4,
     "time": "1 h",
-    "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "proficiencies": [
@@ -350,7 +348,6 @@
     "skills_required": [ "electronics", 3 ],
     "difficulty": 5,
     "time": "1 h",
-    "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ] ],
     "proficiencies": [
@@ -380,7 +377,6 @@
     "skills_required": [ "electronics", 3 ],
     "difficulty": 5,
     "time": "1 h",
-    "reversible": true,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "textbook_carpentry", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 },
@@ -616,7 +612,6 @@
     "skills_required": [ "electronics", 1 ],
     "difficulty": 3,
     "time": "30 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ], [ "plastic_molding", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -750,7 +745,6 @@
     "skills_required": [ "electronics", 1 ],
     "difficulty": 3,
     "time": "1 h",
-    "reversible": true,
     "book_learn": [
       [ "advanced_electronics", 4 ],
       [ "textbook_electronics", 3 ],
@@ -776,7 +770,6 @@
     "skills_required": [ [ "mechanics", 4 ], [ "fabrication", 6 ] ],
     "difficulty": 6,
     "time": "8 h 45 m",
-    "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 20 ], [ "plastic_molding", 3 ] ],

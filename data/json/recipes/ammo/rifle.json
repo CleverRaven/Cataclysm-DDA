@@ -528,7 +528,7 @@
     "charges": 1,
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_handloading" } ],
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [
       [ [ "5x50_hull", 1 ] ],
