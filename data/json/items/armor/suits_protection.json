@@ -593,7 +593,27 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 8 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 8 ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
@@ -621,7 +641,27 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 14 },
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 12 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 16 ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
