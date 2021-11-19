@@ -123,4 +123,24 @@ const std::vector<difficulty_impact> &difficulty_impact::get_all()
 void difficulty_impact::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    if( !jo.has_object( "weight" ) ) {
+        jo.throw_error( "missing mandatory field \"weight\"" );
+    } else {
+        float readr;
+        JsonObject jobj = jo.get_object( "weight" );
+        mandatory( jobj, was_loaded, "scenario", readr );
+        weight_.emplace( SCENARIO, readr );
+        mandatory( jobj, was_loaded, "profession", readr );
+        weight_.emplace( PROFFESION, readr );
+        mandatory( jobj, was_loaded, "hobby", readr );
+        weight_.emplace( HOBBY, readr );
+        mandatory( jobj, was_loaded, "mutation", readr );
+        weight_.emplace( MUTATION, readr );
+    }
+}
+
+float difficulty_impact::weight( difficulty_source src ) const
+{
+    auto w = weight_.find( src );
+    return w != weight_.end() ? w->second : 0.0f;
 }

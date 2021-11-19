@@ -890,9 +890,17 @@ Difficulty impacts different aspects of gameplay, so these represent different c
   "type": "difficulty_impact",
   "//": "Difficulty impacting melee and ranged combat",
   "id": "combat",
-  "name": "Combat"
+  "name": "Combat",
+  "weight": {
+    "scenario": 0.2,
+    "profession": 1.0,
+    "hobby": 0.2,
+    "mutation": 0.5
+  }
 }
 ```
+
+`weight` defines how much this gameplay aspect is affected by the source of difficulty. For example, "environment" is mostly affected by the starting scenario, while "combat" is more influenced by profession and mutations.
 
 ### Dreams
 

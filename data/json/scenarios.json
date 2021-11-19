@@ -161,10 +161,10 @@
     "id": "infected",
     "points": -4,
     "difficulty": [
-      [ "combat", "hard" ],
-      [ "mobility", "normal" ],
+      [ "combat", "very_hard" ],
+      [ "mobility", "very_hard" ],
       [ "crafting", "normal" ],
-      [ "environment", "hard" ],
+      [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
     "start_name": "In Town",
@@ -437,7 +437,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "hard" ],
+      [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
     "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",

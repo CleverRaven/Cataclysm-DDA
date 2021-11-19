@@ -309,49 +309,67 @@ static std::string difficulty_to_string( const avatar &u )
     const profession *prof = u.prof;
     const int avg_val = difficulty_opt::avg_value();
 
+    auto mod_diff = [avg_val]( const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map,
+    const difficulty_impact_id & cur_imp, float & diff, int &count ) {
+        auto diff_iter = diff_map.find( cur_imp );
+        if( diff_iter != diff_map.end() ) {
+            diff += diff_iter->second->value() - avg_val;
+            count++;
+        }
+    };
+
     for( const difficulty_impact &diff_imp : difficulty_impact::get_all() ) {
         if( !diff_imp.getId().is_valid() ) {
             continue;
         }
 
-        float diff = 0.f;
-        int diff_cnt = 0;
-
-        auto mod_diff = [&]( const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map,
-        float mod ) {
-            auto diff_iter = diff_map.find( diff_imp.getId() );
-            if( diff_iter != diff_map.end() ) {
-                float mod_val = ( diff_iter->second->value() - avg_val ) * mod;
-                diff += mod_val + avg_val;
-                diff_cnt++;
-            }
-        };
+        float scen_diff = 0.0f;
+        float prof_diff = 0.0f;
+        float hobb_diff = 0.0f;
+        float mut_diff = 0.0f;
+        int scen_cnt = 0;
+        int prof_cnt = 0;
+        int hobb_cnt = 0;
+        int mut_cnt = 0;
 
         if( scen != nullptr ) {
-            mod_diff( scen->difficulty(), 1.0f );
-            if( diff < 1.f ) {
-                diff = avg_val;
-                diff_cnt = 1;
-            }
+            mod_diff( scen->difficulty(), diff_imp.getId(), scen_diff, scen_cnt );
         }
+
         if( prof != nullptr ) {
-            mod_diff( prof->difficulty(), 0.6f );
+            mod_diff( prof->difficulty(), diff_imp.getId(), prof_diff, prof_cnt );
         }
+
         for( const profession *hob : u.hobbies ) {
             if( hob == nullptr ) {
                 continue;
             }
-            // Hobbies have less effect on difficulty
-            mod_diff( hob->difficulty(), 0.4f );
+            mod_diff( hob->difficulty(), diff_imp.getId(), hobb_diff, hobb_cnt );
         }
+        hobb_diff = hobb_cnt > 0 ? ( hobb_diff / hobb_cnt ) : 0.0f;
+
         for( const trait_id &tr : u.my_traits ) {
             if( !tr.is_valid() ) {
                 continue;
             }
-            mod_diff( tr->difficulty, 0.4f );
+            mod_diff( tr->difficulty, diff_imp.getId(), mut_diff, mut_cnt );
         }
-        int diff_val = std::round( diff / ( diff_cnt > 0 ? diff_cnt : 1 ) );
-        difficulty_opt_id diff_id = difficulty_opt::getId( diff_val );
+        mut_diff = mut_cnt > 0 ? ( mut_diff / mut_cnt ) : 0.0f;
+
+        const float weight_total =
+            diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_cnt > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_cnt > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_cnt > 0 ? 1.f : 0.f ) +
+            diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_cnt > 0 ? 1.f : 0.f );
+        const float weight_scen = diff_imp.weight( difficulty_impact::SCENARIO ) / weight_total;
+        const float weight_prof = diff_imp.weight( difficulty_impact::PROFFESION ) / weight_total;
+        const float weight_hobb = diff_imp.weight( difficulty_impact::HOBBY ) / weight_total;
+        const float weight_mut = diff_imp.weight( difficulty_impact::MUTATION ) / weight_total;
+
+        float diff = scen_diff * weight_scen + prof_diff * weight_prof +
+                     hobb_diff * weight_hobb + mut_diff * weight_mut;
+        int diff_val = std::round( diff + avg_val );
+        difficulty_opt_id diff_id = difficulty_opt::getId( diff_val > 0 ? diff_val : avg_val );
         diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name().translated(),
                                    diff_id->color(), diff_id->name() );
     }

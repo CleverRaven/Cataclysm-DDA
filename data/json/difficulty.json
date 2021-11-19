@@ -38,30 +38,35 @@
     "type": "difficulty_impact",
     "//": "Difficulty impacting melee and ranged combat",
     "id": "combat",
-    "name": "Combat"
+    "name": "Combat",
+    "weight": { "scenario": 0.2, "profession": 1.0, "hobby": 0.2, "mutation": 0.5 }
   },
   {
     "type": "difficulty_impact",
     "//": "Difficulty impacting speed and dexterity",
     "id": "mobility",
-    "name": "Mobility"
+    "name": "Mobility",
+    "weight": { "scenario": 0.2, "profession": 0.8, "hobby": 0.4, "mutation": 1.0 }
   },
   {
     "type": "difficulty_impact",
     "//": "Difficulty impacting learning and applying skills",
     "id": "crafting",
-    "name": "Crafting"
+    "name": "Crafting",
+    "weight": { "scenario": 0.1, "profession": 1.0, "hobby": 0.8, "mutation": 0.4 }
   },
   {
     "type": "difficulty_impact",
     "//": "Difficulty impacting how safe the environment is",
     "id": "environment",
-    "name": "Environment"
+    "name": "Environment",
+    "weight": { "scenario": 1.0, "profession": 0.4, "hobby": 0.2, "mutation": 0.6 }
   },
   {
     "type": "difficulty_impact",
     "//": "Difficulty impacting interaction with NPCs",
     "id": "social",
-    "name": "Social"
+    "name": "Social",
+    "weight": { "scenario": 0.2, "profession": 0.8, "hobby": 0.4, "mutation": 1.0 }
   }
 ]

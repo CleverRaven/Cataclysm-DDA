@@ -196,7 +196,7 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "difficulty" ) ) {
         const JsonArray &diff_arr = jo.get_array( "difficulty" );
-        for( const JsonValue &diff : diff_arr ) {
+        for( const JsonValue diff : diff_arr ) {
             difficulty_impact_id imp( diff.get_array().get_string( 0 ) );
             difficulty_opt_id opt( diff.get_array().get_string( 1 ) );
             _difficulty.emplace( imp, opt );
