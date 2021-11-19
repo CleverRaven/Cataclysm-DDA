@@ -335,20 +335,20 @@ static std::string difficulty_to_string( const avatar &u )
             }
         }
         if( prof != nullptr ) {
-            mod_diff( prof->difficulty(), 1.0f );
+            mod_diff( prof->difficulty(), 0.6f );
         }
         for( const profession *hob : u.hobbies ) {
             if( hob == nullptr ) {
                 continue;
             }
             // Hobbies have less effect on difficulty
-            mod_diff( hob->difficulty(), 0.5f );
+            mod_diff( hob->difficulty(), 0.4f );
         }
         for( const trait_id &tr : u.my_traits ) {
             if( !tr.is_valid() ) {
                 continue;
             }
-            mod_diff( tr->difficulty, 0.8f );
+            mod_diff( tr->difficulty, 0.4f );
         }
         int diff_val = std::round( diff / ( diff_cnt > 0 ? diff_cnt : 1 ) );
         difficulty_opt_id diff_id = difficulty_opt::getId( diff_val );
