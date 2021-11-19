@@ -15,7 +15,14 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "flags": [ "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ]
+      }
+    ]
   },
   {
     "id": "xl_arm_warmers",
@@ -60,7 +67,7 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bikini_top_fur",
@@ -78,7 +85,7 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bikini_top_leather",
@@ -96,7 +103,7 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "boxer_briefs",
@@ -114,7 +121,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "xlboxer_briefs",
@@ -142,7 +149,13 @@
     "warmth": 5,
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "xlboxer_shorts",
@@ -170,7 +183,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "xlboy_shorts",
@@ -198,7 +217,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "briefs",
@@ -216,7 +235,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "camisole",
@@ -235,7 +254,7 @@
     "color": "light_blue",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 45, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 65, "covers": [ "torso" ] } ]
   },
   {
     "id": "chestwrap",
@@ -253,7 +272,7 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "chestwrap_fur",
@@ -271,7 +290,7 @@
     "warmth": 20,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "chestwrap_leather",
@@ -289,7 +308,7 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "chestwrap_wool",
@@ -307,7 +326,7 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "corset",
@@ -346,7 +365,14 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 60, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 60,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "leg_warmers_f",
@@ -364,7 +390,14 @@
     "warmth": 40,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 60, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 60,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "leg_warmers_xl",
@@ -382,7 +415,14 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 60, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 60,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "long_underpants",
@@ -454,7 +494,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "thermal_shirt",
@@ -489,7 +529,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xlsports_bra",
@@ -516,7 +556,7 @@
     "color": "light_gray",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
   },
   {
     "id": "tights",
@@ -571,7 +611,13 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 45, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 45,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "undershirt",
@@ -589,7 +635,7 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "unitard",
