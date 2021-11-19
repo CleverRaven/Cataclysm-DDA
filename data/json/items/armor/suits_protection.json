@@ -593,12 +593,7 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 8,
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 8, "specifically_covers": [ "torso_upper", "torso_lower" ] },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -641,12 +636,7 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 12,
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 12, "specifically_covers": [ "torso_upper", "torso_lower" ] },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
