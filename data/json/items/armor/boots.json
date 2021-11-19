@@ -624,7 +624,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "socks",
-    "color": "brown",
+    "color": "white",
     "warmth": 5,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],

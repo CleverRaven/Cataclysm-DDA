@@ -198,6 +198,7 @@
       [ "skirt_leather", 20 ],
       [ "touring_suit", 20 ],
       [ "chestwrap_leather", 20 ],
+      [ "bellywrap_leather", 8 ],
       [ "chaps_leather", 35 ],
       [ "trenchcoat_leather", 10 ],
       [ "vest_leather", 50 ],

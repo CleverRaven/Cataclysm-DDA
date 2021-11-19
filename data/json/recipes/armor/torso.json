@@ -137,6 +137,37 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
+    "result": "bellywrap",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "rag", 18 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bellywrap_fur",
+    "type": "recipe",
+    "copy-from": "bellywrap",
+    "components": [ [ [ "fur", 20 ] ] ]
+  },
+  {
+    "result": "bellywrap_leather",
+    "type": "recipe",
+    "copy-from": "bellywrap",
+    "components": [ [ [ "leather", 20 ] ] ]
+  },
+  {
+    "result": "bellywrap_wool",
+    "type": "recipe",
+    "copy-from": "bellywrap",
+    "components": [ [ [ "felt_patch", 18 ] ] ]
+  },
+  {
     "result": "chestwrap",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

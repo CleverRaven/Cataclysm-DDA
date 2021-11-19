@@ -1782,6 +1782,7 @@
       { "item": "corset", "prob": 10 },
       { "item": "corset_waist", "prob": 10 },
       { "item": "chestwrap", "prob": 5 },
+      { "item": "bellywrap", "prob": 2 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
       { "item": "jacket_army", "prob": 10 },
