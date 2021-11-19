@@ -428,7 +428,6 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_nylon", 5 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
@@ -485,7 +484,6 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "strap_small", 1 ], [ "plastic_molding", 2 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ]
   },

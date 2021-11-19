@@ -80,8 +80,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_READ( "ACT_READ" );
-
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_soporific( "bio_soporific" );
@@ -116,7 +114,6 @@ static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -847,18 +844,11 @@ void avatar::disp_morale()
     int equilibrium = calc_focus_equilibrium();
 
     int fatigue_penalty = 0;
-    if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && equilibrium > 20 ) {
-        fatigue_penalty = equilibrium - 20;
-        equilibrium = 20;
-    } else if( get_fatigue() >= fatigue_levels::EXHAUSTED && equilibrium > 40 ) {
-        fatigue_penalty = equilibrium - 40;
-        equilibrium = 40;
-    } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && equilibrium > 60 ) {
-        fatigue_penalty = equilibrium - 60;
-        equilibrium = 60;
-    } else if( get_fatigue() >= fatigue_levels::TIRED && equilibrium > 80 ) {
-        fatigue_penalty = equilibrium - 80;
-        equilibrium = 80;
+    const int fatigue_cap = focus_equilibrium_fatigue_cap( equilibrium );
+
+    if( fatigue_cap < equilibrium ) {
+        fatigue_penalty = equilibrium - fatigue_cap;
+        equilibrium = fatigue_cap;
     }
 
     int pain_penalty = 0;
@@ -867,112 +857,6 @@ void avatar::disp_morale()
     }
 
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
-}
-
-int avatar::calc_focus_equilibrium( bool ignore_pain ) const
-{
-    int focus_equilibrium = 100;
-
-    if( activity.id() == ACT_READ ) {
-        const item_location book = activity.targets[0];
-        if( book && book->is_book() ) {
-            const cata::value_ptr<islot_book> &bt = book->type->book;
-            // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
-            if( skill_level.can_train() && skill_level < bt->level ) {
-                focus_equilibrium -= 50;
-            }
-        }
-    }
-
-    int eff_morale = get_morale_level();
-    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
-    // Cenobites don't mind, though
-    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
-        int perceived_pain = get_perceived_pain();
-        if( has_trait( trait_MASOCHIST ) ) {
-            if( perceived_pain > 20 ) {
-                eff_morale = eff_morale - ( perceived_pain - 20 );
-            }
-        } else {
-            eff_morale = eff_morale - perceived_pain;
-        }
-    }
-
-    if( eff_morale < -99 ) {
-        // At very low morale, focus is at it's minimum
-        focus_equilibrium = 1;
-    } else if( eff_morale <= 50 ) {
-        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
-        focus_equilibrium += eff_morale;
-    } else {
-        /* Above 50 morale, we apply strong diminishing returns.
-        * Each block of 50 takes twice as many morale points as the previous one:
-        * 150 focus at 50 morale (as before)
-        * 200 focus at 150 morale (100 more morale)
-        * 250 focus at 350 morale (200 more morale)
-        * ...
-        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
-        */
-
-        int block_multiplier = 1;
-        int morale_left = eff_morale;
-        while( focus_equilibrium < 400 ) {
-            if( morale_left > 50 * block_multiplier ) {
-                // We can afford the entire block.  Get it and continue.
-                morale_left -= 50 * block_multiplier;
-                focus_equilibrium += 50;
-                block_multiplier *= 2;
-            } else {
-                // We can't afford the entire block.  Each block_multiplier morale
-                // points give 1 focus, and then we're done.
-                focus_equilibrium += morale_left / block_multiplier;
-                break;
-            }
-        }
-    }
-
-    // This should be redundant, but just in case...
-    if( focus_equilibrium < 1 ) {
-        focus_equilibrium = 1;
-    } else if( focus_equilibrium > 400 ) {
-        focus_equilibrium = 400;
-    }
-    return focus_equilibrium;
-}
-
-int avatar::calc_focus_change() const
-{
-    int focus_gap = calc_focus_equilibrium() - get_focus();
-
-    // handle negative gain rates in a symmetric manner
-    int base_change = 1;
-    if( focus_gap < 0 ) {
-        base_change = -1;
-        focus_gap = -focus_gap;
-    }
-
-    int gain = focus_gap * base_change;
-
-    // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::TIRED && get_focus() > 80 ) ||
-        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && get_focus() > 60 ) ||
-        ( get_fatigue() >= fatigue_levels::EXHAUSTED && get_focus() > 40 ) ||
-        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && get_focus() > 20 ) ) {
-
-        //it can fall faster then 1
-        if( gain > -1 ) {
-            gain = -1;
-        }
-    }
-    return gain;
-}
-
-void avatar::update_mental_focus()
-{
-    // calc_focus_change() returns percentile focus, applying it directly
-    // to focus pool is an implicit / 100.
-    focus_pool += 10 * calc_focus_change();
 }
 
 int avatar::limb_dodge_encumbrance() const
@@ -1144,10 +1028,6 @@ void avatar::reset_stats()
 
     // Apply static martial arts buffs
     martial_arts_data->ma_static_effects( *this );
-
-    if( calendar::once_every( 1_minutes ) ) {
-        update_mental_focus();
-    }
 
     // Effects
     for( const auto &maps : *effects ) {

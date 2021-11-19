@@ -1513,8 +1513,7 @@ void item_contents::process( Character *carrier, const tripoint &pos, float insu
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
-        // no reason to check mods, they won't rot
-        if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }

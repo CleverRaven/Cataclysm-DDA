@@ -197,6 +197,32 @@
     "color": "dark_gray"
   },
   {
+    "id": "40x46mm_hornets_nest_22lr_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "40x46mm .22 LR hornet's nest casing" },
+    "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with ten .22 LR bullets and fire them simultaneously.",
+    "weight": "50 g",
+    "volume": "59ml",
+    "material": [ "steel" ],
+    "symbol": "=",
+    "stackable": true,
+    "color": "dark_gray"
+  },
+  {
+    "id": "40x46mm_hornets_nest_410_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "40x46mm .410 hornet's nest casing" },
+    "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with four .410 shells and fire them simultaneously.",
+    "weight": "50 g",
+    "volume": "59ml",
+    "material": [ "steel" ],
+    "symbol": "=",
+    "stackable": true,
+    "color": "dark_gray"
+  },
+  {
     "id": "40x53mm_m169_casing",
     "type": "GENERIC",
     "category": "spare_parts",

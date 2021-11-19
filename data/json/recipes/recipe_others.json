@@ -981,8 +981,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
@@ -997,7 +995,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
-    "reversible": true,
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
@@ -2300,7 +2297,7 @@
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 30 ] ],
-      [ [ "duct_tape", 50 ] ],
+      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
   },
@@ -2314,8 +2311,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "training_dummy_light", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "scrap", 150 ] ] ]
+    "components": [ [ [ "training_dummy_light", 1 ] ], [ [ "duct_tape", 50 ], [ "cordage", 2, "LIST" ] ], [ [ "scrap", 150 ] ] ]
   }
 ]

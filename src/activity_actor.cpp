@@ -824,7 +824,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             map &here = get_map();
             if( type == hack_type::GAS ) {
                 int tankUnits;
-                std::string fuelType;
+                fuel_station_fuel_type fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
                                                         fuelType );
                 if( !pTank_ ) {

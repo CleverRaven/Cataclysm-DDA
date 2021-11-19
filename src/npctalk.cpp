@@ -24,6 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -920,7 +921,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
-void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact )
+void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
+                      bool is_computer )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
     if( !talk_with->will_talk_to_u( *this, has_mind_control ) ) {
@@ -942,6 +944,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact )
         d.add_topic( topic_id );
     }
     dialogue_window d_win;
+    d_win.is_computer = is_computer;
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
@@ -953,7 +956,10 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact )
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            d.actor( true )->say( _( d.actor( true )->get_npc()->chatbin.snip_bye ) );
+            npc *npc_actor = d.actor( true )->get_npc();
+            if( npc_actor ) {
+                d.actor( true )->say( _( npc_actor->chatbin.snip_bye ) );
+            }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -1538,7 +1544,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
             if( guy->current_activity_id ) {
-                activity_name = guy->current_activity_id.obj().verb().translated();
+                activity_name = guy->get_current_activity();
             } else {
                 activity_name = _( "doing this and that" );
             }
@@ -1734,8 +1740,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                                    challenge.substr( 1 ) );
         d_win.add_to_history( challenge );
     } else {
+        npc *npc_actor = actor( true )->get_npc();
         d_win.add_to_history( challenge, actor( true )->disp_name(),
-                              actor( true )->get_npc()->basic_symbol_color() );
+                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
 
     apply_speaker_effects( topic );
@@ -1746,10 +1753,12 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    ctxt.register_action( "LOOK_AT" );
-    ctxt.register_action( "SIZE_UP_STATS" );
-    ctxt.register_action( "YELL" );
-    ctxt.register_action( "CHECK_OPINION" );
+    if( !d_win.is_computer ) {
+        ctxt.register_action( "LOOK_AT" );
+        ctxt.register_action( "SIZE_UP_STATS" );
+        ctxt.register_action( "YELL" );
+        ctxt.register_action( "CHECK_OPINION" );
+    }
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -2629,6 +2638,8 @@ void talk_effect_fun_t::set_open_dialogue()
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
         } else if( d.actor( true )->get_item() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        } else if( d.actor( true )->get_computer() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, true );
         }
     };
 }
@@ -3119,15 +3130,23 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
 void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
-    bool success = jo.get_bool( "success" );
-    function = [mission_name, success]( const dialogue & ) {
+    bool success = false;
+    cata::optional<int> step;
+    if( jo.has_int( "step" ) ) {
+        step = jo.get_int( "step" );
+    } else {
+        success = jo.get_bool( "success" );
+    }
+    function = [mission_name, success, step]( const dialogue & ) {
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
         std::vector<mission *> missions = player_character.get_active_missions();
         for( mission *mission : missions ) {
             if( mission->mission_id() == mission_type ) {
-                if( success ) {
+                if( step.has_value() ) {
+                    mission->step_complete( step.value() );
+                } else if( success ) {
                     mission->wrap_up();
                 } else {
                     mission->fail();
@@ -3145,7 +3164,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 
     int volume;
     mandatory( jo, false, "volume", volume );
-
+    bool snippet = jo.get_bool( "snippet", false );
+    bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -3182,10 +3202,29 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
         global = target_obj.get_bool( "global", false );
         target_var = get_talk_varname( target_obj, "value" );
     }
-    function = [is_npc, message, volume, type, target_var, global]( const dialogue & d ) {
+    function = [is_npc, message, volume, type, target_var, global, snippet,
+            same_snippet]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, _( message ) );
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
+        }
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
     };
 }
 

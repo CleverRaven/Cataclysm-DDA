@@ -746,6 +746,13 @@ bool item::is_frozen_liquid() const
 
 bool item::covers( const sub_bodypart_id &bp ) const
 {
+    // first do the logic for guns.
+    if( is_gun() ) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        return bp == sub_bodypart_id( "torso_hanging_back" );
+    }
+
     // if the item has no armor data it doesn't cover that part
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -3222,7 +3229,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
-    if( this->has_sublocations() ) {
+    if( this->has_sublocations() || this->is_gun() ) {
         std::string coverage = _( "<bold>Specifically</bold>:" );
 
         std::vector<sub_bodypart_id> covered = this->get_covered_sub_body_parts();
@@ -5798,7 +5805,7 @@ int item::price( bool practical ) const
     return res;
 }
 
-int item::price_no_contents( bool practical )
+int item::price_no_contents( bool practical ) const
 {
     if( rotten() ) {
         return 0;
@@ -5821,15 +5828,6 @@ int item::price_no_contents( bool practical )
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
-    } else if( is_watertight_container() ) {
-        // Liquid contents are hidden so must be included in the price.
-        visit_contents( [&price, &practical]( item * node, item * ) {
-            if( node->type->phase != phase_id::LIQUID ) {
-                return VisitResponse::SKIP;
-            }
-            price += node->price_no_contents( practical );
-            return VisitResponse::SKIP;
-        } );
     }
 
     return price;
@@ -6977,6 +6975,27 @@ float item::get_thickness() const
     return t->avg_thickness();
 }
 
+float item::get_thickness( const bodypart_id &bp ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
+    }
+
+    for( const armor_portion_data &data : t->data ) {
+        if( !data.covers.has_value() ) {
+            continue;
+        }
+        for( const bodypart_str_id &bpid : data.covers.value() ) {
+            if( bp == bpid ) {
+                return data.avg_thickness;
+            }
+        }
+    }
+    // body part not covered by this armour
+    return 0.0f;
+}
+
 int item::get_warmth() const
 {
     const islot_armor *t = find_armor_data();
@@ -7103,21 +7122,34 @@ bool item::craft_has_charges()
 #pragma optimize( "", off )
 #endif
 
-float item::bash_resist( bool to_self ) const
+float item::bash_resist( bool to_self, const bodypart_id &bp ) const
 {
     if( is_null() ) {
         return 0.0f;
     }
+    const bool bp_null = bp == bodypart_id();
 
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bash );
+    const int dmg = damage_level();
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+
+    if( !bp_null ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
+                resist += m->id->bash_resist() * eff_thic * m->cover * 0.01f;
+            }
+            return resist + mod;
+        }
+    }
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level();
-    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const float eff_thickness = std::max( 0.1f, get_thickness() - eff_damage );
-
+    const float avg_thickness = bp_null ? get_thickness() : get_thickness( bp );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
@@ -7131,22 +7163,34 @@ float item::bash_resist( bool to_self ) const
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::cut_resist( bool to_self ) const
+float item::cut_resist( bool to_self, const bodypart_id &bp ) const
 {
     if( is_null() ) {
         return 0.0f;
     }
+    const bool bp_null = bp == bodypart_id();
 
-    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
+    const int dmg = damage_level();
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+
+    if( !bp_null ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
+                resist += m->id->cut_resist() * eff_thic * m->cover * 0.01f;
+            }
+            return resist + mod;
+        }
+    }
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level();
-    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
-
+    const float avg_thickness = bp_null ? get_thickness() : get_thickness( bp );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
@@ -7164,28 +7208,40 @@ float item::cut_resist( bool to_self ) const
 #pragma optimize( "", on )
 #endif
 
-float item::stab_resist( bool to_self ) const
+float item::stab_resist( bool to_self, const bodypart_id &bp ) const
 {
     // Better than hardcoding it in multiple places
-    return 0.8f * cut_resist( to_self );
+    return 0.8f * cut_resist( to_self, bp );
 }
 
-float item::bullet_resist( bool to_self ) const
+float item::bullet_resist( bool to_self, const bodypart_id &bp ) const
 {
     if( is_null() ) {
         return 0.0f;
     }
+    const bool bp_null = bp == bodypart_id();
 
-    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bullet );
+    const int dmg = damage_level();
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+
+    if( !bp_null ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
+                resist += m->id->bullet_resist() * eff_thic * m->cover * 0.01f;
+            }
+            return resist + mod;
+        }
+    }
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level();
-    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
-
+    const float avg_thickness = bp_null ? get_thickness() : get_thickness( bp );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
@@ -7199,7 +7255,7 @@ float item::bullet_resist( bool to_self ) const
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::acid_resist( bool to_self, int base_env_resist ) const
+float item::acid_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
@@ -7210,6 +7266,20 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
     float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
         return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->acid_resist() * m->cover * 0.01f;
+            }
+            const int env = get_env_resist( base_env_resist );
+            if( env < 10 ) {
+                resist *= env / 10.0f;
+            }
+            return resist + mod;
+        }
     }
 
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
@@ -7233,7 +7303,7 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
     return resist + mod;
 }
 
-float item::fire_resist( bool to_self, int base_env_resist ) const
+float item::fire_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
@@ -7244,6 +7314,20 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
     float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
         return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->fire_resist() * m->cover * 0.01f;
+            }
+            const int env = get_env_resist( base_env_resist );
+            if( env < 10 ) {
+                resist *= env / 10.0f;
+            }
+            return resist + mod;
+        }
     }
 
     const std::map<material_id, int> mats = made_of();
@@ -7265,9 +7349,28 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
     return resist + mod;
 }
 
-int item::chip_resistance( bool worst ) const
+int item::chip_resistance( bool worst, const bodypart_id &bp ) const
 {
     int res = worst ? INT_MAX : INT_MIN;
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                const int val = m->id->chip_resist() * m->cover;
+                res = worst ? std::min( res, val ) : std::max( res, val );
+            }
+            if( res == INT_MAX || res == INT_MIN ) {
+                return 2;
+            }
+            res /= 100;
+            if( res <= 0 ) {
+                return 0;
+            }
+            return res;
+        }
+    }
+
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     for( const std::pair<material_id, int> mat : made_of() ) {
         const int val = ( mat.first->chip_resist() * mat.second ) / total;
@@ -7445,7 +7548,7 @@ void item::mitigate_damage( damage_unit &du ) const
     du.amount = std::max( 0.0f, du.amount );
 }
 
-float item::damage_resist( damage_type dt, bool to_self ) const
+float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp ) const
 {
     switch( dt ) {
         case damage_type::NONE:
@@ -7460,17 +7563,17 @@ float item::damage_resist( damage_type dt, bool to_self ) const
             // But they provide 0 protection from them
             return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BASH:
-            return bash_resist( to_self );
+            return bash_resist( to_self, bp );
         case damage_type::CUT:
-            return cut_resist( to_self );
+            return cut_resist( to_self, bp );
         case damage_type::ACID:
-            return acid_resist( to_self );
+            return acid_resist( to_self, 0, bp );
         case damage_type::STAB:
-            return stab_resist( to_self );
+            return stab_resist( to_self, bp );
         case damage_type::HEAT:
-            return fire_resist( to_self );
+            return fire_resist( to_self, 0, bp );
         case damage_type::BULLET:
-            return bullet_resist( to_self );
+            return bullet_resist( to_self, bp );
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }
@@ -7493,6 +7596,30 @@ const std::map<material_id, int> &item::made_of() const
         return corpse->mat;
     }
     return type->materials;
+}
+
+std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) const
+{
+    std::vector<const part_material *> matlist;
+    const islot_armor *a = find_armor_data();
+    if( a == nullptr || a->data.empty() || !covers( bp ) ) {
+        return matlist;
+    }
+    for( const armor_portion_data &d : a->data ) {
+        if( !d.covers.has_value() ) {
+            continue;
+        }
+        for( const bodypart_str_id &bpid : d.covers.value() ) {
+            if( bp != bpid ) {
+                continue;
+            }
+            for( const part_material &m : d.materials ) {
+                matlist.emplace_back( &m );
+            }
+            return matlist;
+        }
+    }
+    return matlist;
 }
 
 const std::map<quality_id, int> &item::quality_of() const

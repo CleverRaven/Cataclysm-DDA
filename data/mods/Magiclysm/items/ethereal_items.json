@@ -13,11 +13,16 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "material": [ "superalloy" ],
       "warmth": 20,
-      "material_thickness": 4,
       "environmental_protection": 10,
-      "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "superalloy", "portion_cover": 100, "thickness": 4.0 } ],
+          "encumbrance": 0,
+          "coverage": 100,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],

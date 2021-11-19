@@ -195,6 +195,8 @@ class computer;
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
+
 static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -1489,6 +1491,23 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
     }
 }
 
+static hint_rating rate_action_view_recipe( avatar &you, const item &it )
+{
+    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
+                                 recipe_dictionary::get_craft( it.typeId() );
+    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+        return hint_rating::cant;
+    }
+    const inventory &inven = you.crafting_inventory();
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        return hint_rating::good;
+    } else if( craft_recipe.ident().is_valid() ) {
+        return hint_rating::iffy;
+    }
+    return hint_rating::cant;
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -1715,6 +1734,7 @@ int game::inventory_item_menu( item_location locThisItem,
             addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
+        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
         addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
         addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
@@ -1888,6 +1908,17 @@ int game::inventory_item_menu( item_location locThisItem,
                         oThisItem.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
+                case 'V': {
+                    int is_recipe = 0;
+                    std::string this_itype = oThisItem.typeId().str();
+                    if( oThisItem.is_craft() ) {
+                        this_itype = oThisItem.get_making().ident().str();
+                        is_recipe = 1;
+                    }
+                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
+                    u.assign_activity( recipe_act );
+                    break;
+                }
                 case 'i':
                     if( oThisItem.is_container() ) {
                         game_menus::inv::insert_items( u, locThisItem );
@@ -4220,8 +4251,14 @@ void game::use_computer( const tripoint &p )
         }
         return;
     }
-
-    computer_session( *used ).use();
+    if( used->eocs.empty() ) {
+        computer_session( *used ).use();
+    } else {
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( used ) );
+        for( const effect_on_condition_id &eoc : used->eocs ) {
+            eoc->activate( d );
+        }
+    }
 }
 
 template<typename T>

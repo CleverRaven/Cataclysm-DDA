@@ -111,6 +111,12 @@
     "terrain": {
       "#": "t_rock_wall",
       "+": [ [ "t_door_c", 3 ], "t_door_locked" ],
+      "_": "t_carpet_green",
+      "/": "t_carpet_yellow",
+      "h": "t_carpet_green",
+      "D": "t_carpet_green",
+      "O": "t_carpet_green",
+      "F": "t_carpet_green",
       "=": "t_door_c",
       " ": "t_open_air",
       ".": "t_gutter_north",
@@ -171,7 +177,7 @@
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }
       ],
-      "F": { "item": "SUS_fridge", "chance": 35 },
+      "F": [ { "item": "SUS_fridge", "chance": 35 }, { "item": "harddrugs", "chance": 40, "repeat": [ 1, 3 ] } ],
       "h": { "item": "shower", "chance": 20 },
       "L": [
         { "item": "tools_earthworking", "chance": 30, "repeat": [ 1, 4 ] },
@@ -233,5 +239,63 @@
         { "item": "stash_food", "chance": 50, "repeat": [ 3, 8 ] }
       ]
     }
+  },
+  {
+    "type": "palette",
+    "id": "basement_lodge",
+    "terrain": {
+      "|": "t_wall_w",
+      "%": "t_concrete_wall",
+      "<": "t_stairs_up",
+      "+": "t_door_c",
+      ".": "t_floor",
+      "_": "t_carpet_green",
+      "B": "t_carpet_green",
+      "/": "t_carpet_yellow",
+      "c": "t_floor",
+      "i": "t_floor",
+      "S": "t_floor",
+      "r": "t_linoleum_gray",
+      "f": "t_linoleum_gray",
+      "t": "t_floor",
+      "&": "t_floor",
+      "C": "t_floor",
+      "d": "t_floor",
+      "w": "t_floor",
+      "D": "t_floor",
+      "P": "t_floor",
+      "#": "t_floor",
+      "G": "t_floor",
+      "s": "t_floor",
+      "F": "t_linoleum_gray",
+      "W": "t_linoleum_gray",
+      "o": "t_linoleum_gray",
+      "b": "t_floor",
+      "T": "t_floor"
+    },
+    "furniture": {
+      "B": "f_bookcase",
+      "c": "f_counter",
+      "i": "f_sink",
+      "S": "f_shower",
+      "r": "f_rack",
+      "f": "f_fridge",
+      "t": "f_table",
+      "&": "f_toilet",
+      "C": "f_sofa",
+      "d": "f_dryer",
+      "w": "f_washer",
+      "D": "f_dresser",
+      "P": "f_wardrobe",
+      "#": "f_bed",
+      "G": "f_glass_cabinet",
+      "s": "f_chair",
+      "F": "f_home_furnace",
+      "W": "f_water_heater",
+      "o": "f_oven",
+      "b": "f_cupboard",
+      "T": "f_rack"
+    },
+    "toilets": { "&": {  } }
   }
 ]

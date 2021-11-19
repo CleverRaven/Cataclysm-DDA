@@ -616,6 +616,7 @@ void Character::load( const JsonObject &data )
     data.read( "pkill", pkill );
 
     data.read( "type_of_scent", type_of_scent );
+    data.read( "focus_pool", focus_pool );
 
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
@@ -1127,6 +1128,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+    json.member( "focus_pool", focus_pool );
 
     // stats through kills
     json.member( "kill_xp", kill_xp );
@@ -1320,9 +1322,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "grab_point", grab_point );
     json.member( "grab_type", obj_type_name[static_cast<int>( grab_type ) ] );
 
-    // misc player specific stuff
-    json.member( "focus_pool", focus_pool );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1423,8 +1422,6 @@ void avatar::load( const JsonObject &data )
     grab( iter == obj_type_name.end() ?
           object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
-
-    data.read( "focus_pool", focus_pool );
 
     data.read( "magic", magic );
 
@@ -4724,13 +4721,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
+                                                      tripoint_zero ) ).first;
                 jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
             jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {

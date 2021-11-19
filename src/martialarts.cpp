@@ -47,10 +47,44 @@ static const skill_id skill_unarmed( "unarmed" );
 
 namespace
 {
+generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 } // namespace
+
+template<>
+const weapon_category &weapon_category_id::obj() const
+{
+    return weapon_category_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool weapon_category_id::is_valid() const
+{
+    return weapon_category_factory.is_valid( *this );
+}
+
+void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src )
+{
+    weapon_category_factory.load( jo, src );
+}
+
+void weapon_category::reset()
+{
+    weapon_category_factory.reset();
+}
+
+void weapon_category::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name_ );
+}
+
+const std::vector<weapon_category> &weapon_category::get_all()
+{
+    return weapon_category_factory.get_all();
+}
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -130,6 +164,13 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
+    if( jo.has_string( "weapon_categories_allowed" ) ) {
+        weapon_category_id tmp_id;
+        mandatory( jo, was_loaded, "weapon_categories_allowed", tmp_id );
+        weapon_categories_allowed.emplace_back( tmp_id );
+    } else {
+        optional( jo, was_loaded, "weapon_categories_allowed", weapon_categories_allowed );
+    }
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
@@ -287,7 +328,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
     optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
-    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -520,6 +561,18 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
+    if( !weapon_categories_allowed.empty() ) {
+        bool valid_weap_cat = false;
+        for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
+            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+                valid_weap_cat = true;
+            }
+        }
+        if( !valid_weap_cat ) {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -572,6 +625,18 @@ std::string ma_requirements::get_description( bool buff ) const
         min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
             return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
         }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !weapon_categories_allowed.empty() ) {
+        dump += n_gettext( "<bold>Weapon category required: </bold>",
+                           "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
+        dump += enumerate_as_string( weapon_categories_allowed.begin(),
+        weapon_categories_allowed.end(), []( const weapon_category_id & w_cat ) {
+            if( !w_cat.is_valid() ) {
+                return w_cat.str();
+            }
+            return w_cat->name().translated();
+        } ) + "\n";
     }
 
     if( !req_buffs_all.empty() ) {
@@ -1010,7 +1075,7 @@ bool martialart::has_weapon( const itype_id &itt ) const
 {
     return weapons.count( itt ) > 0 ||
            std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
-    [&]( const std::string & weap ) {
+    [&]( const weapon_category_id & weap ) {
         return weapon_category.count( weap ) > 0;
     } );
 }
@@ -1673,8 +1738,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( !valid_ma_weapons.empty() ) {
             Character &player = get_player_character();
-            const std::string other_cat = _( "OTHER" );
-            std::map<std::string, std::vector<std::string>> weaps_by_cat;
+            const weapon_category_id other_cat( "OTHER_INVALID_WEAP_CAT" ); // hardcoded category
+            std::map<weapon_category_id, std::vector<std::string>> weaps_by_cat;
             std::sort( valid_ma_weapons.begin(), valid_ma_weapons.end(),
             []( const itype_id & w1, const itype_id & w2 ) {
                 return localized_compare( item::nname( w1 ), item::nname( w2 ) );
@@ -1688,7 +1753,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                                     colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
                                     carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
                 bool cat_found = false;
-                for( const std::string &w_cat : w->weapon_category ) {
+                for( const weapon_category_id &w_cat : w->weapon_category ) {
                     // If martial art does not define a weapon category, include all valid categories
                     // If martial art defines one or more weapon categories, only include those categories
                     if( ma.weapon_category.empty() || ma.weapon_category.count( w_cat ) > 0 ) {
@@ -1711,15 +1776,21 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     continue;
                 }
                 weaps.second.erase( std::unique( weaps.second.begin(), weaps.second.end() ), weaps.second.end() );
-                std::string w_cat( weaps.first );
-                std::replace( w_cat.begin(), w_cat.end(), '_', ' ' );
+                std::string w_cat;
+                if( weaps.first.is_valid() ) {
+                    w_cat = weaps.first->name().translated();
+                } else {
+                    // MISSING JSON DEFINITION intentionally not translated
+                    w_cat = weaps.first.str() + " - MISSING JSON DEFINITION";
+                }
+
                 buffer += std::string( "<header>" ) + w_cat + std::string( ":</header> " );
                 buffer += enumerate_as_string( weaps.second ) + "\n";
             }
             if( has_other_cat ) {
                 std::vector<std::string> &weaps = weaps_by_cat[other_cat];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
-                buffer += std::string( "<header>" ) + other_cat + std::string( ":</header> " );
+                buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
                 buffer += enumerate_as_string( weaps );
             }
         }
