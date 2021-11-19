@@ -386,7 +386,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -431,7 +431,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "items": {
@@ -453,7 +453,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "very_easy" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "proficiencies": [ "prof_fibers", "prof_knitting" ],
@@ -908,7 +908,7 @@
     "difficulty": [
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
@@ -964,7 +964,7 @@
     "description": "Early in your military career, you were hand-picked for extra training in the mechanic's trade, keeping the armor running.  It's been years since you last touched a rifle, and the dead men are marching again…",
     "points": 4,
     "difficulty": [
-      [ "combat", "very_easy" ],
+      [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "very_easy" ],
       [ "environment", "easy" ],
@@ -1017,10 +1017,10 @@
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
     "points": 6,
     "difficulty": [
-      [ "combat", "very_easy" ],
+      [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "very_easy" ],
-      [ "environment", "very_easy" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -1072,9 +1072,9 @@
     "difficulty": [
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
-      [ "environment", "easy" ],
-      [ "social", "normal" ]
+      [ "crafting", "normal" ],
+      [ "environment", "very_easy" ],
+      [ "social", "easy" ]
     ],
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -1190,7 +1190,7 @@
     "difficulty": [
       [ "combat", "very_easy" ],
       [ "mobility", "easy" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
@@ -1267,10 +1267,10 @@
     "description": "You were following a road at night, trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  You followed, hoping they were friendly, but suddenly felt a searing pain in your head and blacked out.  You just woke up in this strange place… are you even on Earth anymore?",
     "points": -2,
     "difficulty": [
-      [ "combat", "normal" ],
-      [ "mobility", "normal" ],
-      [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "combat", "hard" ],
+      [ "mobility", "very_hard" ],
+      [ "crafting", "hard" ],
+      [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
     "flags": [ "SCEN_ONLY" ]
@@ -1282,10 +1282,10 @@
     "description": "You were ready.  You went in determined to find and rescue your friends.  Now the atmosphere in these twisting corridors grows heavy, and you don't feel quite so confident anymore.  You might be the one in need of a rescue soon.",
     "points": 3,
     "difficulty": [
-      [ "combat", "very_easy" ],
-      [ "mobility", "normal" ],
-      [ "crafting", "very_easy" ],
-      [ "environment", "normal" ],
+      [ "combat", "easy" ],
+      [ "mobility", "hard" ],
+      [ "crafting", "easy" ],
+      [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -1326,8 +1326,8 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "crafting", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 4, "name": "firstaid" } ],
@@ -1365,7 +1365,7 @@
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -1398,7 +1398,7 @@
     "description": "You had a boring, underpaid job watching cameras and patrolling hallways, but things have suddenly gotten a lot more dangerous.  You have some useful equipment, but you've never had any call to use it until now.",
     "points": 1,
     "difficulty": [
-      [ "combat", "very_easy" ],
+      [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "easy" ],
@@ -1464,7 +1464,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
@@ -1497,10 +1497,10 @@
     "description": "Living off the land, far from civilization, is nothing new to you.  The only difference is all the monsters that suddenly want you dead.  Your equipment is basic, but versatile… except that your canteen's run out!",
     "points": 4,
     "difficulty": [
-      [ "combat", "easy" ],
-      [ "mobility", "easy" ],
+      [ "combat", "normal" ],
+      [ "mobility", "normal" ],
       [ "crafting", "very_easy" ],
-      [ "environment", "easy" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "proficiencies": [
@@ -1637,7 +1637,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -1678,7 +1678,7 @@
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
@@ -1709,7 +1709,7 @@
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "traits": [ "PROF_PD_DET" ],
@@ -2056,7 +2056,7 @@
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
     "points": 2,
     "difficulty": [
-      [ "combat", "very_easy" ],
+      [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "easy" ],
@@ -2085,7 +2085,7 @@
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 2,
     "difficulty": [
-      [ "combat", "very_easy" ],
+      [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "easy" ],
@@ -2193,7 +2193,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "very_easy" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
@@ -2236,7 +2236,7 @@
       [ "combat", "normal" ],
       [ "mobility", "very_easy" ],
       [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
@@ -2377,7 +2377,7 @@
     "points": 9,
     "difficulty": [
       [ "combat", "very_easy" ],
-      [ "mobility", "easy" ],
+      [ "mobility", "very_easy" ],
       [ "crafting", "easy" ],
       [ "environment", "very_easy" ],
       [ "social", "normal" ]
@@ -2489,7 +2489,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "very_easy" ],
+      [ "crafting", "easy" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
@@ -2541,7 +2541,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 1, "name": "survival" } ],
@@ -2732,8 +2732,8 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "crafting", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
@@ -2860,7 +2860,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -3013,7 +3013,7 @@
     "description": "Your trial was contentious, but ultimately you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
     "points": 0,
     "difficulty": [
-      [ "combat", "easy" ],
+      [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "normal" ],
@@ -3241,7 +3241,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -3414,7 +3414,7 @@
       [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "traits": [ "PROF_MA_ORANGE" ],
@@ -3432,10 +3432,10 @@
     "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
     "points": 8,
     "difficulty": [
-      [ "combat", "easy" ],
-      [ "mobility", "normal" ],
+      [ "combat", "very_easy" ],
+      [ "mobility", "easy" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "traits": [ "PROF_MA_BLACK" ],
@@ -3529,7 +3529,7 @@
     "points": 3,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "easy" ],
+      [ "mobility", "very_easy" ],
       [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
@@ -3608,10 +3608,10 @@
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
     "difficulty": [
-      [ "combat", "easy" ],
+      [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
-      [ "environment", "normal" ],
+      [ "crafting", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "firstaid" } ],
@@ -3633,8 +3633,8 @@
     "difficulty": [
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
-      [ "crafting", "very_easy" ],
-      [ "environment", "easy" ],
+      [ "crafting", "easy" ],
+      [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
@@ -3679,7 +3679,7 @@
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -3815,7 +3815,7 @@
     "points": 2,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "easy" ],
+      [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
@@ -4120,7 +4120,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -4199,8 +4199,8 @@
     "description": "It was hard enough getting kids to run laps without having to worry about them trying to eat your brains.  Zombies won't even line up when you blow your whistle.",
     "points": 3,
     "difficulty": [
-      [ "combat", "normal" ],
-      [ "mobility", "easy" ],
+      [ "combat", "easy" ],
+      [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "easy" ]
@@ -4263,10 +4263,10 @@
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "points": 3,
     "difficulty": [
-      [ "combat", "easy" ],
+      [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "easy" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "items": {
@@ -4494,7 +4494,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
     "skills": { "level": 2, "name": "survival" },
@@ -4525,8 +4525,8 @@
     "points": 3,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "easy" ],
-      [ "crafting", "easy" ],
+      [ "mobility", "normal" ],
+      [ "crafting", "very_easy" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -4669,7 +4669,7 @@
       [ "mobility", "very_easy" ],
       [ "crafting", "normal" ],
       [ "environment", "normal" ],
-      [ "social", "easy" ]
+      [ "social", "normal" ]
     ],
     "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
     "vehicle": "car_sports",
@@ -4692,7 +4692,7 @@
       [ "combat", "easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -4741,7 +4741,7 @@
       [ "combat", "normal" ],
       [ "mobility", "very_easy" ],
       [ "crafting", "easy" ],
-      [ "environment", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -4771,8 +4771,8 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
-      [ "environment", "easy" ],
+      [ "crafting", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
@@ -4811,7 +4811,7 @@
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "easy" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "skills": [
@@ -4879,7 +4879,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
@@ -4947,7 +4947,7 @@
     "difficulty": [
       [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "easy" ],
       [ "social", "normal" ]
     ],
@@ -4999,7 +4999,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "easy" ],
+      [ "crafting", "normal" ],
       [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
@@ -5046,10 +5046,10 @@
     "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but the doomsday arrived first.  Your crew is gone, but your past life prepared you for a world where violence is common currency.",
     "points": 5,
     "difficulty": [
-      [ "combat", "easy" ],
+      [ "combat", "very_easy" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "easy" ],
       [ "social", "very_easy" ]
     ],
     "skills": [
