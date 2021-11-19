@@ -147,6 +147,14 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
+    if( jsobj.has_member( "difficulty_scale" ) ) {
+        for( JsonValue jval : jsobj.get_array( "difficulty_scale" ) ) {
+            JsonArray diff = jval.get_array();
+            if( !diff.empty() ) {
+                sk._difficulty_scale.emplace( diff.get_string( 0 ), diff.get_float( 1 ) );
+            }
+        }
+    }
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;

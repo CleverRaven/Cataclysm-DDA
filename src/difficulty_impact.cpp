@@ -50,22 +50,40 @@ void difficulty_opt::load( const JsonObject &jo, const std::string & )
 }
 
 int difficulty_opt::avg_value_ = 0;
+int difficulty_opt::min_value_ = 0;
+int difficulty_opt::max_value_ = 0;
 
 void difficulty_opt::finalize()
 {
+    int minv = INT_MAX;
+    int maxv = INT_MIN;
     int val_total = 0;
     int val_count = 0;
     for( const difficulty_opt &opt : get_all() ) {
+        minv = minv > opt.value() ? opt.value() : minv;
+        maxv = maxv < opt.value() ? opt.value() : maxv;
         val_total += opt.value();
         val_count++;
     }
     val_count = val_count > 0 ? val_count : 1;
     difficulty_opt::avg_value_ = std::round( val_total / static_cast<float>( val_count ) );
+    difficulty_opt::min_value_ = minv;
+    difficulty_opt::max_value_ = maxv;
 }
 
 int difficulty_opt::avg_value()
 {
     return difficulty_opt::avg_value_;
+}
+
+int difficulty_opt::min_value()
+{
+    return difficulty_opt::min_value_;
+}
+
+int difficulty_opt::max_value()
+{
+    return difficulty_opt::max_value_;
 }
 
 int difficulty_opt::value( const difficulty_opt_id &id )
@@ -136,6 +154,16 @@ void difficulty_impact::load( const JsonObject &jo, const std::string & )
         weight_.emplace( HOBBY, readr );
         mandatory( jobj, was_loaded, "mutation", readr );
         weight_.emplace( MUTATION, readr );
+        mandatory( jobj, was_loaded, "skills", readr );
+        weight_.emplace( SKILL, readr );
+        mandatory( jobj, was_loaded, "strength", readr );
+        weight_.emplace( STAT_STR, readr );
+        mandatory( jobj, was_loaded, "dexterity", readr );
+        weight_.emplace( STAT_DEX, readr );
+        mandatory( jobj, was_loaded, "intelligence", readr );
+        weight_.emplace( STAT_INT, readr );
+        mandatory( jobj, was_loaded, "perception", readr );
+        weight_.emplace( STAT_PER, readr );
     }
 }
 

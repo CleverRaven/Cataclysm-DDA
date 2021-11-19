@@ -23,6 +23,8 @@ struct difficulty_opt {
         static int value( const difficulty_opt_id &id );
         static difficulty_opt_id getId( int value );
         static int avg_value();
+        static int min_value();
+        static int max_value();
 
         const difficulty_opt_id &getId() const {
             return id;
@@ -43,6 +45,8 @@ struct difficulty_opt {
         std::string color_;
         int value_ = 0;
         static int avg_value_;
+        static int min_value_;
+        static int max_value_;
         friend class generic_factory<difficulty_opt>;
 };
 
@@ -56,7 +60,12 @@ struct difficulty_impact {
             SCENARIO,
             PROFFESION,
             HOBBY,
-            MUTATION
+            MUTATION,
+            SKILL,
+            STAT_STR,
+            STAT_DEX,
+            STAT_INT,
+            STAT_PER
         };
 
         void load( const JsonObject &jo, const std::string &src );

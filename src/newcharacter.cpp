@@ -383,13 +383,50 @@ static std::pair<float, int> get_diff_val_for( const std::unordered_set<trait_id
     return { diff, count };
 }
 
+static float get_diff_val_for_stats( const avatar &u, const difficulty_impact &impact )
+{
+    const int avg_val = difficulty_opt::avg_value();
+    const int min_val = difficulty_opt::min_value();
+    const int max_val = difficulty_opt::max_value();
+    const float weight_total = impact.weight( difficulty_impact::STAT_STR ) +
+                               impact.weight( difficulty_impact::STAT_DEX ) +
+                               impact.weight( difficulty_impact::STAT_INT ) +
+                               impact.weight( difficulty_impact::STAT_PER );
+    float diff = ( 8 - u.str_max ) * impact.weight( difficulty_impact::STAT_STR ) / weight_total +
+                 ( 8 - u.dex_max ) * impact.weight( difficulty_impact::STAT_DEX ) / weight_total +
+                 ( 8 - u.int_max ) * impact.weight( difficulty_impact::STAT_INT ) / weight_total +
+                 ( 8 - u.per_max ) * impact.weight( difficulty_impact::STAT_PER ) / weight_total;
+    // normalize to difficulty range
+    diff *= ( max_val - avg_val ) / 6.0f;
+    return clamp( diff, static_cast<float>( min_val - avg_val ),
+                  static_cast<float>( max_val - avg_val ) );
+}
+
+static std::string difficulty_to_string( const avatar &u,
+        difficulty_impact::difficulty_source cur_stat )
+{
+    std::string diff_str = _( "Difficulty" ) + std::string( " |" );
+
+    for( const difficulty_impact &diff_imp : difficulty_impact::get_all() ) {
+        const bool stat_effect = diff_imp.weight( cur_stat ) > std::numeric_limits<float>::epsilon();
+        float diff = get_diff_val_for_stats( u, diff_imp ) + difficulty_opt::avg_value();
+        difficulty_opt_id diff_id = difficulty_opt::getId( std::round( diff ) );
+        std::string imp_str = string_format( "<color_light_green>%c</color>%s<color_light_green>%s</color>",
+                                             stat_effect ? '[' : ' ', diff_imp.name(), stat_effect ? "]" : "" );
+        diff_str += string_format( " %s: <color_%s>%s</color>", imp_str, diff_id->color(),
+                                   diff_id->name() );
+    }
+
+    return diff_str;
+}
+
 static std::string difficulty_to_string( const std::map<difficulty_impact_id, difficulty_opt_id>
         &diff_map )
 {
     std::string diff_str = _( "Difficulty" ) + std::string( " |" );
 
     for( const auto &diff_pair : diff_map ) {
-        std::string rating = "";
+        std::string rating;
         std::string colr = "light_gray";
         if( !diff_pair.first.is_valid() ) {
             continue;
@@ -397,8 +434,7 @@ static std::string difficulty_to_string( const std::map<difficulty_impact_id, di
             rating = diff_pair.second->name().translated();
             colr = diff_pair.second->color();
         }
-        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_pair.first->name().translated(), colr,
-                                   rating );
+        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_pair.first->name(), colr, rating );
     }
 
     return diff_str;
@@ -420,23 +456,31 @@ static std::string difficulty_to_string( const avatar &u )
         std::pair<float, int> prof_diff = get_diff_val_for( prof, diff_imp );
         std::pair<float, int> hobb_diff = get_diff_val_for( u.hobbies, diff_imp );
         std::pair<float, int> mut_diff = get_diff_val_for( u.my_traits, diff_imp );
+        float stat_diff = get_diff_val_for_stats( u, diff_imp );
 
-        const float weight_total =
-            diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_diff.second > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_diff.second > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_diff.second > 0 ? 1.f : 0.f ) +
-            diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_diff.second > 0 ? 1.f : 0.f );
+        const float weight_stats_total =
+            diff_imp.weight( difficulty_impact::STAT_STR ) +
+            diff_imp.weight( difficulty_impact::STAT_DEX ) +
+            diff_imp.weight( difficulty_impact::STAT_INT ) +
+            diff_imp.weight( difficulty_impact::STAT_PER );
+        const float weight_total = weight_stats_total +
+                                   diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_diff.second > 0 ? 1.f : 0.f ) +
+                                   diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_diff.second > 0 ? 1.f : 0.f ) +
+                                   diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_diff.second > 0 ? 1.f : 0.f ) +
+                                   diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_diff.second > 0 ? 1.f : 0.f );
         const float weight_scen = diff_imp.weight( difficulty_impact::SCENARIO ) / weight_total;
         const float weight_prof = diff_imp.weight( difficulty_impact::PROFFESION ) / weight_total;
         const float weight_hobb = diff_imp.weight( difficulty_impact::HOBBY ) / weight_total;
         const float weight_mut = diff_imp.weight( difficulty_impact::MUTATION ) / weight_total;
+        const float weight_stats = weight_stats_total / weight_total;
 
         float diff = scen_diff.first * weight_scen + prof_diff.first * weight_prof +
-                     hobb_diff.first * weight_hobb + mut_diff.first * weight_mut;
+                     hobb_diff.first * weight_hobb + mut_diff.first * weight_mut +
+                     stat_diff * weight_stats;
         int diff_val = std::round( diff + avg_val );
         difficulty_opt_id diff_id = difficulty_opt::getId( diff_val > 0 ? diff_val : avg_val );
-        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name().translated(),
-                                   diff_id->color(), diff_id->name() );
+        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name(), diff_id->color(),
+                                   diff_id->name() );
     }
 
     return diff_str;
@@ -1037,9 +1081,16 @@ static void draw_difficulty( const catacurses::window &w, const avatar &u )
     print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( u ) );
 }
 
+static void draw_difficulty( const catacurses::window &w, const avatar &u,
+                             difficulty_impact::difficulty_source stat )
+{
+    nc_color color = c_light_gray;
+    mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
+    print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( u, stat ) );
+}
+
 static void draw_difficulty( const catacurses::window &w,
-                             const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map =
-                                 std::map<difficulty_impact_id, difficulty_opt_id>() )
+                             const std::map<difficulty_impact_id, difficulty_opt_id> &diff_map )
 {
     nc_color color = c_light_gray;
     mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
@@ -1242,8 +1293,10 @@ tab_direction set_stats( avatar &u, pool_type pool )
         mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
 
         werase( w_description );
+        difficulty_impact::difficulty_source diff_src = difficulty_impact::NONE;
         switch( sel ) {
             case 1:
+                diff_src = difficulty_impact::STAT_STR;
                 mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
                 mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
@@ -1263,6 +1316,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 break;
 
             case 2:
+                diff_src = difficulty_impact::STAT_DEX;
                 mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
                 mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
@@ -1284,6 +1338,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 break;
 
             case 3: {
+                diff_src = difficulty_impact::STAT_INT;
                 mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
                 mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
@@ -1303,6 +1358,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
             break;
 
             case 4:
+                diff_src = difficulty_impact::STAT_PER;
                 mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
                 mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
@@ -1317,6 +1373,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                                 _( "Perception is also used for detecting traps and other things of interest." ) );
                 break;
         }
+        draw_difficulty( w, u, diff_src );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );

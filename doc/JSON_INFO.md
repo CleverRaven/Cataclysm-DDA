@@ -895,7 +895,12 @@ Difficulty impacts different aspects of gameplay, so these represent different c
     "scenario": 0.2,
     "profession": 1.0,
     "hobby": 0.2,
-    "mutation": 0.5
+    "mutation": 0.5,
+    "skills": 0.5,
+    "strength": 0.4,
+    "dexterity": 0.1,
+    "intelligence": 0.0,
+    "perception": 0.4
   }
 }
 ```
@@ -1310,7 +1315,7 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 
 Point cost of profession. Positive values cost points and negative values grant points.
 
-## `difficulty`
+#### `difficulty`
 (array of strings)
 
 Represents the difficulty impact on different aspects of gameplay. Each entry is a pair of strings: a [`difficulty_impact`](#difficulty-impact) and a [`difficulty_opt`](#difficulty-rating).
@@ -2045,7 +2050,11 @@ it is present to help catch errors.
 "id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-"tags" : ["gun_type"]  // Special flags (default: none)
+"tags" : ["gun_type"],  // Special flags (default: none)
+"difficulty_scale": [   // Which difficulty_impact_id's scale with this skill
+  [ "combat", 0.7 ],
+  [ "crafting", 0.1 ]
+]
 ```
 
 ### Speed Description

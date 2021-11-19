@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "difficulty_impact.h"
 #include "game_constants.h"
 #include "translations.h"
 #include "type_id.h"
@@ -39,6 +40,7 @@ class Skill
         std::set<std::string> _tags;
         time_info_t _time_to_attack;
         skill_displayType_id _display_type;
+        std::unordered_map<difficulty_impact_id, float> _difficulty_scale;
         std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
@@ -71,6 +73,10 @@ class Skill
         }
         std::string description() const {
             return _description.translated();
+        }
+        float get_difficulty_scale( const difficulty_impact_id &impact ) const {
+            return _difficulty_scale.find( impact ) == _difficulty_scale.end() ? 0.0f :
+                   _difficulty_scale.at( impact );
         }
         int get_companion_skill_practice( const std::string &companion_skill ) const {
             return _companion_skill_practice.find( companion_skill ) == _companion_skill_practice.end() ? 0 :
