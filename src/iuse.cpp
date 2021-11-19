@@ -9934,6 +9934,75 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
     return cata::nullopt;
 }
 
+cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool,
+        const tripoint &ipos )
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Doing that would ruin the %1$s." ), binder->tname() );
+        return cata::nullopt;
+    }
+
+    if( binder->get_var( "EIPC_RECIPES" ).empty() ) {
+        p->add_msg_if_player( m_info, _( "You have no recipes to manage." ) );
+        return cata::nullopt;
+    }
+
+    uilist rmenu;
+    rmenu.text = _( "Manage recipes" );
+
+    int num_recipes = 0;
+    std::vector<recipe_id> recipes;
+
+    // copied from item::get_available_recipes
+    const std::string eipc_recipes = binder->get_var( "EIPC_RECIPES" );
+    // Capture the index one past the delimiter, i.e. start of target string.
+    size_t first_string_index = eipc_recipes.find_first_of( ',' ) + 1;
+    while( first_string_index != std::string::npos ) {
+        size_t next_string_index = eipc_recipes.find_first_of( ',', first_string_index );
+        if( next_string_index == std::string::npos ) {
+            break;
+        }
+        const recipe_id new_recipe( eipc_recipes.substr( first_string_index,
+                                    next_string_index - first_string_index ) );
+
+        if( new_recipe.is_valid() ) {
+            recipes.emplace_back( new_recipe );
+
+            std::string recipe_name = new_recipe->result_name();
+            if( p->knows_recipe( &new_recipe.obj() ) ) {
+                recipe_name += _( " (KNOWN)" );
+            }
+
+            const int pages = 1 + new_recipe->difficulty / 2;
+            rmenu.addentry_col( ++num_recipes, true, ' ',
+                                recipe_name,
+                                string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
+        }
+
+        first_string_index = next_string_index + 1;
+    }
+
+    rmenu.query();
+    if( rmenu.ret > 0 ) {
+        const recipe_id &rec = recipes[rmenu.ret - 1];
+        if( !query_yn( _( "Remove the recipe for %1$s?" ), rec->result_name() ) ) {
+            return cata::nullopt;
+        }
+
+        recipes.erase( recipes.begin() + rmenu.ret - 1 );
+        binder->erase_var( "EIPC_RECIPES" );
+
+        for( const recipe_id &book_rec : recipes ) {
+            binder->eipc_recipe_add( book_rec );
+        }
+
+        const int pages = 1 + rec->difficulty / 2;
+        binder->ammo_consume( pages, ipos, p );
+    }
+
+    return cata::nullopt;
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

@@ -1,6 +1,45 @@
 [
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_1",
+    "text": [
+      "A light breeze hits you from above.",
+      "You notice a small patch of dust appear nearby.",
+      "You smell a mild chemical odor you can't quite place.",
+      "Your hair stands on end as a faint electrical tingle washes over you.",
+      "For a split second a nearby object becomes hazy.",
+      "For a moment all colors grow slightly brighter.",
+      "For a moment all distances seem to grow slightly."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_2",
+    "text": [
+      "A gust of wind hits you from above.",
+      "You notice several small patches of dust appear nearby.",
+      "You smell a chemical odor you can't quite place.",
+      "Your hair stands on end as an electrical tingle washes over you.",
+      "For a split second several nearby objects become hazy.",
+      "For a moment all colors grow brighter.",
+      "For a moment all distances seem to grow."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_3",
+    "text": [
+      "A gust of wind hits you from above and below.",
+      "You notice several large patches of dust appear nearby.",
+      "You smell a harsh chemical odor you can't quite place.",
+      "Your hair stands on end as a powerfull electrical tingle washes over you.",
+      "For a split second all nearby objects become hazy.",
+      "For a moment all colors grow much brighter.",
+      "For a moment all distances seem to grow much longer."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_STORM_NIGHT_MESSAGES_1",
     "text": [
       "You see what seems to be a new constellation in the sky.  The stars are quite dense and are precisely aligned in several regular polyhedrons next to each other.",
@@ -122,6 +161,53 @@
       "For a moment all colors flow to form jagged shapes.",
       "For a moment all distances seem to vanish, as if everything was one.  It is claustrophobic.",
       "A tall figure quickly fades in and out of existence staring and pointing at you the whole time."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_1",
+    "text": [
+      "a gentle voice saying \"Why not come outside?\"",
+      "a gentle voice saying \"It's beautiful outside.\"",
+      "a gentle voice saying \"What a gorgeous sky.\"",
+      "a gentle voice saying \"Gosh the wind feels nice.\"",
+      "a gentle voice saying \"It would seem there are optimal human enjoyment conditions outside.\"",
+      "a gentle voice saying \"I'm so glad I came outside.\"",
+      "a gentle voice saying \"100% of those surveyed are very glad they came outside.\"",
+      "a gentle voice saying \"Maybe it isn't so bad outside after all, why don't you check?\"",
+      "a gentle voice saying \"Fresh air is good for your health, why not come outside and get some?\"",
+      "a gentle voice saying \"Are you sure you don't want to come out?\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_2",
+    "text": [
+      "a voice saying \"All of the people of high social status are outside.  Don't be a low status individual.\"",
+      "a voice saying \"Outside we can give you what you have always craved, purpose.\"",
+      "a voice saying \"Remember when you were young and dreams could still come true?  Outside they still can.\"",
+      "a voice saying \"Bet you can't guess whats in the sky right now?\"",
+      "a voice saying \"All your life you have been oppressed by cruel physics, come outside and see freedom.\"",
+      "a voice saying \"What do you have to lose?  Come outside and embrace the future.\"",
+      "a voice saying \"Do you want to live the rest of your life hiding like a coward or come out and face your fears?\"",
+      "a voice saying \"Surely there's nothing to be afraid of for a big tough flesh body like you outside.\"",
+      "a voice saying \"Like it or not it seems we are going to be sharing this piece of reality for a time.  Come outside and let us work out our differences.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_3",
+    "text": [
+      "a confident voice saying \"Have you considered how lucky you are?  So few of your kind have a chance to see the truths being exposed outside right now.\"",
+      "a confident voice saying \"Death is inevitable but knowledge is not, why not come outside and learn the truth of reality?\"",
+      "a confident voice saying \"You flesh beings are so inconsistent, first you break into our home, and now you avoid the merest taste of it?\"",
+      "a confident voice saying \"Surely you know your world is doomed.  What has started here cannot be stopped, embrace the inevitable.\"",
+      "a confident voice saying \"You are infected with that which dooms your world.  It cannot be cured under your current physical laws, but under ours all is possible.\"",
+      "a confident voice saying \"For too long your kind have been shackled to the tyranny of static form.  Embrace the freedom we offer you.  Rejoice at our benevolence.\"",
+      "a confident voice saying \"That which consumes your world poisons you against us.  Ignore its lies, and abandon your half digested reality.\"",
+      "a confident voice saying \"Have you never dreamed of being one with everything?  Out here is the end of limitations like separation or alone.\"",
+      "a confident voice saying \"The breakdown of order has danger, but also opportunity.  There is still time to influence the end result, come outside and add your will to the mix.\"",
+      "a confident voice saying \"This world is half eaten, but there are others yet untouched in the infinte.  It is unlikely you will find the way through the chaos out here to them, but much more likely than you surviving in this dead world.\""
     ]
   },
   {

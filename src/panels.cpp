@@ -1054,6 +1054,10 @@ std::pair<std::string, nc_color> display::thirst_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
 {
+    // NPCs who do not need food have no hunger
+    if( !u.needs_food() ) {
+        return std::make_pair( _( "Without Hunger" ), c_white );
+    }
     // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
     // like all of the effect_* string_id variables which are const string_id, then it fails to
     // initialize the array with tuples successfully complaining that
@@ -1582,9 +1586,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
-    if( u.get_focus() < u.calc_focus_equilibrium() ) {
+    if( u.calc_focus_change() > 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
+    } else if( u.calc_focus_change() < 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
 

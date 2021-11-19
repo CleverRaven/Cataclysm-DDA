@@ -746,6 +746,13 @@ bool item::is_frozen_liquid() const
 
 bool item::covers( const sub_bodypart_id &bp ) const
 {
+    // first do the logic for guns.
+    if( is_gun() ) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        return bp == sub_bodypart_id( "torso_hanging_back" );
+    }
+
     // if the item has no armor data it doesn't cover that part
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -3216,7 +3223,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
-    if( this->has_sublocations() ) {
+    if( this->has_sublocations() || this->is_gun() ) {
         std::string coverage = _( "<bold>Specifically</bold>:" );
 
         std::vector<sub_bodypart_id> covered = this->get_covered_sub_body_parts();

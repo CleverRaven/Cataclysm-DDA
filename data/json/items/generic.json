@@ -553,8 +553,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "type": "GENERIC",
@@ -1364,7 +1363,7 @@
     "id": "book_binder",
     "type": "TOOL",
     "category": "books",
-    "use_action": "BINDER_ADD_RECIPE",
+    "use_action": [ "BINDER_ADD_RECIPE", "BINDER_MANAGE_RECIPE" ],
     "symbol": "/",
     "looks_like": "story_book",
     "color": "light_gray",
