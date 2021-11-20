@@ -20,6 +20,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
+static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
     clear_avatar();
@@ -35,7 +37,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     }
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.

@@ -97,6 +97,10 @@ static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
 
+static const material_id material_glass( "glass" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
+
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
@@ -112,7 +116,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+static const std::set<material_id> ferric = { material_iron, material_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -1060,7 +1064,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     projectile proj = thrown_item_projectile( thrown );
     proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
-    const int glass_portion = thrown.made_of( material_id( "glass" ) );
+    const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
@@ -1118,7 +1122,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    const int glass_portion = thrown.made_of( material_id( "glass" ) );
+    const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume glass_vol = volume * glass_fraction;
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */

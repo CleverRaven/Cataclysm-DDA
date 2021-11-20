@@ -9,6 +9,13 @@
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 
+static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
+
+static const material_id material_cotton( "cotton" );
+static const material_id material_leather( "leather" );
+static const material_id material_nomex( "nomex" );
+static const material_id material_wool( "wool" );
+
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
@@ -24,7 +31,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
 
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.has_own_flag( flag_wooled ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
@@ -44,8 +51,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
-            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
+            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
+            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -152,7 +159,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), get_name() ) ) );
     }
 
-    const bool this_restricts_only_one = it.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    const bool this_restricts_only_one = it.has_flag( json_flag_ONE_PER_LAYER );
     std::map<side, bool> sidedness;
     sidedness[side::BOTH] = false;
     sidedness[side::LEFT] = false;
@@ -172,7 +179,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
         }
 
-        if( this_restricts_only_one || i.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) {
+        if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
             cata::optional<side> overlaps = it.covers_overlaps( i );
             if( overlaps && sidedness_conflicts( *overlaps ) ) {
                 return ret_val<bool>::make_failure( _( "%1$s conflicts with %2$s!" ), it.tname(), i.tname() );
@@ -257,11 +264,11 @@ Character::wear( item_location item_wear, bool interactive )
         was_weapon = false;
     }
 
-    const bool item_one_per_layer = to_wear_copy.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    const bool item_one_per_layer = to_wear_copy.has_flag( json_flag_ONE_PER_LAYER );
     for( const item &worn_item : worn ) {
         const cata::optional<side> sidedness_conflict = to_wear_copy.covers_overlaps( worn_item );
         if( sidedness_conflict && ( item_one_per_layer ||
-                                    worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) ) {
+                                    worn_item.has_flag( json_flag_ONE_PER_LAYER ) ) ) {
             // we can assume both isn't an option because it'll be caught in can_wear
             if( *sidedness_conflict == side::LEFT ) {
                 to_wear_copy.set_side( side::RIGHT );
@@ -681,9 +688,9 @@ bool Character::change_side( item &it, bool interactive )
         return false;
     }
 
-    const bool item_one_per_layer = it.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    const bool item_one_per_layer = it.has_flag( json_flag_ONE_PER_LAYER );
     for( const item &worn_item : worn ) {
-        if( item_one_per_layer && worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) {
+        if( item_one_per_layer && worn_item.has_flag( json_flag_ONE_PER_LAYER ) ) {
             const cata::optional<side> sidedness_conflict = it.covers_overlaps( worn_item );
             if( sidedness_conflict ) {
                 const std::string player_msg = string_format(

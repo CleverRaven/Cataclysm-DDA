@@ -90,6 +90,10 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
+static const string_id<struct furn_t> furn_f_fake_bench_hands( "f_fake_bench_hands" );
+
+static const string_id<struct furn_t> furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
+
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -200,7 +204,7 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     if( !loc ) {
         // cata::nullopt indicates crafting from inventory
         // Use values from f_fake_bench_hands
-        const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
+        const furn_t &f = furn_f_fake_bench_hands.obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
@@ -224,7 +228,7 @@ static float workbench_crafting_speed_multiplier( const item &craft,
         allowed_volume = f.workbench->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
+        const furn_t &f = furn_f_ground_crafting_spot.obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;

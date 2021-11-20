@@ -99,9 +99,39 @@ static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stim_overdose( "stim_overdose" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const faction_id faction_your_followers( "your_followers" );
+
 static const itype_id itype_guidebook( "guidebook" );
+static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+
+static const matype_id style_aikido( "style_aikido" );
+static const matype_id style_biojutsu( "style_biojutsu" );
+static const matype_id style_boxing( "style_boxing" );
+static const matype_id style_capoeira( "style_capoeira" );
+static const matype_id style_crane( "style_crane" );
+static const matype_id style_dragon( "style_dragon" );
+static const matype_id style_judo( "style_judo" );
+static const matype_id style_karate( "style_karate" );
+static const matype_id style_krav_maga( "style_krav_maga" );
+static const matype_id style_leopard( "style_leopard" );
+static const matype_id style_muay_thai( "style_muay_thai" );
+static const matype_id style_ninjutsu( "style_ninjutsu" );
+static const matype_id style_pankration( "style_pankration" );
+static const matype_id style_snake( "style_snake" );
+static const matype_id style_taekwondo( "style_taekwondo" );
+static const matype_id style_tai_chi( "style_tai_chi" );
+static const matype_id style_tiger( "style_tiger" );
+static const matype_id style_wingchun( "style_wingchun" );
+static const matype_id style_zui_quan( "style_zui_quan" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const string_id<monfaction> monfaction_player( "player" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -174,7 +204,7 @@ void avatar::control_npc( npc &np )
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
     g->add_npc_follower( np.getID() );
-    np.set_fac( faction_id( "your_followers" ) );
+    np.set_fac( faction_your_followers );
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
@@ -207,7 +237,7 @@ void avatar::control_npc_menu()
 
 void avatar::longpull( const std::string name )
 {
-    item wtmp( itype_id( "mut_longpull" ) );
+    item wtmp( itype_mut_longpull );
     g->temp_exit_fullscreen();
     target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
     g->reenter_fullscreen();
@@ -809,7 +839,7 @@ nc_color avatar::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
+    if( has_active_mutation( trait_SHELL2 ) ) {
         return c_magenta;
     }
     if( underwater ) {
@@ -832,10 +862,7 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 
 mfaction_id avatar::get_monster_faction() const
 {
-    // Can't be a static int_id, because mods add factions
-    static const string_id<monfaction> player_fac( "player" );
-
-    return player_fac.id();
+    return monfaction_player.id();
 }
 
 
@@ -1135,7 +1162,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
 
 faction *avatar::get_faction() const
 {
-    return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    return g->faction_manager_ptr->get( faction_your_followers );
 }
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
@@ -1156,40 +1183,40 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
 void avatar::toggle_run_mode()
 {
     if( is_running() ) {
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
     } else {
-        set_movement_mode( move_mode_id( "run" ) );
+        set_movement_mode( move_mode_run );
     }
 }
 
 void avatar::toggle_crouch_mode()
 {
     if( is_crouching() ) {
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
     } else {
-        set_movement_mode( move_mode_id( "crouch" ) );
+        set_movement_mode( move_mode_crouch );
     }
 }
 
 void avatar::toggle_prone_mode()
 {
     if( is_prone() ) {
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
     } else {
-        set_movement_mode( move_mode_id( "prone" ) );
+        set_movement_mode( move_mode_prone );
     }
 }
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
-        set_movement_mode( move_mode_id( "crouch" ) );
+        set_movement_mode( move_mode_crouch );
     }
 }
 
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
     }
 }
 
@@ -1623,25 +1650,25 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 
 // ids of martial art styles that are available with the bio_cqb bionic.
 static const std::vector<matype_id> bio_cqb_styles{ {
-        matype_id{ "style_aikido" },
-        matype_id{ "style_biojutsu" },
-        matype_id{ "style_boxing" },
-        matype_id{ "style_capoeira" },
-        matype_id{ "style_crane" },
-        matype_id{ "style_dragon" },
-        matype_id{ "style_judo" },
-        matype_id{ "style_karate" },
-        matype_id{ "style_krav_maga" },
-        matype_id{ "style_leopard" },
-        matype_id{ "style_muay_thai" },
-        matype_id{ "style_ninjutsu" },
-        matype_id{ "style_pankration" },
-        matype_id{ "style_snake" },
-        matype_id{ "style_taekwondo" },
-        matype_id{ "style_tai_chi" },
-        matype_id{ "style_tiger" },
-        matype_id{ "style_wingchun" },
-        matype_id{ "style_zui_quan" }
+        style_aikido,
+        style_biojutsu,
+        style_boxing,
+        style_capoeira,
+        style_crane,
+        style_dragon,
+        style_judo,
+        style_karate,
+        style_krav_maga,
+        style_leopard,
+        style_muay_thai,
+        style_ninjutsu,
+        style_pankration,
+        style_snake,
+        style_taekwondo,
+        style_tai_chi,
+        style_tiger,
+        style_wingchun,
+        style_zui_quan
     }};
 
 bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu

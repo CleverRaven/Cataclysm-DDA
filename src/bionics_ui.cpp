@@ -19,6 +19,7 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
+#include "localized_comparator.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
@@ -30,6 +31,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+
+static const material_id material_sunlight( "sunlight" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -204,7 +207,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         for( const material_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             if( fuel->get_fuel_data().is_perpetual_fuel ) {
-                if( fuel == material_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                if( fuel == material_sunlight && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
                 fuel_string += colorize( fuel->name(), c_green ) + " ";

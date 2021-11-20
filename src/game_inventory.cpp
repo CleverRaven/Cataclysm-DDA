@@ -69,6 +69,9 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
+static const requirement_id requirement_data_anesthetic( "anesthetic" );
+static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
+
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -2150,7 +2153,7 @@ class bionic_install_preset: public inventory_selector_preset
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                const requirement_data req_anesth = *requirement_data_anesthetic *
                                                     duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             } else if( !installable.success() ) {
@@ -2199,7 +2202,7 @@ class bionic_install_preset: public inventory_selector_preset
 
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+            const requirement_data req_anesth = *requirement_data_anesthetic *
                                                 duration * weight;
             int count = 0;
             if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
@@ -2301,7 +2304,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            requirement_data reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_data_autoclave_item;
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }

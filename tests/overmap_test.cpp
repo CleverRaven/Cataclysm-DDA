@@ -19,6 +19,9 @@ static const oter_str_id oter_cabin_north( "cabin_north" );
 static const oter_str_id oter_cabin_south( "cabin_south" );
 static const oter_str_id oter_cabin_west( "cabin_west" );
 
+static const overmap_special_id overmap_special_Cabin( "Cabin" );
+static const overmap_special_id overmap_special_Lab( "Lab" );
+
 TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
@@ -75,9 +78,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
     for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == overmap_special_id( "Cabin" ) ) {
+        if( elem.id == overmap_special_Cabin ) {
             optional = elem;
-        } else if( elem.id == overmap_special_id( "Lab" ) ) {
+        } else if( elem.id == overmap_special_Lab ) {
             mandatory = elem;
         }
     }

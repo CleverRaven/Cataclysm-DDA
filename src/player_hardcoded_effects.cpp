@@ -104,6 +104,10 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
+static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
+static const mutation_category_id mutation_category_RAT( "RAT" );
+static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
+
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -239,10 +243,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_id( "RAT" ) );
+            u.mutate_category( mutation_category_RAT );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
+            u.mutate_category( mutation_category_TROGLOBITE );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -1005,7 +1009,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_id( "MYCUS" ) );
+                    u.mutate_category( mutation_category_MYCUS );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );

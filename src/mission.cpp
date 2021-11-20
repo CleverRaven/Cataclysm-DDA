@@ -40,6 +40,10 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const itype_id itype_null( "null" );
+
+static const mission_type_id mission_NULL( "NULL" );
+
 mission mission_type::create( const character_id &npc_id ) const
 {
     mission ret;
@@ -369,7 +373,7 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_null, specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
@@ -449,7 +453,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_null, specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
@@ -759,7 +763,7 @@ std::string mission::name() const
 mission_type_id mission::mission_id() const
 {
     if( type == nullptr ) {
-        return mission_type_id( "NULL" );
+        return mission_NULL;
     }
     return type->id;
 }
