@@ -625,7 +625,12 @@
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
     "copy-from": "gambeson",
     "extend": { "flags": [ "OUTER" ] },
-    "use_action": { "type": "transform", "msg": "You adjust your gambeson a bit tighter.", "target": "gambeson", "menu_text": "Adjust tighter" }
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your gambeson a bit tighter.",
+      "target": "gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "k_gambeson",
@@ -637,10 +642,7 @@
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "material": [
-    { "type": "kevlar_layered", "portion": 6 },
-    { "type": "kevlar", "portion": 4 }
-    ],
+    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -681,7 +683,12 @@
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
     "copy-from": "k_gambeson",
     "extend": { "flags": [ "OUTER" ] },
-    "use_action": { "type": "transform", "msg": "You adjust your kevlar gambeson a bit tighter.", "target": "k_gambeson", "menu_text": "Adjust tighter" }
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your kevlar gambeson a bit tighter.",
+      "target": "k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "xl_gambeson",
@@ -698,7 +705,12 @@
     "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
     "copy-from": "xl_gambeson",
     "extend": { "flags": [ "OUTER" ] },
-    "use_action": { "type": "transform", "msg": "You adjust your XL gambeson a bit tighter.", "target": "xl_gambeson", "menu_text": "Adjust tighter" }
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL gambeson a bit tighter.",
+      "target": "xl_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "xl_k_gambeson",
@@ -715,7 +727,12 @@
     "name": { "str": "XL kevlar gambeson (loose)", "str_pl": "XL kevlar gambesons (loose)" },
     "copy-from": "xl_k_gambeson",
     "extend": { "flags": [ "OUTER" ] },
-    "use_action": { "type": "transform", "msg": "You adjust your XL kevlar gambeson a bit tighter.", "target": "xl_k_gambeson", "menu_text": "Adjust tighter" }
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL kevlar gambeson a bit tighter.",
+      "target": "xl_k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "hazmat_suit",
