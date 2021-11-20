@@ -323,7 +323,14 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 1, 3 ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "bbholster",
