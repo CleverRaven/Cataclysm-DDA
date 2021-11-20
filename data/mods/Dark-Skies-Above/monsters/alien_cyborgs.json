@@ -238,7 +238,7 @@
       [ "GRAB_DRAG", 3 ],
       {
         "type": "bite",
-        "no_infection_chance": 10,
+        "infection_chance": 90,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.8 } ],
         "cooldown": 10
       }
@@ -318,8 +318,8 @@
     "armor_bullet": 35,
     "vision_night": 5,
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 }, { "id": "melee_shock" } ],
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "dks_alien_hcyborg",
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWARMS", "WARM", "BASHES", "GROUP_BASH", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWARMS", "WARM", "BASHES", "GROUP_BASH", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   }
 ]

@@ -4,13 +4,11 @@ on:
   push:
     branches:
     - master
-    - 0.F-dev
     paths:
     - '**.py'
   pull_request:
     branches:
     - master
-    - 0.F-dev
     paths:
     - '**.py'
 

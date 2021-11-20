@@ -57,6 +57,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 425,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -193,6 +194,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -313,6 +315,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 504,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "185 ml",
@@ -343,6 +346,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 504,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -374,6 +378,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 504,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "312 ml",

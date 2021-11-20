@@ -673,22 +673,23 @@
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "ɜ|    |       ",
+        "!|    |       ",
         "||    |       ",
         "||    |       ",
-        "ɜ|    |       ",
+        "!|    |       ",
         "||    |       ",
         "||    |       ",
-        "ɜ|    |       ",
+        "!|    |       ",
         "||    |       ",
         "||    |       ",
-        "ɜ|    |       ",
+        "!|    |       ",
         "||    |       ",
         "||    |       ",
-        "ɜ|    |       ",
+        "!|    |       ",
         "||    |       "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "monster": { "!": { "monster": "mon_turret_riot" } },
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
@@ -714,22 +715,23 @@
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "    |ɜ        ",
+        "    |!        ",
         "    ||        ",
         "    ||        ",
-        "    |ɜ        ",
+        "    |!        ",
         "    ||        ",
         "    ||        ",
-        "    |ɜ        ",
+        "    |!        ",
         "    ||        ",
         "    ||        ",
-        "    |ɜ        ",
+        "    |!        ",
         "    ||        ",
         "    ||        ",
-        "    |ɜ        ",
+        "    |!        ",
         "    ||        "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "monster": { "!": { "monster": "mon_turret_riot" } },
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
@@ -770,7 +772,7 @@
         " |    |       ",
         "||    |       "
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "palettes": [ "lab_common_palette" ],
       "place_monster": [
         {
           "monster": [ "mon_secubot", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
@@ -843,7 +845,7 @@
         "    |         ",
         "    ||        "
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "palettes": [ "lab_common_palette" ],
       "place_monster": [
         {
           "monster": [ "mon_secubot", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
@@ -879,6 +881,80 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 4, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_NS_1", 50 ], [ "lab_security_sandbag_NS_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 3, 6 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
+    "nested_mapgen_id": "lab_security_14x14_corridor_1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "6": "f_vent_toxic_belch" },
+      "place_monster": [
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 0,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 3,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 6,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 9,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 12,
+          "chance": 100
+        }
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
           "x": [ 2, 4 ],
           "y": [ 0, 12 ],
           "repeat": [ 4, 8 ]
@@ -890,6 +966,198 @@
           "repeat": [ 3, 6 ]
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
+    "nested_mapgen_id": "lab_security_14x14_corridor_2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "6": "f_vent_toxic_belch" },
+      "place_monster": [
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 0,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 3,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 6,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 9,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 12,
+          "chance": 100
+        }
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 4, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_NS_1", 50 ], [ "lab_security_sandbag_NS_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 3, 6 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "12x12_obstacle_course_N",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "       !!!  ",
+        "       $ $  ",
+        "      i$ $ i",
+        "      i!!! i",
+        "      i$ $ i",
+        "       $ $  ",
+        "       ===  ",
+        "   &   =%=  ",
+        " &&&   ===  ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "=": "t_linoleum_white", "%": "t_linoleum_white" },
+      "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
+      "place_loot": [
+        { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "wheel_wide", "x": 1, "y": 1, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 2, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 3, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 4, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 5, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 6, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "12x12_obstacle_course_N",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    ĉĉĉ     ",
+        "  ććĉ!ĉćććć ",
+        "  ć ĉĉĉ ć   ",
+        "  ć    ććć j",
+        " ƨƨƨ   ććć j",
+        " ƨƨƨ   ććć j",
+        " ƨƨƨ     ć  ",
+        " ƨƨƨ   ććć  ",
+        " ƨƨƨ   ć    ",
+        "       ć    ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "terrain": { "ĉ": "t_sandbox", "!": "t_sandbox", "ć": "t_monkey_bars" },
+      "furniture": { "!": "f_dancing_pole" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "12x12_obstacle_course_S",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        " ƨƨƨƨ       ",
+        " ƨƨƨƨ  ĉĉĉĉ ",
+        " ƨƨƨƨ  ĉĉĉĉ ",
+        " ƨƨƨƨ  ĉĉĉĉ ",
+        "       ĉĉĉĉ ",
+        " ʋʋʋʋ  ĉĉĉĉ ",
+        "    ʉ  ĉĉĉĉ ",
+        "    ʉ  ĉĉĉĉ ",
+        "  ʋ ʉ  ĉĉĉĉ ",
+        "  ʋ    ĉĉĉĉ ",
+        " 5ʋ5ʉ       "
+      ],
+      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "terrain": { "ĉ": "t_sandbox" },
+      "furniture": { "!": "f_barricade_road", "A": "f_floor_canvas" },
+      "place_loot": [
+        { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "wheel_wide", "x": 9, "y": 9, "chance": 100 },
+        { "item": "wheel_wide", "x": 8, "y": 8, "chance": 100 },
+        { "item": "wheel_wide", "x": 9, "y": 7, "chance": 100 },
+        { "item": "wheel_wide", "x": 8, "y": 6, "chance": 100 },
+        { "item": "wheel_wide", "x": 9, "y": 5, "chance": 100 },
+        { "item": "wheel_wide", "x": 8, "y": 4, "chance": 100 },
+        { "item": "wheel_wide", "x": 9, "y": 3, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "12x12_obstacle_course_S",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        " ʉʉʉʉʉʉʉʉʉʉ ",
+        " ʉ5         ",
+        " ʉ ʉʉʉʉʉʉʉʉʉ",
+        " ʉ         5",
+        " ʉʉʉʉ ʉʉʉ ʉ ",
+        "5   ʉ ʉ   ʉ ",
+        "ʉʉʉ ʉ ʉ ʉʉʉ ",
+        " 5ʉ ʉ5ʉ  5ʉ ",
+        " ʉʉ ʉʉʉʉʉ ʉ ",
+        "5         ʉ5"
+      ],
+      "palettes": [ "lab_common_palette", "lab_security_palette" ]
     }
   }
 ]

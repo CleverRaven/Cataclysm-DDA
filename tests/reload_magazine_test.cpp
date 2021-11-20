@@ -17,16 +17,29 @@
 
 struct itype;
 
+static const ammotype ammo_223( "223" );
+static const ammotype ammo_38( "38" );
+
+static const itype_id itype_223( "223" );
+static const itype_id itype_357mag_fmj( "357mag_fmj" );
+static const itype_id itype_38_special( "38_special" );
+static const itype_id itype_556( "556" );
+static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_glockmag( "glockmag" );
+static const itype_id itype_m4_carbine( "m4_carbine" );
+static const itype_id itype_stanag30( "stanag30" );
+static const itype_id itype_sw_619( "sw_619" );
+
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
-    const itype_id gun_id( "nato_assault_rifle" );
-    const ammotype gun_ammo( "223" );
-    const itype_id ammo_id( "556" ); // any type of compatible ammo
-    const itype_id alt_ammo( "223" ); // any alternative type of compatible ammo
-    const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
-    const itype_id mag_id( "stanag30" ); // must be set to default magazine
-    const itype_id bad_mag( "glockmag" ); // any incompatible magazine
+    const itype_id gun_id = itype_m4_carbine;
+    const ammotype gun_ammo = ammo_223;
+    const itype_id ammo_id = itype_556; // any type of compatible ammo
+    const itype_id alt_ammo = itype_223; // any alternative type of compatible ammo
+    const itype_id bad_ammo = itype_9mm; // any type of incompatible ammo
+    const itype_id mag_id = itype_stanag30; // must be set to default magazine
+    const itype_id bad_mag = itype_glockmag; // any incompatible magazine
     const int mag_cap = 30; // amount of bullets that fit into default magazine
 
     CHECK( ammo_id != alt_ammo );
@@ -321,11 +334,11 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 
 TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
 {
-    const itype_id gun_id( "sw_619" );
-    const ammotype gun_ammo( "38" );
-    const itype_id ammo_id( "38_special" ); // any type of compatible ammo
-    const itype_id alt_ammo( "357mag_fmj" ); // any alternative type of compatible ammo
-    const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
+    const itype_id gun_id = itype_sw_619;
+    const ammotype gun_ammo = ammo_38;
+    const itype_id ammo_id = itype_38_special; // any type of compatible ammo
+    const itype_id alt_ammo = itype_357mag_fmj; // any alternative type of compatible ammo
+    const itype_id bad_ammo = itype_9mm; // any type of incompatible ammo
     const int mag_cap = 7; // amount of bullets that fit into cylinder
 
     CHECK( ammo_id != alt_ammo );

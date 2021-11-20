@@ -15,6 +15,10 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 
+static const butchery_requirements_id butchery_requirements_default( "default" );
+
+static const itype_id itype_ruined_chunks( "ruined_chunks" );
+
 namespace
 {
 generic_factory<harvest_list> harvest_list_factory( "harvest_list" );
@@ -69,9 +73,8 @@ void harvest_entry::load( const JsonObject &jo )
     optional( jo, was_loaded, "faults", faults );
 }
 
-void harvest_entry::deserialize( JsonIn &jsin )
+void harvest_entry::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
@@ -97,9 +100,9 @@ void harvest_list::load( const JsonObject &obj, const std::string & )
     mandatory( obj, was_loaded, "entries", entries_ );
 
     optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
-              butchery_requirements_id( "default" ) );
+              butchery_requirements_default );
     optional( obj, was_loaded, "message", message_ );
-    optional( obj, was_loaded, "leftovers", leftovers, itype_id( "ruined_chunks" ) );
+    optional( obj, was_loaded, "leftovers", leftovers, itype_ruined_chunks );
 }
 
 void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )

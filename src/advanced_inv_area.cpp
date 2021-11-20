@@ -19,7 +19,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -180,7 +179,8 @@ void advanced_inv_area::init()
     }
 
     // water?
-    if( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || here.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 

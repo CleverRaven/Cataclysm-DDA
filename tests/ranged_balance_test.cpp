@@ -22,6 +22,7 @@
 #include "itype.h"
 #include "json.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -77,28 +78,20 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
     return stream;
 }
 
-static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
-{
-    CHECK( !shooter.in_vehicle );
-    shooter.worn.clear();
-    shooter.inv->clear();
-    for( const std::string &article : apparel ) {
-        shooter.wear_item( item( article ) );
-    }
-}
-
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
 {
     firing_statistics firing_stats( Z99_99 );
     bool threshold_within_confidence_interval = false;
     do {
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+        dispersion_sources local_dispersion = dispersion;
         // On each trip through the loop, grab a sample attack roll and add its results to
         // the stat object.  Keep sampling until our calculated confidence interval doesn't overlap
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+        const projectile_attack_aim aim = projectile_attack_roll( local_dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
         firing_stats.add( aim.missed_by < threshold.accuracy() );
         if( firing_stats.n() < 100 ) {
@@ -126,7 +119,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
-    item &gun = shooter.weapon;
+    item &gun = shooter.get_wielded_item();
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
     shooter.moves = aim_time;
@@ -152,8 +145,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -167,8 +161,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -179,8 +174,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -198,12 +194,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+    CAPTURE( shooter.ranged_dispersion_modifier_hands() );
+    CAPTURE( shooter.get_wielded_item().gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.get_wielded_item().gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    CAPTURE( to_milliliter( shooter.get_wielded_item().volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );
@@ -228,7 +225,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.emplace_back( "backpack" );
-    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
@@ -298,7 +295,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ar15", { "tele_sight" } );
-        test_shooting_scenario( shooter, 10, 22, 48 );
+        test_shooting_scenario( shooter, 10, 18, 48 );
         test_fast_shooting( shooter, 85, 0.3 );
     }
 }
@@ -411,4 +408,84 @@ TEST_CASE( "synthetic_range_test", "[.]" )
     SECTION( "good hit thresholds" ) {
         range_test( Threshold( accuracy_goodhit, 0.5 ), true );
     }
+}
+
+static void shoot_monster( std::string ammo_type, int range, int expected_damage_min,
+                           int expected_damage_max, std::string monster_type )
+{
+    const tripoint shooter_pos( 60, 60, 0 );
+    const tripoint monster_pos = shooter_pos + ( point_east * range );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
+    shooter.set_body();
+    arm_shooter( shooter, "shotgun_s", {}, ammo_type );
+    shooter.recoil = 0;
+    monster &mon = spawn_test_monster( monster_type, monster_pos );
+    int prev_HP = mon.get_hp();
+    REQUIRE( shooter.fire_gun( monster_pos, 1, shooter.get_wielded_item() ) == 1 );
+    int actual_damage = prev_HP - mon.get_hp();
+    CAPTURE( ammo_type );
+    CAPTURE( range );
+    CAPTURE( monster_type );
+    CHECK( actual_damage >= expected_damage_min );
+    CHECK( actual_damage <= expected_damage_max );
+    clear_creatures();
+}
+
+TEST_CASE( "shot_features", "[gun]" )
+{
+    clear_map();
+    // BIRDSHOT
+    // Unarmored target
+    // Minor damage at range.
+    // shoot_monster( "shot_bird", 10, 10, 15, "mon_zombie" );
+    // More serious damage at close range.
+    shoot_monster( "shot_bird", 5, 20, 30, "mon_wolf_mutant_huge" );
+    // Grevious damage at point blank.
+    shoot_monster( "shot_bird", 1, 50, 100, "mon_wolf_mutant_huge" );
+
+    // Triviallly armored target (armor_bullet: 1)
+    // Can rarely if ever inflict damage at range.
+    // shoot_monster( "shot_bird", 10, 0, 5, "mon_zombie_tough" );
+    // Can barely hurt at close range.
+    shoot_monster( "shot_bird", 5, 0, 10, "mon_zombie_tough" );
+    // Can seriously injure trivially armored enemy at point blank,
+    shoot_monster( "shot_bird", 1, 45, 75, "mon_zombie_tough" );
+
+    // Armored target (armor_bullet: 5)
+    // Can't hurt at range,
+    // shoot_monster( "shot_bird", 10, 0, 5, "mon_zombie_brute" );
+    // Can't hurt at close range.
+    shoot_monster( "shot_bird", 5, 0, 10, "mon_zombie_brute" );
+    // Serioualy injure at point blank.
+    shoot_monster( "shot_bird", 1, 40, 75, "mon_zombie_brute" );
+    // TODO: can't harm heavily armored enemies at point blank
+
+    // Heavily Armored target (armor_bullet: 36)
+    // Can't hurt at range,
+    shoot_monster( "shot_bird", 10, 0, 7, "mon_skeleton_hulk" );
+    // Can't hurt at close range.
+    shoot_monster( "shot_bird", 5, 0, 7, "mon_skeleton_hulk" );
+    // Barely injure at point blank.
+    shoot_monster( "shot_bird", 1, 10, 75, "mon_skeleton_hulk" );
+    // TODO: can't harm heavily armored enemies even at point blank.
+
+    // BUCKSHOT
+    // Unarmored target
+    // Heavy damage at range.
+    shoot_monster( "shot_00", 10, 135, 195, "mon_wolf_mutant_huge" );
+    // More damage at close range.
+    shoot_monster( "shot_00", 5, 135, 195, "mon_wolf_mutant_huge" );
+    // Extreme damage at point blank range.
+    shoot_monster( "shot_00", 1, 50, 90, "mon_wolf_mutant_huge" );
+
+    // Lightly armored target (armor_bullet: 5)
+    // Outcomes for lightly armored enemies are very similar.
+    shoot_monster( "shot_00", 10, 90, 130, "mon_boomer_glutton" );
+    shoot_monster( "shot_00", 5, 90, 130, "mon_boomer_glutton" );
+    shoot_monster( "shot_00", 1, 45, 85, "mon_boomer_glutton" );
+
+    // Armored target (armor_bullet: 10)
+    shoot_monster( "shot_00", 10, 45, 65, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shot_00", 5, 45, 65, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shot_00", 1, 40, 75, "mon_hulk_pupa_decoy" );
 }

@@ -30,7 +30,17 @@
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_riotbot",
@@ -61,7 +71,17 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_secubot",
@@ -108,7 +128,17 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_talon_m202a1",
@@ -155,7 +185,17 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_skitterbot",
@@ -184,7 +224,7 @@
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_science_bot",
@@ -229,7 +269,8 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -257,7 +298,7 @@
     "armor_bullet": 40,
     "vision_night": 5,
     "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "mon_robofac_prototype_drops",
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
@@ -270,7 +311,8 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
-      "LOUDMOVES"
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -315,7 +357,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -360,7 +403,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "STUN_IMMUNE"
     ]
   }
 ]

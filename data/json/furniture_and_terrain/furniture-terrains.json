@@ -43,7 +43,6 @@
       "ORGANIC",
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
-      "BASHABLE",
       "HIDE_PLACE",
       "NO_SIGHT"
     ],
@@ -82,7 +81,6 @@
       "ORGANIC",
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
-      "BASHABLE",
       "HIDE_PLACE",
       "NO_SIGHT",
       "BLOCK_WIND"
@@ -112,7 +110,7 @@
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
         { "item": "rag", "count": 50 },
-        { "item": "paper", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
       ]
@@ -127,7 +125,7 @@
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
         { "item": "rag", "count": [ 20, 50 ] },
-        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
       ]
@@ -662,7 +660,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "rock", "count": [ 16, 32 ] }, { "item": "sharp_rock", "count": [ 0, 6 ] } ]
     }
   },
   {
@@ -676,13 +674,13 @@
     "coverage": 45,
     "required_str": 16,
     "crafting_pseudo_item": "boulder_anvil",
-    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 32,
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
     }
   },
   {
@@ -695,15 +693,15 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [
-        { "item": "rock", "count": [ 10, 22 ] },
-        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "rock", "count": [ 65, 85 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
@@ -722,7 +720,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -749,7 +747,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -775,7 +773,6 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 26,
-    "flags": [ "BASHABLE" ],
     "bash": {
       "str_min": 20,
       "str_max": 100,

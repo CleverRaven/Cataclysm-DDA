@@ -23,13 +23,12 @@ bool string_id<item_category>::is_valid() const
     return item_category_factory.is_valid( *this );
 }
 
-void zone_priority_data::deserialize( JsonIn &jsin )
+void zone_priority_data::deserialize( const JsonObject &jo )
 {
-    JsonObject data = jsin.get_object();
-    load( data );
+    load( jo );
 }
 
-void zone_priority_data::load( JsonObject &jo )
+void zone_priority_data::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "flags", flags );

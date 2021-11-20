@@ -296,7 +296,7 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( !filtering || filter.empty() );
+    bool notfiltering = !filtering || filter.empty();
     int num_entries = entries.size();
     // TODO: && is_all_lc( filter )
     bool nocase = filtering_nocase;
@@ -604,7 +604,7 @@ void uilist::setup()
 
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
-        abort();
+        cata_fatal( "Failed to create uilist window" );
     }
 
     if( !started ) {
@@ -625,7 +625,7 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
+    int sbside = pad_left <= 0 ? 0 : w_width - 1;
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -804,8 +804,8 @@ bool uilist::scrollby( const int scrollby )
         return false;
     }
 
-    bool looparound = ( scrollby == -1 || scrollby == 1 );
-    bool backwards = ( scrollby < 0 );
+    bool looparound = scrollby == -1 || scrollby == 1;
+    bool backwards = scrollby < 0;
     int recmax = static_cast<int>( fentries.size() );
 
     fselected += scrollby;

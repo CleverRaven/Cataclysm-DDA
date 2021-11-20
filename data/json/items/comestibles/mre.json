@@ -227,7 +227,7 @@
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
     "name": { "str": "asian beef & vegetables entree" },
-    "description": "The asian beef & vegetables entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "description": "The Asian beef & vegetables entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 1
   },

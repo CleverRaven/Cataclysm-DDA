@@ -7,12 +7,21 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+
+static const efftype_id effect_tapeworm( "tapeworm" );
+
+static const trait_id trait_HUNGER3( "HUNGER3" );
+
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_vitA( "vitA" );
+static const vitamin_id vitamin_vitB( "vitB" );
+static const vitamin_id vitamin_vitC( "vitC" );
 
 static void reset_time()
 {
@@ -39,11 +48,11 @@ static void clear_stomach( Character &p )
 
 static void set_all_vitamins( int target, Character &p )
 {
-    p.vitamin_set( vitamin_id( "vitA" ), target );
-    p.vitamin_set( vitamin_id( "vitB" ), target );
-    p.vitamin_set( vitamin_id( "vitC" ), target );
-    p.vitamin_set( vitamin_id( "iron" ), target );
-    p.vitamin_set( vitamin_id( "calcium" ), target );
+    p.vitamin_set( vitamin_vitA, target );
+    p.vitamin_set( vitamin_vitB, target );
+    p.vitamin_set( vitamin_vitC, target );
+    p.vitamin_set( vitamin_iron, target );
+    p.vitamin_set( vitamin_calcium, target );
 }
 
 // time (in minutes) it takes for the player to feel hungry
@@ -77,12 +86,12 @@ static void print_stomach_contents( Character &p, const bool print )
 
 // this represents an amount of food you can eat to keep you fed for an entire day
 // accounting for appropriate vitamins
-static void eat_all_nutrients( player &p )
+static void eat_all_nutrients( Character &you )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item f( "debug_nutrition" );
-    p.consume( f );
+    you.consume( f );
 }
 
 // how long does it take to starve to death
@@ -134,8 +143,8 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
-        dummy.mutate_towards( trait_id( "HUNGER3" ) );
+    while( !dummy.has_trait( trait_HUNGER3 ) ) {
+        dummy.mutate_towards( trait_HUNGER3 );
     }
     clear_stomach( dummy );
 
@@ -190,9 +199,9 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     }
     if( print_tests ) {
         printf( "vitamins: vitA %d vitB %d vitC %d calcium %d iron %d\n",
-                dummy.vitamin_get( vitamin_id( "vitA" ) ), dummy.vitamin_get( vitamin_id( "vitB" ) ),
-                dummy.vitamin_get( vitamin_id( "vitC" ) ), dummy.vitamin_get( vitamin_id( "calcium" ) ),
-                dummy.vitamin_get( vitamin_id( "iron" ) ) );
+                dummy.vitamin_get( vitamin_vitA ), dummy.vitamin_get( vitamin_vitB ),
+                dummy.vitamin_get( vitamin_vitC ), dummy.vitamin_get( vitamin_calcium ),
+                dummy.vitamin_get( vitamin_iron ) );
         printf( "\n" );
         print_stomach_contents( dummy, print_tests );
         printf( "\n" );
@@ -200,16 +209,15 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
-    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_vitA ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_vitB ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_vitC ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_iron ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_calcium ) >= -100 );
 }
 
 TEST_CASE( "tape_worm_halves_nutrients" )
 {
-    const efftype_id effect_tapeworm( "tapeworm" );
     const bool print_tests = false;
     avatar &dummy = get_avatar();
     reset_time();
@@ -296,8 +304,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
-        dummy.mutate_towards( trait_id( "HUNGER3" ) );
+    while( !dummy.has_trait( trait_HUNGER3 ) ) {
+        dummy.mutate_towards( trait_HUNGER3 );
     }
     for( int i = 0; i < 16; i++ ) {
         f = item( "veggy" );

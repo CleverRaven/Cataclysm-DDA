@@ -9,12 +9,12 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_nato_assault_rifle",
+    "id": "m4_carbine",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted assault rifle" },
-    "item": "nato_assault_rifle",
-    "breaks_into": [ { "item": "nato_assault_rifle", "prob": 50 } ],
+    "name": { "str": "mounted m4 carbine" },
+    "item": "m4_carbine",
+    "breaks_into": [ { "item": "m4_carbine", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -42,15 +42,6 @@
     "name": { "str": "mounted American-180" },
     "item": "american_180",
     "breaks_into": [ { "item": "american_180", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_an94",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted AN94" },
-    "item": "an94",
-    "breaks_into": [ { "item": "an94", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -236,10 +227,10 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mounted_m1014",
+    "id": "mounted_mossberg_930",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted M1014 shotgun" },
+    "name": { "str": "mounted Mossberg 930 shotgun" },
     "item": "mossberg_930",
     "breaks_into": [ { "item": "mossberg_930", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
@@ -329,7 +320,7 @@
     "id": "mounted_marlin_9a",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted Marlin 39A" },
+    "name": { "str": "mounted Marlin 9A" },
     "item": "blaze_marlin_9a",
     "breaks_into": [ { "item": "blaze_marlin_9a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
@@ -415,15 +406,6 @@
     "name": { "str": "mounted .22 pipe rifle" },
     "item": "rifle_22",
     "breaks_into": [ { "item": "rifle_22", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_rifle_308",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted .308 pipe rifle" },
-    "item": "m1a",
-    "breaks_into": [ { "item": "m1a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -581,15 +563,6 @@
     "item": "steyr_aug",
     "breaks_into": [ { "item": "steyr_aug", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_surv_carbine_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted 223 carbine" },
-    "item": "ar15",
-    "breaks_into": [ { "item": "ar15", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_tec9",

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mx_bandits_ambush",
+    "type": "map_extra",
+    "name": "Bandit Ambush",
+    "description": "There were bandits here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "bandits_ambush" },
+    "sym": "x",
+    "color": "yellow"
+  },
+  {
+    "id": "mx_bandits_campsite",
+    "type": "map_extra",
+    "name": "Bandit Campsite",
+    "description": "There are bandits here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "bandits_campsite" },
+    "sym": "x",
+    "color": "yellow"
+  },
+  {
+    "id": "mx_bandits_hideout",
+    "type": "map_extra",
+    "name": "Bandit Hideout",
+    "description": "There are bandits here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "bandits_hideout" },
+    "sym": "x",
+    "color": "yellow"
+  },
+  {
+    "id": "mx_bandits_grave",
+    "type": "map_extra",
+    "name": "Bandit Gravesite",
+    "description": "There are bandits here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "bandits_grave" },
+    "sym": "x",
+    "color": "yellow"
+  },
+  {
+    "id": "mx_bandits_outpost",
+    "type": "map_extra",
+    "name": "Bandit Outpost",
+    "description": "There are bandits here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "bandits_outpost" },
+    "sym": "x",
+    "color": "yellow"
+  }
+]

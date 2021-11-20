@@ -9,9 +9,10 @@
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "type_id.h"
+
+static const itype_id itype_match( "match" );
 
 TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
 {
@@ -76,7 +77,7 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
         item matches( "matches" );
-        REQUIRE( matches.ammo_default() == itype_id( "match" ) );
+        REQUIRE( matches.ammo_default() == itype_match );
         default_charges.modify( matches, "modifier test (matches ammo)" );
         CHECK( matches.remaining_ammo_capacity() == 0 );
     }

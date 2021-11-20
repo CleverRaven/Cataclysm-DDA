@@ -1,0 +1,62 @@
+[
+  {
+    "id": "snail_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "snail_sample", "prob": 30 } ]
+  },
+  {
+    "id": "rabbit_foot",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_foot", "prob": 30 } ]
+  },
+  {
+    "id": "frog_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "frog_sample", "prob": 30 } ]
+  },
+  {
+    "id": "insect_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "insect_sample", "prob": 30 } ]
+  },
+  {
+    "id": "bovine_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "bovine_sample", "prob": 30 } ]
+  },
+  {
+    "id": "spider_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spider_sample", "prob": 30 } ]
+  },
+  {
+    "id": "molerat_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "molerat_sample", "prob": 30 } ]
+  },
+  {
+    "id": "reptile_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "reptile_sample", "prob": 30 } ]
+  },
+  {
+    "id": "lupine_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample", "prob": 30 } ]
+  },
+  {
+    "id": "feline_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample", "prob": 30 } ]
+  }
+]

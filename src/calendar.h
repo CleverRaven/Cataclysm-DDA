@@ -3,6 +3,7 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -10,6 +11,7 @@
 
 class JsonIn;
 class JsonOut;
+class JsonValue;
 struct lat_long;
 struct rl_vec2d;
 class time_duration;
@@ -185,7 +187,7 @@ class time_duration
         time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -415,7 +417,8 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * 59 minutes will return "59 minutes".
  * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -454,7 +457,7 @@ class time_point
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int );
 
         // TODO: try to get rid of this
         template<typename T>
@@ -593,14 +596,11 @@ float sun_moon_light_at( const time_point &p );
 /** How much light is provided at the solar noon nearest to given time */
 double sun_moon_light_at_noon_near( const time_point &p );
 
-std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point, lat_long );
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 
 /** Returns the offset by which a ray of sunlight would move when shifting down
  * one z-level, or nullopt if the sun is below the horizon.
- *
- * If lat_long not provided it defaults to Boston.
  */
-cata::optional<rl_vec2d> sunlight_angle( const time_point &, lat_long );
 cata::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {

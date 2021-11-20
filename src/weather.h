@@ -131,10 +131,6 @@ std::string get_wind_arrow( int );
 std::string get_wind_desc( double );
 
 nc_color get_wind_color( double );
-/**
-* Calculates rot per hour at given temperature. Reference in weather_data.cpp
-*/
-int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
@@ -194,5 +190,6 @@ class weather_manager
 };
 
 weather_manager &get_weather();
+const weather_manager &get_weather_const();
 
 #endif // CATA_SRC_WEATHER_H

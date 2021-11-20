@@ -381,11 +381,22 @@
     ],
     "items": {
       "both": {
-        "items": [ "copper_circlet", "robe", "bastsandals", "pocketwatch" ],
+        "items": [
+          "copper_circlet",
+          "cloak",
+          "dress_shoes",
+          "socks_wool",
+          "beret_wool",
+          "gloves_liner",
+          "gloves_light",
+          "dress_shirt",
+          "knit_scarf",
+          "pocketwatch"
+        ],
         "entries": [ { "item": "q_staff", "custom-flags": [ "auto_wield" ] } ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_briefs", "pants" ],
+      "female": [ "bra", "panties", "skirt" ]
     },
     "traits": [ "MAGUS" ]
   },
@@ -502,7 +513,7 @@
     "name": "Wildborne Rider",
     "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
     "points": 6,
-    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping" ],
+    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping", "prof_bow_basic", "prof_bow_expert" ],
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },

@@ -548,7 +548,7 @@
     "snippet_category": [
       {
         "id": "apants_UCP",
-        "text": "A tough pair of pants Favored by the military.  This pair came in a grey, green and tan camouflage.  The pattern is notable for it's lack of black."
+        "text": "A tough pair of pants.  Favored by the military.  This pair came in a gray, green and tan camouflage.  The pattern is notable for its lack of black."
       },
       {
         "id": "apants_desert",
@@ -828,6 +828,32 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "police_breeches",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str_sp": "police breeches" },
+    "description": "Pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
+    "weight": "560 g",
+    "volume": "1500 ml",
+    "price": 4900,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 2, 5 ] } ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "postman_shorts",

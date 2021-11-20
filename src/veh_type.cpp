@@ -13,6 +13,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -25,7 +26,6 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -38,6 +38,11 @@
 #include "wcwidth.h"
 
 class npc;
+
+static const itype_id itype_null( "null" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
 
 static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -64,6 +69,7 @@ static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
+    { "APPLIANCE", VPFLAG_APPLIANCE },
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
@@ -219,7 +225,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     if( src.has_int( "time" ) ) {
         moves = src.get_int( "time" );
     } else if( src.has_string( "time" ) ) {
-        moves = to_moves<int>( read_from_json_string<time_duration>( *src.get_raw( "time" ),
+        moves = to_moves<int>( read_from_json_string<time_duration>( src.get_member( "time" ),
                                time_duration::units ) );
     }
 
@@ -234,6 +240,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
         reqs.clear();
         // Construct a requirement to capture "components", "qualities", and
         // "tools" that might be listed.
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
         reqs.emplace_back( req_id, 1 );
@@ -269,7 +276,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.emplace_back( line );
         }
-    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_null ) {
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
@@ -421,7 +428,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                     jttd.get_int( "post_field_age" ) );
         } else if( jttd.has_string( "post_field_age" ) ) {
             def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
-                    *jttd.get_raw( "post_field_age" ), time_duration::units );
+                    jttd.get_member( "post_field_age" ), time_duration::units );
         } else {
             def.transform_terrain.post_field_age = 0_turns;
         }
@@ -606,7 +613,7 @@ void vpart_info::finalize()
 
 static bool type_can_contain( const itype &container, const itype_id &containee )
 {
-    return item( &container ).can_contain( item( containee ) );
+    return item( &container ).can_contain( item( containee ) ).success();
 }
 
 void vpart_info::check()
@@ -890,12 +897,10 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     // borrowed from item.cpp and adjusted
-    const quality_id quality_jack( "JACK" );
-    const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg += string_format(
                    _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
-        if( qual.first == quality_jack || qual.first == quality_lift ) {
+        if( qual.first == qual_JACK || qual.first == qual_LIFT ) {
             msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( lifting_quality_to_mass( qual.second ) ) ),
                                   weight_units() );
@@ -926,38 +931,38 @@ bool vpart_info::is_repairable() const
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &you )
 {
     if( sk.empty() ) {
         return mv;
     }
 
-    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&p]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&you]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( p.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( you.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = p.get_crafting_helpers();
-    const int helpersize = p.get_num_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
-int vpart_info::install_time( const player &p ) const
+int vpart_info::install_time( const Character &you ) const
 {
-    return scale_time( install_skills, install_moves, p );
+    return scale_time( install_skills, install_moves, you );
 }
 
-int vpart_info::removal_time( const player &p ) const
+int vpart_info::removal_time( const Character &you ) const
 {
-    return scale_time( removal_skills, removal_moves, p );
+    return scale_time( removal_skills, removal_moves, you );
 }
 
-int vpart_info::repair_time( const player &p ) const
+int vpart_info::repair_time( const Character &you ) const
 {
-    return scale_time( repair_skills, repair_moves, p );
+    return scale_time( repair_skills, repair_moves, you );
 }
 
 /**

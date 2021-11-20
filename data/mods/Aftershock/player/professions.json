@@ -5,15 +5,7 @@
     "name": "Radio Tower Technician",
     "description": "From your spot at the top of the tower you were working on, you had a good view of the end of the world; of streaks of light falling from the sky, blossoming into mushroom clouds, barely a flicker on the horizon before your optical dampers flicked down.  You rushed to safety before the shockwaves could blast you from your perch.  The bionic implants included with your contract might come in handy now…",
     "points": 4,
-    "CBMs": [
-      "bio_weight",
-      "bio_shock_absorber",
-      "bn_bio_solar",
-      "bio_power_storage_mkII",
-      "bio_flashlight",
-      "bio_tools",
-      "bio_sunglasses"
-    ],
+    "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {

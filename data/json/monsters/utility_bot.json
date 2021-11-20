@@ -24,7 +24,7 @@
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_grocerybot",
@@ -50,6 +50,7 @@
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "ELECTRONIC",
@@ -61,7 +62,8 @@
       "PACIFIST",
       "PAY_BOT",
       "PET_HARNESSABLE",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -88,7 +90,18 @@
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT" ]
+    "flags": [
+      "SEES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "FIREPROOF",
+      "PUSH_MON",
+      "HEARS",
+      "PACIFIST",
+      "PAY_BOT",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_hazmatbot",
@@ -117,7 +130,17 @@
       "effect": { "id": "death_explosion_mon_hazmatbot", "hit_self": true },
       "message": "The %s explodes!"
     },
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_molebot",
@@ -145,7 +168,7 @@
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
@@ -175,7 +198,7 @@
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "STUN_IMMUNE" ]
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly",
@@ -218,7 +241,8 @@
       "HEARS",
       "PACIFIST",
       "GRABS",
-      "INTERIOR_AMMO"
+      "INTERIOR_AMMO",
+      "STUN_IMMUNE"
     ]
   }
 ]

@@ -169,7 +169,7 @@ void mdeath::splatter( monster &z )
                 // the larger the overflow damage, the less you get
                 const int chunk_amt =
                     entry.mass_ratio / overflow_ratio / 10 *
-                    z.get_weight() / ( item::find_type( itype_id( entry.drop ) ) )->weight;
+                    z.get_weight() / item::find_type( itype_id( entry.drop ) )->weight;
                 scatter_chunks( itype_id( entry.drop ), chunk_amt, z, gib_distance,
                                 chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
@@ -178,7 +178,7 @@ void mdeath::splatter( monster &z )
         if( gibbed_weight > 0 ) {
             const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+                gibbed_weight / to_gram( item::find_type( leftover_id )->weight );
             scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
@@ -231,8 +231,7 @@ void mdeath::broken( monster &z )
                         if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
                             same_ammo = true;
                         }
-                        const bool uses_mags = !gun.magazine_compatible().empty();
-                        if( same_ammo && uses_mags ) {
+                        if( same_ammo && gun.uses_magazine() ) {
                             std::vector<item> mags;
                             int ammo_count = ammo_entry.second;
                             while( ammo_count > 0 ) {
@@ -257,7 +256,7 @@ void mdeath::broken( monster &z )
     }
 
     // TODO: make mdeath::splatter work for robots
-    if( ( broken_mon.damage() >= broken_mon.max_damage() ) ) {
+    if( broken_mon.damage() >= broken_mon.max_damage() ) {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s is destroyed!" ), z.name() );
     } else {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s collapses!" ), z.name() );
