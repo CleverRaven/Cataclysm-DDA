@@ -17,6 +17,7 @@
 #include "SerializeCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
+#include "StaticInitializationOrderCheck.h"
 #include "StaticIntIdConstantsCheck.h"
 #include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
@@ -69,6 +70,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<SerializeCheck>( "cata-serialize" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
+            CheckFactories.registerCheck<StaticInitializationOrderCheck>(
+                "cata-static-initialization-order" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
             CheckFactories.registerCheck<StaticIntIdConstantsCheck>(
                 "cata-static-int_id-constants" );
