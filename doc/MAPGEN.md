@@ -23,7 +23,7 @@
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
-  * [Spawn a group of monsters with "place_monsters"](#spawn-a-group-of-monsters-with-place_monsters)
+  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -559,7 +559,7 @@ Example 2:
 ```
 This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
 
-## Spawn a group of monsters with "place_monsters"
+## Spawn an entire group of monsters with "place_monsters"
 Using `place_monsters` to spawn a group of monsters works in a similar fashion to `place_monster`. The key difference is that `place_monsters` guarantees that each valid entry in the group is spawned. It is strongly advised that you avoid using this flag with larger monster groups, as the total number of spawns is quite difficult to control.
 
 |Field|Description  |
