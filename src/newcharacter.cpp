@@ -402,6 +402,61 @@ static float get_diff_val_for_stats( const avatar &u, const difficulty_impact &i
                   static_cast<float>( max_val - avg_val ) );
 }
 
+static float get_diff_val_for( const skill_id &sk, int lvl, const difficulty_impact &impact )
+{
+    const int avg_val = difficulty_opt::avg_value();
+    const int min_val = difficulty_opt::min_value();
+    const int max_val = difficulty_opt::max_value();
+    float diff = 0;
+
+    if( sk.is_valid() ) {
+        float mod = sk->get_difficulty_scale( impact.getId() );
+        diff = lvl * mod;
+        // normalize to difficulty range
+        diff *= ( min_val - avg_val ) / 5.0f;
+    }
+
+    return clamp( diff, static_cast<float>( min_val - avg_val ),
+                  static_cast<float>( max_val - avg_val ) );
+}
+
+static std::pair<float, int> get_diff_val_for( const SkillLevelMap &skills,
+        const difficulty_impact &impact )
+{
+    float diff = 0;
+    int count = 0;
+
+    for( const auto &sk : skills ) {
+        if( sk.second.level() > 0 ) {
+            diff += get_diff_val_for( sk.first, sk.second.level(), impact );
+            count++;
+        }
+    }
+    diff = count > 0 ? ( diff / count ) : 0.0f;
+
+    return { diff, count };
+}
+
+static std::string difficulty_to_string( const avatar &u, const skill_id &skill )
+{
+    std::string diff_str = _( "Difficulty" ) + std::string( " |" );
+
+    for( const difficulty_impact &diff_imp : difficulty_impact::get_all() ) {
+        const bool sk_effect = skill->get_difficulty_scale( diff_imp.getId() ) >
+                               std::numeric_limits<float>::epsilon();
+        if( !sk_effect ) {
+            continue;
+        }
+        float diff = get_diff_val_for( skill, u.get_skill_level( skill ),
+                                       diff_imp ) + difficulty_opt::avg_value();
+        difficulty_opt_id diff_id = difficulty_opt::getId( std::round( diff ) );
+        diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name(), diff_id->color(),
+                                   diff_id->name() );
+    }
+
+    return diff_str;
+}
+
 static std::string difficulty_to_string( const avatar &u,
         difficulty_impact::difficulty_source cur_stat )
 {
@@ -456,6 +511,7 @@ static std::string difficulty_to_string( const avatar &u )
         std::pair<float, int> prof_diff = get_diff_val_for( prof, diff_imp );
         std::pair<float, int> hobb_diff = get_diff_val_for( u.hobbies, diff_imp );
         std::pair<float, int> mut_diff = get_diff_val_for( u.my_traits, diff_imp );
+        std::pair<float, int> skl_diff = get_diff_val_for( u.get_all_skills(), diff_imp );
         float stat_diff = get_diff_val_for_stats( u, diff_imp );
 
         const float weight_stats_total =
@@ -467,16 +523,18 @@ static std::string difficulty_to_string( const avatar &u )
                                    diff_imp.weight( difficulty_impact::SCENARIO ) * ( scen_diff.second > 0 ? 1.f : 0.f ) +
                                    diff_imp.weight( difficulty_impact::PROFFESION ) * ( prof_diff.second > 0 ? 1.f : 0.f ) +
                                    diff_imp.weight( difficulty_impact::HOBBY ) * ( hobb_diff.second > 0 ? 1.f : 0.f ) +
-                                   diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_diff.second > 0 ? 1.f : 0.f );
+                                   diff_imp.weight( difficulty_impact::MUTATION ) * ( mut_diff.second > 0 ? 1.f : 0.f ) +
+                                   diff_imp.weight( difficulty_impact::SKILL ) * ( skl_diff.second > 0 ? 1.f : 0.f );
         const float weight_scen = diff_imp.weight( difficulty_impact::SCENARIO ) / weight_total;
         const float weight_prof = diff_imp.weight( difficulty_impact::PROFFESION ) / weight_total;
         const float weight_hobb = diff_imp.weight( difficulty_impact::HOBBY ) / weight_total;
         const float weight_mut = diff_imp.weight( difficulty_impact::MUTATION ) / weight_total;
+        const float weight_skl = diff_imp.weight( difficulty_impact::SKILL ) / weight_total;
         const float weight_stats = weight_stats_total / weight_total;
 
         float diff = scen_diff.first * weight_scen + prof_diff.first * weight_prof +
                      hobb_diff.first * weight_hobb + mut_diff.first * weight_mut +
-                     stat_diff * weight_stats;
+                     skl_diff.first * weight_skl + stat_diff * weight_stats;
         int diff_val = std::round( diff + avg_val );
         difficulty_opt_id diff_id = difficulty_opt::getId( diff_val > 0 ? diff_val : avg_val );
         diff_str += string_format( "  %s: <color_%s>%s</color>", diff_imp.name(), diff_id->color(),
@@ -1079,6 +1137,13 @@ static void draw_difficulty( const catacurses::window &w, const avatar &u )
     nc_color color = c_light_gray;
     mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( u ) );
+}
+
+static void draw_difficulty( const catacurses::window &w, const avatar &u, const skill_id &skill )
+{
+    nc_color color = c_light_gray;
+    mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
+    print_colored_text( w, point( 2, 4 ), color, color, difficulty_to_string( u, skill ) );
 }
 
 static void draw_difficulty( const catacurses::window &w, const avatar &u,
@@ -2786,6 +2851,7 @@ tab_direction set_skills( avatar &u, pool_type pool )
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 
         draw_points( w, pool, u );
+        draw_difficulty( w, u, currentSkill->ident() );
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
