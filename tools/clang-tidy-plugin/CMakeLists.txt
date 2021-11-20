@@ -20,6 +20,7 @@ add_library(CataAnalyzerPlugin MODULE
         SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
+        StaticInitializationOrderCheck.cpp
         StaticIntIdConstantsCheck.cpp
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp

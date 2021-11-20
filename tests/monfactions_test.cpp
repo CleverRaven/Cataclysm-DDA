@@ -5,6 +5,12 @@
 #include "monfaction.h"
 #include "type_id.h"
 
+static const mfaction_str_id monfaction_animal( "animal" );
+static const mfaction_str_id monfaction_bear( "bear" );
+static const mfaction_str_id monfaction_fish( "fish" );
+static const mfaction_str_id monfaction_small_animal( "small_animal" );
+static const mfaction_str_id monfaction_vermin( "vermin" );
+
 static std::string att_enum_to_string( mf_attitude att )
 {
     switch( att ) {
@@ -96,10 +102,10 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
     SECTION( "inheritance" ) {
         // based on the current state of json
         REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
-        REQUIRE( mfaction_str_id( "small_animal" )->base_faction == mfaction_str_id( "animal" ) );
-        REQUIRE( mfaction_str_id( "vermin" )->base_faction == mfaction_str_id( "small_animal" ) );
-        REQUIRE( mfaction_str_id( "fish" )->base_faction == mfaction_str_id( "animal" ) );
-        REQUIRE( mfaction_str_id( "bear" )->base_faction == mfaction_str_id( "animal" ) );
+        REQUIRE( monfaction_small_animal->base_faction == monfaction_animal );
+        REQUIRE( monfaction_vermin->base_faction == monfaction_small_animal );
+        REQUIRE( monfaction_fish->base_faction == monfaction_animal );
+        REQUIRE( monfaction_bear->base_faction == monfaction_animal );
 
         INFO( "fish is a child of animal, is friendly to itself" );
         CHECK( attitude( "animal", "animal" ) == MFA_BY_MOOD );
