@@ -444,7 +444,12 @@
     "description": "A somewhat loose black leather waist corset.  Works as a stylish solution for back pain.  Use it to wear it tighter and close to the skin.",
     "material_thickness": 3,
     "environmental_protection": 1,
-    "use_action": { "type": "transform", "msg": "You wrap your waist corset tighter.", "target": "corset_waist", "menu_text": "Wrap tighter" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You wrap your waist corset tighter.",
+      "target": "corset_waist",
+      "menu_text": "Wrap tighter"
+    },
     "delete": { "flags": [ "SKINTIGHT" ] },
     "armor": [ { "encumbrance": 6, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
