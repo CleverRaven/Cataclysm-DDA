@@ -27,7 +27,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Peek around corners.  You may see your enemy before it sees you." ]
+    "text": [ "Peek around corners, when crouching or up/down the stairs to check for enemies." ]
   },
   {
     "type": "snippet",
@@ -292,7 +292,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Trying out different characters, professions, and scenarios can spice up your game.  Roleplay!" ]
+    "text": [ "Different characters, professions, hobbies and scenarios can spice up your game.  Roleplay!" ]
   },
   {
     "type": "snippet",
@@ -362,16 +362,146 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Certain corpses can give you bionics if you dissect them." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "Don't be too greedy.  Loot doesn't matter if you're dead." ]
   },
   {
     "type": "snippet",
     "category": "tip",
     "text": [ "The floor is too hard to sleep on?  Try gathering a pile of leaves." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Too cold to sleep well at night?  A pile of clothes will make it better." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Lost much blood?  Drink to replenish fluids, but red blood cells need time to renew." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Arterial bleeding from a gunshot?  A tourniquet can save you from death." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "No bandages nearby?  Empty your hands and let the time pass to apply pressure to the wound." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  Bandaid is sufficient enough." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Zone activity manager can make your life easier.  Do more in one go." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Want less micro-management?  Zone manager can change your game." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Every sensei was once a student.  NPCs can teach you and vice versa." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Length matters… at least when it comes to shoving a shovel in your backpack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Where did my lighter go again?  Manage your containers to store specific items in them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Keep essentials in your clothing pockets in case you have to ditch your backpack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Be fit.  Exercising and being active increases your cardio and therefore your stamina pool." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Long trip ahead?  Autotravel and autodrive to your desired destination." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can automate repetitive tasks such as foraging, mining or mopping for your convenience." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can crouch or go prone to hide behind objects and reduce the sound you make when you move." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "When you are prone, you use the bipod of your rifle for better accuracy." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Dissecting bodies will help in gaining knowledge about the weaknesses of the opponents." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "An armored enemy?  Don't give up, maybe it has some weaknesses that can be exploited." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Need experience with crafting and such? Use the training recipes to master the ins and outs." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Remember that the sidebar is customizable and widgets can be added and removed from it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Power move.  You can take control and play as your NPC follower." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Your skills can rust, but you'll learn them faster when you pick them up again." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Save time. Instead of using a recipe, place water in a container on the fire to boil it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Knowledge can't replace practical skill and experience, but it will help you get them faster." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Books carry knowledge and often recipes.  You need practical skills to utilize them.  Practice." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become master in specific areas." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Prolonged physical exhaustion results in weariness.  Overwork causes loss of productivity." ]
   }
 ]
