@@ -123,18 +123,42 @@
 
 struct dealt_projectile_attack;
 
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+
+static const ammotype ammo_battery( "battery" );
+
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_soporific( "bio_soporific" );
@@ -211,7 +235,15 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
 
+static const faction_id faction_no_faction( "no_faction" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
+
+static const flag_id json_flag_HIDDEN( "HIDDEN" );
+
+static const furn_str_id furn_f_null( "f_null" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -221,6 +253,9 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
@@ -261,7 +296,18 @@ static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 
+static const matec_id tec_none( "tec_none" );
+
+static const material_id material_flesh( "flesh" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
+static const material_id material_wool( "wool" );
+
 static const morale_type morale_nightmare( "morale_nightmare" );
+
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_walk( "walk" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -270,18 +316,28 @@ static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
+static const quality_id qual_HAMMER( "HAMMER" );
+static const quality_id qual_LIFT( "LIFT" );
+
+static const scenttype_id scent_sc_human( "sc_human" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ROBOT( "ROBOT" );
+
+static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
@@ -307,6 +363,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEBUG_SILENT( "DEBUG_SILENT" );
 static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
@@ -375,6 +432,7 @@ static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
@@ -390,6 +448,9 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
 
 namespace io
 {
@@ -444,7 +505,7 @@ Character::Character() :
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
-    set_anatomy( anatomy_id("human_anatomy") );
+    set_anatomy( anatomy_human_anatomy );
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
@@ -458,7 +519,7 @@ Character::Character() :
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
-    move_mode = move_mode_id( "walk" );
+    move_mode = move_mode_walk;
     next_expected_position = cata::nullopt;
     crafting_cache.time = calendar::before_time_starts;
 
@@ -469,7 +530,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
-    start_location = start_location_id( "sloc_shelter" );
+    start_location = start_location_sloc_shelter;
     moves = 100;
     oxygen = 0;
     in_vehicle = false;
@@ -477,10 +538,10 @@ Character::Character() :
     grab_point = tripoint_zero;
     hauling = false;
     set_focus( 100 );
-    last_item = itype_id( "null" );
+    last_item = itype_null;
     sight_max = 9999;
     last_batch = 0;
-    lastconsumed = itype_id( "null" );
+    lastconsumed = itype_null;
     death_drops = true;
     nv_cached = false;
     volume = 0;
@@ -1385,7 +1446,7 @@ void Character::forced_dismount()
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
             player_character.grab( object_type::NONE );
         }
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
         if( player_character.is_auto_moving() || player_character.has_destination() ||
             player_character.has_destination_activity() ) {
             player_character.clear_destination();
@@ -1428,7 +1489,7 @@ void Character::dismount()
         critter->mounted_player = nullptr;
         setpos( *pnt );
         mod_moves( -100 );
-        set_movement_mode( move_mode_id( "walk" ) );
+        set_movement_mode( move_mode_walk );
     }
 }
 
@@ -1464,8 +1525,6 @@ bool Character::is_dead_state() const
 
 void Character::on_dodge( Creature *source, float difficulty )
 {
-    static const matec_id tec_none( "tec_none" );
-
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
@@ -1498,7 +1557,7 @@ void Character::on_dodge( Creature *source, float difficulty )
 
 float Character::get_melee() const
 {
-    return get_skill_level( skill_id( "melee" ) );
+    return get_skill_level( skill_melee );
 }
 
 bool Character::uncanny_dodge()
@@ -1662,7 +1721,7 @@ bool Character::is_prone() const
 
 int Character::footstep_sound() const
 {
-    if( has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+    if( has_trait( trait_DEBUG_SILENT ) ) {
         return 0;
     }
 
@@ -1787,7 +1846,7 @@ void Character::process_turn()
     }
     process_items();
     // Didn't just pick something up
-    last_item = itype_id( "null" );
+    last_item = itype_null;
 
     if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
@@ -2510,7 +2569,6 @@ units::mass Character::best_nearby_lifting_assist() const
 
 units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
-    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
@@ -2518,9 +2576,9 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    int lift_quality = std::max( { this->max_quality( LIFT ), mech_lift,
-                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                                   vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+    int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
+                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( qual_LIFT ),
+                                   vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
 }
@@ -2791,7 +2849,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        if( worn_item.has_flag( flag_id( "HIDDEN" ) ) ) {
+        if( worn_item.has_flag( json_flag_HIDDEN ) ) {
             continue;
         }
         const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
@@ -3973,8 +4031,8 @@ bool Character::is_deaf() const
 bool Character::is_mute() const
 {
     return get_effect_int( effect_mute ) || worn_with_flag( flag_MUTE ) ||
-           ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) ||
+           ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
+                   is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
@@ -4746,7 +4804,7 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return; // player canceled installation
     }
 
-    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
+    assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
     activity.targets.emplace_back( std::move( tool ) );
     activity.targets.emplace_back( std::move( mod ) );
 }
@@ -5154,7 +5212,7 @@ int Character::throw_range( const item &it ) const
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1_liter;
-    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_iron, material_steel };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -5172,7 +5230,7 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
-const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
+const std::vector<material_id> Character::fleshy = { material_flesh, material_hflesh };
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
@@ -5897,7 +5955,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const mending_method &method = opt.method;
-        assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
         activity.targets.push_back( std::move( obj ) );
@@ -6357,8 +6415,8 @@ void Character::wake_up()
         add_morale( morale_nightmare, -15, -30, 30_minutes );
     }
 
-    if( movement_mode_is( move_mode_id( "prone" ) ) ) {
-        set_movement_mode( move_mode_id( "walk" ) );
+    if( movement_mode_is( move_mode_prone ) ) {
+        set_movement_mode( move_mode_walk );
     }
 }
 
@@ -6380,8 +6438,8 @@ int Character::get_shout_volume() const
     }
 
     // You can't shout without your face
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
+                                            is_wearing( itype_foodperson_mask_on ) ) ) {
         base = 0;
         shout_multiplier = 0;
     }
@@ -6415,8 +6473,8 @@ void Character::shout( std::string msg, bool order )
     std::string shout;
 
     // You can't shout without your face
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
+                                            is_wearing( itype_foodperson_mask_on ) ) ) {
         add_msg_if_player( m_warning, _( "You try to shout, but you have no face!" ) );
         return;
     }
@@ -6879,8 +6937,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     bool u_see = get_player_view().sees( *this );
-    const units::energy trigger_cost_base = bionic_id( "bio_ods" )->power_trigger;
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
+    const units::energy trigger_cost_base = bio_ods->power_trigger;
+    if( has_active_bionic( bio_ods ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -7304,7 +7362,7 @@ bool Character::crossed_threshold() const
 
 void Character::update_type_of_scent( bool init )
 {
-    scenttype_id new_scent = scenttype_id( "sc_human" );
+    scenttype_id new_scent = scent_sc_human;
     for( const trait_id &mut : get_mutations() ) {
         if( mut.obj().scent_typeid ) {
             new_scent = mut.obj().scent_typeid.value();
@@ -7432,8 +7490,8 @@ void Character::rooted()
             time_to_full += -14400;    // -4 hours
         }
         if( x_in_y( 96, time_to_full ) ) {
-            vitamin_mod( vitamin_id( "iron" ), 1, true );
-            vitamin_mod( vitamin_id( "calcium" ), 1, true );
+            vitamin_mod( vitamin_iron, 1, true );
+            vitamin_mod( vitamin_calcium, 1, true );
             mod_healthy_mod( 5, 50 );
         }
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
@@ -7861,7 +7919,7 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
             warmth = it->get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if( !it->made_of( material_id( "wool" ) ) ) {
+            if( !it->made_of( material_wool ) ) {
                 warmth *= 1.0 - 0.66 * wetness_pct;
             }
             ret[bp] += std::round( warmth );
@@ -7915,27 +7973,27 @@ std::map<bodypart_id, int> Character::bonus_item_warmth() const
 bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
-           has_activity( activity_id( "ACT_WAIT" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
-           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
-           has_activity( activity_id( "ACT_READ" ) ) ||
-           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
-           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
-           has_activity( activity_id( "ACT_FISH" ) ) ||
-           has_activity( activity_id( "ACT_GAME" ) ) ||
-           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
-           has_activity( activity_id( "ACT_HEATING" ) ) ||
-           has_activity( activity_id( "ACT_VIBE" ) ) ||
-           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
-           has_activity( activity_id( "ACT_OPERATION" ) ) ||
-           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
-           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
-           has_activity( activity_id( "ACT_VIEW_RECIPE" ) ) ||
-           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
+           has_activity( ACT_WAIT ) ||
+           has_activity( ACT_WAIT_NPC ) ||
+           has_activity( ACT_WAIT_STAMINA ) ||
+           has_activity( ACT_AUTODRIVE ) ||
+           has_activity( ACT_READ ) ||
+           has_activity( ACT_SOCIALIZE ) ||
+           has_activity( ACT_MEDITATE ) ||
+           has_activity( ACT_FISH ) ||
+           has_activity( ACT_GAME ) ||
+           has_activity( ACT_HAND_CRANK ) ||
+           has_activity( ACT_HEATING ) ||
+           has_activity( ACT_VIBE ) ||
+           has_activity( ACT_TRY_SLEEP ) ||
+           has_activity( ACT_OPERATION ) ||
+           has_activity( ACT_TREE_COMMUNION ) ||
+           has_activity( ACT_EAT_MENU ) ||
+           has_activity( ACT_CONSUME_FOOD_MENU ) ||
+           has_activity( ACT_CONSUME_DRINK_MENU ) ||
+           has_activity( ACT_CONSUME_MEDS_MENU ) ||
+           has_activity( ACT_VIEW_RECIPE ) ||
+           has_activity( ACT_STUDY_SPELL );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
@@ -8578,8 +8636,8 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
 
 bool Character::crush_frozen_liquid( item_location loc )
 {
-    if( has_quality( quality_id( "HAMMER" ) ) ) {
-        item hammering_item = item_with_best_of_quality( quality_id( "HAMMER" ) );
+    if( has_quality( qual_HAMMER ) ) {
+        item hammering_item = item_with_best_of_quality( qual_HAMMER );
         //~ %1$s: item to be crushed, %2$s: hammer name
         if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
                          "<color_red>Be wary of fragile items nearby!</color>" ),
@@ -8770,7 +8828,7 @@ void Character::place_corpse()
             cbm.set_flag( flag_FILTHY );
             cbm.set_flag( flag_NO_STERILE );
             cbm.set_flag( flag_NO_PACKED );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+            cbm.faults.emplace( fault_bionic_salvaged );
             body.put_in( cbm, item_pocket::pocket_type::CORPSE );
         }
     }
@@ -8790,9 +8848,9 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // Q: Why use furn_str_id instead of f_null?
     // TODO: fix it, see above.
-    if( bay.furn( fin ) != furn_str_id( "f_null" ) ) {
+    if( bay.furn( fin ) != furn_f_null ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
-            if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
+            if( bay.furn( p ) == furn_f_null ) {
                 fin.x = p.x;
                 fin.y = p.y;
             }
@@ -9156,7 +9214,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( ( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) &&
-            !has_effect( efftype_id( "sleep" ) ) ) {
+            !has_effect( effect_sleep ) ) {
             add_msg_if_player( _( "You pass out!" ) );
             fall_asleep( time_duration::from_turns( val ) );
         }
@@ -9574,7 +9632,7 @@ int Character::talk_skill() const
     /** @EFFECT_PER slightly increases talking skill */
 
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     return ret;
 }
 
@@ -9979,7 +10037,7 @@ bool Character::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_avatar() && fac->id != faction_id( "no_faction" ) ) {
+    if( fac != nullptr && is_avatar() && fac->id != faction_no_faction ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
         fac->trusts_u -= 1;
@@ -10314,9 +10372,9 @@ std::list<item *> Character::get_radio_items()
 int Character::get_lift_str() const
 {
     int str = get_str();
-    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
+    if( has_trait( trait_STRONGBACK ) ) {
         str *= 1.35;
-    } else if( has_trait( trait_id( "BADBACK" ) ) ) {
+    } else if( has_trait( trait_BADBACK ) ) {
         str /= 1.35;
     }
     return str;
@@ -10443,7 +10501,7 @@ int Character::impact( const int force, const tripoint &p )
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
     // Shock Absorber CBM heavily reduces damage
-    const bool shock_absorbers = has_active_bionic( bionic_id( "bio_shock_absorber" ) );
+    const bool shock_absorbers = has_active_bionic( bio_shock_absorber );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -10721,7 +10779,7 @@ void Character::process_items()
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
             } else if( ups_used < available_charges &&
-                       it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+                       it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
                 ups_used++;
                 it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
@@ -11096,7 +11154,7 @@ void Character::pause()
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
-                practice( skill_id( "driving" ), experience );
+                practice( skill_driving, experience );
                 break;
             }
         }

@@ -21,6 +21,7 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
 #include "output.h"
@@ -30,6 +31,8 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+
+static const flag_id json_flag_CASING( "CASING" );
 
 class pocket_favorite_callback : public uilist_callback
 {
@@ -836,7 +839,6 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
-        static const flag_id json_flag_CASING( "CASING" );
         if( pocket.front().has_flag( json_flag_CASING ) ) {
             for( const item *i : pocket.all_items_top() ) {
                 if( !i->has_flag( json_flag_CASING ) ) {
@@ -1513,8 +1515,7 @@ void item_contents::process( Character *carrier, const tripoint &pos, float insu
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
-        // no reason to check mods, they won't rot
-        if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
