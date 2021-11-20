@@ -20,6 +20,16 @@
 #include "type_id.h"
 #include "visitable.h"
 
+static const trait_id trait_ALBINO( "ALBINO" );
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
+static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
+static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
     for( const auto &e : v ) {
@@ -113,24 +123,24 @@ TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
-        trait_id( "ALBINO" ),
-        trait_id( "ANTIFRUIT" ),
-        trait_id( "ANTIJUNK" ),
-        trait_id( "ANTIWHEAT" ),
+        trait_ALBINO,
+        trait_ANTIFRUIT,
+        trait_ANTIJUNK,
+        trait_ANTIWHEAT,
         //trait_id( "ARM_TENTACLES" ),
         //trait_id( "BEAK" ),
         //trait_id( "CARNIVORE" ),
         //trait_id( "HERBIVORE" ),
         //trait_id( "HOOVES" ),
-        trait_id( "LACTOSE" ),
+        trait_LACTOSE,
         //trait_id( "LEG_TENTACLES" ),
-        trait_id( "MEATARIAN" ),
-        trait_id( "ASTHMA" ),
+        trait_MEATARIAN,
+        trait_ASTHMA,
         //trait_id( "RAP_TALONS" ),
         //trait_id( "TAIL_FLUFFY" ),
         //trait_id( "TAIL_LONG" ),
-        trait_id( "VEGETARIAN" ),
-        trait_id( "WOOLALLERGY" )
+        trait_VEGETARIAN,
+        trait_WOOLALLERGY
     };
     // Prof/scen combinations that need to be checked.
     std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;

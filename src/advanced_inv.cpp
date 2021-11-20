@@ -37,6 +37,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"

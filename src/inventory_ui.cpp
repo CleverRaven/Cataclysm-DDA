@@ -56,6 +56,9 @@
 #include <unordered_map>
 #include <vector>
 
+static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
+static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
 namespace
 {
 
@@ -1511,10 +1514,10 @@ void inventory_selector::add_character_items( Character &character )
     character.visit_items( [ this, &character ]( item * it, item * ) {
         if( it == &character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
-                      &item_category_id( "WEAPON_HELD" ).obj() );
+                      &item_category_WEAPON_HELD.obj() );
         } else if( character.is_worn( *it ) ) {
             add_item( own_gear_column, item_location( character, it ),
-                      &item_category_id( "ITEMS_WORN" ).obj() );
+                      &item_category_ITEMS_WORN.obj() );
         }
         return VisitResponse::NEXT;
     } );
@@ -1523,11 +1526,11 @@ void inventory_selector::add_character_items( Character &character )
         add_items( own_inv_column, [&character]( item * it ) {
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
-        &item_category_id( "ITEMS_WORN" ).obj() );
+        &item_category_ITEMS_WORN.obj() );
         for( item &it_elem : *elem ) {
             item_location parent( character, &it_elem );
-            add_contained_items( parent, own_inv_column,
-                                 &item_category_id( "ITEMS_WORN" ).obj(), get_topmost_parent( nullptr, parent, preset ) );
+            add_contained_items( parent, own_inv_column, &item_category_ITEMS_WORN.obj(),
+                                 get_topmost_parent( nullptr, parent, preset ) );
         }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
@@ -2379,9 +2382,9 @@ void inventory_selector::toggle_categorize_contained()
                 // might have been merged from the map column
                 custom_category = entry->get_category_ptr();
             } else if( &*ancestor == &u.get_wielded_item() ) {
-                custom_category = &item_category_id( "WEAPON_HELD" ).obj();
+                custom_category = &item_category_WEAPON_HELD.obj();
             } else if( u.is_worn( *ancestor ) ) {
-                custom_category = &item_category_id( "ITEMS_WORN" ).obj();
+                custom_category = &item_category_ITEMS_WORN.obj();
             }
             add_entry( own_gear_column, std::move( entry->locations ),
                        /*custom_category=*/custom_category,

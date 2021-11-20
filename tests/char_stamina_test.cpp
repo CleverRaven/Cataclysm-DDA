@@ -13,6 +13,8 @@ static const efftype_id effect_winded( "winded" );
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
+
+static const trait_id trait_BADBACK( "BADBACK" );
 // These test cases cover stamina-related functions in the `Character` class, including:
 //
 // - stamina_move_cost_modifier
@@ -348,8 +350,8 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
         }
 
         WHEN( "they have a bad back" ) {
-            dummy.toggle_trait( trait_id( "BADBACK" ) );
-            REQUIRE( dummy.has_trait( trait_id( "BADBACK" ) ) );
+            dummy.toggle_trait( trait_BADBACK );
+            REQUIRE( dummy.has_trait( trait_BADBACK ) );
 
             THEN( "they feel pain when carrying too much weight" ) {
                 pain_before = dummy.get_pain();
