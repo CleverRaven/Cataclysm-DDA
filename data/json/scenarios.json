@@ -133,7 +133,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "easy" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "description": "You've found some distant safe place, devoid of the living dead.  Looks like you're on your own…",
@@ -195,7 +195,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
     "forced_traits": [ "HAS_NEMESIS" ],
@@ -233,10 +233,10 @@
     "name": "Challenge - Fungal Infection",
     "points": -8,
     "difficulty": [
-      [ "combat", "normal" ],
-      [ "mobility", "normal" ],
+      [ "combat", "hard" ],
+      [ "mobility", "hard" ],
       [ "crafting", "normal" ],
-      [ "environment", "hard" ],
+      [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
     "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
@@ -473,7 +473,7 @@
       [ "combat", "hard" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "hard" ],
+      [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
     "description": "It is the winter after zero hour.  As you were scavenging for food and a warm place to stay at, you heard the sound of lots of movement nearby.",
@@ -500,7 +500,7 @@
     "name": "The Next Summer",
     "points": 0,
     "difficulty": [
-      [ "combat", "normal" ],
+      [ "combat", "very_hard" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
       [ "environment", "hard" ],
@@ -531,10 +531,10 @@
     "name": "Sheltered",
     "points": -3,
     "difficulty": [
-      [ "combat", "normal" ],
+      [ "combat", "hard" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
@@ -571,7 +571,7 @@
     "points": -4,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "normal" ],
+      [ "mobility", "hard" ],
       [ "crafting", "normal" ],
       [ "environment", "hard" ],
       [ "social", "normal" ]
@@ -598,7 +598,7 @@
     "points": -6,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "normal" ],
+      [ "mobility", "hard" ],
       [ "crafting", "normal" ],
       [ "environment", "very_hard" ],
       [ "social", "normal" ]
@@ -624,9 +624,9 @@
     "name": "Challenge - Mi-Go Camp",
     "points": -8,
     "difficulty": [
-      [ "combat", "normal" ],
-      [ "mobility", "normal" ],
-      [ "crafting", "normal" ],
+      [ "combat", "hard" ],
+      [ "mobility", "hard" ],
+      [ "crafting", "hard" ],
       [ "environment", "very_hard" ],
       [ "social", "normal" ]
     ],
@@ -645,7 +645,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "normal" ],
+      [ "crafting", "hard" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -720,9 +720,9 @@
     "points": 2,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "normal" ],
+      [ "mobility", "very_easy" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "very_easy" ],
       [ "social", "normal" ]
     ],
     "description": "While the world was falling apart someone called to order some of Foodplace's delicious food™ and they sent you to do the delivery.  You're not sure about much, but one thing is certain: that delicious food™ is going to get delivered even if that's the last thing you do!",
@@ -761,7 +761,7 @@
     "difficulty": [
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
-      [ "crafting", "normal" ],
+      [ "crafting", "hard" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
     ],
@@ -779,7 +779,7 @@
       [ "combat", "normal" ],
       [ "mobility", "normal" ],
       [ "crafting", "normal" ],
-      [ "environment", "normal" ],
+      [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
@@ -826,9 +826,9 @@
     "name": "Overrun",
     "points": 3,
     "difficulty": [
-      [ "combat", "normal" ],
-      [ "mobility", "normal" ],
-      [ "crafting", "normal" ],
+      [ "combat", "easy" ],
+      [ "mobility", "hard" ],
+      [ "crafting", "easy" ],
       [ "environment", "hard" ],
       [ "social", "normal" ]
     ],
@@ -914,7 +914,7 @@
     "points": -4,
     "difficulty": [
       [ "combat", "normal" ],
-      [ "mobility", "normal" ],
+      [ "mobility", "hard" ],
       [ "crafting", "normal" ],
       [ "environment", "hard" ],
       [ "social", "normal" ]
