@@ -77,7 +77,7 @@
         { "chance": 65, "item": "barbecue", "x": 1, "y": [ 13, 14 ] },
         { "chance": 55, "item": "hand_tools", "x": 3, "y": 5 }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ]} ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "__________----__________",
@@ -184,7 +184,7 @@
       ],
       "place_monster": [
         { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] },
-        { "group": "GROUP_FOOTBALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ]}
+        { "group": "GROUP_FOOTBALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] }
       ],
       "rows": [
         "-.....|...|#_#_#_r_GGggg",
@@ -276,10 +276,7 @@
         { "chance": 45, "item": "trash", "x": 13, "y": 5 },
         { "chance": 45, "item": "trash", "x": 9, "y": 3 }
       ],
-      "place_monster": [
-        { "group": "GROUP_MALL", "x": 14, "y": 13 },
-        { "group": "GROUP_ARCADE", "x": 3, "y": 13 }
-      ],
+      "place_monster": [ { "group": "GROUP_MALL", "x": 14, "y": 13 }, { "group": "GROUP_ARCADE", "x": 3, "y": 13 } ],
       "rows": [
         "-.....|...|#_#_#_r_GGggg",
         "-....l|..{|#_#_#_r_Ggggg",
@@ -372,10 +369,10 @@
         { "chance": 45, "item": "hardware", "x": 1, "y": [ 13, 14 ] }
       ],
       "place_monster": [
-	                     { "monster": "mon_zombie_technician", "x": 13, "y": 15 },
-	                     { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] },
-                         { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] }
-					],
+        { "monster": "mon_zombie_technician", "x": 13, "y": 15 },
+        { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] },
+        { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] }
+      ],
       "rows": [
         "-.........|#_#_#_r_GGggg",
         "-&...bb...|#_#_#_r_Ggggg",
@@ -656,8 +653,8 @@
         { "chance": 5, "item": "guns_pistol_common", "x": 10, "y": 19 }
       ],
       "place_monster": [
-        { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] },
-        { "group": "GROUP_FOOTBALL", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] }
+        { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] },
+        { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] }
       ],
       "place_toilets": [ { "x": 2, "y": 22 }, { "x": 4, "y": 22 }, { "x": 6, "y": 22 }, { "x": 8, "y": 22 } ],
       "rows": [
@@ -769,7 +766,7 @@
         { "chance": 3, "item": "trash", "x": 22, "y": 7 },
         { "chance": 3, "item": "trash", "x": 9, "y": 7 }
       ],
-      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssss.BB.............",
@@ -821,7 +818,7 @@
     "object": {
       "place_item": [ { "item": "football", "repeat": 1, "x": 19, "y": 6 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
-      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -859,7 +856,7 @@
     "object": {
       "furniture": { ".": "f_null" },
       "place_items": [ { "chance": 4, "item": "trash", "x": 4, "y": 12 } ],
-      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -920,7 +917,7 @@
         { "chance": 4, "item": "sports", "x": 3, "y": 19 },
         { "chance": 4, "item": "sports", "x": 4, "y": 17 }
       ],
-      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "________________________",
         "________________________",
@@ -1042,7 +1039,7 @@
         { "chance": 3, "item": "bowling_food", "x": 22, "y": 15 },
         { "chance": 3, "item": "bowling_food", "x": 17, "y": 15 }
       ],
-      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "place_toilets": [
         { "x": 5, "y": 4 },
         { "x": 7, "y": 4 },
@@ -1145,7 +1142,7 @@
         { "chance": 2, "item": "bowling_food", "x": 18, "y": 4 },
         { "chance": 2, "item": "bar_food", "x": 17, "y": 19 }
       ],
-      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ggggG_r_#_#_#|...|.....-",
         "gggGG_r_#_#_#|...|.....-",
@@ -1236,7 +1233,7 @@
         { "chance": 2, "item": "bowling_food", "x": 18, "y": 6 },
         { "chance": 2, "item": "bowling_food", "x": 18, "y": 4 }
       ],
-      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ggggG_r_#_#_#R...|o..Ct-",
         "gggGG_r_#_#_#R{..|....t-",
@@ -1328,7 +1325,7 @@
         { "chance": 2, "item": "shoes", "x": 4, "y": 19 },
         { "chance": 2, "item": "shoes", "x": 4, "y": 15 }
       ],
-      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1 , 23 ], "y": [ 1 , 23 ], "repeat": [ 4, 10 ] } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "place_toilets": [ { "x": 18, "y": 2 }, { "x": 22, "y": 2 } ],
       "rows": [
         "ggggG_R_b_b_b|.........-",
