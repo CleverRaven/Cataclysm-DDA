@@ -61,6 +61,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"

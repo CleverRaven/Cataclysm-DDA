@@ -25,6 +25,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "output.h"
 #include "point.h"

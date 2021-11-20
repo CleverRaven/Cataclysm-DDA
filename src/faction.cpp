@@ -25,6 +25,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"

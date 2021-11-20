@@ -16,6 +16,7 @@
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "string_formatter.h"

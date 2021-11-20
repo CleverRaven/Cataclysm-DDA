@@ -18,6 +18,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "npc.h"
 #include "output.h"

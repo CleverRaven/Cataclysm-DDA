@@ -31,6 +31,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"

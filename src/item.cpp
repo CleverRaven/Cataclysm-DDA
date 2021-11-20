@@ -61,6 +61,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"

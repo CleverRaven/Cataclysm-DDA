@@ -36,6 +36,7 @@
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

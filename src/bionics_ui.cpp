@@ -19,6 +19,7 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
+#include "localized_comparator.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
