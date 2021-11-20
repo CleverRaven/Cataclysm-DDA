@@ -880,7 +880,7 @@
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 50 ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "rag", 52 ] ] ]
   },
   {
