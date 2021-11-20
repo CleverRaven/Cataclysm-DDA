@@ -566,7 +566,7 @@ Using `place_monsters` to spawn a group of monsters works in a similar fashion t
 |--|--|
 | monster | The ID of the monster group that you wish to spawn |
 | x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
-| chance      | Represents a 1 in N chance that the entire group will spawn. This is all or nothing. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns
+| chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
 | repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
 | density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
