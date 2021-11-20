@@ -19,6 +19,8 @@ static const butchery_requirements_id butchery_requirements_default( "default" )
 
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
+static const skill_id skill_survival( "survival" );
+
 namespace
 {
 generic_factory<harvest_drop_type> harvest_drop_type_factory( "harvest_drop_type" );
@@ -121,7 +123,7 @@ void harvest_drop_type::load( const JsonObject &jo, const std::string & )
     } else if( jo.has_member( "harvest_skills" ) ) {
         optional( jo, was_loaded, "harvest_skills", harvest_skills );
     } else {
-        harvest_skills.emplace_back( skill_id( "survival" ) );
+        harvest_skills.emplace_back( skill_survival );
     }
 }
 
