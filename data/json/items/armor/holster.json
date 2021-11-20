@@ -323,7 +323,43 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+  },
+  {
+    "id": "bbholster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "belly band holster" },
+    "description": "A wide elastic belly belt with a built-in holster for pistols and a cartridge.  It is very awkward to use without practice.  Activate to holster/draw a gun.",
+    "weight": "240 g",
+    "volume": "750 ml",
+    "price_postapoc": 500,
+    "material": [ "lycra" ],
+    "warmth": 5,
+    "sided": false,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "150 ml",
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
+        "moves": 240
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 60,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
     "id": "XL_holster",

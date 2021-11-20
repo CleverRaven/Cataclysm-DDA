@@ -363,6 +363,7 @@
       [ "holster", 8 ],
       [ "bootstrap", 3 ],
       [ "bholster", 5 ],
+      [ "bbholster", 4 ],
       [ "legpouch", 4 ],
       [ "legpouch_large", 2 ],
       [ "chestpouch", 3 ],

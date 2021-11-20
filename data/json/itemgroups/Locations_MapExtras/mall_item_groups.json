@@ -318,6 +318,7 @@
       [ "scarf_long", 5 ],
       [ "knit_scarf", 10 ],
       [ "long_knit_scarf", 5 ],
+      [ "bellyband", 5 ],
       [ "barrette", 5 ],
       [ "eyedrops", 35 ],
       { "item": "candle", "prob": 50, "charges": 100 },
