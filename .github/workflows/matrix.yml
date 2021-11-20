@@ -66,6 +66,15 @@ jobs:
         native: [linux64]
 
         include:
+          - compiler: g++-9
+            os: ubuntu-latest
+            sanitize: undefined
+            test-stage: 1
+            release: 1
+            gold: 1
+            lto: 1
+            title: Basic Build and Test (GCC 9, Curses, LTO)
+
           - compiler: clang++-12
             os: ubuntu-latest
             sanitize: address
