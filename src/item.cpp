@@ -874,21 +874,27 @@ body_part_set item::get_covered_body_parts( const side s ) const
 namespace
 {
 
-const std::array<bodypart_str_id, 4> left_side_parts{ {
-        body_part_arm_l,
-        body_part_hand_l,
-        body_part_leg_l,
-        body_part_foot_l
-    }
-};
+const std::array<bodypart_str_id, 4> &left_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_l,
+            body_part_hand_l,
+            body_part_leg_l,
+            body_part_foot_l
+        } };
+    return result;
+}
 
-const std::array<bodypart_str_id, 4> right_side_parts{ {
-        body_part_arm_r,
-        body_part_hand_r,
-        body_part_leg_r,
-        body_part_foot_r
-    }
-};
+const std::array<bodypart_str_id, 4> &right_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_r,
+            body_part_hand_r,
+            body_part_leg_r,
+            body_part_foot_r
+        } };
+    return result;
+}
 
 } // namespace
 
@@ -940,7 +946,7 @@ void item::iterate_covered_body_parts_internal( const side s,
 
     // If we are querying for only one side of the body, we ignore coverage
     // for parts on the opposite side of the body.
-    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts() : left_side_parts();
 
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
