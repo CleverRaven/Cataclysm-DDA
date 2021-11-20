@@ -1,0 +1,44 @@
+[
+  {
+    "name": "GROUP_EGG_BIRD_WILD",
+    "type": "monstergroup",
+    "default": "mon_guinea_fowl_chick",
+    "monsters": [
+      { "monster": "mon_guinea_fowl_chick", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_rhea_chick", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
+	  { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_GUINEA_FOWL",
+    "type": "monstergroup",
+    "default": "mon_guinea_fowl_chick",
+    "monsters": [ { "monster": "mon_guinea_fowl_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_GOOSE",
+    "type": "monstergroup",
+    "default": "mon_goose_chick",
+    "monsters": [ { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_GOOSE_GOLD",
+    "type": "monstergroup",
+    "default": "mon_goose_golden_chick",
+    "monsters": [ { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_QUAIL",
+    "type": "monstergroup",
+    "default": "mon_quail_chick",
+    "monsters": [ { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_RHEA",
+    "type": "monstergroup",
+    "default": "mon_rhea_chick",
+    "monsters": [ { "monster": "mon_rhea_chick", "freq": 100, "cost_multiplier": 1 } ]
+  }
+]
