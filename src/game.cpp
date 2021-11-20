@@ -1619,6 +1619,9 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         if( it.is_medication() && !you.can_use_heal_item( it ) ) {
             return hint_rating::cant;
         }
+        if( it.is_comestible() && it.is_frozen_liquid() ) {
+            return hint_rating::cant;
+        }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
         return hint_rating::iffy;
     } else if( it.type->has_use() ) {
