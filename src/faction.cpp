@@ -41,6 +41,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+
 namespace npc_factions
 {
 std::vector<faction_template> all_templates;
@@ -385,7 +390,7 @@ void faction_manager::clear()
 
 void faction_manager::remove_faction( const faction_id &id )
 {
-    if( id.str().empty() || id == faction_id( "no_faction" ) ) {
+    if( id.str().empty() || id == faction_no_faction ) {
         return;
     }
     for( auto it = factions.cbegin(), next_it = it; it != factions.cend(); it = next_it ) {
@@ -425,7 +430,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     if( id.is_null() ) {
-        return get( faction_id( "no_faction" ) );
+        return get( faction_no_faction );
     }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -592,7 +597,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
     bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
@@ -865,7 +869,7 @@ void faction_manager::display() const
         }
         valfac.clear();
         for( const auto &elem : g->faction_manager_ptr->all() ) {
-            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
+            if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
                 valfac.push_back( &elem.second );
             }
         }

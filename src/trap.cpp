@@ -21,6 +21,8 @@
 #include "rng.h"
 #include "string_formatter.h"
 
+static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
+
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -48,6 +50,8 @@ const trap_str_id tr_snake( "tr_snake" );
 const trap_str_id tr_telepad( "tr_telepad" );
 const trap_str_id tr_temple_flood( "tr_temple_flood" );
 const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
+
+static const update_mapgen_id update_mapgen_none( "none" );
 
 namespace
 {
@@ -147,7 +151,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
-    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_id( "none" ) );
+    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_none );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -228,7 +232,7 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    static const flag_id sonar_detectable = flag_id( "SONAR_DETECTABLE" );
+    static const flag_id sonar_detectable = json_flag_SONAR_DETECTABLE;
     return has_flag( sonar_detectable );
 }
 

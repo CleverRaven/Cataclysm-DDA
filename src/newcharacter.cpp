@@ -78,6 +78,8 @@ static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
+static const string_id<scenario> scenario_wilderness( "wilderness" );
+
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -355,8 +357,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         }
         set_scenario( random_entry( scenarios ) );
     } else if( !cities_enabled ) {
-        static const string_id<scenario> wilderness_only_scenario( "wilderness" );
-        set_scenario( &wilderness_only_scenario.obj() );
+        set_scenario( &scenario_wilderness.obj() );
     }
 
     prof = get_scenario()->weighted_random_profession();

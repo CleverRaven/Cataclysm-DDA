@@ -84,8 +84,21 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_autumn( "foraging_faction_camp_autumn" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_spring( "foraging_faction_camp_spring" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_summer( "foraging_faction_camp_summer" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_winter( "foraging_faction_camp_winter" );
+static const item_group_id Item_spawn_data_forest( "forest" );
+static const item_group_id
+Item_spawn_data_gathering_faction_base_camp_firewood( "gathering_faction_base_camp_firewood" );
+
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_makeshift_sling( "makeshift_sling" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
 static const mtype_id mon_bear( "mon_bear" );
@@ -135,6 +148,11 @@ static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_N_1( "faction_wall_level_N_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_S_1( "faction_wall_level_S_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_W_1( "faction_wall_level_W_1" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
@@ -2774,22 +2792,22 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 
     item_group_id itemlist( "forest" );
     if( task == "_faction_camp_firewood" ) {
-        itemlist = item_group_id( "gathering_faction_base_camp_firewood" );
+        itemlist = Item_spawn_data_gathering_faction_base_camp_firewood;
     } else if( task == "_faction_camp_gathering" ) {
         itemlist = get_gatherlist();
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = item_group_id( "foraging_faction_camp_spring" );
+                itemlist = Item_spawn_data_foraging_faction_camp_spring;
                 break;
             case SUMMER:
-                itemlist = item_group_id( "foraging_faction_camp_summer" );
+                itemlist = Item_spawn_data_foraging_faction_camp_summer;
                 break;
             case AUTUMN:
-                itemlist = item_group_id( "foraging_faction_camp_autumn" );
+                itemlist = Item_spawn_data_foraging_faction_camp_autumn;
                 break;
             case WINTER:
-                itemlist = item_group_id( "foraging_faction_camp_winter" );
+                itemlist = Item_spawn_data_foraging_faction_camp_winter;
                 break;
             default:
                 debugmsg( "Invalid season" );
@@ -2813,10 +2831,10 @@ void basecamp::fortifications_return()
         update_mapgen_id build_s{ "faction_wall_level_S_0" };
         update_mapgen_id build_w{ "faction_wall_level_W_0" };
         if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
-            build_n = update_mapgen_id( "faction_wall_level_N_1" );
-            build_e = update_mapgen_id( "faction_wall_level_E_1" );
-            build_s = update_mapgen_id( "faction_wall_level_S_1" );
-            build_w = update_mapgen_id( "faction_wall_level_W_1" );
+            build_n = update_mapgen_faction_wall_level_N_1;
+            build_e = update_mapgen_faction_wall_level_E_1;
+            build_s = update_mapgen_faction_wall_level_S_1;
+            build_w = update_mapgen_faction_wall_level_W_1;
         }
         update_mapgen_id build_first = build_e;
         update_mapgen_id build_second = build_w;
@@ -3574,7 +3592,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_total_capacity();
+    units::volume sack_v = item( itype_makeshift_sling ).get_total_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
@@ -3832,7 +3850,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
         itemlist = item_group_id( "gathering_" + bldg );
     } else {
-        itemlist = item_group_id( "forest" );
+        itemlist = Item_spawn_data_forest;
     }
     std::string output;
 

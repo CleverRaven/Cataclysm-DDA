@@ -92,6 +92,10 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
 
@@ -577,8 +581,8 @@ void game::chat()
     const int guard_count = guards.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
-        !( player_character.is_wearing( itype_id( "foodperson_mask" ) ) ||
-           player_character.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        !( player_character.is_wearing( itype_foodperson_mask ) ||
+           player_character.is_wearing( itype_foodperson_mask_on ) ) ) {
         add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -1025,7 +1029,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                                  "medication or sedation wears off.\nYou estimate it will wear "
                                  "off in %2$s." ),
                               actor( true )->disp_name(),
-                              to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
+                              to_string_approx( player_character.estimate_effect_dur( skill_firstaid,
                                                 effect_narcosis, 90_minutes, 60_minutes, 6,
                                                 *actor( true )->get_npc() ) ) );
     }
