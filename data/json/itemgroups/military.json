@@ -293,6 +293,7 @@
       { "item": "survnote", "prob": 1 },
       { "item": "rm11b_sniper_rifle", "prob": 1 },
       { "item": "shoulder_strap", "prob": 16 },
+      { "item": "single_sling", "prob": 16 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "l-stick", "prob": 1 },

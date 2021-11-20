@@ -73,9 +73,12 @@ static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_mending( "mending" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+
+static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -860,7 +863,6 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
         nc_color color = c_light_red;
 
         if( u.worn_with_flag( json_flag_SPLINT,  bp ) ) {
-            static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
@@ -1054,6 +1056,10 @@ std::pair<std::string, nc_color> display::thirst_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
 {
+    // NPCs who do not need food have no hunger
+    if( !u.needs_food() ) {
+        return std::make_pair( _( "Without Hunger" ), c_white );
+    }
     // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
     // like all of the effect_* string_id variables which are const string_id, then it fails to
     // initialize the array with tuples successfully complaining that
@@ -1582,9 +1588,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
-    if( u.get_focus() < u.calc_focus_equilibrium() ) {
+    if( u.calc_focus_change() > 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
+    } else if( u.calc_focus_change() < 0 ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
 
@@ -2444,7 +2450,7 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     behavior::tree needs;
-    needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
+    needs.add( &behavior__node_t_npc_needs.obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)

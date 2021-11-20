@@ -100,6 +100,31 @@ static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
+static const faction_id faction_amf( "amf" );
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const item_group_id Item_spawn_data_guns_pistol_common( "guns_pistol_common" );
+static const item_group_id Item_spawn_data_guns_rifle_common( "guns_rifle_common" );
+static const item_group_id Item_spawn_data_guns_shotgun_common( "guns_shotgun_common" );
+static const item_group_id Item_spawn_data_guns_smg_common( "guns_smg_common" );
+static const item_group_id Item_spawn_data_npc_eyes( "npc_eyes" );
+static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" );
+static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
+static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
+
+static const mfaction_str_id monfaction_bee( "bee" );
+static const mfaction_str_id monfaction_human( "human" );
+static const mfaction_str_id monfaction_player( "player" );
+
+static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
+static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
+static const overmap_location_str_id overmap_location_source_of_drink( "source_of_drink" );
+static const overmap_location_str_id overmap_location_source_of_food( "source_of_food" );
+static const overmap_location_str_id overmap_location_source_of_guns( "source_of_guns" );
+static const overmap_location_str_id overmap_location_source_of_safety( "source_of_safety" );
+static const overmap_location_str_id overmap_location_source_of_weapons( "source_of_weapons" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -844,7 +869,7 @@ faction_id npc::get_fac_id() const
 faction *npc::get_faction() const
 {
     if( !my_fac ) {
-        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+        return g->faction_manager_ptr->get( faction_no_faction );
     }
     return my_fac;
 }
@@ -907,7 +932,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-        ret.push_back( random_item_from( type, "glasses", item_group_id( "npc_eyes" ) ) );
+        ret.push_back( random_item_from( type, "glasses", Item_spawn_data_npc_eyes ) );
         ret.push_back( random_item_from( type, "hat" ) );
         ret.push_back( random_item_from( type, "scarf" ) );
         ret.push_back( random_item_from( type, "storage" ) );
@@ -1146,23 +1171,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        set_wielded_item( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
+        set_wielded_item( random_item_from( type, "stabbing", Item_spawn_data_survivor_stabbing ) );
     } else if( best == skill_bashing ) {
-        set_wielded_item( random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) ) );
+        set_wielded_item( random_item_from( type, "bashing", Item_spawn_data_survivor_bashing ) );
     } else if( best == skill_cutting ) {
-        set_wielded_item( random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) ) );
+        set_wielded_item( random_item_from( type, "cutting", Item_spawn_data_survivor_cutting ) );
     } else if( best == skill_throw ) {
         set_wielded_item( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
         set_wielded_item( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        set_wielded_item( random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) ) );
+        set_wielded_item( random_item_from( type, "pistol", Item_spawn_data_guns_pistol_common ) );
     } else if( best == skill_shotgun ) {
-        set_wielded_item( random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) ) );
+        set_wielded_item( random_item_from( type, "shotgun", Item_spawn_data_guns_shotgun_common ) );
     } else if( best == skill_smg ) {
-        set_wielded_item( random_item_from( type, "smg", item_group_id( "guns_smg_common" ) ) );
+        set_wielded_item( random_item_from( type, "smg", Item_spawn_data_guns_smg_common ) );
     } else if( best == skill_rifle ) {
-        set_wielded_item( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
+        set_wielded_item( random_item_from( type, "rifle", Item_spawn_data_guns_rifle_common ) );
     }
     item &weapon = get_wielded_item();
     if( weapon.is_gun() ) {
@@ -1604,7 +1629,7 @@ void npc::mutiny()
     my_fac->respects_u -= 5;
     my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
-    set_fac( faction_id( "amf" ) );
+    set_fac( faction_amf );
     job.clear_all_priorities();
     if( assigned_camp ) {
         assigned_camp = cata::nullopt;
@@ -1682,7 +1707,7 @@ void npc::make_angry()
     }
 
     // Make associated faction, if any, angry at the player too.
-    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
+    if( my_fac && my_fac->id != faction_no_faction && my_fac->id != faction_amf ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
         my_fac->trusts_u = std::min( -15, my_fac->trusts_u - 5 );
@@ -2059,9 +2084,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ||
-        it.made_of( phase_id::LIQUID ) ) {
-        // NPCs won't be interested in buying active explosives or spilled liquids
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        // NPCs won't be interested in buying active explosives
         return -1000;
     }
 
@@ -2272,7 +2296,7 @@ bool npc::is_ally( const Character &p ) const
         return true;
     }
     if( p.is_avatar() ) {
-        if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
+        if( my_fac && my_fac->id == faction_your_followers ) {
             return true;
         }
         if( faction_api_version < 2 ) {
@@ -3056,6 +3080,15 @@ void npc::on_load()
             }
         }
     };
+    const auto advance_focus = [this]( const int minutes ) {
+        // scale to match focus_pool magnitude
+        const int equilibrium = 1000 * focus_equilibrium_fatigue_cap( calc_focus_equilibrium() );
+        const double focus_ratio = std::pow( 0.99, minutes );
+        // Approximate new focus pool, every minute focus_pool contributes 99%, the remainder comes from equilibrium
+        // This is pretty accurate as long as the equilibrium doesn't change too much during the period
+        focus_pool = static_cast<int>( focus_ratio * focus_pool + ( 1 - focus_ratio ) * equilibrium );
+    };
+
     // Cap at some reasonable number, say 2 days
     const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
@@ -3066,14 +3099,19 @@ void npc::on_load()
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
         advance_effects( 30_minutes );
+        advance_focus( 30 );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
         update_body( cur, cur + 5_minutes );
         advance_effects( 5_minutes );
+        advance_focus( 5 );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
         update_body( cur, cur + 1_turns );
         process_effects();
+        if( ( cur - calendar::turn_zero ) % 1_minutes == 0_turns ) {
+            update_mental_focus();
+        }
     }
 
     if( dt > 0_turns ) {
@@ -3193,13 +3231,13 @@ bool npc::invoke_item( item *used )
 
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
-        { "need_none", overmap_location_str_id( "source_of_anything" ) },
-        { "need_ammo", overmap_location_str_id( "source_of_ammo" ) },
-        { "need_weapon", overmap_location_str_id( "source_of_weapons" )},
-        { "need_gun", overmap_location_str_id( "source_of_guns" ) },
-        { "need_food", overmap_location_str_id( "source_of_food" )},
-        { "need_drink", overmap_location_str_id( "source_of_drink" ) },
-        { "need_safety", overmap_location_str_id( "source_of_safety" ) }
+        { "need_none", overmap_location_source_of_anything },
+        { "need_ammo", overmap_location_source_of_ammo },
+        { "need_weapon", overmap_location_source_of_weapons},
+        { "need_gun", overmap_location_source_of_guns },
+        { "need_food", overmap_location_source_of_food},
+        { "need_drink", overmap_location_source_of_drink },
+        { "need_safety", overmap_location_source_of_safety }
     }
 };
 
@@ -3305,20 +3343,15 @@ mfaction_id npc::get_monster_faction() const
     }
 
     // legacy checks
-    // Those can't be static int_ids, because mods add factions
-    static const string_id<monfaction> human_fac( "human" );
-    static const string_id<monfaction> player_fac( "player" );
-    static const string_id<monfaction> bee_fac( "bee" );
-
     if( is_player_ally() ) {
-        return player_fac.id();
+        return monfaction_player.id();
     }
 
     if( has_trait( trait_BEE ) ) {
-        return bee_fac.id();
+        return monfaction_bee.id();
     }
 
-    return human_fac.id();
+    return monfaction_human.id();
 }
 
 std::string npc::extended_description() const
@@ -3688,11 +3721,19 @@ std::string npc::describe_mission() const
 std::string npc::name_and_activity() const
 {
     if( current_activity_id ) {
-        const std::string activity_name = current_activity_id.obj().verb().translated();
         //~ %1$s - npc name, %2$s - npc current activity name.
-        return string_format( _( "%1$s (%2$s)" ), get_name(), activity_name );
+        return string_format( _( "%1$s (%2$s)" ), get_name(), get_current_activity() );
     } else {
         return get_name();
+    }
+}
+
+std::string npc::get_current_activity() const
+{
+    if( current_activity_id ) {
+        return current_activity_id.obj().verb().translated();
+    } else {
+        return _( "nothing" );
     }
 }
 

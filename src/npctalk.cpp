@@ -72,6 +72,7 @@
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "veh_type.h"
@@ -91,6 +92,10 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
 
@@ -576,8 +581,8 @@ void game::chat()
     const int guard_count = guards.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
-        !( player_character.is_wearing( itype_id( "foodperson_mask" ) ) ||
-           player_character.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        !( player_character.is_wearing( itype_foodperson_mask ) ||
+           player_character.is_wearing( itype_foodperson_mask_on ) ) ) {
         add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -1024,7 +1029,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                                  "medication or sedation wears off.\nYou estimate it will wear "
                                  "off in %2$s." ),
                               actor( true )->disp_name(),
-                              to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
+                              to_string_approx( player_character.estimate_effect_dur( skill_firstaid,
                                                 effect_narcosis, 90_minutes, 60_minutes, 6,
                                                 *actor( true )->get_npc() ) ) );
     }
@@ -1544,7 +1549,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
             if( guy->current_activity_id ) {
-                activity_name = guy->current_activity_id.obj().verb().translated();
+                activity_name = guy->get_current_activity();
             } else {
                 activity_name = _( "doing this and that" );
             }
@@ -3164,7 +3169,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 
     int volume;
     mandatory( jo, false, "volume", volume );
-
+    bool snippet = jo.get_bool( "snippet", false );
+    bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -3201,10 +3207,29 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
         global = target_obj.get_bool( "global", false );
         target_var = get_talk_varname( target_obj, "value" );
     }
-    function = [is_npc, message, volume, type, target_var, global]( const dialogue & d ) {
+    function = [is_npc, message, volume, type, target_var, global, snippet,
+            same_snippet]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, _( message ) );
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
+        }
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
     };
 }
 

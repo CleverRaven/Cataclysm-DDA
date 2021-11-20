@@ -105,6 +105,7 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_music( "music" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
@@ -120,8 +121,13 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+static const mutation_category_id mutation_category_ELFA( "ELFA" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const quality_id qual_DIG( "DIG" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -130,6 +136,7 @@ static const skill_id skill_traps( "traps" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
@@ -138,6 +145,10 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -1221,11 +1232,11 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
-    if( here.tr_at( pos ).id == trap_str_id( "tr_firewood_source" ) ) {
+    if( here.tr_at( pos ).id == tr_firewood_source ) {
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_id( "SOURCE_FIREWOOD" ), here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -2300,7 +2311,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         spell_text = sp_id.obj().name.translated();
-        if( pc.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
             if( pc.magic->knows_spell( sp_id ) ) {
@@ -2327,7 +2338,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return cata::nullopt;
     }
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         p.add_msg_if_player( _( "You can't read." ) );
         return cata::nullopt;
     }
@@ -3867,7 +3878,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
         }
     }
 
-    const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
+    const bool has_shovel = p.has_quality( qual_DIG, 3 );
     const bool is_diggable = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
@@ -4259,9 +4270,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 
-    if( m_category.id == mutation_category_id( "CHIMERA" ) ) {
+    if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == mutation_category_id( "ELFA" ) ) {
+    } else if( m_category.id == mutation_category_ELFA ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
@@ -4663,7 +4674,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, false, scent_mod );
+    p.add_effect( effect_masked_scent, duration, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );

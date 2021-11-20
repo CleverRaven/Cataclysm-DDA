@@ -715,6 +715,8 @@ class Character : public Creature, public visitable
         void update_body( const time_point &from, const time_point &to );
         /** Updates the stomach to give accurate hunger messages */
         void update_stomach( const time_point &from, const time_point &to );
+        /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
+        bool needs_food() const;
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates() const;
@@ -740,6 +742,15 @@ class Character : public Creature, public visitable
 
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
+
+        /** Returns focus equilibrium cap due to fatigue **/
+        int focus_equilibrium_fatigue_cap( int equilibrium ) const;
+        /** Uses morale and other factors to return the character's focus target goto value */
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the character's current focus */
+        void update_mental_focus();
 
         /** Resets the value of all bonus fields to 0. */
         void reset_bonuses() override;

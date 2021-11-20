@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
 #include "output.h"
@@ -859,12 +860,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
+        std::vector<std::pair<std::string, int>> fmts;
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( n_gettext( "<num> round of %s",
-                                                   "<num> rounds of %s", ammo_capacity( at ) ),
-                                                   at->name() );
-            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
-                               ammo_capacity( at ) );
+            int capacity = ammo_capacity( at );
+            fmts.emplace_back( string_format( n_gettext( "<num> round of %s",
+                                              "<num> rounds of %s", capacity ),
+                                              at->name() ),
+                               capacity );
+        }
+        std::sort( fmts.begin(), fmts.end(), localized_compare );
+        for( const std::pair<std::string, int> &fmt : fmts ) {
+            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt.first, iteminfo::no_flags,
+                               fmt.second );
         }
     }
 

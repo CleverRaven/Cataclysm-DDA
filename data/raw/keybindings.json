@@ -3093,7 +3093,6 @@
     "category": "INVENTORY",
     "name": "Next column",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "TAB" },
       { "input_method": "keyboard_any", "key": "h" },
       { "input_method": "keyboard_any", "key": "LEFT" },
       { "input_method": "keyboard_any", "key": "4" },

@@ -97,6 +97,8 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -877,7 +879,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
-    const bool has_debug_vision = you.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :

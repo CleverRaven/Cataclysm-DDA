@@ -221,7 +221,7 @@
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "disassembly",
+    "verb": "disassembling",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",

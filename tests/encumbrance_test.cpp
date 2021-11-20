@@ -11,6 +11,8 @@
 #include "npc.h"
 #include "type_id.h"
 
+static const flag_id json_flag_UNDERSIZE( "UNDERSIZE" );
+
 static void test_encumbrance_on(
     Character &p,
     const std::vector<item> &clothing,
@@ -114,7 +116,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
-    i.set_flag( flag_id( "UNDERSIZE" ) );
+    i.set_flag( json_flag_UNDERSIZE );
     test_encumbrance_items( { i }, "torso", longshirt_e * 3 );
 }
 
@@ -125,7 +127,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "torso", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( flag_id( "UNDERSIZE" ) );
+        i.set_flag( json_flag_UNDERSIZE );
         test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

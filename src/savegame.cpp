@@ -39,6 +39,8 @@
 
 class overmap_connection;
 
+static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
+
 #if defined(__ANDROID__)
 #include "input.h"
 
@@ -578,7 +580,7 @@ void overmap::unserialize( std::istream &fin )
             // Legacy data, superceded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
-                connections_out[string_id<overmap_connection>( "local_road" )];
+                connections_out[overmap_connection_local_road];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
