@@ -922,8 +922,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                                 iVal = i.dUnitAdjustedVal;
                                 kVal = k.dUnitAdjustedVal;
                             }
-                            if( iVal > kVal - .1 &&
-                                iVal < kVal + .1 ) {
+                            if( iVal > kVal - .01 &&
+                                iVal < kVal + .01 ) {
                                 thisColor = c_light_gray;
                             } else if( iVal > kVal ) {
                                 if( i.bLowerIsBetter ) {

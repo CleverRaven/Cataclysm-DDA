@@ -856,8 +856,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
     if( data->ammo_restriction.empty() ) {
-        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
-        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
+        info.push_back( vol_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "Volume: " ),
+                                     volume_capacity(), 2, false ) );
+        info.push_back( weight_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "  Weight: " ),
+                                        weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
         std::vector<std::pair<std::string, int>> fmts;
@@ -870,33 +872,36 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         }
         std::sort( fmts.begin(), fmts.end(), localized_compare );
         for( const std::pair<std::string, int> &fmt : fmts ) {
-            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt.first, iteminfo::no_flags,
+            info.emplace_back( string_format( "{%d}MAGAZINE", pocket_number ), _( "Holds: " ), fmt.first,
+                               iteminfo::no_flags,
                                fmt.second );
         }
     }
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;
-        info.emplace_back( "BASE", _( "Maximum item length: " ),
+        info.emplace_back( string_format( "{%d}BASE", pocket_number ), _( "Maximum item length: " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
                            iteminfo::no_flags,
                            convert_length( data->max_item_length ), data->max_item_length.value() );
     }
 
     if( data->min_item_volume > 0_ml ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Minimum item volume: <neutral>%s</neutral>" ),
-                                          vol_to_string( data->min_item_volume ) ) );
+        std::string fmt = string_format( "<num> %s", volume_units_abbr() );
+        info.emplace_back( string_format( "{%d}BASE", pocket_number ), _( "Minimum item volume: " ), fmt,
+                           iteminfo::lower_is_better | iteminfo::is_three_decimal,
+                           convert_volume( data->min_item_volume.value(), nullptr ), data->min_item_volume.value() );
     }
 
     if( data->max_item_volume ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Maximum item volume: <neutral>%s</neutral>" ),
-                                          vol_to_string( *data->max_item_volume ) ) );
+        std::string fmt = string_format( "<num> %s", volume_units_abbr() );
+        info.emplace_back( string_format( "{%d}BASE", pocket_number ), _( "Maximum item volume: " ), fmt,
+                           iteminfo::is_three_decimal, convert_volume( data->max_item_volume.value().value(), nullptr ),
+                           data->max_item_volume.value().value() );
     }
 
-    info.emplace_back( "BASE", _( "Base moves to remove item: " ), "<num>",
-                       iteminfo::lower_is_better, data->moves );
+    info.emplace_back( string_format( "{%d}BASE", pocket_number ), _( "Base moves to remove item: " ),
+                       "<num>", iteminfo::lower_is_better, data->moves );
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
@@ -982,16 +987,22 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity
-        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
-        info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
+        info.emplace_back( vol_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "Volume: " ),
+                                        contains_volume() ) );
+        info.emplace_back( vol_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( " of " ),
+                                        volume_capacity() ) );
         info.back().bNewLine = true;
-        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
-        info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+        info.emplace_back( weight_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "Weight: " ),
+                                           contains_weight() ) );
+        info.emplace_back( weight_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( " of " ),
+                                           weight_capacity() ) );
     } else {
         // With ammo_restriction, total capacity does not matter, but show current volume/weight
-        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.emplace_back( vol_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "Volume: " ),
+                                        contains_volume() ) );
         info.back().bNewLine = true;
-        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+        info.emplace_back( weight_to_info( string_format( "{%d}CONTAINER", pocket_number ), _( "Weight: " ),
+                                           contains_weight() ) );
     }
 
     bool contents_header = false;
@@ -1006,7 +1017,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
             info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
-            info.emplace_back( vol_to_info( "CONTAINER", description + space,
+            info.emplace_back( vol_to_info( string_format( "{%d}CONTAINER", pocket_number ),
+                                            description + space,
                                             contents_item.volume() ) );
         } else {
             info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),

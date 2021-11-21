@@ -3088,30 +3088,32 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 }
                 if( piece.second.active ) {
                     const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
-                    info.emplace_back( "ARMOR",
-                                       string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                    const std::string bp_name = piece.second.to_display.translated();
+                    const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+                    info.emplace_back( bp_cat,
+                                       string_format( _( "%s:" ), bp_name ) + space, "",
                                        ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
                     if( has_max ) {
-                        info.emplace_back( "ARMOR", when_full_message, "",
+                        info.emplace_back( bp_cat, when_full_message, "",
                                            iteminfo::no_flags | iteminfo::lower_is_better,
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s", _( "Coverage:" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.coverage );
                     //~ (M)elee coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(M):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_melee );
                     //~ (R)anged coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(R):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_ranged );
                     //~ (V)itals coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(V):" ), space ), "",
                                        iteminfo::no_flags,
                                        piece.second.portion.cover_vitals );
                 }
