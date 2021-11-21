@@ -294,6 +294,26 @@
   },
   {
     "type": "mutation",
+    "id": "PORTAL_DEPENDENT",
+    "name": { "str": "Portal Dependent" },
+    "points": -8,
+    "description": "Your body is rejected by this reality. You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in this world.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "REALITY_GRASP",
+    "name": { "str": "Stabilized in Reality" },
+    "points": 0,
+    "description": "Your grasp on reality has stabilized somewhat, lack of portal storms will not affect you as strongly as before.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "OPTIMISTIC",
     "name": { "str": "Optimist" },
     "points": 2,
