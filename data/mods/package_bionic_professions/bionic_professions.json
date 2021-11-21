@@ -779,10 +779,9 @@
     ],
     "items": {
       "both": {
-        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch" ],
+        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch", "UPS_off", "heavy_battery_cell" ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "heavy_battery_cell", "ammo-item": "battery", "charges": 1000, "container-item": "UPS_off" },
           { "item": "makeshift_scrambler" }
         ]
       },
