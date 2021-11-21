@@ -8326,13 +8326,6 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
                 // There already is full magazine here
                 // The new magazine has incompatible ammo
 
-                // Reloading is accepted if all of the following are true
-                // Current magazine is not full or there is no magazine
-                // New magazine contains compatible ammo
-
-                // This assumes only one magazine can go into a magazine well.
-                // This assumes that a magazine can have only one pocket.
-
                 if( !pocket->empty() && pocket->front().is_magazine_full() ) {
                     continue;
                 }
@@ -9671,6 +9664,10 @@ bool item::reload( Character &u, item_location ammo, int qty )
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
+	
+	if( !is_reloadable_with( *ammo.get_item() ) ) {
+        return false;
+    }
 
     bool ammo_from_map = !ammo.held_by( u );
     item_location container;
@@ -9678,10 +9675,6 @@ bool item::reload( Character &u, item_location ammo, int qty )
         container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
         ammo = item_location( ammo, &ammo->first_ammo() );
-    }
-
-    if( !is_reloadable_with( *ammo.get_item() ) ) {
-        return false;
     }
 
     // limit quantity of ammo loaded to remaining capacity
