@@ -65,6 +65,14 @@ jobs:
         localize: [1]
         native: [linux64]
 
+        exclude:
+          - release: [0]
+            cmake: [0]
+            tiles: [1]
+            sound: [0]
+            localize: [1]
+            native: [linux64]
+
         include:
           - compiler: g++-9
             os: ubuntu-latest
