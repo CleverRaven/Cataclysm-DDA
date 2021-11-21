@@ -2648,12 +2648,11 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
     if( heat == nullptr ) {
         return;
     }
-    item *const food = heat->get_food();
-    if( food == nullptr ) {
-        debugmsg( "item %s is not food", heat->typeId().str() );
+    if( !heat->has_temperature() ) {
+        debugmsg( "item %s is not heatable", heat->typeId().str() );
         return;
     }
-    item &target = *food;
+    item &target = *heat;
     if( target.has_own_flag( flag_FROZEN ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {

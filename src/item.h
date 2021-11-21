@@ -1321,10 +1321,9 @@ class item : public visitable
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
 
-        // If this is food, returns itself.  If it contains food, return that
-        // contents.  Otherwise, returns nullptr.
-        item *get_food();
-        const item *get_food() const;
+        // If this is heatable, returns itself.
+        item *get_heatable();
+        const item *get_heatable() const;
 
         void set_last_temp_check( const time_point &pt );
 

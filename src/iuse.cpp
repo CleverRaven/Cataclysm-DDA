@@ -5145,7 +5145,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
 static bool heat_item( Character &p )
 {
     item_location loc = g->inv_map_splice( []( const item_location & itm ) {
-        const item *food = itm->get_food();
+        const item *food = itm->get_heatable();
         return food && !food->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
@@ -5157,7 +5157,7 @@ static bool heat_item( Character &p )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item *target = heat->get_food();
+    item *target = heat->get_heatable();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only approximations
