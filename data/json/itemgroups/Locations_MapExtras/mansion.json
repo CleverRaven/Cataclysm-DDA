@@ -1255,6 +1255,7 @@
     "subtype": "distribution",
     "items": [
       [ "beer", 80 ],
+      [ "drink_hard_seltzer", 20 ],
       [ "european_pilsner", 20 ],
       [ "imperial_stout", 20 ],
       [ "india_pale_ale", 20 ],
