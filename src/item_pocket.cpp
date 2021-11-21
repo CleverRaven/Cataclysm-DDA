@@ -880,7 +880,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "BASE", _( "Maximum item length: " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
                            iteminfo::no_flags,
-                           convert_length( data->max_item_length ) );
+                           convert_length( data->max_item_length ), data->max_item_length.value() );
     }
 
     if( data->min_item_volume > 0_ml ) {
@@ -895,9 +895,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                           vol_to_string( *data->max_item_volume ) ) );
     }
 
-    info.emplace_back( "DESCRIPTION",
-                       string_format( _( "Base moves to remove item: <neutral>%d</neutral>" ),
-                                      data->moves ) );
+    info.emplace_back( "BASE", _( "Base moves to remove item: " ), "<num>",
+                       iteminfo::lower_is_better, data->moves );
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
