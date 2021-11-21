@@ -7968,26 +7968,6 @@ float item::get_freeze_point() const
     return made_of_types()[0]->freeze_point();
 }
 
-template<typename Item>
-static Item *get_heatable_impl( Item *it )
-{
-    if( it->has_temperature() ) {
-        return it;
-    } else {
-        return nullptr;
-    }
-}
-
-item *item::get_heatable()
-{
-    return get_heatable_impl( this );
-}
-
-const item *item::get_heatable() const
-{
-    return get_heatable_impl( this );
-}
-
 void item::set_mtype( const mtype *const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.

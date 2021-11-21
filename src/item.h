@@ -1321,10 +1321,6 @@ class item : public visitable
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
 
-        // If this is heatable, returns itself.
-        item *get_heatable();
-        const item *get_heatable() const;
-
         void set_last_temp_check( const time_point &pt );
 
         /** How resistant clothes made of this material are to wind (0-100) */
