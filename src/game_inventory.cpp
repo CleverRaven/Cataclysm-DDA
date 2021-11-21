@@ -1158,6 +1158,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            loc->ammo_required() );
             }
 
+            if( it.is_frozen_liquid() && it.is_comestible() ) {
+                return _( "You can't consume frozen liquids!" );
+            }
+
             if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                 return pickup_inventory_preset::get_denial( loc );
             }
