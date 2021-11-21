@@ -363,6 +363,7 @@
       [ "holster", 8 ],
       [ "bootstrap", 3 ],
       [ "bholster", 5 ],
+      [ "bbholster", 4 ],
       [ "legpouch", 4 ],
       [ "legpouch_large", 2 ],
       [ "chestpouch", 3 ],
@@ -1517,6 +1518,7 @@
     "//": "for cs_sex_shop",
     "items": [
       [ "corset", 20 ],
+      [ "corset_waist", 10 ],
       { "item": "vibrator", "prob": 20, "charges": [ 0, 100 ] },
       [ "leather_cat_tail", 20 ],
       [ "leather_cat_ears", 20 ],

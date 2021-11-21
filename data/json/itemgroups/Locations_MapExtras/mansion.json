@@ -109,7 +109,12 @@
                       {
                         "distribution": [
                           {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                            "collection": [
+                              {
+                                "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                              },
+                              { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                            ]
                           },
                           { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
                         ]
@@ -128,7 +133,12 @@
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],
@@ -140,7 +150,12 @@
                       { "item": "veil_wedding", "damage": [ 1, 4 ] },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],
@@ -1394,12 +1409,14 @@
       [ "tights", 20 ],
       [ "leggings", 20 ],
       [ "stockings", 20 ],
+      [ "garter_belt", 10 ],
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
       [ "leotard", 5 ],
       [ "unitard", 5 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "halter_top", 50 ],
       [ "nanoskirt", 10 ]
     ]
@@ -1429,6 +1446,7 @@
       { "item": "tights", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "garter_belt", "prob": 15, "damage": [ 1, 3 ] },
       [ "balclava", 15 ],
       [ "union_suit", 20 ],
       { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
@@ -1436,7 +1454,9 @@
       [ "jedi_cloak", 1 ],
       [ "apron_leather", 1 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "chestwrap", 5 ],
+      [ "bellywrap", 2 ],
       [ "boots_combat", 10 ],
       [ "pants_army", 10 ],
       [ "jacket_army", 10 ],
