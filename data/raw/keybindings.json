@@ -3556,7 +3556,7 @@
     "id": "SWITCH_LISTS",
     "category": "INVENTORY",
     "name": "Switch lists",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" }, { "input_method": "keyboard_char", "key": "+" } ]
   },
   {
     "type": "keybinding",

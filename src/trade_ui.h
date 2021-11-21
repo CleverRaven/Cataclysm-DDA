@@ -39,6 +39,7 @@ class trade_selector : public inventory_drop_selector
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";
         static constexpr char const *ACTION_TRADE_CANCEL = "QUIT";
+        static constexpr char const *ACTION_HELP = "HELP_KEYBINDINGS";
 
     private:
         trade_ui *_parent;
@@ -109,6 +110,8 @@ class trade_ui
         std::string const _title;
         catacurses::window _header_w;
         ui_adaptor _header_ui;
+        // used only for input hints in the header
+        input_context _ctxt_dummy;
 
         void _process( event const &ev );
         bool _confirm_trade() const;
