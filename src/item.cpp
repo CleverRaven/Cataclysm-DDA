@@ -3089,6 +3089,7 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 if( piece.second.active ) {
                     const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
                     const std::string bp_name = piece.second.to_display.translated();
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
                     info.emplace_back( bp_cat,
                                        string_format( _( "%s:" ), bp_name ) + space, "",
