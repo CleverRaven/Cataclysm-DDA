@@ -5196,12 +5196,24 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
     return haircut_activity_actor().clone();
 }
 
+bool item_is_in_container(const item_location& item_loc)
+{
+    return item_loc.where() == item_location::type::container;
+}
+
 void rummage_activity_actor::start( player_activity &act, Character &who )
 {
     /*int moves = item_loc.obtain_cost( who );*/
     int moves = 0;
-    for( drop_location i_loc : item_loc ) {
-        moves += i_loc.first.obtain_cost( who );
+    if( kind == action::drop ) {
+        for( drop_location i_loc : item_loc ) {
+            //Only add the move cost for items inside a container
+            if( i_loc.first.where() == item_location::type::container ) {
+                moves += i_loc.first.obtain_cost( who );
+            }
+        }
+    } else {
+        moves += item_loc.front().first.obtain_cost( who );
     }
     act.moves_total = moves;
     act.moves_left = moves;
@@ -5231,8 +5243,8 @@ void rummage_activity_actor::finish( player_activity &act, Character &who )
             return;
         }
         case action::eat: {
-            avatar& player_character = get_avatar();
-            avatar_action::eat(player_character, item_loc.front().first);
+            avatar &player_character = get_avatar();
+            avatar_action::eat( player_character, item_loc.front().first );
             return;
         }
         case action::read: {

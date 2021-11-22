@@ -284,6 +284,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
+bool item_is_in_container(const item_location&);
+
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
@@ -1955,9 +1957,15 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'T':
                     u.takeoff( locThisItem );
                     break;
-                case 'd':
-                    u.drop( locThisItem, u.pos() );
+                case 'd': {
+                    if( item_is_in_container( locThisItem ) ) {
+                        u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                            rummage_activity_actor::action::drop, u.pos() ) ) );
+                    } else {
+                        u.drop( locThisItem, u.pos() );
+                    }
                     break;
+                }
                 case 'U':
                     u.unload( locThisItem );
                     break;
@@ -7920,7 +7928,15 @@ void game::unload_container()
 
 void game::drop_in_direction( const tripoint &pnt )
 {
-    u.drop( game_menus::inv::multidrop( u ), pnt );
+    drop_locations drop_loc = game_menus::inv::multidrop( u );
+    for( drop_location d_loc : drop_loc ) {
+        if( item_is_in_container( d_loc.first ) ) {
+            u.assign_activity( player_activity( rummage_activity_actor( drop_loc,
+                                                rummage_activity_actor::action::drop, pnt ) ) );
+            return;
+        }
+    }
+    u.drop( drop_loc, pnt );
 }
 
 // Used to set up the first Hotkey in the display set
