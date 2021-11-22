@@ -93,7 +93,7 @@ bool sounds::sound_enabled = false;
 
 static inline bool check_sound( const int volume = 1 )
 {
-    return( sound_init_success && sounds::sound_enabled && volume > 0 );
+    return sound_init_success && sounds::sound_enabled && volume > 0;
 }
 
 /**
@@ -505,7 +505,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    bool failed = ( Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1 );
+    bool failed = Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1;
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }
@@ -539,7 +539,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), effect_to_play, 0 );
-    bool failed = ( channel == -1 );
+    bool failed = channel == -1;
     if( !failed && is_pitched ) {
         if( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
                                 effect_to_play ) == 0 ) {
@@ -583,7 +583,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
-    bool is_pitched = ( pitch > 0 );
+    bool is_pitched = pitch > 0;
     if( is_pitched ) {
         effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>( pitch ) );
     }

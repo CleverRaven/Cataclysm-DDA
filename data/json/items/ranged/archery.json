@@ -400,9 +400,15 @@
     "price_postapoc": 50,
     "bashing": 6,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "range": 8,
@@ -443,9 +449,15 @@
     "price_postapoc": 500,
     "bashing": 6,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 6,
@@ -566,9 +578,18 @@
     "price_postapoc": 3000,
     "bashing": 8,
     "armor_data": {
-      "material": [ "wood", "bone" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "wood", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "bone", "portion_cover": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 14,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 6,
@@ -612,9 +633,15 @@
     "price_postapoc": 2000,
     "bashing": 12,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 6,
@@ -658,9 +685,18 @@
     "price_postapoc": 2000,
     "bashing": 12,
     "armor_data": {
-      "material": [ "steel", "plastic" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "portion_cover": 100, "thickness": 1.0 },
+            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,
@@ -703,9 +739,15 @@
     "price_postapoc": 3000,
     "bashing": 10,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,
@@ -732,9 +774,15 @@
     "longest_side": "198 cm",
     "price_postapoc": 2000,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 25, "coverage": 7, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 2.0 } ],
+          "encumbrance": 25,
+          "coverage": 7,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "durability": 8,
     "loudness": 16,
@@ -804,9 +852,15 @@
     "price_postapoc": 6000,
     "bashing": 12,
     "armor_data": {
-      "material": [ "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,

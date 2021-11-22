@@ -206,7 +206,7 @@ const char *velocity_units( const units_type vel_units )
 
 double temp_to_celsius( double fahrenheit )
 {
-    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+    return ( fahrenheit - 32.0 ) * 5.0 / 9.0;
 }
 
 double temp_to_kelvin( double fahrenheit )

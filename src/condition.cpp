@@ -48,6 +48,8 @@ class recipe;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
+static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
+
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
@@ -164,8 +166,7 @@ void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::stri
     const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        static const json_character_flag thresh( "MUTATION_THRESHOLD" );
-        if( trait_flag_to_check == thresh ) {
+        if( trait_flag_to_check == json_flag_MUTATION_THRESHOLD ) {
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
@@ -861,6 +862,15 @@ void conditional_t<T>::set_is_weather( const JsonObject &jo )
     weather_type_id weather = weather_type_id( jo.get_string( "is_weather" ) );
     condition = [weather]( const T & ) {
         return get_weather().weather_id == weather;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int_or_var trust = get_int_or_var( jo, member );
+    condition = [trust]( const T & d ) {
+        return d.actor( true )->get_faction()->trusts_u >= trust.evaluate( d.actor( false ) );
     };
 }
 
@@ -1577,6 +1587,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_in_field( jo, "npc_is_in_field", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
+    } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {
+        set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_int( jo, "compare_int" );
     } else {

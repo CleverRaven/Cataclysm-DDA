@@ -59,15 +59,18 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
-static const bionic_id bio_painkiller( "bio_painkiller" );
+static const requirement_id requirement_data_anesthetic( "anesthetic" );
+static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -206,7 +209,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you, false );
+        inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -891,7 +894,7 @@ class fuel_inventory_preset : public inventory_selector_preset
                 mat_type = ammo.get_base_material().id;
             }
             if( you.get_fuel_capacity( mat_type ) <= 0 ) {
-                return ( _( "No space to store more" ) );
+                return _( "No space to store more" );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -1153,6 +1156,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            n_gettext( "Needs at least %d charge",
                                       "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
+            }
+
+            if( it.is_frozen_liquid() && it.is_comestible() ) {
+                return _( "You can't consume frozen liquids!" );
             }
 
             if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
@@ -1840,7 +1847,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 
     inventory_drop_selector inv_s( you, preset );
 
-    inv_s.add_character_items( you, false );
+    inv_s.add_character_items( you );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
@@ -1852,13 +1859,19 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you )
+drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
 {
     const pickup_inventory_preset preset( you );
 
     pickup_selector pick_s( you, preset );
 
-    pick_s.add_nearby_items();
+    // Add items from the selected tile, or from current and all surrounding tiles
+    if( target ) {
+        pick_s.add_vehicle_items( *target );
+        pick_s.add_map_items( *target );
+    } else {
+        pick_s.add_nearby_items();
+    }
     pick_s.set_title( _( "Pickup" ) );
     pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
 
@@ -2144,7 +2157,7 @@ class bionic_install_preset: public inventory_selector_preset
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                const requirement_data req_anesth = *requirement_data_anesthetic *
                                                     duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             } else if( !installable.success() ) {
@@ -2193,7 +2206,7 @@ class bionic_install_preset: public inventory_selector_preset
 
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+            const requirement_data req_anesth = *requirement_data_anesthetic *
                                                 duration * weight;
             int count = 0;
             if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
@@ -2295,7 +2308,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            requirement_data reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_data_autoclave_item;
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }

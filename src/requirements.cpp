@@ -25,6 +25,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "output.h"
 #include "point.h"
@@ -33,6 +34,7 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );
 static const itype_id itype_fire( "fire" );
@@ -41,11 +43,18 @@ static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
+static const quality_id qual_CUT( "CUT" );
+static const quality_id qual_GLARE( "GLARE" );
+static const quality_id qual_KNIT( "KNIT" );
+static const quality_id qual_PULL( "PULL" );
+static const quality_id qual_SAW_M_FINE( "SAW_M_FINE" );
+static const quality_id qual_SEW( "SEW" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
@@ -1108,14 +1117,14 @@ requirement_data requirement_data::disassembly_requirements() const
             // If crafting required a welder or forge then disassembly requires metal sawing
             if( type == itype_welder || type == itype_welder_crude || type == itype_oxy_torch ||
                 type == itype_forge || type == itype_char_forge ) {
-                new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
+                new_qualities.emplace_back( qual_SAW_M_FINE, 1, 1 );
                 replaced = true;
                 break;
             }
             //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
             if( type == itype_sewing_kit ||
                 type == itype_mold_plastic ) {
-                new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
+                new_qualities.emplace_back( qual_CUT, 1, 1 );
                 replaced = true;
                 break;
             }
@@ -1128,7 +1137,7 @@ requirement_data requirement_data::disassembly_requirements() const
             if( type == itype_press ) {
                 replaced = true;
                 remove_fire = true;
-                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
+                new_qualities.emplace_back( qual_PULL, 1, 1 );
                 break;
             }
             if( type == itype_fire && remove_fire ) {
@@ -1155,19 +1164,19 @@ requirement_data requirement_data::disassembly_requirements() const
         for( auto &it : ret.qualities ) {
             bool replaced = false;
             for( const auto &quality : it ) {
-                if( quality.type == quality_id( "SEW" ) ) {
+                if( quality.type == qual_SEW ) {
                     replaced = true;
-                    new_qualities.emplace_back( quality_id( "CUT" ), 1, quality.level );
+                    new_qualities.emplace_back( qual_CUT, 1, quality.level );
                     break;
                 }
-                if( quality.type == quality_id( "GLARE" ) ) {
+                if( quality.type == qual_GLARE ) {
                     replaced = true;
                     //Just remove the glare protection requirement from deconstruction
                     //This only happens in case of a reversible recipe, an explicit
                     //deconstruction recipe can still specify glare protection
                     break;
                 }
-                if( quality.type == quality_id( "KNIT" ) ) {
+                if( quality.type == qual_KNIT ) {
                     replaced = true;
                     //Ditto for knitting needles
                     break;

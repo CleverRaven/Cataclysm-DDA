@@ -21,6 +21,7 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
 #include "output.h"
@@ -30,6 +31,8 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+
+static const flag_id json_flag_CASING( "CASING" );
 
 class pocket_favorite_callback : public uilist_callback
 {
@@ -594,7 +597,7 @@ std::set<flag_id> item_contents::magazine_flag_restrictions() const
     std::set<flag_id> ret;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            ret = ( pocket.get_pocket_data() )->get_flag_restrictions();
+            ret = pocket.get_pocket_data()->get_flag_restrictions();
         }
     }
     return ret;
@@ -612,6 +615,23 @@ units::volume item_contents::max_containable_volume() const
             ret = candidate;
         }
 
+    }
+    return ret;
+}
+
+ret_val<bool> item_contents::is_compatible( const item &it ) const
+{
+    ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
+    for( const item_pocket &pocket : contents ) {
+        // mod, migration, corpse, and software aren't regular pockets.
+        if( !pocket.is_standard_type() ) {
+            continue;
+        }
+        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.is_compatible( it );
+        if( pocket_contain_code.success() ) {
+            return ret_val<bool>::make_success();
+        }
+        ret = ret_val<bool>::make_failure( pocket_contain_code.str() );
     }
     return ret;
 }
@@ -638,7 +658,7 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain( const item &it, const bool ignore_fullness ) const
+ret_val<bool> item_contents::can_contain( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -646,8 +666,7 @@ ret_val<bool> item_contents::can_contain( const item &it, const bool ignore_full
         if( !pocket.is_standard_type() ) {
             continue;
         }
-        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
-                ignore_fullness );
+        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
         if( pocket_contain_code.success() ) {
             return ret_val<bool>::make_success();
         }
@@ -820,7 +839,6 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
-        static const flag_id json_flag_CASING( "CASING" );
         if( pocket.front().has_flag( json_flag_CASING ) ) {
             for( const item *i : pocket.all_items_top() ) {
                 if( !i->has_flag( json_flag_CASING ) ) {
@@ -1366,6 +1384,20 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     }
 }
 
+std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const
+{
+    std::vector<const item_pocket *> pockets;
+
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            pockets.push_back( &pocket );
+        }
+    }
+    return pockets;
+}
+
 units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;
@@ -1483,8 +1515,7 @@ void item_contents::process( Character *carrier, const tripoint &pos, float insu
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
-        // no reason to check mods, they won't rot
-        if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }

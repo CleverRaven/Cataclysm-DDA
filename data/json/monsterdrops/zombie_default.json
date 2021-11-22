@@ -56,7 +56,12 @@
                       {
                         "distribution": [
                           {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                            "collection": [
+                              {
+                                "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                              },
+                              { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                            ]
                           },
                           { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
                         ]
@@ -79,7 +84,12 @@
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],

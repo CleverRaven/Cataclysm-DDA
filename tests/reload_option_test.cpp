@@ -12,6 +12,8 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const flag_id json_flag_RELOAD_ONE( "RELOAD_ONE" );
+
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
@@ -22,7 +24,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     item &ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
                                     gun.ammo_capacity( gun_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
-    REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
+    REQUIRE( gun.has_flag( json_flag_RELOAD_ONE ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );

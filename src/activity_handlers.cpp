@@ -80,6 +80,7 @@
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -104,8 +105,8 @@ enum class creature_size : int;
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -115,8 +116,8 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -138,18 +139,19 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
-static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -172,13 +174,17 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+
+static const ammotype ammo_battery( "battery" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -186,6 +192,12 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
@@ -197,30 +209,35 @@ static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 
-
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_survival( "survival" );
-
-static const quality_id qual_BUTCHER( "BUTCHER" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
-
-static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
-
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
-static const bionic_id bio_painkiller( "bio_painkiller" );
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
 using namespace activity_handlers;
 
@@ -251,6 +268,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
     { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
+    { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -328,6 +346,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
+    { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -1055,8 +1074,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
         const itype_id &leftover_id = mt.harvest->leftovers;
-        const int item_charges = monster_weight_remaining / to_gram( (
-                                     item::find_type( leftover_id ) )->weight );
+        const int item_charges = monster_weight_remaining / to_gram( item::find_type(
+                                     leftover_id )->weight );
         if( item_charges > 0 ) {
             item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
@@ -1466,7 +1485,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     if( source_veh &&
                         source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
-                    return &( veh->part( part ) ) != &pa;
+                    return &veh->part( part ) != &pa;
                     }
                                                                                                                            } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
@@ -1524,7 +1543,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
                     {
-                        return &( veh->part( part ) ) != &pa;
+                        return &veh->part( part ) != &pa;
                     }
                                                                                                                        } : return_true<vehicle_part &> ) );
                 }
@@ -1626,20 +1645,20 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
 
     switch( season_of_year( calendar::turn ) ) {
         case SPRING:
-            group_id = item_group_id( "forage_spring" );
-            next_ter = ter_str_id( "t_underbrush_harvested_spring" );
+            group_id = Item_spawn_data_forage_spring;
+            next_ter = ter_t_underbrush_harvested_spring;
             break;
         case SUMMER:
-            group_id = item_group_id( "forage_summer" );
-            next_ter = ter_str_id( "t_underbrush_harvested_summer" );
+            group_id = Item_spawn_data_forage_summer;
+            next_ter = ter_t_underbrush_harvested_summer;
             break;
         case AUTUMN:
-            group_id = item_group_id( "forage_autumn" );
-            next_ter = ter_str_id( "t_underbrush_harvested_autumn" );
+            group_id = Item_spawn_data_forage_autumn;
+            next_ter = ter_t_underbrush_harvested_autumn;
             break;
         case WINTER:
-            group_id = item_group_id( "forage_winter" );
-            next_ter = ter_str_id( "t_underbrush_harvested_winter" );
+            group_id = Item_spawn_data_forage_winter;
+            next_ter = ter_t_underbrush_harvested_winter;
             break;
         default:
             debugmsg( "Invalid season" );
@@ -1671,7 +1690,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
-            here.put_items_from_loc( item_group_id( "trash_forest" ), you->pos(), calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_trash_forest, you->pos(), calendar::turn );
         for( item * const &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
@@ -1708,7 +1727,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
         }
         if( act->index > 0 && act->name.find( "with friends" ) != std::string::npos ) {
             // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
-            float mod = ( std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f );
+            float mod = std::sqrt( ( act->index * 0.5f ) + 0.5f ) + 0.2f;
             morale_bonus = std::ceil( morale_bonus * mod );
             // half mult for max bonus
             mod = 1.f + ( mod - 1.f ) * 0.5f;
@@ -2187,8 +2206,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2399,7 +2418,7 @@ struct weldrig_hack {
         item pseudo_magazine( pseudo.magazine_default() );
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
+                         pseudo.ammo_capacity( ammo_battery ) ) );
         return pseudo;
     }
 
@@ -2832,6 +2851,37 @@ void activity_handlers::consume_fuel_menu_do_turn( player_activity *, Character 
     avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
+void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )
+{
+    if( !you->is_avatar() ) {
+        return;
+    }
+
+    recipe_id id( act->name );
+    std::string itname;
+    if( act->index == 0 ) {
+        // act->name is itype_id
+        itype_id it( act->name );
+        itname = it->nname( 1U );
+    } else {
+        // act->name is recipe_id
+        itname = id->result_name();
+    }
+    if( id.is_null() || !id.is_valid() ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
+        return;
+    }
+
+    const inventory &inven = you->crafting_inventory();
+    const std::vector<npc *> &helpers = you->get_crafting_helpers();
+    if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
+        return;
+    }
+
+    you->craft( cata::nullopt, id );
+}
+
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
 {
     activity_on_turn_move_loot( *act, *you );
@@ -2908,7 +2958,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ), true );
+                    GROUP_FISH, true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
@@ -3470,6 +3520,11 @@ void activity_handlers::eat_menu_finish( player_activity *, Character * )
     // Only exists to keep the eat activity alive between turns
 }
 
+void activity_handlers::view_recipe_finish( player_activity *act, Character * )
+{
+    act->set_to_null();
+}
+
 void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
@@ -3579,7 +3634,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
 {
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + you->get_skill_level( skill_id( "fabrication" ) ), 1 );
+    int planks = normal_roll( 2 + you->get_skill_level( skill_fabrication ), 1 );
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
@@ -3826,7 +3881,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const int computer_skill = you->get_skill_level( skill_id( "computer" ) );
+    const int computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -3846,7 +3901,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         //damage it a little
         z->apply_damage( you, bodypart_id( "torso" ), rng( 1, 10 ) );
         if( z->is_dead() ) {
-            you->practice( skill_id( "computer" ), 10 );
+            you->practice( skill_computer, 10 );
             // Do not do the other effects if the robot died
             return;
         }

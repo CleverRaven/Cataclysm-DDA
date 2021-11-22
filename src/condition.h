@@ -40,7 +40,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
+        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -182,6 +182,7 @@ struct conditional_t {
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
         void set_mission_goal( const JsonObject &jo, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
