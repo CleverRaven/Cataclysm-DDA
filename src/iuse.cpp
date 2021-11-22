@@ -5234,7 +5234,7 @@ cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const t
         return cata::nullopt;
     }
 
-    heat_item( *p )
+    heat_item( *p );
 
     return cata::nullopt;
 }
