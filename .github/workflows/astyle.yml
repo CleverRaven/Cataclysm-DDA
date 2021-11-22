@@ -33,6 +33,18 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: label success
+      if: success()
+      uses: andymckay/labeler@master
+      with:
+        add-labels: "astyled"
+
+    - name: label failure
+      if: failure()
+      uses: andymckay/labeler@master
+      with:
+        remove-labels: "astyled"
+
     - name: Display Corrections
       if: failure()
       run: |
