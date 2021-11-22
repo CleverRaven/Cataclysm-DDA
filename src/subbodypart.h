@@ -20,6 +20,8 @@ class JsonObject;
 class JsonOut;
 class JsonValue;
 struct sub_body_part_type;
+struct body_part_type;
+
 
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
@@ -54,7 +56,7 @@ struct sub_body_part_type {
     side part_side = side::BOTH;
 
     // the body part this belongs to
-    std::string parent;
+    string_id<body_part_type> parent;
 
     // this flags that the sub location
     // is in addition to the normal limb

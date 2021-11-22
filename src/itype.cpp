@@ -238,12 +238,12 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     int primary_max_coverage = 0;
     int secondary_max_coverage = 0;
     for( const sub_bodypart_str_id &sbp : sub_coverage ) {
-        if( bp.id() == bodypart_str_id( sbp->parent ).id() && !sbp->secondary ) {
+        if( bp.id() == sbp->parent.id() && !sbp->secondary ) {
             // add all sublocations that share the same parent limb
             primary_max_coverage += sbp->max_coverage;
         }
 
-        if( bp.id() == bodypart_str_id( sbp->parent ).id() && sbp->secondary ) {
+        if( bp.id() == sbp->parent.id() && sbp->secondary ) {
             // add all sublocations that share the same parent limb
             secondary_max_coverage += sbp->max_coverage;
         }
