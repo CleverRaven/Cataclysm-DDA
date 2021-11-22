@@ -40,6 +40,8 @@
 
 static const efftype_id effect_bounced( "bounced" );
 
+static const itype_id itype_glass_shard( "glass_shard" );
+
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
@@ -65,7 +67,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
 
-        const units::mass shard_mass = itype_id( "glass_shard" )->weight;
+        const units::mass shard_mass = itype_glass_shard->weight;
         const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
         //between half and max_nb_of_shards-1 will be usable
         const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );

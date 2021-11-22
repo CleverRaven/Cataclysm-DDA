@@ -39,6 +39,11 @@
 
 class overmap_connection;
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
+
+static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
+
 #if defined(__ANDROID__)
 #include "input.h"
 
@@ -380,8 +385,8 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( old ) );
             const oter_id oter_ground = ter( tripoint_om_omt( pos.xy(), 0 ) );
             const oter_id oter_above = ter( pos + tripoint_above );
-            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) &&
-                !is_ot_match( "bridge_road", oter_above, ot_match_type::type ) ) {
+            if( ( oter_ground->get_type_id() == oter_type_bridge ) &&
+                !( oter_above->get_type_id() == oter_type_bridge_road ) ) {
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
@@ -578,7 +583,7 @@ void overmap::unserialize( std::istream &fin )
             // Legacy data, superceded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
-                connections_out[string_id<overmap_connection>( "local_road" )];
+                connections_out[overmap_connection_local_road];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();

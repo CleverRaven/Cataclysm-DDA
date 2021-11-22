@@ -18,6 +18,7 @@
 #include "enums.h"
 #include "input.h"
 #include "item.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "morale_types.h"
 #include "mutation.h"

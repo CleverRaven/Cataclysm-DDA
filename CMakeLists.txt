@@ -205,7 +205,7 @@ if (MSVC)
     else ()
         add_definitions(-D_X86_)
     endif ()
-else (MSVC)
+else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -245,7 +245,7 @@ endif ()
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
 
-FIND_PACKAGE(ZLIB REQUIRED)
+find_package(ZLIB REQUIRED)
 
 # Check for build types and libraries
 if (TILES)
@@ -331,8 +331,8 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
-    endif (LIBBACKTRACE)
-endif (BACKTRACE)
+    endif ()
+endif ()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)

@@ -61,6 +61,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -111,6 +112,8 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
@@ -120,6 +123,11 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
+static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
+static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
@@ -141,6 +149,7 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -151,6 +160,19 @@ static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const matec_id RAPID( "RAPID" );
 
+static const material_id material_wool( "wool" );
+
+static const morale_type morale_null( "morale_null" );
+
+static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_human( "mon_human" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+
+static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+
+static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
@@ -161,6 +183,9 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
+
+static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
+static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_JITTERY( "JITTERY" );
@@ -850,21 +875,27 @@ body_part_set item::get_covered_body_parts( const side s ) const
 namespace
 {
 
-const std::array<bodypart_str_id, 4> left_side_parts{ {
-        bodypart_str_id{"arm_l"},
-        bodypart_str_id{"hand_l"},
-        bodypart_str_id{"leg_l"},
-        bodypart_str_id{"foot_l"}
-    }
-};
+const std::array<bodypart_str_id, 4> &left_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_l,
+            body_part_hand_l,
+            body_part_leg_l,
+            body_part_foot_l
+        } };
+    return result;
+}
 
-const std::array<bodypart_str_id, 4> right_side_parts{ {
-        bodypart_str_id{"arm_r"},
-        bodypart_str_id{"hand_r"},
-        bodypart_str_id{"leg_r"},
-        bodypart_str_id{"foot_r"}
-    }
-};
+const std::array<bodypart_str_id, 4> &right_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_r,
+            body_part_hand_r,
+            body_part_leg_r,
+            body_part_foot_r
+        } };
+    return result;
+}
 
 } // namespace
 
@@ -874,7 +905,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        cb( sub_bodypart_str_id( "torso_hanging_back" ) );
+        cb( sub_body_part_torso_hanging_back );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -916,7 +947,7 @@ void item::iterate_covered_body_parts_internal( const side s,
 
     // If we are querying for only one side of the body, we ignore coverage
     // for parts on the opposite side of the body.
-    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts() : left_side_parts();
 
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
@@ -1837,10 +1868,10 @@ struct dps_comp_data {
 };
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
-    { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+    { to_translation( "Best" ), { debug_mon, true, false } },
+    { to_translation( "Vs. Agile" ), { mon_zombie_smoker, true, true } },
+    { to_translation( "Vs. Armored" ), { mon_zombie_soldier, true, true } },
+    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor, false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -2231,7 +2262,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
-        && player_character.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
+        && player_character.allergy_type( *food_item ) != morale_null ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
@@ -3236,7 +3267,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             sub_bodypart_id temp;
             // if our sub part has an opposite
-            if( sbp->opposite != sub_bodypart_str_id( "sub_limb_debug" ) ) {
+            if( sbp->opposite != sub_body_part_sub_limb_debug ) {
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
@@ -3253,7 +3284,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     coverage += _( " The <info>" + sbp->name_multiple + "</info>." );
                     found = true;
                     // set the found part to a null value
-                    *sbp_it = sub_bodypart_str_id( "sub_limb_debug" );
+                    *sbp_it = sub_body_part_sub_limb_debug;
                     break;
                 }
             }
@@ -3299,7 +3330,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( covers_anything ) {
         int power_armor_encumbrance_reduction = 40;
-        static const itype_id itype_rm13_armor( "rm13_armor" );
 
         if( is_power_armor() || type->get_id() == itype_rm13_armor ) {
             item tmp = *this;
@@ -4987,7 +5017,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( has_flag( flag_LITCIG ) ) { // NOLINT(bugprone-branch-clone)
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
+               ( made_of( material_wool ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
@@ -5007,7 +5037,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( const item *food = get_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *food ) != morale_type( "morale_null" ) ) {
+        if( player_character.allergy_type( *food ) != morale_null ) {
             return c_red;
         }
 
@@ -5263,7 +5293,7 @@ void item::handle_pickup_ownership( Character &c )
                 set_old_owner( get_owner() );
                 bool guard_chosen = false;
                 for( npc *elem : witnesses ) {
-                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
+                    if( elem->myclass == NC_BOUNTY_HUNTER ) {
                         guard_chosen = true;
                         elem->witness_thievery( &*this );
                         break;
@@ -6346,7 +6376,7 @@ int item::get_quality( const quality_id &id ) const
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
-    if( id == quality_id( "BOIL" ) && !contents.empty_container() ) {
+    if( id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
 
@@ -7060,7 +7090,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammotype( "money" ) );
+    return ammo_types().count( ammo_money );
 }
 
 bool item::is_software() const
@@ -8666,7 +8696,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == itype_bullet_crossbow ) {
+        if( ammo_types().count( ammo_bolt ) || typeId() == itype_bullet_crossbow ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
@@ -9874,7 +9904,7 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
     if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammotype( "battery" ) ) == 0 ) ) {
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -10973,8 +11003,8 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
 
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
-        !mtype_id( "mon_human" )->zombify_into.is_empty() ) {
-        set_var( "zombie_form", mtype_id( "mon_human" )->zombify_into.c_str() );
+        !mon_human->zombify_into.is_empty() ) {
+        set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
 
     if( !ready_to_revive( pos ) ) {
@@ -11006,8 +11036,8 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
 bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
-    if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
-        here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+    if( here.furn( pos ) != furn_f_wind_mill_active &&
+        here.furn( pos ) != furn_f_water_mill_active ) {
         item_counter = 0;
         return true; //destroy fake mill
     }
@@ -11023,8 +11053,8 @@ bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
-    if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
-        here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
+    if( here.furn( pos ) != furn_f_smoking_rack_active &&
+        here.furn( pos ) != furn_f_metal_smoking_rack_active ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }

@@ -180,26 +180,27 @@
 
 class computer;
 
-#if defined(TILES)
-#include "cata_tiles.h"
-#endif // TILES
-
-#if defined(_WIN32)
-#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#   include "platform_win.h"
-#endif
-#   include <tchar.h>
-#endif
-
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static constexpr int DANGEROUS_PROXIMITY = 5;
-
+static const activity_id ACT_BLEED( "ACT_BLEED" );
+static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
+static const activity_id ACT_DISSECT( "ACT_DISSECT" );
+static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
+static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
+static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_QUARTER( "ACT_QUARTER" );
+static const activity_id ACT_SKIN( "ACT_SKIN" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
+static const bionic_id bio_jointservo( "bio_jointservo" );
+static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -217,10 +218,13 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
 
+static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
@@ -231,9 +235,20 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const material_id material_glass( "glass" );
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
+
+static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
+
 static const mtype_id mon_manhack( "mon_manhack" );
 
+static const overmap_special_id overmap_special_world( "world" );
+
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -242,19 +257,65 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id species_PLANT( "PLANT" );
 
+static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
+
+#if defined(TILES)
+#include "cata_tiles.h"
+#endif // TILES
+
+#if defined(_WIN32)
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   include "platform_win.h"
+#endif
+#   include <tchar.h>
+#endif
+
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+static constexpr int DANGEROUS_PROXIMITY = 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
@@ -756,7 +817,7 @@ bool game::start_game()
     const bool surrounded_start_scenario = !surround_groups.empty();
     const bool surrounded_start_options = get_option<bool>( "BLACK_ROAD" );
     if( surrounded_start_options && !surrounded_start_scenario ) {
-        surround_groups.emplace_back( mongroup_id( "GROUP_BLACK_ROAD" ), 70.0f );
+        surround_groups.emplace_back( GROUP_BLACK_ROAD, 70.0f );
     }
     const bool spawn_near = surrounded_start_options || surrounded_start_scenario;
     if( spawn_near ) {
@@ -823,7 +884,7 @@ bool game::start_game()
     if( scen->has_flag( "BORDERED" ) ) {
         overmap &starting_om = get_cur_om();
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, z },
+            starting_om.place_special_forced( overmap_special_world, { 0, 0, z },
                                               om_direction::type::north );
         }
 
@@ -1013,8 +1074,8 @@ void game::create_starting_npcs()
     //This sets the NPC mission. This NPC remains in the starting location.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
-    tmp->toggle_trait( trait_id( "NPC_STARTING_NPC" ) );
-    tmp->set_fac( faction_id( "no_faction" ) );
+    tmp->toggle_trait( trait_NPC_STARTING_NPC );
+    tmp->set_fac( faction_no_faction );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -1187,7 +1248,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
             return false;
         }
     }
@@ -1236,7 +1297,7 @@ bool game::cancel_activity_query( const std::string &text )
         if( cancel_auto_move( u, text ) ) {
             return true;
         } else if( u.has_distant_destination() ) {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
             return false;
         }
     }
@@ -1245,7 +1306,7 @@ bool game::cancel_activity_query( const std::string &text )
     }
     g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
-        if( u.activity.id() == activity_id( "ACT_TRAIN_TEACHER" ) ) {
+        if( u.activity.id() == ACT_TRAIN_TEACHER ) {
             for( npc &n : all_npcs() ) {
                 // Also cancel activities for students
                 for( const int st_id : u.activity.values ) {
@@ -1254,8 +1315,8 @@ bool game::cancel_activity_query( const std::string &text )
                     }
                 }
             }
-            u.remove_effect( efftype_id( "asked_to_train" ) );
-        } else if( u.activity.id() == activity_id( "ACT_TRAIN" ) ) {
+            u.remove_effect( effect_asked_to_train );
+        } else if( u.activity.id() == ACT_TRAIN ) {
             for( npc &n : all_npcs() ) {
                 // If the player is the only student, cancel the teacher's activity
                 if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
@@ -1342,11 +1403,10 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
 int get_convection_temperature( const tripoint &location )
 {
-    static const flag_id trap_convects( "CONVECTS_TEMPERATURE" );
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).has_flag( trap_convects ) ?
+    int lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
                    fd_fire->get_intensity_level().convection_temperature_mod : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
@@ -1617,6 +1677,9 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         }
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         if( it.is_medication() && !you.can_use_heal_item( it ) ) {
+            return hint_rating::cant;
+        }
+        if( it.is_comestible() && it.is_frozen_liquid() ) {
             return hint_rating::cant;
         }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
@@ -2587,7 +2650,7 @@ void game::load_world_modfiles( loading_ui &ui )
     if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
     return e->core;
 } ) ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) );
+        mods.insert( mods.begin(), MOD_INFORMATION_dda );
     }
 
     // this code does not care about mod dependencies,
@@ -2649,7 +2712,7 @@ void game::reset_npc_dispositions()
         npc_to_add->mission = NPC_MISSION_NULL;
         npc_to_add->set_attitude( NPCATT_NULL );
         npc_to_add->op_of_u = npc_opinion();
-        npc_to_add->set_fac( faction_id( "no_faction" ) );
+        npc_to_add->set_fac( faction_no_faction );
         npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                                      npc_to_add->global_omt_location(),
                                      npc_to_add->getID() ) );
@@ -3908,7 +3971,7 @@ void game::mon_info_update( )
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                  string_format( _( "%s spotted!" ), critter.name() ) );
-                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( species_PLANT ) ) {
+                if( u.has_trait( trait_M_DEFENDER ) && critter.type->in_species( species_PLANT ) ) {
                     add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
                     if( !u.has_effect( effect_adrenaline_mycus ) ) {
                         u.add_effect( effect_adrenaline_mycus, 30_minutes );
@@ -4223,7 +4286,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
 
 void game::use_computer( const tripoint &p )
 {
-    if( u.has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( u.has_trait( trait_ILLITERATE ) ) {
         add_msg( m_info, _( "You can not read a computer screen!" ) );
         return;
     }
@@ -4232,7 +4295,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -4648,10 +4711,9 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
 
         m.i_rem( couch_pos, cyborg );
 
-        const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
-        tmp->load_npc_template( npc_cyborg );
+        tmp->load_npc_template( npc_template_cyborg_rescued );
         tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( couch_pos ) ) );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
@@ -4808,7 +4870,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            const int glass_portion = it->made_of( material_id( "glass" ) );
+            const int glass_portion = it->made_of( material_glass );
             const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
             if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
                 if( can_see ) {
@@ -4864,7 +4926,6 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
 
 void game::control_vehicle()
 {
-    static const itype_id fuel_type_animal( "animal" );
     int veh_part = -1;
     vehicle *veh = remoteveh();
     if( veh == nullptr ) {
@@ -6148,7 +6209,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
+                                           zone.get_type() == zone_type_LOOT_CUSTOM ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.query();
 
@@ -7966,12 +8027,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
-    const int factor = player_character.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
+    const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = player_character.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
+    const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -8090,28 +8151,28 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
-            player_character.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
+            player_character.assign_activity( ACT_BUTCHER, 0, true );
             break;
         case static_cast<int>( butcher_type::FULL ):
-            player_character.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
+            player_character.assign_activity( ACT_BUTCHER_FULL, 0, true );
             break;
         case static_cast<int>( butcher_type::FIELD_DRESS ):
-            player_character.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
+            player_character.assign_activity( ACT_FIELD_DRESS, 0, true );
             break;
         case static_cast<int>( butcher_type::SKIN ):
-            player_character.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
+            player_character.assign_activity( ACT_SKIN, 0, true );
             break;
         case static_cast<int>( butcher_type::BLEED ) :
-            player_character.assign_activity( activity_id( "ACT_BLEED" ), 0, true );
+            player_character.assign_activity( ACT_BLEED, 0, true );
             break;
         case static_cast<int>( butcher_type::QUARTER ):
-            player_character.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
+            player_character.assign_activity( ACT_QUARTER, 0, true );
             break;
         case static_cast<int>( butcher_type::DISMEMBER ):
-            player_character.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
+            player_character.assign_activity( ACT_DISMEMBER, 0, true );
             break;
         case static_cast<int>( butcher_type::DISSECT ):
-            player_character.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
+            player_character.assign_activity( ACT_DISSECT, 0, true );
             break;
         default:
             return;
@@ -8126,8 +8187,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
-    const int factorD = u.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
+    const int factor = u.max_quality( qual_BUTCHER, PICKUP_RANGE );
+    const int factorD = u.max_quality( qual_CUT_FINE, PICKUP_RANGE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -8346,7 +8407,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
+                    u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -8700,7 +8761,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     if( u.has_effect( effect_laserlocked ) ) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        if( u.get_int_base() < 5 || u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+        if( u.get_int_base() < 5 || u.has_trait( trait_PROF_CHURL ) ) {
             add_msg( game_message_params{ m_warning, gmf_bypass_cooldown },
                      _( "There's an angry red dot on your body, %s to brush it off." ), msg_ignore );
         } else {
@@ -9121,7 +9182,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             }
         }
     }
-    if( !u.is_mounted() && u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) &&
+    if( !u.is_mounted() && u.has_trait( trait_LEG_TENT_BRACE ) &&
         ( !u.footwear_factor() ||
           ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         // DX and IN are long suits for Cephalopods,
@@ -9370,7 +9431,7 @@ point game::place_player( const tripoint &dest_loc )
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" &&
-            u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE ) > INT_MIN ) {
+            u.max_quality( qual_BUTCHER, PICKUP_RANGE ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {
@@ -9378,7 +9439,7 @@ point game::place_player( const tripoint &dest_loc )
             }
 
             if( !corpses.empty() ) {
-                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
+                u.assign_activity( ACT_BUTCHER, 0, true );
                 for( item *it : corpses ) {
                     u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
                 }
@@ -9396,7 +9457,7 @@ point game::place_player( const tripoint &dest_loc )
                             }
                         }
 
-                        u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+                        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = m.getabs( pos );
                         u.activity.auto_resume = true;
                         u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
@@ -9445,7 +9506,7 @@ point game::place_player( const tripoint &dest_loc )
     // List items here
     if( !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
-            !check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() ) ) {
+            !check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
             } else if( m.has_items( u.pos() ) ) {
@@ -9521,7 +9582,7 @@ point game::place_player( const tripoint &dest_loc )
     if( ( vp1.part_with_feature( "CONTROL_ANIMAL", true ) ||
           vp1.part_with_feature( "CONTROLS", true ) ) && u.in_vehicle && !u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here." ) );
-        if( !u.has_trait( trait_id( "WAYFARER" ) ) ) {
+        if( !u.has_trait( trait_WAYFARER ) ) {
             add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
         }
     } else if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle &&
@@ -9568,7 +9629,6 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    const bionic_id bio_probability_travel( "bio_probability_travel" );
     const units::energy trigger_cost = bio_probability_travel->power_trigger;
 
     if( !u.has_active_bionic( bio_probability_travel ) ||
@@ -9777,14 +9837,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
         add_msg( _( "The %s collides with something." ), furntype.name() );
         return true;
     } else if( str_req > u.get_str() && u.get_perceived_pain() > 40 &&
-               !u.has_trait( trait_id( "CENOBITE" ) ) && !u.has_trait( trait_id( "MASOCHIST" ) ) &&
-               !u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) {
+               !u.has_trait( trait_CENOBITE ) && !u.has_trait( trait_MASOCHIST ) &&
+               !u.has_trait( trait_MASOCHIST_MED ) ) {
         add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
         return true;
 
     } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
-               ( u.has_trait( trait_id( "MASOCHIST" ) ) || u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) ) {
+               ( u.has_trait( trait_MASOCHIST ) || u.has_trait( trait_MASOCHIST_MED ) ) ) {
         add_msg( m_bad,
                  _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
@@ -9935,7 +9995,6 @@ void game::on_move_effects()
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-        const bionic_id bio_jointservo( "bio_jointservo" );
         if( u.has_active_bionic( bio_jointservo ) ) {
             if( u.is_running() ) {
                 u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
@@ -10588,7 +10647,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         return cata::nullopt;
     }
 
-    if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
+    if( u.has_trait( trait_WEB_RAPPEL ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
             if( rng( 4, 8 ) < u.get_skill_level( skill_dodge ) ) {
@@ -10932,8 +10991,8 @@ void game::perhaps_add_random_npc()
     new_fac_id += tmp->name;
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
-                            faction_id( "no_faction" ) );
-    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                            faction_no_faction );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     // adds the npc to the correct overmap.
     tmp->spawn_at_omt( spawn_point );
     overmap_buffer.insert_npc( tmp );

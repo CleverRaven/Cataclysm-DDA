@@ -16,6 +16,7 @@
     "min_duration": 100,
     "max_duration": 300,
     "spell_class": "NONE",
+    "difficulty": -20,
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_PROJECTILE" ],
     "energy_source": "NONE",
     "damage_type": "biological"
@@ -33,6 +34,7 @@
     "min_range": 1,
     "max_range": 1,
     "spell_class": "NONE",
+    "difficulty": -20,
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "energy_source": "NONE",
     "damage_type": "biological"
@@ -47,6 +49,7 @@
     "shape": "blast",
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION" ],
     "spell_class": "NONE",
+    "difficulty": -20,
     "energy_source": "STAMINA",
     "base_energy_cost": 350,
     "min_damage": 0,
@@ -75,8 +78,9 @@
     "min_range": 6,
     "max_range": 6,
     "spell_class": "NONE",
+    "difficulty": -20,
     "base_casting_time": 200,
-    "base_energy_cost": 100,
+    "base_energy_cost": 2000,
     "max_level": 1,
     "energy_source": "STAMINA"
   },
@@ -97,8 +101,9 @@
     "min_range": 8,
     "max_range": 8,
     "spell_class": "NONE",
+    "difficulty": -20,
     "base_casting_time": 300,
-    "base_energy_cost": 300,
+    "base_energy_cost": 6000,
     "max_level": 1,
     "energy_source": "STAMINA"
   }

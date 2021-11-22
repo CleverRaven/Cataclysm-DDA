@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
 #include "output.h"
