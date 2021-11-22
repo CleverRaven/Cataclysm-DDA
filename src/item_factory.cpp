@@ -649,11 +649,11 @@ void Item_factory::finalize_post( itype &obj )
 
                             // get the ammount of the limb that is covered with sublocations
                             // for overall coverage we need to scale coverage by that
-                            float scale = sub_armor.max_coverage( bp ) / 100;
+                            float scale = sub_armor.max_coverage( bp ) / 100.0;
 
-                            it.coverage += (sub_armor.coverage * scale);
-                            it.cover_melee += (sub_armor.cover_melee * scale);
-                            it.cover_ranged += (sub_armor.cover_ranged * scale);
+                            it.coverage += sub_armor.coverage * scale;
+                            it.cover_melee += sub_armor.cover_melee * scale;
+                            it.cover_ranged += sub_armor.cover_ranged * scale;
                             it.cover_vitals += sub_armor.cover_vitals;
 
                             it.avg_thickness += sub_armor.avg_thickness;
@@ -710,7 +710,7 @@ void Item_factory::finalize_post( itype &obj )
 
                         // get the ammount of the limb that is covered with sublocations
                         // for overall coverage we need to scale coverage by that
-                        float scale = new_limb.max_coverage( bp ) / 100;
+                        float scale = new_limb.max_coverage( bp ) / 100.0;
 
                         new_limb.coverage = new_limb.coverage * scale;
                         new_limb.cover_melee = new_limb.cover_melee * scale;
@@ -734,10 +734,15 @@ void Item_factory::finalize_post( itype &obj )
                 // if we are missing some then the item does cover specific locations
                 // this flag is mostly used to skip itterating and testing
                 // if UI should be displayed
-                for( const sub_bodypart_str_id &sbp : armor_data.sub_coverage ) {
+
+                // each armor data entry covers exactly 1 body part
+                for( const sub_bodypart_str_id &compare_sbp : armor_data.covers->begin()->obj().sub_parts ) {
+                    if( compare_sbp->secondary ) {
+                        // don't care about secondary locations
+                        continue;
+                    }
                     bool found = false;
-                    // each armor data entry covers exactly 1 body part
-                    for( const sub_bodypart_str_id &compare_sbp : armor_data.covers->begin()->obj().sub_parts ) {
+                    for( const sub_bodypart_str_id &sbp : armor_data.sub_coverage ) {
                         if( compare_sbp == sbp ) {
                             found = true;
                         }
@@ -1437,6 +1442,18 @@ void Item_factory::check_definitions() const
                 }
                 if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
                     msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
+                }
+            }
+
+            // check the hanging location aren't being used on the non strapped layer
+            if( !type->has_flag( flag_BELTED ) ) {
+                for( const armor_portion_data &portion : type->armor->sub_data ) {
+                    for( const sub_bodypart_str_id &sbp : portion.sub_coverage ) {
+                        if( sbp->secondary ) {
+                            msg += string_format( "Secondary hanging locations should only be used on the BELTED layer: %s\n",
+                                                  sbp.str() );
+                        }
+                    }
                 }
             }
 
@@ -2194,18 +2211,15 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "coverage", coverage, 0 );
     optional( jo, false, "specifically_covers", sub_coverage );
 
-    // if an item covers sublocations and doesn't have coverage
-    // assume it covers the whole body part
-    if( !sub_coverage.empty() && coverage == 0 ) {
-        coverage = 100;
-    }
-
 
     // if no sub locations are specified assume it covers everything
     if( covers.has_value() && sub_coverage.empty() ) {
         for( const bodypart_str_id &bp : covers.value() ) {
             for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                sub_coverage.push_back( sbp );
+                // only assume to add the non hanging locations
+                if( !sbp->secondary ) {
+                    sub_coverage.push_back( sbp );
+                }
             }
         }
     }

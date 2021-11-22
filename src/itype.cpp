@@ -238,12 +238,17 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     int primary_max_coverage = 0;
     int secondary_max_coverage = 0;
     for( const sub_bodypart_str_id &sbp : sub_coverage ) {
-        if( bp.id() == bodypart_str_id(sbp->parent).id() ) {
+        if( bp.id() == bodypart_str_id( sbp->parent ).id() && !sbp->secondary ) {
             // add all sublocations that share the same parent limb
             primary_max_coverage += sbp->max_coverage;
-        } 
+        }
+
+        if( bp.id() == bodypart_str_id( sbp->parent ).id() && sbp->secondary ) {
+            // add all sublocations that share the same parent limb
+            secondary_max_coverage += sbp->max_coverage;
+        }
     }
 
     // return the max of primary or hanging sublocations (this only matters for hanging items on chest)
-    return std::max(primary_max_coverage, secondary_max_coverage);    
+    return std::max( primary_max_coverage, secondary_max_coverage );
 }
