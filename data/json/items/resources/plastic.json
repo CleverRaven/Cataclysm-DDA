@@ -108,7 +108,8 @@
     "symbol": ")",
     "stack_size": 20,
     "count": 20,
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "rigid_plastic_sheet",
