@@ -1931,7 +1931,12 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        wield( locThisItem );
+                        if( locThisItem.where() == item_location::type::container ) {
+                            u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                                rummage_activity_actor::action::wield ) ) );
+                        } else {
+                            wield( locThisItem );
+                        }
                         handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
@@ -8761,7 +8766,12 @@ void game::wield()
     item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
-        wield( loc );
+        if( loc.where() == item_location::type::container ) {
+            u.assign_activity( player_activity( rummage_activity_actor( loc,
+                                                rummage_activity_actor::action::wield ) ) );
+        } else {
+            wield( loc );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
