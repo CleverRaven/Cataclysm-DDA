@@ -85,8 +85,9 @@ class inventory_entry
             locations( locations ),
             chosen_count( chosen_count ),
             custom_category( custom_category ),
-            enabled( enabled )
-        {}
+            enabled( enabled ) {
+            update_cache();
+        }
 
         bool operator==( const inventory_entry &other ) const;
         bool operator!=( const inventory_entry &other ) const {
@@ -430,6 +431,8 @@ class inventory_column
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
+
+        bool sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
 
         /**
          * Indentation of the entry.
