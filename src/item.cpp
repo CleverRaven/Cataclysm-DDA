@@ -3414,11 +3414,10 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     insert_separation_line( info );
     const islot_book &book = *type->book;
-	avatar &player_character = get_avatar();
+    avatar &player_character = get_avatar();
     // Some things about a book you CAN tell by it's cover.
     if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) &&  
-					player_character.studied_all_recipes( 
-					*type ) ) {
+        player_character.studied_all_recipes( *type ) ) {
         info.emplace_back( "BOOK", _( "Just for fun." ) );
     }
     
@@ -4998,9 +4997,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
-        } else if( (tmp.skill || type->can_use( "MA_MANUAL" )) && 
-					!player_character.studied_all_recipes( 
-					*type ) ) {
+        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) && 
+                   !player_character.studied_all_recipes( *type ) ) {
             // Book can teach you something and hasn't been identified yet
             ret = c_red;
         } else {
