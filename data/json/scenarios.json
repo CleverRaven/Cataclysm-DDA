@@ -682,6 +682,17 @@
   },
   {
     "type": "scenario",
+    "id": "quick_portal_storm_base",
+    "name": "Faster portal storms",
+    "points": -4,
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be more frequent and strengthen faster.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "eoc": [ "scenario_quick_portal_storm" ]
+  },
+  {
+    "type": "scenario",
     "id": "Mansion",
     "name": "Mansion Escape",
     "points": -1,
