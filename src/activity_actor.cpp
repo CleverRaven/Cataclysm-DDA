@@ -29,6 +29,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
@@ -116,6 +117,7 @@ static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_RUMMAGE_POCKET( "ACT_RUMMAGE_POCKET" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 static const activity_id ACT_STASH( "ACT_STASH" );
@@ -5194,6 +5196,132 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
     return haircut_activity_actor().clone();
 }
 
+void rummage_activity_actor::start( player_activity &act, Character &who )
+{
+    /*int moves = item_loc.obtain_cost( who );*/
+    int moves = 0;
+    for( drop_location i_loc : item_loc ) {
+        moves += i_loc.first.obtain_cost( who );
+    }
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void rummage_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You rummage your pockets for the item" ) );
+}
+
+void rummage_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You rummaged your pockets to find the item" ) );
+    // some function calls in the switch block spawn activities e.g.
+    // avatar::read spawns an ACT_READ activity, so we need to set
+    // this one to null before calling them
+    act.set_to_null();
+
+    switch( kind ) {
+        case action::activate: {
+
+            return;
+        }
+        case action::drop: {
+            who.drop( item_loc, m_pnt );
+            return;
+        }
+        case action::eat: {
+
+            return;
+        }
+        case action::read: {
+            avatar &player_character = get_avatar();
+            item_location i_loc = item_loc.front().first;
+            if( i_loc->type->can_use( "learn_spell" ) ) {
+                item spell_book = *i_loc.get_item();
+                spell_book.get_use( "learn_spell" )->call(
+                    player_character, spell_book, spell_book.active, player_character.pos() );
+            } else {
+                player_character.read( i_loc );
+            }
+            return;
+        }
+        case action::wear: {
+            avatar &player_character = get_avatar();
+            player_character.wear( item_loc.front().first );
+            return;
+        }
+        case action::wield: {
+            avatar &player_character = get_avatar();
+            player_character.wield( item_loc.front().first );
+            return;
+        }
+        default:
+            debugmsg( "Unexpected action kind in rummage_pocket_activity_actor::finish" );
+            return;
+    }
+}
+
+void rummage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item_loc", item_loc );
+    jsout.member_as_string( "action", kind );
+    jsout.member( "m_pnt", m_pnt );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> rummage_activity_actor::deserialize( JsonValue &jsin )
+{
+    rummage_activity_actor actor( drop_locations{}, action::none, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "item_loc", actor.item_loc );
+    const action k = data.get_enum_value<action>( "action" );
+    actor.kind = k;
+    data.read( "m_pnt", actor.m_pnt );
+
+    return actor.clone();
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<rummage_activity_actor::action>(
+    const rummage_activity_actor::action kind )
+{
+    switch( kind ) {
+        case rummage_activity_actor::action::activate:
+            return "activate";
+        case rummage_activity_actor::action::drop:
+            return "drop";
+        case rummage_activity_actor::action::eat:
+            return "eat";
+        case rummage_activity_actor::action::none:
+            return "none";
+        case rummage_activity_actor::action::read:
+            return "read";
+        case rummage_activity_actor::action::wear:
+            return "wear";
+        case rummage_activity_actor::action::wield:
+            return "wield";
+        case rummage_activity_actor::action::last:
+            break;
+    }
+    debugmsg( "Invalid rummage_activity_actor::action" );
+    abort();
+}
+} //namespace io
+
+template<>
+struct enum_traits<rummage_activity_actor::action> {
+    static constexpr rummage_activity_actor::action last =
+        rummage_activity_actor::action::last;
+};
+
+
 namespace activity_actors
 {
 
@@ -5234,6 +5362,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
+    { ACT_RUMMAGE_POCKET, &rummage_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
