@@ -192,14 +192,14 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "4 m",
     "charges": 200,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "components": [
-      [ [ "metal_zinc", 200 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "material_sand", 10 ] ]
+      [ [ "zinc_metal", 200 ] ],
+      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "material_sand", 15 ] ]
     ]
   },
   {
