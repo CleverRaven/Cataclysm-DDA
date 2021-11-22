@@ -698,7 +698,7 @@
             { "type": "cotton", "portion_cover": 100, "thickness": 1.0 },
             { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
           ],
-          "coverage": 15,
+          "coverage": 30,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -1692,7 +1692,7 @@
       "armor": [
         {
           "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
-          "coverage": 15,
+          "coverage": 40,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_front" ]
         }

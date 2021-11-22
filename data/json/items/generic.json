@@ -3575,7 +3575,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",
