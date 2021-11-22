@@ -1250,9 +1250,9 @@
   {
     "type": "mutation",
     "id": "ANTIFRUIT",
-    "name": { "str": "Hates Fruit" },
+    "name": { "str": "Fructose Intolerance" },
     "points": -3,
-    "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
+    "description": "Eating fruits always causes your stomach to ache.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
