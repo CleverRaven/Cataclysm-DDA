@@ -6,6 +6,34 @@
   },
   {
     "type": "snippet",
+    "category": "<color>",
+    "text": [
+      "red",
+      "crimson",
+      "pink",
+      "vermillion",
+      "turquoise",
+      "azure",
+      "cream",
+      "purple",
+      "burgundy",
+      "blue",
+      "cyan",
+      "green",
+      "yellow",
+      "orange",
+      "violet",
+      "grey",
+      "black",
+      "brown",
+      "white",
+      "ocher",
+      "ivory",
+      "lilac"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "necropolis_intro",
     "text": [
       {
