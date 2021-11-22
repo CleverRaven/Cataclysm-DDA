@@ -616,10 +616,6 @@ void Item_factory::finalize_post( itype &obj )
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
-            // if sub coverage is empty we should add all coverage to the item
-            if( !data.sub_coverage.empty() ) {
-                obj.armor->has_sub_coverage = true;
-            }
             // Precalc average thickness per portion
             int data_count = 0;
             float thic_acc = 0.0f;
@@ -650,9 +646,14 @@ void Item_factory::finalize_post( itype &obj )
 
                             it.encumber += sub_armor.encumber;
                             it.max_encumber += sub_armor.max_encumber;
-                            it.coverage += sub_armor.coverage;
-                            it.cover_melee += sub_armor.cover_melee;
-                            it.cover_ranged += sub_armor.cover_ranged;
+
+                            // get the ammount of the limb that is covered with sublocations
+                            // for overall coverage we need to scale coverage by that
+                            float scale = sub_armor.max_coverage( bp ) / 100;
+
+                            it.coverage += (sub_armor.coverage * scale);
+                            it.cover_melee += (sub_armor.cover_melee * scale);
+                            it.cover_ranged += (sub_armor.cover_ranged * scale);
                             it.cover_vitals += sub_armor.cover_vitals;
 
                             it.avg_thickness += sub_armor.avg_thickness;
@@ -674,14 +675,8 @@ void Item_factory::finalize_post( itype &obj )
                                     if( old_mat.id == new_mat.id ) {
                                         mat_found = true;
                                         // values should be averaged however I can't envision this ever being used
-                                        float max_coverage_new = 0;
-                                        float max_coverage_mats = 0;
-                                        for( const sub_bodypart_str_id &bp : sub_armor.sub_coverage ) {
-                                            max_coverage_new += bp->max_coverage;
-                                        }
-                                        for( const sub_bodypart_str_id &bp : it.sub_coverage ) {
-                                            max_coverage_mats += bp->max_coverage;
-                                        }
+                                        float max_coverage_new = sub_armor.max_coverage( bp );
+                                        float max_coverage_mats = it.max_coverage( bp );
 
                                         // with the max values we can get the weight that each should have
                                         old_mat.cover = ( max_coverage_new * new_mat.cover + max_coverage_mats * old_mat.cover ) /
@@ -712,11 +707,47 @@ void Item_factory::finalize_post( itype &obj )
                         armor_portion_data new_limb = sub_armor;
                         new_limb.covers->clear();
                         new_limb.covers->set( bp );
+
+                        // get the ammount of the limb that is covered with sublocations
+                        // for overall coverage we need to scale coverage by that
+                        float scale = new_limb.max_coverage( bp ) / 100;
+
+                        new_limb.coverage = new_limb.coverage * scale;
+                        new_limb.cover_melee = new_limb.cover_melee * scale;
+                        new_limb.cover_ranged = new_limb.cover_ranged * scale;
                         obj.armor->data.push_back( new_limb );
                     }
                 }
             }
 
+        }
+        for( const armor_portion_data &armor_data : obj.armor->data ) {
+            if( obj.armor->has_sub_coverage ) {
+                // if we already know it has subcoverage break from the loop
+                break;
+            }
+
+            // if the item covers everything it doesn't have specific sub coverage
+            // so don't need to display it in the UI and do tests for it
+            if( !armor_data.sub_coverage.empty() ) {
+                // go through and see if we are missing any sublocations
+                // if we are missing some then the item does cover specific locations
+                // this flag is mostly used to skip itterating and testing
+                // if UI should be displayed
+                for( const sub_bodypart_str_id &sbp : armor_data.sub_coverage ) {
+                    bool found = false;
+                    // each armor data entry covers exactly 1 body part
+                    for( const sub_bodypart_str_id &compare_sbp : armor_data.covers->begin()->obj().sub_parts ) {
+                        if( compare_sbp == sbp ) {
+                            found = true;
+                        }
+                    }
+                    // if an entry is not found we cover specific parts so this item has sub_coverage
+                    if( !found ) {
+                        obj.armor->has_sub_coverage = true;
+                    }
+                }
+            }
         }
     }
 
@@ -1373,7 +1404,6 @@ void Item_factory::check_definitions() const
             msg += "undefined category " + type->category_force.str() + "\n";
         }
 
-        //todo add here
         if( type->armor ) {
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
@@ -1410,22 +1440,20 @@ void Item_factory::check_definitions() const
                 }
             }
 
-            // check that no item has more coverage on any location than the max coverage
-            if( type->armor->has_sub_coverage ) {
-                for( const armor_portion_data &portion : type->armor->sub_data ) {
-                    if( portion.sub_coverage.empty() ) {
-                        //this entry has no sub coverage skip it
-                        continue;
-                    }
-                    int max_coverage = 0;
-                    for( const sub_bodypart_str_id &bp : portion.sub_coverage ) {
-                        max_coverage += bp->max_coverage;
-                    }
-                    if( max_coverage < portion.coverage || max_coverage < portion.cover_melee ||
-                        max_coverage < portion.cover_ranged ) {
-                        msg += string_format( "coverage exceeds the maximum ammount for the sub locations max coverage: %d, item coverage: %d\n",
-                                              max_coverage, portion.coverage );
-                    }
+            // check that no item has more coverage on any location than the max coverage (100)
+            for( const armor_portion_data &portion : type->armor->sub_data ) {
+                if( 100 < portion.coverage || 100 < portion.cover_melee ||
+                    100 < portion.cover_ranged ) {
+                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                                          portion.coverage );
+                }
+            }
+            // check that no item has more coverage on any location than the max coverage (100)
+            for( const armor_portion_data &portion : type->armor->data ) {
+                if( 100 < portion.coverage || 100 < portion.cover_melee ||
+                    100 < portion.cover_ranged ) {
+                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                                          portion.coverage );
                 }
             }
         }
@@ -2164,10 +2192,27 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 {
     assign_coverage_from_json( jo, "covers", covers );
     optional( jo, false, "coverage", coverage, 0 );
+    optional( jo, false, "specifically_covers", sub_coverage );
+
+    // if an item covers sublocations and doesn't have coverage
+    // assume it covers the whole body part
+    if( !sub_coverage.empty() && coverage == 0 ) {
+        coverage = 100;
+    }
+
+
+    // if no sub locations are specified assume it covers everything
+    if( covers.has_value() && sub_coverage.empty() ) {
+        for( const bodypart_str_id &bp : covers.value() ) {
+            for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                sub_coverage.push_back( sbp );
+            }
+        }
+    }
+
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
-    optional( jo, false, "specifically_covers", sub_coverage );
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );

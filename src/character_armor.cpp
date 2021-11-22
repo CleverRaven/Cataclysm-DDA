@@ -442,7 +442,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 if( bp->sub_parts.empty() || !armor.has_sublocations() ) {
                     destroy = armor_absorb( elem, armor, bp, roll );
                 } else {
+                    // if this armor has sublocation data test against it instead of just a generic roll
                     destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                    // for the torso we also need to consider if it hits anything hanging off the player or their neck
                     if( bp == body_part_torso ) {
                         destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
                     }

@@ -278,6 +278,15 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
+
     void deserialize( const JsonObject &jo );
 };
 

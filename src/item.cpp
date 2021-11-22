@@ -6834,29 +6834,13 @@ int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) co
 int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type ) const
 {
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        // get the max coverage of this piece
-        int max_coverage = 0;
-        for( const sub_bodypart_str_id &sbp : portion_data->sub_coverage ) {
-            if( bodypart->secondary == sbp->secondary && bodypart->parent == sbp->parent ) {
-                // add all sublocations that share the same parent limb
-                max_coverage += sbp->max_coverage;
-            }
-        }
-
-        // if you aren't covering anything return 0
-        if( max_coverage == 0 ) {
-            return 0;
-        }
-
-        // for each piece we need to figure out how much of the sub part we are
-        // actually covering and then convert that to a number out of 100
         switch( type ) {
             case cover_type::COVER_DEFAULT:
-                return portion_data->coverage * 100 / max_coverage ;
+                return portion_data->coverage;
             case cover_type::COVER_MELEE:
-                return portion_data->cover_melee * 100 / max_coverage;
+                return portion_data->cover_melee;
             case cover_type::COVER_RANGED:
-                return portion_data->cover_ranged * 100 / max_coverage;
+                return portion_data->cover_ranged;
             case cover_type::COVER_VITALS:
                 return portion_data->cover_vitals;
         }

@@ -1025,13 +1025,12 @@
       { "encumbrance": 12, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
       {
         "encumbrance": 25,
-        "coverage": 40,
         "covers": [ "leg_r", "leg_l" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ]
       },
       {
         "encumbrance": 0,
-        "coverage": 20,
+        "coverage": 50,
         "covers": [ "leg_r", "leg_l" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
