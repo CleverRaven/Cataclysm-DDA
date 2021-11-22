@@ -1918,7 +1918,12 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'W': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    u.wear( locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                            rummage_activity_actor::action::wear ) ) );
+                    } else {
+                        u.wear( locThisItem );
+                    }
                     handler.handle_by( u );
                     break;
                 }

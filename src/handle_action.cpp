@@ -1313,7 +1313,12 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( loc );
+        if( loc.where() == item_location::type::container ) {
+            player_character.assign_activity( player_activity( rummage_activity_actor( loc,
+                                              rummage_activity_actor::action::wear ) ) );
+        } else {
+            player_character.wear( loc );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
