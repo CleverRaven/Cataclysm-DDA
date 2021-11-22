@@ -193,7 +193,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "4 m",
-    "charges": 200,
+    "charges": 2000,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "components": [
