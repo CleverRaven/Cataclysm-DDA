@@ -2111,7 +2111,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+                item_location loc = game_menus::inv::consume( player_character );
+                if( loc.where() == item_location::type::container ) {
+                    u.assign_activity( player_activity( rummage_activity_actor( loc,
+                                                        rummage_activity_actor::action::eat ) ) );
+                } else {
+                    avatar_action::eat( player_character, loc );
+                }
             }
             break;
 

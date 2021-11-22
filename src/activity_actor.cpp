@@ -5231,7 +5231,8 @@ void rummage_activity_actor::finish( player_activity &act, Character &who )
             return;
         }
         case action::eat: {
-
+            avatar& player_character = get_avatar();
+            avatar_action::eat(player_character, item_loc.front().first);
             return;
         }
         case action::read: {

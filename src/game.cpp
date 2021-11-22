@@ -1904,7 +1904,13 @@ int game::inventory_item_menu( item_location locThisItem,
                 }
                 case 'E':
                     if( !locThisItem.get_item()->is_container() ) {
-                        avatar_action::eat( u, locThisItem );
+                        if( locThisItem.where() == item_location::type::container ) {
+                            u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                                rummage_activity_actor::action::eat ) ) )
+                            ;
+                        } else {
+                            avatar_action::eat( u, locThisItem );
+                        }
                     } else {
                         avatar_action::eat( u, game_menus::inv::consume( u, locThisItem ) );
                     }
