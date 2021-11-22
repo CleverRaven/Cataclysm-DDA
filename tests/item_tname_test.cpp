@@ -17,6 +17,11 @@
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+static const itype_id itype_backpack_hiking( "backpack_hiking" );
+static const itype_id itype_purse( "purse" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_test_rock( "test_rock" );
+
 static const skill_id skill_survival( "survival" );
 
 // Test cases focused on item::tname
@@ -436,10 +441,10 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 
 TEST_CASE( "nested_items_tname", "[item][tname]" )
 {
-    item backpack_hiking( itype_id( "backpack_hiking" ) );
-    item purse( itype_id( "purse" ) );
-    item rock( itype_id( "test_rock" ) );
-    item rock2( itype_id( "rock" ) );
+    item backpack_hiking( itype_backpack_hiking );
+    item purse( itype_purse );
+    item rock( itype_test_rock );
+    item rock2( itype_rock );
     const std::string color_pref = "<color_c_light_green>||\u00A0</color>";
 
     const std::string nesting_sym = ">";

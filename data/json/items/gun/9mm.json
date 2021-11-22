@@ -314,8 +314,8 @@
       "armor": [
         {
           "material": [
-            { "type": "steel", "portion_cover": 100, "thickness": 2.0 },
-            { "type": "plastic", "portion_cover": 100, "thickness": 2.0 }
+            { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
           ],
           "encumbrance": 30,
           "coverage": 10,

@@ -39,6 +39,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_forest( "forest" );
+
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -388,7 +390,7 @@ item_group_id basecamp::get_gatherlist() const
             return gatherlist;
         }
     }
-    return item_group_id( "forest" );
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )

@@ -231,5 +231,23 @@
     "type": "requirement",
     "//": "Materials used for painting something of any color",
     "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+  },
+  {
+    "id": "shoe_rubber",
+    "type": "requirement",
+    "//": "Materials needed to make a pair of rubber shoe soles.",
+    "components": [ [ [ "sole_rubber", 2 ], [ "chunk_rubber", 7 ], [ "rubber_tire_chunk", 2 ], [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "id": "tire_rubber",
+    "type": "requirement",
+    "//": "Materials needed to repair damage to tires.",
+    "components": [ [ [ "sole_rubber", 1 ], [ "chunk_rubber", 2 ], [ "rubber_tire_chunk", 1 ] ] ]
+  },
+  {
+    "id": "adhesive_rubber",
+    "type": "requirement",
+    "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
+    "components": [ [ [ "rubber_cement", 1 ] ] ]
   }
 ]

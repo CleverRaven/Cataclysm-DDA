@@ -852,11 +852,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_standard", 35 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 26 ] ] ]
   },
   {
@@ -866,28 +867,29 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 8,
-    "time": "6 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "8 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 35 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 18 ] ] ]
   },
   {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "rag", 62 ] ] ]
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "rag", 52 ] ] ]
   },
   {
     "result": "xl_k_gambeson",
     "type": "recipe",
     "copy-from": "k_gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 85 ] ] ]
+    "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
   },
   {
     "result": "h20survivor_suit",

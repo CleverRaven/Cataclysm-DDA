@@ -65,12 +65,16 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const flag_id json_flag_FIT( "FIT" );
+
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const mtype_id mon_generator( "mon_generator" );
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -554,7 +558,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                    if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
                         break;
@@ -914,7 +918,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( flag_id( "FIT" ) );
+        granted.set_flag( json_flag_FIT );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {

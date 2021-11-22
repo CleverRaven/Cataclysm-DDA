@@ -182,6 +182,8 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+static const ammotype ammo_battery( "battery" );
+
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const efftype_id effect_blind( "blind" );
@@ -190,6 +192,12 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
@@ -205,16 +213,24 @@ static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -1629,20 +1645,20 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
 
     switch( season_of_year( calendar::turn ) ) {
         case SPRING:
-            group_id = item_group_id( "forage_spring" );
-            next_ter = ter_str_id( "t_underbrush_harvested_spring" );
+            group_id = Item_spawn_data_forage_spring;
+            next_ter = ter_t_underbrush_harvested_spring;
             break;
         case SUMMER:
-            group_id = item_group_id( "forage_summer" );
-            next_ter = ter_str_id( "t_underbrush_harvested_summer" );
+            group_id = Item_spawn_data_forage_summer;
+            next_ter = ter_t_underbrush_harvested_summer;
             break;
         case AUTUMN:
-            group_id = item_group_id( "forage_autumn" );
-            next_ter = ter_str_id( "t_underbrush_harvested_autumn" );
+            group_id = Item_spawn_data_forage_autumn;
+            next_ter = ter_t_underbrush_harvested_autumn;
             break;
         case WINTER:
-            group_id = item_group_id( "forage_winter" );
-            next_ter = ter_str_id( "t_underbrush_harvested_winter" );
+            group_id = Item_spawn_data_forage_winter;
+            next_ter = ter_t_underbrush_harvested_winter;
             break;
         default:
             debugmsg( "Invalid season" );
@@ -1674,7 +1690,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
-            here.put_items_from_loc( item_group_id( "trash_forest" ), you->pos(), calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_trash_forest, you->pos(), calendar::turn );
         for( item * const &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
@@ -2190,8 +2206,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2402,7 +2418,7 @@ struct weldrig_hack {
         item pseudo_magazine( pseudo.magazine_default() );
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
+                         pseudo.ammo_capacity( ammo_battery ) ) );
         return pseudo;
     }
 
@@ -2632,12 +2648,11 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
     if( heat == nullptr ) {
         return;
     }
-    item *const food = heat->get_food();
-    if( food == nullptr ) {
-        debugmsg( "item %s is not food", heat->typeId().str() );
+    if( !heat->has_temperature() ) {
+        debugmsg( "item %s is not heatable", heat->typeId().str() );
         return;
     }
-    item &target = *food;
+    item &target = *heat;
     if( target.has_own_flag( flag_FROZEN ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
@@ -2942,7 +2957,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    mongroup_id( "GROUP_FISH" ), true );
+                    GROUP_FISH, true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
         here.add_item_or_charges( you->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
@@ -3618,7 +3633,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
 {
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + you->get_skill_level( skill_id( "fabrication" ) ), 1 );
+    int planks = normal_roll( 2 + you->get_skill_level( skill_fabrication ), 1 );
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
@@ -3865,7 +3880,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const int computer_skill = you->get_skill_level( skill_id( "computer" ) );
+    const int computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -3885,7 +3900,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         //damage it a little
         z->apply_damage( you, bodypart_id( "torso" ), rng( 1, 10 ) );
         if( z->is_dead() ) {
-            you->practice( skill_id( "computer" ), 10 );
+            you->practice( skill_computer, 10 );
             // Do not do the other effects if the robot died
             return;
         }

@@ -1096,7 +1096,7 @@
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
-      "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
+      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat" ]
     }
   },
   {
@@ -2354,7 +2354,7 @@
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "garter_belt", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -3535,7 +3535,7 @@
     "skills": { "level": 2, "name": "melee" },
     "items": {
       "both": {
-        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta", "bellywrap" ],
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
