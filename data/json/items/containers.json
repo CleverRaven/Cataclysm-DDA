@@ -924,7 +924,6 @@
           "covers": [ "leg_l", "leg_r" ],
           "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
           "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
-
         }
       ]
     },
