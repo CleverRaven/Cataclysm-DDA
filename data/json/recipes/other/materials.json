@@ -196,11 +196,7 @@
     "charges": 2000,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "components": [
-      [ [ "zinc_metal", 200 ] ],
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "material_sand", 15 ] ]
-    ]
+    "components": [ [ [ "zinc_metal", 200 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "material_sand", 15 ] ] ]
   },
   {
     "type": "recipe",
