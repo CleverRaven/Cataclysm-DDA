@@ -16,7 +16,7 @@
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
