@@ -28,7 +28,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -695,8 +695,8 @@
       "armor": [
         {
           "material": [
-            { "type": "cotton", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "coverage": 30,
           "covers": [ "torso" ],
@@ -921,7 +921,7 @@
           "encumbrance": 2,
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ],
-          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ]
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
         }
       ]
     },
@@ -1227,7 +1227,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "iron", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
           "coverage": 2,
           "covers": [ "leg_l", "leg_r" ]
         }
@@ -1560,7 +1560,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 5,
           "coverage": 5,
           "covers": [ "torso" ]
@@ -1623,7 +1623,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ]
         }
@@ -1658,7 +1658,11 @@
     ],
     "armor_data": {
       "armor": [
-        { "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ], "coverage": 10, "covers": [ "torso" ] }
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
       ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -1691,7 +1695,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
           "coverage": 40,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_front" ]
