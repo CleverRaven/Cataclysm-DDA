@@ -1960,9 +1960,15 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'm':
                     avatar_action::mend( u, locThisItem );
                     break;
-                case 'R':
-                    u.read( locThisItem );
+                case 'R': {
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                            rummage_activity_actor::action::read ) ) );
+                    } else {
+                        u.read( locThisItem );
+                    }
                     break;
+                }
                 case 'D':
                     u.disassemble( locThisItem, false );
                     break;
