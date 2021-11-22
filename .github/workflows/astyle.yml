@@ -15,6 +15,11 @@ jobs:
         with:
           cancel_others: 'true'
           paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+      - name: label success on skip
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "astyled"
   astyle-code:
     name: astyle check
     needs: skip-duplicates
