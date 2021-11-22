@@ -70,6 +70,7 @@ jobs:
             gold: 1
             lto: 1
             native: linux64
+            label: Basic Build Passed
             title: Basic Build and Test (GCC 9, Curses, LTO)
 
           - compiler: clang++-12
@@ -161,6 +162,7 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
+        LABEL: ${{ matrix.label }}
         SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
@@ -221,6 +223,16 @@ jobs:
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
+    - name: label success
+      if: ${{ success() && matrix.label }}
+      uses: andymckay/labeler@master
+      with:
+        add-labels: ${{ matrix.label }}
+    - name: label failure
+      if: ${{ failure() && matrix.label }}
+      uses: andymckay/labeler@master
+      with:
+        remove-labels: ${{ matrix.label }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()
