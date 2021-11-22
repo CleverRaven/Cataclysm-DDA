@@ -5222,7 +5222,8 @@ void rummage_activity_actor::finish( player_activity &act, Character &who )
 
     switch( kind ) {
         case action::activate: {
-
+            avatar &player_character = get_avatar();
+            avatar_action::use_item( player_character, item_loc.front().first );
             return;
         }
         case action::drop: {
@@ -5236,6 +5237,7 @@ void rummage_activity_actor::finish( player_activity &act, Character &who )
         case action::read: {
             avatar &player_character = get_avatar();
             item_location i_loc = item_loc.front().first;
+
             if( i_loc->type->can_use( "learn_spell" ) ) {
                 item spell_book = *i_loc.get_item();
                 spell_book.get_use( "learn_spell" )->call(

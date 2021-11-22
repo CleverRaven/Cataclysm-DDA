@@ -1886,7 +1886,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( locThisItem.get_item()->type->has_use() &&
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
                         // Item has uses and none of its contents (if any) has uses.
-                        avatar_action::use_item( u, locThisItem );
+
+                        if( locThisItem.where() == item_location::type::container ) {
+                            u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
+                                                                rummage_activity_actor::action::activate ) ) );
+                        } else {
+                            avatar_action::use_item( u, locThisItem );
+                        }
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
                     } else {

@@ -1080,8 +1080,13 @@ static void update_lum( item_location loc, bool add )
 
 void avatar_action::use_item( avatar &you )
 {
-    item_location loc;
-    avatar_action::use_item( you, loc );
+    item_location loc = game_menus::inv::use( you );
+    if( loc.where() == item_location::type::container ) {
+        you.assign_activity( player_activity( rummage_activity_actor( loc,
+                                              rummage_activity_actor::action::activate ) ) );
+    } else {
+        avatar_action::use_item( you, loc );
+    }
 }
 
 void avatar_action::use_item( avatar &you, item_location &loc )
