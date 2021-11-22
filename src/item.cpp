@@ -3415,7 +3415,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     insert_separation_line( info );
     const islot_book &book = *type->book;
     // Some things about a book you CAN tell by it's cover.
-    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
+    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) && player_character.studied_all_recipes ) {
         info.emplace_back( "BOOK", _( "Just for fun." ) );
     }
     avatar &player_character = get_avatar();
