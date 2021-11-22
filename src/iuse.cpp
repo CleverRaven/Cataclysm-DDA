@@ -5145,8 +5145,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
 static bool heat_item( Character &p )
 {
     item_location loc = g->inv_map_splice( []( const item_location & itm ) {
-        const item *food = itm->get_food();
-        return food && !food->has_own_flag( flag_HOT ) &&
+        return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
                  get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
@@ -5157,17 +5156,16 @@ static bool heat_item( Character &p )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item *target = heat->get_food();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only approximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->has_own_flag( flag_FROZEN ) && !target->has_flag( flag_EATEN_COLD ) ) {
+    int duration = to_turns<int>( time_duration::from_seconds( to_gram( heat->weight() ) ) ) * 10;
+    if( heat->has_own_flag( flag_FROZEN ) && !heat->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.emplace_back( p, target );
+    p.activity.targets.emplace_back( p, heat );
     return true;
 }
 

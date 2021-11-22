@@ -2119,8 +2119,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     // refuse to disassemble rotten items
-    const item *food = obj.get_food();
-    if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
+    if( obj.goes_bad() && obj.rotten() ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
