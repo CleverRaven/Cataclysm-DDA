@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "memory_fast.h"
 #include "monster.h"

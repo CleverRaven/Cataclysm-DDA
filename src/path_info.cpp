@@ -7,6 +7,7 @@
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
+#include "system_language.h"
 
 #if defined(_WIN32)
 #include <windows.h>

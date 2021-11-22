@@ -1145,6 +1145,7 @@
     "items": [
       [ "keg", 100 ],
       { "item": "beer", "prob": 40, "container-item": "keg" },
+      { "item": "drink_hard_seltzer", "prob": 40, "container-item": "keg" },
       { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
       { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
       { "item": "wine_barley", "prob": 17, "container-item": "keg" },

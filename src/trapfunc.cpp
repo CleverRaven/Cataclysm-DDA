@@ -54,6 +54,11 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const material_id material_kevlar( "kevlar" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -1026,16 +1031,16 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of_any( Creature::cmat_flesh ) ) {
             dam = 50;
         }
-        if( z->made_of( material_id( "veggy" ) ) ) {
+        if( z->made_of( material_veggy ) ) {
             dam = 80;
         }
         if( z->made_of( phase_id::LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
-        if( z->made_of( material_id( "stone" ) ) ) {
+        if( z->made_of( material_stone ) ) {
             dam = 15;
         }
-        if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
+        if( z->made_of( material_kevlar ) || z->made_of( material_steel ) ) {
             dam = 5;
         }
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::HEAT, dam ) );

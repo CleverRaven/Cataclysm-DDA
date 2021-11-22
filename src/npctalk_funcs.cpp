@@ -92,6 +92,11 @@ static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
+
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
@@ -788,7 +793,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
-    p.set_fac( faction_id( "your_followers" ) );
+    p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
 }
@@ -852,8 +857,8 @@ void talk_function::leave( npc &p )
     p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
-                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
-    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                            faction_id( new_fac_id ), faction_no_faction );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
@@ -972,7 +977,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
                                      character_id() );
     reach_safety__mission->assign( get_avatar() );
     p.goal = reach_safety__mission->get_target();

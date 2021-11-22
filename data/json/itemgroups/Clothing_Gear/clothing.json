@@ -1077,9 +1077,11 @@
       [ "nanoskirt", 30 ],
       [ "camisole", 60 ],
       [ "corset", 20 ],
+      [ "corset_waist", 20 ],
       [ "unitard", 5 ],
       [ "leotard", 10 ],
       [ "stockings", 50 ],
+      [ "garter_belt", 25 ],
       [ "leggings", 20 ],
       [ "tights", 50 ]
     ]
@@ -1239,6 +1241,7 @@
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
       [ "bholster", 5 ],
+      [ "bbholster", 4 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "kasaya", 1 ],
@@ -1416,6 +1419,7 @@
       [ "gloves_winter", 40 ],
       [ "gloves_liner", 25 ],
       [ "gloves_leather", 45 ],
+      [ "bellyband", 10 ],
       [ "scarf", 45 ],
       [ "knit_scarf", 35 ],
       [ "long_knit_scarf", 15 ],
@@ -1626,7 +1630,8 @@
       [ "bikini_top", 10 ],
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
-      [ "corset", 5 ]
+      [ "corset", 5 ],
+      [ "corset_waist", 5 ]
     ]
   },
   {
@@ -1730,6 +1735,7 @@
       { "item": "under_armor_shorts", "prob": 20 },
       { "item": "tights", "prob": 20 },
       { "item": "leggings", "prob": 20 },
+      { "item": "garter_belt", "prob": 10 },
       { "item": "stockings", "prob": 20 },
       { "item": "balclava", "prob": 15 },
       { "item": "pants_ski", "prob": 60 },
@@ -1778,7 +1784,10 @@
       { "item": "uttarasanga", "prob": 1 },
       { "item": "samghati", "prob": 1 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "chestwrap", "prob": 5 },
+      { "item": "bellywrap", "prob": 2 },
+      { "item": "bellyband", "prob": 2 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
       { "item": "jacket_army", "prob": 10 },
@@ -2329,6 +2338,7 @@
       [ "ballistic_vest_esapi", 4 ],
       [ "dragonskin", 1 ],
       [ "corset", 1 ],
+      [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
@@ -2676,12 +2686,14 @@
       [ "tights", 20 ],
       [ "leggings", 20 ],
       [ "stockings", 20 ],
+      [ "garter_belt", 10 ],
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "pants_army", 10 ],
       [ "army_top", 20 ],
       [ "tux", 1 ],
@@ -2919,8 +2931,10 @@
       { "item": "bikini_top_leather", "prob": 10 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "sports_bra", "prob": 50 },
       { "item": "stockings", "prob": 20 },
+      { "item": "garter_belt", "prob": 10 },
       { "item": "tights", "prob": 20 }
     ]
   },
@@ -3406,7 +3420,8 @@
       { "item": "back_holster", "prob": 10 },
       { "item": "holster", "prob": 30 },
       { "item": "sholster", "prob": 10 },
-      { "item": "bholster", "prob": 10 }
+      { "item": "bholster", "prob": 10 },
+      { "item": "bbholster", "prob": 8 }
     ]
   },
   {

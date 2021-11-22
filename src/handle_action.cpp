@@ -115,10 +115,15 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const gun_mode_id gun_mode_AUTO( "AUTO" );
+
+static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+
+static const material_id material_glass( "glass" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
@@ -130,6 +135,18 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
+static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
+static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
+static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -433,7 +450,6 @@ static void pldrive( const tripoint &p )
         return;
     }
     if( !remote ) {
-        static const itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
@@ -809,7 +825,7 @@ static void smash()
             if( player_character.get_skill_level( skill_melee ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int glass_portion = weapon.made_of( material_id( "glass" ) );
+            const int glass_portion = weapon.made_of( material_glass );
             float glass_fraction = glass_portion / static_cast<float>( weapon.type->mat_portion_total );
             if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
                 glass_fraction = 0.f;
@@ -1155,34 +1171,34 @@ static void loot()
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
-    flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ),
+    flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
-    if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), player_character.pos() ) ) {
+    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
-    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+    flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
                                  player_character.pos() ) ? ConstructPlots : 0;
 
-    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ),
+    flags |= g->check_near_zone( zone_type_CHOP_TREES,
                                  player_character.pos() ) ? Multichoptrees : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ),
+    flags |= g->check_near_zone( zone_type_LOOT_WOOD,
                                  player_character.pos() ) ? Multichopplanks : 0;
-    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+    flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
                                  player_character.pos() ) ? Multideconvehicle : 0;
-    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ),
+    flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR,
                                  player_character.pos() ) ? Multirepairvehicle : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ),
+    flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
                                  player_character.pos() ) ? MultiButchery : 0;
-    flags |= g->check_near_zone( zone_type_id( "MINING" ), player_character.pos() ) ? MultiMining : 0;
-    flags |= g->check_near_zone( zone_type_id( "zone_disassemble" ),
+    flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
+    flags |= g->check_near_zone( zone_type_zone_disassemble,
                                  player_character.pos() ) ? MultiDis : 0;
-    flags |= g->check_near_zone( zone_type_id( "MOPPING" ), player_character.pos() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
-                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
-                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
+                 mgr.get_name_from_type( zone_type_LOOT_UNSORTED ),
+                 mgr.get_name_from_type( zone_type_FARM_PLOT ) );
         return;
     }
 
@@ -2154,7 +2170,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FIRE_BURST: {
             gun_mode_id original_mode = weapon.gun_get_mode_id();
-            if( weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+            if( weapon.gun_set_mode( gun_mode_AUTO ) ) {
                 avatar_action::fire_wielded_weapon( player_character );
                 weapon.gun_set_mode( original_mode );
             }

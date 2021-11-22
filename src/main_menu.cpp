@@ -26,6 +26,7 @@
 #include "get_version.h"
 #include "help.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
