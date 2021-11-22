@@ -189,7 +189,9 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 0, 16 ], "coverage": 13, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [
+      { "encumbrance": [ 0, 16 ], "coverage": 13, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] }
+    ]
   },
   {
     "id": "holster",
