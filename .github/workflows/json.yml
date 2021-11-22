@@ -15,6 +15,11 @@ jobs:
         with:
           cancel_others: 'true'
           paths: '["**.json"]'
+      - name: label success on skip
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "json-styled"
   style-json:
     name: JSON style check
 
