@@ -186,9 +186,6 @@
     "id": "private_resort_maid_dress",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "maid_dress", 20 ],
-      [ "maid_dress_short", 80 ]
-    ]
+    "items": [ [ "maid_dress", 20 ], [ "maid_dress_short", 80 ] ]
   }
 ]
