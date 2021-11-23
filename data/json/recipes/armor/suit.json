@@ -866,8 +866,7 @@
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 62 ] ]
-    "components": [ [ [ "fastener_large", 2 ] ] ]
+    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 52 ], [ "fastener_large", 2 ] ]
   },
   {
     "result": "xl_k_gambeson",
