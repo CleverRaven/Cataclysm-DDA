@@ -582,7 +582,7 @@
     "color": "white",
     "container": "box_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.8, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.8, "move_cost": 500 }
   },
   {
     "id": "diazepam",
