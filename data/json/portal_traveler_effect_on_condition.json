@@ -14,11 +14,7 @@
     },
     "deactivate_condition": {
       "not": {
-        "or": [
-          { "u_has_trait": "PORTAL_DEPENDENT" },
-          { "is_weather": "portal_storm" },
-          { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }
-        ]
+          { "is_weather": "portal_storm" }
       }
     },
     "effect": {
@@ -181,8 +177,7 @@
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
-        { "is_weather": "portal_storm" },
-        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }
+        { "is_weather": "portal_storm" }
       ]
     },
     "effect": {
@@ -273,7 +268,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TRAVELER_STR_BAD",
-    "//": "Strenght debuff as consequence of your unstable condition.",
+    "//": "Strength debuff as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       { "u_message": "You suddenly need more strength to interact with your surroundings.", "type": "bad" },
