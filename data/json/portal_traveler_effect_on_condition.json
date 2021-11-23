@@ -14,7 +14,10 @@
     },
     "deactivate_condition": {
       "not": {
-          { "is_weather": "portal_storm" }
+      "or": [
+        { "u_has_trait": "PORTAL_DEPENDENT" },
+        { "is_weather": "portal_storm" }
+      ]
       }
     },
     "effect": {
