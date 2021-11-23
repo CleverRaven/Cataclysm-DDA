@@ -20,7 +20,7 @@
   },
   {
     "type": "profession",
-    "id": "jedi_knight",
+    "id": "mma_jedi_knight",
     "name": "Jedi Knight",
     "description": "You were sucked through a strange portal on your way to the temple.  Armed with only a training saber, you will need to survive in this strange world where the force seems to scream.",
     "points": 6,
