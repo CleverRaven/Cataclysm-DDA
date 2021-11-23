@@ -3105,11 +3105,96 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
     std::vector<city> mine_points;
-    // These are so common that it's worth checking first as int.
-    const oter_id skip_above[6] = {
-        oter_empty_rock.id(), oter_forest.id(), oter_field.id(),
-        oter_forest_thick.id(), oter_forest_water.id(), oter_solid_earth.id()
+
+    const auto add_goo_point = [&]( const tripoint_om_omt & p ) {
+        const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
+        goo_points.emplace_back( p.xy(), size );
     };
+
+    std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>> oter_above_actions
+    = {
+        { oter_type_str_id( "empty_rock" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_str_id( "forest" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_str_id( "field" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_str_id( "forest_water" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_str_id( "forest_thick" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_str_id( "solid_earth" ).id(), []( const tripoint_om_omt & ) {} },
+        {
+            oter_type_str_id( "road_nesw_manhole" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                ter_set( p, oter_sewer_isolated.id() );
+                sewer_points.emplace_back( p.xy() );
+            }
+        },
+        { oter_type_str_id( "slimepit_down" ).id(), add_goo_point },
+        { oter_type_str_id( "slimepit_bottom" ).id(), add_goo_point },
+        {
+            oter_type_str_id( "lab_core" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
+            }
+        },
+        {
+            oter_type_str_id( "lab_stairs" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                if( z == -1 ) {
+                    lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
+                } else {
+                    ter_set( p, oter_lab.id() );
+                }
+            }
+        },
+        {
+            oter_type_str_id( "ice_lab_core" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
+            }
+        },
+        {
+            oter_type_str_id( "ice_lab_stairs" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                if( z == -1 ) {
+                    ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
+                } else {
+                    ter_set( p, oter_ice_lab.id() );
+                }
+            }
+        },
+        {
+            oter_type_str_id( "central_lab_core" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
+            }
+        },
+        {
+            oter_type_str_id( "central_lab_stairs" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                ter_set( p, oter_central_lab.id() );
+            }
+        },
+        {
+            oter_type_str_id( "mine_down" ).id(),
+            [&]( const tripoint_om_omt & p )
+            {
+                ter_set( p, oter_mine.id() );
+                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
+                // technically not all finales need a sub level,
+                // but at this point we don't know
+                requires_sub = true;
+            }
+        },
+    };
+
+    // Avoid constructing strings inside the loop
+    static const std::string s_hidden_lab_stairs = "hidden_lab_stairs";
+    static const std::string s_mine_entrance = "mine_entrance";
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -3123,58 +3208,28 @@ bool overmap::generate_sub( const int z )
                 subway_points.emplace_back( p.xy() );
             }
 
-            // implicitly skip skip_above oter_ids
-            bool skipme = false;
-            for( const oter_id &elem : skip_above ) {
-                if( oter_above == elem ) {
-                    skipme = true;
-                    break;
+            if( oter_ground->get_type_id() == oter_type_sub_station ) {
+                if( z == -1 ) {
+                    ter_set( p, oter_sewer_sub_station.id() );
+                    requires_sub = true;
+                    continue;
+                } else if( z == -2 ) {
+                    ter_set( p, oter_subway_isolated.id() );
+                    subway_points.emplace_back( i, j - 1 );
+                    subway_points.emplace_back( i, j );
+                    subway_points.emplace_back( i, j + 1 );
+                    continue;
                 }
             }
-            if( skipme ) {
-                continue;
-            }
 
-            if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -1 ) {
-                ter_set( p, oter_sewer_sub_station.id() );
-                requires_sub = true;
-            } else if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -2 ) {
-                ter_set( p, oter_subway_isolated.id() );
-                subway_points.emplace_back( i, j - 1 );
-                subway_points.emplace_back( i, j );
-                subway_points.emplace_back( i, j + 1 );
-            } else if( oter_above == oter_road_nesw_manhole ) {
-                ter_set( p, oter_sewer_isolated.id() );
-                sewer_points.emplace_back( i, j );
-            } else if( oter_above == oter_slimepit_down || oter_above == oter_slimepit_bottom ) {
-                const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
-                goo_points.emplace_back( p.xy(), size );
-            } else if( oter_above == oter_forest_water ) {
-                ter_set( p, oter_cavern.id() );
-                chip_rock( p );
-            } else if( oter_above == oter_lab_core ||
-                       ( z == -1 && oter_above == oter_lab_stairs ) ||
-                       is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
+            auto above_action_it = oter_above_actions.find( oter_above->get_type_id().id() );
+
+            if( above_action_it != oter_above_actions.end() ) {
+                above_action_it->second( p );
+            } else if( is_ot_match( s_hidden_lab_stairs, oter_above, ot_match_type::contains ) ) {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            } else if( oter_above == oter_lab_stairs ) {
-                ter_set( p, oter_lab.id() );
-            } else if( oter_above == oter_ice_lab_core ||
-                       ( z == -1 && oter_above == oter_ice_lab_stairs ) ) {
-                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            } else if( oter_above == oter_ice_lab_stairs ) {
-                ter_set( p, oter_ice_lab.id() );
-            } else if( oter_above == oter_central_lab_core ) {
-                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
-            } else if( oter_above == oter_central_lab_stairs ) {
-                ter_set( p, oter_central_lab.id() );
-            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
+            } else if( is_ot_match( s_mine_entrance, oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
-                requires_sub = true;
-            } else if( oter_above == oter_mine_down ) {
-                ter_set( p, oter_mine.id() );
-                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
-                // technically not all finales need a sub level,
-                // but at this point we don't know
                 requires_sub = true;
             }
         }
