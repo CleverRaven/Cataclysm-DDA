@@ -12,14 +12,7 @@
         { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },
-    "deactivate_condition": {
-      "not": {
-      "or": [
-        { "u_has_trait": "PORTAL_DEPENDENT" },
-        { "is_weather": "portal_storm" }
-      ]
-      }
-    },
+    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "is_weather": "portal_storm" } ] } },
     "effect": {
       "set_queue_effect_on_condition": [
         {
@@ -177,12 +170,7 @@
         { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
-        { "is_weather": "portal_storm" }
-      ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PORTAL_DEPENDENT" } }, { "is_weather": "portal_storm" } ] },
     "effect": {
       "set_queue_effect_on_condition": [
         {
