@@ -772,6 +772,10 @@ void Character::load( const JsonObject &data )
         on_item_wear( w );
     }
 
+    if( data.has_array( "debug_bodyparts" ) ) {
+        data.read( "debug_bodyparts", debug_bodyparts );
+    }
+
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
         set_anatomy( anatomy_human_anatomy );
@@ -1171,6 +1175,8 @@ void Character::store( JsonOut &json ) const
     json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
+
+    json.member( "debug_bodyparts", debug_bodyparts );
 
     json.member_as_string( "move_mode",  move_mode );
 

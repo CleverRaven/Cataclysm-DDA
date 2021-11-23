@@ -1265,6 +1265,10 @@ class Character : public Creature, public visitable
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
 
     public:
+        // For usage with the debug body parts menu.
+        std::vector<std::pair<bodypart_id, bool>> debug_bodyparts;
+
+    public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */

@@ -6730,6 +6730,16 @@ void Character::recalculate_bodyparts()
         body_set.set( bp.id() );
     }
     body_set = enchantment_cache->modify_bodyparts( body_set );
+
+    // bodypart_id, force enabled / disabled
+    for( const std::pair<bodypart_id, bool> &bpb : debug_bodyparts ) {
+        if( bpb.second ) {
+            body_set.set( bpb.first.id() );
+        } else {
+            body_set.reset( bpb.first.id() );
+        }
+    }
+
     std::vector<bodypart_str_id> remove;
     // first come up with the bodyparts that need to be removed from body
     for( auto bp_iter = body.begin(); bp_iter != body.end(); ) {
