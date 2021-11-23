@@ -692,6 +692,18 @@
     "eoc": [ "scenario_quick_portal_storm" ]
   },
   {
+    "id": "portal_traveler",
+    "name": "Portal Traveler",
+    "points": -6,
+    "description": "You just came out of a huge and inestable portal. You feel… different.",
+    "forced_traits": [ "PORTAL_DEPENDENT" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
+    "professions": [ "churl", "true_foodperson", "unemployed" ]
+  },
+  {
     "type": "scenario",
     "id": "Mansion",
     "name": "Mansion Escape",

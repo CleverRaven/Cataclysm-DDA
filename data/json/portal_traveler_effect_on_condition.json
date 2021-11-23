@@ -141,7 +141,8 @@
             { "u_add_trait": "REALITY_GRASP" }
           ],
           "false_effect": {
-            "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.", "type": "warning"
+            "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
+            "type": "warning"
           }
         }
       ]
@@ -433,34 +434,34 @@
     "id": "EOC_PORTAL_TRAVELER_MESSAGES_VARIED_BAD",
     "//": "Varied messages about strange/bad things that you hear/see related to your condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
-    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_VARIED_BAD", "snippet": true, "type": "mixed"  } ]
+    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_VARIED_BAD", "snippet": true, "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TRAVELER_MESSAGES_STR_BAD",
     "//": "Messages about strange/bad things that you feel in your body related to your condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
-    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_STR_BAD", "snippet": true, "type": "mixed"  } ]
+    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_STR_BAD", "snippet": true, "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TRAVELER_MESSAGES_DEX_BAD",
     "//": "Messages about strange/bad things that you suffer with your hands related to your condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
-    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_DEX_BAD", "snippet": true, "type": "mixed"  } ]
+    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_DEX_BAD", "snippet": true, "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TRAVELER_MESSAGES_PER_BAD",
     "//": "Messages about strange/bad things that you perceive because of your condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
-    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_PER_BAD", "snippet": true, "type": "mixed"  } ]
+    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_PER_BAD", "snippet": true, "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TRAVELER_MESSAGES_INT_BAD",
     "//": "Messages about strange/bad things that you think/feel/do related to your mental condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
-    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_INT_BAD", "snippet": true, "type": "mixed"  } ]
+    "effect": [ { "u_message": "PORTAL_TRAVELER_MESSAGES_INT_BAD", "snippet": true, "type": "mixed" } ]
   }
 ]
