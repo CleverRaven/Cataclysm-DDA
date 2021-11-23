@@ -122,7 +122,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Drugs are great for quick stat boosts, but be careful of addictions or overdose." ]
+    "text": [ "Drugs are great for quick morale boost and such, but be aware of addiction and overdose." ]
   },
   {
     "type": "snippet",
@@ -183,11 +183,6 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Having a backup weapon is wise.  So is having a backup plan." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Windows can't stop zombies but they can stop gas, bile, and smoke.  And your smell." ]
   },
   {
     "type": "snippet",
@@ -272,7 +267,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Broken limb pinned you down?  Hospitals might have next-gen tech to get you going." ]
+    "text": [ "Broken limb?  Improvised splints are ok, but hospitals might have better tech for it." ]
   },
   {
     "type": "snippet",
@@ -567,7 +562,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Action menu can help you determine what you can do.  There are also some rare actions there." ]
+    "text": [ "The action menu can help you determine what you can do.  There are also some rare actions there." ]
   },
   {
     "type": "snippet",
@@ -597,7 +592,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can make a crafting spot, mark a firewood source or mark a practice target with no cost." ]
+    "text": [ "For free in the construction menu: a crafting spot, a firewood source and a practice target." ]
   },
   {
     "type": "snippet",
