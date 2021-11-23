@@ -1,0 +1,8 @@
+[
+  {
+    "copy-from": "portal_traveler",
+    "type": "scenario",
+    "extend": { "professions": [ "mma_battle_angel" ] },
+    "id": "portal_traveler"
+  }
+]

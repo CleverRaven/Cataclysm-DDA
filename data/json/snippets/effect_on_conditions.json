@@ -291,8 +291,8 @@
     "text": [
       "For a moment your hand seems to get stuck in something.  You search around but can't find what it was.",
       "For a split second your hand seems to disappear in the air.",
-      "Your right hand suddendly trasspasses your left hand. You separate them immediately.",
-      "Your left hand suddenly gets stuck in your right hand. After a second you are able to separate them again.",
+      "Your right hand suddendly trasspasses your left hand.  You separate them immediately.",
+      "Your left hand suddenly gets stuck in your right hand.  After a second you are able to separate them again.",
       "For a split second your left and right hands seem to switch places.",
       "You try to touch your own face with your hand, but you can't feel the touch.",
       "You suddenly feel as if the wind passes through your skin and meat until reaching your bones.",
@@ -303,14 +303,14 @@
     "type": "snippet",
     "category": "PORTAL_TRAVELER_MESSAGES_PER_BAD",
     "text": [
-      "Things seem bigger for a moment. You blink and they look normal again.",
+      "Things seem bigger for a moment.  You blink and they look normal again.",
       "For a split second the colors around you seem inverted.",
       "For a split second everything seems green.",
       "For a split second everything seems red.",
       "For a split second everything seems blue.",
       "For a split second everything seems to be made of pixels.",
-      "For a split second you see your old home. The vision it's replaced by faint sparks after you blink.",
-      "For a split second you see an old friend smiling. The vision fades after you blink but not before your friend seems to start screaming."
+      "For a split second you see your old home.  The vision it's replaced by faint sparks after you blink.",
+      "For a split second you see an old friend smiling.  The vision fades after you blink but not before your friend seems to start screaming."
     ]
   },
   {
@@ -324,7 +324,7 @@
       "You suddenly have the urge to lick your own hand.  A second later the urge fades.",
       "You suddenly feel like the whole world was a video game.  You dismiss the notion after a moment.",
       "You suddenly feel like if your entire being was being controlled by someone else.  The sensation fades after a moment.",
-      "You suddenly cuestion why zombies are so bad with you.  Maybe they just need a hug. The thought fades quickly and you shudder from it.",
+      "You suddenly cuestion why zombies are so bad with you.  Maybe they just need a hug.  The thought fades quickly and you shudder from it.",
       "You suddenly went right when you wanted to go left.",
       "Your right hand suddenly slaps your left hand.  Weird.",
       "Your left hand suddenly tries to strangle your right hand.  Weird."

@@ -297,7 +297,7 @@
     "id": "PORTAL_DEPENDENT",
     "name": { "str": "Portal Dependent" },
     "points": -8,
-    "description": "Your body is rejected by this reality. You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in this world.",
+    "description": "Your body is rejected by this reality.  You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in this world.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false
