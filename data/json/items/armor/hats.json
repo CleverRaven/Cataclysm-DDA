@@ -464,10 +464,10 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "white",
-    "warmth": 10,
+    "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 25, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "head" ] } ]
   },
   {
     "id": "porkpie",

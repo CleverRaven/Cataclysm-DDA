@@ -1451,6 +1451,19 @@
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
+    "result": "maid_dress_short",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "mag_animecon", 1 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
     "result": "sweater",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
