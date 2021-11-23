@@ -844,7 +844,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 26 ] ],
-    "components": [ [ [ "rag", 26 ] ], [ "fastener_large", 1 ] ]
+    "components": [ [ [ "fastener_large", 1 ] ] ]
   },
   {
     "result": "k_gambeson",
