@@ -2475,9 +2475,9 @@
     ],
     "max_intensity": 2,
     "rating": "bad",
-    "int_dur_factor": "5 m",
-    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 200, 1000 ] },
-    "scaling_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 500, 1000 ], "cough_chance": [ 10 ] }
+    "int_dur_factor": "7 m",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 25 ], "cough_chance": [ 30 ] }
   },
   {
     "type": "effect_type",
