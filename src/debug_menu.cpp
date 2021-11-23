@@ -1600,7 +1600,7 @@ static void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_BPART, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP
@@ -1610,6 +1610,7 @@ static void character_edit_menu()
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
+    nmenu.addentry( D_BPART, true, 'b', "%s", _( "Edit [b]odyparts" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -1658,6 +1659,9 @@ static void character_edit_menu()
             break;
         case D_PROF:
             wishproficiency( &you );
+            break;
+        case D_BPART:
+            wishbodypart( &you );
             break;
         case D_ITEMS:
             wishitem( &you );

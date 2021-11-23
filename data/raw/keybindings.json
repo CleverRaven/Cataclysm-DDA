@@ -3481,6 +3481,27 @@
   },
   {
     "type": "keybinding",
+    "id": "POPUP_ENABLED",
+    "category": "WISHBODYPART",
+    "name": "ENABLED",
+    "bindings": [ { "input_method": "keyboard_char", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "POPUP_DISABLED",
+    "category": "WISHBODYPART",
+    "name": "DISABLED",
+    "bindings": [ { "input_method": "keyboard_char", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "POPUP_CLEAR",
+    "category": "WISHBODYPART",
+    "name": "CLEAR",
+    "bindings": [ { "input_method": "keyboard_char", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",

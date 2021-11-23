@@ -34,6 +34,7 @@
 #include "optional.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -41,6 +42,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 
 class ui_adaptor;
@@ -1105,4 +1107,219 @@ void debug_menu::wishproficiency( Character *you )
             you->lose_proficiency( prof, true );
         }
     } while( prmenu.ret != UILIST_CANCEL );
+}
+
+/*
+ * Set bodyparts on any Character object; player character or NPC
+ */
+void debug_menu::wishbodypart( Character *you )
+{
+    // bodypart_id, Character has bodypart, bodypart force enabled / disabled
+    using bp_has_enabled = std::tuple<bodypart_id, bool, cata::optional<bool>>;
+    std::vector<bp_has_enabled> bodyparts;
+
+    auto find_pair = [you]( const bodypart_id & bp ) -> cata::optional<bool> {
+        cata::optional<bool> force;
+
+        auto has_forced_iterator = std::find_if(
+            you->debug_bodyparts.begin(), you->debug_bodyparts.end(),
+            [&bp]( const std::pair<bodypart_id, bool> &bpf ) -> bool
+        {
+            return bpf.first == bp;
+        } );
+
+        if( has_forced_iterator != you->debug_bodyparts.end() )
+        {
+            force = has_forced_iterator->second;
+        }
+
+        return force;
+    };
+
+    const std::string menu_bpname = _( "Bodypart" );
+    const std::string menu_yes = _( "Yes" );
+    const std::string menu_no = _( "No" );
+    const std::string menu_has = _( "Has" );
+    const std::string menu_forced = _( "Forced" );
+
+    int size_bps_name = 0;
+    int size_yes_no = std::max( menu_yes.length(), menu_no.length() );
+
+    for( const body_part_type &bpt : body_part_type::get_all() ) {
+        bodyparts.emplace_back( bpt.id, you->has_limb( bpt.id ), find_pair( bpt.id ) );
+        size_bps_name = std::max( static_cast<int>( bpt.name.translated().length() ), size_bps_name );
+    }
+
+    std::sort( bodyparts.begin(), bodyparts.end(), [](
+    const bp_has_enabled & a,  const bp_has_enabled & b ) {
+        return std::get<0>( a ) < std::get<0>( b );
+    } );
+
+    const int size_bps = static_cast<int>( bodyparts.size() );
+
+    ui_adaptor bpsmenu;
+    border_helper borders;
+
+    struct win_info {
+        catacurses::window window;
+        border_helper::border_info *border = nullptr;
+        int width;
+        point start;
+    };
+
+    struct win_info w_bodypart;
+    w_bodypart.border = &borders.add_border();
+    w_bodypart.width = std::max( size_bps_name, static_cast<int>( menu_bpname.length() ) ) + 4;
+
+    struct win_info w_has;
+    w_has.border = &borders.add_border();
+    w_has.width = std::max( size_yes_no, static_cast<int>( menu_has.length() ) ) + 4;
+
+    struct win_info w_forced;
+    w_forced.border = &borders.add_border();
+    w_forced.width = std::max( size_yes_no, static_cast<int>( menu_forced.length() ) ) + 4;
+
+    const int total_width = w_bodypart.width + w_has.width + w_forced.width;
+
+    scrollbar scrllbr;
+    scrllbr.offset_x( 0 ).offset_y( 1 ).border_color( c_magenta );
+
+    int menu_height = 0;
+
+    bpsmenu.on_screen_resize( [&]( ui_adaptor & ui ) {
+
+        menu_height = std::min( TERMY / 2, size_bps + 2 );
+
+        // middle of screen
+        w_bodypart.start = point( TERMX - total_width - 28, TERMY - menu_height ) / 2;
+        w_has.start = w_bodypart.start + point( w_bodypart.width, 0 );
+        w_forced.start = w_has.start + point( w_has.width, 0 );
+
+        w_bodypart.window = catacurses::newwin( menu_height, w_bodypart.width, w_bodypart.start );
+        w_has.window = catacurses::newwin( menu_height, w_has.width, w_has.start );
+        w_forced.window = catacurses::newwin( menu_height, w_forced.width, w_forced.start );
+
+        w_bodypart.border->set( w_bodypart.start, { w_bodypart.width, menu_height } );
+        w_has.border->set( w_has.start, { w_has.width, menu_height } );
+        w_forced.border->set( w_forced.start, { w_forced.width, menu_height } );
+
+        scrllbr.viewport_size( menu_height - 2 );
+        ui.position( w_bodypart.start, w_forced.start + point( w_forced.width, menu_height ) );
+    } );
+    bpsmenu.mark_resize();
+
+    input_context ctxt;
+    ctxt.register_cardinal();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+
+    const std::string center_print_bodypart = colorize( string_format( "<%1$s>", colorize( menu_bpname,
+            c_white ) ), c_magenta );
+    const std::string center_print_has = colorize( string_format( "<%1$s>", colorize( menu_has,
+                                         c_white ) ), c_magenta );
+    const std::string center_print_forced = colorize( string_format( "<%1$s>", colorize( menu_forced,
+                                            c_white ) ), c_magenta );
+
+    int bp_start = 0;
+    int bp_selected = 0;
+    bpsmenu.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_bodypart.window );
+        werase( w_has.window );
+        werase( w_forced.window );
+
+        borders.draw_border( w_bodypart.window, c_magenta );
+        borders.draw_border( w_has.window, c_magenta );
+        borders.draw_border( w_forced.window, c_magenta );
+
+        center_print( w_bodypart.window, 0, c_magenta, center_print_bodypart );
+        center_print( w_has.window, 0, c_magenta, center_print_has );
+        center_print( w_forced.window, 0, c_magenta, center_print_forced );
+
+        scrllbr.content_size( size_bps );
+        scrllbr.viewport_pos( bp_selected );
+        scrllbr.apply( w_bodypart.window );
+
+        const int window_size = std::min( TERMY / 2, size_bps + 2 );
+
+        calcStartPos( bp_start, bp_selected, window_size - 2, size_bps );
+
+        int line_number = 1;
+        for( int i = bp_start; i < size_bps; ++i ) {
+            if( line_number == window_size - 1 ) {
+                break;
+            }
+
+            const bp_has_enabled &bpart = bodyparts[i];
+            const bodypart_id &bpid = std::get<0>( bpart );
+            const bool &bphas = std::get<1>( bpart );
+            const cata::optional<bool> &bpforced = std::get<2>( bpart );
+
+            nc_color row_colour = bp_selected == i ? hilite( c_white ) : c_white;
+
+            mvwprintz( w_bodypart.window, point( 2, line_number ),
+                       row_colour, bpid->name.translated() );
+
+            mvwprintz( w_has.window, point( 2, line_number ),
+                       row_colour, bphas ? menu_yes : menu_no );
+
+            if( bpforced.has_value() ) {
+                mvwprintz( w_forced.window, point( 2, line_number ),
+                           row_colour, bpforced.value() ? menu_yes : menu_no );
+            }
+            ++line_number;
+        }
+
+        wnoutrefresh( w_bodypart.window );
+        wnoutrefresh( w_has.window );
+        wnoutrefresh( w_forced.window );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+
+        if( action == "QUIT" ) {
+            break;
+        } else if( action == "UP" ) {
+            if( !bp_selected ) {
+                bp_selected = size_bps - 1;
+            } else {
+                bp_selected--;
+            }
+        } else if( action == "DOWN" ) {
+            bp_selected++;
+            if( bp_selected == size_bps ) {
+                bp_selected = 0;
+            }
+        } else if( action == "CONFIRM" ) {
+            const std::string force_enabled = "POPUP_ENABLED";
+            const std::string force_disabled = "POPUP_DISABLED";
+            const std::string force_clear = "POPUP_CLEAR";
+            const std::string force_query = query_popup()
+                                            .context( "WISHBODYPART" )
+                                            .message( "%1$s", _( "Force bodypart" ) )
+                                            .option( force_enabled )
+                                            .option( force_disabled )
+                                            .option( force_clear )
+                                            .query().action;
+            if( force_query == force_enabled ) {
+                std::get<2>( bodyparts[bp_selected] ) = true;
+                std::get<1>( bodyparts[bp_selected] ) = true;
+            } else if( force_query == force_disabled )  {
+                std::get<2>( bodyparts[bp_selected] ) = false;
+                std::get<1>( bodyparts[bp_selected] ) = false;
+            } else if( force_query == force_clear ) {
+                std::get<2>( bodyparts[bp_selected] ).reset();
+            }
+        }
+    }
+
+    you->debug_bodyparts.clear();
+    for( const bp_has_enabled &bpart : bodyparts ) {
+        if( std::get<2>( bpart ).has_value() ) {
+            you->debug_bodyparts.emplace_back( std::get<0>( bpart ),
+                                               std::get<2>( bpart ).value() );
+        }
+    }
+    you->recalculate_bodyparts();
 }

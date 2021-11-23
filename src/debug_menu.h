@@ -102,6 +102,7 @@ void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( Character *you );
 void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
+void wishbodypart( Character *you );
 
 void debug();
 
