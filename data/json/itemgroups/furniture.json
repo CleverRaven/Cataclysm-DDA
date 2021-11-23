@@ -38,8 +38,8 @@
       { "item": "down_pillow", "prob": 15 },
       { "item": "electric_blanket", "prob": 4 },
       { "item": "quilt", "prob": 10 },
-      { "item": "quilt_patchwork", "prob": 8 }
-      { "item": "bodypillow", "prob": 1 },
+      { "item": "quilt_patchwork", "prob": 8 },
+      { "item": "bodypillow", "prob": 1 }
     ]
   },
   {
