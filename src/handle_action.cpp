@@ -148,6 +148,8 @@ static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" )
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 
+bool item_is_in_container( const item_location & );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)
@@ -1313,7 +1315,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        if( loc.where() == item_location::type::container ) {
+        if( item_is_in_container( loc ) ) {
             player_character.assign_activity( player_activity( rummage_activity_actor( loc,
                                               rummage_activity_actor::action::wear ) ) );
         } else {
@@ -1343,7 +1345,7 @@ static void read()
     item_location loc = game_menus::inv::read( player_character );
 
     if( loc ) {
-        if( loc.where() == item_location::type::container ) {
+        if( item_is_in_container( loc ) ) {
             player_character.assign_activity( player_activity( rummage_activity_actor(
                                                   loc, rummage_activity_actor::action::read
                                               ) ) );
@@ -2123,7 +2125,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
                 item_location loc = game_menus::inv::consume( player_character );
-                if( loc.where() == item_location::type::container ) {
+                if( item_is_in_container( loc ) ) {
                     u.assign_activity( player_activity( rummage_activity_actor( loc,
                                                         rummage_activity_actor::action::eat ) ) );
                 } else {
