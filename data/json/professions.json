@@ -2352,7 +2352,7 @@
     "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "both": { "items": [  ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": { "items": [ "ring_wedding" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
       "female": [ "veil_wedding", "dress_wedding", "stockings", "garter_belt", "dress_shoes", "bra", "panties", "purse" ]
     }
