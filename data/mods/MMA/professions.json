@@ -17,5 +17,22 @@
       "bio_blade",
       "bio_metabolics"
     ]
+  },
+  {
+    "type": "profession",
+    "id": "jedi_knight",
+    "name": "Jedi Knight",
+    "description": "You were sucked through a strange portal on your way to the temple.  Armed with only a training saber, you will need to survive in this strange world where the force seems to scream.",
+    "points": 6,
+    "traits": [ "MMA_MARTIAL_ARTS_JEDI", "SPIRITUAL" ],
+    "skills": [ { "level": 3, "name": "cutting" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "items": [ "jedi_cloak", "tunic", "obi_gi", "leather_belt", "pants", "socks", "boots" ],
+        "entries": [ { "item": "bokken", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    }
   }
 ]
