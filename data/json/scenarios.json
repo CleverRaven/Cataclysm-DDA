@@ -644,7 +644,7 @@
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],
-    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "maid" ],
+    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
