@@ -1077,9 +1077,9 @@
     "interruptable": false,
     "suspendable": false,
     "interruptable_with_kb": false
-	},
+  },
   {
-	"id": "ACT_RUMMAGE_POCKET",
+    "id": "ACT_RUMMAGE_POCKET",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "rummaging pocket",

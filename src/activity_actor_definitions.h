@@ -1594,8 +1594,9 @@ class rummage_activity_actor : public activity_actor
 
     public:
         rummage_activity_actor() = default;
-        rummage_activity_actor( const item_location &i_loc, action act_kind, const tripoint &pnt = tripoint_zero )
-            : item_loc( { std::make_pair( i_loc, i_loc->count() ) } ), kind( act_kind ), m_pnt(pnt) {}
+        rummage_activity_actor( const item_location &i_loc, action act_kind,
+                                const tripoint &pnt = tripoint_zero )
+            : item_loc( { std::make_pair( i_loc, i_loc->count() ) } ), kind( act_kind ), m_pnt( pnt ) {}
         rummage_activity_actor( const drop_locations &drop_loc, action act_kind,
                                 const tripoint &pnt = tripoint_zero )
             : item_loc( drop_loc ), kind( act_kind ), m_pnt( pnt ) {}
