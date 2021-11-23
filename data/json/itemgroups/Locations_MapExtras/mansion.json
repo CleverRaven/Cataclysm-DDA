@@ -1640,10 +1640,7 @@
     "id": "mansion_maid_dress",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "maid_dress", 80 ],
-      [ "maid_dress_short", 20 ]
-    ]
+    "items": [ [ "maid_dress", 80 ], [ "maid_dress_short", 20 ] ]
   },
   {
     "id": "gear_butler",
