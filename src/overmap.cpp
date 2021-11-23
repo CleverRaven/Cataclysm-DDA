@@ -2714,6 +2714,11 @@ const oter_id &overmap::ter( const tripoint_om_omt &p ) const
         return ot_null;
     }
 
+    return ter_unsafe( p );
+}
+
+const oter_id &overmap::ter_unsafe( const tripoint_om_omt &p ) const
+{
     return layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
 }
 
@@ -3093,6 +3098,8 @@ void overmap::generate( const overmap *north, const overmap *east,
 
 bool overmap::generate_sub( const int z )
 {
+    assert( z < 0 );
+
     bool requires_sub = false;
     std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
@@ -3111,8 +3118,8 @@ bool overmap::generate_sub( const int z )
         goo_points.emplace_back( p.xy(), size );
     };
 
-    std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>> oter_above_actions
-    = {
+    std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>>
+    oter_above_actions = {
         { oter_type_str_id( "empty_rock" ).id(), []( const tripoint_om_omt & ) {} },
         { oter_type_str_id( "forest" ).id(), []( const tripoint_om_omt & ) {} },
         { oter_type_str_id( "field" ).id(), []( const tripoint_om_omt & ) {} },
@@ -3199,11 +3206,13 @@ bool overmap::generate_sub( const int z )
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint_om_omt p( i, j, z );
-            const oter_id oter_above = ter( p + tripoint_above );
-            const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
+            const oter_id oter_id_here = ter_unsafe( p );
+            const oter_t &oter_here = *oter_id_here;
+            const oter_id oter_above = ter_unsafe( p + tripoint_above );
+            const oter_id oter_ground = ter_unsafe( tripoint_om_omt( p.xy(), 0 ) );
 
-            if( ter( p )->get_type_id() == oter_type_microlab_sub_connector ) {
-                om_direction::type rotation = ter( p )->get_dir();
+            if( oter_here.get_type_id() == oter_type_microlab_sub_connector ) {
+                om_direction::type rotation = oter_here.get_dir();
                 ter_set( p, oter_subway_end_north.id()->get_rotated( rotation ) );
                 subway_points.emplace_back( p.xy() );
             }
@@ -3546,7 +3555,8 @@ void overmap::clear_connections_out()
     connections_out.clear();
 }
 
-void overmap::place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
+void overmap::place_special_forced( const overmap_special_id &special_id,
+                                    const tripoint_om_omt &p,
                                     om_direction::type dir )
 {
     static city invalid_city;
@@ -4422,7 +4432,7 @@ void overmap::place_swamps()
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt pos( x, y, 0 );
-            if( is_ot_match( "river", ter( pos ), ot_match_type::contains ) ) {
+            if( is_ot_match( "river", ter_unsafe( pos ), ot_match_type::contains ) ) {
                 std::vector<point_om_omt> buffered_points =
                     closest_points_first(
                         pos.xy(),
@@ -4744,7 +4754,8 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     }
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town )
+void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
+                              const city &town )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -5850,7 +5861,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_lake; z++ ) {
         for( int x = 0; x < OMAPX && !overmap_has_lake; x++ ) {
             for( int y = 0; y < OMAPY && !overmap_has_lake; y++ ) {
-                overmap_has_lake = ter( { x, y, z } )->is_lake();
+                overmap_has_lake = ter_unsafe( { x, y, z } )->is_lake();
             }
         }
     }
