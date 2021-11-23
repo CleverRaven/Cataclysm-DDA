@@ -4113,5 +4113,29 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "portal_traveler",
+    "name": "Portal Traveler",
+    "description": "You were sent on the first manned mission to another world, all was going fine until the portal lost stability and you drifted far away, now you wake up all alone and with your gas mask almost empty.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "computer" }, { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
+        "entries": [
+          { "item": "gasfilter_m", "ammo-item": "gasfilter_m", "charges": 5, "container-item": "mask_gas" },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "rad_monitor"
+          },
+          { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

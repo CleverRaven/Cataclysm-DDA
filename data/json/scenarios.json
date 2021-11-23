@@ -692,6 +692,7 @@
     "eoc": [ "scenario_quick_portal_storm" ]
   },
   {
+    "type": "scenario",
     "id": "portal_traveler",
     "name": "Portal Traveler",
     "points": -6,
@@ -701,7 +702,7 @@
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],
     "eoc": [ "scenario_strong_portal_storm" ],
-    "professions": [ "churl", "true_foodperson", "unemployed" ]
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed" ]
   },
   {
     "type": "scenario",
