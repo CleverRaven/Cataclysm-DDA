@@ -16,6 +16,66 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ],
     "hp": 120,
     "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.",
     "burn_into": "mon_zilophosaurus_scorched",
@@ -68,8 +128,64 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 430,
     "description": "Enormous putrid dinosaur corpse with a ferocious crocodile-like head, oozing black eyes, and a tattered sail on its back.",
@@ -237,8 +353,64 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 400,
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
@@ -359,8 +531,64 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 45,
     "special_attacks": [
@@ -439,8 +667,67 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 5, "ranged": 5 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed",
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "required_effects": "downed",
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 500,
     "special_attacks": [
@@ -551,6 +838,67 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ],
     "hp": 275,
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ] },
@@ -601,8 +949,65 @@
     "armor_cut": 21,
     "armor_bullet": 7,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 375,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
@@ -672,8 +1077,64 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 170,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
@@ -712,8 +1173,64 @@
     "armor_cut": 7,
     "armor_bullet": 4,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 320,
     "special_attacks": [
@@ -789,7 +1306,66 @@
     "melee_dice_sides": 4,
     "armor_bash": 3,
     "armor_cut": 4,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 4 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 4, "broad": 6 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ],
     "hp": 125,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
@@ -892,7 +1468,67 @@
     "armor_bash": 5,
     "armor_cut": 7,
     "armor_bullet": 3,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 2 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ],
     "hp": 400,
     "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest from which three wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zriceratops_scorched",
@@ -925,6 +1561,67 @@
     "melee_cut": 0,
     "armor_bash": 4,
     "armor_cut": 4,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wing",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 1, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ],
     "hp": 30,
     "special_attacks": [ [ "scratch", 10 ] ],
     "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest.",
@@ -980,7 +1677,57 @@
     "armor_bash": 5,
     "armor_cut": 7,
     "armor_bullet": 7,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the fin",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 8
+      }
+    ],
     "hp": 335,
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
     "burn_into": "mon_zosasaurus_scorched",
@@ -1035,8 +1782,67 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 5, "ranged": 5 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed",
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": "downed"
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "required_effects": "downed",
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
     ],
     "hp": 200,
     "special_attacks": [
