@@ -4125,7 +4125,7 @@
       "both": {
         "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
         "entries": [
-          { "item": "gasfilter_m", "ammo-item": "gasfilter_m", "charges": 5, "container-item": "mask_gas" },
+          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",

@@ -694,15 +694,15 @@
   {
     "type": "scenario",
     "id": "portal_traveler",
-    "name": "Portal Traveler",
-    "points": -6,
+    "name": "Challenge - Portal Traveler",
+    "points": -8,
     "description": "You just came out of a huge and unstable portal.  You feel…  different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
-    "allowed_locs": [ "sloc_field" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm" ],
-    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed" ]
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
     "type": "scenario",
