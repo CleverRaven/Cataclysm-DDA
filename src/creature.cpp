@@ -36,6 +36,7 @@
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -62,10 +63,13 @@
 
 struct mutation_branch;
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -74,13 +78,29 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+
+static const material_id material_cotton( "cotton" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_kevlar( "kevlar" );
+static const material_id material_paper( "paper" );
+static const material_id material_powder( "powder" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wood( "wood" );
+static const material_id material_wool( "wool" );
+
 static const species_id species_ROBOT( "ROBOT" );
+
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -91,17 +111,17 @@ const std::map<std::string, creature_size> Creature::size_map = {
 };
 
 const std::set<material_id> Creature::cmat_flesh{
-    material_id( "flesh" ), material_id( "iflesh" )
+    material_flesh, material_iflesh
 };
 const std::set<material_id> Creature::cmat_fleshnveg{
-    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+    material_flesh,  material_iflesh, material_veggy
 };
 const std::set<material_id> Creature::cmat_flammable{
-    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
-    material_id( "cotton" ), material_id( "wool" )
+    material_paper, material_powder, material_wood,
+    material_cotton, material_wool
 };
 const std::set<material_id> Creature::cmat_flameres{
-    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+    material_stone, material_kevlar, material_steel
 };
 
 Creature::Creature()
@@ -284,7 +304,7 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vote )
 {
     // Helper function suggested on discord by jbtw
-    return ( ( a_vote + b_vote + c_vote ) > 1 );
+    return ( a_vote + b_vote + c_vote ) > 1;
 }
 
 bool Creature::sees( const Creature &critter ) const
@@ -686,7 +706,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const weakpoint_attack &attack, const bodypart_id *bp )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
+        dealt_dam.bp_hit = anatomy_human_anatomy->random_body_part();
         return;
     }
 
@@ -795,7 +815,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
     if( proj_effects.count( "INCENDIARY" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
                                dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
@@ -803,7 +823,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                                dealt_dam.bp_hit );
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
@@ -1082,7 +1102,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     attack.missed_by = goodhit;
 
-    // copy it, since we're mutating
+    // copy it, since we're mutating.
     damage_instance impact = proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         hit_selection.damage_mult = 1.0f;
@@ -1300,8 +1320,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     if( !force && is_immune_effect( eff_id ) ) {
         return;
     }
-    if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
-            has_effect( effect_riding ) ) ) {
+    if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||
+                                        has_effect( effect_riding ) ) ) {
         monster *mons = dynamic_cast<monster *>( this );
         if( mons && mons->mounted_player ) {
             mons->mounted_player->forced_dismount();
@@ -1878,7 +1898,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
                         part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
                         hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == body_part_head ) {
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
             new_max *= 0.8;
         }
 
@@ -2126,7 +2146,7 @@ void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 void Creature::set_all_parts_temp_cur( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+        if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
         elem.second.set_temp_cur( set );
@@ -2136,7 +2156,7 @@ void Creature::set_all_parts_temp_cur( int set )
 void Creature::set_all_parts_temp_conv( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+        if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
         elem.second.set_temp_conv( set );

@@ -529,40 +529,7 @@
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound1", "tec_fencing_compound2" ],
-    "weapons": [
-      "baton-extended",
-      "bio_blade_weapon",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "cane",
-      "cavalry_sabre",
-      "cavalry_sabre_fake",
-      "cudgel",
-      "hollow_cane",
-      "fencing_foil",
-      "fencing_sabre",
-      "fencing_epee",
-      "fencing_foil_sharpened",
-      "fencing_sabre_sharpened",
-      "fencing_epee_sharpened",
-      "shock_foil",
-      "shock_sabre",
-      "shock_epee",
-      "pointy_stick",
-      "pipe",
-      "PR24-extended",
-      "rapier",
-      "rapier_fake",
-      "shillelagh",
-      "shillelagh_fake",
-      "shillelagh_weighted",
-      "sword_cane",
-      "umbrella",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake"
-    ]
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -632,30 +599,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapons": [
-      "ax",
-      "battleaxe",
-      "battleaxe_fake",
-      "battleaxe_inferior",
-      "copper_ax",
-      "fire_ax",
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "hammer_sledge",
-      "hammer_sledge_short",
-      "hockey_stick",
-      "hoe",
-      "ji",
-      "lobotomizer",
-      "lucern_hammer",
-      "lucern_hammerfake",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pickaxe",
-      "poleaxe",
-      "primitive_axe"
-    ]
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -758,7 +702,7 @@
       }
     ],
     "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS" ]
+    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
   },
   {
     "type": "martial_art",
@@ -1156,87 +1100,13 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapons": [
-      "baton-extended",
-      "bone_knife",
-      "bowling_pin",
-      "butterfly_swords",
-      "cudgel",
-      "diveknife",
-      "glaive",
-      "golf_club",
-      "hockey_stick",
-      "i_staff",
-      "javelin",
-      "javelin_iron",
-      "knife_combat",
-      "knife_baselard",
-      "copper_knife",
-      "knife_hunting",
-      "knife_trench",
-      "kris",
-      "kris_fake",
-      "machete",
-      "machete_gimmick",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "makeshift_knife",
-      "makeshift_machete",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "pipe",
-      "pointy_stick",
-      "pool_cue",
-      "PR24-extended",
-      "primitive_knife",
-      "q_staff",
-      "staff_sling",
-      "rebar",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "scythe",
-      "scythe_war",
-      "shock_staff",
-      "shocktonfa_off",
-      "shocktonfa_on",
-      "sickle",
-      "shillelagh",
-      "shillelagh_fake",
-      "shillelagh_weighted",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_pipe",
-      "spear_forked",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood",
-      "spear_copper",
-      "spear_homemade_halfpike",
-      "stick",
-      "survivor_machete",
-      "tanto",
-      "tonfa",
-      "tonfa_wood",
-      "kukri",
-      "knife_rambo",
-      "knife_rm42",
-      "switchblade",
-      "l-stick",
-      "l-stick_on",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
   },
   {
     "type": "martial_art",
     "id": "style_snake",
     "name": { "str": "Snake Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still will increases the accuracy and critical hit chance of your next few attacks.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -1244,29 +1114,64 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.  Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "per", "scale": 0.25 }, { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 } ]
+        "flat_bonuses": [
+          { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.75 },
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": -0.75 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_snake_onhit",
+        "name": "Snake Bite",
+        "description": "Each snake bite is more painful than the last.\n\nGain armor penetration equal to 25% of Perceptions.\nLasts 2 turns.  Stacks 4 times",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "buff_duration": 2,
+        "max_stacks": 4,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.25 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_snake_oncrit",
+        "name": "Snake Fang",
+        "description": "You hit a weakpoint!  Your next attack will be extra painful.\n\nGain armor penetration equal to 100% of Perceptions.\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+        ]
       }
     ],
     "onpause_buffs": [
       {
         "id": "buff_snake_onpause",
         "name": "Snake's Coil",
-        "description": "Every snake wait for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, gain armor penetration equal to 50% of Perceptions.\nLasts 1 turn.  Stacks 3 times.",
+        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, +1 Block Effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "buff_duration": 1,
+        "buff_duration": 4,
         "max_stacks": 3,
         "flat_bonuses": [
+          { "stat": "block_effectiveness", "scale": 1.0 },
           { "stat": "hit", "scale": 1.0 },
-          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+          { "stat": "crit_chance", "scale": 5.0 }
         ]
       }
     ],
-    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+    "techniques": [ "tec_snake_swift", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
   },
   {
     "type": "martial_art",
@@ -1303,35 +1208,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
-    "weapons": [
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "ji",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "long_pole",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pike",
-      "pike_inferior",
-      "pike_fake",
-      "pitchfork",
-      "qiang",
-      "spear_copper",
-      "spear_dory",
-      "spear_forked",
-      "spear_homemade_halfpike",
-      "spear_pipe",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood"
-    ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "type": "martial_art",
@@ -1433,35 +1310,20 @@
       {
         "id": "buff_tiger_onhit",
         "name": "Tiger Fury",
-        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+10% damage.\nLasts 3 turns.  Stacks 4 times.",
+        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+1 Accuracy, 5% damage.\nLasts 3 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
-        "max_stacks": 4,
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ],
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 1.1 },
-          { "stat": "damage", "type": "cut", "scale": 1.1 },
-          { "stat": "damage", "type": "stab", "scale": 1.1 }
+          { "stat": "damage", "type": "bash", "scale": 1.05 },
+          { "stat": "damage", "type": "cut", "scale": 1.05 },
+          { "stat": "damage", "type": "stab", "scale": 1.05 }
         ]
       }
     ],
-    "oncrit_buffs": [
-      {
-        "id": "buff_tiger_oncrit",
-        "name": "Tiger Rampage",
-        "description": "Your opponent's lose is your gain.  Your next attack will break through your opponent's guard.\n\nGain Armor Penetration equal to 50% of Strength.\nLasts 1 turns.  Stacks 2 times.",
-        "unarmed_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "buff_duration": 1,
-        "max_stacks": 2,
-        "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
-        ]
-      }
-    ],
-    "techniques": [ "tec_tiger_palm", "tec_tiger_takedown" ]
+    "techniques": [ "tec_tiger_break", "tec_tiger_claw", "tec_tiger_palm", "tec_tiger_takedown", "tec_tiger_wide" ]
   },
   {
     "type": "martial_art",
@@ -1519,55 +1381,49 @@
     "type": "martial_art",
     "id": "style_zui_quan",
     "name": { "str": "Zui Quan" },
-    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodge bonus and accuracy bonus based on your intelligence.  Moving gives you additional dodge attempts and each time you dodge, you inflict more damage with your counterattack for until the end of your next turn.",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodging bonus based on intelligence and dodge attempts.  Dodging increases your damage and accuracy based on intelligence for a short time.  Moving gives you an additional dodging bonus.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "learn_difficulty": 8,
     "static_buffs": [
       {
         "id": "buff_zuiquan_static",
         "name": "Zui Quan Stance",
-        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm easier.\n\nDodging Skill increased by 15% of Intelligence.",
+        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm with ease.\n\n+2 Dodge attempts, Dodging Skill increased by 20% of Intelligence.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.15 } ]
-      },
-      {
-        "id": "buff_zuiquan_static2",
-        "name": "Advanced Zui Quan",
-        "description": "You have a greater understanding of Zui Quan.  Your skills at dodging and landing attacks are much better as a result.\n\n+1 Dodge attempts, Accuracy increased by 15% of Intelligence.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "unarmed_allowed": true,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.15 } ]
+        "bonus_dodges": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
       }
     ],
     "onmove_buffs": [
       {
         "id": "buff_zuiquan_onmove",
         "name": "Drunken Stumble",
-        "description": "With a few quick steps, you can completely change your orientation and dodge additional attacks.\n\n+2 Dodge attempts.\nLasts 3 turns.",
+        "description": "With a few quick steps, you can completely change your orientation and dodge attacks easier.\n\n+1.0 Dodging Skill.\nLasts 1 turn, stacks 2 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
-        "buff_duration": 3,
-        "bonus_dodges": 2
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_zuiquan_ondodge",
         "name": "Drunken Dodging",
-        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\nGain Armor Penetration equal to 25% of Intelligence.\nLasts 1 turn.  Stacks 4 times.",
+        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\n+10% damage, Accuracy increase by 20% of Intelligence.\nLasts 1 turn, stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "max_stacks": 4,
-        "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "int", "scale": 0.25 }
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.2 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
         ]
       }
     ],
-    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_counter" ]
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_fist", "tec_zuiquan_spin" ]
   },
   {
     "type": "martial_art",

@@ -128,11 +128,11 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0 );
+        std::string layout( avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
-        std::string show( const avatar &ava );
+        std::string show( avatar &ava );
         // Return a colorized string for a _var associated with a description function
-        std::string color_text_function_string( const avatar &ava );
+        std::string color_text_function_string( avatar &ava );
         // Return true if the current _var is one which uses a description function
         bool uses_text_function();
 

@@ -97,6 +97,10 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -770,7 +774,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         const oter_id &cur_ter = overmap_buffer.ter( p );
 
         if( !uistate.overmap_show_forest_trails &&
-            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
             return oter_id( "forest" );
         }
 
@@ -877,7 +881,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
-    const bool has_debug_vision = you.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
@@ -1686,27 +1690,27 @@ static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
         return KEY_NUM( 9 );
     }
-    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+    if( mod == SDLK_UP    && key == SDLK_UP ) {
         return KEY_NUM( 8 );
     }
     if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
         ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
         return KEY_NUM( 7 );
     }
-    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+    if( mod == SDLK_RIGHT && key == SDLK_RIGHT ) {
         return KEY_NUM( 6 );
     }
     if( mod == sdl_keycode_opposite_arrow( key ) ) {
         return KEY_NUM( 5 );
     }
-    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+    if( mod == SDLK_LEFT  && key == SDLK_LEFT ) {
         return KEY_NUM( 4 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
         return KEY_NUM( 3 );
     }
-    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+    if( mod == SDLK_DOWN  && key == SDLK_DOWN ) {
         return KEY_NUM( 2 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||

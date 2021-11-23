@@ -834,6 +834,10 @@ class npc : public Character
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
         std::string name_and_activity() const;
+        /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
+        std::string get_current_status() const;
+        /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
+        std::string get_current_activity() const;
 
         // Interaction with the player
         void form_opinion( const Character &you );
@@ -1050,6 +1054,9 @@ class npc : public Character
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+        // return snippet strings by given range
+        std::string distance_string( int range );
+
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 

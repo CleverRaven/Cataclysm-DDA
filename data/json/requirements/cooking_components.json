@@ -89,7 +89,8 @@
         [ "egg_grasshopper", 4 ],
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ]
+        [ "egg_mantis", 4 ],
+        [ "egg_stag_beetle", 1 ]
       ]
     ]
   },
@@ -966,8 +967,10 @@
         [ "beer", 1 ],
         [ "belgian_ale", 1 ],
         [ "drink_beeknees", 1 ],
+        [ "drink_hard_seltzer", 1 ],
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
+        [ "hb_seltzer", 1 ],
         [ "india_pale_ale", 1 ],
         [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],

@@ -14,6 +14,19 @@
 #include "value_ptr.h"
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
+static const efftype_id effect_nausea( "nausea" );
+
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_HERBIVORE( "HERBIVORE" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
+static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static void expect_can_eat( avatar &dummy, item &food )
 {
@@ -81,7 +94,7 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
         REQUIRE( dummy.is_underwater() );
 
         WHEN( "they have no special mutation" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_WATERSLEEP ) );
 
             THEN( "they cannot eat" ) {
                 expect_cannot_eat( dummy, sushi, "You can't do that while underwater." );
@@ -93,8 +106,8 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
         }
 
         WHEN( "they have the Aqueous Repose mutation" ) {
-            dummy.toggle_trait( trait_id( "WATERSLEEP" ) );
-            REQUIRE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
+            dummy.toggle_trait( trait_WATERSLEEP );
+            REQUIRE( dummy.has_trait( trait_WATERSLEEP ) );
 
             THEN( "they can eat" ) {
                 expect_can_eat( dummy, sushi );
@@ -211,8 +224,8 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
         REQUIRE( cattlefodder.has_flag( flag_CATTLE ) );
 
         WHEN( "character is not bird or cattle" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_THRESH_BIRD ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_THRESH_CATTLE ) );
 
             const std::string expect_reason = "That doesn't look edible to you.";
 
@@ -226,8 +239,8 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
         }
 
         WHEN( "character is a bird" ) {
-            dummy.toggle_trait( trait_id( "THRESH_BIRD" ) );
-            REQUIRE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
+            dummy.toggle_trait( trait_THRESH_BIRD );
+            REQUIRE( dummy.has_trait( trait_THRESH_BIRD ) );
 
             THEN( "they can eat bird food" ) {
                 expect_can_eat( dummy, birdfood );
@@ -235,8 +248,8 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
         }
 
         WHEN( "character is cattle" ) {
-            dummy.toggle_trait( trait_id( "THRESH_CATTLE" ) );
-            REQUIRE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
+            dummy.toggle_trait( trait_THRESH_CATTLE );
+            REQUIRE( dummy.has_trait( trait_THRESH_CATTLE ) );
 
             THEN( "they can eat cattle fodder" ) {
                 expect_can_eat( dummy, cattlefodder );
@@ -251,8 +264,8 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
     dummy.set_body();
 
     GIVEN( "character is an herbivore" ) {
-        dummy.toggle_trait( trait_id( "HERBIVORE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "HERBIVORE" ) ) );
+        dummy.toggle_trait( trait_HERBIVORE );
+        REQUIRE( dummy.has_trait( trait_HERBIVORE ) );
 
         std::string expect_reason = "The thought of eating that makes you feel sick.";
 
@@ -278,8 +291,8 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
     dummy.set_body();
 
     GIVEN( "character is a carnivore" ) {
-        dummy.toggle_trait( trait_id( "CARNIVORE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "CARNIVORE" ) ) );
+        dummy.toggle_trait( trait_CARNIVORE );
+        REQUIRE( dummy.has_trait( trait_CARNIVORE ) );
 
         std::string expect_reason = "Eww.  Inedible plant stuff!";
 
@@ -327,8 +340,8 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
     dummy.set_body();
 
     GIVEN( "character is mycus-dependent" ) {
-        dummy.toggle_trait( trait_id( "M_DEPENDENT" ) );
-        REQUIRE( dummy.has_trait( trait_id( "M_DEPENDENT" ) ) );
+        dummy.toggle_trait( trait_M_DEPENDENT );
+        REQUIRE( dummy.has_trait( trait_M_DEPENDENT ) );
 
         THEN( "they cannot eat normal food" ) {
             item nuts( "pine_nuts" );
@@ -352,8 +365,8 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
     dummy.set_body();
 
     GIVEN( "character has a proboscis" ) {
-        dummy.toggle_trait( trait_id( "PROBOSCIS" ) );
-        REQUIRE( dummy.has_trait( trait_id( "PROBOSCIS" ) ) );
+        dummy.toggle_trait( trait_PROBOSCIS );
+        REQUIRE( dummy.has_trait( trait_PROBOSCIS ) );
 
         // Cannot drink
         std::string expect_reason = "Ugh, you can't drink that!";
@@ -402,7 +415,6 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
     avatar dummy;
     item toastem( "toastem" );
-    const efftype_id effect_nausea( "nausea" );
 
     GIVEN( "character has nausea" ) {
         dummy.add_effect( effect_nausea, 10_minutes );
@@ -424,8 +436,8 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
     REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
 
     GIVEN( "character hates fruit" ) {
-        dummy.toggle_trait( trait_id( "ANTIFRUIT" ) );
-        REQUIRE( dummy.has_trait( trait_id( "ANTIFRUIT" ) ) );
+        dummy.toggle_trait( trait_ANTIFRUIT );
+        REQUIRE( dummy.has_trait( trait_ANTIFRUIT ) );
 
         THEN( "they can eat fruit, but won't like it" ) {
             expect_can_eat( dummy, fruit );
@@ -445,8 +457,8 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
         REQUIRE( toastem_rotten.rotten() );
 
         WHEN( "character is normal" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SAPROPHAGE ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SAPROVORE ) );
 
             THEN( "they can eat it, though they are disgusted by it" ) {
                 expect_can_eat( dummy, toastem_rotten );
@@ -458,8 +470,8 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
         }
 
         WHEN( "character is a saprovore" ) {
-            dummy.toggle_trait( trait_id( "SAPROVORE" ) );
-            REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+            dummy.toggle_trait( trait_SAPROVORE );
+            REQUIRE( dummy.has_trait( trait_SAPROVORE ) );
 
             THEN( "they can eat it, and don't mind that it is rotten" ) {
                 expect_can_eat( dummy, toastem_rotten );
@@ -471,8 +483,8 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
         }
 
         WHEN( "character is a saprophage" ) {
-            dummy.toggle_trait( trait_id( "SAPROPHAGE" ) );
-            REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
+            dummy.toggle_trait( trait_SAPROPHAGE );
+            REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
             THEN( "they can eat it, but would prefer it to be more rotten" ) {
                 expect_can_eat( dummy, toastem_rotten );
@@ -495,7 +507,7 @@ TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][canniba
         REQUIRE( flesh.has_flag( flag_CANNIBALISM ) );
 
         WHEN( "character is not a cannibal" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "CANNIBAL" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_CANNIBAL ) );
 
             THEN( "they can eat it, but feel sick about it" ) {
                 expect_can_eat( dummy, flesh );
@@ -505,8 +517,8 @@ TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][canniba
         }
 
         WHEN( "character is a cannibal" ) {
-            dummy.toggle_trait( trait_id( "CANNIBAL" ) );
-            REQUIRE( dummy.has_trait( trait_id( "CANNIBAL" ) ) );
+            dummy.toggle_trait( trait_CANNIBAL );
+            REQUIRE( dummy.has_trait( trait_CANNIBAL ) );
 
             THEN( "they can eat it without any qualms" ) {
                 expect_can_eat( dummy, flesh );

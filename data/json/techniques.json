@@ -1306,23 +1306,24 @@
   },
   {
     "type": "technique",
-    "id": "tec_snake_rapid",
+    "id": "tec_snake_swift",
     "name": "Snake Snap",
     "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    "crit_ok": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
     "id": "tec_snake_feint",
     "name": "Snake Slide",
     "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true
@@ -1344,8 +1345,14 @@
     "messages": [ "You lash out at %s with a vicious Snake Strike", "<npcname> lashes out at %s with a vicious Snake Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
+    "required_buffs_all": [ "buff_snake_onpause" ],
     "crit_tec": true,
     "stun_dur": 1,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+    ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
@@ -1495,13 +1502,15 @@
   },
   {
     "type": "technique",
-    "id": "tec_tiger_palm",
-    "name": "Tiger Palm",
-    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "id": "tec_tiger_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you too powerful to be caged!",
+      "The %s tries to grab <npcname>, but they too powerful to be caged!"
+    ],
     "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1
+    "defensive": true,
+    "grab_break": true
   },
   {
     "type": "technique",
@@ -1510,8 +1519,42 @@
     "messages": [ "You slam %s to the ground", "<npcname> slams %s to the ground" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_palm",
+    "name": "Tiger Palm",
+    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_claw",
+    "name": "Tiger Claw",
+    "messages": [ "You viciously claw at %s", "<npcname> viciously claws at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
     "crit_tec": true,
-    "down_dur": 1
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_wide",
+    "name": "Tiger Ramage",
+    "messages": [ "You slash wildly at %s and those nearby", "<npcname> slashes wildly at %s and those nearby" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "weighting": 3,
+    "aoe": "wide",
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -1582,13 +1625,12 @@
   },
   {
     "type": "technique",
-    "id": "tec_zuiquan_counter",
-    "name": "Drunk Counter",
+    "id": "tec_zuiquan_fist",
+    "name": "Drunk Fist",
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ],
     "unarmed_allowed": true,
-    "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -1600,6 +1642,17 @@
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_zuiquan_spin",
+    "name": "Whirling Strikes",
+    "messages": [ "You spin, hitting %s and everyone around you", "<npcname> spins, hitting %s and everyone around them" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "aoe": "spin",
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
   },
   {
     "type": "technique",

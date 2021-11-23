@@ -22,11 +22,16 @@ TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 
 TEST_CASE( "static_string_ids_equality_test", "[string_id]" )
 {
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_smoke == string_id<field_type>( "fd_smoke" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_toxic_gas == string_id<field_type>( "fd_toxic_gas" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_tear_gas == string_id<field_type>( "fd_tear_gas" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_nuke_gas == string_id<field_type>( "fd_nuke_gas" ) );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_nuke_gas != string_id<field_type>( "fd_nuke_gas1" ) );
 }
 
@@ -68,13 +73,19 @@ TEST_CASE( "string_ids_collection_equality", "[string_id]" )
     struct test_obj {};
     using id = string_id<test_obj>;
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( std::set<id> {id( "test1" ), id( "test3" ), id( "test2" )} ==
+           // NOLINTNEXTLINE(cata-static-string_id-constants)
            std::set<id> {id( "test2" ), id( "test1" ), id( "test3" )} );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( std::set<id> {id( "test1" ), id( "test3" ), id( "test2" )} !=
+           // NOLINTNEXTLINE(cata-static-string_id-constants)
            std::set<id> {id( "test2" ), id( "test1" ), id( "test4" )} );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     std::vector<id> vec1 { id( "test4" ), id( "test2" ), id( "test3" ), id( "test1" ) };
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     std::vector<id> vec2 { id( "test2" ), id( "test4" ), id( "test1" ), id( "test3" ) };
 
     CHECK( vec1 != vec2 );

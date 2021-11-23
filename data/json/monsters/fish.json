@@ -620,7 +620,7 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "bleed_rate": 85,
-    "harvest": "shellfish",
+    "harvest": "mutant_shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },

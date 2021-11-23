@@ -1075,7 +1075,7 @@ template<typename T_t>
 void editmap::edit_feature()
 {
     if( T_t::count() == 0 ) {
-        debugmsg( "Empty %s list", typeid( T_t ).name() );
+        debugmsg( "Empty %s list", demangle( typeid( T_t ).name() ) );
         return;
     }
 

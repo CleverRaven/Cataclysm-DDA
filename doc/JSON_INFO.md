@@ -70,6 +70,7 @@ Use the `Home` key to return to the top.
       - [`conduct`](#conduct)
     - [Skills](#skills)
     - [Speed Description](#speed-description)
+    - [Mood Face](#mood-face)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -96,6 +97,8 @@ Use the `Home` key to return to the top.
         - [Encumbrance](#encumbrance)
         - [Coverage](#coverage)
         - [Covers](#covers)
+        - [Specifically Covers](#specifically-covers)
+        - [Part Materials](#part-materials)
       - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
@@ -117,6 +120,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
       - [`id`](#id)
@@ -124,6 +128,7 @@ Use the `Home` key to return to the top.
       - [`message`](#message)
       - [`entries`](#entries)
     - [leftovers](#leftovers)
+    - [Weapon Category](#weapon-category)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
@@ -715,7 +720,7 @@ Limb scores act as the basis of calculating the effect of limb encumbrance and d
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 | dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
-| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
+| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
 
@@ -1927,6 +1932,41 @@ Values are checked from highest first, the order they're defined in doesn't matt
 
 **Having a value of `0.00`** is important but not necessary, as it's used in case the ratio turns zero for whatever reason ( like monster has the flag `MF_IMMOBILE` ). If the ratio is zero and this value doesn't exist, the returned string will be empty.
 
+### Mood Face
+```C++
+{
+    "type": "mood_face",
+    "id": "DEFAULT_HORIZONTAL",
+    "values": [ // mandatory
+        {
+            "value": 200, // mandatory
+            "face": "<color_green>@w@</color>" // mandatory
+        },
+        {
+            "value": -200,
+            "face": "<color_red>XvX</color>" // adding a color is also mandatory
+        },
+        {
+            "value": -201, // morale is clamped [200, -200] on regular gameplay, not necessary unless debugging
+            "face": "<color_yellow>@^@</color>"
+        }
+    ]
+}
+```
+
+Color is mandatory, or else it won't appear on the sidebar.
+
+`DEFAULT` and `DEFAULT_HORIZONTAL` for the default value, must not be deleted ( modifying is fine ).
+
+`THRESH_TRAIT` and `THRESH_TRAIT_HORIZONTAL` for traits.
+Examples:
+For `THRESH_BIRD`: `THRESH_BIRD` and `THRESH_BIRD_HORIZONTAL`
+For `THRESH_SPIDER`: `THRESH_SPIDER` and `THRESH_SPIDER_HORIZONTAL`
+
+The `id` must be exact as it is hardcoded to look for that.
+
+`HORIZONTAL` means 3 characters width.
+
 ### Traits/Mutations
 
 ```C++
@@ -2468,6 +2508,9 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 "range" : 5,          // Range when fired
 "range_multiplier": 2,// Optional field multiplying base gun range
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
+"shot_count": 5,      // Optional field specifying that this ammo fires multiple projectiles per round, e.g. shot. If present shot_damage must also be specified.
+"shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present shot_count must also be specified.
+"shot_spread":        // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
@@ -2526,7 +2569,12 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 95,
     "cover_ranged": 50,
     "cover_vitals": 5,
-    "covers": [ "torso" ]
+    "covers": [ "torso" ],
+    "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
+    "material": [
+      { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
+      { "type": "plastic", "covered_by_mat": 15, "thickness": 0.8 }
+    ]
   },
   {
     "encumbrance": 2,
@@ -2534,7 +2582,11 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "cover_melee": 80,
     "cover_ranged": 70,
     "cover_vitals": 5,
-    "covers": [ "arm_r", "arm_l" ]
+    "covers": [ "arm_r", "arm_l" ],
+    "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ],
+    "material": [
+      { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+    ]
   }
 ]
 ```
@@ -2556,6 +2608,22 @@ What percentage of time this piece of armor will be hit (and thus used as armor)
 (array of strings)
 What body parts this section of the armor covers. See the bodypart_ids defined in body_parts.json for valid values.
 
+##### Specifically Covers
+(array of strings)
+What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
+These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
+strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
+
+##### Part Materials
+(array of objects)
+The type, coverage and thickness of the materials that make up this portion of the armor.
+- `type` indicates the material ID.
+- `covered_by_mat` (_optional_) indicates how much (%) of this armor portion is covered by said material. Defaults to 100.
+- `thickness` (_optional_) indicates the thickness of said material for this armor portion. Defaults to 0.0.
+The portion coverage and thickness determine how much the material contributes towards the armor's resistances.
+**NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
+
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
@@ -2563,12 +2631,18 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "armor_data" : {      // additionally the same armor data like above
     "warmth" : 10,
     "environmental_protection" : 0,
-    "material_thickness" : 1,
     "armor": [
       {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "plastic", "covered_by_mat": 15, "thickness": 0.6 }
+        ],
         "covers" : [ "foot_l", "foot_r" ],
         "encumbrance" : 0,
         "coverage" : 80,
+        "cover_melee": 80,
+        "cover_ranged": 70,
+        "cover_vitals": 5
       }
     ],
     "power_armor" : false
@@ -2701,7 +2775,7 @@ The `conditional_names` field allows defining alternate names for items that wil
       "name": { "str_sp": "%s (morale)" },
       "value" : "true"
     },
-    { 
+    {
       "type": "SNIPPET_ID",
       "condition": "test",
       "value":"one",
@@ -2715,7 +2789,7 @@ You can list as many conditional names for a given item as you want. Each condit
     - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
-    - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`. 
+    - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 
@@ -3378,7 +3452,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     }
 ```
 
-###random Descriptions
+### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
@@ -3511,6 +3585,16 @@ For `type`s `bionic` and `bionic_group`, the following entries can scale the res
 ### leftovers
 
 itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
+
+### Weapon Category
+
+```c++
+{
+    "type": "weapon_category",
+    "id": "WEAP_CAT"
+    "name": "Weapon Category"
+}
+```
 
 ### Furniture
 
@@ -4406,6 +4490,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
         "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
      ],
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
+    "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

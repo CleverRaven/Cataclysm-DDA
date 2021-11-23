@@ -435,16 +435,16 @@ template<scale FineScale, origin Origin, scale CoarseScale>
 inline auto project_bounds( const coord_point<point, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return inclusive_rectangle<coord_point<point, Origin, FineScale>>( project_to<FineScale>( coarse ),
-            project_to<FineScale>( coarse + one ) - one );
+    return half_open_rectangle<coord_point<point, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
 template<scale FineScale, origin Origin, scale CoarseScale>
 inline auto project_bounds( const coord_point<tripoint, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return inclusive_cuboid<coord_point<tripoint, Origin, FineScale>>( project_to<FineScale>( coarse ),
-            project_to<FineScale>( coarse + one ) - one );
+    return half_open_cuboid<coord_point<tripoint, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
 } // namespace coords

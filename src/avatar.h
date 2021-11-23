@@ -142,12 +142,6 @@ class avatar : public Character
 
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
-        /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
-        /** Uses calc_focus_change to update the player's current focus */
-        void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -180,8 +174,8 @@ class avatar : public Character
         void on_mission_finished( mission &cur_mission );
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
-                      bool radio_contact = false );
+        void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
+                      bool is_computer = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -334,7 +328,14 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
+        const mood_face_id &character_mood_face();
+        void clear_mood_face();
+
     private:
+
+        bool mood_face_horizontal = false;
+        cata::optional<mood_face_id> mood_face_cache;
+
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
 
