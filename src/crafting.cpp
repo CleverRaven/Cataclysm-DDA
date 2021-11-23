@@ -564,6 +564,11 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     // TODO: Add a const overload of all_items_loc() that returns something like
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
+        // add containers separately from their contents
+        if( !it->empty_container() ) {
+            *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
+            continue;
+        }
         crafting_cache.crafting_inventory->add_item( *it );
     }
 
