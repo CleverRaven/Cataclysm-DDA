@@ -10054,7 +10054,7 @@ bool item::allow_crafting_component() const
         return valid;
     }
 
-    return contents.empty();
+    return true;
 }
 
 void item::set_item_specific_energy( const float new_specific_energy )

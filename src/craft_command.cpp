@@ -252,6 +252,20 @@ item craft_command::create_in_progress_craft()
 
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
+        for( item &tmp_it : tmp ) {
+            if( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) {
+                item tmp_ammo( tmp_it.ammo_current() );
+                if( this->crafter != nullptr ) {
+                    this->crafter->i_add( tmp_it.loaded_ammo() );
+                }
+            } else if( !tmp_it.is_container_empty() ) {
+                if( this->crafter != nullptr ) {
+                    tmp_it.spill_contents( *this->crafter );
+                } else if( this->loc.has_value() ) {
+                    tmp_it.spill_contents( *this->loc );
+                }
+            }
+        }
         used.splice( used.end(), tmp );
     }
 
