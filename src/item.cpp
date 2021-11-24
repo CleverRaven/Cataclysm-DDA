@@ -922,7 +922,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
                 continue;
             }
             for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
-                if( bpid->part_side == s ) {
+                if( bpid->part_side == s || bpid->part_side == side::BOTH ) {
                     cb( bpid );
                 }
             }
