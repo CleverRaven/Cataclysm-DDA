@@ -996,6 +996,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
     ]
