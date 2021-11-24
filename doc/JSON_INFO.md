@@ -610,45 +610,51 @@ For information about tools with option to export ASCII art in format ready to b
 
 ### Body_parts
 
-| Identifier        | Description
-|---                |---
-| id                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
-| name              | (_mandatory_) In-game name displayed.
-| accusative        | (_mandatory_) Accusative form for this bodypart.
-| heading           | (_mandatory_) How it's displayed in headings.
-| heading_multiple  | (_mandatory_) Plural form of heading.
-| hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
-| main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
-| connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
-| base_hp           | (_mandatory_) The amount of hp this part has before any modification.
-| opposite_part     | (_mandatory_) What is the opposite part of this one in case of a pair.
-| hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
-| hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
-| hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
-| stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
-| hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
-| cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
-| squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
-| stat_hp_mods      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
-| bionic_slots      | (_optional_) How many bionic slots does this part have.
-| is_limb           | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
-| smash_message     | (_optional_) The message displayed when using that part to smash something.
-| smash_efficiency  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
+| `Identifier`        | Description
+|---                  |---
+| `id`                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| `name`              | (_mandatory_) In-game name displayed.
+| `accusative`        | (_mandatory_) Accusative form for this bodypart.
+| `heading`           | (_mandatory_) How it's displayed in headings.
+| `heading_multiple`  | (_mandatory_) Plural form of heading.
+| `hp_bar_ui_text`    | (_mandatory_) How it's displayed next to the hp bar in the panel.
+| `main_part`         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| `connected_to`      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
+| `base_hp`           | (_mandatory_) The amount of hp this part has before any modification.
+| `opposite_part`     | (_mandatory_) What is the opposite part of this one in case of a pair.
+| `hit_size`          | (_mandatory_) Size of the body part when doing an unweighted selection.
+| `hit_size_relative` | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| `hit_difficulty`    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| `drench_capacity`   | (_mandatory_) How wet this part can get before being 100% drenched.
+| `stylish_bonus`     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| `hot_morale_mod`    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
+| `cold_morale_mod`   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
+| `squeamish_penalty` | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| `fire_warmth_bonus` | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
+| `env_protection`    | (_optional_) Innate environmental protection of this part. (default: `0`)
+| `stat_hp_mods`      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
+| `bionic_slots`      | (_optional_) How many bionic slots does this part have.
+| `is_limb`           | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
+| `smash_message`     | (_optional_) The message displayed when using that part to smash something.
+| `smash_efficiency`  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
+| `flags`             | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
 
 # Limb scores
 Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are all optional floats.
-| manipulator_score    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
-| manipulator_max      | The upper limit of manipulator score the limb can contribute to.
-| lifting_score        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
-| blocking_score       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
-| breathing_score      | Modifies stamina recovery speed and shout volume.
-| vision_score         | Modifies ranged dispersion.
-| nightvision_score    | Modifies night vision range (multiplier on the calculated range).
-| reaction_score       | Modifies dodge chance and block effectivity.
-| balance_score        | Modifies thrown attack speed, movement cost and melee attack rolls.
-| movement_speed_score | Modifies movement cost.
-| swim_score           | Modifies swim speed.
+
+| `Identifier`           | Description
+|------                  |------
+| `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
+| `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
+| `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
+| `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
+| `breathing_score`      | Modifies stamina recovery speed and shout volume.
+| `vision_score`         | Modifies ranged dispersion.
+| `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
+| `reaction_score`       | Modifies dodge chance and block effectivity.
+| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
+| `movement_speed_score` | Modifies movement cost.
+| `swim_score`           | Modifies swim speed.
 
 ```C++
   {
