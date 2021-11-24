@@ -4427,7 +4427,7 @@ void Character::update_needs( int rate_multiplier )
             }
 
             mod_pain( rng( 2, 3 ) );
-            mod_focus( -2, -4 );
+            mod_focus( rng( -2, -4 ) );
         }
     }
 }
