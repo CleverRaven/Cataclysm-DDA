@@ -284,8 +284,6 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
-bool item_is_in_container( const item_location & );
-
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
@@ -1889,7 +1887,7 @@ int game::inventory_item_menu( item_location locThisItem,
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
                         // Item has uses and none of its contents (if any) has uses.
 
-                        if( item_is_in_container( locThisItem ) ) {
+                        if( locThisItem.where() == item_location::type::container ) {
                             u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                                 rummage_activity_actor::action::activate ) ) );
                         } else {
@@ -1906,7 +1904,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 }
                 case 'E':
                     if( !locThisItem.get_item()->is_container() ) {
-                        if( item_is_in_container( locThisItem ) ) {
+                        if( locThisItem.where() == item_location::type::container ) {
                             u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                                 rummage_activity_actor::action::eat ) ) )
                             ;
@@ -1920,7 +1918,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'W': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    if( item_is_in_container( locThisItem ) ) {
+                    if( locThisItem.where() == item_location::type::container ) {
                         u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                             rummage_activity_actor::action::wear ) ) );
                     } else {
@@ -1933,7 +1931,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        if( item_is_in_container( locThisItem ) ) {
+                        if( locThisItem.where() == item_location::type::container ) {
                             u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                                 rummage_activity_actor::action::wield ) ) );
                         } else {
@@ -1958,7 +1956,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.takeoff( locThisItem );
                     break;
                 case 'd': {
-                    if( item_is_in_container( locThisItem ) ) {
+                    if( locThisItem.where() == item_location::type::container ) {
                         u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                             rummage_activity_actor::action::drop, u.pos() ) ) );
                     } else {
@@ -1979,7 +1977,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::mend( u, locThisItem );
                     break;
                 case 'R': {
-                    if( item_is_in_container( locThisItem ) ) {
+                    if( locThisItem.where() == item_location::type::container ) {
                         u.assign_activity( player_activity( rummage_activity_actor( locThisItem,
                                                             rummage_activity_actor::action::read ) ) );
                     } else {
@@ -7929,8 +7927,8 @@ void game::unload_container()
 void game::drop_in_direction( const tripoint &pnt )
 {
     drop_locations drop_loc = game_menus::inv::multidrop( u );
-    for( drop_location d_loc : drop_loc ) {
-        if( item_is_in_container( d_loc.first ) ) {
+    for( const drop_location &d_loc : drop_loc ) {
+        if( d_loc.first.where() == item_location::type::container ) {
             u.assign_activity( player_activity( rummage_activity_actor( drop_loc,
                                                 rummage_activity_actor::action::drop, pnt ) ) );
             return;

@@ -5196,18 +5196,13 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
     return haircut_activity_actor().clone();
 }
 
-bool item_is_in_container( const item_location &item_loc )
-{
-    return item_loc.where() == item_location::type::container;
-}
-
 void rummage_activity_actor::start( player_activity &act, Character &who )
 {
     int moves = 0;
     if( kind == action::drop ) {
-        for( drop_location i_loc : item_loc ) {
+        for( const drop_location &i_loc : item_loc ) {
             //Only add the move cost for items inside a container
-            if( item_is_in_container( i_loc.first ) ) {
+            if( i_loc.first.where() == item_location::type::container ) {
                 moves += i_loc.first.obtain_cost( who );
             }
         }
@@ -5218,7 +5213,7 @@ void rummage_activity_actor::start( player_activity &act, Character &who )
     act.moves_left = moves;
 }
 
-void rummage_activity_actor::do_turn( player_activity &act, Character &who )
+void rummage_activity_actor::do_turn( player_activity &/*act*/, Character & /*who*/ )
 {
 }
 
@@ -5324,7 +5319,7 @@ std::string enum_to_string<rummage_activity_actor::action>(
             break;
     }
     debugmsg( "Invalid rummage_activity_actor::action" );
-    abort();
+    cata_fatal( "Invalid rummage_activity_actor::action" );
 }
 } //namespace io
 
