@@ -1276,6 +1276,7 @@ struct fixed_overmap_special_data : overmap_special_data {
 
     std::vector<overmap_special_locations> required_locations() const override {
         std::vector<overmap_special_locations> result;
+        result.reserve( terrains.size() );
         std::copy( terrains.begin(), terrains.end(), std::back_inserter( result ) );
         return result;
     }
