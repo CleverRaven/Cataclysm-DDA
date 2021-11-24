@@ -14,7 +14,7 @@
     "type": "MONSTER",
     "name": { "str": "thorny shambler" },
     "copy-from": "mon_zombie_thorny",
-	"upgrades": { "half_life": 20, "into": "mon_brute_thorny" }
+    "upgrades": { "half_life": 20, "into": "mon_brute_thorny" }
   },
   {
     "id": "mon_skeleton_master",
@@ -50,7 +50,17 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
-    "flags": [ "SEES", "HEARS", "REVIVES", "NO_BREATHE", "POISON","PATH_AVOID_DANGER_2", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "REVIVES",
+      "NO_BREATHE",
+      "POISON",
+      "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_brute_thorny",
@@ -82,10 +92,23 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_fiend",
-	"upgrades": { "half_life": 21, "into": "mon_hulk_thorny" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "PARALYZEVENOM" ] 
-	},
-	{
+    "upgrades": { "half_life": 21, "into": "mon_hulk_thorny" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "PARALYZEVENOM"
+    ]
+  },
+  {
     "id": "mon_hulk_thorny",
     "type": "MONSTER",
     "name": { "str": "grove walker" },
@@ -115,6 +138,20 @@
     "harvest": "zombie_thorny",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PARALYZEVENOM" ] 
-	}
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "FILTHY",
+      "PARALYZEVENOM"
+    ]
+  }
 ]
