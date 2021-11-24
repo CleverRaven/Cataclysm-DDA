@@ -1,6 +1,10 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "eoc_null"
+  },
+  {
+    "type": "effect_on_condition",
     "id": "scenario_bad_day",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
@@ -190,23 +194,6 @@
     "effect": [
       { "u_message": "Your vision pixelates!", "type": "bad" },
       { "sound_effect": "pixelated", "id": "bionics", "volume": 100 },
-      { "u_add_effect": "visuals", "duration": "10 minutes" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "mut_eyestalk",
-    "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "EYESTALKS1" },
-        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "EYESTALKS1" } },
-    "effect": [
-      { "u_message": "Your vision inverts!", "type": "bad" },
-      { "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
       { "u_add_effect": "visuals", "duration": "10 minutes" }
     ]
   },
