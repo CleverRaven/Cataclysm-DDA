@@ -568,6 +568,23 @@
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },
   {
+    "id": "alcohol_wipes",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "alcohol wipes" },
+    "description": "A type of wipes commonly used for treating contaminated wounds.",
+    "weight": "5 g",
+    "volume": "25 ml",
+    "price": 400,
+    "price_postapoc": 250,
+    "charges": 40,
+    "symbol": ",",
+    "color": "white",
+    "container": "box_small",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.3, "move_cost": 500 }
+  },
+  {
     "id": "diazepam",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
