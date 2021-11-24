@@ -5147,7 +5147,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
 {
     const pf::two_node_scoring_fn<point_om_omt> estimate =
     [&]( pf::directed_node<point_om_omt> cur, cata::optional<pf::directed_node<point_om_omt>> prev ) {
-        const auto &id( ter( tripoint_om_omt( cur.pos, z ) ) );
+        const oter_id id = ter( tripoint_om_omt( cur.pos, z ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
 
