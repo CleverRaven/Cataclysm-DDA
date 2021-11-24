@@ -1,0 +1,23 @@
+on:
+  workflow_run:
+    workflows: ["astyle", "JSON Validation", "Basic Build and Test (GCC 9, Curses, LTO)"]
+    types: [completed]
+
+env:
+  WORKFLOW_TO_LABEL: { "astyle": "astyled", "JSON Validation": "json-styled", "Basic Build and Test (GCC 9, Curses, LTO)": "Basic Build Passed" }
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - uses: andymckay/labeler@master
+      with:
+        add-labels: env.WORKFLOW_TO_LABEL[ github.event.name ]
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+    - uses: andymckay/labeler@master
+      with:
+        remove-labels: env.WORKFLOW_TO_LABEL[ github.event.name ]
