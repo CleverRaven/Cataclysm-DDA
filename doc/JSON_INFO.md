@@ -99,6 +99,7 @@ Use the `Home` key to return to the top.
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
         - [Part Materials](#part-materials)
+        - [Armor Data](#armor-data)
       - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
@@ -2632,6 +2633,31 @@ The type, coverage and thickness of the materials that make up this portion of t
 The portion coverage and thickness determine how much the material contributes towards the armor's resistances.
 **NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
 
+`covered_by_mat` should not be confused with `coverage`. When specifying `covered_by_mat`, think of it as how much of this piece of armor is covered by the material defined by `type`. For example:
+
+```json
+"armor": [
+  {
+    "covers" : [ "arm_r", "arm_l" ],
+    "material": [
+      {
+        "type": "cotton",
+        "covered_by_mat": 100,
+        "thickness": 0.2
+      },
+      {
+        "type": "plastic",
+        "covered_by_mat": 15,
+        "thickness": 0.6
+      }
+    ],
+    ...
+  }
+]
+```
+The case above describes a portion of armor that covers the arms. This portion is 100% covered by cotton, so a hit to the arm part of the armor will definitely impact the cotton. That portion is also 15% covered by plastic. This means that during damage absorption, the cotton material contributes 100% of its damage absorption, while the plastic material only contributes 15% of its damage absorption. Damage absorption is also affected by `thickness`, so thickness and material cover both provide positive effects for protection.
+
+##### Armor Data
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
