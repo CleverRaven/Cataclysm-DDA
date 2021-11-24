@@ -3,7 +3,7 @@
     "id": "mon_gastro_bufo",
     "type": "MONSTER",
     "name": { "str": "gastro bufo" },
-    "description": "This humongous toad seems to have been cursed by the blob. instead of the typical toxic secretions is now sweating acid all over its skin",
+    "description": "This humongous toad seems to have been cursed by the blob instead of poison its leaking acid over its body.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "AMPHIBIAN" ],
     "volume": "200 L",
