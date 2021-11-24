@@ -172,7 +172,7 @@
     "looks_like": "afs_roof_external_tank",
     "item": "30gal_drum",
     "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
+    "extend": { "flags": [ "ON_ROOF", "LIMITED_SPACE" ] },
     "size": 100000
   },
   {
@@ -191,7 +191,7 @@
     "name": { "str": "roof-mounted external tank (200L)" },
     "item": "55gal_drum",
     "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
+    "extend": { "flags": [ "ON_ROOF", "LIMITED_SPACE" ] },
     "size": 200000
   },
   {
