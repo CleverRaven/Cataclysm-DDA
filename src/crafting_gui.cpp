@@ -159,7 +159,7 @@ namespace
 struct availability {
     explicit availability( const recipe *r, int batch_size = 1 ) {
         Character &player = get_player_character();
-        const inventory &inv = player.crafting_inventory();
+        const inventory &inv = player.crafting_inventory( r );
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
         const deduped_requirement_data &req = r->deduped_requirements();
@@ -267,7 +267,7 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    const inventory &crafting_inv = guy.crafting_inventory();
+    const inventory &crafting_inv = guy.crafting_inventory( &recp );
     if( recp.result() ) {
         const int nearby_amount = crafting_inv.count_item( recp.result() );
         std::string nearby_string;
@@ -763,7 +763,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     const recipe *chosen = nullptr;
 
     Character &player_character = get_player_character();
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const inventory &crafting_inv = player_character.crafting_inventory( chosen );
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 
