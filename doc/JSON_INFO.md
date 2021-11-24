@@ -2633,7 +2633,7 @@ The type, coverage and thickness of the materials that make up this portion of t
 The portion coverage and thickness determine how much the material contributes towards the armor's resistances.
 **NOTE:** These material definitions do not replace the standard `"material"` tag. Instead they provide more granularity for controlling different armor resistances.
 
-`covered_by_mat` should not be confused with `coverage`. When specifying `covered_by_mat`, think of it as how much of this piece of armor is covered by the material defined by `type`. For example:
+`covered_by_mat` should not be confused with `coverage`. When specifying `covered_by_mat`, treat it like the `portion` field using percentage instead of a ratio value. For example:
 
 ```json
 "armor": [
