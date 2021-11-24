@@ -1,5 +1,5 @@
 [
-   {
+  {
     "id": "mon_large_scorpion",
     "type": "MONSTER",
     "name": { "str": "large scorpion", "str_pl": "large scorpions" },
@@ -9,7 +9,7 @@
     "volume": "32 L",
     "weight": "40 kg",
     "upgrades": { "half_life": 14, "into": "mon_scorpion_giant" }
-   },
+  },
   {
     "id": "mon_scorpion_giant",
     "type": "MONSTER",
@@ -41,7 +41,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
   },
   {
-	"id": "mon_horned_beetle",
+    "id": "mon_horned_beetle",
     "type": "MONSTER",
     "name": { "str": "horned beetle", "str_pl": "horned beetles" },
     "description": "A large horned beetle of undescribed kind.",
@@ -50,9 +50,9 @@
     "volume": "40 L",
     "weight": "45 kg",
     "upgrades": { "half_life": 14, "into": "mon_heraclean_beetle" }
-	},
-	{
-	"id": "mon_heraclean_beetle",
+  },
+  {
+    "id": "mon_heraclean_beetle",
     "type": "MONSTER",
     "name": { "str": "heraclean beetle" },
     "description": "A huge beetle the size of cattle, doesnt look predatory but the thick carapace and the enormous horn on its head seem like it can be formidable when fighting for mates",
@@ -75,12 +75,12 @@
     "dodge": 1,
     "armor_bash": 6,
     "armor_cut": 6,
-	"armor_bullet": 6,
+    "armor_bullet": 6,
     "vision_day": 4,
     "vision_night": 4,
     "harvest": "arachnid",
-	"anger_triggers": [ "HURT", "MATING_SEASON" ],
-	"baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "PUSH_MON", "PUSH_VEH"]
-	}
+    "anger_triggers": [ "HURT", "MATING_SEASON" ],
+    "baby_flags": [ "AUTUMN" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PUSH_MON", "PUSH_VEH" ]
+  }
 ]
