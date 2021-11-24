@@ -208,6 +208,9 @@ struct body_part_type {
 
         int fire_warmth_bonus = 0;
 
+        //Innate environmental protection
+        int env_protection = 0;
+
         int base_hp = 60;
         stat_hp_mods hp_mods;
 

@@ -10,6 +10,8 @@
 #include "point.h"
 #include "type_id.h"
 
+static const spell_id spell_test_line_spell( "test_line_spell" );
+
 TEST_CASE( "line_attack", "[magic]" )
 {
     // manually construct a testable spell
@@ -33,7 +35,7 @@ TEST_CASE( "line_attack", "[magic]" )
     JsonObject obj( in );
     spell_type::load_spell( obj, "" );
 
-    spell sp( spell_id( "test_line_spell" ) );
+    spell sp( spell_test_line_spell );
 
     // set up Character to test with, only need position
     npc &c = spawn_npc( point_zero, "test_talker" );

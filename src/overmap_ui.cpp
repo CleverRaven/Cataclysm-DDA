@@ -85,6 +85,10 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
+static const oter_str_id oter_forest( "forest" );
+
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 #if defined(__ANDROID__)
@@ -531,7 +535,7 @@ static void draw_ascii(
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_str_id( "forest" ).id();
+    const oter_id forest = oter_forest.id();
 
     std::string sZoneName;
     tripoint_abs_omt tripointZone( -1, -1, -1 );
@@ -768,7 +772,7 @@ static void draw_ascii(
                 ter_color = c_yellow;
                 ter_sym = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+                       ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omp, ter_sym, ter_color );

@@ -25,6 +25,13 @@ struct FoundDecl {
     StringRef text;
 };
 
+struct PromotableCall {
+    const VarDecl *decl;
+    const CXXConstructExpr *construction;
+    std::string canonical_name;
+    StringRef string_literal_arg;
+};
+
 class StaticStringIdConstantsCheck : public ClangTidyCheck
 {
     public:
@@ -39,6 +46,8 @@ class StaticStringIdConstantsCheck : public ClangTidyCheck
 
         std::unordered_set<const VarDecl *> found_decls_set_;
         std::vector<FoundDecl> found_decls_;
+        std::unordered_set<unsigned> promotable_set_;
+        std::vector<PromotableCall> promotable_;
         bool any_wrong_names_ = false;
 };
 

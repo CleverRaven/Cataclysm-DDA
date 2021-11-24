@@ -42,6 +42,8 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
@@ -343,11 +345,11 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     Character &player_character = get_player_character();
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
-            player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            player_character.assign_activity( ACT_FILL_LIQUID );
             serialize_liquid_source( player_character.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
-            player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            player_character.assign_activity( ACT_FILL_LIQUID );
             serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
         } else {

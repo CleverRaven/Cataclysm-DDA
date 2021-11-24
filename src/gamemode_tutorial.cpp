@@ -39,10 +39,13 @@ static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const overmap_special_id overmap_special_tutorial( "tutorial" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
 
+static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
 static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
 static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
@@ -156,7 +159,7 @@ bool tutorial_game::init()
     // Assume overmap zero
     const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
     overmap &starting_om = overmap_buffer.get( point_abs_om() );
-    starting_om.place_special_forced( overmap_special_id( "tutorial" ), lp, om_direction::type::north );
+    starting_om.place_special_forced( overmap_special_tutorial, lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
     player_character.wear_item( item( "boxer_shorts" ), false );
@@ -240,7 +243,7 @@ void tutorial_game::per_turn()
         } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
-        } else if( here.tr_at( p ).id == trap_str_id( "tr_bubblewrap" ) ) {
+        } else if( here.tr_at( p ).id == tr_bubblewrap ) {
             add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
             break;
         }

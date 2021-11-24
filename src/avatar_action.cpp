@@ -71,6 +71,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
+static const move_mode_id move_mode_prone( "prone" );
+
 static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
@@ -157,7 +159,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // If any leg broken without crutches and not already on the ground topple over
     if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item().has_flag( flag_CRUTCHES ) ) &&
         !you.is_prone() ) {
-        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,
                                _( "Your broken legs can't hold your weight and you fall down in pain." ) );
     }
@@ -1094,6 +1096,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             add_msg( _( "Never mind." ) );
             return;
         }
+    }
+
+    if( loc->is_comestible() && loc->is_frozen_liquid() ) {
+        add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
+        return;
     }
 
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {

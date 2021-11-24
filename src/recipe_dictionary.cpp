@@ -27,6 +27,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
+
 recipe_dictionary recipe_dict;
 
 namespace
@@ -549,7 +551,7 @@ void recipe_dictionary::finalize()
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
-            bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
+            bk.requirements_ = *requirement_data_uncraft_book * pages;
             // TODO: allow specifying time in requirement_data
             bk.time = pages * 10;
         }

@@ -66,6 +66,7 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
+static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
@@ -83,6 +84,19 @@ static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
+
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_sub_station( "sub_station" );
+
+static const overmap_connection_id overmap_connection_forest_trail( "forest_trail" );
+static const overmap_connection_id overmap_connection_local_road( "local_road" );
+static const overmap_connection_id overmap_connection_sewer_tunnel( "sewer_tunnel" );
+static const overmap_connection_id overmap_connection_subway_tunnel( "subway_tunnel" );
+
+static const overmap_location_id overmap_location_land( "land" );
+static const overmap_location_id overmap_location_swamp( "swamp" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -817,8 +831,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 bool oter_t::has_connection( om_direction::type dir ) const
 {
     // TODO: It's a DAMN UGLY hack. Remove it as soon as possible.
-    static const oter_str_id road_manhole( "road_nesw_manhole" );
-    if( id == road_manhole ) {
+    if( id == oter_road_nesw_manhole ) {
         return true;
     }
     return om_lines::has_segment( line, dir );
@@ -1246,7 +1259,7 @@ struct fixed_overmap_special_data : overmap_special_data {
             }
             const oter_id &oter = om.ter( rp );
 
-            if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
+            if( ( oter->get_type_id() == oter_type_str_id( con.terrain.str() ) ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
                 return -1;
@@ -3073,7 +3086,7 @@ bool overmap::generate_sub( const int z )
             const oter_id oter_above = ter( p + tripoint_above );
             const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
-            if( is_ot_match( "microlab_sub_connector", ter( p ), ot_match_type::type ) ) {
+            if( ter( p )->get_type_id() == oter_type_microlab_sub_connector ) {
                 om_direction::type rotation = ter( p )->get_dir();
                 ter_set( p, oter_id( "subway_end_north" )->get_rotated( rotation ) );
                 subway_points.emplace_back( p.xy() );
@@ -3091,10 +3104,10 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
+            if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -1 ) {
                 ter_set( p, oter_id( "sewer_sub_station" ) );
                 requires_sub = true;
-            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
+            } else if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -2 ) {
                 ter_set( p, oter_id( "subway_isolated" ) );
                 subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
@@ -3139,8 +3152,7 @@ bool overmap::generate_sub( const int z )
     for( auto &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
-    const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
-    connect_closest_points( sewer_points, z, *sewer_tunnel );
+    connect_closest_points( sewer_points, z, *overmap_connection_sewer_tunnel );
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
     // If the central lab exists, all labs which go down to z=4 will have a subway to central.
@@ -3218,20 +3230,18 @@ bool overmap::generate_sub( const int z )
     create_real_train_lab_points( lab_train_points, subway_lab_train_points );
     create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
 
-    const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
-
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
-    connect_closest_points( subway_points, z, *subway_tunnel );
+    connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
 
     for( auto &i : subway_points ) {
-        if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
+        if( ( ter( tripoint_om_omt( i, z + 2 ) )->get_type_id() == oter_type_sub_station ) ) {
             ter_set( tripoint_om_omt( i, z ), oter_id( "underground_sub_station" ) );
         }
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z, &subway_tunnel]( const oter_id & train_type,
+    const auto create_train_depots = [this, z]( const oter_id & train_type,
     const std::vector<point_om_omt> &train_points ) {
         bool is_first_in_pair = true;
         std::vector<point_om_omt> extra_route;
@@ -3251,7 +3261,7 @@ bool overmap::generate_sub( const int z )
                         is_ot_match( "subway", ter( subway_loc ), ot_match_type::contains ) ) {
                         extra_route.push_back( i.xy() );
                         extra_route.push_back( subway_loc.xy() );
-                        connect_closest_points( extra_route, z, *subway_tunnel );
+                        connect_closest_points( extra_route, z, *overmap_connection_subway_tunnel );
 
                         ter_set( i, train_type );
                         is_depot_generated = true; // only one connection to depot
@@ -3312,7 +3322,7 @@ bool overmap::generate_over( const int z )
                     continue;
                 }
 
-                if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+                if( oter_ground->get_type_id() == oter_type_bridge ) {
                     ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                     bridge_points.push_back( p.xy() );
                 }
@@ -3334,13 +3344,15 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
         const oter_id oter_ground_south = ter( tripoint_om_omt( bp, 0 ) + tripoint_south );
         const oter_id oter_ground_east = ter( tripoint_om_omt( bp, 0 ) + tripoint_east );
         const oter_id oter_ground_west = ter( tripoint_om_omt( bp, 0 ) + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type )
+        const bool is_bridge_north = ( oter_ground_north->get_type_id() ==
+                                       oter_type_bridge )
                                      && ( oter_get_rotation( oter_ground_north ) % 2 == 0 );
-        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type )
+        const bool is_bridge_south = ( oter_ground_south->get_type_id() ==
+                                       oter_type_bridge )
                                      && ( oter_get_rotation( oter_ground_south ) % 2 == 0 );
-        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type )
+        const bool is_bridge_east = ( oter_ground_east->get_type_id() == oter_type_bridge )
                                     && ( oter_get_rotation( oter_ground_east ) % 2 == 1 );
-        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type )
+        const bool is_bridge_west = ( oter_ground_west->get_type_id() == oter_type_bridge )
                                     && ( oter_get_rotation( oter_ground_west ) % 2 == 1 );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
@@ -3574,7 +3586,7 @@ void overmap::move_hordes()
             const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
+                type.id == mon_jabberwock || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
                 !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
@@ -3941,8 +3953,7 @@ void overmap::place_forest_trails()
             }
 
             // Finally, connect all the points and make a forest trail out of them.
-            const string_id<overmap_connection> forest_trail( "forest_trail" );
-            connect_closest_points( chosen_points, 0, *forest_trail );
+            connect_closest_points( chosen_points, 0, *overmap_connection_forest_trail );
         }
     }
 }
@@ -4372,8 +4383,7 @@ void overmap::place_swamps()
 void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west )
 {
-    const string_id<overmap_connection> local_road( "local_road" );
-    std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
+    std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_local_road];
 
     // At least 3 exit points, to guarantee road continuity across overmaps
     if( roads_out.size() < 3 ) {
@@ -4447,7 +4457,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     }
 
     // And finally connect them via roads.
-    connect_closest_points( road_points, 0, *local_road );
+    connect_closest_points( road_points, 0, *overmap_connection_local_road );
 }
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
@@ -4573,8 +4583,7 @@ void overmap::place_cities()
     const int NUM_CITIES =
         roll_remainder( omts_per_overmap * city_map_coverage_ratio / omts_per_city );
 
-    const string_id<overmap_connection> local_road_id( "local_road" );
-    const overmap_connection &local_road( *local_road_id );
+    const overmap_connection &local_road( *overmap_connection_local_road );
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
@@ -5143,7 +5152,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
-                    if( is_ot_match( "road", ter( checkp ), ot_match_type::type ) ) {
+                    if( ter( checkp )->get_type_id() == oter_type_road ) {
                         collisions++;
                     }
                 }
@@ -6146,13 +6155,10 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
 {
     // TODO: Get rid of the hard-coded ids.
-    static const string_id<overmap_location> land( "land" );
-    static const string_id<overmap_location> swamp( "swamp" );
-
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();
-    ter.locations.insert( land );
-    ter.locations.insert( swamp );
+    ter.locations.insert( overmap_location_land );
+    ter.locations.insert( overmap_location_swamp );
 
     overmap_special_id new_id( "FakeSpecial_" + base.str() );
     overmap_special new_special( new_id, ter );

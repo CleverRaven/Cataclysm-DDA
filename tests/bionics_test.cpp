@@ -17,6 +17,10 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id bio_batteries( "bio_batteries" );
+static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+
 static void clear_bionics( Character &you )
 {
     you.my_bionics->clear();
@@ -36,14 +40,14 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     INFO( "no power capacity at first" );
     CHECK( !dummy.has_max_power() );
 
-    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
+    dummy.add_bionic( bio_power_storage );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_fuel_cell_gasoline" ) {
-        dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
+        dummy.add_bionic( bio_fuel_cell_gasoline );
 
         item gasoline = item( "gasoline" );
         REQUIRE( gasoline.charges != 0 );
@@ -62,7 +66,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        dummy.add_bionic( bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bio_batteries );
 
         item battery = item( "light_battery_cell" );
 
