@@ -498,11 +498,11 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
     }
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
-    if( !pocket.value()->is_allowed() ) {
-        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
-    }
     if( !pocket.success() ) {
         return pocket;
+    }
+    if( !pocket.value()->is_allowed() ) {
+        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
