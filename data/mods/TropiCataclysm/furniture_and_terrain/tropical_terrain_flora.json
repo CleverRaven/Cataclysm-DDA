@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "terrain",
     "id": "t_tree_mango",
     "name": "mango tree",
@@ -32,7 +32,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_mango",
     "bash": {
       "str_min": 80,
@@ -76,7 +76,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_papaya",
     "bash": {
       "str_min": 80,
@@ -109,7 +109,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_tree_pomegranate_harvested",
     "name": "pomegranate tree",
@@ -120,7 +120,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_pomegranate",
     "bash": {
       "str_min": 80,
@@ -153,7 +153,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_tree_coconut_harvested",
     "name": "coconut palm tree",
@@ -164,7 +164,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_coconut",
     "bash": {
       "str_min": 80,
@@ -197,7 +197,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_tree_orange_harvested",
     "name": "orange tree",
@@ -208,7 +208,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_orange",
     "bash": {
       "str_min": 80,
@@ -241,7 +241,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_tree_lemon_harvested",
     "name": "lemon tree",
@@ -252,7 +252,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_lemon",
     "bash": {
       "str_min": 80,
@@ -285,7 +285,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_tree_grapefruit_harvested",
     "name": "grapefruit tree",
@@ -296,7 +296,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-	"examine_action": "harvested_plant",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_grapefruit",
     "bash": {
       "str_min": 80,
@@ -307,7 +307,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
- {
+  {
     "type": "terrain",
     "id": "t_cholla_cactus",
     "name": "cholla cactus",
