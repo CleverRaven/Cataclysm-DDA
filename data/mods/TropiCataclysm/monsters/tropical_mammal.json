@@ -29,7 +29,7 @@
     "//": "Baby elephants don't actually exist (yet), but Spring is the wet season (their mating season) so baby_flags is defined so that they get angry then",
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 16 },
-	"petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "SMASH", 15 ] ],
     "flags": [
       "SEES",
@@ -181,8 +181,8 @@
     "placate_triggers": [ "MEAT" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-	"petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE"]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_guinea_pig",
@@ -209,7 +209,7 @@
     "dodge": 2,
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-	"petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1"]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1" ]
   }
 ]
