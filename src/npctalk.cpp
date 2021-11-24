@@ -3513,13 +3513,17 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &m
     JsonObject target_obj = jo.get_object( member );
     target_var = get_talk_varname( target_obj, "value" );
     global = target_obj.get_bool( "global", false );
-
-    function = [is_npc, target_var, global]( const dialogue & d ) {
+    std::string fail_message = jo.get_string( "fail_message", "" );
+    function = [is_npc, target_var, global, fail_message]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
         Creature *teleporter = target->get_creature();
-        if( teleporter ) {
-            teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false );
+        Creature *obstacle = get_creature_tracker().creature_at<Creature>( target_pos );
+        map &here = get_map();
+        if( teleporter && !here.impassable( target_pos ) && !obstacle ) {
+            teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false, false );
+        } else if( teleporter && !fail_message.empty() ) {
+            teleporter->add_msg_if_player( _( fail_message ) );
         }
     };
 }
