@@ -8,7 +8,7 @@
       { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_rhea_chick", "freq": 250, "cost_multiplier": 1 },
       { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
-	  { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
     ]
   },
   {
