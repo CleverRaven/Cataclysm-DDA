@@ -4417,8 +4417,8 @@ void Character::update_needs( int rate_multiplier )
     if( in_vehicle && get_size() == creature_size::huge &&
         !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
-        // it's painful to work the controls, but passengers in open topped vehicles are fine
-        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
+        // whether or not you are working the controls you will recieve pain if you are in a limited_space area.
+        if( veh && ( veh->limited_space( pos() ) ) ) {
             add_msg_if_player( m_bad,
                                _( "You're cramping up from stuffing yourself in this vehicle." ) );
             if( is_npc() ) {
@@ -4426,8 +4426,8 @@ void Character::update_needs( int rate_multiplier )
                 as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
             }
 
-            mod_pain( rng( 4, 6 ) );
-            mod_focus( -1 );
+            mod_pain( rng( 2, 3 ) );
+            mod_focus( -2, -4 );
         }
     }
 }
