@@ -6262,6 +6262,17 @@ bool vehicle::enclosed_at( const tripoint &pos )
     return false;
 }
 
+bool vehicle::limited_space( const tripoint &pos )
+{
+    refresh_insides();
+    std::vector<vehicle_part *> parts_here = get_parts_at( pos, "LIMITED_SPACE",
+            part_status_flag::working );
+    if( !parts_here.empty() ) {
+        return parts_here.front()->inside;
+    }
+    return false;
+}
+
 void vehicle::refresh_insides()
 {
     if( !insides_dirty ) {
