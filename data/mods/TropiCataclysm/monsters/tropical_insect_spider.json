@@ -2,7 +2,7 @@
   {
     "id": "mon_large_scorpion",
     "type": "MONSTER",
-    "name": { "str": "large scorpion", "str_pl": "large scorpions" },
+    "name": { "str": "large scorpion" },
     "description": "A mutated scorpion the size of a regular dog.",
     "copy-from": "mon_scorpion_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -43,7 +43,7 @@
   {
     "id": "mon_horned_beetle",
     "type": "MONSTER",
-    "name": { "str": "horned beetle", "str_pl": "horned beetles" },
+    "name": { "str": "horned beetle" },
     "description": "A large horned beetle of undescribed kind.",
     "copy-from": "mon_heraclean_beetle",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
