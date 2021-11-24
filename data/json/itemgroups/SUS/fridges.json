@@ -838,6 +838,7 @@
         "distribution": [
           { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
           { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
           { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "stout", "count": [ 1, 6 ], "prob": 15 },

@@ -85,6 +85,11 @@ static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_sub_station( "sub_station" );
+
 static const overmap_connection_id overmap_connection_forest_trail( "forest_trail" );
 static const overmap_connection_id overmap_connection_local_road( "local_road" );
 static const overmap_connection_id overmap_connection_sewer_tunnel( "sewer_tunnel" );
@@ -1254,7 +1259,7 @@ struct fixed_overmap_special_data : overmap_special_data {
             }
             const oter_id &oter = om.ter( rp );
 
-            if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
+            if( ( oter->get_type_id() == oter_type_str_id( con.terrain.str() ) ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
                 return -1;
@@ -3081,7 +3086,7 @@ bool overmap::generate_sub( const int z )
             const oter_id oter_above = ter( p + tripoint_above );
             const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
-            if( is_ot_match( "microlab_sub_connector", ter( p ), ot_match_type::type ) ) {
+            if( ter( p )->get_type_id() == oter_type_microlab_sub_connector ) {
                 om_direction::type rotation = ter( p )->get_dir();
                 ter_set( p, oter_id( "subway_end_north" )->get_rotated( rotation ) );
                 subway_points.emplace_back( p.xy() );
@@ -3099,10 +3104,10 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
+            if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -1 ) {
                 ter_set( p, oter_id( "sewer_sub_station" ) );
                 requires_sub = true;
-            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
+            } else if( ( oter_ground->get_type_id() == oter_type_sub_station ) && z == -2 ) {
                 ter_set( p, oter_id( "subway_isolated" ) );
                 subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
@@ -3230,7 +3235,7 @@ bool overmap::generate_sub( const int z )
     connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
 
     for( auto &i : subway_points ) {
-        if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
+        if( ( ter( tripoint_om_omt( i, z + 2 ) )->get_type_id() == oter_type_sub_station ) ) {
             ter_set( tripoint_om_omt( i, z ), oter_id( "underground_sub_station" ) );
         }
     }
@@ -3317,7 +3322,7 @@ bool overmap::generate_over( const int z )
                     continue;
                 }
 
-                if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+                if( oter_ground->get_type_id() == oter_type_bridge ) {
                     ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                     bridge_points.push_back( p.xy() );
                 }
@@ -3339,13 +3344,15 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
         const oter_id oter_ground_south = ter( tripoint_om_omt( bp, 0 ) + tripoint_south );
         const oter_id oter_ground_east = ter( tripoint_om_omt( bp, 0 ) + tripoint_east );
         const oter_id oter_ground_west = ter( tripoint_om_omt( bp, 0 ) + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type )
+        const bool is_bridge_north = ( oter_ground_north->get_type_id() ==
+                                       oter_type_bridge )
                                      && ( oter_get_rotation( oter_ground_north ) % 2 == 0 );
-        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type )
+        const bool is_bridge_south = ( oter_ground_south->get_type_id() ==
+                                       oter_type_bridge )
                                      && ( oter_get_rotation( oter_ground_south ) % 2 == 0 );
-        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type )
+        const bool is_bridge_east = ( oter_ground_east->get_type_id() == oter_type_bridge )
                                     && ( oter_get_rotation( oter_ground_east ) % 2 == 1 );
-        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type )
+        const bool is_bridge_west = ( oter_ground_west->get_type_id() == oter_type_bridge )
                                     && ( oter_get_rotation( oter_ground_west ) % 2 == 1 );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
@@ -5145,7 +5152,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
-                    if( is_ot_match( "road", ter( checkp ), ot_match_type::type ) ) {
+                    if( ter( checkp )->get_type_id() == oter_type_road ) {
                         collisions++;
                     }
                 }

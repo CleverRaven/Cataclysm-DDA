@@ -1798,7 +1798,7 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
+    mvwprintz( w, point( 24, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 

@@ -30,6 +30,7 @@
       { "item": "brandy", "prob": 12 },
       { "item": "irish_coffee", "prob": 12 },
       { "item": "drink_boozeberry", "prob": 8 },
+      { "item": "drink_hard_seltzer", "prob": 25 },
       { "item": "drink_rumcola", "prob": 12 },
       { "item": "drink_screwdriver", "prob": 12 },
       { "item": "drink_wsour", "prob": 12 },

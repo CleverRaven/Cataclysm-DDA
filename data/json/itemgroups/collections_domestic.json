@@ -970,6 +970,7 @@
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
       { "item": "corset", "prob": 15 },
+      { "item": "corset_waist", "prob": 15 },
       { "item": "firehelmet", "prob": 1 },
       { "item": "bunker_coat", "prob": 1 },
       { "item": "bunker_pants", "prob": 1 },
@@ -995,6 +996,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
     ]

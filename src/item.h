@@ -1321,11 +1321,6 @@ class item : public visitable
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
 
-        // If this is food, returns itself.  If it contains food, return that
-        // contents.  Otherwise, returns nullptr.
-        item *get_food();
-        const item *get_food() const;
-
         void set_last_temp_check( const time_point &pt );
 
         /** How resistant clothes made of this material are to wind (0-100) */
@@ -1733,6 +1728,10 @@ class item : public visitable
          * Swap the side on which the item is worn. Returns false if the item is not sided
          */
         bool swap_side();
+        /**
+         * Returns if the armor has ablative pockets
+         */
+        bool is_ablative() const;
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value

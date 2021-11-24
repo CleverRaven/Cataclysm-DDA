@@ -254,5 +254,10 @@
     "type": "recipe",
     "result": "folding_bicycle",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ballistic_vest_esapi",
+    "obsolete": true
   }
 ]

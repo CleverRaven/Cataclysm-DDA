@@ -158,6 +158,10 @@ static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
+static const oter_type_str_id oter_type_road( "road" );
+
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const string_id<class npc_template> npc_template_bandit( "bandit" );
@@ -609,10 +613,10 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
@@ -791,10 +795,10 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
     const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::prefix );
     const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::prefix );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
@@ -997,16 +1001,17 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool bridgehead_at_center = is_ot_match( "bridgehead_ground", center, ot_match_type::type );
-    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
-    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
-    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
-    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::type );
+    const bool bridgehead_at_center = center->get_type_id() ==
+                                      oter_type_bridgehead_ground;
+    const bool bridge_at_north = north->get_type_id() == oter_type_bridge;
+    const bool bridge_at_south = south->get_type_id() == oter_type_bridge;
+    const bool bridge_at_west = west->get_type_id() == oter_type_bridge;
+    const bool bridge_at_east = east->get_type_id() == oter_type_bridge;
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER!  MINEFIELD!" );
@@ -2196,10 +2201,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     // defect types
     weighted_int_list<ter_id> road_defects;

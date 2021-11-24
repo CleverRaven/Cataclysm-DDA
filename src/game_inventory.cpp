@@ -1096,7 +1096,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use();
+            return loc->type->has_use() || loc->has_relic_activation();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1156,6 +1156,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            n_gettext( "Needs at least %d charge",
                                       "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
+            }
+
+            if( it.is_frozen_liquid() && it.is_comestible() ) {
+                return _( "You can't consume frozen liquids!" );
             }
 
             if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {

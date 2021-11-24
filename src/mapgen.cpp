@@ -169,6 +169,10 @@ static const oter_str_id oter_tower_lab( "tower_lab" );
 static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
 static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
+
 static const relic_procgen_id relic_procgen_data_cult( "cult" );
 static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
 
@@ -2440,7 +2444,7 @@ class jmapgen_terrain : public jmapgen_piece
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
-                dat.m.furn_set( point( x.get(), y.get() ), f_null );
+                dat.m.furn_clear( point( x.get(), y.get() ) );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
                 if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
@@ -4193,16 +4197,20 @@ void map::draw_lab( mapgendata &dat )
         rw = 0;
         bw = 0;
         lw = 0;
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) {
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.north(), 2 ) ) {
             tw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) {
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.east(), 3 ) ) {
             rw = EAST_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) {
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.south(), 0 ) ) {
             bw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) {
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.west(), 1 ) ) {
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel() == 0 ) { // We're on ground level
@@ -4233,11 +4241,11 @@ void map::draw_lab( mapgendata &dat )
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
-            if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
+            if( dat.east()->get_type_id() == oter_type_road ) {
                 rotate( 1 );
-            } else if( is_ot_match( "road", dat.south(), ot_match_type::type ) ) {
+            } else if( dat.south()->get_type_id() == oter_type_road ) {
                 rotate( 2 );
-            } else if( is_ot_match( "road", dat.west(), ot_match_type::type ) ) {
+            } else if( dat.west()->get_type_id() == oter_type_road ) {
                 rotate( 3 );
             }
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
@@ -5708,9 +5716,9 @@ void map::draw_slimepit( const mapgendata &dat )
 void map::draw_connections( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( is_ot_match( "subway", terrain_type,
-                     ot_match_type::type ) ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) &&
+    if( terrain_type->get_type_id() ==
+        oter_type_subway ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 0 ) ) {
             if( connects_to( dat.north(), 2 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5727,7 +5735,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, 3 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 1 ) ) {
             if( connects_to( dat.east(), 3 ) ) {
                 for( int i = SEEX; i < SEEX * 2; i++ ) {
@@ -5744,7 +5752,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX * 2 - 4, SEEY - 1 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 2 ) ) {
             if( connects_to( dat.south(), 0 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5761,7 +5769,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, SEEY * 2 - 4 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 3 ) ) {
             if( connects_to( dat.west(), 1 ) ) {
                 for( int i = 0; i < SEEX; i++ ) {
@@ -5778,11 +5786,11 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( 3, SEEY - 1 ), t_door_metal_c );
             }
         }
-    } else if( is_ot_match( "sewer", terrain_type, ot_match_type::type ) ) {
+    } else if( terrain_type->get_type_id() == oter_type_sewer ) {
         if( dat.above() == oter_road_nesw_manhole ) {
             ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
         }
-        if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
+        if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5791,7 +5799,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY - 3 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY - 3 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 1 ) ) {
             for( int i = SEEX + 3; i < SEEX * 2; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );
@@ -5800,7 +5808,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX + 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 2, SEEY - 1 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 2 ) ) {
             for( int j = SEEY + 3; j < SEEY * 2; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5809,7 +5817,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY + 2 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY + 2 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 3 ) ) {
             for( int i = 0; i < SEEX - 3; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );

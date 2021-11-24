@@ -224,6 +224,10 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+static const harvest_drop_type_id harvest_drop_offal( "offal" );
+static const harvest_drop_type_id harvest_drop_skin( "skin" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -234,6 +238,8 @@ static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
+
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const material_id material_glass( "glass" );
 
@@ -261,7 +267,6 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -1679,6 +1684,9 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         if( it.is_medication() && !you.can_use_heal_item( it ) ) {
             return hint_rating::cant;
         }
+        if( it.is_comestible() && it.is_frozen_liquid() ) {
+            return hint_rating::cant;
+        }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
         return hint_rating::iffy;
     } else if( it.type->has_use() ) {
@@ -1881,11 +1889,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     if( locThisItem.get_item()->type->has_use() &&
-                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
+                    } else if( locThisItem.get_item()->has_relic_activation() ) {
+                        avatar_action::use_item( u, locThisItem );
                     } else {
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
                         break;
@@ -4292,7 +4302,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -8042,17 +8052,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
+                if( entry.type == harvest_drop_skin && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
+                if( entry.type == harvest_drop_offal && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                if( entry.type == harvest_drop_blood && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }
