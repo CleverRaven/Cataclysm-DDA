@@ -51,6 +51,9 @@
 
 static const efftype_id effect_no_ammo( "no_ammo" );
 
+static const harvest_drop_type_id harvest_drop_bone( "bone" );
+static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
+
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 void mdeath::normal( monster &z )
@@ -165,7 +168,7 @@ void mdeath::splatter( monster &z )
         int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
-            if( entry.type == "flesh" || entry.type == "bone" ) {
+            if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_bone ) {
                 // the larger the overflow damage, the less you get
                 const int chunk_amt =
                     entry.mass_ratio / overflow_ratio / 10 *

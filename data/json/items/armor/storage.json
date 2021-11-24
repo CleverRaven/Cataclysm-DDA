@@ -556,8 +556,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
     "id": "golf_bag",
@@ -613,7 +613,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 0.1 } ],
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
           "encumbrance": [ 10, 100 ],
           "coverage": 5,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -647,7 +647,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 0.1 } ],
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
           "encumbrance": [ 10, 100 ],
           "coverage": 5,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -1427,8 +1427,8 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "WAIST" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "wicker_backpack",

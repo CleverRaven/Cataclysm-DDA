@@ -49,7 +49,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "cotton", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 3,
           "coverage": 5,
           "covers": [ "torso" ],
@@ -84,7 +84,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "cotton", "portion_cover": 100, "thickness": 6.0 } ],
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
           "encumbrance": 12,
           "coverage": 10,
           "covers": [ "torso" ]

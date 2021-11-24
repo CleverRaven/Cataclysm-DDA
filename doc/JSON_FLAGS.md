@@ -262,6 +262,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
+- ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
+- ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
@@ -271,6 +273,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
+- ```CANT_WEAR``` This item can't be worn directly.
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
@@ -1570,6 +1573,9 @@ Gun fault flags:
 - ```NO_SCENT``` You have no scent.
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
+- ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
+- ```MYOPIC``` You are nearsighted - vision range is severly reduced without glasses.
+- ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.

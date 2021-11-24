@@ -401,6 +401,17 @@ class inventory_column
             paging_is_valid = false;
         }
 
+        /**
+         * Prevents redundant indentation when the inventory_column is looking at
+         * items in nested containers.  Added for inventory_examiner, which is
+         * is always looking inside a container, and previously had everything
+         * indented at least 2 spaces
+         * @param new_indentation The indentation of the parent container
+         */
+        void set_parent_indentation( size_t new_indentation ) {
+            parent_indentation = new_indentation;
+        }
+
     protected:
         struct entry_cell_cache_t {
             bool assigned = false;
@@ -419,6 +430,7 @@ class inventory_column
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
+
         /**
          * Indentation of the entry.
          * @param entry The entry to check
@@ -472,6 +484,7 @@ class inventory_column
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         cata::optional<bool> indent_entries_override = cata::nullopt;
+        size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
 };
@@ -908,6 +921,9 @@ class inventory_examiner : public inventory_selector
             parent_item = item_to_look_inside;
             changes_made = false;
             parent_was_collapsed = false;
+
+            //Space in inventory isn't particularly relevant, so don't display it
+            set_display_stats( false );
 
             setup();
         }
