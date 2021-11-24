@@ -81,7 +81,7 @@
   },
   {
     "type": "item_action",
-    "id": "HOTPLATE_COFFEEPOT",
+    "id": "HOTPLATE_ATOMIC",
     "name": { "str": "Heat up food (with it)" }
   },
   {
