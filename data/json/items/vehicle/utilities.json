@@ -37,7 +37,7 @@
     "type": "GENERIC",
     "id": "mountable_cooler",
     "name": { "str": "vehicle cooler" },
-    "description": "A vehicle-mounted area cooler.",
+    "description": "A vehicle-mounted area cooler. Install a muffler to direct the exhaust heat to that location.",
     "weight": "12500 g",
     "to_hit": -4,
     "color": "light_cyan",
