@@ -416,12 +416,14 @@
   {
     "id": "sub_limb_debug",
     "type": "sub_body_part",
+    "side": 0,
     "opposite": "sub_limb_debug",
     "name": "debug limb should never be seen"
   },
   {
     "id": "torso_upper",
     "type": "sub_body_part",
+    "side": 0,
     "opposite": "torso_lower",
     "name_multiple": "torso",
     "name": "upper torso"
@@ -429,12 +431,14 @@
   {
     "id": "torso_neck",
     "type": "sub_body_part",
+    "side": 0,
     "opposite": "sub_limb_debug",
     "name": "neck"
   },
   {
     "id": "torso_lower",
     "type": "sub_body_part",
+    "side": 0,
     "opposite": "torso_upper",
     "name_multiple": "torso",
     "name": "lower torso"
@@ -442,6 +446,7 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
+    "side": 0,
     "name": "item hangs off your front",
     "opposite": "torso_hanging_back",
     "name_multiple": "item hangs off you"
@@ -449,6 +454,7 @@
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
+    "side": 0,
     "name": "item hangs off your back",
     "opposite": "torso_hanging_front",
     "name_multiple": "item hangs off you"
