@@ -43,10 +43,7 @@
     "//": "light ballistic vest plust plates",
     "container-item": "ballistic_vest_light",
     "subtype": "collection",
-    "entries": [
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esapi_plate", "prob": 50 }
-    ]
+    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
