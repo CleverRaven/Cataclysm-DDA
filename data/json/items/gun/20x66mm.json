@@ -74,11 +74,7 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [
-      {
-        "magazine_well": "500 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ]
-      }
+      { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ] }
     ]
   },
   {
@@ -113,12 +109,6 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "20x66_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
   }
 ]
