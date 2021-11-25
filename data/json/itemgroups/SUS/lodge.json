@@ -9,7 +9,7 @@
       { "item": "compbow_high", "prob": 20 },
       { "item": "compbow_low", "prob": 40 },
       { "item": "recurbow", "prob": 30 },
-      { "item": "reflexrecurvebow", "prob": 10 }
+      { "item": "reflexrecurvebow", "prob": 10 },
       { "item": "bow_sling", "prob": 10 }
     ]
   },
