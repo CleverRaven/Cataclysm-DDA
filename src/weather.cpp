@@ -58,14 +58,13 @@ static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
 
 static const oter_type_str_id oter_type_forest( "forest" );
 static const oter_type_str_id oter_type_forest_water( "forest_water" );
 
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
 
 /**
  * \defgroup Weather "Weather and its implications."

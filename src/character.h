@@ -121,12 +121,6 @@ enum vision_modes {
     NIGHTVISION_1,
     NIGHTVISION_2,
     NIGHTVISION_3,
-    /// mutate w/ id "FEL_NV" & name "Feline Vision" see pretty well at night
-    FELINE_VISION,
-    /// Bird mutation named "Avian Eyes": Perception +4
-    BIRD_EYE,
-    /// mutate w/ id "URSINE_EYE" & name "Ursine Vision" see better in dark, nearsight in light
-    URSINE_VISION,
     BOOMERED,
     DARKNESS,
     IR_VISION,

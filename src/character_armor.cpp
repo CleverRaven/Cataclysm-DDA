@@ -11,7 +11,6 @@
 
 static const bionic_id bio_ads( "bio_ads" );
 
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
@@ -201,10 +200,7 @@ int Character::get_env_resist( bodypart_id bp ) const
             ret += EP->second;
         }
     }
-
-    if( bp == body_part_eyes && has_trait( trait_SEESLEEP ) ) {
-        ret += 8;
-    }
+    
     return ret;
 }
 
