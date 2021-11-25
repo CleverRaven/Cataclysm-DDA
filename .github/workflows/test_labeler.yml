@@ -7,15 +7,18 @@ jobs:
   labeling:
     runs-on: ubuntu-latest
     steps:
+    - name: dumpEvent
+      run: |
+          echo "${{ toJSON( github.event ) }}"
     - name: setLabel
       run: |
-        if [[ ${{ github.event.name }} == "astyle" ]]; then
+        if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
           echo "::set-output name=label::astyled"
         fi
-        if [[ "${{ github.event.inputs.device }}" == "JSON Validation" ]]; then
+        if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
           echo "::set-output name=label::json-styled"
         fi
-        if [[ "${{ github.event.inputs.device }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
+        if [[ "${{ github.event.workflow_run.name }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
           echo "::set-output name=label::BasicBuildPassed"
         fi
     - name: set-label
