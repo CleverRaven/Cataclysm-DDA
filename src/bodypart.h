@@ -222,11 +222,6 @@ struct body_part_type {
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
 
-
-        // return a random sub part from the weighted list of subparts
-        // if secondary is true instead returns a part from only the secondary sublocations
-        sub_bodypart_id random_sub_part( bool secondary ) const;
-
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

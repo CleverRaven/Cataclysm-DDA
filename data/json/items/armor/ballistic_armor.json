@@ -78,7 +78,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ] } ]
   },
   {
     "id": "esbi_plate",
@@ -96,7 +96,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "destroyed_large_ceramic_plate",

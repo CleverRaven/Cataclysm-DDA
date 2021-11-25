@@ -74,10 +74,10 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },
+      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] },
       {
         "encumbrance": 3,
-        "coverage": 90,
+        "coverage": 18,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
       }
@@ -110,20 +110,38 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
       {
         "encumbrance": 17,
         "coverage": 93,
         "cover_melee": 95,
         "cover_ranged": 90,
         "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ]
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
       },
       {
-        "encumbrance": 4,
+        "encumbrance": 17,
         "coverage": 93,
         "cover_melee": 95,
         "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 19,
+        "cover_melee": 19,
+        "cover_ranged": 18,
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
@@ -238,16 +256,16 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] },
       {
         "encumbrance": 4,
-        "coverage": 95,
+        "coverage": 19,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
       {
         "encumbrance": 4,
-        "coverage": 95,
+        "coverage": 19,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
@@ -461,10 +479,10 @@
     "material_thickness": 6,
     "flags": [ "OUTER" ],
     "armor": [
-      { "encumbrance": 35, "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      { "encumbrance": 35, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
         "encumbrance": 16,
-        "coverage": 100,
+        "coverage": 20,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }

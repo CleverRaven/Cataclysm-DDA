@@ -1800,6 +1800,9 @@ class item : public visitable
         int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
+        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
+                          encumber_flags = encumber_flags::none ) const;
+
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
          * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.

@@ -360,7 +360,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "TORSO" ] } ]
   },
   {
     "type": "GENERIC",
