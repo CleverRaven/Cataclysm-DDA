@@ -735,27 +735,29 @@
     "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_needs": {
       "time": "45 m",
-      "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+      "skills": [ [ "survival", 3 ], [ "fabrication", 1 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "SAW_W" } ] ],
         "components": [
-          [ [ "stick_long", 6 ] ],
           [
-            [ "rope_6", 1 ],
-            [ "vine_6", 1 ],
-            [ "rope_makeshift_6", 1 ],
-            [ "string_36", 2 ],
             [ "cordage_36", 2 ],
-            [ "string_6", 12 ],
             [ "cordage_6", 12 ],
-            [ "thread", 600 ],
-            [ "sinew", 600 ],
             [ "plant_fibre", 600 ],
-            [ "yarn", 600 ],
-            [ "wire", 8 ]
+            [ "rope_6", 1 ],
+            [ "rope_makeshift_6", 1 ],
+            [ "sinew", 600 ],
+            [ "string_36", 2 ],
+            [ "string_6", 12 ],
+            [ "thread", 600 ],
+            [ "thread_kevlar", 600 ],
+            [ "thread_nomex", 600 ],
+            [ "vine_6", 1 ],
+            [ "wire", 8 ],
+            [ "yarn", 600 ]
           ],
-          [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
+          [ [ "pointy_stick", 2 ], [ "spike", 2 ] ],
+          [ [ "stick_long", 6 ] ]
         ]
       }
     }

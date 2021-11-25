@@ -1,3 +1,5 @@
+name: Apply Test Labels
+
 on:
   workflow_run:
     workflows: ["astyle", "JSON Validation", "Basic Build and Test (GCC 9, Curses, LTO)"]
@@ -7,9 +9,6 @@ jobs:
   labeling:
     runs-on: ubuntu-latest
     steps:
-    - name: dumpEvent
-      run: |
-          echo "${{ toJSON( github.event ) }}"
     - name: setLabel
       run: |
         if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
@@ -21,13 +20,37 @@ jobs:
         if [[ "${{ github.event.workflow_run.name }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
           echo "::set-output name=label::BasicBuildPassed"
         fi
+    - name: get-pr-id
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.TX_PR_CREATOR }}
+        script: |
+          github.rest.repos.listPullRequestsAssociatedWithCommit({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            commit_sha: '${{ github.event.workflow_run.head_commit.id }}'
+          })
+    - name: debug
+      run: echo ${{ steps.get-pr-id.outputs.result }}
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
-      uses: andymckay/labeler@master
+      uses: actions/github-script@v5
       with:
-        add-labels: ${{ steps.setLabel.outputs.label }}
+        script: |
+            github.rest.issues.addLabels({
+              issue_number: ${{ steps.get-pr-id.outputs.result[0].number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['${{ steps.setLabel.outputs.label }}']
+            })
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-      uses: andymckay/labeler@master
+      uses: actions/github-script@v5
       with:
-        remove-labels: ${{ steps.setLabel.outputs.label }}
+        script: |
+            github.rest.issues.removeLabel({
+              issue_number: ${{ steps.get-pr-id.outputs.result[0].number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: '${{ steps.setLabel.outputs.label }}'
+            })
