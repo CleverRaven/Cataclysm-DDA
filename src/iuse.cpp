@@ -240,6 +240,7 @@ static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
@@ -5226,14 +5227,16 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::hotplate_atomic( Character *p, bool, const tripoint & )
+cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-
-    heat_item( *p );
+    
+    if ( it->typeId() == itype_atomic_coffeepot ) {
+        heat_item( *p );
+    }
 
     return cata::nullopt;
 }
