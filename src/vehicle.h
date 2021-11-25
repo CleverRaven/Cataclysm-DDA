@@ -1161,6 +1161,9 @@ class vehicle
         monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
+    
+        bool limited_space( const tripoint &pos ); // not const because it calls refresh_insides    
+    
         // Returns the location of the vehicle in global map square coordinates.
         tripoint_abs_ms global_square_location() const;
         // Returns the location of the vehicle in global overmap terrain coordinates.
