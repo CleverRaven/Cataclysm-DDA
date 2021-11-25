@@ -1143,7 +1143,7 @@
       "sided": true,
       "armor": [
         {
-          "material": [ { "type": "leather", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ]
         }
@@ -2095,8 +2095,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ]
       },
       {
@@ -2104,8 +2104,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ]
       },
       {
@@ -2113,8 +2113,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 5, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 100, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
         ]
       }
     ]
@@ -2130,8 +2130,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
         ]
       },
       {
@@ -2139,8 +2139,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
         ]
       },
       {
@@ -2148,8 +2148,8 @@
         "coverage": 100,
         "encumbrance": [ 12, 25 ],
         "material": [
-          { "type": "steel", "portion_cover": 100, "thickness": 1.2 },
-          { "type": "cotton", "portion_cover": 5, "thickness": 0.2 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
         ]
       }
     ]
@@ -2254,7 +2254,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "aluminum", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2322,7 +2322,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2369,7 +2369,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "plastic", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]
@@ -2403,7 +2403,7 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "cotton", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
           "covers": [ "torso" ]

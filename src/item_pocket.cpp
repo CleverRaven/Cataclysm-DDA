@@ -158,6 +158,11 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
+    optional( jo, was_loaded, "ablative", ablative );
+    // if ablative also flag as a holster so it only holds 1 item
+    if( ablative ) {
+        holster = true;
+    }
     optional( jo, was_loaded, "sealed_data", sealed_data );
 }
 
@@ -854,8 +859,12 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
-    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
-    if( data->ammo_restriction.empty() ) {
+    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined if its an ablative pocket don't display any info
+    if( is_ablative() ) {
+        // its an ablative pocket volume and weight maxes don't matter
+        info.emplace_back( "DESCRIPTION",
+                           _( "Holds a <info>single armored plate</info>." ) );
+    } else if( data->ammo_restriction.empty() ) {
         info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
         info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
@@ -875,7 +884,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         }
     }
 
-    if( data->max_item_length != 0_mm ) {
+    if( data->max_item_length != 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
         info.emplace_back( "BASE", _( "Maximum item length: " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
@@ -968,6 +977,9 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s pocket %d</bold>" ),
                                translated_sealed_prefix(),
                                pocket_number ) );
+        } else if( is_ablative() && !contents.empty() ) {
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>: %s" ),
+                               pocket_number, contents.front().display_name() ) );
         } else {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>" ),
                                pocket_number ) );
@@ -981,7 +993,36 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
 
-    if( data->ammo_restriction.empty() ) {
+    if( is_ablative() ) {
+        // if we have contents for an ablative pocket display the armor data
+        if( !contents.empty() ) {
+            const item &ablative_armor = contents.front();
+            info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
+                               iteminfo::no_newline,
+                               ablative_armor.get_avg_coverage() );
+            //~ (M)elee coverage
+            info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
+                               iteminfo::no_newline,
+                               ablative_armor.get_avg_coverage( item::cover_type::COVER_MELEE ) );
+            //~ (R)anged coverage
+            info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
+                               iteminfo::no_newline,
+                               ablative_armor.get_avg_coverage( item::cover_type::COVER_RANGED ) );
+            //~ (V)itals coverage
+            info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
+                               iteminfo::no_flags,
+                               ablative_armor.get_avg_coverage( item::cover_type::COVER_VITALS ) );
+
+            info.back().bNewLine = true;
+
+            info.emplace_back( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.bash_resist() );
+            info.emplace_back( "ARMOR", space + _( "Cut: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.cut_resist() );
+            info.emplace_back( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
+                               ablative_armor.bullet_resist() );
+        }
+    } else if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity
         info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
         info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
@@ -995,23 +1036,26 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
     }
 
-    bool contents_header = false;
-    for( const item &contents_item : contents ) {
-        if( !contents_header ) {
-            info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
-            contents_header = true;
-        }
+    // ablative pockets have their contents displayed earlier in the UI
+    if( !is_ablative() ) {
+        bool contents_header = false;
+        for( const item &contents_item : contents ) {
+            if( !contents_header ) {
+                info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
+                contents_header = true;
+            }
 
-        const translation &description = contents_item.type->description;
+            const translation &description = contents_item.type->description;
 
-        if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                               contents_item.color_in_inventory() ) );
-            info.emplace_back( vol_to_info( "CONTAINER", description + space,
-                                            contents_item.volume() ) );
-        } else {
-            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                               contents_item.color_in_inventory() ) );
+            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
+                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
+                info.emplace_back( vol_to_info( "CONTAINER", description + space,
+                                                contents_item.volume() ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
+            }
         }
     }
 }
@@ -1130,6 +1174,15 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
 
     if( !compatible.success() ) {
         return compatible;
+    }
+
+    if( data->ablative && !contents.empty() ) {
+        if( contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) );
+        }
     }
 
     if( data->holster && !contents.empty() ) {
@@ -1513,6 +1566,11 @@ int item_pocket::obtain_cost( const item &it ) const
 bool item_pocket::is_type( pocket_type ptype ) const
 {
     return ptype == data->type;
+}
+
+bool item_pocket::is_ablative() const
+{
+    return get_pocket_data()->ablative;
 }
 
 bool item_pocket::is_valid() const

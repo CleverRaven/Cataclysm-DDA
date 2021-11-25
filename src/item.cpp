@@ -922,7 +922,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
                 continue;
             }
             for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
-                if( bpid->part_side == s ) {
+                if( bpid->part_side == s || bpid->part_side == side::BOTH ) {
                     cb( bpid );
                 }
             }
@@ -998,6 +998,12 @@ bool item::set_side( side s )
 bool item::swap_side()
 {
     return set_side( opposite_side( get_side() ) );
+}
+
+bool item::is_ablative() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ablative : false;
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -4887,8 +4893,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         med_info( this, info, parts, batch, debug );
     }
 
-    if( const item *food_item = get_food() ) {
-        food_info( food_item, info, parts, batch, debug );
+    if( is_food() ) {
+        food_info( this, info, parts, batch, debug );
     }
 
     combat_info( info, parts, batch, debug );
@@ -5034,10 +5040,10 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
-    } else if( const item *food = get_food() ) {
+    } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *food ) != morale_null ) {
+        if( player_character.allergy_type( *this ) != morale_null ) {
             return c_red;
         }
 
@@ -5048,7 +5054,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // Yellow: will rot soon
         // Cyan: edible
         // Light Cyan: will rot eventually
-        const ret_val<edible_rating> rating = player_character.will_eat( *food );
+        const ret_val<edible_rating> rating = player_character.will_eat( *this );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
@@ -5056,11 +5062,11 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                 ret = c_cyan;
 
                 // Show old items as yellow
-                if( food->is_going_bad() ) {
+                if( is_going_bad() ) {
                     ret = c_yellow;
                 }
                 // Show perishables as a separate color
-                else if( food->goes_bad() ) {
+                else if( goes_bad() ) {
                     ret = c_light_cyan;
                 }
 
@@ -6763,6 +6769,21 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
+
+        // add the encumbrance values of any ablative plates
+        if( is_ablative() ) {
+            for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+                if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                    // get the contained plate
+                    const item &ablative_armor = pocket->front();
+
+                    if( const armor_portion_data *ablative_portion_data = ablative_armor.portion_for_bodypart(
+                                bodypart ) ) {
+                        encumber += ablative_portion_data->encumber;
+                    }
+                }
+            }
+        }
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -7966,26 +7987,6 @@ float item::get_freeze_point() const
         return get_comestible()->freeze_point;
     }
     return made_of_types()[0]->freeze_point();
-}
-
-template<typename Item>
-static Item *get_food_impl( Item *it )
-{
-    if( it->is_food() ) {
-        return it;
-    } else {
-        return nullptr;
-    }
-}
-
-item *item::get_food()
-{
-    return get_food_impl( this );
-}
-
-const item *item::get_food() const
-{
-    return get_food_impl( this );
 }
 
 void item::set_mtype( const mtype *const m )

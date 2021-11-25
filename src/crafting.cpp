@@ -87,6 +87,8 @@ static const efftype_id effect_contacts( "contacts" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -97,7 +99,6 @@ static const string_id<struct furn_t> furn_f_ground_crafting_spot( "f_ground_cra
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
@@ -992,7 +993,7 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making.skill_used == skill_electronics ) {
@@ -2118,8 +2119,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     // refuse to disassemble rotten items
-    const item *food = obj.get_food();
-    if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
+    if( obj.goes_bad() && obj.rotten() ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
