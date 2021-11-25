@@ -10,21 +10,23 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
+#include "subbodypart.h"
 #include "json.h"
-#include "type_id.h"
+#include "rng.h"
 
-const bodypart_str_id body_part_head( "head" );
-const bodypart_str_id body_part_eyes( "eyes" );
-const bodypart_str_id body_part_mouth( "mouth" );
-const bodypart_str_id body_part_torso( "torso" );
+
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
 const bodypart_str_id body_part_hand_l( "hand_l" );
 const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_leg_l( "leg_l" );
-const bodypart_str_id body_part_foot_l( "foot_l" );
 const bodypart_str_id body_part_leg_r( "leg_r" );
-const bodypart_str_id body_part_foot_r( "foot_r" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
 
 side opposite_side( side s )
 {
@@ -195,7 +197,7 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-bool body_part_type::has_flag( const std::string &flag ) const
+bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
 }
@@ -251,6 +253,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         token = body_part::num_bp;
     }
 
+    optional( jo, was_loaded, "env_protection", env_protection, 0 );
+
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 
     mandatory( jo, was_loaded, "main_part", main_part );
@@ -287,8 +291,12 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "swim_score", swim_score );
 
     optional( jo, was_loaded, "vision_score", vision_score );
+    optional( jo, was_loaded, "nightvision_score", nightvision_score );
+    optional( jo, was_loaded, "reaction_score", reaction_score );
 
     mandatory( jo, was_loaded, "side", part_side );
+
+    optional( jo, was_loaded, "sub_parts", sub_parts );
 }
 
 void body_part_type::reset()
@@ -296,14 +304,18 @@ void body_part_type::reset()
     body_part_factory.reset();
 }
 
+
 void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
 
+
 void body_part_type::finalize()
 {
+
 }
+
 
 void body_part_type::check_consistency()
 {
@@ -515,6 +527,16 @@ float bodypart::get_breathing_score() const
 float bodypart::get_vision_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->vision_score ) );
+}
+
+float bodypart::get_nightvision_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->nightvision_score ) );
+}
+
+float bodypart::get_reaction_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->reaction_score ) );
 }
 
 float bodypart::get_movement_speed_score() const

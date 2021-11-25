@@ -40,10 +40,6 @@
 #include "units.h"
 #include "viewer.h"
 
-static const skill_id skill_throw( "throw" );
-
-static const species_id species_ROBOT( "ROBOT" );
-
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 
 static const efftype_id effect_beartrap( "beartrap" );
@@ -58,14 +54,23 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const material_id material_kevlar( "kevlar" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const skill_id skill_throw( "throw" );
+
+static const species_id species_ROBOT( "ROBOT" );
+
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -797,8 +802,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -849,8 +854,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -933,8 +938,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( ( you->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( you->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -1026,16 +1031,16 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of_any( Creature::cmat_flesh ) ) {
             dam = 50;
         }
-        if( z->made_of( material_id( "veggy" ) ) ) {
+        if( z->made_of( material_veggy ) ) {
             dam = 80;
         }
         if( z->made_of( phase_id::LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
-        if( z->made_of( material_id( "stone" ) ) ) {
+        if( z->made_of( material_stone ) ) {
             dam = 15;
         }
-        if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
+        if( z->made_of( material_kevlar ) || z->made_of( material_steel ) ) {
             dam = 5;
         }
         z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::HEAT, dam ) );

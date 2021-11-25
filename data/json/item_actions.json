@@ -361,6 +361,11 @@
   },
   {
     "type": "item_action",
+    "id": "BINDER_MANAGE_RECIPE",
+    "name": { "str": "Remove a recipe" }
+  },
+  {
+    "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
   },
@@ -768,6 +773,11 @@
     "type": "item_action",
     "id": "PROZAC",
     "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
+    "id": "ELECTRICSTORAGE",
+    "name": { "str": "Manage external storage" }
   },
   {
     "type": "item_action",

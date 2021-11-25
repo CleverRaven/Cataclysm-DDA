@@ -141,6 +141,7 @@ cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
+cata::optional<int> electricstorage( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
@@ -156,6 +157,7 @@ cata::optional<int> noise_emitter_on( Character *, item *, bool, const tripoint 
 cata::optional<int> oxygen_bottle( Character *, item *, bool, const tripoint & );
 cata::optional<int> oxytorch( Character *, item *, bool, const tripoint & );
 cata::optional<int> binder_add_recipe( Character *, item *, bool, const tripoint & );
+cata::optional<int> binder_manage_recipe( Character *, item *, bool, const tripoint & );
 cata::optional<int> pack_cbm( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> pack_item( Character *, item *, bool, const tripoint & );
 cata::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );

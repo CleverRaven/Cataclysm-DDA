@@ -13,6 +13,15 @@
 #include "overmapbuffer.h"
 #include "type_id.h"
 
+static const oter_str_id oter_cabin( "cabin" );
+static const oter_str_id oter_cabin_east( "cabin_east" );
+static const oter_str_id oter_cabin_north( "cabin_north" );
+static const oter_str_id oter_cabin_south( "cabin_south" );
+static const oter_str_id oter_cabin_west( "cabin_west" );
+
+static const overmap_special_id overmap_special_Cabin( "Cabin" );
+static const overmap_special_id overmap_special_Lab( "Lab" );
+
 TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
@@ -69,9 +78,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
     for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == overmap_special_id( "Cabin" ) ) {
+        if( elem.id == overmap_special_Cabin ) {
             optional = elem;
-        } else if( elem.id == overmap_special_id( "Lab" ) ) {
+        } else if( elem.id == overmap_special_Lab ) {
             mandatory = elem;
         }
     }
@@ -97,9 +106,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     for( int x = 0; x < OMAPX; ++x ) {
         for( int y = 0; y < OMAPY; ++y ) {
             const oter_id t = test_overmap->ter( { x, y, 0 } );
-            if( t->id == "cabin" ||
-                t->id == "cabin_north" || t->id == "cabin_east" ||
-                t->id == "cabin_south" || t->id == "cabin_west" ) {
+            if( t->id == oter_cabin ||
+                t->id == oter_cabin_north || t->id == oter_cabin_east ||
+                t->id == oter_cabin_south || t->id == oter_cabin_west ) {
                 found_optional = true;
             }
         }
@@ -114,23 +123,33 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 {
     SECTION( "exact match" ) {
         // Matches the complete string
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::exact ) );
 
         // Does not exactly match if rotation differs
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sub_station_north" ), ot_match_type::exact ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sub_station_south" ), ot_match_type::exact ) );
     }
 
     SECTION( "type match" ) {
         // Matches regardless of rotation
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "sub_station", oter_id( "sub_station_north" ), ot_match_type::type ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "sub_station", oter_id( "sub_station_south" ), ot_match_type::type ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "sub_station", oter_id( "sub_station_east" ), ot_match_type::type ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "sub_station", oter_id( "sub_station_west" ), ot_match_type::type ) );
 
         // Does not match if base type does not match
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
+        // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
     }
 

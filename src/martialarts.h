@@ -25,6 +25,33 @@ class effect;
 class item;
 struct itype;
 
+class weapon_category
+{
+    public:
+        static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void reset();
+
+        void load( const JsonObject &jo, const std::string &src );
+
+        static const std::vector<weapon_category> &get_all();
+
+        const weapon_category_id &getId() const {
+            return id;
+        }
+
+        const translation &name() const {
+            return name_;
+        }
+
+    private:
+        friend class generic_factory<weapon_category>;
+
+        weapon_category_id id;
+        bool was_loaded = false;
+
+        translation name_;
+};
+
 matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {
@@ -35,6 +62,9 @@ struct ma_requirements {
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
+
+    /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
+    std::vector<weapon_category_id> weapon_categories_allowed;
 
     /** Minimum amount of given skill to trigger this bonus */
     std::vector<std::pair<skill_id, int>> min_skill;
@@ -62,6 +92,7 @@ struct ma_requirements {
 
     std::string get_description( bool buff = false ) const;
 
+    bool buff_requirements_satisfied( const Character &u ) const;
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
@@ -267,7 +298,7 @@ class martialart
         bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
         std::set<itype_id> weapons; // all style weapons
-        std::set<std::string> weapon_category; // all style weapon categories
+        std::set<weapon_category_id> weapon_category; // all style weapon categories
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon

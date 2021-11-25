@@ -311,8 +311,17 @@
     "sight_dispersion": 520,
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+          ],
+          "encumbrance": 30,
+          "coverage": 10,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ]
     },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],

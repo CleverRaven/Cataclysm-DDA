@@ -36,6 +36,10 @@
 #include "units.h"
 #include "weakpoint.h"
 
+static const material_id material_flesh( "flesh" );
+
+static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
+
 namespace behavior
 {
 class node_t;
@@ -657,9 +661,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "ascii_picture", picture_id );
 
-    optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
+    if( jo.has_member( "material" ) ) {
+        mat.clear();
+        for( const std::string &m : jo.get_tags( "material" ) ) {
+            mat.emplace( m, 1 );
+            mat_portion_total += 1;
+        }
+    }
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
-        mat.emplace_back( material_id( "flesh" ) );
+        mat.emplace( material_flesh, 1 );
+        mat_portion_total += 1;
     }
     optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
@@ -838,7 +849,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
-    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
     optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
@@ -1266,9 +1277,9 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
-        for( const material_id &m : mon.mat ) {
-            if( m.str() == "null" || !m.is_valid() ) {
-                debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
+        for( const auto &m : mon.mat ) {
+            if( m.first.str() == "null" || !m.first.is_valid() ) {
+                debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.first.c_str() );
             }
         }
         if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {

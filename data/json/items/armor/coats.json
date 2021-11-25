@@ -372,9 +372,33 @@
     "looks_like": "trenchcoat",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 9 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 7, 13 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 54,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 90,
+        "encumbrance": [ 7, 7 ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -440,9 +464,33 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 9, 16 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 54,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 90,
+        "encumbrance": [ 9, 9 ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -544,9 +592,33 @@
     "looks_like": "duster",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 8, 15 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 54,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 90,
+        "encumbrance": [ 8, 8 ],
+        "specifically_covers": [
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_lower_r",
+          "arm_lower_l"
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -743,7 +815,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "army jacket" },
-    "description": "A tough jacket with lots of pockets.  Favored by the military.",
+    "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
     "weight": "780 g",
     "volume": "3 L",
     "price": 3500,
@@ -802,6 +874,65 @@
     ],
     "warmth": 20,
     "material_thickness": 0.3,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "jacket_army_modern",
+    "type": "ARMOR",
+    "name": { "str_sp": "combat blouse" },
+    "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
+    "weight": "650 g",
+    "volume": "3 L",
+    "price": 6400,
+    "price_postapoc": 750,
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_army",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 0.4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1561,8 +1692,18 @@
     "looks_like": "duster",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 10 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 7, 12 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 54,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -1629,8 +1770,18 @@
     "looks_like": "duster_fur",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 17 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 9, 17 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 54,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -1708,8 +1859,18 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": [ 8, 15 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 45,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {

@@ -40,7 +40,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-mods:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -58,39 +58,62 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        release: [0]
-        cmake: [0]
-        tiles: [1]
-        sound: [0]
-        localize: [1]
-        native: [linux64]
-
         include:
+          - compiler: g++-9
+            os: ubuntu-latest
+            release: 1
+            cmake: 0
+            tiles: 0
+            sound: 0
+            localize: 1
+            test-stage: 1
+            gold: 1
+            lto: 1
+            native: linux64
+            title: Basic Build and Test (GCC 9, Curses, LTO)
+
           - compiler: clang++-12
             os: ubuntu-latest
+            release: 0
+            cmake: 0
+            tiles: 1
+            sound: 0
+            localize: 1
+            native: linux64
             sanitize: address
             mods: --mods=magiclysm
             title: Clang 12, Ubuntu, Tiles, ASan
 
           - compiler: g++-11
             os: ubuntu-latest
+            release: 0
+            cmake: 0
             tiles: 0
+            sound: 0
+            localize: 1
+            native: linux64
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
 
           - compiler: clang++
             os: macos-10.15
+            release: 0
+            cmake: 0
             native: osx
             sanitize: undefined
             tiles: 1
             sound: 1
+            localize: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
 
           - compiler: g++
             os: ubuntu-latest
+            release: 0
+            cmake: 0
             native:
             tiles: 1
             sound: 1
+            localize: 1
             test-stage: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
@@ -100,15 +123,21 @@ jobs:
           - compiler: clang++-6.0
             os: ubuntu-18.04
             tiles: 0
+            sound: 0
             release: 1
+            cmake: 0
+            localize: 1
+            native: linux64
             title: Clang 6, Ubuntu, Curses, Release
 
           - compiler: g++-7
             os: ubuntu-18.04
+            release: 0
             cmake: 1
             tiles: 1
             sound: 1
             localize: 0
+            native: linux64
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
 
     name: ${{ matrix.title }}

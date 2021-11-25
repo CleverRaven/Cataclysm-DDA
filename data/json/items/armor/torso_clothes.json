@@ -14,8 +14,18 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 70,
+        "encumbrance": [ 2, 5 ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 42,
+        "encumbrance": [ 1, 1 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -92,6 +102,51 @@
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+  },
+  {
+    "id": "combat_shirt",
+    "repairs_like": "jacket_army_modern",
+    "type": "ARMOR",
+    "name": { "str_sp": "combat shirt" },
+    "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
+    "weight": "450 g",
+    "volume": "3 L",
+    "price": 6400,
+    "price_postapoc": 750,
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_army",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "dress",
@@ -365,7 +420,7 @@
     "warmth": 5,
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 55, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "linuxtshirt",
@@ -569,8 +624,13 @@
     "looks_like": "camisole",
     "color": "yellow",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 90, "encumbrance": 8 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "coverage": 25,
+        "encumbrance": 1
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.5,
@@ -611,7 +671,14 @@
     "color": "yellow",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ],
-    "armor": [ { "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 65, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 65
+      }
+    ]
   },
   {
     "id": "sweater",
@@ -683,7 +750,7 @@
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt",

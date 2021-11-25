@@ -21,6 +21,7 @@
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
+#include "localized_comparator.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -38,6 +39,21 @@
 #include "units_utility.h"
 #include "weather.h"
 #include "weather_type.h"
+
+static const bionic_id bio_cqb( "bio_cqb" );
+
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
+static const trait_id trait_TROGLO( "TROGLO" );
+static const trait_id trait_TROGLO2( "TROGLO2" );
+static const trait_id trait_TROGLO3( "TROGLO3" );
 
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
@@ -213,15 +229,21 @@ static std::string get_encumbrance_description( const Character &you, const body
             s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
                                 you.melee_attack_roll_modifier() );
             s += melee_cost_text( you.melee_thrown_move_modifier_torso() );
+            s += swim_cost_text( you.swim_modifier() );
             break;
         }
         case bp_head:
-            s += _( "<color_magenta>Head encumbrance has no effect; it simply limits how much you can put on.</color>" );
+            s += string_format( _( "Dodge and block rolls:<color_white>x%.2f</color>\n" ),
+                                you.reaction_score() );
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
+                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>\n" ),
                      you.vision_score() );
+            s += string_format( _( "Nightvision modifier: <color_white>x%.2f</color>\n" ),
+                                you.nightvision_score() );
+            s += string_format( _( "Dodge and block rolls:<color_white>x%.2f</color>\n" ),
+                                you.reaction_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
@@ -267,8 +289,8 @@ static bool is_cqb_skill( const skill_id &id )
     // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
     // by the bionic?
     static const std::array<skill_id, 5> cqb_skills = { {
-            skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
-            skill_id( "bashing" ), skill_id( "stabbing" ),
+            skill_melee, skill_unarmed, skill_cutting,
+            skill_bashing, skill_stabbing,
         }
     };
     return std::find( cqb_skills.begin(), cqb_skills.end(), id ) != cqb_skills.end();
@@ -720,7 +742,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             int exercise = level.exercise();
             int level_num = level.level();
             bool locked = false;
-            if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
+            if( you.has_active_bionic( bio_cqb ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
                 exercise = 0;
                 locked = true;
@@ -751,7 +773,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                 mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
-            if( aSkill->ident() == skill_id( "dodge" ) ) {
+            if( aSkill->ident() == skill_dodge ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
                            you.get_dodge(),
                            level_num,
@@ -814,7 +836,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     int pen = 0;
     unsigned int line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
-        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
+        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / you.weight_capacity();
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         ++line;
@@ -840,7 +862,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
                    left_justify( inanition, 20 ), pen );
         ++line;
     }
-    if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
@@ -852,7 +874,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         nc_color pen_color;
         std::string pen_sign;
         const int player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
+        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < 65 ) {
@@ -1224,18 +1246,18 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
-    if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+    if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you.\n"
                                               "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
                                          );
-    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you badly.\n"
                                               "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
                                          );
-    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )

@@ -7,6 +7,8 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+static const itype_id itype_water( "water" );
+
 TEST_CASE( "visitable_summation" )
 {
     inventory test_inv;
@@ -20,5 +22,5 @@ TEST_CASE( "visitable_summation" )
     const item unlimited_water( "water", calendar::turn_zero, item::INFINITE_CHARGES );
     test_inv.add_item( unlimited_water );
 
-    CHECK( test_inv.charges_of( itype_id( "water" ), item::INFINITE_CHARGES ) > 1 );
+    CHECK( test_inv.charges_of( itype_water, item::INFINITE_CHARGES ) > 1 );
 }

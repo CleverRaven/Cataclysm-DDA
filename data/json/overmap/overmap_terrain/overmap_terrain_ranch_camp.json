@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_1",
-    "name": "field",
+    "name": "ranch field",
     "sym": "┌",
     "color": "brown",
     "see_cost": 2
@@ -22,7 +22,7 @@
       "ranch_camp_79",
       "ranch_camp_80"
     ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "─",
     "color": "brown",
     "see_cost": 2
@@ -30,7 +30,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_9", "ranch_camp_69" ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "┐",
     "color": "brown",
     "see_cost": 2
@@ -54,7 +54,7 @@
       "ranch_camp_64",
       "ranch_camp_72"
     ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "│",
     "color": "brown",
     "see_cost": 2
@@ -106,7 +106,7 @@
       "ranch_camp_70",
       "ranch_camp_71"
     ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "#",
     "color": "brown",
     "see_cost": 2
@@ -202,7 +202,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "┘",
     "color": "brown",
     "see_cost": 2
@@ -227,7 +227,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_73", "ranch_camp_78" ],
-    "name": "field",
+    "name": "ranch field",
     "sym": "└",
     "color": "brown",
     "see_cost": 2

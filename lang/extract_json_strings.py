@@ -66,6 +66,7 @@ def warning_supressed(filename):
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
+    "data/json/harvest_drop_type.json",
     "data/json/items/book/abstract.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
@@ -119,6 +120,7 @@ ignorable = {
     "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
+    "mood_face",
     "vehicle_group",
     "vehicle_placement",
 }
@@ -271,6 +273,13 @@ def extract_bodypart(item):
         writestr(outfile, item["hp_bar_ui_text"])
 
 
+def extract_sub_bodypart(item):
+    outfile = get_outfile("sub_bodypart")
+    writestr(outfile, item["name"])
+    if "name_multiple" in item:
+        writestr(outfile, item["name_multiple"])
+
+
 def extract_clothing_mod(item):
     outfile = get_outfile("clothing_mod")
     writestr(outfile, item["implement_prompt"])
@@ -320,7 +329,7 @@ def extract_material(item):
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
     if "name" in item:
-        name = item["name"]
+        name = get_singular_name(item["name"])
         writestr(outfile, name)
     else:
         name = item["id"]
@@ -1029,9 +1038,22 @@ def extract_snippets(item):
 def extract_speed_description(item):
     outfile = get_outfile("speed_description")
     values = item.get("values", [])
+    comment = "speed description of monsters"
     for value in values:
-        if 'description' in value:
-            writestr(outfile, value['description'])
+        if 'descriptions' in value:
+            descriptions = value.get("descriptions")
+            if type(descriptions) is str:
+                writestr(outfile, descriptions, comment=comment)
+            elif type(descriptions) is list:
+                for description in descriptions:
+                    writestr(outfile, description, comment=comment)
+
+
+def extract_weapon_category(item):
+    outfile = get_outfile("weapon_category")
+    name = item.get("name")
+    comment = "weapon category name"
+    writestr(outfile, name, comment=comment)
 
 
 def extract_vehicle_part_category(item):
@@ -1056,6 +1078,7 @@ def extract_widget(item):
 extract_specials = {
     "achievement": extract_achievement,
     "body_part": extract_bodypart,
+    "sub_body_part": extract_sub_bodypart,
     "clothing_mod": extract_clothing_mod,
     "conduct": extract_achievement,
     "construction": extract_construction,
@@ -1083,6 +1106,7 @@ extract_specials = {
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
     "speed_description": extract_speed_description,
+    "weapon_category": extract_weapon_category,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,

@@ -8,6 +8,7 @@ on:
     paths:
       - '.github/workflows/text-changes-analyzer.yml'
       - 'tools/pot_diff.py'
+      - 'lang/extract_json_strings.py'
       - 'src/*.h'
       - 'src/*.cpp'
       - '**.json'

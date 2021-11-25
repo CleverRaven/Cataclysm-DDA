@@ -410,7 +410,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -699,7 +699,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -719,7 +719,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -763,7 +763,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -795,7 +795,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -842,7 +842,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -876,7 +876,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -1014,7 +1014,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -1063,7 +1063,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -1158,7 +1158,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -1189,7 +1189,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -1276,7 +1276,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -1449,7 +1449,7 @@
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_slick", 1 ],
-        [ "ballistic_vest_empty", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
         [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
@@ -1483,7 +1483,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -1532,7 +1532,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
@@ -1579,7 +1579,7 @@
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_slick", 2 ],
-        [ "ballistic_vest_empty", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 42 ]
       ]

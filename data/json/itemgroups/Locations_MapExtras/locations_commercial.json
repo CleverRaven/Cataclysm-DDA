@@ -363,6 +363,7 @@
       [ "holster", 8 ],
       [ "bootstrap", 3 ],
       [ "bholster", 5 ],
+      [ "bbholster", 4 ],
       [ "legpouch", 4 ],
       [ "legpouch_large", 2 ],
       [ "chestpouch", 3 ],
@@ -608,7 +609,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -710,6 +711,7 @@
       [ "emer_blanket", 20 ],
       [ "flyer", 10 ],
       [ "helmet_liner", 20 ],
+      [ "jacket_army", 40 ],
       [ "pur_tablets", 10 ],
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
@@ -1035,6 +1037,8 @@
       { "item": "box_small", "prob": 30 },
       { "item": "rag", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
+      { "item": "bag_zipper", "prob": 3 },
+      { "item": "bag_zipper_gallon", "prob": 1 },
       { "item": "news_regional", "prob": 15 },
       { "item": "mag_news", "prob": 15 },
       { "item": "scorecard", "prob": 40 }
@@ -1514,6 +1518,7 @@
     "//": "for cs_sex_shop",
     "items": [
       [ "corset", 20 ],
+      [ "corset_waist", 10 ],
       { "item": "vibrator", "prob": 20, "charges": [ 0, 100 ] },
       [ "leather_cat_tail", 20 ],
       [ "leather_cat_ears", 20 ],
@@ -1677,7 +1682,9 @@
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
-      [ "breadboard", 50 ],
+      [ "breadboard", 85 ],
+      { "item": "voltmeter", "prob": 80, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 80, "charges": [ 0, 100 ] },
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],

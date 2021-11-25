@@ -26,6 +26,7 @@
 #include "get_version.h"
 #include "help.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
@@ -140,21 +141,23 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    switch( current_holiday ) {
-        case holiday::new_year:
-        case holiday::easter:
-            break;
-        case holiday::halloween:
-            fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
-            fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
-                                 25, 0, c_white, halloween_graves() );
-            break;
-        case holiday::thanksgiving:
-        case holiday::christmas:
-        case holiday::none:
-        case holiday::num_holiday:
-        default:
-            break;
+    if( get_option<bool>( "SEASONAL_TITLE" ) ) {
+        switch( current_holiday ) {
+            case holiday::new_year:
+            case holiday::easter:
+                break;
+            case holiday::halloween:
+                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
+                                     25, 0, c_white, halloween_graves() );
+                break;
+            case holiday::thanksgiving:
+            case holiday::christmas:
+            case holiday::none:
+            case holiday::num_holiday:
+            default:
+                break;
+        }
     }
 
     if( mmenu_title.size() > 1 ) {

@@ -79,6 +79,27 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
+static const furn_str_id furn_f_console( "f_console" );
+static const furn_str_id furn_f_sign( "f_sign" );
+
+static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
+static const item_group_id Item_spawn_data_bed( "bed" );
+static const item_group_id Item_spawn_data_bionics( "bionics" );
+static const item_group_id Item_spawn_data_bionics_common( "bionics_common" );
+static const item_group_id Item_spawn_data_chem_lab( "chem_lab" );
+static const item_group_id Item_spawn_data_cleaning( "cleaning" );
+static const item_group_id Item_spawn_data_cloning_vat( "cloning_vat" );
+static const item_group_id Item_spawn_data_dissection( "dissection" );
+static const item_group_id Item_spawn_data_dresser( "dresser" );
+static const item_group_id Item_spawn_data_goo( "goo" );
+static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
+static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
+static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
+static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
+static const item_group_id Item_spawn_data_sewer( "sewer" );
+static const item_group_id Item_spawn_data_teleport( "teleport" );
+static const item_group_id Item_spawn_data_wreckage( "wreckage" );
+
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
@@ -98,7 +119,66 @@ static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
+static const oter_str_id oter_ants_es( "ants_es" );
+static const oter_str_id oter_ants_esw( "ants_esw" );
+static const oter_str_id oter_ants_ew( "ants_ew" );
+static const oter_str_id oter_ants_lab( "ants_lab" );
+static const oter_str_id oter_ants_lab_stairs( "ants_lab_stairs" );
+static const oter_str_id oter_ants_ne( "ants_ne" );
+static const oter_str_id oter_ants_nes( "ants_nes" );
+static const oter_str_id oter_ants_nesw( "ants_nesw" );
+static const oter_str_id oter_ants_new( "ants_new" );
+static const oter_str_id oter_ants_ns( "ants_ns" );
+static const oter_str_id oter_ants_nsw( "ants_nsw" );
+static const oter_str_id oter_ants_sw( "ants_sw" );
+static const oter_str_id oter_ants_wn( "ants_wn" );
+static const oter_str_id oter_central_lab( "central_lab" );
+static const oter_str_id oter_central_lab_core( "central_lab_core" );
+static const oter_str_id oter_central_lab_finale( "central_lab_finale" );
+static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
+static const oter_str_id oter_ice_lab( "ice_lab" );
+static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
+static const oter_str_id oter_ice_lab_finale( "ice_lab_finale" );
+static const oter_str_id oter_ice_lab_stairs( "ice_lab_stairs" );
+static const oter_str_id oter_lab( "lab" );
+static const oter_str_id oter_lab_core( "lab_core" );
+static const oter_str_id oter_lab_finale( "lab_finale" );
+static const oter_str_id oter_lab_stairs( "lab_stairs" );
+static const oter_str_id oter_mine( "mine" );
+static const oter_str_id oter_mine_down( "mine_down" );
+static const oter_str_id oter_mine_finale( "mine_finale" );
+static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_sewer_es( "sewer_es" );
+static const oter_str_id oter_sewer_esw( "sewer_esw" );
+static const oter_str_id oter_sewer_ew( "sewer_ew" );
+static const oter_str_id oter_sewer_ne( "sewer_ne" );
+static const oter_str_id oter_sewer_nes( "sewer_nes" );
+static const oter_str_id oter_sewer_nesw( "sewer_nesw" );
+static const oter_str_id oter_sewer_new( "sewer_new" );
+static const oter_str_id oter_sewer_ns( "sewer_ns" );
+static const oter_str_id oter_sewer_nsw( "sewer_nsw" );
+static const oter_str_id oter_sewer_sw( "sewer_sw" );
+static const oter_str_id oter_sewer_wn( "sewer_wn" );
+static const oter_str_id oter_slimepit( "slimepit" );
+static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
+static const oter_str_id oter_slimepit_down( "slimepit_down" );
+static const oter_str_id oter_temple( "temple" );
+static const oter_str_id oter_temple_finale( "temple_finale" );
+static const oter_str_id oter_temple_stairs( "temple_stairs" );
+static const oter_str_id oter_tower_lab( "tower_lab" );
+static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
+static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
+
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
+
+static const relic_procgen_id relic_procgen_data_cult( "cult" );
+static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
+
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+
+static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -157,7 +237,7 @@ void map::generate( const tripoint &p, const time_point &when )
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
-            MapExtras::apply_function( *( ex.values.pick() ), *this, tripoint_abs_sm( abs_sub ) );
+            MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
         }
     }
 
@@ -391,6 +471,7 @@ class mapgen_factory
                 return mapgen_parameters();
             }
             return iter->second.get_mapgen_params( mapgen_parameter_scope::overmap_special,
+                                                   // NOLINTNEXTLINE(cata-translate-string-literal)
                                                    string_format( "map special %s", key ) );
         }
 };
@@ -658,6 +739,7 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 void mapgen_function_json_base::merge_non_nest_parameters_into(
     mapgen_parameters &params, const std::string &outer_context ) const
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string context = string_format( "%s within %s", context_, outer_context );
     params.check_and_merge( parameters, context, mapgen_parameter_scope::nest );
 }
@@ -1468,6 +1550,7 @@ void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
             const std::string &name = p.first;
             const mapgen_parameter &this_param = insert_result.first->second;
             this_param.check_consistent_with(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 other_param, string_format( "parameter %s in %s", name, context ) );
         }
     }
@@ -1677,7 +1760,7 @@ class jmapgen_sign : public jmapgen_piece
                   ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
-            dat.m.furn_set( r, furn_str_id( "f_sign" ) );
+            dat.m.furn_set( r, furn_f_sign );
 
             std::string signtext;
 
@@ -2361,7 +2444,7 @@ class jmapgen_terrain : public jmapgen_piece
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
-                dat.m.furn_set( point( x.get(), y.get() ), f_null );
+                dat.m.furn_clear( point( x.get(), y.get() ) );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
                 if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
@@ -2458,6 +2541,8 @@ class jmapgen_computer : public jmapgen_piece
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
+        std::vector<std::string> chat_topics;
+        std::vector<effect_on_condition_id> eocs;
         bool target;
         jmapgen_computer( const JsonObject &jsi, const std::string &/*context*/ ) {
             jsi.read( "name", name );
@@ -2474,11 +2559,21 @@ class jmapgen_computer : public jmapgen_piece
                     failures.emplace_back( computer_failure::from_json( jo ) );
                 }
             }
+            if( jsi.has_array( "eocs" ) ) {
+                for( const std::string &eoc : jsi.get_string_array( "eocs" ) ) {
+                    eocs.emplace_back( effect_on_condition_id( eoc ) );
+                }
+            }
+            if( jsi.has_array( "chat_topics" ) ) {
+                for( const std::string &topic : jsi.get_string_array( "chat_topics" ) ) {
+                    chat_topics.emplace_back( topic );
+                }
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const point r( x.get(), y.get() );
-            dat.m.furn_set( r, furn_str_id( "f_console" ) );
+            dat.m.furn_set( r, furn_f_console );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
                                                 security );
             for( const auto &opt : options ) {
@@ -2490,7 +2585,12 @@ class jmapgen_computer : public jmapgen_piece
             if( target && dat.mission() ) {
                 cpu->set_mission( dat.mission()->get_id() );
             }
-
+            for( const effect_on_condition_id &eoc : eocs ) {
+                cpu->add_eoc( eoc );
+            }
+            for( const std::string &chat_topic : chat_topics ) {
+                cpu->add_chat_topic( chat_topic );
+            }
             // The default access denied message is defined in computer's constructor
             if( !access_denied.empty() ) {
                 cpu->set_access_denied_msg( access_denied.translated() );
@@ -3145,6 +3245,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
                 continue;
             }
             auto &vect = format_placings[ key ];
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             std::string this_context = string_format( "%s in mapping in %s", member_name, context );
             ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
         }
@@ -3156,6 +3257,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         const map_key key( member );
         auto &vect = format_placings[ key ];
         std::string this_context =
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             string_format( "%s %s in %s", member_name, member.name(), context );
         ::load_place_mapings<PieceType>( member, vect, this_context );
     }
@@ -3358,8 +3460,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings, c );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings, c );
@@ -4031,8 +4131,6 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
-            draw_spider_pit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -4074,20 +4172,20 @@ void map::draw_lab( mapgendata &dat )
     int tw = 0;
     int bw = 0;
 
-    if( terrain_type == "lab" || terrain_type == "lab_stairs" || terrain_type == "lab_core" ||
-        terrain_type == "ants_lab" || terrain_type == "ants_lab_stairs" ||
-        terrain_type == "ice_lab" || terrain_type == "ice_lab_stairs" ||
-        terrain_type == "ice_lab_core" ||
-        terrain_type == "central_lab" || terrain_type == "central_lab_stairs" ||
-        terrain_type == "central_lab_core" ||
-        terrain_type == "tower_lab" || terrain_type == "tower_lab_stairs" ) {
+    if( terrain_type == oter_lab || terrain_type == oter_lab_stairs
+        || terrain_type == oter_lab_core || terrain_type == oter_ants_lab
+        || terrain_type == oter_ants_lab_stairs || terrain_type == oter_ice_lab
+        || terrain_type == oter_ice_lab_stairs || terrain_type == oter_ice_lab_core
+        || terrain_type == oter_central_lab || terrain_type == oter_central_lab_stairs
+        || terrain_type == oter_central_lab_core || terrain_type == oter_tower_lab
+        || terrain_type == oter_tower_lab_stairs ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * ( dat.zlevel() );
+            int temperature = -20 + 30 * dat.zlevel();
             set_temperature( p2, temperature );
             set_temperature( p2 + point( SEEX, 0 ), temperature );
             set_temperature( p2 + point( 0, SEEY ), temperature );
@@ -4099,16 +4197,20 @@ void map::draw_lab( mapgendata &dat )
         rw = 0;
         bw = 0;
         lw = 0;
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) {
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.north(), 2 ) ) {
             tw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) {
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.east(), 3 ) ) {
             rw = EAST_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) {
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.south(), 0 ) ) {
             bw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) {
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.west(), 1 ) ) {
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel() == 0 ) { // We're on ground level
@@ -4139,11 +4241,11 @@ void map::draw_lab( mapgendata &dat )
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
-            if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
+            if( dat.east()->get_type_id() == oter_type_road ) {
                 rotate( 1 );
-            } else if( is_ot_match( "road", dat.south(), ot_match_type::type ) ) {
+            } else if( dat.south()->get_type_id() == oter_type_road ) {
                 rotate( 2 );
-            } else if( is_ot_match( "road", dat.west(), ot_match_type::type ) ) {
+            } else if( dat.west()->get_type_id() == oter_type_road ) {
                 rotate( 3 );
             }
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
@@ -4512,10 +4614,10 @@ void map::draw_lab( mapgendata &dat )
         }
 
         // Slimes pretty much wreck up the place, too, but only underground
-        tw = ( dat.north() == "slimepit" ? SEEY     : 0 );
-        rw = ( dat.east()  == "slimepit" ? SEEX + 1 : 0 );
-        bw = ( dat.south() == "slimepit" ? SEEY + 1 : 0 );
-        lw = ( dat.west()  == "slimepit" ? SEEX     : 0 );
+        tw = ( dat.north() == oter_slimepit ? SEEY     : 0 );
+        rw = ( dat.east()  == oter_slimepit ? SEEX + 1 : 0 );
+        bw = ( dat.south() == oter_slimepit ? SEEY + 1 : 0 );
+        lw = ( dat.west()  == oter_slimepit ? SEEX     : 0 );
         if( tw != 0 || rw != 0 || bw != 0 || lw != 0 ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -4707,7 +4809,7 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
                                 if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
@@ -4749,8 +4851,8 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         }
-    } else if( terrain_type == "lab_finale" || terrain_type == "ice_lab_finale" ||
-               terrain_type == "central_lab_finale" || terrain_type == "tower_lab_finale" ) {
+    } else if( terrain_type == oter_lab_finale || terrain_type == oter_ice_lab_finale ||
+               terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
@@ -4904,11 +5006,11 @@ void map::draw_lab( mapgendata &dat )
                               point( SEEX + 1, SEEY + 1 ) );
                         line( this, t_reinforced_glass, point( SEEX - 3, SEEY - 2 ), point( SEEX - 3, SEEY + 1 ) );
                         line( this, t_reinforced_glass, point( SEEX + 2, SEEY - 2 ), point( SEEX + 2, SEEY + 1 ) );
-                        place_items( item_group_id( "ammo_rare" ), 96,
+                        place_items( Item_spawn_data_ammo_rare, 96,
                                      point( SEEX - 2, SEEY - 1 ),
                                      point( SEEX + 1, SEEY - 1 ), false,
                                      calendar::start_of_cataclysm );
-                        place_items( item_group_id( "guns_rare" ), 96, point( SEEX - 2, SEEY ),
+                        place_items( Item_spawn_data_guns_rare, 96, point( SEEX - 2, SEEY ),
                                      point( SEEX + 1, SEEY ), false,
                                      calendar::start_of_cataclysm );
                         spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
@@ -4978,7 +5080,7 @@ void map::draw_lab( mapgendata &dat )
                     while( item_count < 5 ) {
                         item_count +=
                             place_items(
-                                item_group_id( "bionics" ), 75, point( SEEX - 1, SEEY - 1 ),
+                                Item_spawn_data_bionics, 75, point( SEEX - 1, SEEY - 1 ),
                                 point( SEEX, SEEY ), false, calendar::start_of_cataclysm ).size();
                     }
                     line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
@@ -4986,7 +5088,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
                     line( this, t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
                     spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
-                    furn_set( point( SEEX - 3, SEEY - 3 ), furn_str_id( "f_console" ) );
+                    furn_set( point( SEEX - 3, SEEY - 3 ), furn_f_console );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ),
                                             _( "Bionic access" ), 3 );
                     tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
@@ -5059,7 +5161,7 @@ void map::draw_lab( mapgendata &dat )
 void map::draw_temple( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "temple" || terrain_type == "temple_stairs" ) {
+    if( terrain_type == oter_temple || terrain_type == oter_temple_stairs ) {
         if( dat.zlevel() == 0 ) {
             // Ground floor
             // TODO: More varieties?
@@ -5282,24 +5384,24 @@ void map::draw_temple( const mapgendata &dat )
                 break;
             } // Done with room type switch
             // Stairs down if we need them
-            if( terrain_type == "temple_stairs" ) {
+            if( terrain_type == oter_temple_stairs ) {
                 line( this, t_stairs_down, point( SEEX, 0 ), point( SEEX + 1, 0 ) );
             }
             // Stairs at the south if dat.above() has stairs down.
-            if( dat.above() == "temple_stairs" ) {
+            if( dat.above() == oter_temple_stairs ) {
                 line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
             }
 
         } // Done with underground-only stuff
-    } else if( terrain_type == "temple_finale" ) {
+    } else if( terrain_type == oter_temple_finale ) {
         fill_background( this, t_rock );
         square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
         square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
         line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ),
-                        relic_procgen_id( "cult" ) );
+                        relic_procgen_data_cult );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ),
-                        relic_procgen_id( "cult" ) );
+                        relic_procgen_data_cult );
         return;
 
     }
@@ -5308,7 +5410,7 @@ void map::draw_temple( const mapgendata &dat )
 void map::draw_mine( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "mine" || terrain_type == "mine_down" ) {
+    if( terrain_type == oter_mine || terrain_type == oter_mine_down ) {
         if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
@@ -5377,7 +5479,7 @@ void map::draw_mine( mapgendata &dat )
                         }
                     }
                 }
-                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
+                place_items( Item_spawn_data_wreckage, 70, wreck_location + point( -3, -3 ),
                              wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
             }
             break;
@@ -5389,7 +5491,7 @@ void map::draw_mine( mapgendata &dat )
                     return move_cost( p ) == 2;
                     } ) ) {
                         add_item( *body, item::make_corpse() );
-                        place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
+                        place_items( Item_spawn_data_mine_equipment, 60, *body, *body,
                                      false, calendar::start_of_cataclysm );
                     }
                 }
@@ -5398,7 +5500,7 @@ void map::draw_mine( mapgendata &dat )
 
         }
 
-        if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
+        if( terrain_type == oter_mine_down ) { // Don't forget to build a slope down!
             std::vector<direction> open;
             if( dat.n_fac == 4 ) {
                 open.push_back( direction::NORTH );
@@ -5461,7 +5563,7 @@ void map::draw_mine( mapgendata &dat )
             }
         } // Done building a slope down
 
-        if( dat.above() == "mine_down" ) { // Don't forget to build a slope up!
+        if( dat.above() == oter_mine_down ) { // Don't forget to build a slope up!
             std::vector<direction> open;
             if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
                 open.push_back( direction::NORTH );
@@ -5520,7 +5622,7 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
         } // Done building a slope up
-    } else if( terrain_type == "mine_finale" ) {
+    } else if( terrain_type == oter_mine_finale ) {
         // Set up the basic chamber
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
@@ -5534,19 +5636,19 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Now draw the entrance(s)
-        if( dat.north() == "mine" ) {
+        if( dat.north() == oter_mine ) {
             square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
         }
 
-        if( dat.east()  == "mine" ) {
+        if( dat.east()  == oter_mine ) {
             square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         }
 
-        if( dat.south() == "mine" ) {
+        if( dat.south() == oter_mine ) {
             square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         }
 
-        if( dat.west()  == "mine" ) {
+        if( dat.west()  == oter_mine ) {
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         }
 
@@ -5555,35 +5657,12 @@ void map::draw_mine( mapgendata &dat )
         for( int i = 0; i < num_bodies; i++ ) {
             point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
             add_item( p3, item::make_corpse() );
-            place_items( item_group_id( "mine_equipment" ), 60, p3,
+            place_items( Item_spawn_data_mine_equipment, 60, p3,
                          p3, false, calendar::start_of_cataclysm );
         }
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
-                        relic_procgen_id( "netherum_tunnels" ) );
-    }
-}
-
-void map::draw_spider_pit( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "spider_pit_under" ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( ( i >= 3 && i <= SEEX * 2 - 4 && j >= 3 && j <= SEEY * 2 - 4 ) ||
-                    one_in( 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                    if( !one_in( 3 ) ) {
-                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
-                    }
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-        ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_up );
-        place_items( item_group_id( "spider" ), 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ),
-                     false, calendar::start_of_cataclysm );
+                        relic_procgen_data_netherum_tunnels );
     }
 }
 
@@ -5607,10 +5686,10 @@ void map::draw_slimepit( const mapgendata &dat )
                 }
             }
         }
-        if( terrain_type == "slimepit_down" ) {
+        if( terrain_type == oter_slimepit_down ) {
             ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_down );
         }
-        if( dat.above() == "slimepit_down" ) {
+        if( dat.above() == oter_slimepit_down ) {
             switch( rng( 1, 4 ) ) {
                 case 1:
                     ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), t_slope_up );
@@ -5624,12 +5703,12 @@ void map::draw_slimepit( const mapgendata &dat )
                 case 4:
                     ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
             }
-        } else if( dat.above() == "slimepit_bottom" ) {
+        } else if( dat.above() == oter_slimepit_bottom ) {
             // Align the stairs
             ter_set( point( 7, 9 ), t_slope_up );
         }
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
-        place_items( item_group_id( "sewer" ), 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
+        place_items( Item_spawn_data_sewer, 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
                      calendar::start_of_cataclysm );
     }
 }
@@ -5637,9 +5716,9 @@ void map::draw_slimepit( const mapgendata &dat )
 void map::draw_connections( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( is_ot_match( "subway", terrain_type,
-                     ot_match_type::type ) ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) &&
+    if( terrain_type->get_type_id() ==
+        oter_type_subway ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 0 ) ) {
             if( connects_to( dat.north(), 2 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5656,7 +5735,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, 3 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 1 ) ) {
             if( connects_to( dat.east(), 3 ) ) {
                 for( int i = SEEX; i < SEEX * 2; i++ ) {
@@ -5673,7 +5752,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX * 2 - 4, SEEY - 1 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 2 ) ) {
             if( connects_to( dat.south(), 0 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5690,7 +5769,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, SEEY * 2 - 4 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 3 ) ) {
             if( connects_to( dat.west(), 1 ) ) {
                 for( int i = 0; i < SEEX; i++ ) {
@@ -5707,11 +5786,11 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( 3, SEEY - 1 ), t_door_metal_c );
             }
         }
-    } else if( is_ot_match( "sewer", terrain_type, ot_match_type::type ) ) {
-        if( dat.above() == "road_nesw_manhole" ) {
+    } else if( terrain_type->get_type_id() == oter_type_sewer ) {
+        if( dat.above() == oter_road_nesw_manhole ) {
             ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
         }
-        if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
+        if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5720,7 +5799,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY - 3 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY - 3 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 1 ) ) {
             for( int i = SEEX + 3; i < SEEX * 2; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );
@@ -5729,7 +5808,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX + 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 2, SEEY - 1 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 2 ) ) {
             for( int j = SEEY + 3; j < SEEY * 2; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5738,7 +5817,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY + 2 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY + 2 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 3 ) ) {
             for( int i = 0; i < SEEX - 3; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );
@@ -6105,7 +6184,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if( veh->type == vproto_id( "shopping_cart" ) ) {
+        if( veh->type == vehicle_prototype_shopping_cart ) {
             if( veh_at( p ) || impassable( p ) ) {
                 return nullptr;
             }
@@ -6113,7 +6192,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
         vehicle *const other_veh = veh_pointer_or_null( veh_at( p ) );
-        if( other_veh != nullptr && other_veh->type != vproto_id( "shopping_cart" ) ) {
+        if( other_veh != nullptr && other_veh->type != vehicle_prototype_shopping_cart ) {
             if( !merge_wrecks ) {
                 return nullptr;
             }
@@ -6197,15 +6276,15 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     // TODO: Turn this off?
-    furn_set( p, furn_str_id( "f_console" ) );
+    furn_set( p, furn_f_console );
     point l;
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
-        static computer null_computer = computer( name, security );
+        static computer null_computer = computer( name, security, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security ) );
+    place_on_submap->set_computer( l, computer( name, security, p ) );
     return place_on_submap->get_computer( l );
 }
 
@@ -6396,41 +6475,41 @@ bool connects_to( const oter_id &there, int dir )
     switch( dir ) {
         // South
         case 2:
-            if( there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
-                there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
-                there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ns || there == oter_sewer_es || there == oter_sewer_sw ||
+                there == oter_sewer_nes || there == oter_sewer_nsw || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_es ||
+                there == oter_ants_sw || there == oter_ants_nes || there == oter_ants_nsw ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // West
         case 3:
-            if( there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
-                there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
-                there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ew || there == oter_sewer_sw || there == oter_sewer_wn ||
+                there == oter_sewer_new || there == oter_sewer_nsw || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_sw ||
+                there == oter_ants_wn || there == oter_ants_new || there == oter_ants_nsw ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // North
         case 0:
-            if( there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
-                there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_nsw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ns || there == oter_sewer_ne || there == oter_sewer_wn ||
+                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_nsw ||
+                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_ne ||
+                there == oter_ants_wn || there == oter_ants_nes || there == oter_ants_new ||
+                there == oter_ants_nsw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
         // East
         case 1:
-            if( there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
-                there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
+            if( there == oter_sewer_ew || there == oter_sewer_ne || there == oter_sewer_es ||
+                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_esw ||
+                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_ne ||
+                there == oter_ants_es || there == oter_ants_nes || there == oter_ants_new ||
+                there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
             }
             return false;
@@ -6488,7 +6567,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
     point trap( rng( p1.x + 1, p2.x - 1 ), rng( p1.y + 1, p2.y - 1 ) );
     switch( random_entry( valid_rooms ) ) {
         case room_closet:
-            m->place_items( item_group_id( "cleaning" ), 80, p1, p2, false,
+            m->place_items( Item_spawn_data_cleaning, 80, p1, p2, false,
                             calendar::start_of_cataclysm );
             break;
         case room_lobby:
@@ -6534,11 +6613,11 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                             m->furn_set( point( x, y ), f_counter );
                         }
                         if( one_in( 3 ) ) {
-                            m->place_items( item_group_id( "mut_lab" ), 35, point( x, p1.y + 1 ),
+                            m->place_items( Item_spawn_data_mut_lab, 35, point( x, p1.y + 1 ),
                                             point( x, p2.y - 1 ), false,
                                             calendar::start_of_cataclysm );
                         } else {
-                            m->place_items( item_group_id( "chem_lab" ), 70, point( x, p1.y + 1 ),
+                            m->place_items( Item_spawn_data_chem_lab, 70, point( x, p1.y + 1 ),
                                             point( x, p2.y - 1 ), false,
                                             calendar::start_of_cataclysm );
                         }
@@ -6551,11 +6630,11 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                             m->furn_set( point( x, y ), f_counter );
                         }
                         if( one_in( 3 ) ) {
-                            m->place_items( item_group_id( "mut_lab" ), 35, point( p1.x + 1, y ),
+                            m->place_items( Item_spawn_data_mut_lab, 35, point( p1.x + 1, y ),
                                             point( p2.x - 1, y ), false,
                                             calendar::start_of_cataclysm );
                         } else {
-                            m->place_items( item_group_id( "chem_lab" ), 70, point( p1.x + 1, y ),
+                            m->place_items( Item_spawn_data_chem_lab, 70, point( p1.x + 1, y ),
                                             point( p2.x - 1, y ), false,
                                             calendar::start_of_cataclysm );
                         }
@@ -6574,7 +6653,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
                          f_counter );
             mtrap_set( m, trap, tr_telepad );
-            m->place_items( item_group_id( "teleport" ), 70, point( ( p1.x + p2.x ) / 2,
+            m->place_items( Item_spawn_data_teleport, 70, point( ( p1.x + p2.x ) / 2,
                             static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
                             point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1, static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
                             false,
@@ -6589,22 +6668,22 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             if( rotate == 0 ) {
                 mremove_trap( m, point( p1.x, p2.y ) );
                 m->furn_set( point( p1.x, p2.y ), f_fridge );
-                m->place_items( item_group_id( "goo" ), 60, point( p1.x, p2.y ), point( p1.x, p2.y ),
+                m->place_items( Item_spawn_data_goo, 60, point( p1.x, p2.y ), point( p1.x, p2.y ),
                                 false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 mremove_trap( m, p1 );
                 m->furn_set( p1, f_fridge );
-                m->place_items( item_group_id( "goo" ), 60, p1, p1, false,
+                m->place_items( Item_spawn_data_goo, 60, p1, p1, false,
                                 calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 mremove_trap( m, point( p2.x, p1.y ) );
                 m->furn_set( point( p2.x, p1.y ), f_fridge );
-                m->place_items( item_group_id( "goo" ), 60, point( p2.x, p1.y ), point( p2.x, p1.y ),
+                m->place_items( Item_spawn_data_goo, 60, point( p2.x, p1.y ), point( p2.x, p1.y ),
                                 false, calendar::start_of_cataclysm );
             } else {
                 mremove_trap( m, p2 );
                 m->furn_set( p2, f_fridge );
-                m->place_items( item_group_id( "goo" ), 60, p2, p2, false,
+                m->place_items( Item_spawn_data_goo, 60, p2, p2, false,
                                 calendar::start_of_cataclysm );
             }
             break;
@@ -6613,7 +6692,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int y = p1.y + 1; y <= p2.y - 1; y++ ) {
                     if( x % 3 == 0 && y % 3 == 0 ) {
                         m->ter_set( point( x, y ), t_vat );
-                        m->place_items( item_group_id( "cloning_vat" ), 20, point( x, y ),
+                        m->place_items( Item_spawn_data_cloning_vat, 20, point( x, y ),
                                         point( x, y ), false, calendar::start_of_cataclysm );
                     }
                 }
@@ -6624,25 +6703,25 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     m->furn_set( point( x, p2.y - 1 ), f_counter );
                 }
-                m->place_items( item_group_id( "dissection" ), 80, point( p1.x, p2.y - 1 ),
+                m->place_items( Item_spawn_data_dissection, 80, point( p1.x, p2.y - 1 ),
                                 p2 + point_north, false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->furn_set( point( p1.x + 1, y ), f_counter );
                 }
-                m->place_items( item_group_id( "dissection" ), 80, p1 + point_east,
+                m->place_items( Item_spawn_data_dissection, 80, p1 + point_east,
                                 point( p1.x + 1, p2.y ), false, calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     m->furn_set( point( x, p1.y + 1 ), f_counter );
                 }
-                m->place_items( item_group_id( "dissection" ), 80, p1 + point_south,
+                m->place_items( Item_spawn_data_dissection, 80, p1 + point_south,
                                 point( p2.x, p1.y + 1 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 3 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->furn_set( point( p2.x - 1, y ), f_counter );
                 }
-                m->place_items( item_group_id( "dissection" ), 80, point( p2.x - 1, p1.y ),
+                m->place_items( Item_spawn_data_dissection, 80, point( p2.x - 1, p1.y ),
                                 p2 + point_west, false, calendar::start_of_cataclysm );
             }
             mtrap_set( m, point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
@@ -6663,10 +6742,10 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "-=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( bio + point( 0, 2 ), furn_str_id( "f_console" ) );
+                m->furn_set( bio + point( 0, 2 ), furn_f_console );
                 computer *tmpcomp = m->add_computer( tripoint( bio.x,  bio.y + 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6682,10 +6761,10 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( bio + point( 0, -2 ), furn_str_id( "f_console" ) );
+                m->furn_set( bio + point( 0, -2 ), furn_f_console );
                 computer *tmpcomp2 = m->add_computer( tripoint( bio.x,  bio.y - 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6702,10 +6781,10 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
+                m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::start_of_cataclysm );
 
-                m->furn_set( point( biox + 2, bioy ), furn_str_id( "f_console" ) );
+                m->furn_set( point( biox + 2, bioy ), furn_f_console );
                 computer *tmpcomp = m->add_computer( tripoint( biox + 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6721,10 +6800,10 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
+                m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::turn_zero );
 
-                m->furn_set( point( biox - 2, bioy ), furn_str_id( "f_console" ) );
+                m->furn_set( point( biox - 2, bioy ), furn_f_console );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6738,47 +6817,47 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             if( rotate % 2 == 0 ) {
                 for( int y = p1.y + 1; y <= p2.y - 1; y += 3 ) {
                     m->furn_set( point( p1.x, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x, y ), point( p1.x, y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( p1.x, y ), point( p1.x, y ),
                                     false, calendar::start_of_cataclysm );
                     m->furn_set( point( p1.x + 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x + 1, y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( p1.x + 1, y ),
                                     point( p1.x + 1, y ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( p2.x, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x, y ), point( p2.x, y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( p2.x, y ), point( p2.x, y ),
                                     false, calendar::start_of_cataclysm );
                     m->furn_set( point( p2.x - 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x - 1, y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( p2.x - 1, y ),
                                     point( p2.x - 1, y ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( p1.x, y + 1 ), f_dresser );
                     m->furn_set( point( p2.x, y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 70, point( p1.x, y + 1 ),
+                    m->place_items( Item_spawn_data_dresser, 70, point( p1.x, y + 1 ),
                                     point( p1.x, y + 1 ), false, calendar::start_of_cataclysm );
-                    m->place_items( item_group_id( "dresser" ), 70, point( p2.x, y + 1 ),
+                    m->place_items( Item_spawn_data_dresser, 70, point( p2.x, y + 1 ),
                                     point( p2.x, y + 1 ), false, calendar::start_of_cataclysm );
                 }
             } else if( rotate % 2 == 1 ) {
                 for( int x = p1.x + 1; x <= p2.x - 1; x += 3 ) {
                     m->furn_set( point( x, p1.y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y ), point( x, p1.y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( x, p1.y ), point( x, p1.y ),
                                     false, calendar::start_of_cataclysm );
                     m->furn_set( point( x, p1.y + 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y + 1 ),
+                    m->place_items( Item_spawn_data_bed, 60, point( x, p1.y + 1 ),
                                     point( x, p1.y + 1 ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x, p2.y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y ), point( x, p2.y ),
+                    m->place_items( Item_spawn_data_bed, 60, point( x, p2.y ), point( x, p2.y ),
                                     false, calendar::start_of_cataclysm );
                     m->furn_set( point( x, p2.y - 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y - 1 ),
+                    m->place_items( Item_spawn_data_bed, 60, point( x, p2.y - 1 ),
                                     point( x, p2.y - 1 ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x + 1, p1.y ), f_dresser );
                     m->furn_set( point( x + 1, p2.y ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 70, point( x + 1, p1.y ),
+                    m->place_items( Item_spawn_data_dresser, 70, point( x + 1, p1.y ),
                                     point( x + 1, p1.y ), false, calendar::start_of_cataclysm );
-                    m->place_items( item_group_id( "dresser" ), 70, point( x + 1, p2.y ),
+                    m->place_items( Item_spawn_data_dresser, 70, point( x + 1, p2.y ),
                                     point( x + 1, p2.y ), false, calendar::start_of_cataclysm );
                 }
             }
-            m->place_items( item_group_id( "lab_dorm" ), 84, p1, p2, false,
+            m->place_items( Item_spawn_data_lab_dorm, 84, p1, p2, false,
                             calendar::start_of_cataclysm );
             break;
         case room_split:

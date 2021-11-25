@@ -250,6 +250,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
     "weight": "1980 g",
     "volume": "2500 ml",
+    "copy-from": "rope_30",
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 12,
@@ -780,7 +781,8 @@
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "vortex_stone",

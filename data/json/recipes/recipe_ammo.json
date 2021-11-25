@@ -60,6 +60,19 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "wire_barbed_baseball",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
+    "components": [ [ [ "baseball", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -493,22 +506,20 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 3 ] ],
     "difficulty": 5,
-    "time": "10 m",
+    "time": "2 m",
     "book_learn": [ [ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "bolt_metal", 1 ], [ "bolt_steel", 1 ] ],
-      [ [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "smpistol_primer", 1 ],
-        [ "lgpistol_primer", 1 ],
-        [ "smrifle_primer", 1 ],
-        [ "lgrifle_primer", 1 ],
-        [ "shotgun_primer", 1 ]
-      ],
-      [ [ "gunpowder", 200 ], [ "chem_black_powder", 200 ] ]
+        [ "bolt_crude", 1 ],
+        [ "bolt_wood", 1 ],
+        [ "bolt_wood_bodkin", 1 ],
+        [ "bolt_steel", 1 ],
+        [ "bolt_makeshift", 1 ],
+        [ "bolt_wood_small_game", 1 ],
+        [ "bolt_metal", 1 ]
+      ]
     ]
   },
   {

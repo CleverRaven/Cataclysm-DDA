@@ -440,7 +440,7 @@
         { "item": "briefs", "x": 51, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boxer_briefs", "x": 50, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boxer_shorts", "x": 49, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "jacket_army", "x": 46, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "jacket_army_modern", "x": 46, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "winter_jacket_army", "x": 45, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "pants_army", "x": 44, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "winter_pants_army", "x": 43, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
