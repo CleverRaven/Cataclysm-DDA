@@ -693,10 +693,10 @@
   },
   {
     "type": "scenario",
-    "id": "portal_traveler",
-    "name": "Challenge - Portal Traveler",
+    "id": "portal_dependent",
+    "name": "Challenge - Portal Dependent",
     "points": -8,
-    "description": "You just came out of a huge and unstable portal.  You feel…  different.",
+    "description": "You were caught on a huge and unstable portal storm.  You feel…  different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",

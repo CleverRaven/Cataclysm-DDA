@@ -4118,9 +4118,8 @@
     "type": "profession",
     "id": "portal_traveler",
     "name": "Portal Traveler",
-    "description": "You were sent on the first manned mission to another world, all was going fine until the portal lost stability and you drifted far away, now you wake up all alone and with your gas mask almost empty.",
-    "points": 4,
-    "skills": [ { "level": 2, "name": "computer" }, { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
+    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost your conscience and woke up in this place.",
+    "points": 2,
     "items": {
       "both": {
         "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
@@ -4131,6 +4130,12 @@
             "ammo-item": "battery",
             "charges": 20,
             "container-item": "rad_monitor"
+          },
+          {
+            "item": "medium_atomic_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "broken_dimensional_anchor"
           },
           { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
         ]

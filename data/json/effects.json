@@ -2416,7 +2416,7 @@
   },
   {
     "type": "effect_type",
-    "id": "pt_str_bad",
+    "id": "pd_str_bad",
     "name": [ "Muscle Vanishment", "Muscle Dissapearance" ],
     "desc": [ "You feel as if your muscles are not quite there.", "You feel as if your muscles are not in your body." ],
     "max_intensity": 2,
@@ -2428,7 +2428,7 @@
   },
   {
     "type": "effect_type",
-    "id": "pt_dex_bad",
+    "id": "pd_dex_bad",
     "name": [ "Weak Grasp", "Inexistent Grasp" ],
     "desc": [ "You seem to have problems touching things.", "You feel as if your hands just pass through matter." ],
     "max_intensity": 2,
@@ -2440,7 +2440,7 @@
   },
   {
     "type": "effect_type",
-    "id": "pt_per_bad",
+    "id": "pd_per_bad",
     "name": [ "Distorted Vision", "Otherworldly Vision" ],
     "desc": [
       "You have problems distinguishing shapes and colors.",
@@ -2455,7 +2455,7 @@
   },
   {
     "type": "effect_type",
-    "id": "pt_int_bad",
+    "id": "pd_int_bad",
     "name": [ "Wandering Mind", "Foreign Mind" ],
     "desc": [ "Your thoughts seem to wander around on their own.", "Foreign thoughts seem to invade your mind." ],
     "max_intensity": 2,
@@ -2467,7 +2467,7 @@
   },
   {
     "type": "effect_type",
-    "id": "pt_rejection",
+    "id": "pd_rejection",
     "name": [ "World Rejection", "Dimensional Rejection" ],
     "desc": [
       "Faint sparks surround your every move, your body aches more with every passing second.",

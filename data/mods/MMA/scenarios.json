@@ -1,8 +1,8 @@
 [
   {
-    "copy-from": "portal_traveler",
+    "copy-from": "portal_dependent",
     "type": "scenario",
-    "extend": { "professions": [ "mma_battle_angel", "mma_jedi_knight" ] },
-    "id": "portal_traveler"
+    "extend": { "professions": [ "mma_battle_angel", "mma_jedi" ] },
+    "id": "portal_dependent"
   }
 ]

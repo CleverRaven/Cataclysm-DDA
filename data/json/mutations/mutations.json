@@ -297,7 +297,7 @@
     "id": "PORTAL_DEPENDENT",
     "name": { "str": "Portal Dependent" },
     "points": -8,
-    "description": "Your body is rejected by this reality.  You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in this world.",
+    "description": "Your body is not quite there.  You feel as if part of you remained behind with the portal storm.  You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in the world.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false
@@ -307,7 +307,7 @@
     "id": "REALITY_GRASP",
     "name": { "str": "Stabilized in Reality" },
     "points": 0,
-    "description": "Your grasp on reality has stabilized somewhat, lack of portal storms will not affect you as strongly as before.",
+    "description": "You have regained some substance and have stabilized somewhat, lack of portal storms will not affect you as strongly as before.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false

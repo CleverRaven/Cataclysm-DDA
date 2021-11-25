@@ -20,11 +20,11 @@
   },
   {
     "type": "profession",
-    "id": "mma_jedi_knight",
-    "name": "Jedi Knight",
-    "description": "You were sucked through a strange portal on your way to the temple.  Armed with only a training saber, you will need to survive in this strange world where the force seems to scream.",
-    "points": 6,
-    "traits": [ "MMA_MARTIAL_ARTS_JEDI", "SPIRITUAL" ],
+    "id": "mma_jedi",
+    "name": "Shii-Cho Practicioner",
+    "description": "You were sucked through a strange portal on your way to training.  At least your training sword is still in one piece.",
+    "points": 5,
+    "traits": [ "MMA_MARTIAL_ARTS_JEDI" ],
     "skills": [ { "level": 3, "name": "cutting" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
