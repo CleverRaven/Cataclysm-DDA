@@ -28,7 +28,7 @@ jobs:
           github.rest.repos.listPullRequestsAssociatedWithCommit({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            commit_sha: ${{ github.event.workflow_run.head_commit.id }}
+            commit_sha: '${{ github.event.workflow_run.head_commit.id }}'
           })
     - name: debug
       run: echo ${{ steps.get-pr-id.outputs.result }}
