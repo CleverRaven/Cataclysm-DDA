@@ -69,6 +69,11 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
+static const itype_id itype_fitness_band( "fitness_band" );
+static const itype_id itype_smartphone( "smart_phone" );
+static const itype_id itype_smartphone_music( "smart_phone_music" );
+static const itype_id itype_smartphone_flashlight( "smart_phone_flashlight" );
+
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
 
@@ -76,6 +81,7 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -990,6 +996,59 @@ static std::string get_consume_needs_hint( Character &you )
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+
+    int kcal_ingested_today = you.as_avatar()->get_daily_ingested_kcal( false );
+    int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
+    int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
+    int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
+    bool has_fitness_band =  you.is_wearing( itype_fitness_band );
+    bool has_tracker = has_fitness_band || you.has_amount( itype_smartphone, 1 ) ||
+                       you.has_amount( itype_smartphone_flashlight, 1 ) || you.has_amount( itype_smartphone_music, 1 );
+
+    std::string kcal_estimated_intake;
+    if( kcal_ingested_today == 0 ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "none" );
+    } else if( kcal_ingested_today < 0.2 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "minimal" );
+    } else if( kcal_ingested_today < 0.5 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "low" );
+    } else if( kcal_ingested_today < 1.0 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "moderate" );
+    } else if( kcal_ingested_today < 1.5 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "high" );
+    } else if( kcal_ingested_today < 2.0 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "very high" );
+    } else {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "huge" );
+    }
+
+    hint.append( "\n" );
+    if( has_tracker ) {
+        hint.append( _( "Consumed: " ) );
+        desc = std::make_pair( string_format( "%d kcal ", kcal_ingested_today ), c_white );
+        hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
+        desc = std::make_pair( string_format( "%d kcal ", kcal_ingested_yesterday ), c_white );
+        hint.append( string_format( "%s %s", _( "Yesterday: " ), colorize( desc.first, desc.second ) ) );
+    } else {
+        hint.append( _( "Consumed today (kcal): " ) );
+        hint.append( colorize( kcal_estimated_intake, c_white ) );
+    }
+    if( has_fitness_band ) {
+        hint.append( string_format( " %s ", LINE_XOXO_S ) );
+        hint.append( _( "Spent: " ) );
+        desc = std::make_pair( string_format( "%d kcal ", kcal_spent_today ), c_white );
+        hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
+        desc = std::make_pair( string_format( "%d kcal ", kcal_spent_yesterday ), c_white );
+        hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
+    }
     return hint;
 }
 

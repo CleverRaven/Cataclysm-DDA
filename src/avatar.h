@@ -275,6 +275,7 @@ class avatar : public Character
         struct daily_calories {
             int spent = 0;
             int gained = 0;
+            int ingested = 0;
             int total() const {
                 return gained - spent;
             }
@@ -285,6 +286,7 @@ class avatar : public Character
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                json.member( "ingested", ingested );
                 save_activity( json );
 
                 json.end_object();
@@ -292,6 +294,7 @@ class avatar : public Character
             void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
+                data.read( "ingested", ingested );
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
@@ -313,6 +316,9 @@ class avatar : public Character
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        int get_daily_spent_kcal( bool yesterday ) const;
+        int get_daily_ingested_kcal( bool yesterday ) const;
+        void add_ingested_kcal( int kcal );
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;

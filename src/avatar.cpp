@@ -1411,6 +1411,37 @@ void avatar::advance_daily_calories()
     }
 }
 
+int avatar::get_daily_spent_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().spent;
+    }
+    return calorie_diary.front().spent;
+}
+
+int avatar::get_daily_ingested_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().ingested;
+    }
+    return calorie_diary.front().ingested;
+}
+
+void avatar::add_ingested_kcal( int kcal )
+{
+    calorie_diary.front().ingested += kcal;
+}
+
 void avatar::add_spent_calories( int cal )
 {
     calorie_diary.front().spent += cal;
