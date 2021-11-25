@@ -20,12 +20,7 @@
     "durability": 8,
     "barrel_volume": "500 ml",
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "m2010mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ]
   },
   {
     "id": "weatherby_5",

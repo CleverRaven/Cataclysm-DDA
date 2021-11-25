@@ -11,12 +11,6 @@
     "ammo": [ "460", "45" ],
     "relative": { "durability": -1 },
     "built_in_mods": [ "barrel_ported" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "m1911mag", "m1911bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
   }
 ]
