@@ -70,12 +70,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "calicomag", "calicomag_100rd" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ]
   },
   {
     "id": "cx4",
@@ -354,13 +349,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "55 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
   },
   {
     "id": "mp18",
@@ -399,13 +388,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "30 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "30 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ] } ]
   },
   {
     "id": "mauser_c96",
@@ -456,11 +439,7 @@
     "price": 90000,
     "price_postapoc": 500,
     "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ]
-      }
+      { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ] }
     ]
   },
   {
@@ -500,13 +479,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "SLOW_WIELD" ],
-    "pocket_data": [
-      {
-        "magazine_well": "40 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "mp40mag_32rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ]
   },
   {
     "id": "mp40semi",
@@ -726,12 +699,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "survivor9mm_mag", "stenmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ]
   },
   {
     "id": "sten",
@@ -768,12 +736,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "stenmag", "survivor9mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ]
   },
   {
     "id": "tec9",
@@ -957,13 +920,7 @@
     "bashing": 2,
     "ammo": [ "9mm" ],
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "65 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "65 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ] } ]
   },
   {
     "id": "m11",
@@ -984,13 +941,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "p228mag_13rd_9x19mm" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ]
   },
   {
     "id": "m17",
@@ -1106,11 +1057,7 @@
     "min_cycle_recoil": 450,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
-      {
-        "magazine_well": "191 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ]
-      }
+      { "magazine_well": "191 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ] }
     ]
   },
   {
@@ -1134,13 +1081,7 @@
     "durability": 8,
     "min_cycle_recoil": 450,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "228 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "p38mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ]
   },
   {
     "id": "walther_ppq_9mm",
@@ -1248,13 +1189,7 @@
     "durability": 8,
     "min_cycle_recoil": 450,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "176 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "ccpmag", "ccpmag_9rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ]
   },
   {
     "id": "colt_ro635",

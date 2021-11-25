@@ -143,7 +143,8 @@ void pocket_data::load( const JsonObject &jo )
             max_item_volume = temp;
         }
         optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(), 2000000000_ml );
-        optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(), 2000000_kilogram );
+        optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(),
+                  2000000_kilogram );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
     }

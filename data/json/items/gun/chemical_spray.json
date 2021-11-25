@@ -30,12 +30,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "2 L",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "pressurized_tank_chem" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ]
   }
 ]
