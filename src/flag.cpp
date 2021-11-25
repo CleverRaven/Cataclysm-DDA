@@ -5,8 +5,8 @@
 #include "json.h"
 #include "type_id.h"
 
-const flag_id flag_NULL = flag_id( "null" ); // intentionally invalid flag
-
+const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
+const flag_id flag_ABLATIVE_MEDIUM( "ABLATIVE_MEDIUM" );
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
 const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
@@ -51,6 +51,7 @@ const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
 const flag_id flag_CANNIBALISM( "CANNIBALISM" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
+const flag_id flag_CANT_WEAR( "CANT_WEAR" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
 const flag_id flag_CASING( "CASING" );
 const flag_id flag_CATTLE( "CATTLE" );
@@ -322,6 +323,10 @@ const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
 const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+static const flag_id json_flag_null( "null" );
+
+const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
+
 
 namespace
 {

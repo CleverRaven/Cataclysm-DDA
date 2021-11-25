@@ -8,7 +8,6 @@
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "global_vars.h"
 #include "mission.h"
 
 class JsonObject;
@@ -51,62 +50,6 @@ const std::unordered_set<std::string> complex_conds = { {
     }
 };
 } // namespace dialogue_data
-
-struct int_or_var {
-    cata::optional<int> int_val;
-    cata::optional<std::string> var_val;
-    cata::optional<int> default_val;
-    bool global = false;
-    int evaluate( talker *talk ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                return std::stoi( val );
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0;
-        }
-    }
-};
-
-struct duration_or_var {
-    cata::optional<time_duration> dur_val;
-    cata::optional<std::string> var_val;
-    cata::optional<time_duration> default_val;
-    bool global = false;
-    time_duration evaluate( talker *talk ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0_seconds;
-        }
-    }
-};
 
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value = true );

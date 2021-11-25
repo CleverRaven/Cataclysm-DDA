@@ -1,7 +1,7 @@
 #pragma once
 #ifndef CATA_SRC_GLOBAL_VARS_H
 #define CATA_SRC_GLOBAL_VARS_H
-
+#include "json.h"
 class global_variables
 {
 

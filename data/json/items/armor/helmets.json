@@ -505,8 +505,8 @@
       "armor": [
         {
           "material": [
-            { "type": "plastic", "portion_cover": 100, "thickness": 6.0 },
-            { "type": "nomex", "portion_cover": 100, "thickness": 6.0 }
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
           ],
           "covers": [ "head" ],
           "coverage": 100,
@@ -514,8 +514,8 @@
         },
         {
           "material": [
-            { "type": "plastic", "portion_cover": 100, "thickness": 6.0 },
-            { "type": "nomex", "portion_cover": 100, "thickness": 6.0 }
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
           ],
           "covers": [ "eyes" ],
           "coverage": 100,
@@ -523,8 +523,8 @@
         },
         {
           "material": [
-            { "type": "plastic", "portion_cover": 100, "thickness": 6.0 },
-            { "type": "nomex", "portion_cover": 100, "thickness": 6.0 }
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
           ],
           "covers": [ "mouth" ],
           "coverage": 100,
@@ -560,8 +560,8 @@
       "armor": [
         {
           "material": [
-            { "type": "plastic", "portion_cover": 100, "thickness": 6.0 },
-            { "type": "nomex", "portion_cover": 100, "thickness": 6.0 }
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
           ],
           "encumbrance": 25,
           "coverage": 100,

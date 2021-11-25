@@ -98,10 +98,15 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+
+static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
+static const mutation_category_id mutation_category_RAT( "RAT" );
+static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -112,7 +117,6 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
@@ -239,10 +243,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_id( "RAT" ) );
+            u.mutate_category( mutation_category_RAT );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
+            u.mutate_category( mutation_category_TROGLOBITE );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -1005,7 +1009,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_id( "MYCUS" ) );
+                    u.mutate_category( mutation_category_MYCUS );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
@@ -1018,7 +1022,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
         // People who can see while sleeping are acclimated to the light.
-        if( !u.has_trait( trait_SEESLEEP ) ) {
+        if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
@@ -1044,7 +1048,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 it.set_duration( 0_turns );
                 woke_up = true;
             }
-        } else if( u.has_active_mutation( trait_SEESLEEP ) ) {
+        } else if( u.has_flag( json_flag_SEESLEEP ) ) {
             Creature *hostile_critter = g->is_hostile_very_close();
             if( hostile_critter != nullptr ) {
                 u.add_msg_if_player( _( "You see %s approaching!" ),

@@ -42,6 +42,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
+#include "system_language.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
