@@ -9,7 +9,8 @@ Examples:
     %(prog)s --use-all ../CDDA-Tilesets/gfx/UltimateCataclysm/
 
 By default, output is written back to the source directory. Pass an output
-directory as the last argument to place output files there instead.
+directory as the last argument to place output files there instead. The
+output directory will be created if it does not already exist.
 '''
 
 import argparse
@@ -213,6 +214,7 @@ class Tileset:
         '''
         Convert a composing tileset into a package readable by the game
         '''
+        os.makedirs(self.output_dir, exist_ok=True)
         tileset_confpath = os.path.join(
             self.output_dir, self.determine_conffile())
         typed_sheets = {

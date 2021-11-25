@@ -32,7 +32,8 @@
       "D": "f_still",
       "s": "f_woodstove",
       "M": "f_wind_mill",
-      "e": "f_bookcase"
+      "e": "f_bookcase",
+      ";": "f_clear"
     }
   },
   {

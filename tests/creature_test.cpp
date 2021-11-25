@@ -14,6 +14,10 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const mtype_id mon_fish_trout( "mon_fish_trout" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+
 static float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
     { 36.57, 5.71,   .57,  0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 }
@@ -127,10 +131,10 @@ TEST_CASE( "body_part_sorting_main", "[bodypart]" )
 
 TEST_CASE( "mtype_species_test", "[monster]" )
 {
-    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie" ) ) );
-    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie_cop" ) ) );
-    CHECK( mtype_id( "mon_zombie_cop" )->same_species( *mtype_id( "mon_zombie" ) ) );
+    CHECK( mon_zombie->same_species( *mon_zombie ) );
+    CHECK( mon_zombie->same_species( *mon_zombie_cop ) );
+    CHECK( mon_zombie_cop->same_species( *mon_zombie ) );
 
-    CHECK_FALSE( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_fish_trout" ) ) );
-    CHECK_FALSE( mtype_id( "mon_fish_trout" )->same_species( *mtype_id( "mon_zombie" ) ) );
+    CHECK_FALSE( mon_zombie->same_species( *mon_fish_trout ) );
+    CHECK_FALSE( mon_fish_trout->same_species( *mon_zombie ) );
 }

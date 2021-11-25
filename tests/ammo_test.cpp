@@ -5,6 +5,17 @@
 #include "item.h"
 #include "type_id.h"
 
+static const ammotype ammo_762( "762" );
+static const ammotype ammo_9mm( "9mm" );
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_44army( "44army" );
+static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_fish_bait( "fish_bait" );
+static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_thread( "thread" );
+
 // Functions:
 // - item::ammo_types
 //
@@ -50,8 +61,8 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "large_storage_battery" ) ) );
 
         SECTION( "battery magazines include 'battery' ammo type" ) {
-            CHECK( item( "light_battery_cell" ).ammo_types().count( ammotype( "battery" ) ) == 1 );
-            CHECK( item( "battery_car" ).ammo_types().count( ammotype( "battery" ) ) == 1 );
+            CHECK( item( "light_battery_cell" ).ammo_types().count( ammo_battery ) == 1 );
+            CHECK( item( "battery_car" ).ammo_types().count( ammo_battery ) == 1 );
         }
 
         // Gun magazines
@@ -65,8 +76,8 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "glockmag" ) ) );
 
         SECTION( "gun magazines include ammo type for that magazine" ) {
-            CHECK( item( "glockmag" ).ammo_types().count( ammotype( "9mm" ) ) == 1 );
-            CHECK( item( "akmag10" ).ammo_types().count( ammotype( "762" ) ) == 1 );
+            CHECK( item( "glockmag" ).ammo_types().count( ammo_9mm ) == 1 );
+            CHECK( item( "akmag10" ).ammo_types().count( ammo_762 ) == 1 );
         }
     }
 
@@ -163,25 +174,25 @@ TEST_CASE( "ammo default", "[ammo][ammo_default]" )
         // MAGAZINE type items
         item battery( "light_battery_cell" );
         item glockmag( "glockmag" );
-        CHECK( battery.ammo_default() == itype_id( "battery" ) );
-        CHECK( glockmag.ammo_default() == itype_id( "9mm" ) );
+        CHECK( battery.ammo_default() == itype_battery );
+        CHECK( glockmag.ammo_default() == itype_9mm );
 
         // TOOL type items with integral magazines
         item sewing_kit( "sewing_kit" );
         item needle( "needle_bone" );
         item fishtrap( "fish_trap" );
-        CHECK( sewing_kit.ammo_default() == itype_id( "thread" ) );
-        CHECK( needle.ammo_default() == itype_id( "thread" ) );
-        CHECK( fishtrap.ammo_default() == itype_id( "fish_bait" ) );
+        CHECK( sewing_kit.ammo_default() == itype_thread );
+        CHECK( needle.ammo_default() == itype_thread );
+        CHECK( fishtrap.ammo_default() == itype_fish_bait );
 
         // GUN type items with integral magazine
         item slingshot( "slingshot" );
         item colt( "colt_army" );
         item lemat( "lemat_revolver" );
-        CHECK( slingshot.ammo_default() == itype_id( "pebble" ) );
+        CHECK( slingshot.ammo_default() == itype_pebble );
         // Revolver ammo is "44paper" but default ammunition type is "44army"
-        CHECK( colt.ammo_default() == itype_id( "44army" ) );
-        CHECK( lemat.ammo_default() == itype_id( "44army" ) );
+        CHECK( colt.ammo_default() == itype_44army );
+        CHECK( lemat.ammo_default() == itype_44army );
     }
 }
 

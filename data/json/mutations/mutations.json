@@ -1029,7 +1029,8 @@
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
     "cancels": [ "URSINE_EYE" ],
-    "category": [ "BEAST", "TROGLOBITE" ]
+    "category": [ "BEAST", "TROGLOBITE" ],
+    "flags": [ "MYOPIC" ]
   },
   {
     "type": "mutation",
@@ -1076,7 +1077,8 @@
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
     "valid": false,
-    "category": [ "BATRACHIAN" ]
+    "category": [ "BATRACHIAN" ],
+    "flags": [ "HYPEROPIC" ]
   },
   {
     "type": "mutation",
@@ -1250,9 +1252,9 @@
   {
     "type": "mutation",
     "id": "ANTIFRUIT",
-    "name": { "str": "Hates Fruit" },
+    "name": { "str": "Fructose Intolerance" },
     "points": -3,
-    "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
+    "description": "Eating fruits always causes your stomach to ache.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -1759,6 +1761,7 @@
       "MYOPIC"
     ],
     "category": [ "URSINE", "BATRACHIAN" ],
+    "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
     "starts_active": true
   },
@@ -3406,7 +3409,6 @@
     "points": 1,
     "visibility": 1,
     "description": "Your legs have gained muscle mass to propel you across any terrain.",
-    "types": [ "LEGS" ],
     "leads_to": [ "LEAPING_LEGS" ],
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
@@ -3419,7 +3421,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap from a standing position.",
     "spells_learned": [ [ "spell_short_leap", 1 ] ],
     "changes_to": [ "LEAPING_LEGS2" ],
@@ -3432,7 +3433,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
     "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
@@ -7013,7 +7013,7 @@
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
-    "flags": [ "EYE_MEMBRANE" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
   },
   {

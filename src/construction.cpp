@@ -69,25 +69,33 @@ static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const furn_str_id furn_f_console( "f_console" );
+static const furn_str_id furn_f_console_broken( "f_console_broken" );
+static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-
-static const quality_id qual_CUT( "CUT" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
+
+static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 
@@ -1280,8 +1288,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    static const vpart_id frame_id( "frame_vertical_2" );
-    return frame_id;
+    return vpart_frame_vertical_2;
 }
 
 void construct::done_vehicle( const tripoint &p )
@@ -1295,7 +1302,7 @@ void construct::done_vehicle( const tripoint &p )
     }
 
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
@@ -1313,7 +1320,7 @@ void construct::done_vehicle( const tripoint &p )
 void construct::done_appliance( const tripoint &p )
 {
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
@@ -1340,17 +1347,17 @@ void construct::done_deconstruct( const tripoint &p )
             return;
         }
         Character &player_character = get_player_character();
-        if( f.id.id() == furn_str_id( "f_console_broken" ) )  {
+        if( f.id.id() == furn_f_console_broken )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 20, 4 );
             }
         }
-        if( f.id.id() == furn_str_id( "f_console" ) )  {
+        if( f.id.id() == furn_f_console )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 40, 8 );
             }
         }
-        if( f.id.id() == furn_str_id( "f_machinery_electronic" ) )  {
+        if( f.id.id() == furn_f_machinery_electronic )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 40, 8 );
             }

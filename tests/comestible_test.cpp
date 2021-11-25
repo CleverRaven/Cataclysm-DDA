@@ -23,6 +23,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
+
 struct all_stats {
     statistics<int> calories;
 };
@@ -162,13 +164,12 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     // This test verifies that predicted calorie ranges properly take into
     // account the "RAW"/"COOKED" flags.
     const item veggy_wild_cooked( "veggy_wild_cooked" );
-    const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
     const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =
-        u.compute_nutrient_range( veggy_wild_cooked, veggy_wild_cooked_recipe );
+        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked );
 
     CHECK( default_nutrition.kcal() == predicted_nutrition.first.kcal() );
     CHECK( default_nutrition.kcal() == predicted_nutrition.second.kcal() );

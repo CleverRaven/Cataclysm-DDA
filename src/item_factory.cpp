@@ -63,6 +63,50 @@
 struct tripoint;
 template <typename T> struct enum_traits;
 
+static const ammotype ammo_NULL( "NULL" );
+
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+static const gun_mode_id gun_mode_MELEE( "MELEE" );
+
+static const item_category_id item_category_ammo( "ammo" );
+static const item_category_id item_category_bionics( "bionics" );
+static const item_category_id item_category_books( "books" );
+static const item_category_id item_category_clothing( "clothing" );
+static const item_category_id item_category_drugs( "drugs" );
+static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_guns( "guns" );
+static const item_category_id item_category_magazines( "magazines" );
+static const item_category_id item_category_mods( "mods" );
+static const item_category_id item_category_other( "other" );
+static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_weapons( "weapons" );
+
+static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const material_id material_bean( "bean" );
+static const material_id material_egg( "egg" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_fruit( "fruit" );
+static const material_id material_garlic( "garlic" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_honey( "honey" );
+static const material_id material_hydrocarbons( "hydrocarbons" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_junk( "junk" );
+static const material_id material_milk( "milk" );
+static const material_id material_mushroom( "mushroom" );
+static const material_id material_nut( "nut" );
+static const material_id material_oil( "oil" );
+static const material_id material_tomato( "tomato" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wheat( "wheat" );
+static const material_id material_wool( "wool" );
+
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+
 static item_blacklist_t item_blacklist;
 
 static DynamicDataLoader::deferred_json deferred;
@@ -272,8 +316,8 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         const auto &mats = obj.materials;
-        if( mats.find( material_id( "hydrocarbons" ) ) == mats.end() &&
-            mats.find( material_id( "oil" ) ) == mats.end() ) {
+        if( mats.find( material_hydrocarbons ) == mats.end() &&
+            mats.find( material_oil ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
@@ -438,7 +482,7 @@ void Item_factory::finalize_pre( itype &obj )
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return to_translation( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
+            } else if( obj.gun->skill_used == skill_pistol && obj.has_flag( flag_RELOAD_ONE ) ) {
                 return to_translation( "revolver" );
             } else {
                 return to_translation( "semi-auto" );
@@ -446,21 +490,21 @@ void Item_factory::finalize_pre( itype &obj )
         };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
+        obj.gun->modes.emplace( gun_mode_DEFAULT,
                                 gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
         if( obj.has_flag( flag_REACH_ATTACK ) ) {
-            obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
+            obj.gun->modes.emplace( gun_mode_MELEE,
                                     gun_modifier_data( to_translation( "melee" ), 1,
             { "MELEE" } ) );
         }
 
         if( obj.gun->handling < 0 ) {
             // TODO: specify in JSON via classes
-            if( obj.gun->skill_used == skill_id( "rifle" ) ||
-                obj.gun->skill_used == skill_id( "smg" ) ||
-                obj.gun->skill_used == skill_id( "shotgun" ) ) {
+            if( obj.gun->skill_used == skill_rifle ||
+                obj.gun->skill_used == skill_smg ||
+                obj.gun->skill_used == skill_shotgun ) {
                 obj.gun->handling = 20;
             } else {
                 obj.gun->handling = 10;
@@ -615,6 +659,26 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
+            }
+            // if sub coverage is empty we should add all coverage to the item
+            if( !data.sub_coverage.empty() ) {
+                obj.armor->has_sub_coverage = true;
+            }
+            // Precalc average thickness per portion
+            int data_count = 0;
+            float thic_acc = 0.0f;
+            for( part_material &m : data.materials ) {
+                thic_acc += m.thickness * m.cover / 100.0f;
+                data_count++;
+            }
+            if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
+                data.avg_thickness = thic_acc;
+            }
+        }
+        for( const pocket_data &pocket : obj.pockets ) {
+            if( pocket.ablative ) {
+                obj.armor->ablative = true;
+                break;
             }
         }
     }
@@ -1104,6 +1168,7 @@ void Item_factory::init()
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
+    add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
@@ -1187,7 +1252,7 @@ void Item_factory::init()
     add_actor( std::make_unique<effect_on_conditons_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups[item_group_id( "EMPTY_GROUP" )] =
+    m_template_groups[Item_spawn_data_EMPTY_GROUP] =
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
 
@@ -1285,6 +1350,9 @@ void Item_factory::check_definitions() const
                             observed_bps.insert( bp );
                         }
                     }
+                }
+                if( portion.coverage == 0 && ( portion.cover_melee > 0 || portion.cover_ranged > 0 ) ) {
+                    msg += "base \"coverage\" value not specified in armor portion despite using \"cover_melee\"/\"cover_ranged\"\n";
                 }
             }
         }
@@ -1424,7 +1492,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
+            if( !type->ammo->type && type->ammo->type != ammo_NULL ) {
                 msg += "must define at least one ammo type\n";
             }
             check_ammo_type( msg, type->ammo->type );
@@ -2009,6 +2077,16 @@ std::string enum_to_string<layer_level>( layer_level data )
 }
 } // namespace io
 
+void part_material::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", id );
+    optional( jo, false, "covered_by_mat", cover, 100 );
+    if( cover < 1 || cover > 100 ) {
+        jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
+    }
+    optional( jo, false, "thickness", thickness, 0.0f );
+}
+
 void armor_portion_data::deserialize( const JsonObject &jo )
 {
     assign_coverage_from_json( jo, "covers", covers );
@@ -2016,6 +2094,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
+    optional( jo, false, "specifically_covers", sub_coverage );
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
@@ -2023,12 +2102,22 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     } else {
         optional( jo, false, "encumbrance", encumber, 0 );
     }
-    optional( jo, false, "material_thickness", thickness, 0.0f );
+    optional( jo, false, "material_thickness", avg_thickness, 0.0f );
     optional( jo, false, "environmental_protection", env_resist, 0 );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, 0 );
 
     // TODO: Make mandatory - once we remove the old loading below
-    optional( jo, false, "material", materials );
+    if( jo.has_member( "material" ) ) {
+        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
+            mandatory( jo, false, "material", materials );
+        } else {
+            // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
+            // TODO: Depricate and remove
+            for( const std::string &mat : jo.get_tags( "material" ) ) {
+                materials.emplace_back( mat, 100, 0.0f );
+            }
+        }
+    }
 }
 
 template<typename T>
@@ -2046,31 +2135,17 @@ void islot_armor::load( const JsonObject &jo )
     cata::optional<float> thickness;
     cata::optional<int> env_resist;
     cata::optional<int> env_resist_w_filter;
-    cata::optional<std::vector<material_id>> materials;
     cata::optional<body_part_set> covers;
 
-    bool all_data_have_material = true;
-    if( jo.has_member( "armor" ) ) {
-        for( JsonObject armor_jo : jo.get_array( "armor" ) ) {
-            armor_jo.allow_omitted_members();
-            if( !armor_jo.has_member( "material" ) ) {
-                all_data_have_material = false;
-            }
-        }
-    }
-    if( !all_data_have_material ) {
-        mandatory( jo, false, "material", materials );
-    }
     assign_coverage_from_json( jo, "covers", covers );
     optional( jo, false, "material_thickness", thickness, cata::nullopt );
     optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
 
     for( armor_portion_data &armor : data ) {
-        apply_optional( armor.thickness, thickness );
+        apply_optional( armor.avg_thickness, thickness );
         apply_optional( armor.env_resist, env_resist );
         apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
-        apply_optional( armor.materials, materials );
         if( covers ) {
             armor.covers = covers;
         }
@@ -2079,6 +2154,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
+    optional( jo, false, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
               mass_reader{}, 0_gram );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
@@ -2314,7 +2390,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             specific_heat_liquid += m->specific_heat_liquid() * portion;
             latent_heat += m->latent_heat() * portion;
             mat_total += portion;
-            is_not_boring = is_not_boring || m == material_id( "junk" );
+            is_not_boring = is_not_boring || m == material_junk;
         };
 
         if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
@@ -2584,31 +2660,31 @@ void Item_factory::set_allergy_flags( itype &item_template )
     static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
-        { material_id( "hflesh" ), flag_CANNIBALISM },
+        { material_hflesh, flag_CANNIBALISM },
 
-        { material_id( "hflesh" ), flag_ALLERGEN_MEAT },
-        { material_id( "iflesh" ), flag_ALLERGEN_MEAT },
-        { material_id( "flesh" ), flag_ALLERGEN_MEAT },
-        { material_id( "wheat" ), flag_ALLERGEN_WHEAT },
-        { material_id( "fruit" ), flag_ALLERGEN_FRUIT },
-        { material_id( "veggy" ), flag_ALLERGEN_VEGGY },
-        { material_id( "bean" ), flag_ALLERGEN_VEGGY },
-        { material_id( "tomato" ), flag_ALLERGEN_VEGGY },
-        { material_id( "garlic" ), flag_ALLERGEN_VEGGY },
-        { material_id( "nut" ), flag_ALLERGEN_NUT },
-        { material_id( "mushroom" ), flag_ALLERGEN_VEGGY },
-        { material_id( "milk" ), flag_ALLERGEN_MILK },
-        { material_id( "egg" ), flag_ALLERGEN_EGG },
-        { material_id( "junk" ), flag_ALLERGEN_JUNK },
+        { material_hflesh, flag_ALLERGEN_MEAT },
+        { material_iflesh, flag_ALLERGEN_MEAT },
+        { material_flesh, flag_ALLERGEN_MEAT },
+        { material_wheat, flag_ALLERGEN_WHEAT },
+        { material_fruit, flag_ALLERGEN_FRUIT },
+        { material_veggy, flag_ALLERGEN_VEGGY },
+        { material_bean, flag_ALLERGEN_VEGGY },
+        { material_tomato, flag_ALLERGEN_VEGGY },
+        { material_garlic, flag_ALLERGEN_VEGGY },
+        { material_nut, flag_ALLERGEN_NUT },
+        { material_mushroom, flag_ALLERGEN_VEGGY },
+        { material_milk, flag_ALLERGEN_MILK },
+        { material_egg, flag_ALLERGEN_EGG },
+        { material_junk, flag_ALLERGEN_JUNK },
         // Not food, but we can keep it here
-        { material_id( "wool" ), flag_ALLERGEN_WOOL },
+        { material_wool, flag_ALLERGEN_WOOL },
         // Now "made of". Those flags should not be passed
-        { material_id( "flesh" ), flag_CARNIVORE_OK },
-        { material_id( "hflesh" ), flag_CARNIVORE_OK },
-        { material_id( "iflesh" ), flag_CARNIVORE_OK },
-        { material_id( "milk" ), flag_CARNIVORE_OK },
-        { material_id( "egg" ), flag_CARNIVORE_OK },
-        { material_id( "honey" ), flag_URSINE_HONEY }
+        { material_flesh, flag_CARNIVORE_OK },
+        { material_hflesh, flag_CARNIVORE_OK },
+        { material_iflesh, flag_CARNIVORE_OK },
+        { material_milk, flag_CARNIVORE_OK },
+        { material_egg, flag_CARNIVORE_OK },
+        { material_honey, flag_URSINE_HONEY }
     };
 
     const auto &mats = item_template.materials;
@@ -2627,7 +2703,7 @@ void hflesh_to_flesh( itype &item_template )
     const size_t old_size = mats.size();
     int ports = 0;
     for( auto mat = mats.begin(); mat != mats.end(); ) {
-        if( mat->first == material_id( "hflesh" ) ) {
+        if( mat->first == material_hflesh ) {
             ports += mat->second;
             mat = mats.erase( mat );
         } else {
@@ -2636,7 +2712,7 @@ void hflesh_to_flesh( itype &item_template )
     }
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        mats.find( material_id( "flesh" ) ) == mats.end() ) {
+        mats.find( material_flesh ) == mats.end() ) {
         mats.emplace( "flesh", ports );
     }
 }
@@ -2689,12 +2765,17 @@ static bool has_only_special_pockets( const itype &def )
     if( def.pockets.empty() ) {
         return true;
     }
-    if( def.pockets.size() != 3 ) {
-        return false;
+
+    const std::vector<item_pocket::pocket_type> special_pockets = { item_pocket::pocket_type::CORPSE, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MIGRATION };
+
+    for( const pocket_data &pocket : def.pockets ) {
+        if( std::find( special_pockets.begin(), special_pockets.end(),
+                       pocket.type ) == special_pockets.end() ) {
+            return false;
+        }
     }
-    return has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) &&
-           has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) &&
-           has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION );
+
+    return true;
 }
 
 void Item_factory::check_and_create_magazine_pockets( itype &def )
@@ -2780,10 +2861,11 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
 
 void Item_factory::add_special_pockets( itype &def )
 {
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
+    if( def.has_flag( flag_CORPSE ) &&
+        !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::CORPSE );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
+    if( ( def.tool || def.gun ) && !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::MOD );
     }
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
@@ -3007,7 +3089,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
-    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<std::string> {} );
+    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
 
     if( jo.has_member( "damage_states" ) ) {
         JsonArray arr = jo.get_array( "damage_states" );
@@ -3059,6 +3141,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
+        def.mats_ordered.clear();
+        def.mat_portion_total = 0;
         auto add_mat = [&def]( const material_id & m, int portion ) {
             const auto res = def.materials.emplace( m, portion );
             if( res.second ) {
@@ -3932,39 +4016,39 @@ std::string enum_to_string<phase_id>( phase_id data )
 item_category_id calc_category( const itype &obj )
 {
     if( obj.gun && !obj.gunmod ) {
-        return item_category_id( "guns" );
+        return item_category_guns;
     }
     if( obj.magazine ) {
-        return item_category_id( "magazines" );
+        return item_category_magazines;
     }
     if( obj.ammo ) {
-        return item_category_id( "ammo" );
+        return item_category_ammo;
     }
     if( obj.tool ) {
-        return item_category_id( "tools" );
+        return item_category_tools;
     }
     if( obj.armor ) {
-        return item_category_id( "clothing" );
+        return item_category_clothing;
     }
     if( obj.comestible ) {
         return obj.comestible->comesttype == "MED" ?
-               item_category_id( "drugs" ) : item_category_id( "food" );
+               item_category_drugs : item_category_food;
     }
     if( obj.book ) {
-        return item_category_id( "books" );
+        return item_category_books;
     }
     if( obj.gunmod ) {
-        return item_category_id( "mods" );
+        return item_category_mods;
     }
     if( obj.bionic ) {
-        return item_category_id( "bionics" );
+        return item_category_bionics;
     }
 
     bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
         return qty > MELEE_STAT;
     } );
 
-    return weap ? item_category_id( "weapons" ) : item_category_id( "other" );
+    return weap ? item_category_weapons : item_category_other;
 }
 
 std::vector<item_group_id> Item_factory::get_all_group_names()

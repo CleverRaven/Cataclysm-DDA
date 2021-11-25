@@ -386,6 +386,7 @@ void DynamicDataLoader::initialize()
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
+    add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
@@ -433,6 +434,7 @@ void DynamicDataLoader::initialize()
         mission_type::load_mission_type( jo, src );
     } );
     add( "butchery_requirement", &butchery_requirements::load_butchery_req );
+    add( "harvest_drop_type", &harvest_drop_type::load_harvest_drop_types );
     add( "harvest", &harvest_list::load_harvest_list );
     add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster_attack( jo, src );
@@ -440,6 +442,7 @@ void DynamicDataLoader::initialize()
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
     add( "body_part", &body_part_type::load_bp );
+    add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -533,6 +536,8 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
     behavior::reset();
     body_part_type::reset();
+    sub_body_part_type::reset();
+    weapon_category::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
@@ -547,6 +552,7 @@ void DynamicDataLoader::unload_data()
     fault::reset();
     field_types::reset();
     gates::reset();
+    harvest_drop_type::reset();
     harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
@@ -633,6 +639,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },

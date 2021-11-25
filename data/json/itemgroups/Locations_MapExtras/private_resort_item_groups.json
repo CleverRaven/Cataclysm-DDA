@@ -8,6 +8,7 @@
       { "group": "female_underwear_bottom" },
       { "group": "private_resort_dancer_fancy", "prob": 50 },
       { "item": "stockings", "prob": 60 },
+      { "item": "garter_belt", "prob": 60 },
       { "item": "nanoskirt", "prob": 80 },
       { "group": "accesories_personal_womens", "prob": 40 },
       { "item": "bondage_mask", "prob": 5 },

@@ -35,22 +35,31 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
+static const item_group_id Item_spawn_data_cannedfood( "cannedfood" );
+static const item_group_id Item_spawn_data_cavern( "cavern" );
+static const item_group_id Item_spawn_data_field( "field" );
+static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
+static const item_group_id Item_spawn_data_hive( "hive" );
+static const item_group_id Item_spawn_data_hive_center( "hive_center" );
+static const item_group_id Item_spawn_data_road( "road" );
+static const item_group_id Item_spawn_data_sewer( "sewer" );
+static const item_group_id Item_spawn_data_wreckage( "wreckage" );
+
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
+
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const npc_template_id npc_template_apis( "apis" );
 
 static const oter_str_id oter_cavern( "cavern" );
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
-static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_hiway_ew( "hiway_ew" );
-static const oter_str_id oter_hive( "hive" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
 static const oter_str_id oter_forest_trail_end_west( "forest_trail_end_west" );
@@ -61,10 +70,13 @@ static const oter_str_id oter_forest_trail_new( "forest_trail_new" );
 static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
 static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
 static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
+static const oter_str_id oter_hellmouth( "hellmouth" );
+static const oter_str_id oter_hive( "hive" );
+static const oter_str_id oter_hiway_ew( "hiway_ew" );
 static const oter_str_id oter_rift( "rift" );
+static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
 static const oter_str_id oter_river_c_not_sw( "river_c_not_sw" );
-static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_center( "river_center" );
 static const oter_str_id oter_river_east( "river_east" );
 static const oter_str_id oter_river_nw( "river_nw" );
@@ -83,10 +95,15 @@ static const oter_str_id oter_sewer_sw( "sewer_sw" );
 static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_subway_ns( "subway_ns" );
 static const oter_str_id oter_subway_ew( "subway_ew" );
+static const oter_str_id oter_subway_ns( "subway_ns" );
 
 static const oter_type_str_id oter_type_railroad( "railroad" );
+
+static const ter_str_id ter_t_soil( "t_soil" );
+
+static const vspawn_id VehicleSpawn_default_highway( "default_highway" );
+static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
 class npc_template;
 
@@ -237,7 +254,7 @@ void mapgen_crater( mapgendata &dat )
             }
         }
     }
-    m->place_items( item_group_id( "wreckage" ), 83, point_zero,
+    m->place_items( Item_spawn_data_wreckage, 83, point_zero,
                     point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
@@ -285,7 +302,7 @@ void mapgen_field( mapgendata &dat )
     }
 
     // FIXME: take 'rock' out and add as regional biome setting
-    m->place_items( item_group_id( "field" ), 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_field, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
 }
 
@@ -436,10 +453,10 @@ void mapgen_hive( mapgendata &dat )
                 }
 
                 if( is_center ) {
-                    m->place_items( item_group_id( "hive_center" ), 90, point( i - 2, j - 2 ),
+                    m->place_items( Item_spawn_data_hive_center, 90, point( i - 2, j - 2 ),
                                     point( i + 2, j + 2 ), false, dat.when() );
                 } else {
-                    m->place_items( item_group_id( "hive" ), 80, point( i - 2, j - 2 ),
+                    m->place_items( Item_spawn_data_hive, 80, point( i - 2, j - 2 ),
                                     point( i + 2, j + 2 ), false, dat.when() );
                 }
             }
@@ -447,7 +464,7 @@ void mapgen_hive( mapgendata &dat )
     }
 
     if( is_center ) {
-        m->place_npc( point( SEEX, SEEY ), string_id<npc_template>( "apis" ) );
+        m->place_npc( point( SEEX, SEEY ), npc_template_apis );
     }
 }
 
@@ -1334,7 +1351,7 @@ void mapgen_subway( mapgendata &dat )
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
-            VehicleSpawn::apply( vspawn_id( "default_subway_deadend" ), *m, "subway" );
+            VehicleSpawn::apply( VehicleSpawn_default_subway_deadend, *m, "subway" );
             break;
     }
 
@@ -1344,18 +1361,17 @@ void mapgen_subway( mapgendata &dat )
 
 void mapgen_sewer_straight( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_ew ) {
         m->rotate( 1 );
@@ -1364,18 +1380,17 @@ void mapgen_sewer_straight( mapgendata &dat )
 
 void mapgen_sewer_curved( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_es ) {
         m->rotate( 1 );
@@ -1390,18 +1405,17 @@ void mapgen_sewer_curved( mapgendata &dat )
 
 void mapgen_sewer_tee( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_esw ) {
         m->rotate( 1 );
@@ -1416,13 +1430,12 @@ void mapgen_sewer_tee( mapgendata &dat )
 
 void mapgen_sewer_four_way( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     int rn = rng( 0, 3 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
@@ -1437,7 +1450,7 @@ void mapgen_sewer_four_way( mapgendata &dat )
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
 }
 
@@ -1461,12 +1474,12 @@ void mapgen_highway( mapgendata &dat )
     }
 
     // spawn regular road out of fuel vehicles
-    VehicleSpawn::apply( vspawn_id( "default_highway" ), *m, "highway" );
+    VehicleSpawn::apply( VehicleSpawn_default_highway, *m, "highway" );
 
     if( dat.terrain_type() == oter_hiway_ew ) {
         m->rotate( 1 );
     }
-    m->place_items( item_group_id( "road" ), 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
+    m->place_items( Item_spawn_data_road, 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                     false, dat.when() );
 }
 
@@ -1982,7 +1995,7 @@ void mapgen_cavern( mapgendata &dat )
             }
         }
     }
-    m->place_items( item_group_id( "cavern" ), 60, point_zero,
+    m->place_items( Item_spawn_data_cavern, 60, point_zero,
                     point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
     if( one_in( 6 ) ) { // Miner remains
         point p2;
@@ -2001,7 +2014,7 @@ void mapgen_cavern( mapgendata &dat )
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( item_group_id( "cannedfood" ),
+                m->put_items_from_loc( Item_spawn_data_cannedfood,
                                        tripoint( p2, m->get_abs_sub().z ), dat.when() );
             }
         }
@@ -2481,7 +2494,7 @@ void mapgen_forest_trail_straight( mapgendata &dat )
         m->rotate( 1 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2525,7 +2538,7 @@ void mapgen_forest_trail_curved( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2568,7 +2581,7 @@ void mapgen_forest_trail_tee( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2601,7 +2614,7 @@ void mapgen_forest_trail_four_way( mapgendata &dat )
         }
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
