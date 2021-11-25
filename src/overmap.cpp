@@ -68,10 +68,8 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
-static const oter_str_id oter_cavern( "cavern" );
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
-static const oter_str_id oter_central_lab_stairs( "central_lab_stairs" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_field( "field" );
@@ -80,15 +78,12 @@ static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_water( "forest_water" );
 static const oter_str_id oter_ice_lab( "ice_lab" );
 static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
-static const oter_str_id oter_ice_lab_stairs( "ice_lab_stairs" );
 static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
 static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
-static const oter_str_id oter_lab_stairs( "lab_stairs" );
 static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
 static const oter_str_id oter_mine( "mine" );
-static const oter_str_id oter_mine_down( "mine_down" );
 static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_river_c_not_ne( "river_c_not_ne" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -107,18 +102,31 @@ static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
 static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
-static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
-static const oter_str_id oter_slimepit_down( "slimepit_down" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
 static const oter_str_id oter_subway_end_north( "subway_end_north" );
 static const oter_str_id oter_subway_isolated( "subway_isolated" );
 static const oter_str_id oter_underground_sub_station( "underground_sub_station" );
 
 static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
-
 static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_central_lab_core( "central_lab_core" );
+static const oter_type_str_id oter_type_central_lab_stairs( "central_lab_stairs" );
+static const oter_type_str_id oter_type_empty_rock( "empty_rock" );
+static const oter_type_str_id oter_type_field( "field" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_ice_lab_core( "ice_lab_core" );
+static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
+static const oter_type_str_id oter_type_lab_core( "lab_core" );
+static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
+static const oter_type_str_id oter_type_mine_down( "mine_down" );
 static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_type_str_id oter_type_slimepit_bottom( "slimepit_bottom" );
+static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
+static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
 static const oter_type_str_id oter_type_sub_station( "sub_station" );
 
 static const overmap_connection_id overmap_connection_forest_trail( "forest_trail" );
@@ -3099,7 +3107,7 @@ void overmap::generate( const overmap *north, const overmap *east,
 
 bool overmap::generate_sub( const int z )
 {
-    assert( z < 0 );
+    cata_assert( z < 0 );
 
     bool requires_sub = false;
     std::vector<point_om_omt> subway_points;
@@ -3121,31 +3129,31 @@ bool overmap::generate_sub( const int z )
 
     std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>>
     oter_above_actions = {
-        { oter_type_str_id( "empty_rock" ).id(), []( const tripoint_om_omt & ) {} },
-        { oter_type_str_id( "forest" ).id(), []( const tripoint_om_omt & ) {} },
-        { oter_type_str_id( "field" ).id(), []( const tripoint_om_omt & ) {} },
-        { oter_type_str_id( "forest_water" ).id(), []( const tripoint_om_omt & ) {} },
-        { oter_type_str_id( "forest_thick" ).id(), []( const tripoint_om_omt & ) {} },
-        { oter_type_str_id( "solid_earth" ).id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_empty_rock.id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_forest.id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_field.id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_forest_water.id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_forest_thick.id(), []( const tripoint_om_omt & ) {} },
+        { oter_type_solid_earth.id(), []( const tripoint_om_omt & ) {} },
         {
-            oter_type_str_id( "road_nesw_manhole" ).id(),
+            oter_type_road_nesw_manhole.id(),
             [&]( const tripoint_om_omt & p )
             {
                 ter_set( p, oter_sewer_isolated.id() );
                 sewer_points.emplace_back( p.xy() );
             }
         },
-        { oter_type_str_id( "slimepit_down" ).id(), add_goo_point },
-        { oter_type_str_id( "slimepit_bottom" ).id(), add_goo_point },
+        { oter_type_slimepit_down.id(), add_goo_point },
+        { oter_type_slimepit_bottom.id(), add_goo_point },
         {
-            oter_type_str_id( "lab_core" ).id(),
+            oter_type_lab_core.id(),
             [&]( const tripoint_om_omt & p )
             {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             }
         },
         {
-            oter_type_str_id( "lab_stairs" ).id(),
+            oter_type_lab_stairs.id(),
             [&]( const tripoint_om_omt & p )
             {
                 if( z == -1 ) {
@@ -3156,14 +3164,14 @@ bool overmap::generate_sub( const int z )
             }
         },
         {
-            oter_type_str_id( "ice_lab_core" ).id(),
+            oter_type_ice_lab_core.id(),
             [&]( const tripoint_om_omt & p )
             {
                 ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             }
         },
         {
-            oter_type_str_id( "ice_lab_stairs" ).id(),
+            oter_type_ice_lab_stairs.id(),
             [&]( const tripoint_om_omt & p )
             {
                 if( z == -1 ) {
@@ -3174,21 +3182,21 @@ bool overmap::generate_sub( const int z )
             }
         },
         {
-            oter_type_str_id( "central_lab_core" ).id(),
+            oter_type_central_lab_core.id(),
             [&]( const tripoint_om_omt & p )
             {
                 central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
             }
         },
         {
-            oter_type_str_id( "central_lab_stairs" ).id(),
+            oter_type_central_lab_stairs.id(),
             [&]( const tripoint_om_omt & p )
             {
                 ter_set( p, oter_central_lab.id() );
             }
         },
         {
-            oter_type_str_id( "mine_down" ).id(),
+            oter_type_mine_down.id(),
             [&]( const tripoint_om_omt & p )
             {
                 ter_set( p, oter_mine.id() );
