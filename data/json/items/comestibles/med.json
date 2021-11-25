@@ -572,7 +572,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "alcohol wipes" },
-    "description": "A type of wipes commonly used for treating contaminated wounds.",
+    "description": "A type of wet wipe saturated with alcohol and stored in a sterile package.  Commonly used for personal hygiene or disinfecting small wounds.",
     "weight": "5 g",
     "volume": "25 ml",
     "price": 400,
