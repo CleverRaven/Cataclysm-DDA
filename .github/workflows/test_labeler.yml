@@ -1,0 +1,45 @@
+on:
+  workflow_run:
+    workflows: ["astyle", "JSON Validation", "Basic Build and Test (GCC 9, Curses, LTO)"]
+    types: [completed]
+
+jobs:
+  labeling:
+    runs-on: ubuntu-latest
+    steps:
+    - name: dumpEvent
+      run: |
+          echo "${{ toJSON( github ) }}"
+    - name: setLabel
+      run: |
+        if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
+          echo "::set-output name=label::astyled"
+        fi
+        if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
+          echo "::set-output name=label::json-styled"
+        fi
+        if [[ "${{ github.event.workflow_run.name }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
+          echo "::set-output name=label::BasicBuildPassed"
+        fi
+    - name: set-label
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+            github.rest.issues.addLabels({
+              issue_number: ${{ github.ref }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['${{ steps.setLabel.outputs.label }}']
+            })
+    - name: remove-label
+      if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+            github.rest.issues.removeLabel({
+              issue_number: ${{ github.ref }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: '${{ steps.setLabel.outputs.label }}'
+            })

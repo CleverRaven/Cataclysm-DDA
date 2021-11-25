@@ -2444,7 +2444,7 @@ class jmapgen_terrain : public jmapgen_piece
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
-                dat.m.furn_set( point( x.get(), y.get() ), f_null );
+                dat.m.furn_clear( point( x.get(), y.get() ) );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
                 if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );

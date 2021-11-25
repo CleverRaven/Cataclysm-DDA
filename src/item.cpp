@@ -922,7 +922,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
                 continue;
             }
             for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
-                if( bpid->part_side == s ) {
+                if( bpid->part_side == s || bpid->part_side == side::BOTH ) {
                     cb( bpid );
                 }
             }
@@ -998,6 +998,12 @@ bool item::set_side( side s )
 bool item::swap_side()
 {
     return set_side( opposite_side( get_side() ) );
+}
+
+bool item::is_ablative() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ablative : false;
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -1937,7 +1943,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "BASE", _( "Length: " ),
                            string_format( "<num> %s", length_units( length() ) ),
                            iteminfo::lower_is_better,
-                           convert_length( length() ) );
+                           convert_length( length() ), length().value() );
     }
     if( parts->test( iteminfo_parts::BASE_OWNER ) && !owner.is_null() ) {
         info.emplace_back( "BASE", string_format( _( "Owner: %s" ),
@@ -3088,30 +3094,33 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 }
                 if( piece.second.active ) {
                     const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
-                    info.emplace_back( "ARMOR",
-                                       string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                    const std::string bp_name = piece.second.to_display.translated();
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+                    info.emplace_back( bp_cat,
+                                       string_format( _( "%s:" ), bp_name ) + space, "",
                                        ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
                     if( has_max ) {
-                        info.emplace_back( "ARMOR", when_full_message, "",
+                        info.emplace_back( bp_cat, when_full_message, "",
                                            iteminfo::no_flags | iteminfo::lower_is_better,
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s", _( "Coverage:" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.coverage );
                     //~ (M)elee coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(M):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_melee );
                     //~ (R)anged coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(R):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_ranged );
                     //~ (V)itals coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(V):" ), space ), "",
                                        iteminfo::no_flags,
                                        piece.second.portion.cover_vitals );
                 }
@@ -4375,7 +4384,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+            info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
                                iteminfo::lower_is_better, attack_time() );
 
         }
@@ -4489,7 +4498,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "<num>",
+            info.emplace_back( "BASE", _( "Adjusted moves per attack: " ), "<num>",
                                iteminfo::lower_is_better, attack_cost );
         }
         insert_separation_line( info );
@@ -6763,6 +6772,21 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
+
+        // add the encumbrance values of any ablative plates
+        if( is_ablative() ) {
+            for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+                if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                    // get the contained plate
+                    const item &ablative_armor = pocket->front();
+
+                    if( const armor_portion_data *ablative_portion_data = ablative_armor.portion_for_bodypart(
+                                bodypart ) ) {
+                        encumber += ablative_portion_data->encumber;
+                    }
+                }
+            }
+        }
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -10243,7 +10267,7 @@ const item_category &item::get_category_of_contents() const
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
-                    flags Flags, double Value )
+                    flags Flags, double Value, double UnitVal )
 {
     sType = Type;
     sName = replace_colors( Name );
@@ -10251,6 +10275,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     is_int = !( Flags & is_decimal || Flags & is_three_decimal );
     three_decimal = ( Flags & is_three_decimal );
     dValue = Value;
+    dUnitAdjustedVal = UnitVal < std::numeric_limits<float>::epsilon() &&
+                       UnitVal > -std::numeric_limits<float>::epsilon() ? Value : UnitVal;
     bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
     if( bShowPlus ) {
@@ -10275,8 +10301,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flag
 {
 }
 
-iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value )
-    : iteminfo( Type, Name, "", no_flags, Value )
+iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal )
+    : iteminfo( Type, Name, "", no_flags, Value, UnitVal )
 {
 }
 

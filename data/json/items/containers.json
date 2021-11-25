@@ -31,11 +31,12 @@
           "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 4,
           "coverage": 10,
-          "covers": [ "torso" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
         }
       ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -921,11 +922,12 @@
           "encumbrance": 2,
           "coverage": 5,
           "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
           "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
         }
       ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -1229,12 +1231,13 @@
         {
           "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
           "coverage": 2,
-          "covers": [ "leg_l", "leg_r" ]
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
         }
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1563,11 +1566,12 @@
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 5,
           "coverage": 5,
-          "covers": [ "torso" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
         }
       ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1625,11 +1629,12 @@
         {
           "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
           "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ]
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
         }
       ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1661,11 +1666,12 @@
         {
           "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
           "coverage": 10,
-          "covers": [ "torso" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
         }
       ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",

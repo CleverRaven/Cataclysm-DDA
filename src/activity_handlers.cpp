@@ -193,6 +193,12 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+static const harvest_drop_type_id harvest_drop_bone( "bone" );
+static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
+static const harvest_drop_type_id harvest_drop_offal( "offal" );
+static const harvest_drop_type_id harvest_drop_skin( "skin" );
+
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
 static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
 static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
@@ -219,7 +225,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
@@ -396,7 +401,7 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
     return false;
 }
 
-static bool check_butcher_cbm( const int roll )
+static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -409,16 +414,17 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<flag_id> &flags,
-                              const std::vector<fault_id> &faults )
+static bool butcher_dissect_item( const itype_id &what, const tripoint &pos,
+                                  const time_point &age, const int roll, const std::vector<flag_id> &flags,
+                                  const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
-        return;
+        return false;
     }
+    bool success = check_butcher_dissect( roll );
     map &here = get_map();
     if( item::find_type( what )->bionic ) {
-        item cbm( check_butcher_cbm( roll ) ? what : itype_burnt_out_bionic, age );
+        item cbm( success ? what : itype_burnt_out_bionic, age );
         for( const flag_id &flg : flags ) {
             cbm.set_flag( flg );
         }
@@ -427,7 +433,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
         }
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         here.add_item( pos, cbm );
-    } else if( check_butcher_cbm( roll ) ) {
+    } else if( success ) {
         item something( what, age );
         for( const flag_id &flg : flags ) {
             something.set_flag( flg );
@@ -437,22 +443,22 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
         }
         add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         here.add_item( pos, something );
-    } else {
-        add_msg( m_bad, _( "You discover only damaged organs." ) );
     }
+    return success;
 }
 
-static void butcher_cbm_group(
+static bool butcher_dissect_group(
     const item_group_id &group, const tripoint &pos, const time_point &age, const int roll,
     const std::vector<flag_id> &flags, const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
-        return;
+        return false;
     }
-
+    bool success = check_butcher_dissect( roll );
     map &here = get_map();
+    const std::set<const itype *> &gr_it = item_group::every_possible_item_from( group );
     //To see if it spawns a random additional CBM
-    if( check_butcher_cbm( roll ) ) {
+    if( success ) {
         //The CBM works
         const std::vector<item *> spawned = here.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
@@ -464,7 +470,9 @@ static void butcher_cbm_group(
             }
             add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
-    } else {
+    } else if( std::any_of( gr_it.begin(), gr_it.end(), []( const itype * it ) {
+    return !!it->bionic;
+} ) ) {
         //There is a burnt out CBM
         item cbm( itype_burnt_out_bionic, age );
         for( const flag_id &flg : flags ) {
@@ -476,6 +484,7 @@ static void butcher_cbm_group(
         add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         here.add_item( pos, cbm );
     }
+    return success;
 }
 
 static void set_up_butchery( player_activity &act, Character &you, butcher_type action )
@@ -588,7 +597,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
         if( !( corpse_item.has_flag( flag_FIELD_DRESS ) ||
                corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
-            corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
+            corpse_item.get_mtype()->harvest->has_entry_type( harvest_drop_offal ) ) {
             you.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                    corpse.nname() );
             act.targets.pop_back();
@@ -711,7 +720,8 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static int corpse_damage_effect( int weight, const harvest_drop_type_id &entry_type,
+                                 int damage_level )
 {
     const float slight_damage = 0.9f;
     const float damage = 0.75f;
@@ -721,43 +731,43 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
     switch( damage_level ) {
         case 2:
             // "damaged"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * slight_damage );
             }
             break;
         case 3:
             // "mangled"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return destroyed;
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return std::round( weight * high_damage );
             }
-            if( entry_type == "bone" ) {
+            if( entry_type == harvest_drop_bone ) {
                 return std::round( weight * slight_damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * damage );
             }
             break;
         case 4:
             // "pulped"
-            if( entry_type == "offal" ) {
+            if( entry_type == harvest_drop_offal ) {
                 return destroyed;
             }
-            if( entry_type == "skin" ) {
+            if( entry_type == harvest_drop_skin ) {
                 return destroyed;
             }
-            if( entry_type == "bone" ) {
+            if( entry_type == harvest_drop_bone ) {
                 return std::round( weight * damage );
             }
-            if( entry_type == "flesh" ) {
+            if( entry_type == harvest_drop_flesh ) {
                 return std::round( weight * high_damage );
             }
             break;
@@ -768,10 +778,63 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
     return weight;
 }
 
-static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
-                                    const std::function<int()> &roll_butchery, butcher_type action,
-                                    double yield_multiplier )
+static int butchery_dissect_skill_level( Character &you, int tool_quality,
+        const harvest_drop_type_id &htype )
 {
+    // DISSECT has special case factor calculation and results.
+    if( htype.is_valid() ) {
+        int sk_total = 0;
+        int sk_count = 0;
+        for( const skill_id &sk : htype->get_harvest_skills() ) {
+            sk_total += you.get_skill_level( sk );
+            sk_count++;
+        }
+        return ( sk_total + tool_quality ) / ( sk_count > 0 ? sk_count : 1 );
+    }
+    return you.get_skill_level( skill_survival );
+}
+
+static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
+{
+    double skill_shift = 0.0;
+    ///\EFFECT_SURVIVAL randomly increases butcher rolls
+    skill_shift += rng_float( 0, skill_level - 3 );
+    ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
+    skill_shift += rng_float( 0, dex - 8 ) / 4.0;
+
+    if( tool_quality < 0 ) {
+        skill_shift -= rng_float( 0, -tool_quality / 5.0 );
+    }
+
+    return static_cast<int>( std::round( skill_shift ) );
+}
+
+// A number between 0 and 1 that represents how much usable material can be harvested
+// as a fraction of the maximum possible amount.
+static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_quality )
+{
+    const double skill_score = skill_level / 10.0;
+    const double tool_score = ( tool_quality + 50.0 ) / 100.0;
+    const double dex_score = dex / 20.0;
+    return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
+           0.3 * clamp( tool_score, 0.0, 1.0 ) +
+           0.2 * clamp( dex_score, 0.0, 1.0 );
+}
+
+// Returns false if the calling function should abort
+static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
+                                    butcher_type action )
+{
+    const int tool_quality = you.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
+                             qual_BUTCHER, PICKUP_RANGE );
+
+    //all BUTCHERY types - FATAL FAILURE
+    if( action != butcher_type::DISSECT &&
+        roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+                               tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
+        return false;
+    }
+
     you.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
     monster_weight += std::round( monster_weight * rng_float( -0.1, 0.1 ) );
@@ -788,17 +851,20 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
+    const int entry_count = mt.harvest->get_all().size();
     int monster_weight_remaining = monster_weight;
-    int practice = 4 + roll_butchery();
+    int practice = 0;
 
     if( mt.harvest.is_null() ) {
         debugmsg( "ERROR: %s has no harvest entry.", mt.id.c_str() );
-        return;
+        return false;
     }
 
     map &here = get_map();
     for( const harvest_entry &entry : *mt.harvest ) {
-        const int butchery = roll_butchery();
+        const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
+        const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
+        practice += ( 4 + butchery ) / entry_count;
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
         int roll = 0;
@@ -806,7 +872,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+        } else if( !entry.type->dissect_only() ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -814,85 +880,71 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
-        if( entry.type != "bionic_group" ) {
+        if( entry.type->is_itype() ) {
             drop_id = itype_id( entry.drop );
             drop = item::find_type( drop_id );
         }
 
-        // BIONIC handling - no code for DISSECT to let the bionic drop fall through
-        if( entry.type == "bionic" || entry.type == "bionic_group" ) {
+        if( entry.type->dissect_only() ) {
             if( action == butcher_type::FIELD_DRESS ) {
-                if( drop != nullptr && !drop->bionic ) {
-                    if( one_in( 3 ) ) {
-                        you.add_msg_if_player( m_bad,
-                                               _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
-                    }
-                    continue;
+                const translation msg = entry.type->field_dress_msg( false );
+                if( !msg.empty() ) {
+                    add_msg( m_bad, msg.translated() );
                 }
-                you.add_msg_if_player( m_bad,
-                                       _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
                 continue;
             }
             if( action == butcher_type::QUICK ||
                 action == butcher_type::FULL ||
                 action == butcher_type::DISMEMBER ) {
-                if( drop != nullptr && !drop->bionic ) {
-                    if( one_in( 3 ) ) {
-                        you.add_msg_if_player( m_bad,
-                                               _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
-                    }
-                    continue;
-                }
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        you.add_msg_if_player( m_bad,
-                                               _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-                        break;
-                    case 2:
-                        you.add_msg_if_player( m_bad,
-                                               _( "You find traces of implants in the body, but you care only for the flesh." ) );
-                        break;
-                    case 3:
-                        you.add_msg_if_player( m_bad,
-                                               _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-                        break;
+                const translation msg = entry.type->butcher_msg( false );
+                if( !msg.empty() ) {
+                    add_msg( m_bad, msg.translated() );
                 }
                 continue;
             }
         }
         if( action == butcher_type::DISSECT ) {
-            int roll = roll_butchery() - corpse_item->damage_level();
+            int roll = roll_butchery_dissect( skill_level, you.dex_cur,
+                                              tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
             roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
-            if( entry.type == "bionic" ) {
-                butcher_cbm_item( drop_id, you.pos(), calendar::turn, roll, entry.flags, entry.faults );
-            } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( item_group_id( entry.drop ), you.pos(), calendar::turn, roll,
-                                   entry.flags, entry.faults );
+            bool dissect_success = false;
+            if( entry.type->is_itype() ) {
+                dissect_success = butcher_dissect_item( drop_id, you.pos(), calendar::turn, roll, entry.flags,
+                                                        entry.faults );
+            } else if( entry.type->is_item_group() ) {
+                dissect_success = butcher_dissect_group( item_group_id( entry.drop ), you.pos(), calendar::turn,
+                                  roll, entry.flags, entry.faults );
+            }
+            const translation msg = entry.type->dissect_msg( dissect_success );
+            if( !msg.empty() ) {
+                add_msg( m_bad, msg.translated() );
             }
             continue;
         }
 
         // Check if monster was gibbed, and handle accordingly
-        if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == "flesh" || entry.type == "bone" ) ) {
+        if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
+                entry.type == harvest_drop_bone ) ) {
             roll /= 2;
         }
 
-        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) {
+        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
             roll = 0;
         }
 
         // QUICK BUTCHERY
         if( action == butcher_type::QUICK ) {
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 roll /= 4;
-            } else if( entry.type == "bone" ) { // NOLINT(bugprone-branch-clone)
+            } else if( entry.type == harvest_drop_bone ) { // NOLINT(bugprone-branch-clone)
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= creature_size::medium && entry.type == "skin" ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium &&
+                       entry.type == harvest_drop_skin ) {
                 roll /= 2;
-            } else if( entry.type == "offal" ) {
+            } else if( entry.type == harvest_drop_offal ) {
                 roll /= 5;
             } else {
                 continue;
@@ -900,7 +952,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 roll /= 6;
             } else {
                 continue;
@@ -908,27 +960,27 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = rng( 0, roll / 2 );
             }
-            if( entry.type == "flesh" ) {
+            if( entry.type == harvest_drop_flesh ) {
                 continue;
             }
-            if( entry.type == "skin" ) {
+            if( entry.type == harvest_drop_skin ) {
                 continue;
             }
         }
 
         // you only get the blood from bleeding
         if( action == butcher_type::BLEED ) {
-            if( entry.type != "blood" ) {
+            if( entry.type != harvest_drop_blood ) {
                 continue;
             }
         }
 
         // you only get the skin from skinning
         if( action == butcher_type::SKIN ) {
-            if( entry.type != "skin" ) {
+            if( entry.type != harvest_drop_skin ) {
                 continue;
             }
             if( corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
@@ -939,29 +991,29 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         // field dressing removed innards and bones from meatless limbs
         if( ( action == butcher_type::FULL || action == butcher_type::QUICK ) &&
             corpse_item->has_flag( flag_FIELD_DRESS ) ) {
-            if( entry.type == "offal" ) {
+            if( entry.type == harvest_drop_offal ) {
                 continue;
             }
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
         if( ( action == butcher_type::FULL || action == butcher_type::QUICK ) &&
             corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
-            if( entry.type == "offal" ) {
+            if( entry.type == harvest_drop_offal ) {
                 continue;
             }
-            if( entry.type == "bone" ) {
+            if( entry.type == harvest_drop_bone ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
-            if( entry.type == "flesh" || entry.type == "skin" ) {
+            if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_skin ) {
                 roll = rng( 0, roll );
             }
         }
         // quartering ruins skin
         if( corpse_item->has_flag( flag_QUARTERED ) ) {
-            if( entry.type == "skin" ) {
+            if( entry.type == harvest_drop_skin ) {
                 //not continue to show fail effect
                 roll = 0;
             } else {
@@ -969,16 +1021,24 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
 
-        if( entry.type != "bionic_group" ) {
+        if( drop != nullptr ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
-                roll *= yield_multiplier;
+                roll *= butchery_dissect_yield_mult( skill_level, you.dex_cur, tool_quality );
                 monster_weight_remaining -= roll;
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( drop->weight );
+            }
+
+            const translation msg = action == butcher_type::FIELD_DRESS ?
+                                    entry.type->field_dress_msg( roll > 0 ) :
+                                    action == butcher_type::QUICK || action == butcher_type::FULL ||
+                                    action == butcher_type::DISMEMBER ? entry.type->butcher_msg( roll > 0 ) : translation();
+            if( !msg.empty() ) {
+                you.add_msg_if_player( m_bad, msg.translated() );
             }
 
             if( roll <= 0 ) {
@@ -1096,6 +1156,26 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
                       0 ) + 4 );
     }
+
+    // after this point, if there was a liquid handling from the harvest,
+    // and the liquid handling was interrupted, then the activity was canceled,
+    // therefore operations on this activity's targets and values may be invalidated.
+    // reveal hidden items / hidden content
+    if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
+        action != butcher_type::BLEED ) {
+        for( item *content : corpse_item->all_items_top() ) {
+            if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+                                         tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
+                //~ %1$s - item name, %2$s - monster name
+                you.add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
+                                       corpse_item->get_mtype()->nname() );
+                here.add_item_or_charges( you.pos(), *content );
+            } else if( content->is_bionic() ) {
+                here.spawn_item( you.pos(), itype_burnt_out_bionic, 1, 0, calendar::turn );
+            }
+        }
+    }
+    return true;
 }
 
 static void butchery_quarter( item *corpse_item, const Character &you )
@@ -1165,54 +1245,16 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         return;
     }
 
-    const int tool_quality = you->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                             qual_BUTCHER, PICKUP_RANGE );
-    const int skill_level = [&]() {
-        // DISSECT has special case factor calculation and results.
-        if( action == butcher_type::DISSECT ) {
-            return you->get_skill_level( skill_firstaid ) + tool_quality +
-                   you->get_skill_level( skill_electronics ) / 2;
-        }
-        return you->get_skill_level( skill_survival );
-    }
-    ();
-    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
-
-    const auto roll_butchery = [&]() {
-        double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls
-        skill_shift += rng_float( 0, skill_level - 3 );
-        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
-        skill_shift += rng_float( 0, you->dex_cur - 8 ) / 4.0;
-
-        if( tool_quality < 0 ) {
-            skill_shift -= rng_float( 0, -tool_quality / 5.0 );
-        }
-
-        return static_cast<int>( std::round( skill_shift ) );
-    };
-
     map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
         here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
 
-    //all BUTCHERY types - FATAL FAILURE
-    if( action != butcher_type::DISSECT && roll_butchery() <= ( -15 ) && one_in( 2 ) ) {
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                you->add_msg_if_player( m_warning,
-                                        _( "You hack up the corpse so unskillfully, that there is nothing left to salvage from this bloody mess." ) );
-                break;
-            case 2:
-                you->add_msg_if_player( m_warning,
-                                        _( "You wanted to cut the corpse, but instead you hacked the meat, spilled the guts all over it, and made a bloody mess." ) );
-                break;
-            case 3:
-                you->add_msg_if_player( m_warning,
-                                        _( "You made so many mistakes during the process that you doubt even vultures will be interested in what's left of it." ) );
-                break;
-        }
+    // all action types - yields
+    if( !butchery_drops_harvest( &corpse_item, *corpse, *you, action ) ) {
+        // FATAL FAILURE
+        add_msg( m_warning, SNIPPET.random_from_category( "harvest_drop_default_dissect_failed" ).value_or(
+                     translation() ).translated() );
 
         // Remove the target from the map
         target.remove_item();
@@ -1231,46 +1273,14 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         act->index = true;
         return;
     }
-    // A number between 0 and 1 that represents how much usable material can be harvested
-    // as a fraction of the maximum possible amount.
-    const double yield_multiplier = [&]() {
-        const double skill_score = skill_level / 10.0;
-        const double tool_score = ( tool_quality + 50.0 ) / 100.0;
-        const double dex_score = you->dex_cur / 20.0;
-        return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
-               0.3 * clamp( tool_score, 0.0, 1.0 ) +
-               0.2 * clamp( dex_score, 0.0, 1.0 );
-    }
-    ();
-    // all action types - yields
-    butchery_drops_harvest( &corpse_item, *corpse, *you, roll_butchery, action, yield_multiplier );
-    // after this point, if there was a liquid handling from the harvest,
-    // and the liquid handling was interrupted, then the activity was canceled,
-    // therefore operations on this activity's targets and values may be invalidated.
-    // reveal hidden items / hidden content
-    if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED ) {
-        for( item *content : corpse_item.all_items_top() ) {
-            if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-                //~ %1$s - item name, %2$s - monster name
-                you->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
-                                        corpse->nname() );
-                here.add_item_or_charges( you->pos(), *content );
-            } else if( content->is_bionic() ) {
-                here.spawn_item( you->pos(), itype_burnt_out_bionic, 1, 0, calendar::turn );
-            }
-        }
-    }
 
     //end messages and effects
     switch( action ) {
         case butcher_type::QUARTER:
             break;
         case butcher_type::QUICK:
-            you->add_msg_if_player( m_good,
-                                    _( "You apply few quick cuts to the %s and leave what's left of it for scavengers." ),
-                                    corpse_item.tname() );
-
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_quick_butcher" ).value_or(
+                         translation() ).translated() );
             // Remove the target from the map
             target.remove_item();
             if( !act->targets.empty() ) {
@@ -1278,7 +1288,8 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::FULL:
-            you->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_full_butcher" ).value_or(
+                         translation() ).translated() );
 
             // Remove the target from the map
             target.remove_item();
@@ -1286,108 +1297,45 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
                 act->targets.pop_back();
             }
             break;
-        case butcher_type::FIELD_DRESS:
-            // partial failure
-            if( roll_butchery() < 0 ) {
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        you->add_msg_if_player( m_warning,
-                                                _( "You unskillfully hack up the corpse and chop off some excess body parts.  You're left wondering how you did so poorly." ) );
-                        break;
-                    case 2:
-                        you->add_msg_if_player( m_warning,
-                                                _( "Your unskilled hands slip and damage the corpse.  You still hope it's not a total waste though." ) );
-                        break;
-                    case 3:
-                        you->add_msg_if_player( m_warning,
-                                                _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
-                        break;
-                }
-                corpse_item.set_flag( flag_FIELD_DRESS_FAILED );
-
-                here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                for( int i = 1; i <= corpse->size; i++ ) {
-                    here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                             corpse->size + 1 ) ) );
-                    here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                             corpse->size + 1 ) ) );
-                }
-
-            } else {
-                // success
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        you->add_msg_if_player( m_good, _( "You field dress the %s." ), corpse->nname() );
-                        break;
-                    case 2:
-                        you->add_msg_if_player( m_good,
-                                                _( "You slice the corpse's belly and remove intestines and organs, until you're confident that it will not rot from inside." ) );
-                        break;
-                    case 3:
-                        you->add_msg_if_player( m_good,
-                                                _( "You remove guts and excess parts, preparing the corpse for later use." ) );
-                        break;
-                }
-                corpse_item.set_flag( flag_FIELD_DRESS );
-
-                here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                for( int i = 1; i <= corpse->size; i++ ) {
-                    here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                             corpse->size + 1 ) ) );
-                    here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                             corpse->size + 1 ) ) );
-                }
-
+        case butcher_type::FIELD_DRESS: {
+            bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+            add_msg( success ? m_good : m_warning,
+                     SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
+                                                   "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
+            corpse_item.set_flag( success ? flag_FIELD_DRESS : flag_FIELD_DRESS_FAILED );
+            here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            for( int i = 1; i <= corpse->size; i++ ) {
+                here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
+                                         corpse->size + 1 ) ) );
+                here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
+                                         corpse->size + 1 ) ) );
             }
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
             break;
+        }
         case butcher_type::SKIN:
-            switch( rng( 1, 4 ) ) {
-                case 1:
-                    you->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname() );
-                    break;
-                case 2:
-                    you->add_msg_if_player( m_good, _( "You carefully remove the hide from the %s" ),
-                                            corpse->nname() );
-                    break;
-                case 3:
-                    you->add_msg_if_player( m_good,
-                                            _( "The %s is challenging to skin, but you get a good hide from it." ),
-                                            corpse->nname() );
-                    break;
-                case 4:
-                    you->add_msg_if_player( m_good, _( "With a few deft slices you take the skin from the %s" ),
-                                            corpse->nname() );
-                    break;
-            }
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_skinning" ).value_or(
+                         translation() ).translated() );
             corpse_item.set_flag( flag_SKINNED );
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
             break;
         case butcher_type::BLEED:
-            you->add_msg_if_player( m_good, _( "You bleed the %s." ), corpse->nname() );
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_bleed" ).value_or(
+                         translation() ).translated() );
             corpse_item.set_flag( flag_BLED );
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
             break;
         case butcher_type::DISMEMBER:
-            switch( rng( 1, 3 ) ) {
-                case 1:
-                    you->add_msg_if_player( m_good, _( "You hack the %s apart." ), corpse_item.tname() );
-                    break;
-                case 2:
-                    you->add_msg_if_player( m_good, _( "You lop the limbs off the %s." ), corpse_item.tname() );
-                    break;
-                case 3:
-                    you->add_msg_if_player( m_good, _( "You cleave the %s into pieces." ), corpse_item.tname() );
-            }
-
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_dismember" ).value_or(
+                         translation() ).translated() );
             // Remove the target from the map
             target.remove_item();
             if( !act->targets.empty() ) {
@@ -1395,7 +1343,8 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::DISSECT:
-            you->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
+            add_msg( m_good, SNIPPET.random_from_category( "harvest_drop_default_dissect_success" ).value_or(
+                         translation() ).translated() );
 
             // Remove the target from the map
             target.remove_item();

@@ -39,8 +39,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_rifle",
@@ -78,8 +78,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_shotgun",

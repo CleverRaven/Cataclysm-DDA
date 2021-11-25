@@ -296,6 +296,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
+    /**
      * How much warmth this item provides.
      */
     int warmth = 0;
@@ -311,6 +315,10 @@ struct islot_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+    /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
     /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.

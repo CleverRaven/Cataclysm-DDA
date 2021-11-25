@@ -124,6 +124,9 @@ struct iteminfo {
         /** Internal double floating point version of value, for numerical comparisons */
         double dValue;
 
+        /** Same as dValue, adjusted for the minimum unit (for numerical comparisons) */
+        double dUnitAdjustedVal;
+
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
@@ -160,9 +163,9 @@ struct iteminfo {
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags Flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999, double UnitVal = 0 );
         iteminfo( const std::string &Type, const std::string &Name, flags Flags );
-        iteminfo( const std::string &Type, const std::string &Name, double Value );
+        iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal = 0 );
 };
 
 template<>
@@ -1728,6 +1731,10 @@ class item : public visitable
          * Swap the side on which the item is worn. Returns false if the item is not sided
          */
         bool swap_side();
+        /**
+         * Returns if the armor has ablative pockets
+         */
+        bool is_ablative() const;
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
