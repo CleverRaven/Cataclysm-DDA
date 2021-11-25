@@ -1102,8 +1102,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 9 ] ],
-    "components": [ [ [ "rag", 12 ] ] ]
+    "using": [ [ "sewing_standard", 9 ], [ "fabric_standard_nostretch", 12 ] ]
   },
   {
     "result": "mask_filter",
@@ -1498,8 +1497,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "sewing_standard", 3 ], [ "fabric_standard_nostretch", 4 ] ]
   },
   {
     "result": "pot_helmet",
@@ -1783,7 +1781,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 8 ] ] ],
+    "using": [ [ "fabric_standard_nostretch", 8 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
