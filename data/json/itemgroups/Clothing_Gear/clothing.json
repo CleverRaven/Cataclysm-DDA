@@ -203,7 +203,7 @@
       { "item": "knee_pads", "prob": 85 },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "item": "ballistic_vest_iotv_full", "prob": 90 },
+      { "group": "military_ballistic_vest_heavy", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
