@@ -25,9 +25,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "90two40mag" ]
       }
     ]
@@ -75,10 +72,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "250 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock40mag", "glock40bigmag" ]
       }
     ]
@@ -108,10 +102,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "250 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "px4_40mag" ]
       }
     ]
@@ -198,10 +189,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
         "magazine_well": "250 ml",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "sig40mag" ]
       }
     ]
@@ -248,9 +236,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "smg_40_mag" ]
       }
     ]
@@ -320,9 +305,6 @@
       {
         "magazine_well": "185 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "bhp40mag" ]
       }
     ]
@@ -351,9 +333,6 @@
       {
         "magazine_well": "200 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ]
       }
     ]
@@ -383,9 +362,6 @@
       {
         "magazine_well": "312 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "hptjcpmag" ]
       }
     ]

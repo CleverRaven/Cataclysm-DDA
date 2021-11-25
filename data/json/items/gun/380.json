@@ -18,9 +18,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "mac11mag" ]
       }
     ]
@@ -43,9 +40,6 @@
       {
         "magazine_well": "44 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "kp3atmag" ]
       }
     ]
@@ -75,9 +69,6 @@
       {
         "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "fn1910mag" ]
       }
     ]
@@ -107,9 +98,6 @@
       {
         "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "rugerlcpmag" ]
       }
     ]
@@ -138,9 +126,6 @@
       {
         "magazine_well": "236 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
       }
     ]
@@ -170,9 +155,6 @@
       {
         "magazine_well": "74 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "taurus_spectrum_mag" ]
       }
     ]

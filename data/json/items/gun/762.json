@@ -38,9 +38,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
       }
     ]
@@ -86,9 +83,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ]
       }
     ]
@@ -173,9 +167,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
       }
     ]
@@ -218,9 +209,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
       }
     ]

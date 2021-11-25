@@ -37,9 +37,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "makarovmag" ]
       }
     ]
@@ -61,9 +58,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "skorpion82mag" ]
       }
     ]

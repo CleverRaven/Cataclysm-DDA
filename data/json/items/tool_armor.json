@@ -3251,10 +3251,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
@@ -3294,10 +3291,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }

@@ -27,9 +27,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ]
       }
     ]
@@ -61,9 +58,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ]
       }
     ]
@@ -100,9 +94,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "belt308" ]
       }
     ]
@@ -176,9 +167,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ]
       }
     ]
@@ -224,9 +212,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "belt308" ]
       }
     ]
@@ -272,9 +257,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "belt308" ]
       }
     ]
@@ -331,9 +313,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ]
       }
     ]
@@ -407,9 +386,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
       }
     ]
@@ -441,9 +417,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
       }
     ]
@@ -474,9 +447,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ]
       }
     ]

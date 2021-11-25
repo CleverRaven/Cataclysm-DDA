@@ -76,9 +76,6 @@
       {
         "magazine_well": "99 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
     ]
@@ -126,9 +123,6 @@
       {
         "magazine_well": "103 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
       }
     ]
@@ -208,9 +202,6 @@
       {
         "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "m1911_10mag" ]
       }
     ]
@@ -248,9 +239,6 @@
       {
         "magazine_well": "84 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "witness_mag_10" ]
       }
     ]
@@ -289,9 +277,6 @@
       {
         "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "p220_10_mag" ]
       }
     ]
@@ -330,9 +315,6 @@
       {
         "magazine_well": "81 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "xd_10_mag" ]
       }
     ]
