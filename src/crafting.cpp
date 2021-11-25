@@ -890,6 +890,9 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
     }
 
     item craft = command.create_in_progress_craft();
+    if( craft.is_null() ) {
+        return;
+    }
     const recipe &making = craft.get_making();
     if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
