@@ -79,6 +79,9 @@ using furn_str_id = string_id<furn_t>;
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
 
+class harvest_drop_type;
+using harvest_drop_type_id = string_id<harvest_drop_type>;
+
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
 

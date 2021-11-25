@@ -1400,7 +1400,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 50,
-    "description": "A metal pipe that somewhat reduces engine noise.",
+    "description": "A metal pipe that somewhat reduces engine noise.  Also vents heat from an installed vehicle cooler.",
     "bonus": 40,
     "item": "muffler",
     "requirements": {

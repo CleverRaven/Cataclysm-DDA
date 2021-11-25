@@ -126,6 +126,7 @@ class item_pocket
 
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
+        bool is_ablative() const;
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
@@ -385,6 +386,8 @@ class pocket_data
         units::length max_item_length = 0_mm;
         // if true, this pocket can can contain one and only one item
         bool holster = false;
+        // if true, this pocket holds ablative armor
+        bool ablative = false;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
