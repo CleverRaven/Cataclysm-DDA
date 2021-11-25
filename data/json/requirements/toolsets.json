@@ -81,7 +81,7 @@
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ] ],
-      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ] ]
+      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ], [ "toolset", 10 ] ]
     ]
   },
   {
@@ -95,7 +95,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "fake_drill_press", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "fake_drill_press", 1 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "anesthetic",
