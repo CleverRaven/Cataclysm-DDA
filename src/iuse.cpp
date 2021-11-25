@@ -240,8 +240,8 @@ static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
+static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_c4armed( "c4armed" );
