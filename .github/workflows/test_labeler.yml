@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: dumpEvent
       run: |
-          echo "${{ toJSON( github.event ) }}"
+          echo "${{ toJSON( github ) }}"
     - name: setLabel
       run: |
         if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
@@ -23,11 +23,23 @@ jobs:
         fi
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
-      uses: andymckay/labeler@master
+      uses: actions/github-script@v5
       with:
-        add-labels: ${{ steps.setLabel.outputs.label }}
+        script: |
+            github.rest.issues.addLabels({
+              issue_number: ${{ github.ref }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['${{ steps.setLabel.outputs.label }}']
+            })
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-      uses: andymckay/labeler@master
+      uses: actions/github-script@v5
       with:
-        remove-labels: ${{ steps.setLabel.outputs.label }}
+        script: |
+            github.rest.issues.removeLabel({
+              issue_number: ${{ github.ref }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: '${{ steps.setLabel.outputs.label }}'
+            })
