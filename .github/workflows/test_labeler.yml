@@ -21,13 +21,24 @@ jobs:
         if [[ "${{ github.event.workflow_run.name }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
           echo "::set-output name=label::BasicBuildPassed"
         fi
+    - name: get-pr-id
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.repos.listPullRequestsAssociatedWithCommit({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            commit_sha: ${{ github.event.workflow_run.head_commit.id }}
+          })
+    - name: debug
+      run: echo ${{ steps.get-pr-id.outputs.result }}
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       uses: actions/github-script@v5
       with:
         script: |
             github.rest.issues.addLabels({
-              issue_number: ${{ github.ref }},
+              issue_number: ${{ steps.get-pr-id.outputs.result[0].number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['${{ steps.setLabel.outputs.label }}']
@@ -38,7 +49,7 @@ jobs:
       with:
         script: |
             github.rest.issues.removeLabel({
-              issue_number: ${{ github.ref }},
+              issue_number: ${{ steps.get-pr-id.outputs.result[0].number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: '${{ steps.setLabel.outputs.label }}'
