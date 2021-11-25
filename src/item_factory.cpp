@@ -798,6 +798,7 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
         }
+
         for( const pocket_data &pocket : obj.pockets ) {
             if( pocket.ablative ) {
                 obj.armor->ablative = true;
