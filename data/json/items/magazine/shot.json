@@ -71,7 +71,7 @@
         {
           "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 2,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_upper" ]
         }

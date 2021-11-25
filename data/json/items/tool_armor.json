@@ -184,7 +184,7 @@
     "armor": [
       {
         "encumbrance": 35,
-        "coverage": 50,
+        "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r" ],
         "specifically_covers": [ "torso_hanging_back", "arm_shoulder_r", "arm_shoulder_l" ]
       }
@@ -714,7 +714,7 @@
     "to_hit": -1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "wearable_light",
@@ -2722,7 +2722,7 @@
     "weight": "150 g",
     "volume": "250 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "makeshift_stethoscope",
@@ -2737,7 +2737,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 3, "coverage": 8, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "solarpack",
@@ -2956,7 +2956,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scuba_tank_on",
@@ -2987,7 +2987,7 @@
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
     "armor": [
-      { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
   },
   {
@@ -3015,7 +3015,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "small_scuba_tank_on",
@@ -3046,7 +3046,7 @@
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
     "armor": [
-      { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
   },
   {
