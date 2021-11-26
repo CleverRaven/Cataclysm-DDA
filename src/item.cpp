@@ -11369,11 +11369,12 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
 
-    energy -= ammo_consume( energy, pos, carrier );
+    ammo_consume( energy, pos, carrier );
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
-    if( energy > 0 ) {
+    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0 ) &&
+        ammo_remaining( carrier ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
