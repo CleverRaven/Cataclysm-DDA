@@ -2478,7 +2478,7 @@
     "skills": [ { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "wristwatch", "mag_animecon", "cheeseburger" ],
+        "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "mag_animecon", "cheeseburger" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
