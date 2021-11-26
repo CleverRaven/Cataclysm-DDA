@@ -918,6 +918,7 @@
           { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
+          { "item": "tire_iron" },
           { "item": "hacksaw" },
           { "item": "pliers" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
@@ -1770,12 +1771,12 @@
           "pants_cargo",
           "jacket_flannel",
           "bow_sling",
-          "recurbow",
           "hat_hunting",
           "wristwatch"
         ],
         "entries": [
           { "group": "charged_smart_phone" },
+          { "item": "recurbow", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1807,7 +1808,7 @@
         ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1839,7 +1840,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1871,7 +1872,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
