@@ -209,9 +209,9 @@
     "monsters": [
       { "monster": "mon_zombie", "weight": 400, "cost_multiplier": 0 },
       { "monster": "mon_zombie_tough", "weight": 180, "cost_multiplier": 0 },
-      { "monster": "mon_feral_prepper", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_feral_survivalist", "weight": 5, "cost_multiplier": 2, "starts": "29 days" },
-      { "monster": "mon_feral_militia", "weight": 5, "cost_multiplier": 2, "starts": "60 days" },
+      { "monster": "mon_feral_prepper", "weight": 180, "cost_multiplier": 2 },
+      { "monster": "mon_feral_survivalist", "weight": 180, "cost_multiplier": 2, "starts": "29 days" },
+      { "monster": "mon_feral_militia", "weight": 180, "cost_multiplier": 2, "starts": "60 days" },
       { "monster": "mon_zombie_survivor", "weight": 400, "cost_multiplier": 0 },
       { "monster": "mon_zombie_survivor_elite", "weight": 20, "cost_multiplier": 25, "starts": "540 hours" }
     ]
