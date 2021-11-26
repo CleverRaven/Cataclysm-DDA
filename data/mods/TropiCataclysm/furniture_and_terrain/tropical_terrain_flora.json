@@ -290,7 +290,7 @@
     "id": "t_tree_grapefruit_harvested",
     "name": "grapefruit tree",
     "looks_like": "t_tree_dead",
-    "description": "This tree is a member of the 'Citrus' genus, producing fruit commonly known as grapefruits or pomelos. There doesn't appear to be any ripe grapefruits now.  You could also cut it down with the right tools.",
+    "description": "This tree is a member of the 'Citrus' genus, producing fruit commonly known as grapefruits or pomelos.  There doesn't appear to be any ripe grapefruits now.  You could also cut it down with the right tools.",
     "symbol": "7",
     "color": [ "green", "green", "green", "green" ],
     "move_cost": 0,
