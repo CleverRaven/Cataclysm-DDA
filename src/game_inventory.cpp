@@ -70,9 +70,9 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const itype_id itype_fitness_band( "fitness_band" );
-static const itype_id itype_smartphone( "smart_phone" );
-static const itype_id itype_smartphone_music( "smart_phone_music" );
-static const itype_id itype_smartphone_flashlight( "smart_phone_flashlight" );
+static const itype_id itype_smart_phone( "smart_phone" );
+static const itype_id itype_smart_phone_music( "smart_phone_music" );
+static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
@@ -1003,8 +1003,8 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
     bool has_fitness_band =  you.is_wearing( itype_fitness_band );
-    bool has_tracker = has_fitness_band || you.has_amount( itype_smartphone, 1 ) ||
-                       you.has_amount( itype_smartphone_flashlight, 1 ) || you.has_amount( itype_smartphone_music, 1 );
+    bool has_tracker = has_fitness_band || you.has_amount( itype_smart_phone, 1 ) ||
+                       you.has_amount( itype_smart_phone_flashlight, 1 ) || you.has_amount( itype_smart_phone_music, 1 );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1033,9 +1033,9 @@ static std::string get_consume_needs_hint( Character &you )
     hint.append( "\n" );
     if( has_tracker ) {
         hint.append( _( "Consumed: " ) );
-        desc = std::make_pair( string_format( "%d kcal ", kcal_ingested_today ), c_white );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_today ), c_white );
         hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
-        desc = std::make_pair( string_format( "%d kcal ", kcal_ingested_yesterday ), c_white );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_yesterday ), c_white );
         hint.append( string_format( "%s %s", _( "Yesterday: " ), colorize( desc.first, desc.second ) ) );
     } else {
         hint.append( _( "Consumed today (kcal): " ) );
@@ -1044,9 +1044,9 @@ static std::string get_consume_needs_hint( Character &you )
     if( has_fitness_band ) {
         hint.append( string_format( " %s ", LINE_XOXO_S ) );
         hint.append( _( "Spent: " ) );
-        desc = std::make_pair( string_format( "%d kcal ", kcal_spent_today ), c_white );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_today ), c_white );
         hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
-        desc = std::make_pair( string_format( "%d kcal ", kcal_spent_yesterday ), c_white );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_yesterday ), c_white );
         hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
     }
     return hint;

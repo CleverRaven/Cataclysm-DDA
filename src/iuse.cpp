@@ -9023,8 +9023,7 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     return 0;
 }
 
-cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool,
-        const tripoint &pos )
+cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool, const tripoint & )
 {
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
