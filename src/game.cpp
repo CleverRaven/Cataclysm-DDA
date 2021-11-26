@@ -196,6 +196,7 @@ class computer;
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
@@ -1640,10 +1641,15 @@ bool game::do_turn()
         if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
             wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
         }
-        wait_refresh_rate = 5_minutes;
+        if( u.activity.id() == ACT_AUTODRIVE ) {
+            wait_refresh_rate = 1_turns;
+        } else {
+            wait_refresh_rate = 5_minutes;
+        }
     }
     if( wait_redraw ) {
-        if( first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+        if( g->first_redraw_since_waiting_started ||
+            calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }
