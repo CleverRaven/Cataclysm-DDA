@@ -201,7 +201,13 @@
       { "point": [ -3, 1, -9 ], "overmap": "mine_balrog_bottomless_pit_north" },
       { "point": [ -1, 2, -9 ], "overmap": "mine_balrog_bottomless_pit_north" },
       { "point": [ -2, 2, -9 ], "overmap": "mine_balrog_bottomless_pit_north" },
-      { "point": [ -3, 2, -9 ], "overmap": "mine_balrog_bottomless_pit_north" }
+      { "point": [ -3, 2, -9 ], "overmap": "mine_balrog_bottomless_pit_north" },
+      { "point": [ -1, 1, -10 ], "overmap": "mine_balrog_lava_north" },
+      { "point": [ -2, 1, -10 ], "overmap": "mine_balrog_lava_north" },
+      { "point": [ -3, 1, -10 ], "overmap": "mine_balrog_lava_north" },
+      { "point": [ -1, 2, -10 ], "overmap": "mine_balrog_lava_north" },
+      { "point": [ -2, 2, -10 ], "overmap": "mine_balrog_lava_north" },
+      { "point": [ -3, 2, -10 ], "overmap": "mine_balrog_lava_north" }
     ],
     "connections": [
       { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
