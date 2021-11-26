@@ -67,12 +67,12 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-
 static const itype_id itype_fitness_band( "fitness_band" );
 static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_smart_phone_music( "smart_phone_music" );
 static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
