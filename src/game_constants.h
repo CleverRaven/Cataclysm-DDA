@@ -55,6 +55,9 @@ static constexpr int OMAPY = OMAPX;
 // Size of a square unit of terrain saved to a directory.
 static constexpr int SEG_SIZE = 32;
 
+// Size of a square unit of tile memory saved in a single file, in mm_submaps.
+static constexpr int MM_REG_SIZE = 8;
+
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map

@@ -1114,8 +1114,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     if( !valid.empty() ) {
         hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
             for( const tripoint &pos : valid ) {
-                here.drawsq( g->w_terrain, player_character, pos,
-                             true, true, player_character.pos() + player_character.view_offset );
+                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
             }
         } );
         g->add_draw_callback( hilite_cb );
