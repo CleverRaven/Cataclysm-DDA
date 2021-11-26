@@ -587,5 +587,10 @@
   {
     "id": "WINDSHIELD",
     "type": "json_flag"
+  },
+  {
+    "id": "LIMITED_SPACE",
+    "type": "json_flag",
+    "info": "This part won't leave enough room for huge mutants and will cause them pain if they try to fit."
   }
 ]
