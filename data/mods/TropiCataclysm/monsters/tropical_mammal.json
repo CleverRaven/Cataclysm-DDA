@@ -127,7 +127,7 @@
   {
     "id": "mon_coypus",
     "type": "MONSTER",
-    "name": { "str": "coypus" },
+    "name": { "str": "coipo" },
     "description": "A big rodent similar in shape to the north american beaver.  in the past it was hunted and raised for its fur.",
     "default_faction": "small_animal",
     "bodytype": "bear",
