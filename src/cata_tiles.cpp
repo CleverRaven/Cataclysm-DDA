@@ -1153,32 +1153,20 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             g->displaying_visibility_creature = nullptr;
         }
     }
-    std::unordered_set<point> collision_checkpoints;
-    std::unordered_set<point> target_points;
-    for( const wrapped_vehicle &elem : here.get_vehicles() ) {
-        if( elem.v->get_autodrive_target() != tripoint_zero ) {
-            target_points.insert( here.getlocal( elem.v->get_autodrive_target().xy() ) );
-        }
-        if( elem.v->collision_check_points.empty() ) {
-            continue;
-        } else {
-            for( const point &pt_elem : elem.v->collision_check_points ) {
-                collision_checkpoints.insert( here.getlocal( pt_elem ) );
-            }
-        }
-    }
     const point half_tile( tile_width / 2, 0 );
     const point quarter_tile( tile_width / 4, tile_height / 4 );
     if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
-        for( const point &pt_elem : collision_checkpoints ) {
-            overlay_strings.emplace( player_to_screen( pt_elem ) + half_tile,
-                                     formatted_text( "CHECK", catacurses::yellow,
-                                             direction::NORTH ) );
-        }
-        for( const point &pt_elem : target_points ) {
-            overlay_strings.emplace( player_to_screen( pt_elem ) + half_tile,
-                                     formatted_text( "TARGET", catacurses::red,
-                                             direction::NORTH ) );
+        for( const wrapped_vehicle &elem : here.get_vehicles() ) {
+            const vehicle &veh = *elem.v;
+            const point veh_pos = veh.global_pos3().xy();
+            for( const auto &overlay_data : veh.get_debug_overlay_data() ) {
+                const point pt = veh_pos + std::get<0>( overlay_data );
+                const int color = std::get<1>( overlay_data );
+                const std::string &text = std::get<2>( overlay_data );
+                overlay_strings.emplace( player_to_screen( pt ),
+                                         formatted_text( text, color,
+                                                 text_alignment::left ) );
+            }
         }
     }
     const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {

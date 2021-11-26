@@ -570,7 +570,7 @@ void vehicle::cruise_thrust( int amount )
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = is_autodriving ? safe_velocity() : max_velocity();
+    int max_vel = autopilot_on ? safe_velocity() : max_velocity();
     int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
@@ -1226,7 +1226,7 @@ bool vehicle::has_harnessed_animal() const
     return false;
 }
 
-void vehicle::autodrive( const point &p )
+void vehicle::selfdrive( const point &p )
 {
     if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
@@ -1348,11 +1348,10 @@ bool vehicle::check_heli_ascend( Character &p )
     return true;
 }
 
-void vehicle::pldrive( const point &p, int z )
+void vehicle::pldrive( Character &driver, const point &p, int z )
 {
-    player &player_character = get_avatar();
     if( z != 0 && is_rotorcraft() ) {
-        player_character.moves = std::min( player_character.moves, 0 );
+        driver.moves = std::min( driver.moves, 0 );
         thrust( 0, z );
     }
     units::angle turn_delta = 15_degrees * p.x;
@@ -1360,31 +1359,33 @@ void vehicle::pldrive( const point &p, int z )
     if( turn_delta != 0_degrees ) {
         float eff = steering_effectiveness();
         if( eff == -2 ) {
-            add_msg( m_info, _( "You cannot steer an animal-drawn vehicle with no animal harnessed." ) );
+            driver.add_msg_if_player( m_info,
+                                      _( "You cannot steer an animal-drawn vehicle with no animal harnessed." ) );
             return;
         }
 
         if( eff < 0 ) {
-            add_msg( m_info, _( "This vehicle has no steering system installed, you can't turn it." ) );
+            driver.add_msg_if_player( m_info,
+                                      _( "This vehicle has no steering system installed, you can't turn it." ) );
             return;
         }
 
         if( eff == 0 ) {
-            add_msg( m_bad, _( "The steering is completely broken!" ) );
+            driver.add_msg_if_player( m_bad, _( "The steering is completely broken!" ) );
             return;
         }
 
         // If you've got more moves than speed, it's most likely time stop
         // Let's get rid of that
-        player_character.moves = std::min( player_character.moves, player_character.get_speed() );
+        driver.moves = std::min( driver.moves, driver.get_speed() );
 
         ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
 
         ///\EFFECT_PER reduces chance of losing control of vehicle when turning
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
-        float skill = std::min( 10.0f, player_character.get_skill_level( skill_driving ) +
-                                ( player_character.get_dex() + player_character.get_per() ) / 10.0f );
+        float skill = std::min( 10.0f, driver.get_skill_level( skill_driving ) +
+                                ( driver.get_dex() + driver.get_per() ) / 10.0f );
         float penalty = rng_float( 0.0f, handling_diff ) - skill;
         int cost;
         if( penalty > 0.0f ) {
@@ -1392,28 +1393,28 @@ void vehicle::pldrive( const point &p, int z )
             cost = 100 * ( 1.0f + penalty / 2.5f );
         } else {
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
-            cost = std::max( player_character.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
+            cost = std::max( driver.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
         if( penalty > skill || cost > 400 ) {
-            add_msg( m_warning, _( "You fumble with the %s's controls." ), name );
+            driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
             // Anything from a wasted attempt to 2 turns in the intended direction
             turn_delta *= rng( 0, 2 );
             // Also wastes next turn
-            cost = std::max( cost, player_character.moves + 100 );
+            cost = std::max( cost, driver.moves + 100 );
         } else if( one_in( 10 ) ) {
             // Don't warn all the time or it gets spammy
-            if( cost >= player_character.get_speed() * 2 ) {
-                add_msg( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
-            } else if( cost >= player_character.get_speed() * 1.5f ) {
-                add_msg( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
+            if( cost >= driver.get_speed() * 2 ) {
+                driver.add_msg_if_player( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
+            } else if( cost >= driver.get_speed() * 1.5f ) {
+                driver.add_msg_if_player( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
             }
         }
 
         turn( turn_delta );
 
         // At most 3 turns per turn, because otherwise it looks really weird and jumpy
-        player_character.moves -= std::max( cost, player_character.get_speed() / 3 + 1 );
+        driver.moves -= std::max( cost, driver.get_speed() / 3 + 1 );
     }
 
     if( p.y != 0 ) {
@@ -1422,7 +1423,7 @@ void vehicle::pldrive( const point &p, int z )
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
-            player_character.moves = std::min( player_character.moves, 0 );
+            driver.moves = std::min( driver.moves, 0 );
         }
     }
 
@@ -1433,9 +1434,9 @@ void vehicle::pldrive( const point &p, int z )
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) <
-            player_character.dex_cur + player_character.get_skill_level( skill_driving ) * 2 ) {
-            add_msg( _( "You regain control of the %s." ), name );
-            player_character.practice( skill_driving, velocity / 5 );
+            driver.dex_cur + driver.get_skill_level( skill_driving ) * 2 ) {
+            driver.add_msg_if_player( _( "You regain control of the %s." ), name );
+            driver.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
