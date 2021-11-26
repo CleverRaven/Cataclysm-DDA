@@ -2491,6 +2491,11 @@ tab_direction set_skills( avatar &u, pool_type pool )
         return localized_compare( a.name(), b.name() );
     } );
 
+    std::stable_sort( sorted_skills.begin(), sorted_skills.end(),
+    []( const Skill * a, const Skill * b ) {
+        return a->display_category() < b->display_category();
+    } );
+
     const int num_skills = sorted_skills.size();
     int cur_offset = 0;
     int cur_pos = 0;
