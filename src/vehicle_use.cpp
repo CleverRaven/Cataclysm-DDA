@@ -2046,7 +2046,7 @@ void vpart_position::form_inventory( inventory &inv )
 }
 
 // Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const vpart_position &vp )
+void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
 {
     map &here = get_map();
     avatar &player_character = get_avatar();
@@ -2069,6 +2069,9 @@ void vehicle::interact_with( const vpart_position &vp )
     const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    const bool map_has_items = here.has_items( vp.pos() );
 
     bool is_appliance = has_tag( "APPLIANCE" );
 
@@ -2145,7 +2148,7 @@ void vehicle::interact_with( const vpart_position &vp )
                              ? _( "Deactivate the dishwasher" )
                              : _( "Activate the dishwasher (1.5 hours)" ) );
     }
-    if( here.has_items( vp.pos() ) ) {
+    if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
