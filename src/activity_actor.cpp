@@ -367,6 +367,7 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
     }
 
     player_vehicle = &vp->vehicle();
+    player_vehicle->is_autodriving = true;
     act.moves_left = calendar::INDEFINITELY_LONG;
 }
 
@@ -404,7 +405,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
     who.omt_path.clear();
     if( player_vehicle ) {
-        player_vehicle->stop_autodriving();
+        player_vehicle->stop_autodriving( false );
     }
     act.set_to_null();
 }
@@ -412,7 +413,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 void autodrive_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
-    player_vehicle->stop_autodriving();
+    player_vehicle->stop_autodriving( false );
     act.set_to_null();
 }
 
