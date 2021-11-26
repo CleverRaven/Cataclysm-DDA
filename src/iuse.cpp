@@ -6955,7 +6955,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 ret_obj.furniture[ furn_desc ] ++;
             }
         } else if( veh_part_pos.has_value() ) {
-            const vehicle veh = veh_part_pos->vehicle();
+            const vehicle &veh = veh_part_pos->vehicle();
             const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
             const vehicle *veh_hash = &veh_part_pos->vehicle();
 

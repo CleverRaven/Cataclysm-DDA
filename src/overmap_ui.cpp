@@ -1598,14 +1598,23 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             ptype.only_known_by_player = true;
             ptype.avoid_danger = true;
             avatar &player_character = get_avatar();
-            bool in_vehicle = player_character.in_vehicle && player_character.controlling_vehicle;
             map &here = get_map();
-            const optional_vpart_position vp = here.veh_at( player_character.pos() );
-            if( vp && in_vehicle ) {
-                vehicle &veh = vp->vehicle();
-                if( veh.can_float() && veh.is_watercraft() && veh.is_in_water() ) {
-                    ptype.only_water = true;
-                } else if( veh.is_rotorcraft() && veh.is_flying_in_air() ) {
+            bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
+            vehicle *player_veh = nullptr;
+            if( driving ) {
+                const optional_vpart_position vp = here.veh_at( player_character.pos() );
+                if( !vp.has_value() ) {
+                    debugmsg( "Failed to find driven vehicle" );
+                    continue;
+                }
+                player_veh = &vp->vehicle();
+                if( player_veh->can_float() ) {
+                    if( player_veh->valid_wheel_config() ) {
+                        ptype.amphibious = true;
+                    } else if( player_veh->is_watercraft() && player_veh->is_in_water() ) {
+                        ptype.only_water = true;
+                    }
+                } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
                     ptype.only_air = true;
                 } else {
                     ptype.only_road = true;
@@ -1618,7 +1627,18 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
             }
             const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
-            if( !player_character.omt_path.empty() && player_character.omt_path.front() == curs ) {
+            bool same_path_selected = false;
+            if( curs == player_omt_pos ) {
+                player_character.omt_path.clear();
+            } else {
+                std::vector<tripoint_abs_omt> new_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
+                if( new_path == player_character.omt_path ) {
+                    same_path_selected = true;
+                } else {
+                    player_character.omt_path.swap( new_path );
+                }
+            }
+            if( same_path_selected && !player_character.omt_path.empty() ) {
                 std::string confirm_msg;
                 if( player_character.weight_carried() > player_character.weight_capacity() ) {
                     confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
@@ -1626,11 +1646,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                     confirm_msg = _( "Travel to this point?" );
                 }
                 if( query_yn( confirm_msg ) ) {
-                    // renew the path incase of a leftover dangling path point
-                    player_character.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
-                    if( player_character.in_vehicle && player_character.controlling_vehicle ) {
-                        vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
-                        player_veh->omt_path = player_character.omt_path;
+                    if( driving ) {
                         player_veh->is_autodriving = true;
                         player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
                     } else {
@@ -1639,11 +1655,6 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                     }
                     action = "QUIT";
                 }
-            }
-            if( curs == player_omt_pos ) {
-                player_character.omt_path.clear();
-            } else {
-                player_character.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
             }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;

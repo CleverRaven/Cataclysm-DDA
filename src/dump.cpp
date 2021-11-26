@@ -281,8 +281,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            vehicle veh_empty = vehicle( obj, 0, 0 );
-            vehicle veh_fueled = vehicle( obj, 100, 0 );
+            vehicle veh_empty( obj, 0, 0 );
+            vehicle veh_fueled( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
