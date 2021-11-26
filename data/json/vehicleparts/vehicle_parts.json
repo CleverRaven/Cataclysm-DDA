@@ -1293,7 +1293,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "LIMITED_SPACE" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -3153,5 +3153,33 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "controls_xl",
+    "name": { "str": "XL controls" },
+    "symbol": "$",
+    "categories": [ "operations" ],
+    "color": "light_gray",
+    "broken_symbol": "$",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "A steering wheel and accelerator and brake pedals set up for abnormally large individuals.",
+    "bonus": 10,
+    "item": "vehicle_controls",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
+    },
+    "flags": [ "CONTROLS", "LIMITED_SPACE" ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 0, 4 ] }
+    ],
+    "damage_reduction": { "all": 6 }
   }
 ]
