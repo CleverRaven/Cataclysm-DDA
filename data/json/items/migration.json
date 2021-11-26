@@ -92,7 +92,7 @@
   {
     "id": "arrow_small_game",
     "type": "MIGRATION",
-    "replace": "arrow_small_game_fletched"
+    "replace": "arrow_small_game_simple_fletched"
   },
   {
     "id": "arrow_heavy_fire_hardened",
@@ -102,7 +102,12 @@
   {
     "id": "arrow_heavy_field_point",
     "type": "MIGRATION",
-    "replace": "arrow_heavy_field_point_fletched"
+    "replace": "arrow_wood_small_game_fletched"
+  },
+  {
+    "id": "arrow_heavy_field_point_fletched",
+    "type": "MIGRATION",
+    "replace": "arrow_wood_small_game_fletched"
   },
   {
     "id": "arrow_metal_sharpened",

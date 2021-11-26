@@ -60,7 +60,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "arrow_small_game_fletched",
+    "result": "arrow_small_game_simple_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
@@ -142,7 +142,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "arrow_heavy_field_point_fletched",
+    "result": "arrow_wood_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
@@ -452,7 +452,7 @@
         [ "arrow_wood_crude", 1 ],
         [ "arrow_wood", 1 ],
         [ "arrow_heavy_fire_hardened_fletched", 1 ],
-        [ "arrow_heavy_field_point_fletched", 1 ],
+        [ "arrow_wood_small_game_fletched", 1 ],
         [ "arrow_wood_heavy", 1 ],
         [ "arrow_aluminum", 1 ]
       ]

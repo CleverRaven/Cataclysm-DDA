@@ -38,7 +38,7 @@
         { "id": "arrow_aluminum", "fg": 281 },
         { "id": "arrow_metal_fletched", "fg": 282 },
         { "id": "arrow_plastic", "fg": 283 },
-        { "id": "arrow_small_game_fletched", "fg": 284 },
+        { "id": "arrow_small_game_simple_fletched", "fg": 284 },
         { "id": "arrow_wood", "fg": 285 },
         { "id": "arrow_wood_heavy", "fg": 286 },
         { "id": "bolt_cf", "fg": 287 },

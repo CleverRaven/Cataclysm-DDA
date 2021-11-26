@@ -68,7 +68,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_small_game_fletched",
+    "id": "arrow_small_game_simple_fletched",
     "price": 300,
     "name": { "str": "simple wooden small game arrow" },
     "symbol": "=",
@@ -137,7 +137,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_heavy_field_point_fletched",
+    "id": "arrow_wood_small_game_fletched",
     "price": 1000,
     "name": { "str": "wooden small game arrow" },
     "symbol": "=",

@@ -1082,7 +1082,7 @@
         { "id": "army_top", "fg": 1168, "rotates": false },
         { "id": "arrow_cf", "fg": 626, "rotates": false },
         { "id": "arrow_plastic", "fg": 624, "rotates": false },
-        { "id": "arrow_small_game_fletched", "fg": 628, "rotates": false },
+        { "id": "arrow_small_game_simple_fletched", "fg": 628, "rotates": false },
         {
           "id": [ "arrow_wood_heavy", "arrow_wood_bodkin", "arrow_heavy_field_point_fletched", "arrow_flammable", "arrow_wood" ],
           "fg": 629,

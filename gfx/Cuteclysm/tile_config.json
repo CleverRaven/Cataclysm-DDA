@@ -2100,7 +2100,7 @@
         { "id": "arrow_aluminum", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_metal_fletched", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_plastic", "fg": 1252, "rotates": false, "multitile": false },
-        { "id": "arrow_small_game_fletched", "fg": 1252, "rotates": false, "multitile": false },
+        { "id": "arrow_small_game_simple_fletched", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_wood", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "arrow_wood_heavy", "fg": 1252, "rotates": false, "multitile": false },
         { "id": "bolt_explosive", "fg": 1252, "rotates": false, "multitile": false },
