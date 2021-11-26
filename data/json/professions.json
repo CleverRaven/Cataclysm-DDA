@@ -806,7 +806,6 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
           "undershirt",
           "officer_uniform",
           "jacket_army_modern",
@@ -1992,9 +1991,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "panties", "bra" ]
+      }
     }
   },
   {
@@ -2214,7 +2211,7 @@
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch", "solder_wire" ],
+        "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch", "mbag", "solder_wire" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
@@ -2593,9 +2590,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boxer_shorts" ]
+      }
     }
   },
   {
@@ -3791,7 +3786,7 @@
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "opal_platinum_cufflinks" ],
-      "female": [ "bra", "panties", "platinum_ear" ]
+      "female": [ "bra", "panties", "opal_platinum_earring" ]
     }
   },
   {
@@ -3945,7 +3940,7 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig", "mag_porn" ],
+        "items": [ "gold_watch", "fancy_sunglasses", "water_mineral", "money_strap_twenty", "cig", "mag_porn" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks", "mag_dude" ],
@@ -3959,7 +3954,8 @@
         "purse",
         "mag_glam",
         "bracelet_friendship",
-        "opal_gold_ring"
+        "opal_gold_ring",
+        "opal_gold_earring"
       ]
     }
   },
@@ -4273,7 +4269,6 @@
         "items": [
           "tux",
           "fedora",
-          "pants",
           "socks",
           "dress_shoes",
           "gold_watch",
