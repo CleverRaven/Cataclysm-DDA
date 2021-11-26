@@ -221,7 +221,7 @@ jobs:
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
-    - run: echo ${{github.event.issue.number}} > pull_request_id
+    - run: echo ${{ github.event.issue.number }} > pull_request_id
     - uses: actions/upload-artifact@v2
       with:
         name: pull_request_id

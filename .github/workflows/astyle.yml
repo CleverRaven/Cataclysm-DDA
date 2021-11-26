@@ -33,7 +33,7 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
-    - run: echo ${{github.event.issue.number}} > pull_request_id
+    - run: echo ${{ github.event.number }} > pull_request_id
     - uses: actions/upload-artifact@v2
       with:
         name: pull_request_id
