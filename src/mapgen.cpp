@@ -315,6 +315,7 @@ class mapgen_factory
         void setup() {
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
+                inp_mngr.pump_events();
             }
             // Dummy entry, overmap terrain null should never appear and is therefore never generated.
             mapgens_.erase( "null" );
@@ -371,11 +372,13 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     for( auto &pr : nested_mapgen ) {
         for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
             ptr.obj->setup();
+            inp_mngr.pump_events();
         }
     }
     for( auto &pr : update_mapgen ) {
         for( auto &ptr : pr.second ) {
             ptr->setup();
+            inp_mngr.pump_events();
         }
     }
 

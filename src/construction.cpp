@@ -1843,6 +1843,7 @@ void finalize_constructions()
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
+        inp_mngr.pump_events();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),

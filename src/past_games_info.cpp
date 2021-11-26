@@ -142,6 +142,7 @@ void past_games_info::ensure_loaded()
             achievement_id ach = ach_it->second.get<achievement_id>();
             completed_achievements_[ach].games_completed.push_back( &game );
         }
+        inp_mngr.pump_events();
     }
 }
 

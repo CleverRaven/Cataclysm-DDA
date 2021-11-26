@@ -1287,6 +1287,7 @@ void draw_benchmark( const int max_difference )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
         draw_counter++;

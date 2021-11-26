@@ -1276,11 +1276,9 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#if defined(TILES)
         if( is_player() ) {
-            SDL_PumpEvents();
+            inp_mngr.pump_events();
         }
-#endif // TILES
 
         if( intense < 1 ) {
             it.set_intensity( 1 );
