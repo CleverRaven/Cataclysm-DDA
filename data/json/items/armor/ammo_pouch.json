@@ -121,8 +121,7 @@
         "flag_restriction": [ "MAG_COMPACT" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS" ],
     "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -479,6 +478,42 @@
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "load_bearing_vest",
+    "type": "ARMOR",
+    "name": { "str": "load bearing vest" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Prefered by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily seperated.",
+    "weight": "1250 g",
+    "volume": "1000 ml",
+    "looks_like": "vest",
+    "price": 7400,
+    "price_postapoc": 2000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": { "type": "holster", "holster_prompt": "Stash item", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "flag_restriction": [ "PALS" ],
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "flag_restriction": [ "PALS" ],
+        "moves": 500
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xlkevlar",
