@@ -235,11 +235,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
@@ -3020,7 +3023,11 @@ void catacurses::init_interface()
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                   /*precheck=*/true, /*force=*/false,
+                                   /*pump_events=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3059,7 +3066,9 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                               /*precheck=*/false, /*force=*/false,
+                               /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
 }
 
@@ -3088,6 +3097,19 @@ void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
 }
 
 // This is how we're actually going to handle input events, SDL getch

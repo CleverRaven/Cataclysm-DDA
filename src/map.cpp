@@ -687,6 +687,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( player_character, veh, true ) ) {
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
     }
@@ -6545,7 +6546,8 @@ void map::save()
     }
 }
 
-void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
+                const bool pump_events )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
@@ -6559,6 +6561,9 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle, false );
+            if( pump_events ) {
+                inp_mngr.pump_events();
+            }
         }
     }
     rebuild_vehicle_level_caches();
@@ -6569,6 +6574,9 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 actualize( tripoint( point( gridx, gridy ), gridz ) );
+                if( pump_events ) {
+                    inp_mngr.pump_events();
+                }
             }
         }
     }

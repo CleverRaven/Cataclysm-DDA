@@ -287,7 +287,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 }
 
 void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
-                               const bool force )
+                               const bool force, const bool pump_events )
 {
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
         return;
@@ -300,7 +300,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // when the loading has succeeded.
     std::unique_ptr<tileset> new_tileset_ptr = std::make_unique<tileset>();
     tileset_loader loader( *new_tileset_ptr, renderer );
-    loader.load( tileset_id, precheck );
+    loader.load( tileset_id, precheck, /*pump_events=*/pump_events );
     tileset_ptr = std::move( new_tileset_ptr );
 
     set_draw_scale( 16 );
@@ -452,7 +452,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_loader::load_tileset( const std::string &img_path )
+void tileset_loader::load_tileset( const std::string &img_path, const bool pump_events )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     cata_assert( tile_atlas );
@@ -549,6 +549,10 @@ void tileset_loader::load_tileset( const std::string &img_path )
         cata_assert( surf_to_use );
 
         create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) );
+
+        if( pump_events ) {
+            inp_mngr.pump_events();
+        }
     }
 
     size = expected_tilecount;
@@ -564,7 +568,8 @@ void cata_tiles::set_draw_scale( int scale )
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
-void tileset_loader::load( const std::string &tileset_id, const bool precheck )
+void tileset_loader::load( const std::string &tileset_id, const bool precheck,
+                           const bool pump_events )
 {
     std::string json_conf;
     std::string tileset_path;
@@ -617,7 +622,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     // Load tile information if available.
     offset = 0;
-    load_internal( config, tileset_root, img_path );
+    load_internal( config, tileset_root, img_path, pump_events );
 
     // Load mod tilesets if available
     for( const mod_tileset &mts : all_mod_tilesets ) {
@@ -656,7 +661,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
                         if( mod_config.has_member( "compatibility" ) ) {
                             mod_config.get_member( "compatibility" );
                         }
-                        load_internal( mod_config, tileset_root, img_path );
+                        load_internal( mod_config, tileset_root, img_path, pump_events );
                         break;
                     }
                     num_in_file++;
@@ -665,7 +670,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         } else {
             JsonObject mod_config = mod_config_json.get_object();
             mark_visited( mod_config );
-            load_internal( mod_config, tileset_root, img_path );
+            load_internal( mod_config, tileset_root, img_path, pump_events );
         }
     }
 
@@ -693,7 +698,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 }
 
 void tileset_loader::load_internal( const JsonObject &config, const std::string &tileset_root,
-                                    const std::string &img_path )
+                                    const std::string &img_path, const bool pump_events )
 {
     if( config.has_array( "tiles-new" ) ) {
         // new system, several entries
@@ -718,7 +723,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
             sprite_offset.y = tile_part_def.get_int( "sprite_offset_y", 0 );
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            load_tileset( tileset_image_path );
+            load_tileset( tileset_image_path, pump_events );
             load_tilejson_from_file( tile_part_def );
             if( tile_part_def.has_member( "ascii" ) ) {
                 load_ascii( tile_part_def );
@@ -726,6 +731,9 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
             offset += size;
+            if( pump_events ) {
+                inp_mngr.pump_events();
+            }
         }
     } else {
         sprite_width = ts.tile_width;
@@ -736,7 +744,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
         B = -1;
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << img_path;
-        load_tileset( img_path );
+        load_tileset( img_path, pump_events );
         load_tilejson_from_file( config );
         offset = size;
     }
