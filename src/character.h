@@ -461,6 +461,7 @@ class Character : public Creature, public visitable
 
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
+        // Defines distance from which CAMOUFLAGE mobs are visible
         int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
