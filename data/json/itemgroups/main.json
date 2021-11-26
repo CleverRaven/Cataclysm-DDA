@@ -269,7 +269,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "arrow_wood", "prob": 100 },
-      { "item": "arrow_field_point_fletched", "prob": 50 },
+      { "item": "arrow_wood_bodkin", "prob": 50 },
       { "item": "arrow_cf", "prob": 100 },
       { "item": "bolt_wood", "prob": 100 },
       { "item": "bolt_wood_bodkin", "prob": 50 },

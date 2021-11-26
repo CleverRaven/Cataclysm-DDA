@@ -1084,7 +1084,7 @@
         { "id": "arrow_plastic", "fg": 624, "rotates": false },
         { "id": "arrow_small_game_fletched", "fg": 628, "rotates": false },
         {
-          "id": [ "arrow_wood_heavy", "arrow_field_point_fletched", "arrow_heavy_field_point_fletched", "arrow_flammable", "arrow_wood" ],
+          "id": [ "arrow_wood_heavy", "arrow_wood_bodkin", "arrow_heavy_field_point_fletched", "arrow_flammable", "arrow_wood" ],
           "fg": 629,
           "rotates": false
         },

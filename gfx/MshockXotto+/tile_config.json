@@ -2520,7 +2520,7 @@
         { "id": "9mm_casing", "fg": 1701 },
         { "id": "arrow_cf", "fg": 1702 },
         { "id": "arrow_exploding", "fg": 1703 },
-        { "id": "arrow_field_point_fletched", "fg": 1704 },
+        { "id": "arrow_wood_bodkin", "fg": 1704 },
         { "id": "arrow_wood_crude", "fg": 1705 },
         { "id": "arrow_flammable", "fg": 1706 },
         { "id": "arrow_flaming", "fg": 1707 },

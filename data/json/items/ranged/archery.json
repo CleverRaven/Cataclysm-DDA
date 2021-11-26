@@ -23,7 +23,7 @@
   },
   {
     "type": "AMMO",
-    "id": "arrow_field_point_fletched",
+    "id": "arrow_wood_bodkin",
     "price": 1000,
     "name": { "str": "wooden bodkin arrow" },
     "symbol": "=",

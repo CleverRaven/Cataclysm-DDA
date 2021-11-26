@@ -234,7 +234,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
         test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled archer with an inaccurate bow" ) {
-        arm_shooter( shooter, "shortbow", { "bow_sight_pin" }, "arrow_field_point_fletched" );
+        arm_shooter( shooter, "shortbow", { "bow_sight_pin" }, "arrow_wood_bodkin" );
         test_shooting_scenario( shooter, 3, 3, 12 );
         test_fast_shooting( shooter, 50, 0.2 );
     }
