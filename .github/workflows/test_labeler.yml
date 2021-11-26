@@ -23,11 +23,11 @@ jobs:
     - name: Download pr id artifact
       uses: dawidd6/action-download-artifact@v2
       with:
-        workflow: github.event.workflow_run.name
-        run_id: github.event.workflow_run.id
+        workflow: ${{ github.event.workflow_run.name }}
+        run_id: ${{ github.event.workflow_run.id }}
         name: pull_request_id
     - run: unzip pull_request_id/pull_request_id.zip
-    - run: echo pull_request_id
+    - run: cat pull_request_id
     - name: set-pr-id
       run: echo "::set-output name=pr-id::$( echo pull_request_id )"    
     - name: set-label

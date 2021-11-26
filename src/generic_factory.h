@@ -452,7 +452,7 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return id.to_i() >= 0 && static_cast<size_t>( id.to_i() ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
