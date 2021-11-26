@@ -19,7 +19,7 @@
   {
     "id": "military_ballistic_vest",
     "type": "item_group",
-    "//": "ESAPI vest plust plates",
+    "//": "ESAPI vest plus plates",
     "container-item": "ballistic_vest_esapi",
     "subtype": "collection",
     "entries": [
@@ -32,7 +32,7 @@
   {
     "id": "military_ballistic_vest_pristine",
     "type": "item_group",
-    "//": "ESAPI vest plust plates",
+    "//": "ESAPI vest plus plates",
     "container-item": "ballistic_vest_esapi",
     "subtype": "collection",
     "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
@@ -40,7 +40,7 @@
   {
     "id": "military_ballistic_vest_light",
     "type": "item_group",
-    "//": "light ballistic vest plust plates",
+    "//": "light ballistic vest plus plates",
     "container-item": "ballistic_vest_light",
     "subtype": "collection",
     "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
@@ -48,7 +48,7 @@
   {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
-    "//": "heavy ballistic vest plust plates",
+    "//": "heavy ballistic vest plus plates",
     "container-item": "ballistic_vest_heavy",
     "subtype": "collection",
     "entries": [
