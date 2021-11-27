@@ -148,6 +148,8 @@ class item_contents
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
+        void add_pocket(const item& pocket);
+
         // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
         std::vector<const item_pocket *> get_all_reloadable_pockets() const;
 
@@ -292,6 +294,9 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        // pockets that have been custom added
+        std::list<item> additional_pockets;
 
         struct item_contents_helper;
 

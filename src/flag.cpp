@@ -200,6 +200,7 @@ const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
+const flag_id flag_PALS("PALS");
 const flag_id flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 const flag_id flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 const flag_id flag_PERPETUAL( "PERPETUAL" );

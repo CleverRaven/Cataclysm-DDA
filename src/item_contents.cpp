@@ -340,6 +340,12 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
 
+    for( const item &pocket : read_input.additional_pockets ) {
+        for( const item_pocket *pocket : pocket.get_all_contained_pockets().value() ) {
+            contents.push_back( *pocket );
+        }
+    }
+
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
             if( convert ) {
@@ -1382,6 +1388,14 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     } else {
         return ret_val<std::vector<item_pocket *>>::make_failure( pockets );
     }
+}
+
+void item_contents::add_pocket( const item &pocket_item )
+{
+    for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+        contents.push_back( *i_pocket );
+    }
+    additional_pockets.push_back( pocket_item );
 }
 
 std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const

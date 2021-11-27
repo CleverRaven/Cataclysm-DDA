@@ -207,6 +207,7 @@ extern const flag_id flag_ONLY_ONE;
 extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
+extern const flag_id flag_PALS;
 extern const flag_id flag_PARTIAL_DEAF;
 extern const flag_id flag_PERFECT_LOCKPICK;
 extern const flag_id flag_PERPETUAL;

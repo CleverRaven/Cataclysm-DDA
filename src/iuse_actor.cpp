@@ -4013,54 +4013,61 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
-void molle_attach_actor::load(const JsonObject& jo)
+void molle_attach_actor::load( const JsonObject &jo )
 {
-    assign(jo, "size", size);
+    assign( jo, "size", size );
 }
 
-cata::optional<int> molle_attach_actor::use(Character& p, item& it, bool t, const tripoint&) const
+cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
 {
-    if (t) {
+    if( t ) {
         return cata::nullopt;
     }
 
-    item_location loc = game_menus::inv::saw_barrel(p, it);
 
-    if (!loc) {
-        p.add_msg_if_player(_("Never mind."));
+
+    item_location loc = game_menus::inv::molle_attach( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
 
-    item& obj = *loc.obtain(p);
-    p.add_msg_if_player(_("You saw down the barrel of your %s."), obj.tname());
-    obj.put_in(item("barrel_small", calendar::turn), item_pocket::pocket_type::MOD);
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    obj.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
+
+    it.get_contents().add_pocket( obj );
+
+
 
     return 0;
 }
 
-ret_val<bool> molle_attach_actor::can_use_on(const Character&, const item&,
-    const item& target) const
+ret_val<bool> molle_attach_actor::can_use_on( const Character &, const item &,
+        const item &target ) const
 {
-    if (!target.is_gun()) {
-        return ret_val<bool>::make_failure(_("It's not a gun."));
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
     }
 
-    if (target.type->gun->barrel_volume <= 0_ml) {
-        return ret_val<bool>::make_failure(_("The barrel is too small."));
+    if( target.type->gun->barrel_volume <= 0_ml ) {
+        return ret_val<bool>::make_failure( _( "The barrel is too small." ) );
     }
 
-    if (target.gunmod_find(itype_barrel_small)) {
-        return ret_val<bool>::make_failure(_("The barrel is already sawn-off."));
+    if( target.gunmod_find( itype_barrel_small ) ) {
+        return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();
-    const bool modified_barrel = std::any_of(gunmods.begin(), gunmods.end(),
-        [](const item* mod) {
-            return mod->type->gunmod->location == gunmod_location("barrel");
-        });
+    const bool modified_barrel = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "barrel" );
+    } );
 
-    if (modified_barrel) {
-        return ret_val<bool>::make_failure(_("Can't saw off modified barrels."));
+    if( modified_barrel ) {
+        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
     }
 
     return ret_val<bool>::make_success();
@@ -4068,7 +4075,7 @@ ret_val<bool> molle_attach_actor::can_use_on(const Character&, const item&,
 
 std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
 {
-    return std::make_unique<molle_attach_actor>(*this);
+    return std::make_unique<molle_attach_actor>( *this );
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
