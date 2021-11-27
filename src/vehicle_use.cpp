@@ -381,13 +381,8 @@ void vehicle::control_engines()
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
-    int active_mask = 0;
     int fuel_count = 0;
-    int i = 0;
     for( int e : engines ) {
-        if( is_part_on( e ) ) {
-            active_mask |= 1 << i++;
-        }
         fuel_count += part_info( e ).engine_fuel_opts().size();
     }
 
@@ -423,11 +418,8 @@ void vehicle::control_engines()
     }
 
     bool engines_were_on = engine_on;
-    int new_active_mask = 0;
-    i = 0;
     for( int e : engines ) {
         engine_on |= is_part_on( e );
-        new_active_mask |= 1 << i++;
     }
 
     // if current velocity greater than new configuration safe speed
