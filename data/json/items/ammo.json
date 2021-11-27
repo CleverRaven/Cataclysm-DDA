@@ -1119,7 +1119,7 @@
   {
     "type": "AMMO",
     "id": "explosive_hm_rocket_fins",
-	"copy-from": "explosive_hm_rocket",
+    "copy-from": "explosive_hm_rocket",
     "price": 2500,
     "price_postapoc": 160,
     "name": { "str": "fin-stabilized explosive homemade rocket" },
@@ -1132,7 +1132,7 @@
   {
     "type": "AMMO",
     "id": "incendiary_hm_rocket_fins",
-	"copy-from": "incendiary_hm_rocket",
+    "copy-from": "incendiary_hm_rocket",
     "price": 1800,
     "price_postapoc": 150,
     "name": { "str": "fin-stabilized incendiary homemade rocket" },
