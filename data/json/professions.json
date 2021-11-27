@@ -3150,11 +3150,11 @@
         "ammo": 100,
         "items": [
           "socks",
-          "pants_army",
+          "winter_pants_army",
           "winter_jacket_army",
           "balclava",
           "boots_combat",
-          "gloves_tactical",
+          "winter_gloves_army",
           "tac_helmet",
           "canteen",
           "wristwatch",
