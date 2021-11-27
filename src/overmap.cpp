@@ -4546,7 +4546,6 @@ void overmap::add_mon_group( const mongroup &group )
     const int rad = std::max<int>( 0, group.radius );
     const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
     const double pop = std::max<int>( 0, group.population );
-    int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
             const int dist = group.diffuse ? square_dist( point( x, y ), point_zero ) : trig_dist( point( x,
@@ -4596,7 +4595,6 @@ void overmap::add_mon_group( const mongroup &group )
             // To avoid this, the overmapbuffer checks the monster groups when loading
             // an overmap and moves groups with out-of-bounds position to another overmap.
             add_mon_group( tmp );
-            xpop += tmp.population;
         }
     }
 }
