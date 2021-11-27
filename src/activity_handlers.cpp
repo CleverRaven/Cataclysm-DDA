@@ -1513,11 +1513,24 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         }
 
         // 2. Transfer charges.
+        const vehicle *veh = nullptr;
+        size_t part;
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case liquid_target_type::VEHICLE: {
                 const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) );
                 if( act_ref.values.size() > 4 && vp ) {
                     const vpart_reference vpr( vp->vehicle(), act_ref.values.at( 4 ) );
+                    veh = &vp->vehicle();
+                    part = act_ref.values.at( 4 );
+                    std::function<bool( const vehicle_part & )> not_same_part = [&]( const vehicle_part & pa ) {
+                        return &( veh->cpart( part ) ) != &pa;
+                    };
+                    if( source_veh &&
+                        source_veh->fuel_left( liquid.typeId(), false,
+                                               ( veh ? not_same_part : return_true<const vehicle_part &> ) ) <= 0 ) {
+                        act_ref.set_to_null();
+                        return;
+                    }
                     p->pour_into( vpr, liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
@@ -1567,10 +1580,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
-                    source_veh->drain( liquid.typeId(), removed_charges );
-                }
-                if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act_ref.set_to_null();
+                    std::function<bool( vehicle_part & )> not_same_part = [&]( vehicle_part & pa ) {
+                        return &( veh->cpart( part ) ) != &pa;
+                    };
+                    source_veh->drain( liquid.typeId(), removed_charges,
+                                       ( veh ? not_same_part : return_true<vehicle_part &> ) );
                 }
                 break;
             case liquid_source_type::MAP_ITEM:
