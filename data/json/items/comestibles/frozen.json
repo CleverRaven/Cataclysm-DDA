@@ -103,7 +103,7 @@
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
-    "flags": [ "MELTS", "EDIBLE_FROZEN" ]
+    "flags": [ "MELTS" ]
   },
   {
     "type": "COMESTIBLE",
