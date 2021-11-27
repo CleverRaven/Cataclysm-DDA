@@ -837,8 +837,8 @@
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
-	  [ [ "spring", 1 ] ],
-	  [ [ "scrap", 3 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "scrap", 3 ] ],
       [ [ "gunpowder", 300 ], [ "chem_black_powder", 300 ] ],
       [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 15 ] ]
     ]
@@ -857,8 +857,8 @@
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
-	  [ [ "spring", 1 ] ],
-	  [ [ "scrap", 3 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "scrap", 3 ] ],
       [ [ "chem_thermite", 50 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 15 ] ]
