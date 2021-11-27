@@ -165,7 +165,7 @@ class overmap_special_batch
         point_abs_om origin_overmap;
 };
 
-static const std::map<std::string, oter_flags> oter_flags_map = {
+static const std::unordered_map<std::string, oter_flags> oter_flags_map = {
     { "KNOWN_DOWN", oter_flags::known_down },
     { "KNOWN_UP", oter_flags::known_up },
     { "RIVER", oter_flags::river_tile },

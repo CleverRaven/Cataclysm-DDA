@@ -1224,7 +1224,7 @@ template<typename T>
 class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 {
     private:
-        using map_t = std::map<std::string, T>;
+        using map_t = std::unordered_map<std::string, T>;
 
     private:
         const map_t &flag_map;
@@ -1249,9 +1249,10 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 };
 
 template<typename T>
-typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
+typed_flag_reader<T> make_flag_reader( const std::unordered_map<std::string, T> &m,
+                                       const std::string &e )
 {
-    return typed_flag_reader<T> { m, e };
+    return typed_flag_reader<T>( m, e );
 }
 
 /**

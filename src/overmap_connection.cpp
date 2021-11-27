@@ -18,8 +18,8 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 
 } // namespace
 
-static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
-= {
+static const std::unordered_map<std::string, overmap_connection::subtype::flag>
+connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
 };
 
@@ -49,7 +49,8 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
 
 void overmap_connection::subtype::load( const JsonObject &jo )
 {
-    const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
+    const auto flag_reader =
+        make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
     mandatory( jo, false, "terrain", terrain );
     mandatory( jo, false, "locations", locations );
