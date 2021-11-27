@@ -1498,7 +1498,7 @@ void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
+                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
