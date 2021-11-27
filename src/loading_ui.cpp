@@ -12,11 +12,7 @@
 #include "ui_manager.h"
 
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif // TILES
 
 loading_ui::loading_ui( bool display )
