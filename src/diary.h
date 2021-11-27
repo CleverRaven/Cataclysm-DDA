@@ -71,8 +71,8 @@ class diary
         /*list of all pages added to the diary*/
         std::vector< std::unique_ptr<diary_page>> pages;
 
-        /*current opend page*/
-        int opend_page = 0; // NOLINT(cata-serialize)
+        /*current opened page*/
+        int opened_page = 0; // NOLINT(cata-serialize)
         /*list of changes from opened page to previous page*/
         std::vector<std::string> change_list; // NOLINT(cata-serialize)
         /*maps discription to position in change list*/
@@ -111,8 +111,8 @@ class diary
         /*delite current page*/
         void delete_page();
 
-        /*get opend page nummer*/
-        int get_opend_page_num();
+        /*get opened page nummer*/
+        int get_opened_page_num();
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list();
         /*returns a list with all changes compared to the previous page*/
@@ -122,7 +122,7 @@ class diary
 
         /*returns pointer to current page*/
         diary_page *get_page_ptr( int offset = 0 );
-        /*returns the text of opend page*/
+        /*returns the text of opened page*/
         std::string get_page_text();
         /*returns text for head of page*/
         std::string get_head_text();
