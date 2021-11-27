@@ -2814,7 +2814,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     pocket_data mag_data;
     mag_data.holster = true;
     mag_data.volume_capacity = 200_liter;
-    mag_data.max_contains_weight = 400_kilogram;
+    mag_data.max_contains_weight = 2000000_kilogram;
     mag_data.max_item_length = 2_km;
     mag_data.watertight = true;
     if( !def.magazines.empty() ) {

@@ -23,15 +23,7 @@
     "modes": [ [ "DEFAULT", "auto", 2 ], [ "AUTO", "auto", 5 ] ],
     "barrel_volume": "1200 ml",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "exodiiBRmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ]
   },
   {
     "id": "pamd71z",
@@ -53,14 +45,6 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "auto", 5 ] ],
     "barrel_volume": "250 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "exodiiminimag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
   }
 ]
