@@ -332,7 +332,15 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const s
 
 bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
 {
-    return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
+    // Just return false if the glyph is not provided by the font
+    if( !TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) ) ) {
+        return false;
+    }
+
+    // Test whether the glyph can actually be rendered
+    constexpr SDL_Color white{255, 255, 255, 0};
+    SDL_Surface_Ptr surface( TTF_RenderUTF8_Solid( font.get(), ch.c_str(), white ) );
+    return static_cast<bool>( surface );
 }
 
 void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &,
