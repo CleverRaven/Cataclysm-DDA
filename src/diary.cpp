@@ -590,9 +590,9 @@ std::string diary::get_head_text()
         const int hours = to_hours<int>( turn_diff ) % 24;
         const int minutes = to_minutes<int>( turn_diff ) % 60;
         std::string headtext = string_format( _( "Entry: %d/%d, %s, %s" ),
-                                              opend_page + 1, pages.size(),
+                                              opened_page + 1, pages.size(),
                                               to_string( get_page_ptr()->turn ),
-                                              ( opend_page != 0 ) ? string_format( _( "%s%s%d minutes since last entry" ),
+                                              ( opened_page != 0 ) ? string_format( _( "%s%s%d minutes since last entry" ),
                                                       ( days > 0 ) ? string_format( _( "%d days, " ), days ) : "",
                                                       ( hours > 0 ) ? string_format( _( "%d hours, " ), hours ) : "",
                                                       minutes ) : "" );
