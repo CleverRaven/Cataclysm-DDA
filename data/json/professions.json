@@ -953,7 +953,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
+          "jacket_army_modern",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -3151,7 +3151,7 @@
         "items": [
           "socks",
           "pants_army",
-          "jacket_army_modern",
+          "winter_jacket_army",
           "balclava",
           "boots_combat",
           "gloves_tactical",
