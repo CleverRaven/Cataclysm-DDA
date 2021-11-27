@@ -1136,7 +1136,7 @@
     "price": 1800,
     "price_postapoc": 150,
     "name": { "str": "fin-stabilized incendiary homemade rocket" },
-    "description": "A hand built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel. A set of spring-loaded fins will pop out at the back to keep it aimed more or less where you're aiming at.",
+    "description": "A hand built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel.  A set of spring-loaded fins will pop out at the back to keep it aimed more or less where you're aiming at.",
     "volume": "1500 ml",
     "weight": "1240 g",
     "range": 26,
