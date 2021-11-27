@@ -1525,8 +1525,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "maid_dress", 60 ],
-      [ "maid_dress_short", 40 ],
+      [ "maid_dress", 70 ],
+      [ "maid_dress_short", 30 ],
       [ "maid_hat", 90 ],
       [ "suit", 80 ],
       [ "pocketwatch", 30 ],
