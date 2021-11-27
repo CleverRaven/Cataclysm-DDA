@@ -365,6 +365,13 @@ class string_formatter
 #else
 #define PRINTF_LIKE(a,b)
 #endif
+
+        // A stupid thing happens in certain situations. On Windows, when using clang, the PRINTF_LIKE
+        // macro expands to something containing the token printf, which might be defined to libintl_printf,
+        // which is not a valid __attribute__ name. To prevent that we use an *MSVC* pragma which gcc and clang
+        // support to temporarily suppress expanding printf to libintl_printf so the attribute applies correctly.
+#pragma push_macro("printf")
+#undef printf
         /**
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
@@ -373,6 +380,8 @@ class string_formatter
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
+#pragma pop_macro("printf")
+
 #undef PRINTF_LIKE
 };
 
