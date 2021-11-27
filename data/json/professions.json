@@ -1180,7 +1180,8 @@
           },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-          { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "group": "full_gasmask" }
         ]
       },
       "male": [ "boxer_shorts" ],
