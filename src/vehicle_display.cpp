@@ -293,11 +293,11 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
-            possible_msg += "  Carrying a vehicle on a rack.\n";
+            possible_msg += _( "  Carrying a vehicle on a rack.\n" );
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            possible_msg += string_format( "  Part of a %s carried on a rack.\n",
+            possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
             new_lines += 1;
         }
