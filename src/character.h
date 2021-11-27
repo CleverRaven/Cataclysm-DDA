@@ -1171,17 +1171,9 @@ class Character : public Creature, public visitable
         bool is_mute() const;
         // the total of the manipulator score in the best limb group
         float manipulator_score() const;
-        float blocking_score( const body_part_type::type &bp ) const;
-        float lifting_score( const body_part_type::type &bp ) const;
-        float encumb_adjusted_lifting_score( const body_part_type::type &bp ) const;
-        float breathing_score() const;
-        float swim_score() const;
-        float vision_score() const;
-        float nightvision_score() const;
-        float reaction_score() const;
-        float movement_speed_score() const;
-        float footing_score() const;
-        float balance_score() const;
+        // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
+        float get_limb_score( const limb_score_id &score, const body_part_type::type &bp = body_part_type::type::num_types ) const;
+
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;

@@ -103,6 +103,9 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
+static const limb_score_id limb_score_block( "block" );
+static const limb_score_id limb_score_reaction( "reaction" );
+
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
@@ -687,7 +690,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if( blocking_score( body_part_type::type::arm ) < 1.0f ) {
+        if( get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }
@@ -1093,7 +1096,7 @@ float Character::get_dodge() const
     }
 
     // Reaction score of limbs influences dodge chances
-    ret *= reaction_score();
+    ret *= get_limb_score( limb_score_reaction );
 
     return std::max( 0.0f, ret );
 }
@@ -1913,7 +1916,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     block_score += mabuff_block_effectiveness_bonus();
 
     // multiply by bodypart reaction bonuses
-    block_score *= reaction_score();
+    block_score *= get_limb_score( limb_score_reaction );
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;

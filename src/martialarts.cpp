@@ -42,6 +42,8 @@ static const bionic_id bio_cqb( "bio_cqb" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
+static const limb_score_id limb_score_block( "block" );
+
 static const matec_id tec_none( "tec_none" );
 
 static const skill_id skill_unarmed( "unarmed" );
@@ -1201,7 +1203,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
+    if( owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         }

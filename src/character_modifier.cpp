@@ -1,6 +1,14 @@
 #include "character.h"
 #include "move_mode.h"
 
+static const limb_score_id limb_score_balance( "balance" );
+static const limb_score_id limb_score_breathing( "breathing" );
+static const limb_score_id limb_score_lift( "lift" );
+static const limb_score_id limb_score_manip( "manip" );
+static const limb_score_id limb_score_move_speed( "move_speed" );
+static const limb_score_id limb_score_swim( "swim" );
+static const limb_score_id limb_score_vision( "vision" );
+
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_swimming( "swimming" );
@@ -18,10 +26,10 @@ float Character::manipulator_score() const
         float total = 0.0f;
         std::sort( part.second.begin(), part.second.end(),
         []( const bodypart & a, const bodypart & b ) {
-            return a.get_manipulator_max() < b.get_manipulator_max();
+            return a.get_limb_score_max( limb_score_manip ) < b.get_limb_score_max( limb_score_manip );
         } );
         for( const bodypart &id : part.second ) {
-            total = std::min( total + id.get_encumb_adjusted_manipulator_score(), id.get_manipulator_max() );
+            total = std::min( total + id.get_limb_score( limb_score_manip ), id.get_limb_score_max( limb_score_manip ) );
         }
         score_groups.emplace_back( total );
     }
@@ -33,107 +41,20 @@ float Character::manipulator_score() const
     }
 }
 
-float Character::blocking_score( const body_part_type::type &bp ) const
+float Character::get_limb_score( const limb_score_id &score, const body_part_type::type &bp ) const
 {
+    int skill = -1;
+    // manipulator/swim scores are treated a little special for now
+    if( score == limb_score_manip ) {
+        return manipulator_score();
+    } else if( score == limb_score_swim ) {
+        skill = get_skill_level( skill_swimming );
+    }
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( id.first->limb_type == bp ) {
-            total += id.second.get_blocking_score();
+        if( bp == body_part_type::type::num_types || id.first->limb_type == bp ) {
+            total += id.second.get_limb_score( score, skill );
         }
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::lifting_score( const body_part_type::type &bp ) const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( id.first->limb_type == bp ) {
-            total += id.second.get_lifting_score();
-        }
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::encumb_adjusted_lifting_score( const body_part_type::type &bp ) const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( id.first->limb_type == bp ) {
-            total += id.second.get_encumb_adjusted_lifting_score();
-        }
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::breathing_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_breathing_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::swim_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_swim_score( get_skill_level( skill_swimming ) );
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::vision_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_vision_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::nightvision_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_nightvision_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::reaction_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_reaction_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::movement_speed_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_movement_speed_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::footing_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_footing_score();
-    }
-    return std::max( 0.0f, total );
-}
-
-float Character::balance_score() const
-{
-    float total = 0.0f;
-    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        total += id.second.get_balance_score();
     }
     return std::max( 0.0f, total );
 }
@@ -177,20 +98,21 @@ float Character::melee_thrown_move_modifier_hands() const
 
 float Character::melee_thrown_move_modifier_torso() const
 {
-    if( balance_score() == 0.0f ) {
+    float balance_score = get_limb_score( limb_score_balance );
+    if( balance_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score );
     }
 }
 
 float Character::melee_stamina_cost_modifier() const
 {
-    if( lifting_score( body_part_type::type::arm ) == 0.0f ) {
+    float lift_score = get_limb_score( limb_score_lift, body_part_type::type::arm );
+    if( lift_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER,
-                         1.0f / encumb_adjusted_lifting_score( body_part_type::type::arm ) );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / lift_score );
     }
 }
 
@@ -220,10 +142,11 @@ float Character::ranged_dispersion_modifier_hands() const
 
 float Character::ranged_dispersion_modifier_vision() const
 {
-    if( vision_score() == 0.0f ) {
+    float vision_score = get_limb_score( limb_score_vision );
+    if( vision_score == 0.0f ) {
         return 10'000.0f;
     } else {
-        return std::min( 10'000.0f, ( 30.0f / vision_score() ) - 30.0f );
+        return std::min( 10'000.0f, ( 30.0f / vision_score ) - 30.0f );
     }
 }
 
@@ -237,24 +160,26 @@ float Character::stamina_move_cost_modifier() const
 
 float Character::stamina_recovery_breathing_modifier() const
 {
-    return breathing_score();
+    return get_limb_score( limb_score_breathing );
 }
 
 float Character::limb_speed_movecost_modifier() const
 {
-    if( movement_speed_score() == 0.0f ) {
+    float move_speed_score = get_limb_score( limb_score_move_speed );
+    if( move_speed_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / movement_speed_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / move_speed_score );
     }
 }
 
 float Character::limb_footing_movecost_modifier() const
 {
-    if( footing_score() == 0.0f ) {
+    float balance_score = get_limb_score( limb_score_balance );
+    if( balance_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / footing_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score );
     }
 }
 
@@ -265,15 +190,16 @@ float Character::limb_run_cost_modifier() const
 
 float Character::swim_modifier() const
 {
-    if( swim_score() == 0.0f ) {
+    float swim_score = get_limb_score( limb_score_swim );
+    if( swim_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / swim_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / swim_score );
     }
 }
 
 float Character::melee_attack_roll_modifier() const
 {
-    return std::max( 0.2f, balance_score() );
+    return std::max( 0.2f, get_limb_score( limb_score_balance ) );
 }
 

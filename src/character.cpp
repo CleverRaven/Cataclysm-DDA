@@ -299,6 +299,11 @@ static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 
+static const limb_score_id limb_score_breathing( "breathing" );
+static const limb_score_id limb_score_lift( "lift" );
+static const limb_score_id limb_score_night_vis( "night_vis" );
+static const limb_score_id limb_score_vision( "vision" );
+
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_flesh( "flesh" );
@@ -1647,7 +1652,7 @@ bool Character::has_min_manipulators() const
 bool Character::has_two_arms_lifting() const
 {
     // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return lifting_score( body_part_type::type::arm ) > 0.5f;
+    return get_limb_score( limb_score_lift, body_part_type::type::arm ) > 0.5f;
 }
 
 // working is defined here as not broken
@@ -2138,7 +2143,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range * nightvision_score() );
+    range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
@@ -5249,7 +5254,7 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 bool Character::is_blind() const
 {
     return worn_with_flag( flag_BLIND ) ||
-           has_flag( json_flag_BLIND ) || vision_score() <= 0;
+           has_flag( json_flag_BLIND ) || get_limb_score( limb_score_vision ) <= 0;
 }
 
 bool Character::is_invisible() const
@@ -6456,7 +6461,7 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    int noise = ( base + str_cur * shout_multiplier ) * breathing_score();
+    int noise = ( base + str_cur * shout_multiplier ) * get_limb_score( limb_score_breathing );
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -6530,7 +6535,7 @@ void Character::shout( std::string msg, bool order )
         add_msg_if_player( m_warning,
                            _( "The sound of your voice is almost completely muffled!" ) );
         msg = is_avatar() ? _( "your muffled shout" ) : _( "an indistinct voice" );
-    } else if( breathing_score() < 0.5f ) {
+    } else if( get_limb_score( limb_score_breathing ) < 0.5f ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }

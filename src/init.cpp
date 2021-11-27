@@ -441,6 +441,7 @@ void DynamicDataLoader::initialize()
     } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
+    add( "limb_score", &limb_score::load_limb_scores );
     add( "body_part", &body_part_type::load_bp );
     add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
@@ -556,6 +557,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
+    limb_score::reset();
     mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
