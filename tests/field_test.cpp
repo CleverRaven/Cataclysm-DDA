@@ -192,7 +192,7 @@ TEST_CASE( "fd_acid falls down", "[field]" )
     fields_test_cleanup();
 }
 
-TEST_CASE( "fire spreading", "[field]" )
+TEST_CASE( "fire spreading", "[field][!mayfail]" )
 {
     fields_test_setup();
 
