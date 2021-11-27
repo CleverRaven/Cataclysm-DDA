@@ -416,6 +416,7 @@
   {
     "id": "sub_limb_debug",
     "type": "sub_body_part",
+    "parent": "debug_tail",
     "side": 0,
     "opposite": "sub_limb_debug",
     "name": "debug limb should never be seen"
@@ -423,6 +424,8 @@
   {
     "id": "torso_upper",
     "type": "sub_body_part",
+    "max_coverage": 60,
+    "parent": "torso",
     "side": 0,
     "opposite": "torso_lower",
     "name_multiple": "torso",
@@ -430,6 +433,9 @@
   },
   {
     "id": "torso_neck",
+    "max_coverage": 10,
+    "parent": "torso",
+    "secondary": true,
     "type": "sub_body_part",
     "side": 0,
     "opposite": "sub_limb_debug",
@@ -438,6 +444,8 @@
   {
     "id": "torso_lower",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "torso",
     "side": 0,
     "opposite": "torso_upper",
     "name_multiple": "torso",
@@ -446,6 +454,9 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "torso",
+    "secondary": true,
     "side": 0,
     "name": "item hangs off your front",
     "opposite": "torso_hanging_back",
@@ -454,6 +465,9 @@
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "torso",
+    "secondary": true,
     "side": 0,
     "name": "item hangs off your back",
     "opposite": "torso_hanging_front",
@@ -462,6 +476,8 @@
   {
     "id": "arm_shoulder_r",
     "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_r",
     "side": 2,
     "opposite": "arm_shoulder_l",
     "name_multiple": "shoulders",
@@ -470,6 +486,8 @@
   {
     "id": "arm_upper_r",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "arm_r",
     "side": 2,
     "opposite": "arm_upper_l",
     "name_multiple": "upper arms",
@@ -478,6 +496,8 @@
   {
     "id": "arm_elbow_r",
     "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "arm_r",
     "side": 2,
     "opposite": "arm_elbow_l",
     "name_multiple": "elbows",
@@ -486,6 +506,8 @@
   {
     "id": "arm_lower_r",
     "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "arm_r",
     "side": 2,
     "opposite": "arm_lower_l",
     "name_multiple": "lower arms",
@@ -494,6 +516,8 @@
   {
     "id": "arm_shoulder_l",
     "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_l",
     "side": 1,
     "opposite": "arm_shoulder_r",
     "name_multiple": "shoulders",
@@ -502,6 +526,8 @@
   {
     "id": "arm_upper_l",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "arm_l",
     "side": 1,
     "opposite": "arm_upper_r",
     "name_multiple": "upper arms",
@@ -510,6 +536,8 @@
   {
     "id": "arm_elbow_l",
     "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "arm_l",
     "side": 1,
     "opposite": "arm_elbow_r",
     "name_multiple": "elbows",
@@ -518,6 +546,8 @@
   {
     "id": "arm_lower_l",
     "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "arm_l",
     "side": 1,
     "opposite": "arm_lower_r",
     "name_multiple": "lower arms",
@@ -526,6 +556,8 @@
   {
     "id": "leg_hip_r",
     "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "leg_r",
     "side": 2,
     "opposite": "leg_hip_l",
     "name_multiple": "hips",
@@ -534,6 +566,8 @@
   {
     "id": "leg_upper_r",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_r",
     "side": 2,
     "opposite": "leg_upper_l",
     "name_multiple": "thighs",
@@ -542,6 +576,8 @@
   {
     "id": "leg_knee_r",
     "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_r",
     "side": 2,
     "opposite": "leg_knee_l",
     "name_multiple": "knees",
@@ -550,6 +586,8 @@
   {
     "id": "leg_lower_r",
     "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "leg_r",
     "side": 2,
     "opposite": "leg_lower_l",
     "name_multiple": "lower legs",
@@ -558,6 +596,8 @@
   {
     "id": "leg_hip_l",
     "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "leg_l",
     "side": 1,
     "opposite": "leg_hip_r",
     "name_multiple": "hips",
@@ -566,6 +606,8 @@
   {
     "id": "leg_upper_l",
     "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_l",
     "side": 1,
     "opposite": "leg_upper_r",
     "name_multiple": "thighs",
@@ -574,6 +616,8 @@
   {
     "id": "leg_knee_l",
     "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_l",
     "side": 1,
     "opposite": "leg_knee_r",
     "name_multiple": "knees",
@@ -582,6 +626,8 @@
   {
     "id": "leg_lower_l",
     "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "leg_l",
     "side": 1,
     "opposite": "leg_lower_r",
     "name_multiple": "lower legs",
