@@ -1121,12 +1121,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     // so that new tiles can be memorized, and at least the size of the display
     // since at farthest zoom displayed area may be bigger than view range.
     const point min_mm_reg = point(
-                                 std::min( o.x, min_visible.x ),
-                                 std::min( o.y, min_visible.y )
+                                 std::min( o.x, min_visible_x ),
+                                 std::min( o.y, min_visible_y )
                              );
     const point max_mm_reg = point(
-                                 std::max( s.x + o.x, max_visible.x ),
-                                 std::max( s.y + o.y, max_visible.y )
+                                 std::max( s.x + o.x, max_visible_x ),
+                                 std::max( s.y + o.y, max_visible_y )
                              );
     you.prepare_map_memory_region(
         here.getabs( tripoint( min_mm_reg, center.z ) ),
