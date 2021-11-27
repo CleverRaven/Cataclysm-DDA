@@ -32,7 +32,7 @@ std::vector<std::string> diary::get_pages_list()
     return result;
 }
 
-int diary::set_opend_page( int pagenum )
+int diary::set_opened_page( int pagenum )
 {
     if( pagenum != opend_page ) {
         change_list.clear();
@@ -657,9 +657,9 @@ void diary::new_page()
 
 void diary::delete_page()
 {
-    if( opend_page < static_cast<int>( pages.size() ) ) {
-        pages.erase( pages.begin() + opend_page );
-        set_opend_page( opend_page - 1 );
+    if( opened_page < static_cast<int>( pages.size() ) ) {
+        pages.erase( pages.begin() + opened_page );
+        set_opened_page( opened_page - 1 );
     }
 }
 
@@ -671,7 +671,7 @@ void diary::export_to_txt( bool lastexport )
     myfile.open( fs::u8path( path ) );
 
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
-        set_opend_page( i );
+        set_opened_page( i );
         const diary_page page = *get_page_ptr();
         myfile << get_head_text() + "\n\n";
         for( std::string &str : this->get_change_list() ) {

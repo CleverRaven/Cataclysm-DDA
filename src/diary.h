@@ -103,7 +103,7 @@ class diary
         /*Uses editor window class to edit the text.*/
         void edit_page_ui( catacurses::window &win );
         /*set page to be be shown in ui*/
-        int set_opend_page( int pagenum );
+        int set_opened_page( int pagenum );
         /*create a new page and adds current character progression*/
         void new_page();
         /*set page text*/

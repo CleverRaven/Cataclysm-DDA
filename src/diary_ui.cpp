@@ -207,7 +207,7 @@ void diary::show_diary_ui( diary *c_diary )
                                         );
         center_print( w_desc, 1,  c_white, desc );
 
-        selected[window_mode::PAGE_WIN] = c_diary->set_opend_page( selected[window_mode::PAGE_WIN] );
+        selected[window_mode::PAGE_WIN] = c_diary->set_opened_page( selected[window_mode::PAGE_WIN] );
         print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
                                currwin == window_mode::PAGE_WIN, true );
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
