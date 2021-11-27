@@ -153,7 +153,7 @@ void diary::show_diary_ui( diary *c_diary )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEW_PAGE" );
     ctxt.register_action( "DELETE PAGE" );
-    ctxt.register_action( "EXPORT_Diary" );
+    ctxt.register_action( "EXPORT_DIARY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui_adaptor ui;
@@ -203,7 +203,7 @@ void diary::show_diary_ui( diary *c_diary )
                                           ctxt.get_desc( "NEW_PAGE", "new page", input_context::allow_all_keys ),
                                           ctxt.get_desc( "CONFIRM", "Edit text", input_context::allow_all_keys ),
                                           ctxt.get_desc( "DELETE PAGE", "Delete page", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_Diary", "Export diary", input_context::allow_all_keys )
+                                          ctxt.get_desc( "EXPORT_DIARY", "Export diary", input_context::allow_all_keys )
                                         );
         center_print( w_desc, 1,  c_white, desc );
 
@@ -294,7 +294,7 @@ void diary::show_diary_ui( diary *c_diary )
                     }
                 }
             }
-        } else if( action == "EXPORT_Diary" ) {
+        } else if( action == "EXPORT_DIARY" ) {
             if( query_yn( _( "Export Diary as .txt?" ) ) ) {
                 c_diary->export_to_txt();
             }

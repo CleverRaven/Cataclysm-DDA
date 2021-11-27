@@ -23,7 +23,7 @@ struct diary_page {
     virtual ~diary_page() = default;
     /*the text the player added to the page*/
     std::string m_text;
-    time_point privius_Page_turn;
+    time_point previous_Page_turn;
     std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
@@ -36,12 +36,12 @@ struct diary_page {
     /*names of killed npc`s*/
     std::vector<std::string> npc_kills;
     /*gender*/
-    bool male;
+    bool male = false;
     /*base character stats*/
-    int strength;
-    int dexterity;
-    int intelligence;
-    int perception;
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
     /*traits id the character has*/
     std::vector<trait_id> traits;
     /*spells id with level the character has*/

@@ -3627,7 +3627,7 @@
   },
   {
     "type": "keybinding",
-    "id": "EXPORT_Diary",
+    "id": "EXPORT_DIARY",
     "name": "Export diary to .txt",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
