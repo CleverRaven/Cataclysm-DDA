@@ -34,31 +34,31 @@ std::vector<std::string> diary::get_pages_list()
 
 int diary::set_opened_page( int pagenum )
 {
-    if( pagenum != opend_page ) {
+    if( pagenum != opened_page ) {
         change_list.clear();
         desc_map.clear();
     }
     if( pages.empty() ) {
-        opend_page = - 1;
+        opened_page = - 1;
     } else if( pagenum < 0 ) {
-        opend_page = pages.size() - 1;
+        opened_page = pages.size() - 1;
     } else {
-        opend_page = pagenum % pages.size();
+        opened_page = pagenum % pages.size();
     }
-    return opend_page;
+    return opened_page;
 }
 
-int diary::get_opend_page_num()
+int diary::get_opened_page_num()
 {
-    return opend_page;
+    return opened_page;
 }
 
 
 diary_page *diary::get_page_ptr( int offset )
 {
-    if( !pages.empty() && opend_page + offset >= 0 ) {
+    if( !pages.empty() && opened_page + offset >= 0 ) {
 
-        return pages[opend_page + offset].get();
+        return pages[opened_page + offset].get();
     }
     return nullptr;
 }
