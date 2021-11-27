@@ -250,6 +250,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int mid_x = width / 2;
     const int mid_y = height / 2;
     map &here = get_map();
+    const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
@@ -377,6 +378,16 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 mvwputch( w_minimap, point( mid_x + i + start_x, mid_y + j + start_y ), ter_color,
                           ter_sym );
             }
+
+            if( i < -1 || i > 1 || j < -1 || j > 1 ) {
+                // Show hordes on minimap, leaving a one-tile space around the player
+                int horde_size = overmap_buffer.get_horde_size( omp );
+                if( horde_size >= HORDE_VISIBILITY_SIZE &&
+                    overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
+                    mvwputch( w_minimap, point( mid_x + i + start_x, mid_y + j + start_y ), c_green,
+                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                }
+            }
         }
     }
 
@@ -429,25 +440,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             }
 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
-        }
-    }
-    avatar &player_character = get_avatar();
-    const int sight_points = player_character.overmap_sight_range( g->light_level(
-                                 player_character.posz() ) );
-    for( int i = -3; i <= 3; i++ ) {
-        for( int j = -3; j <= 3; j++ ) {
-            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
-                continue; // only do hordes on the border, skip inner map
-            }
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
-            int horde_size = overmap_buffer.get_horde_size( omp );
-            if( horde_size >= HORDE_VISIBILITY_SIZE ) {
-                if( overmap_buffer.seen( omp )
-                    && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + mid_x, j + mid_y ), c_green,
-                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                }
-            }
         }
     }
 }
