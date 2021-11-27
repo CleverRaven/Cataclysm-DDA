@@ -674,11 +674,7 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
-        "coverage": 50,
-      }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ], "coverage": 50 }
     ],
     "warmth": 10,
     "material_thickness": 0.2,
