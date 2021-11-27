@@ -1236,6 +1236,11 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
+        explicit typed_flag_reader( const std::string &flag_type )
+            : flag_map( io::get_enum_lookup_map<T>() )
+            , flag_type( flag_type ) {
+        }
+
         T get_next( JsonValue jv ) const {
             const std::string flag = jv;
             const auto iter = flag_map.find( flag );
