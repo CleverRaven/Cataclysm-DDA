@@ -1172,7 +1172,8 @@ class Character : public Creature, public visitable
         // the total of the manipulator score in the best limb group
         float manipulator_score() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
-        float get_limb_score( const limb_score_id &score, const body_part_type::type &bp = body_part_type::type::num_types ) const;
+        float get_limb_score( const limb_score_id &score,
+                              const body_part_type::type &bp = body_part_type::type::num_types ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"

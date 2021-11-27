@@ -29,7 +29,8 @@ float Character::manipulator_score() const
             return a.get_limb_score_max( limb_score_manip ) < b.get_limb_score_max( limb_score_manip );
         } );
         for( const bodypart &id : part.second ) {
-            total = std::min( total + id.get_limb_score( limb_score_manip ), id.get_limb_score_max( limb_score_manip ) );
+            total = std::min( total + id.get_limb_score( limb_score_manip ),
+                              id.get_limb_score_max( limb_score_manip ) );
         }
         score_groups.emplace_back( total );
     }

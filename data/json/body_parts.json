@@ -12,9 +12,7 @@
     "connected_to": "head",
     "opposite_part": "torso",
     "limb_type": "torso",
-    "limb_scores": [
-      [ "balance", 0.7 ]
-    ],
+    "limb_scores": [ [ "balance", 0.7 ] ],
     "encumbrance_threshold": 6,
     "is_vital": true,
     "hit_size": 45,
@@ -47,9 +45,7 @@
     "connected_to": "head",
     "opposite_part": "head",
     "limb_type": "head",
-    "limb_scores": [
-      [ "reaction", 0.3 ]
-    ],
+    "limb_scores": [ [ "reaction", 0.3 ] ],
     "is_vital": true,
     "hit_size": 6,
     "hit_size_relative": [ 0, 2.33, 5.71 ],
@@ -82,11 +78,7 @@
     "hit_size_relative": [ 0, 0.33, 0.57 ],
     "hit_difficulty": 1.15,
     "limb_type": "sensor",
-    "limb_scores": [
-      [ "vision", 1.0 ],
-      [ "night_vis", 1.0 ],
-      [ "reaction", 0.7 ]
-    ],
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "side": "both",
     "legacy_id": "EYES",
     "stylish_bonus": 2,
@@ -112,10 +104,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.15,
     "limb_type": "mouth",
-    "limb_scores": [
-      [ "breathing", 1.0 ],
-      [ "manip", 0.05, 0.2 ]
-    ],
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ] ],
     "side": "both",
     "legacy_id": "MOUTH",
     "stylish_bonus": 2,
@@ -223,10 +212,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "limb_type": "hand",
-    "limb_scores": [
-      [ "manip", 0.5, 1.0 ],
-      [ "swim", 0.15 ]
-    ],
+    "limb_scores": [ [ "manip", 0.5, 1.0 ], [ "swim", 0.15 ] ],
     "side": "left",
     "legacy_id": "HAND_L",
     "stylish_bonus": 0.5,
@@ -255,10 +241,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "limb_type": "hand",
-    "limb_scores": [
-      [ "manip", 0.5, 1.0 ],
-      [ "swim", 0.15 ]
-    ],
+    "limb_scores": [ [ "manip", 0.5, 1.0 ], [ "swim", 0.15 ] ],
     "side": "right",
     "legacy_id": "HAND_R",
     "stylish_bonus": 0.5,
@@ -290,11 +273,7 @@
     "hit_size_relative": [ 25, 12, 5.71 ],
     "hit_difficulty": 0.975,
     "limb_type": "leg",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "move_speed", 0.5 ],
-      [ "swim", 0.15 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ] ],
     "side": "left",
     "legacy_id": "LEG_L",
     "stylish_bonus": 1,
@@ -328,11 +307,7 @@
     "hit_size_relative": [ 25, 12, 5.71 ],
     "hit_difficulty": 0.975,
     "limb_type": "leg",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "move_speed", 0.5 ],
-      [ "swim", 0.15 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ] ],
     "side": "right",
     "legacy_id": "LEG_R",
     "stylish_bonus": 1,
@@ -429,11 +404,7 @@
     "main_part": "debug_tail",
     "hit_difficulty": 0.8,
     "limb_type": "tail",
-    "limb_scores": [
-      [ "manip", 0.5, 1.0 ],
-      [ "balance", 1.0 ],
-      [ "swim", 0.15 ]
-    ],
+    "limb_scores": [ [ "manip", 0.5, 1.0 ], [ "balance", 1.0 ], [ "swim", 0.15 ] ],
     "opposite_part": "debug_tail",
     "side": "both",
     "connected_to": "torso",
