@@ -2546,12 +2546,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
-            // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
-                reset_scenario( u, sorted_scens[0] );
-                points.init_from_options();
-                points.skill_points -= sorted_scens[cur_id]->point_cost();
-            }
+            reset_scenario( u, sorted_scens[0] );
 
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
