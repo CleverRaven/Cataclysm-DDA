@@ -16,7 +16,7 @@
 
 
 /// <summary>
-/// diary page, to save current charakter progression
+/// diary page, to save current character progression
 /// </summary>
 struct diary_page {
     diary_page();
@@ -24,7 +24,7 @@ struct diary_page {
     /*the text the player added to the page*/
     std::string m_text;
     time_point privius_Page_turn;
-    std::vector<std::string> diff_to_previus_page;
+    std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
     /*mission ids for completed/active and faild missions*/
@@ -37,43 +37,43 @@ struct diary_page {
     std::vector<std::string> npc_kills;
     /*gender*/
     bool male;
-    /*base charakter stats*/
+    /*base character stats*/
     int strength;
     int dexterity;
     int intelligence;
     int perception;
-    /*traits id the charakter has*/
+    /*traits id the character has*/
     std::vector<trait_id> traits;
-    /*spells id with level the charakter has*/
+    /*spells id with level the character has*/
     std::map<spell_id, int> known_spells;
-    /*bionics id`s the charakter has*/
+    /*bionics id`s the character has*/
     std::vector<bionic_id> bionics;
-    /*skill id's with level the charakter has*/
+    /*skill id's with level the character has*/
     std::map<skill_id, int> skillsL;
-    /*known and learing profession id of the charakter*/
+    /*known and learning profession id of the character*/
     std::vector<proficiency_id> known_profs;
     std::vector<proficiency_id> learning_profs;
-    /*maximal power level the charakter has*/
+    /*maximal power level the character has*/
     units::energy max_power_level;
 };
 
 /// <summary>
 /// diary is connectet to the player avatar.
-/// the player is able to add new pages every page saves the current charakter progression and shows the improvements compated to the previus pages
+/// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
 /// The player is also able to add a Text in every page.
 /// </summary>
 class diary
 {
         //attribute
     private:
-        /*charakter name who ownes the diary*/
+        /*character name who owns the diary*/
         std::string owner;
         /*list of all pages added to the diary*/
         std::vector< std::unique_ptr<diary_page>> pages;
 
         /*current opend page*/
         int opend_page = 0; // NOLINT(cata-serialize)
-        /*list of chages from opend page to previus page*/
+        /*list of changes from opened page to previous page*/
         std::vector<std::string> change_list; // NOLINT(cata-serialize)
         /*maps discription to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
@@ -85,7 +85,7 @@ class diary
         virtual ~diary() = default;
         /*static methode to open a diary ui*/
         static void show_diary_ui( diary *c_diary );
-        /*last entry in the diary, will be called after charakter death */
+        /*last entry in the diary, will be called after character death */
         void death_entry();
 
         /*serialize and deserialize*/
@@ -104,7 +104,7 @@ class diary
         void edit_page_ui( catacurses::window &win );
         /*set page to be be shown in ui*/
         int set_opend_page( int pagenum );
-        /*create a new page and adds current charakter progression*/
+        /*create a new page and adds current character progression*/
         void new_page();
         /*set page text*/
         void set_page_text( std::string text );
@@ -115,7 +115,7 @@ class diary
         int get_opend_page_num();
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list();
-        /*returns a list with all changes compared to the previus page*/
+        /*returns a list with all changes compared to the previous page*/
         std::vector<std::string> get_change_list();
         /*returns a map corresponding to the change_list with descriptions*/
         std::map<int, std::string> get_desc_map();
@@ -126,7 +126,7 @@ class diary
         std::string get_page_text();
         /*returns text for head of page*/
         std::string get_head_text();
-        /*the following methodes are used to fill the change_list and desc_map in comparision to the previus page*/
+        /*the following methods are used to fill the change_list and desc_map in comparison to the previous page*/
         void skill_changes();
         void kill_changes();
         void trait_changes();
