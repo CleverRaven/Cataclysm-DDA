@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e1d" ],
+    "om_terrain": [ "mansion_e1d" ],
     "//": "basement road_alt, wild 1, 0, -1.",
     "weight": 1000,
     "object": {
@@ -47,7 +47,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e1" ],
+    "om_terrain": [ "mansion_e1" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -91,7 +91,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e1u" ],
+    "om_terrain": [ "mansion_e1u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -139,7 +139,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e2d" ],
+    "om_terrain": [ "mansion_e2d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -193,7 +193,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e2" ],
+    "om_terrain": [ "mansion_e2" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -238,7 +238,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e2u" ],
+    "om_terrain": [ "mansion_e2u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -293,7 +293,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t1d" ],
+    "om_terrain": [ "mansion_t1d" ],
     "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -330,7 +330,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t1" ],
+    "om_terrain": [ "mansion_t1" ],
     "//": "updated",
     "weight": 700,
     "object": {
@@ -382,7 +382,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t1u" ],
+    "om_terrain": [ "mansion_t1u" ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -420,7 +420,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
+    "om_terrain": [ "mansion_t2d" ],
     "weight": 800,
     "//": "secret room variant",
     "object": {
@@ -510,7 +510,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
+    "om_terrain": [ "mansion_t2" ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -560,7 +560,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
+    "om_terrain": [ "mansion_t2" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -615,7 +615,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
+    "om_terrain": [ "mansion_t2u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -675,7 +675,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
+    "om_terrain": [ "mansion_t2d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -728,7 +728,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
+    "om_terrain": [ "mansion_t2u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -782,7 +782,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t4d" ],
+    "om_terrain": [ "mansion_t4d" ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -835,7 +835,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t4" ],
+    "om_terrain": [ "mansion_t4" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -887,7 +887,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t4u" ],
+    "om_terrain": [ "mansion_t4u" ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -930,7 +930,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t5d" ],
+    "om_terrain": [ "mansion_t5d" ],
     "weight": 400,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -993,7 +993,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t5" ],
+    "om_terrain": [ "mansion_t5" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -1046,7 +1046,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t5u" ],
+    "om_terrain": [ "mansion_t5u" ],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -1101,7 +1101,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t6d" ],
+    "om_terrain": [ "mansion_t6d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1170,7 +1170,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t6" ],
+    "om_terrain": [ "mansion_t6" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1226,7 +1226,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t6u" ],
+    "om_terrain": [ "mansion_t6u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_carpet_green",
@@ -1293,7 +1293,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t7d" ],
+    "om_terrain": [ "mansion_t7d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1351,7 +1351,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t7" ],
+    "om_terrain": [ "mansion_t7" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1405,7 +1405,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t7u" ],
+    "om_terrain": [ "mansion_t7u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_carpet_green",
@@ -1458,7 +1458,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
+    "om_terrain": [ "mansion_+1d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_dirt",
@@ -1496,7 +1496,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+1" ],
+    "om_terrain": [ "mansion_+1" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -1542,7 +1542,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+1u" ],
+    "om_terrain": [ "mansion_+1u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor_noroof",
@@ -1580,7 +1580,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
+    "om_terrain": [ "mansion_+2d" ],
     "weight": 900,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1645,7 +1645,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+2" ],
+    "om_terrain": [ "mansion_+2" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -1693,7 +1693,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+2u" ],
+    "om_terrain": [ "mansion_+2u" ],
     "weight": 900,
     "object": {
       "fill_ter": "t_floor",
@@ -1731,7 +1731,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
+    "om_terrain": [ "mansion_+2d" ],
     "weight": 800,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1784,7 +1784,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+3" ],
+    "om_terrain": [ "mansion_+3" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -1850,7 +1850,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+3u" ],
+    "om_terrain": [ "mansion_+3u" ],
     "weight": 800,
     "object": {
       "fill_ter": "t_floor",
@@ -1888,7 +1888,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+4d" ],
+    "om_terrain": [ "mansion_+4d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1945,7 +1945,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+4" ],
+    "om_terrain": [ "mansion_+4" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2025,7 +2025,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+4u" ],
+    "om_terrain": [ "mansion_+4u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2072,7 +2072,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c1d" ],
+    "om_terrain": [ "mansion_c1d" ],
     "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -2116,7 +2116,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c1" ],
+    "om_terrain": [ "mansion_c1" ],
     "weight": 700,
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2160,7 +2160,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c1u" ],
+    "om_terrain": [ "mansion_c1u" ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -2221,7 +2221,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c2d" ],
+    "om_terrain": [ "mansion_c2d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -2261,7 +2261,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c2" ],
+    "om_terrain": [ "mansion_c2" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -2318,7 +2318,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c2u" ],
+    "om_terrain": [ "mansion_c2u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2378,7 +2378,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c3d" ],
+    "om_terrain": [ "mansion_c3d" ],
     "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -2422,7 +2422,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c3" ],
+    "om_terrain": [ "mansion_c3" ],
     "//": "updated",
     "weight": 500,
     "object": {
@@ -2476,7 +2476,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c3u" ],
+    "om_terrain": [ "mansion_c3u" ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -2536,7 +2536,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c4d" ],
+    "om_terrain": [ "mansion_c4d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -2604,7 +2604,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c4" ],
+    "om_terrain": [ "mansion_c4" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -2652,7 +2652,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c4u" ],
+    "om_terrain": [ "mansion_c4u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2697,7 +2697,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c5d" ],
+    "om_terrain": [ "mansion_c5d" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -2752,7 +2752,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c5" ],
+    "om_terrain": [ "mansion_c5" ],
     "//": "updated",
     "weight": 1000,
     "object": {
@@ -2805,7 +2805,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c5u" ],
+    "om_terrain": [ "mansion_c5u" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",

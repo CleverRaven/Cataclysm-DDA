@@ -162,7 +162,6 @@ static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_temple( "temple" );
 static const oter_str_id oter_temple_finale( "temple_finale" );
 static const oter_str_id oter_temple_stairs( "temple_stairs" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
@@ -5161,7 +5160,7 @@ void map::draw_lab( mapgendata &dat )
 void map::draw_temple( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_temple || terrain_type == oter_temple_stairs ) {
+    if( terrain_type == oter_temple_stairs ) {
         if( dat.zlevel() == 0 ) {
             // Ground floor
             // TODO: More varieties?

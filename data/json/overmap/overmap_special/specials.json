@@ -57,6 +57,15 @@
   },
   {
     "type": "overmap_special",
+    "id": "natural_spring",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "natural_spring_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Pottery Cottage",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "pottery_cottage_field_north" },
@@ -707,7 +716,7 @@
       { "point": [ 2, 0, -2 ], "overmap": "central_lab_hq_1_north" },
       { "point": [ 0, 1, -2 ], "overmap": "central_lab_hq_6_north" },
       { "point": [ 1, 1, -2 ], "overmap": "central_lab_hq_5_north" },
-      { "point": [ 2, 1, -2 ], "overmap": "central_lab_hq_6_north" },
+      { "point": [ 2, 1, -2 ], "overmap": "central_lab_hq_4_north" },
       { "point": [ 0, 2, -2 ], "overmap": "central_lab_hq_9_north" },
       { "point": [ 1, 2, -2 ], "overmap": "central_lab_hq_8_north" },
       { "point": [ 2, 2, -2 ], "overmap": "central_lab_hq_7_north" },
@@ -803,7 +812,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Bunker",
+    "id": "military_bunker",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
@@ -817,7 +826,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Bunker",
+    "id": "military_bunker_1",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
@@ -831,7 +840,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Outpost",
+    "id": "military_outpost",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
@@ -840,7 +849,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Outpost",
+    "id": "military_outpost_cross",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_cross_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
@@ -4164,6 +4173,23 @@
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campground_npc",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_npc_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "campground_1b_npc_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "campground_2a_npc_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_npc_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "campground_roof_npc_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 3, 100 ],
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "overmap_special",
