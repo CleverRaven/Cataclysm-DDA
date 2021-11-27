@@ -8,7 +8,10 @@
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
 #else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #   include <SDL.h>
+#pragma GCC diagnostic pop
 #   include <SDL_image.h>
 #   include <SDL_ttf.h>
 #endif
