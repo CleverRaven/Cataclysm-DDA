@@ -240,6 +240,9 @@ class Tileset:
             if sheet_type != 'fallback':
                 sheet.walk_dirs()
 
+                # TODO: generate JSON first
+                # then create sheets if there are no errors
+
                 # write output PNGs
                 if not sheet.write_composite_png():
                     continue
@@ -274,11 +277,12 @@ class Tileset:
                     continue
                 unused_num = self.pngname_to_pngnum[unused_png]
                 sheet_min_index = 0
-                for sheet_max_index in tiles_new_dict:
+                for sheet_max_index, sheet_data in tiles_new_dict.items():
                     if sheet_min_index < unused_num <= sheet_max_index:
-                        tiles_new_dict[sheet_max_index]['tiles'].append(
-                            {'id': unused_png,
-                             'fg': unused_num})
+                        sheet_data['tiles'].append({
+                            'id': unused_png,
+                            'fg': unused_num,
+                        })
                         self.processed_ids.append(unused_png)
                         break
                     sheet_min_index = sheet_max_index
@@ -463,9 +467,9 @@ class Tilesheet:
         '''
         try:
             image = Vips.Image.pngload(png_path)
-        except pyvips.error.Error as exception:
+        except pyvips.error.Error as pyvips_error:
             raise ComposingException(
-                f'Cannot load {png_path}: {exception.message}') from None
+                f'Cannot load {png_path}: {pyvips_error.message}') from None
         except UnicodeDecodeError:
             raise ComposingException(
                 f'Cannot load {png_path} with UnicodeDecodeError, '
@@ -563,24 +567,18 @@ class TileEntry:
         '''
         if entry is None:
             entry = self.data
-        tile_id = entry.get('id')
+
         id_as_prefix = None
-        skipping_filler = False
 
-        if tile_id:
-            if not isinstance(tile_id, list):
-                tile_id = [tile_id]
-            id_as_prefix = f'{tile_id[0]}_'
+        # get the IDs list
+        entry_ids = entry.get('id')
+        if entry_ids:
+            if not isinstance(entry_ids, list):
+                entry_ids = [entry_ids]
+            id_as_prefix = f'{entry_ids[0]}_'
+        # TODO: add else block or comment why it's missing
 
-        if self.tilesheet.is_filler:
-            for an_id in tile_id:
-                full_id = f'{prefix}{an_id}'
-                if full_id in self.tilesheet.tileset.processed_ids:
-                    if self.tilesheet.tileset.obsolete_fillers:
-                        print(
-                            f'Warning: skipping filler for {full_id} '
-                            f'from {self.filepath}')
-                    skipping_filler = True
+        # convert fg value
         fg_layer = entry.get('fg', None)
         if fg_layer:
             entry['fg'] = list_or_first(
@@ -588,6 +586,7 @@ class TileEntry:
         else:
             entry.pop('fg', None)
 
+        # convert bg value
         bg_layer = entry.get('bg', None)
         if bg_layer:
             entry['bg'] = list_or_first(
@@ -595,27 +594,43 @@ class TileEntry:
         else:
             entry.pop('bg', None)
 
+        # recursively convert additional_tiles value
         additional_entries = entry.get('additional_tiles', [])
         for additional_entry in additional_entries:
             # recursive part
             self.convert(additional_entry, id_as_prefix)
 
-        if fg_layer or bg_layer:
-            for an_id in tile_id:
-                full_id = f'{prefix}{an_id}'
-                if full_id not in self.tilesheet.tileset.processed_ids:
-                    self.tilesheet.tileset.processed_ids.append(full_id)
+        # return None if neither fg nor bg is defined
+        if not fg_layer and not bg_layer:
+            print('Warning: skipping empty entry for '
+                  f'{prefix}{entry_ids} in {self.filepath}')
+            return None
+
+        # remember processed IDs and remove duplicates
+        for entry_id in entry_ids:
+            full_id = f'{prefix}{entry_id}'
+
+            if full_id not in self.tilesheet.tileset.processed_ids:
+                self.tilesheet.tileset.processed_ids.append(full_id)
+
+            else:
+                entry_ids.remove(entry_id)
+
+                if self.tilesheet.is_filler:
+                    if self.tilesheet.tileset.obsolete_fillers:
+                        print('Warning: skipping filler for '
+                              f'{full_id} from {self.filepath}')
+
                 else:
-                    if not skipping_filler:
-                        print(
-                            f'Error: {full_id} encountered more than once, '
-                            f'last time in {self.filepath}')
-                        self.tilesheet.tileset.error_logged = True
-            if skipping_filler:
-                return None
+                    print(f'Error: {full_id} encountered more than once, '
+                          f'last time in {self.filepath}')
+                    self.tilesheet.tileset.error_logged = True
+
+        # return converted entry if there are new IDs
+        if entry_ids:
+            entry['id'] = list_or_first(entry_ids)
             return entry
-        print(
-            f'skipping empty entry for {prefix}{tile_id} in {self.filepath}')
+
         return None
 
     def convert_entry_layer(self, entry_layer: Union[list, str]) -> list:
