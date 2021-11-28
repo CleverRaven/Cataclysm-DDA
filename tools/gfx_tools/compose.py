@@ -568,14 +568,13 @@ class TileEntry:
         if entry is None:
             entry = self.data
 
-        entry_ids = entry.get('id', None)
-        fg_layer = entry.pop('fg', None)
-        bg_layer = entry.pop('bg', None)
+        entry_ids = entry.get('id')
+        fg_layer = entry.get('fg')
+        bg_layer = entry.get('bg')
 
-        # return None if neither fg nor bg is defined
         if not entry_ids or (not fg_layer and not bg_layer):
             print(
-                f'Warning: skipping empty entry in {self.filepath}'
+                f'Warning: skipping empty entry in {self.filepath}' +
                 (f' with IDs {prefix}{entry_ids} ' if entry_ids else '')
             )
             return None
@@ -588,10 +587,16 @@ class TileEntry:
         # convert fg value
         if fg_layer:
             entry['fg'] = list_or_first(self.convert_entry_layer(fg_layer))
+        else:
+            # don't pop at the start because that affects order of the keys
+            entry.pop('fg', None)
 
         # convert bg value
         if bg_layer:
             entry['bg'] = list_or_first(self.convert_entry_layer(bg_layer))
+        else:
+            # don't pop at the start because that affects order of the keys
+            entry.pop('bg', None)
 
         # recursively convert additional_tiles value
         additional_entries = entry.get('additional_tiles', [])
