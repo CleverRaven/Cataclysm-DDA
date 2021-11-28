@@ -1006,17 +1006,19 @@ class saw_barrel_actor : public iuse_actor
 // this adds a pocket to a molle item
 class molle_attach_actor : public iuse_actor
 {
-public:
-    explicit molle_attach_actor(const std::string& type = "attach_molle") : iuse_actor(type) {}
+    public:
+        explicit molle_attach_actor( const std::string &type = "attach_molle" ) : iuse_actor( type ) {}
 
-    int size;
+        int size;
 
-    void load(const JsonObject& jo) override;
-    cata::optional<int> use(Character& p, item& it, bool t, const tripoint& pnt) const override;
-    std::unique_ptr<iuse_actor> clone() const override;
+        void load( const JsonObject &jo ) override;
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
 
-    ret_val<bool> can_use_on(const Character& you, const item& it, const item& target) const;
+        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
+
+
 
 class install_bionic_actor : public iuse_actor
 {
