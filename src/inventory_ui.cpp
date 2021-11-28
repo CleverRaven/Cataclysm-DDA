@@ -92,6 +92,8 @@ static const double min_ratio_to_center = 0.85;
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
 static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
+bool inventory_selector::skip_unselectable = false;
+
 struct navigation_mode_data {
     navigation_mode next_mode;
     translation name;
@@ -252,8 +254,8 @@ const item_category *inventory_entry::get_category_ptr() const
 
 bool inventory_column::activatable() const
 {
-    return std::any_of( entries.begin(), entries.end(), []( const inventory_entry & e ) {
-        return e.is_selectable();
+    return std::any_of( entries.begin(), entries.end(), [this]( const inventory_entry & e ) {
+        return e.is_highlightable( skip_unselectable );
     } );
 }
 
@@ -275,6 +277,11 @@ size_t inventory_column::get_width() const
 size_t inventory_column::get_height() const
 {
     return std::min( entries.size(), height );
+}
+
+void inventory_column::toggle_skip_unselectable( const bool skip )
+{
+    skip_unselectable = skip;
 }
 
 inventory_selector_preset::inventory_selector_preset()
@@ -424,8 +431,8 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
 void inventory_column::select( size_t new_index, scroll_direction dir )
 {
     if( new_index < entries.size() ) {
-        if( !entries[new_index].is_selectable() ) {
-            new_index = next_selectable_index( new_index, dir );
+        if( !entries[new_index].is_highlightable( skip_unselectable ) ) {
+            new_index = next_highlightable_index( new_index, dir );
         }
 
         selected_index = new_index;
@@ -434,7 +441,7 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
     }
 }
 
-size_t inventory_column::next_selectable_index( size_t index, scroll_direction dir ) const
+size_t inventory_column::next_highlightable_index( size_t index, scroll_direction dir ) const
 {
     if( entries.empty() ) {
         return index;
@@ -448,9 +455,10 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
-    } while( new_index != index && !entries[new_index].is_selectable() );
+    } while( new_index != index &&
+             !entries[new_index].is_highlightable( skip_unselectable ) );
 
-    if( !entries[new_index].is_selectable() ) {
+    if( !entries[new_index].is_highlightable( skip_unselectable ) ) {
         return static_cast<size_t>( -1 );
     }
 
@@ -462,7 +470,7 @@ void inventory_column::move_selection( scroll_direction dir )
     size_t index = selected_index;
 
     do {
-        index = next_selectable_index( index, dir );
+        index = next_highlightable_index( index, dir );
     } while( index != selected_index && is_selected_by_category( entries[index] ) );
 
     select( index, dir );
@@ -473,7 +481,7 @@ void inventory_column::move_selection_page( scroll_direction dir )
     size_t index = selected_index;
 
     do {
-        const size_t next_index = next_selectable_index( index, dir );
+        const size_t next_index = next_highlightable_index( index, dir );
         const bool flipped = next_index == selected_index ||
                              ( next_index > selected_index ) != ( static_cast<int>( dir ) > 0 );
 
@@ -482,7 +490,7 @@ void inventory_column::move_selection_page( scroll_direction dir )
         }
 
         index = next_index;
-    } while( page_of( next_selectable_index( index, dir ) ) == page_index() );
+    } while( page_of( next_highlightable_index( index, dir ) ) == page_index() );
 
     select( index, dir );
 }
@@ -2163,10 +2171,15 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "HIDE_CONTENTS", to_translation( "Hide contents" ) );
     ctxt.register_action( "SHOW_CONTENTS", to_translation( "Show contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
+    ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
 
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
+
+    for( inventory_column *column : columns ) {
+        column->toggle_skip_unselectable( skip_unselectable );
+    }
 }
 
 inventory_selector::~inventory_selector() = default;
@@ -2249,11 +2262,11 @@ void inventory_selector::on_input( const inventory_input &input )
         }
     } else if( input.action == "INVENTORY_FILTER" ) {
         query_set_filter();
+    } else if( input.action == "TOGGLE_SKIP_UNSELECTABLE" ) {
+        toggle_skip_unselectable();
     } else {
-        if( has_available_choices() ) {
-            for( inventory_column *elem : columns ) {
-                elem->on_input( input );
-            }
+        for( inventory_column *elem : columns ) {
+            elem->on_input( input );
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
         if( input.action == "TOGGLE_FAVORITE" ) {
@@ -2311,6 +2324,14 @@ void inventory_selector::set_active_column( size_t index )
         get_active_column().on_deactivate();
         active_column_index = index;
         get_active_column().on_activate();
+    }
+}
+
+void inventory_selector::toggle_skip_unselectable()
+{
+    skip_unselectable = !skip_unselectable;
+    for( inventory_column *col : columns ) {
+        col->toggle_skip_unselectable( skip_unselectable );
     }
 }
 
@@ -2481,7 +2502,7 @@ item_location inventory_pick_selector::execute()
             return item_location();
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
+            if( selected && selected.is_selectable() ) {
                 return selected.any_item();
             }
         } else {
@@ -2638,6 +2659,11 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
             selected = get_active_column().get_entries( filter_to_nonfavorite_and_nonworn );
         }
+    }
+
+    if( selected.empty() || !selected.front()->is_selectable() ) {
+        count = 0;
+        return;
     }
 
     // No amount entered, select all

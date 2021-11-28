@@ -1761,6 +1761,12 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SKIP_UNSELECTABLE",
+    "category": "INVENTORY",
+    "name": "Toggle skipping unselectable items"
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
