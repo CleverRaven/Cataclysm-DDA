@@ -1767,18 +1767,18 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
 
 class attach_molle_inventory_preset : public inventory_selector_preset
 {
-public:
-    attach_molle_inventory_preset(const molle_attach_actor* actor, const item* vest) :
-        actor(actor), vest(vest) {
-    }
+    public:
+        attach_molle_inventory_preset( const molle_attach_actor *actor, const item *vest ) :
+            actor( actor ), vest( vest ) {
+        }
 
-    bool is_shown(const item_location& loc) const override {
-        return loc->has_flag(flag_PALS);
-    }
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( flag_PALS );
+        }
 
-private:
-    const molle_attach_actor* actor;
-    const item* vest;
+    private:
+        const molle_attach_actor *actor;
+        const item *vest;
 };
 
 class salvage_inventory_preset: public inventory_selector_preset
@@ -1853,23 +1853,23 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
                        );
 }
 
-item_location game_menus::inv::molle_attach(Character& you, item& tool)
+item_location game_menus::inv::molle_attach( Character &you, item &tool )
 {
-    const molle_attach_actor* actor = dynamic_cast<const molle_attach_actor*>
-        (tool.type->get_use("attach_molle")->get_actor_ptr());
+    const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                      ( tool.type->get_use( "attach_molle" )->get_actor_ptr() );
 
-    if (!actor) {
-        debugmsg("Tried to use a wrong item.");
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
         return item_location();
     }
 
-    return inv_internal(you, attach_molle_inventory_preset(actor, &tool ),
-        _("Attach an item to the vest"), 1,
-        _("You don't have any MOLLE compatible items."),
-        string_format(_("Choose an accessory to attach to your %s "),
-            tool.tname(1, false)
-        )
-    );
+    return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
+                         _( "Attach an item to the vest" ), 1,
+                         _( "You don't have any MOLLE compatible items." ),
+                         string_format( _( "Choose an accessory to attach to your %s " ),
+                                        tool.tname( 1, false )
+                                      )
+                       );
 }
 
 drop_locations game_menus::inv::multidrop( avatar &you )

@@ -4036,7 +4036,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
 
     item &obj = *loc.obtain( p );
     p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
-    obj.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
 
     it.get_contents().add_pocket( obj );
 
