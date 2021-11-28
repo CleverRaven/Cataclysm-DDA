@@ -550,9 +550,19 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
-    "id": "PALS",
+    "id": "PALS_SMALL",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>tactical vests</info> taking a <good>small ammount of space</good>."
+  },
+  {
+    "id": "PALS_MEDIUM",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>tactical vests</info>."
+  },
+  {
+    "id": "PALS_LARGE",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>tactical vests</info> take a <bad>large ammount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",

@@ -6770,7 +6770,8 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
-        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
+        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber +
+                               get_contents().get_additional_pocket_encumbrance() -
                                portion_data->encumber ) );
 
         // add the encumbrance values of any ablative plates

@@ -1773,7 +1773,7 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_PALS );
+            return loc->has_flag( flag_PALS_SMALL );
         }
 
     private:

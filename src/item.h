@@ -2639,6 +2639,9 @@ class item : public visitable
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
 
+        // additional encumbrance this specific item has
+        units::volume additional_encumbrance = 0_ml;
+
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed

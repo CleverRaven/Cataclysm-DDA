@@ -527,7 +527,7 @@
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS" ],
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {

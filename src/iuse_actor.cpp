@@ -4034,10 +4034,13 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-    item &obj = *loc.obtain( p );
+    item &obj = *loc.get_item();
     p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
+
+    // the item has been added to the vest it should no longer exist in the world
+    loc.remove_item();
 
 
 
