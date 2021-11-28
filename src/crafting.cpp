@@ -91,6 +91,8 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const quality_id qual_BOIL( "BOIL" );
 
+static const limb_score_id limb_score_manip( "manip" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -251,7 +253,7 @@ float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress 
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
-                         manipulator_score();
+                         get_limb_score( limb_score_manip );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -280,7 +282,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
-                              manipulator_score();
+                              get_limb_score( limb_score_manip );
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );

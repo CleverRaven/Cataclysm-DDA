@@ -301,6 +301,7 @@ static const json_character_flag json_flag_WATCH( "WATCH" );
 
 static const limb_score_id limb_score_breathing( "breathing" );
 static const limb_score_id limb_score_lift( "lift" );
+static const limb_score_id limb_score_manip( "manip" );
 static const limb_score_id limb_score_night_vis( "night_vis" );
 static const limb_score_id limb_score_vision( "vision" );
 
@@ -1645,7 +1646,7 @@ void Character::handle_skill_warning( const skill_id &id, bool force_warning )
 
 bool Character::has_min_manipulators() const
 {
-    return manipulator_score() > MIN_MANIPULATOR_SCORE;
+    return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
 /** Returns true if the character has two functioning arms */

@@ -610,6 +610,9 @@ class Character : public Creature, public visitable
         // additive modifier
         float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;
+        // get descriptions to display encumbrance effects on modifiers
+        std::vector<std::string> get_modifier_descriptions( const limb_score_id &score,
+                nc_color val_color = c_white ) const;
 
         /* Gun stuff */
         /**
@@ -1169,8 +1172,6 @@ class Character : public Creature, public visitable
 
         bool is_deaf() const;
         bool is_mute() const;
-        // the total of the manipulator score in the best limb group
-        float manipulator_score() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
         float get_limb_score( const limb_score_id &score,
                               const body_part_type::type &bp = body_part_type::type::num_types ) const;

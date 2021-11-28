@@ -15,7 +15,8 @@ static const skill_id skill_swimming( "swimming" );
 
 // Scores
 
-float Character::manipulator_score() const
+// the total of the manipulator score in the best limb group
+static float manipulator_score( const std::map<bodypart_str_id, bodypart> body )
 {
     std::map<body_part_type::type, std::vector<bodypart>> bodypart_groups;
     std::vector<float> score_groups;
@@ -47,7 +48,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     int skill = -1;
     // manipulator/swim scores are treated a little special for now
     if( score == limb_score_manip ) {
-        return manipulator_score();
+        return manipulator_score( body );
     } else if( score == limb_score_swim ) {
         skill = get_skill_level( skill_swimming );
     }
@@ -85,15 +86,16 @@ double Character::aim_speed_dex_modifier() const
 
 float Character::aim_speed_modifier() const
 {
-    return manipulator_score();
+    return get_limb_score( limb_score_manip );
 }
 
 float Character::melee_thrown_move_modifier_hands() const
 {
-    if( manipulator_score() == 0.0f ) {
+    float manip_score = get_limb_score( limb_score_manip );
+    if( manip_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manip_score );
     }
 }
 
@@ -119,25 +121,26 @@ float Character::melee_stamina_cost_modifier() const
 
 float Character::reloading_move_modifier() const
 {
-    if( manipulator_score() == 0.0f ) {
+    float manip_score = get_limb_score( limb_score_manip );
+    if( manip_score == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manip_score );
     }
 }
 
 float Character::thrown_dex_modifier() const
 {
-    return manipulator_score();
+    return get_limb_score( limb_score_manip );
 }
 
 float Character::ranged_dispersion_modifier_hands() const
 {
-    if( manipulator_score() == 0.0f ) {
+    float manip_score = get_limb_score( limb_score_manip );
+    if( manip_score == 0.0f ) {
         return 1000.0f;
     } else {
-        return std::min( 1000.0f,
-                         ( 22.8f / manipulator_score() ) - 22.8f );
+        return std::min( 1000.0f, ( 22.8f / manip_score ) - 22.8f );
     }
 }
 
@@ -204,3 +207,114 @@ float Character::melee_attack_roll_modifier() const
     return std::max( 0.2f, get_limb_score( limb_score_balance ) );
 }
 
+using mod_func_ptr = float ( Character::* )() const;
+static const std::map<const limb_score_id, std::map<std::string, mod_func_ptr>> score_mod_map = {
+    {
+        limb_score_balance,
+        {
+            {
+                translate_marker( "Melee and thrown attack movement point modifier: x" ),
+                &Character::melee_thrown_move_modifier_torso
+            },
+            {
+                translate_marker( "Melee attack rolls: x" ),
+                &Character::melee_attack_roll_modifier
+            },
+            {
+                translate_marker( "Balance movecost modifier: x" ),
+                &Character::limb_balance_movecost_modifier
+            }
+        }
+    },
+    {
+        limb_score_breathing,
+        {
+            {
+                translate_marker( "Stamina Regeneration: x" ),
+                &Character::stamina_recovery_breathing_modifier
+            }
+        }
+    },
+    {
+        limb_score_lift,
+        {
+            {
+                translate_marker( "Melee stamina cost: x" ),
+                &Character::melee_stamina_cost_modifier
+            }
+        }
+    },
+    {
+        limb_score_manip,
+        {
+            {
+                translate_marker( "Gun aim speed modifier: x" ),
+                &Character::aim_speed_modifier
+            },
+            {
+                translate_marker( "Melee and thrown attack movement point modifier: x" ),
+                &Character::melee_thrown_move_modifier_hands
+            },
+            {
+                translate_marker( "Reloading movement point cost: x" ),
+                &Character::reloading_move_modifier
+            },
+            {
+                translate_marker( "Dexterity when throwing items: x" ),
+                &Character::thrown_dex_modifier
+            },
+            {
+                translate_marker( "Hand dispersion when using ranged attacks: +" ),
+                &Character::ranged_dispersion_modifier_hands
+            }
+        }
+    },
+    {
+        limb_score_move_speed,
+        {
+            {
+                translate_marker( "Limb speed movecost modifier: x" ),
+                &Character::limb_speed_movecost_modifier
+            }
+        }
+    },
+    {
+        limb_score_swim,
+        {
+            {
+                translate_marker( "Swimming movement point cost: x" ),
+                &Character::swim_modifier
+            }
+        }
+    },
+    {
+        limb_score_vision,
+        {
+            {
+                translate_marker( "Sight dispersion when using ranged attacks: +" ),
+                &Character::ranged_dispersion_modifier_vision
+            }
+        }
+    }
+};
+
+std::vector<std::string> Character::get_modifier_descriptions( const limb_score_id &score,
+        nc_color val_color ) const
+{
+    std::vector<std::string> s;
+    const auto &func_map = score_mod_map.find( score );
+    if( func_map == score_mod_map.end() ) {
+        return s;
+    }
+
+    auto txt_fmt = [val_color]( const std::string & txt, float val ) {
+        return _( txt ) + colorize( string_format( "%.2f", val ), val_color );
+    };
+
+    for( const auto &func_pair : func_map->second ) {
+        float ( Character::* tmp )() const = func_pair.second;
+        s.emplace_back( txt_fmt( func_pair.first, ( this->*tmp )() ) );
+    }
+
+    return s;
+}

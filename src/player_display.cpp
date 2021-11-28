@@ -215,19 +215,30 @@ static std::string get_score_text( const std::string &sc_name, float cur_score, 
     std::string sc_txt = colorize( string_format( "%.2f (%.f%%)", cur_score,
                                    cur_score * 100.f / bp_score ), score_c );
     //~ 1$ = name of the limb score (ex: Balance), 2$ = current score value (colored)
-    return string_format( _( "%1$s score: %2$s\n" ), sc_name, sc_txt );
+    return string_format( _( "%1$s score: %2$s" ), sc_name, sc_txt );
 }
 
-static std::string get_encumbrance_description( const Character &you, const bodypart_id &bp )
+static std::vector<std::string> get_encumbrance_description( const Character &you,
+        const bodypart_id &bp )
 {
-    std::string s;
+    std::vector<std::string> s;
     const bodypart *part = you.get_part( bp );
     if( !bp->encumb_text.empty() ) {
-        s += colorize( string_format( _( "Encumberance effects: %s\n" ), bp->encumb_text ), c_magenta );
+        s.emplace_back( colorize( string_format( _( "Encumberance effects: %s" ), bp->encumb_text ),
+                                  c_magenta ) );
     }
     for( const limb_score &sc : limb_score::get_all() ) {
-        s += get_score_text( sc.name().translated(), part->get_limb_score( sc.getId() ),
-                             bp->get_limb_score( sc.getId() ) );
+        if( !bp->has_limb_score( sc.getId() ) ) {
+            continue;
+        }
+        float cur_score = part->get_limb_score( sc.getId() );
+        float bp_score = bp->get_limb_score( sc.getId() );
+        s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
+        std::vector<std::string> mod_s = you.get_modifier_descriptions( sc.getId(),
+                                         limb_score_current_color( cur_score, bp_score ) );
+        for( std::string tmp_s : mod_s ) {
+            s.emplace_back( tmp_s );
+        }
     }
     return s;
 }
@@ -496,7 +507,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb, const Char
 }
 
 static void draw_encumbrance_info( const catacurses::window &w_info, const Character &you,
-                                   const unsigned line )
+                                   const unsigned line, const unsigned info_line )
 {
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
@@ -505,9 +516,16 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
     if( line < bps.size() ) {
         bp = bps[line].first;
     }
-    const std::string s = get_encumbrance_description( you, bp );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
+    const std::vector<std::string> s = get_encumbrance_description( you, bp );
+    const int winh = catacurses::getmaxy( w_info );
+    const bool do_scroll = s.size() > static_cast<unsigned>( std::abs( winh ) );
+    const int winw = FULL_SCREEN_WIDTH - ( do_scroll ? 3 : 2 );
+    const int fline = do_scroll ? info_line % ( s.size() + 1 - winh ) : 0;
+    const int lline = do_scroll ? fline + winh : s.size();
+    for( int i = fline; i < lline; i++ ) {
+        trim_and_print( w_info, point( 1, i - fline ), winw, c_light_gray, s[i] );
+    }
+    draw_scrollbar( w_info, fline, winh, s.size(), point( winw, 0 ), c_white, true );
     wnoutrefresh( w_info );
 }
 
@@ -867,7 +885,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 }
 
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
-                              const unsigned line, const player_display_tab curtab,
+                              const unsigned line, const unsigned info_line, const player_display_tab curtab,
                               const std::vector<trait_id> &traitslist,
                               const std::vector<bionic> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
@@ -878,7 +896,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_stats_info( w_info, you, line );
             break;
         case player_display_tab::encumbrance:
-            draw_encumbrance_info( w_info, you, line );
+            draw_encumbrance_info( w_info, you, line, info_line );
             break;
         case player_display_tab::skills:
             draw_skills_info( w_info, you, line, skillslist );
@@ -942,6 +960,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 }
 
 static bool handle_player_display_action( Character &you, unsigned int &line,
+        unsigned int &info_line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
         const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
@@ -1026,6 +1045,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
             --line;
         }
+        info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
     } else if( action == "DOWN" ) {
@@ -1037,6 +1057,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
             ++line;
         }
+        info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
@@ -1044,6 +1065,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         invalidate_tab( curtab );
         curtab = action == "NEXT_TAB" ? next_tab( curtab ) : prev_tab( curtab );
         invalidate_tab( curtab );
+        info_line = 0;
         ui_info.invalidate_ui();
     } else if( action == "QUIT" ) {
         done = true;
@@ -1104,6 +1126,14 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 }
             }
         }
+    } else if( action == "SCROLL_INFOBOX_UP" ) {
+        if( info_line > 0 ) {
+            --info_line;
+            ui_info.invalidate_ui();
+        }
+    } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+        ++info_line;
+        ui_info.invalidate_ui();
     }
     return done;
 }
@@ -1278,6 +1308,8 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
+    ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
+    ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;
@@ -1297,6 +1329,7 @@ void Character::disp_info( bool customize_character )
 
     player_display_tab curtab = player_display_tab::stats;
     unsigned int line = 0;
+    unsigned int info_line = 0;
 
     catacurses::window w_tip;
     ui_adaptor ui_tip;
@@ -1499,7 +1532,7 @@ void Character::disp_info( bool customize_character )
     ui_info.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_info_border );
         wnoutrefresh( w_info_border );
-        draw_info_window( w_info, *this, line, curtab,
+        draw_info_window( w_info, *this, line, info_line, curtab,
                           traitslist, bionicslist, effect_name_and_text, skillslist );
     } );
 
@@ -1528,7 +1561,8 @@ void Character::disp_info( bool customize_character )
     do {
         ui_manager::redraw_invalidated();
 
-        done = handle_player_display_action( *this, line, curtab, ctxt, ui_tip, ui_info, ui_stats,
+        done = handle_player_display_action( *this, line, info_line, curtab, ctxt, ui_tip, ui_info,
+                                             ui_stats,
                                              ui_encumb, ui_traits, ui_bionics, ui_effects, ui_skills, ui_proficiencies, traitslist, bionicslist,
                                              effect_name_and_text, skillslist, customize_character );
     } while( !done );
