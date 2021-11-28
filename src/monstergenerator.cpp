@@ -714,6 +714,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
 
+    optional( jo, was_loaded, "hitsize_min", hitsize_min, -1 );
+    optional( jo, was_loaded, "hitsize_max", hitsize_max, -1 );
+
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );

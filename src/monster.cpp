@@ -2203,6 +2203,16 @@ float monster::dodge_roll() const
     return get_dodge() * 5;
 }
 
+int monster::get_hitsize_min() const
+{
+    return type->hitsize_min;
+}
+
+int monster::get_hitsize_max() const
+{
+    return type->hitsize_max;
+}
+
 int monster::get_grab_strength() const
 {
     return type->grab_strength;

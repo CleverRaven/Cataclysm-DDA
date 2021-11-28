@@ -358,6 +358,16 @@ float Character::hit_roll() const
     return melee::melee_hit_range( hit );
 }
 
+int Character::get_hitsize_min() const
+{
+    return -1;
+}
+
+int Character::get_hitsize_max() const
+{
+    return -1;
+}
+
 void Character::add_miss_reason( const std::string &reason, const unsigned int weight )
 {
     melee_miss_reasons.add( reason, weight );
@@ -679,7 +689,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.actual_crit_count += 1;
         }
         // select target body part
-        const bodypart_id &target_bp = t.select_body_part( this, hit_spread );
+        const bodypart_id &target_bp = t.select_body_part( this->hitsize_min, this->hitsize_max,
+                                       hit_spread );
         damage_instance d;
         roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 

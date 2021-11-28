@@ -170,18 +170,24 @@ bodypart_id anatomy::random_body_part() const
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
-bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
+bodypart_id anatomy::select_body_part( int min_hit, int max_hit, int hit_roll ) const
 {
-    const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+
     weighted_float_list<bodypart_id> hit_weights;
     for( const bodypart_id &bp : cached_bps ) {
-        float weight = bp->hit_size_relative[size_diff_index];
-        if( weight <= 0.0f ) {
+        float weight = bp->hit_size;
+        //Filter out too-large or too-small bodyparts
+        if( weight < min_hit || max_hit > -1 && weight > max_hit ) {
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, hitsize %.1f", body_part_name( bp ),
+                           weight );
             continue;
         }
 
         if( hit_roll != 0 ) {
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "limb, weight = %s %.1f", body_part_name( bp ), weight );
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "hit difficulty = %.1f", bp->hit_difficulty );
             weight *= std::pow( hit_roll, bp->hit_difficulty );
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "adjusted weight = %.1f", weight );
         }
 
         hit_weights.add( bp, weight );

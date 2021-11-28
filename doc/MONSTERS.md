@@ -305,6 +305,11 @@ Example:
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
 
+## "hitsize_min", "hitsize_max"
+(integer, optional )
+
+Lower and upper bound of limb sizes the monster's melee attack can target - see `body_parts.json` for the hit sizes.
+
 ## "grab_strength"
 (integer, optional)
 
@@ -658,6 +663,8 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 |						| targeted with a chance proportional to the value.
 | `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
+| `hitsize_min`         | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
