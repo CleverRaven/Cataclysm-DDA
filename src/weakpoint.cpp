@@ -38,21 +38,22 @@ float Character::melee_weakpoint_skill( const item &weapon ) const
     skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    float mul = ( vision_score() + reaction_score() ) / 2;
+    return ( skill + stat ) * mul;
 }
 
 float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
     float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * vision_score();
 }
 
 float Character::throw_weakpoint_skill() const
 {
     float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * vision_score();
 }
 
 float weakpoint_family::modifier( const Character &attacker ) const
