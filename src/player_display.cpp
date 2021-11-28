@@ -252,8 +252,8 @@ static std::string get_encumbrance_description( const Character &you, const body
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost and accuracy of melee attacks.</color>\n" );
             s += melee_stamina_cost_text( you.melee_stamina_cost_modifier() );
-            s += string_format(_("Melee attack rolls: <color_white>x%.2f</color>\n"),
-                you.melee_attack_roll_modifier());
+            s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
+                                you.melee_attack_roll_modifier() );
             break;
         case bp_hand_l:
         case bp_hand_r:
