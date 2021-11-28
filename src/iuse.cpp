@@ -5234,7 +5234,7 @@ cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const t
         return cata::nullopt;
     }
     
-    if ( it->typeId() == itype_atomic_coffeepot ) {
+    if( it->typeId() == itype_atomic_coffeepot ) {
         heat_item( *p );
     }
 
