@@ -19,6 +19,7 @@ import os
 import subprocess
 import sys
 
+from pathlib import Path
 from typing import Any, Optional, Tuple, Union
 
 try:
@@ -134,8 +135,8 @@ class Tileset:
     '''
     def __init__(
         self,
-        source_dir: str,
-        output_dir: str,
+        source_dir: Union[str, Path],
+        output_dir: Union[str, Path],
         use_all: bool = False,
         obsolete_fillers: bool = False,
         palette_copies: bool = False,
@@ -167,7 +168,7 @@ class Tileset:
                 f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
-        info_path = os.path.join(self.source_dir, 'tile_info.json')
+        info_path = Path(self.source_dir) / 'tile_info.json'
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
@@ -382,26 +383,28 @@ class Tilesheet:
         self.sheet_width = sheet_width  # sprites across, could be anything
         tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
-        self.specs = tilesheet_config_obj[self.name] or {}
+        specs = tilesheet_config_obj[self.name] or {}
         self.tileset = tileset
 
-        self.sprite_width = self.specs.get(
+        self.sprite_width = specs.get(
             'sprite_width', tileset.sprite_width)
-        self.sprite_height = self.specs.get(
+        self.sprite_height = specs.get(
             'sprite_height', tileset.sprite_height)
-        self.offset_x = self.specs.get('sprite_offset_x', 0)
-        self.offset_y = self.specs.get('sprite_offset_y', 0)
+        self.offset_x = specs.get('sprite_offset_x', 0)
+        self.offset_y = specs.get('sprite_offset_y', 0)
 
-        self.is_fallback = self.specs.get('fallback', False)
+        self.exclude = specs.get('exclude', tuple())
+
+        self.is_fallback = specs.get('fallback', False)
         self.is_filler = not self.is_fallback \
-            and self.specs.get('filler', False)
+            and specs.get('filler', False)
 
         output_root = self.name.split('.png')[0]
         dir_name = \
             f'pngs_{output_root}_{self.sprite_width}x{self.sprite_height}'
-        self.subdir_path = os.path.join(tileset.source_dir, dir_name)
+        self.subdir_path = Path(tileset.source_dir) / dir_name
 
-        self.output = os.path.join(tileset.output_dir, self.name)
+        self.output = Path(tileset.output_dir) / self.name
 
         self.tile_entries = []
         self.null_image = \
@@ -427,10 +430,22 @@ class Tilesheet:
         '''
         Find and process all JSON and PNG files within sheet directory
         '''
-        for subdir_fpath, _, filenames in sorted(
-                os.walk(self.subdir_path), key=lambda d: d[0]):
+        all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
+        excluded_paths = [
+            self.subdir_path / ignored_path for ignored_path in self.exclude
+        ]
+
+        for subdir_fpath, dirs, filenames in all_files:
+            subdir_fpath = Path(subdir_fpath)
+            if excluded_paths:
+                # replace dirs in-place to prevent walking down excluded paths
+                dirs[:] = [
+                    d for d in dirs
+                    if subdir_fpath / d not in excluded_paths
+                ]
+
             for filename in sorted(filenames):
-                filepath = os.path.join(subdir_fpath, filename)
+                filepath = subdir_fpath / filename
                 if filename.endswith('.png'):
                     self.process_png(filepath, filename)
                 elif filename.endswith('.json'):
