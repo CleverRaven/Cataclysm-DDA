@@ -314,6 +314,8 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
+static const proficiency_id proficiency_prof_firstaid( "prof_firstaid" );
+static const proficiency_id proficiency_prof_firstaid_expert( "prof_firstaid_expert" );
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -11101,8 +11103,12 @@ void Character::pause()
         for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
             total_hand_encumb += encumb( part );
         }
+        // proficiency bonus is equal to having extra levels of firstaid skill (up to +3)
+        int prof_bonus = get_skill_level( skill_firstaid );
+        prof_bonus = has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 2 : prof_bonus;
         time_duration penalty = 1_turns * total_hand_encumb;
-        time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
+        time_duration benefit = 5_turns + 10_turns * prof_bonus;
 
         bool broken_arm = false;
         for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
@@ -11127,6 +11133,8 @@ void Character::pause()
                                    _( "You attempt to put pressure on the bleeding wound!" ),
                                    _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
             practice( skill_firstaid, 1 );
+            practice_proficiency( proficiency_prof_firstaid, 1_turns );
+            practice_proficiency( proficiency_prof_firstaid_expert, 1_turns );
         }
     }
     // on-pause effects for martial arts
