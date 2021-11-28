@@ -45,5 +45,63 @@
     "weight": "600 g",
     "calories": 1000,
     "rot_spawn": "GROUP_EGG_RHEA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toad",
+    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_constrictor",
+    "name": "snake egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a tropical snake.",
+    "rot_spawn": "GROUP_EGG_CONSTRICTOR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lizard",
+    "name": "lizard egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a tropical lizard.",
+    "rot_spawn": "GROUP_EGG_LIZARD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_monitor",
+    "name": "varanid egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a monitor lizard.",
+    "rot_spawn": "GROUP_EGG_MONITOR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_iguana",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of an iguana.",
+    "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_beetle",
+    "name": "water beetle egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water beetle, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_bug",
+    "name": "water scorpion egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water scorpion, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BUG"
   }
 ]
