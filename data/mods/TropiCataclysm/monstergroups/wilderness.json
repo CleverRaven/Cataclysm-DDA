@@ -1,11 +1,11 @@
-
+[
   {
     "type": "monstergroup",
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-	  { "monster": "mon_jaguar", "freq": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_jaguar", "freq": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_large_scorpion", "freq": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_scorpion_giant", "freq": 40, "cost_multiplier": 5, "pack_size": [ 1, 2 ], "starts": 240 }
     ]
@@ -16,38 +16,67 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-	 { "monster": "mon_ocelot", "freq": 7, "cost_multiplier": 2 },
-     { "monster": "mon_ocelot", "freq": 12, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
-	 { "monster": "mon_tapir", "freq": 3, "cost_multiplier": 10 },
-	 { "monster": "mon_jaguar", "freq": 1, "cost_multiplier": 3 },
-     { "monster": "mon_jaguar", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAWN", "DUSK" ] },
-	 { "monster": "mon_peccari", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-     { "monster": "mon_peccari", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 4 ], "conditions": [ "DAY" ] },
-	 { "monster": "mon_large_scorpion", "freq": 2, "cost_multiplier": 0 },
-	 { "monster": "mon_large_scorpion", "freq": 2, "cost_multiplier": 0, "conditions":  [ "DAWN", "DUSK", "DAY", "NIGHT" ] },
-	 { "monster": "mon_horned_beetle", "freq": 2, "cost_multiplier": 0 },
-	 { "monster": "mon_horned_beetle", "freq": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK", "DAY" ] },
-	 { "monster": "mon_scorpion_giant", "freq": 1, "cost_multiplier": 0, "starts": "240 hours" },
-	 { "monster": "mon_scorpion_giant", "freq": 1, "cost_multiplier": 0, "starts": "240 hours", "conditions":  [ "DAWN", "DUSK", "DAY", "NIGHT" ] },
-	 { "monster": "mon_heraclean_beetle", "freq": 1, "cost_multiplier": 0, "starts": "240 hours" },
-	 { "monster": "mon_heraclean_beetle", "freq": 1, "cost_multiplier": 0, "starts": "240 hours", "conditions": [ "DAWN", "DUSK", "DAY" ] },
-	 { "monster": "mon_bushelephant", "freq": 1, "cost_multiplier": 2 },
-	 { "monster": "mon_guinea_pig", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
-     { "monster": "mon_guinea_pig", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 6 ], "conditions": [ "DAY" ] },
-	 { "monster": "mon_guinea_fowl", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
-     { "monster": "mon_guinea_fowl", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 18 ], "conditions": [ "DAY" ] },
-	 { "monster": "mon_rhea", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
-     { "monster": "mon_rhea", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 10 ], "conditions": [ "DAY" ] },
-	 { "monster": "mon_quail", "freq": 12, "cost_multiplier": 2, "pack_size": [ 1, 7 ] },
-	 { "monster": "mon_quail", "freq": 18, "cost_multiplier": 3, "pack_size": [ 1, 7 ], "conditions": [ "DAWN", "DUSK", "DAY" ] },
-	 { "monster": "mon_iguana", "freq": 1, "cost_multiplier": 2 },
-     { "monster": "mon_iguana", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
-	 { "monster": "mon_beaded_lizard", "freq": 1, "cost_multiplier": 2 },
-     { "monster": "mon_beaded_lizard", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
-	 { "monster": "mon_monitor_lizard", "freq": 1, "cost_multiplier": 2 },
-     { "monster": "mon_monitor_lizard", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
-	 { "monster": "mon_boa", "freq": 15, "cost_multiplier": 0 },
-     { "monster": "mon_boa", "freq": 5, "cost_multiplier": 0, "conditions": [ "DAY" ] }
+      { "monster": "mon_ocelot", "freq": 7, "cost_multiplier": 2 },
+      { "monster": "mon_ocelot", "freq": 12, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_tapir", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_jaguar", "freq": 1, "cost_multiplier": 3 },
+      { "monster": "mon_jaguar", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_peccari", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_peccari", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 4 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_large_scorpion", "freq": 2, "cost_multiplier": 0 },
+      {
+        "monster": "mon_large_scorpion",
+        "freq": 2,
+        "cost_multiplier": 0,
+        "conditions": [ "DAWN", "DUSK", "DAY", "NIGHT" ]
+      },
+      { "monster": "mon_horned_beetle", "freq": 2, "cost_multiplier": 0 },
+      { "monster": "mon_horned_beetle", "freq": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK", "DAY" ] },
+      { "monster": "mon_scorpion_giant", "freq": 1, "cost_multiplier": 0, "starts": "240 hours" },
+      {
+        "monster": "mon_scorpion_giant",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "starts": "240 hours",
+        "conditions": [ "DAWN", "DUSK", "DAY", "NIGHT" ]
+      },
+      { "monster": "mon_heraclean_beetle", "freq": 1, "cost_multiplier": 0, "starts": "240 hours" },
+      {
+        "monster": "mon_heraclean_beetle",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "starts": "240 hours",
+        "conditions": [ "DAWN", "DUSK", "DAY" ]
+      },
+      { "monster": "mon_bushelephant", "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_guinea_pig", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_guinea_pig", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 6 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_guinea_fowl", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
+      {
+        "monster": "mon_guinea_fowl",
+        "freq": 9,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 18 ],
+        "conditions": [ "DAY" ]
+      },
+      { "monster": "mon_rhea", "freq": 6, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
+      { "monster": "mon_rhea", "freq": 9, "cost_multiplier": 3, "pack_size": [ 1, 10 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_quail", "freq": 12, "cost_multiplier": 2, "pack_size": [ 1, 7 ] },
+      {
+        "monster": "mon_quail",
+        "freq": 18,
+        "cost_multiplier": 3,
+        "pack_size": [ 1, 7 ],
+        "conditions": [ "DAWN", "DUSK", "DAY" ]
+      },
+      { "monster": "mon_iguana", "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_iguana", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
+      { "monster": "mon_beaded_lizard", "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_beaded_lizard", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
+      { "monster": "mon_monitor_lizard", "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_monitor_lizard", "freq": 2, "cost_multiplier": 3, "conditions": [ "DAY" ] },
+      { "monster": "mon_boa", "freq": 15, "cost_multiplier": 0 },
+      { "monster": "mon_boa", "freq": 5, "cost_multiplier": 0, "conditions": [ "DAY" ] }
     ]
   },
   {
@@ -56,23 +85,17 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-	  { "monster": "mon_coypus", "freq": 15, "cost_multiplier": 5, "pack_size": [ 1, 3 ] },
-	  { "monster": "mon_goose", "freq": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-	  { "monster": "mon_goose_golden", "freq": 2, "cost_multiplier": 5 },
-	  { "monster": "mon_caiman", "freq": 1, "cost_multiplier": 25 },
-	  { "monster": "mon_anaconda", "freq": 1, "cost_multiplier": 25 },
-	  { "monster": "mon_tadpole_small", "freq": 10, "cost_multiplier": 2, "starts": "168 hours" },
-	  { "monster": "mon_axolotl_giant", "freq": 10, "cost_multiplier": 2, "starts": "168 hours" },
-	  { "monster": "mon_toad", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-	  { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
-      {
-        "monster": "mon_diving_larva",
-        "weight": 30,
-        "cost_multiplier": 3,
-        "starts": "7 days",
-        "pack_size": [ 1, 3 ]
-      },
-	  { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      { "monster": "mon_coypus", "freq": 15, "cost_multiplier": 5, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_goose", "freq": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_goose_golden", "freq": 2, "cost_multiplier": 5 },
+      { "monster": "mon_caiman", "freq": 1, "cost_multiplier": 25 },
+      { "monster": "mon_anaconda", "freq": 1, "cost_multiplier": 25 },
+      { "monster": "mon_tadpole_small", "freq": 10, "cost_multiplier": 2, "starts": "168 hours" },
+      { "monster": "mon_axolotl_giant", "freq": 10, "cost_multiplier": 2, "starts": "168 hours" },
+      { "monster": "mon_toad", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      { "monster": "mon_diving_larva", "weight": 30, "cost_multiplier": 3, "starts": "7 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
       {
         "monster": "mon_water_scorpion_larva",
         "weight": 30,
@@ -80,23 +103,15 @@
         "starts": "7 days",
         "pack_size": [ 1, 3 ]
       },
-	  {
+      {
         "monster": "mon_tadpole_small",
         "weight": 30,
         "cost_multiplier": 3,
         "starts": "7 days",
         "pack_size": [ 1, 3 ]
       },
-	  {
-        "monster": "mon_diving_beetle_small",
-        "weight": 4,
-        "cost_multiplier": 10
-      },
-      {
-        "monster": "mon_diving_beetle_small",
-        "weight": 4,
-        "cost_multiplier": 10
-      }
+      { "monster": "mon_diving_beetle_small", "weight": 4, "cost_multiplier": 10 },
+      { "monster": "mon_diving_beetle_small", "weight": 4, "cost_multiplier": 10 }
     ]
   },
   {
@@ -106,9 +121,9 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crocodile", "freq": 40, "cost_multiplier": 2 },
-	  { "monster": "mon_anaconda", "freq": 50, "cost_multiplier": 2 },
-	  { "monster": "mon_caiman", "freq": 60, "cost_multiplier": 2 },
-	  {
+      { "monster": "mon_anaconda", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_caiman", "freq": 60, "cost_multiplier": 2 },
+      {
         "monster": "mon_toad",
         "freq": 30,
         "cost_multiplier": 2,
@@ -169,7 +184,7 @@
         "starts": "540 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
-	]
+    ]
   },
   {
     "type": "monstergroup",
@@ -178,10 +193,10 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_coypus", "freq": 30, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-	  { "monster": "mon_caiman", "freq": 15, "cost_multiplier": 0 },
-	  { "monster": "mon_anaconda", "freq": 15, "cost_multiplier": 0 },
-	  { "monster": "mon_toad", "weight": 50, "cost_multiplier": 0 },
-	  { "monster": "mon_water_scorpion_larva", "weight": 15, "cost_multiplier": 0 }
+      { "monster": "mon_caiman", "freq": 15, "cost_multiplier": 0 },
+      { "monster": "mon_anaconda", "freq": 15, "cost_multiplier": 0 },
+      { "monster": "mon_toad", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_water_scorpion_larva", "weight": 15, "cost_multiplier": 0 }
     ]
   },
   {
@@ -191,7 +206,8 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_goose", "freq": 30, "cost_multiplier": 0 },
-	  { "monster": "mon_goose_golden", "freq": 10, "cost_multiplier": 0 }
+      { "monster": "mon_goose_golden", "freq": 10, "cost_multiplier": 0 }
     ]
   }
 ]
+
