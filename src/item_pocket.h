@@ -127,6 +127,8 @@ class item_pocket
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
+        // checks if the pocket is a holster and if it has something in it
+        bool holster_full() const;
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
@@ -374,7 +376,7 @@ class pocket_data
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = 2000000000_ml;
+        units::volume volume_capacity = 200000000_ml;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills

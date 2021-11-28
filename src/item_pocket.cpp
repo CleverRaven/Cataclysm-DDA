@@ -1594,6 +1594,12 @@ bool item_pocket::is_ablative() const
     return get_pocket_data()->ablative;
 }
 
+bool item_pocket::holster_full() const
+{
+    const pocket_data *p_data = get_pocket_data();
+    return p_data->holster && !all_items_top().empty();
+}
+
 bool item_pocket::is_valid() const
 {
     return data != nullptr;
