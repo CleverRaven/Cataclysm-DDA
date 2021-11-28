@@ -7,6 +7,8 @@ on:
 
 jobs:
   labeling:
+labeling job must include
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
     - name: setLabel
