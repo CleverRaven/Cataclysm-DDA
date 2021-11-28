@@ -953,7 +953,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         const time_duration learn_time = time / subjects.size();
 
         const auto get_helper_bonus = [&]( const proficiency_id & prof ) {
-            for( const auto c : all_crafters ) {
+            for( const Character *c : all_crafters ) {
                 if( &p != c && c->has_proficiency( prof ) ) {
                     // Other characters who know the proficiency help you learn faster
                     return 2;
