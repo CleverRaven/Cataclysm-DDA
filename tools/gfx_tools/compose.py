@@ -568,43 +568,36 @@ class TileEntry:
         if entry is None:
             entry = self.data
 
-        id_as_prefix = None
+        entry_ids = entry.get('id', None)
+        fg_layer = entry.pop('fg', None)
+        bg_layer = entry.pop('bg', None)
 
-        # get the IDs list
-        entry_ids = entry.get('id')
+        # return None if neither fg nor bg is defined
+        if not entry_ids or (not fg_layer and not bg_layer):
+            print(
+                f'Warning: skipping empty entry in {self.filepath}'
+                (f' with IDs {prefix}{entry_ids} ' if entry_ids else '')
+            )
+            return None
+
+        # make sure entry_ids is a list
         if entry_ids:
             if not isinstance(entry_ids, list):
                 entry_ids = [entry_ids]
-            id_as_prefix = f'{entry_ids[0]}_'
-        # TODO: add else block or comment why it's missing
 
         # convert fg value
-        fg_layer = entry.get('fg', None)
         if fg_layer:
-            entry['fg'] = list_or_first(
-                self.convert_entry_layer(fg_layer))
-        else:
-            entry.pop('fg', None)
+            entry['fg'] = list_or_first(self.convert_entry_layer(fg_layer))
 
         # convert bg value
-        bg_layer = entry.get('bg', None)
         if bg_layer:
-            entry['bg'] = list_or_first(
-                self.convert_entry_layer(bg_layer))
-        else:
-            entry.pop('bg', None)
+            entry['bg'] = list_or_first(self.convert_entry_layer(bg_layer))
 
         # recursively convert additional_tiles value
         additional_entries = entry.get('additional_tiles', [])
         for additional_entry in additional_entries:
             # recursive part
-            self.convert(additional_entry, id_as_prefix)
-
-        # return None if neither fg nor bg is defined
-        if not fg_layer and not bg_layer:
-            print('Warning: skipping empty entry for '
-                  f'{prefix}{entry_ids} in {self.filepath}')
-            return None
+            self.convert(additional_entry, f'{entry_ids[0]}_')
 
         # remember processed IDs and remove duplicates
         for entry_id in entry_ids:
