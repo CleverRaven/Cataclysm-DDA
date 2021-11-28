@@ -9,7 +9,9 @@
       "Your hair stands on end as a faint electrical tingle washes over you.",
       "For a split second a nearby object becomes hazy.",
       "For a moment all colors grow slightly brighter.",
-      "For a moment all distances seem to grow slightly."
+      "For a moment all distances seem to grow slightly.",
+      "The straight lines of surrounding objects appear to be curved just so slightly.",
+      "The angles of geometric objects around do not appear to add up."
     ]
   },
   {
@@ -22,7 +24,9 @@
       "Your hair stands on end as an electrical tingle washes over you.",
       "For a split second several nearby objects become hazy.",
       "For a moment all colors grow brighter.",
-      "For a moment all distances seem to grow."
+      "For a moment all distances seem to grow.",
+      "The straight lines of the surrounding objects seem to gain some curvature.",
+      "The angles of the geometric objects around have gone awry and do not add up."
     ]
   },
   {
@@ -35,7 +39,9 @@
       "Your hair stands on end as a powerfull electrical tingle washes over you.",
       "For a split second all nearby objects become hazy.",
       "For a moment all colors grow much brighter.",
-      "For a moment all distances seem to grow much longer."
+      "For a moment all distances seem to grow much longer.",
+      "The straight lines of the surrounding objects seem to bend.",
+      "Euclidean geometry seems to fail at every turn.  Here and there you see impossible shapes and angles that seem to point inward as well as outward at the same time."
     ]
   },
   {
@@ -47,7 +53,8 @@
       "You see several shooting stars.  They seem larger than normal, and are all a deep purple.",
       "You see a shooting star.  It is bright red and does not fall in a straight line.",
       "For a brief moment you see a shape in the sky roughly the size of the moon, but square and green.",
-      "For a brief moment, the stars and moon all disappear.  When they come back, you're not sure if they're in the same places as they were."
+      "For a brief moment, the stars and moon all disappear.  When they come back, you're not sure if they're in the same places as they were.",
+      "The darkness around you thickens.  It is like a dense fog that sticks to your skin."
     ]
   },
   {
@@ -59,7 +66,8 @@
       "You see several shooting stars.  After they go below the horizon a bright glow briefly appears.",
       "You see a shooting star.  It is bright red and stops falling after a second to hover there ominously.",
       "For a brief moment you see a shape in the sky roughly the size of the moon.  It had almost looked like a blinking eye.",
-      "You see a moving object in the sky with a blinking red light coming from it."
+      "You see a moving object in the sky with a blinking red light coming from it.",
+      "The darkness around you thickens and surrounds you like a veil.  It seems… alive."
     ]
   },
   {
@@ -73,7 +81,8 @@
       "As you look at the stars, they wink out for an instant, reappearing just slightly out of place, as if the night sky had been rotated ever so slightly.  This occurs twice more, in rapid succession.",
       "A strange cloud seems to float in the sky, at the very edge of your peripheral vision.  Just as you shift your gaze to it, it evaporates, boiling away into a stream of shooting stars.",
       "For a brief moment, you feel like you've been jerked to the side.  You haven't moved, though - the stars have.",
-      "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession."
+      "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession.",
+      "The darkness around you is so thick that it seems organic.  Your every move seems to tear the veil of night.  And the night is not fond of it."
     ]
   },
   {
@@ -85,7 +94,8 @@
       "For a moment you see what seem like buildings the size of mountains in the distance.",
       "For an instant you are in a crowd of partially transparent people.  They take no notice of you.",
       "You see a small airplane flying low in the sky but it's flying backwards and has a flag you don't know on it.",
-      "All the shadows you can see rotate as if the sun was moving."
+      "All the shadows you can see rotate as if the sun was moving.",
+      "You see few additional shadows, but there is no apparent light that could be causing them."
     ]
   },
   {
@@ -97,7 +107,8 @@
       "For a moment you see what seem like insects the size of mountains in the distance.",
       "For an instant you are in a crowd of partially transparent people.  They all look at you.",
       "You see a large airplane flying low in the sky but it's flying backwards and has a color inverted version of your flag on it.",
-      "All the shadows you can see change shape and color beginning to resemble human like figures."
+      "All the shadows you can see change shape and color beginning to resemble human like figures.",
+      "You see some extra shadows, but not the light that causes them.  Some are not even attached to the objects that cast them."
     ]
   },
   {
@@ -109,7 +120,8 @@
       "For a moment you see what seem like humans the size of mountains in the distance.",
       "For an instant you are in a crowd of partially transparent people.  They all point at you and scream in a language, human vocal cords should not be able to speak.",
       "You see a large airplane flying low in the sky but it's flying backwards.  A parachuter appears near it and seemingly falls up into the plane while the figure struggles.",
-      "All the shadows you can see change shape and color beginning to resemble figures with far too many limbs beckoning to you to come towards them."
+      "All the shadows you can see change shape and color beginning to resemble figures with far too many limbs beckoning to you to come towards them.",
+      "The shadows seem to live a life of their own.  Many are detached, as if they were cast by invisible objects.  Other objects in turn, including yourself, do not cast shadows despite the light."
     ]
   },
   {
@@ -124,6 +136,7 @@
       "For a moment a hole in reality opens and you can see your own back.",
       "For a moment all colors grow dull.",
       "For a moment all distances seem to shrink.",
+      "For a moment all angles seem to bend.",
       "A short figure quickly fades in and out of existence too fast to see its features."
     ]
   },
@@ -142,6 +155,7 @@
       "For a moment a hole in reality opens and you can see an almost perfect copy of yourself.",
       "For a moment all colors invert.",
       "For a moment all distances seem to double.",
+      "For a moment all angles seem to invert.",
       "A tall figure quickly fades in and out of existence leaving you with a vague impression of malice."
     ]
   },
@@ -160,6 +174,7 @@
       "For a moment a hole in reality opens and you can see a leering idealized copy of yourself.",
       "For a moment all colors flow to form jagged shapes.",
       "For a moment all distances seem to vanish, as if everything was one.  It is claustrophobic.",
+      "For a moment, all angles seem ungraspable.  Impossible shapes are everywhere.",
       "A tall figure quickly fades in and out of existence staring and pointing at you the whole time."
     ]
   },

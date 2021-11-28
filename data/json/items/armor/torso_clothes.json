@@ -14,15 +14,10 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 70,
-        "encumbrance": [ 2, 5 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 42,
+        "coverage": 70,
         "encumbrance": [ 1, 1 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }
@@ -420,7 +415,7 @@
     "warmth": 5,
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 55, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "linuxtshirt",
@@ -625,7 +620,12 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "coverage": 40,
+        "encumbrance": 1
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.5,
@@ -666,7 +666,14 @@
     "color": "yellow",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ],
-    "armor": [ { "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 65, "covers": [ "torso" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "sweater",
@@ -738,7 +745,7 @@
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt",

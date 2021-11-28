@@ -6,6 +6,8 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const flag_id json_flag_FROZEN( "FROZEN" );
+
 static void set_map_temperature( int new_temperature )
 {
     get_weather().temperature = new_temperature;
@@ -68,7 +70,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
         CHECK( freeze_item.get_rot() == 0_turns );
 
         // The item in freezer should still not be frozen
-        CHECK( !freeze_item.has_own_flag( flag_id( "FROZEN" ) ) );
+        CHECK( !freeze_item.has_own_flag( json_flag_FROZEN ) );
     }
 }
 

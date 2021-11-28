@@ -693,7 +693,7 @@
     "skill_used": "tailor",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ], [ [ "sole_rubber", 2 ] ] ]
   },
   {
     "result": "sneakers_steel",
@@ -702,7 +702,13 @@
     "skill_used": "tailor",
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cotton_patchwork", 3 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [
+      [ [ "leather", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "cotton_patchwork", 3 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "sole_rubber", 2 ] ]
+    ]
   },
   {
     "result": "box_cigarette",

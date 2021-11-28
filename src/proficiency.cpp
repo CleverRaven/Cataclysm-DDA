@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "enums.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;

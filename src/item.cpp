@@ -61,6 +61,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -111,6 +112,8 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
@@ -120,6 +123,11 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
+static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
+static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
@@ -141,6 +149,7 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -151,6 +160,19 @@ static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const matec_id RAPID( "RAPID" );
 
+static const material_id material_wool( "wool" );
+
+static const morale_type morale_null( "morale_null" );
+
+static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_human( "mon_human" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+
+static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+
+static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
@@ -161,6 +183,9 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
+
+static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
+static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_JITTERY( "JITTERY" );
@@ -761,7 +786,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
 
     bool has_sub_data = false;
     // if the item has no sub location info then it should return that it does cover it
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             has_sub_data = true;
         }
@@ -850,21 +875,27 @@ body_part_set item::get_covered_body_parts( const side s ) const
 namespace
 {
 
-const std::array<bodypart_str_id, 4> left_side_parts{ {
-        bodypart_str_id{"arm_l"},
-        bodypart_str_id{"hand_l"},
-        bodypart_str_id{"leg_l"},
-        bodypart_str_id{"foot_l"}
-    }
-};
+const std::array<bodypart_str_id, 4> &left_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_l,
+            body_part_hand_l,
+            body_part_leg_l,
+            body_part_foot_l
+        } };
+    return result;
+}
 
-const std::array<bodypart_str_id, 4> right_side_parts{ {
-        bodypart_str_id{"arm_r"},
-        bodypart_str_id{"hand_r"},
-        bodypart_str_id{"leg_r"},
-        bodypart_str_id{"foot_r"}
-    }
-};
+const std::array<bodypart_str_id, 4> &right_side_parts()
+{
+    static const std::array<bodypart_str_id, 4> result{ {
+            body_part_arm_r,
+            body_part_hand_r,
+            body_part_leg_r,
+            body_part_foot_r
+        } };
+    return result;
+}
 
 } // namespace
 
@@ -874,7 +905,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        cb( sub_bodypart_str_id( "torso_hanging_back" ) );
+        cb( sub_body_part_torso_hanging_back );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -882,7 +913,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
         return;
     }
 
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
                 for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
@@ -891,7 +922,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
                 continue;
             }
             for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
-                if( bpid->part_side == s ) {
+                if( bpid->part_side == s || bpid->part_side == side::BOTH ) {
                     cb( bpid );
                 }
             }
@@ -916,7 +947,7 @@ void item::iterate_covered_body_parts_internal( const side s,
 
     // If we are querying for only one side of the body, we ignore coverage
     // for parts on the opposite side of the body.
-    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts() : left_side_parts();
 
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
@@ -967,6 +998,12 @@ bool item::set_side( side s )
 bool item::swap_side()
 {
     return set_side( opposite_side( get_side() ) );
+}
+
+bool item::is_ablative() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ablative : false;
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -1837,10 +1874,10 @@ struct dps_comp_data {
 };
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
-    { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+    { to_translation( "Best" ), { debug_mon, true, false } },
+    { to_translation( "Vs. Agile" ), { mon_zombie_smoker, true, true } },
+    { to_translation( "Vs. Armored" ), { mon_zombie_soldier, true, true } },
+    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor, false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -1906,7 +1943,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "BASE", _( "Length: " ),
                            string_format( "<num> %s", length_units( length() ) ),
                            iteminfo::lower_is_better,
-                           convert_length( length() ) );
+                           convert_length( length() ), length().value() );
     }
     if( parts->test( iteminfo_parts::BASE_OWNER ) && !owner.is_null() ) {
         info.emplace_back( "BASE", string_format( _( "Owner: %s" ),
@@ -2231,7 +2268,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
-        && player_character.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
+        && player_character.allergy_type( *food_item ) != morale_null ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
@@ -3057,30 +3094,33 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                 }
                 if( piece.second.active ) {
                     const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
-                    info.emplace_back( "ARMOR",
-                                       string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                    const std::string bp_name = piece.second.to_display.translated();
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+                    info.emplace_back( bp_cat,
+                                       string_format( _( "%s:" ), bp_name ) + space, "",
                                        ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
                     if( has_max ) {
-                        info.emplace_back( "ARMOR", when_full_message, "",
+                        info.emplace_back( bp_cat, when_full_message, "",
                                            iteminfo::no_flags | iteminfo::lower_is_better,
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( "ARMOR", string_format( "%s%s", _( "Coverage:" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s", _( "Coverage:" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.coverage );
                     //~ (M)elee coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(M):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(M):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_melee );
                     //~ (R)anged coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(R):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(R):" ), space ), "",
                                        iteminfo::no_newline,
                                        piece.second.portion.cover_ranged );
                     //~ (V)itals coverage
-                    info.emplace_back( "ARMOR", string_format( "%s%s%s", space, _( "(V):" ), space ), "",
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(V):" ), space ), "",
                                        iteminfo::no_flags,
                                        piece.second.portion.cover_vitals );
                 }
@@ -3236,7 +3276,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             sub_bodypart_id temp;
             // if our sub part has an opposite
-            if( sbp->opposite != sub_bodypart_str_id( "sub_limb_debug" ) ) {
+            if( sbp->opposite != sub_body_part_sub_limb_debug ) {
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
@@ -3253,7 +3293,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     coverage += _( " The <info>" + sbp->name_multiple + "</info>." );
                     found = true;
                     // set the found part to a null value
-                    *sbp_it = sub_bodypart_str_id( "sub_limb_debug" );
+                    *sbp_it = sub_body_part_sub_limb_debug;
                     break;
                 }
             }
@@ -3299,7 +3339,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( covers_anything ) {
         int power_armor_encumbrance_reduction = 40;
-        static const itype_id itype_rm13_armor( "rm13_armor" );
 
         if( is_power_armor() || type->get_id() == itype_rm13_armor ) {
             item tmp = *this;
@@ -4345,7 +4384,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+            info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
                                iteminfo::lower_is_better, attack_time() );
 
         }
@@ -4459,7 +4498,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "<num>",
+            info.emplace_back( "BASE", _( "Adjusted moves per attack: " ), "<num>",
                                iteminfo::lower_is_better, attack_cost );
         }
         insert_separation_line( info );
@@ -4857,8 +4896,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         med_info( this, info, parts, batch, debug );
     }
 
-    if( const item *food_item = get_food() ) {
-        food_info( food_item, info, parts, batch, debug );
+    if( is_food() ) {
+        food_info( this, info, parts, batch, debug );
     }
 
     combat_info( info, parts, batch, debug );
@@ -4987,7 +5026,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( has_flag( flag_LITCIG ) ) { // NOLINT(bugprone-branch-clone)
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
+               ( made_of( material_wool ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
@@ -5004,10 +5043,10 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
-    } else if( const item *food = get_food() ) {
+    } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *food ) != morale_type( "morale_null" ) ) {
+        if( player_character.allergy_type( *this ) != morale_null ) {
             return c_red;
         }
 
@@ -5018,7 +5057,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // Yellow: will rot soon
         // Cyan: edible
         // Light Cyan: will rot eventually
-        const ret_val<edible_rating> rating = player_character.will_eat( *food );
+        const ret_val<edible_rating> rating = player_character.will_eat( *this );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
@@ -5026,11 +5065,11 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                 ret = c_cyan;
 
                 // Show old items as yellow
-                if( food->is_going_bad() ) {
+                if( is_going_bad() ) {
                     ret = c_yellow;
                 }
                 // Show perishables as a separate color
-                else if( food->goes_bad() ) {
+                else if( goes_bad() ) {
                     ret = c_light_cyan;
                 }
 
@@ -5263,7 +5302,7 @@ void item::handle_pickup_ownership( Character &c )
                 set_old_owner( get_owner() );
                 bool guard_chosen = false;
                 for( npc *elem : witnesses ) {
-                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
+                    if( elem->myclass == NC_BOUNTY_HUNTER ) {
                         guard_chosen = true;
                         elem->witness_thievery( &*this );
                         break;
@@ -6346,7 +6385,7 @@ int item::get_quality( const quality_id &id ) const
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
-    if( id == quality_id( "BOIL" ) && !contents.empty_container() ) {
+    if( id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
 
@@ -6733,61 +6772,21 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
-    }
 
-    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
-        encumber = std::max( encumber / 2, encumber - 10 );
-    }
+        // add the encumbrance values of any ablative plates
+        if( is_ablative() ) {
+            for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+                if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                    // get the contained plate
+                    const item &ablative_armor = pocket->front();
 
-    // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
-    switch( sizing_level ) {
-        case sizing::small_sized_human_char:
-        case sizing::small_sized_big_char:
-            // non small characters have a HARD time wearing undersized clothing
-            encumber *= 3;
-            break;
-        case sizing::human_sized_small_char:
-        case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
-            encumber *= 2;
-            break;
-        default:
-            break;
-    }
-
-    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
-
-    return encumber;
-}
-
-int item::get_encumber( const Character &p, const sub_bodypart_id &bodypart,
-                        encumber_flags flags ) const
-{
-    const islot_armor *t = find_armor_data();
-    if( !t ) {
-        // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
-    }
-
-    int encumber = 0;
-    float relative_encumbrance = 1.0f;
-    // Additional encumbrance from non-rigid pockets
-    if( !( flags & encumber_flags::assume_full ) ) {
-        // p.get_check_encumbrance() may be set when it's not possible
-        // to reset `cached_relative_encumbrance` for individual items
-        // (e.g. when dropping via AIM, see #42983)
-        if( !cached_relative_encumbrance || p.get_check_encumbrance() ) {
-            cached_relative_encumbrance = contents.relative_encumbrance();
+                    if( const armor_portion_data *ablative_portion_data = ablative_armor.portion_for_bodypart(
+                                bodypart ) ) {
+                        encumber += ablative_portion_data->encumber;
+                    }
+                }
+            }
         }
-        relative_encumbrance = *cached_relative_encumbrance;
-    }
-
-    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        encumber = portion_data->encumber;
-        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
-                               portion_data->encumber ) );
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -6932,7 +6931,7 @@ const armor_portion_data *item::portion_for_bodypart( const sub_bodypart_id &bod
     if( !t ) {
         return nullptr;
     }
-    for( const armor_portion_data &entry : t->data ) {
+    for( const armor_portion_data &entry : t->sub_data ) {
         if( !entry.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
                 const sub_bodypart_id &subpart = tmp;
@@ -7060,7 +7059,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammotype( "money" ) );
+    return ammo_types().count( ammo_money );
 }
 
 bool item::is_software() const
@@ -7938,26 +7937,6 @@ float item::get_freeze_point() const
     return made_of_types()[0]->freeze_point();
 }
 
-template<typename Item>
-static Item *get_food_impl( Item *it )
-{
-    if( it->is_food() ) {
-        return it;
-    } else {
-        return nullptr;
-    }
-}
-
-item *item::get_food()
-{
-    return get_food_impl( this );
-}
-
-const item *item::get_food() const
-{
-    return get_food_impl( this );
-}
-
 void item::set_mtype( const mtype *const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
@@ -8666,7 +8645,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == itype_bullet_crossbow ) {
+        if( ammo_types().count( ammo_bolt ) || typeId() == itype_bullet_crossbow ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
@@ -9874,7 +9853,7 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
     if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammotype( "battery" ) ) == 0 ) ) {
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -10288,7 +10267,7 @@ const item_category &item::get_category_of_contents() const
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
-                    flags Flags, double Value )
+                    flags Flags, double Value, double UnitVal )
 {
     sType = Type;
     sName = replace_colors( Name );
@@ -10296,6 +10275,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     is_int = !( Flags & is_decimal || Flags & is_three_decimal );
     three_decimal = ( Flags & is_three_decimal );
     dValue = Value;
+    dUnitAdjustedVal = UnitVal < std::numeric_limits<float>::epsilon() &&
+                       UnitVal > -std::numeric_limits<float>::epsilon() ? Value : UnitVal;
     bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
     if( bShowPlus ) {
@@ -10320,8 +10301,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flag
 {
 }
 
-iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value )
-    : iteminfo( Type, Name, "", no_flags, Value )
+iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal )
+    : iteminfo( Type, Name, "", no_flags, Value, UnitVal )
 {
 }
 
@@ -10973,8 +10954,8 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
 
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
-        !mtype_id( "mon_human" )->zombify_into.is_empty() ) {
-        set_var( "zombie_form", mtype_id( "mon_human" )->zombify_into.c_str() );
+        !mon_human->zombify_into.is_empty() ) {
+        set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
 
     if( !ready_to_revive( pos ) ) {
@@ -11006,8 +10987,8 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
 bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
-    if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
-        here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+    if( here.furn( pos ) != furn_f_wind_mill_active &&
+        here.furn( pos ) != furn_f_water_mill_active ) {
         item_counter = 0;
         return true; //destroy fake mill
     }
@@ -11023,8 +11004,8 @@ bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
-    if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
-        here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
+    if( here.furn( pos ) != furn_f_smoking_rack_active &&
+        here.furn( pos ) != furn_f_metal_smoking_rack_active ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }

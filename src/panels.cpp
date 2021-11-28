@@ -73,9 +73,12 @@ static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_mending( "mending" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+
+static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -860,7 +863,6 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
         nc_color color = c_light_red;
 
         if( u.worn_with_flag( json_flag_SPLINT,  bp ) ) {
-            static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
@@ -1796,7 +1798,7 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
+    mvwprintz( w, point( 24, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 
@@ -2448,7 +2450,7 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     behavior::tree needs;
-    needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
+    needs.add( &behavior__node_t_npc_needs.obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)

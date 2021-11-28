@@ -278,7 +278,10 @@ class overmap
         std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
+        // ter has bounds checking, and returns ot_null when out of bounds.
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        // ter_unsafe is UB when out of bounds.
+        const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );

@@ -124,6 +124,9 @@ struct iteminfo {
         /** Internal double floating point version of value, for numerical comparisons */
         double dValue;
 
+        /** Same as dValue, adjusted for the minimum unit (for numerical comparisons) */
+        double dUnitAdjustedVal;
+
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
@@ -160,9 +163,9 @@ struct iteminfo {
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags Flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999, double UnitVal = 0 );
         iteminfo( const std::string &Type, const std::string &Name, flags Flags );
-        iteminfo( const std::string &Type, const std::string &Name, double Value );
+        iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal = 0 );
 };
 
 template<>
@@ -1321,11 +1324,6 @@ class item : public visitable
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
 
-        // If this is food, returns itself.  If it contains food, return that
-        // contents.  Otherwise, returns nullptr.
-        item *get_food();
-        const item *get_food() const;
-
         void set_last_temp_check( const time_point &pt );
 
         /** How resistant clothes made of this material are to wind (0-100) */
@@ -1734,6 +1732,10 @@ class item : public visitable
          */
         bool swap_side();
         /**
+         * Returns if the armor has ablative pockets
+         */
+        bool is_ablative() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
@@ -1796,9 +1798,6 @@ class item : public visitable
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
-                          encumber_flags = encumber_flags::none ) const;
-
-        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**

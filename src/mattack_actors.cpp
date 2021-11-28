@@ -46,6 +46,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
+static const skill_id skill_throw( "throw" );
+
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
@@ -636,7 +638,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
-        throwing |= pr.first == skill_id( "throw" );
+        throwing |= pr.first == skill_throw;
     }
 
     tmp.set_wielded_item( gun );

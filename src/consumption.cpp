@@ -76,6 +76,13 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
+static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
+static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
+static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
+static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
+static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+
 static const item_category_id item_category_chems( "chems" );
 
 static const itype_id itype_apparatus( "apparatus" );
@@ -89,6 +96,8 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+
+static const material_id material_all( "all" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -140,12 +149,12 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 4> carnivore_blacklist {{
-        flag_id( "ALLERGEN_VEGGY" ), flag_id( "ALLERGEN_FRUIT" ),
-        flag_id( "ALLERGEN_WHEAT" ), flag_id( "ALLERGEN_NUT" )
+        json_flag_ALLERGEN_VEGGY, json_flag_ALLERGEN_FRUIT,
+        json_flag_ALLERGEN_WHEAT, json_flag_ALLERGEN_NUT
     }};
 
 static const std::array<flag_id, 2> herbivore_blacklist {{
-        flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
     }};
 
 // TODO: Move pizza scraping here.
@@ -209,7 +218,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
             // this is where we are able to check if the food actually is changed by the trait
-            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
+            if( mat.first == material_all || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
                 for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );

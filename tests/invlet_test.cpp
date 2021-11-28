@@ -24,6 +24,9 @@
 #include "type_id.h"
 #include "visitable.h"
 
+static const itype_id itype_a( "a" );
+static const itype_id itype_b( "b" );
+
 enum inventory_location {
     GROUND,
     INVENTORY,
@@ -787,36 +790,36 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
 TEST_CASE( "invlet_favourites_can_erase", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', itype_id( "a" ) );
+    fav.set( 'a', itype_a );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
+    CHECK( fav.invlets_for( itype_a ) == "a" );
     fav.erase( 'a' );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
+    CHECK( fav.invlets_for( itype_a ).empty() );
 }
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', itype_id( "a" ) );
+    fav.set( 'a', itype_a );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
-    CHECK( fav.invlets_for( itype_id( "b" ) ).empty() );
-    fav.set( 'a', itype_id( "b" ) );
+    CHECK( fav.invlets_for( itype_a ) == "a" );
+    CHECK( fav.invlets_for( itype_b ).empty() );
+    fav.set( 'a', itype_b );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
-    CHECK( fav.invlets_for( itype_id( "b" ) ) == "a" );
+    CHECK( fav.invlets_for( itype_a ).empty() );
+    CHECK( fav.invlets_for( itype_b ) == "a" );
 }
 
 TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', itype_id( "a" ) );
-    fav.set( 'b', itype_id( "a" ) );
-    fav.set( 'c', itype_id( "a" ) );
+    fav.set( 'a', itype_a );
+    fav.set( 'b', itype_a );
+    fav.set( 'c', itype_a );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
-    fav.set( 'b', itype_id( "a" ) );
+    CHECK( fav.invlets_for( itype_a ) == "abc" );
+    fav.set( 'b', itype_a );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
+    CHECK( fav.invlets_for( itype_a ) == "abc" );
 }

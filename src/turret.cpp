@@ -29,6 +29,8 @@ static const efftype_id effect_on_roof( "on_roof" );
 
 static const itype_id fuel_type_battery( "battery" );
 
+static const skill_id skill_gun( "gun" );
+
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
@@ -533,7 +535,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.set_skill_level( skill_gun, 4 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
