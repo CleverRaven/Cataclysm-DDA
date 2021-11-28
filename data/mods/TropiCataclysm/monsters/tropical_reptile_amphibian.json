@@ -21,7 +21,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "harvest": "mammal_tiny",
-	"reproduction": { "baby_egg": "egg_lizard", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_lizard", "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -49,10 +49,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "harvest": "mammal_tiny",
-	"reproduction": { "baby_egg": "egg_iguana", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_iguana", "baby_count": 3, "baby_timer": 10 },
     "fear_triggers": [ "PLAYER_CLOSE" ],
-	"petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "ANIMAL", "CLIMBS", "KEENNOSE", "SEES", "HEARS", "SMELLS"]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "ANIMAL", "CLIMBS", "KEENNOSE", "SEES", "HEARS", "SMELLS" ]
   },
   {
     "id": "mon_monitor_lizard",
@@ -76,8 +76,8 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "harvest": "mammal_tiny",
-	"reproduction": { "baby_egg": "egg_monitor", "baby_count": 3, "baby_timer": 10 },
-	"anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "reproduction": { "baby_egg": "egg_monitor", "baby_count": 3, "baby_timer": 10 },
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "ANIMAL", "CLIMBS", "KEENNOSE", "SEES", "HEARS", "SMELLS" ]
   },
@@ -191,7 +191,7 @@
     "name": { "str": "toad tadpole" },
     "description": "The tadpole of a toad looks exactly like a frog tadpole at birth.  Its main difference is that they remain black during its whole larval stage.",
     "copy-from": "mon_tadpole",
-	"color": "brown",
+    "color": "brown",
     "upgrades": { "age_grow": 365, "into": "mon_toad" }
   },
   {
@@ -207,7 +207,7 @@
     "type": "MONSTER",
     "name": { "str": "mutated tadpole" },
     "description": "An overgrown tadpole that swims around eating algae and other biological matter.  it could be from any frog species but the bright color may point to a poisonous specimen.",
-	"default_faction": "frog",
+    "default_faction": "frog",
     "species": [ "AMPHIBIAN" ],
     "bodytype": "fish",
     "material": [ "iflesh" ],
@@ -236,7 +236,7 @@
     "type": "MONSTER",
     "name": { "str": "giant axolotl" },
     "description": "The axolotl is a particular and popular species of neotenic salamander found in Mexico and bred as exotic pet.  this one seems to have escaped to the wilds and evolved to monstrous size.",
-	"default_faction": "frog",
+    "default_faction": "frog",
     "species": [ "AMPHIBIAN" ],
     "bodytype": "fish",
     "material": [ "iflesh" ],
@@ -266,7 +266,7 @@
     "description": "This cane toad has grown bigger than a human.  it looks uninterested in eating you but better to not give a chance.",
     "default_faction": "frog",
     "bodytype": "frog",
-	"looks_like": "mon_frog_giant",
+    "looks_like": "mon_frog_giant",
     "species": [ "AMPHIBIAN" ],
     "volume": "92500 ml",
     "weight": "120 kg",
@@ -320,7 +320,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "animal_large_noskin",
-	"reproduction": { "baby_egg": "egg_constrictor", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_constrictor", "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HARDTOSHOOT", "SWIMS" ]
@@ -355,7 +355,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "animal_large_noskin",
-	"reproduction": { "baby_egg": "egg_constrictor", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_constrictor", "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HARDTOSHOOT", "CLIMBS" ]
