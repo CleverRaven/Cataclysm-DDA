@@ -391,8 +391,8 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
-        int get_hitsize_min() const; // Smallest limb this monster's melee attacks can hit
-        int get_hitsize_max() const; // Largest limb this monster's melee attacks can hit
+        int get_hitsize_min() const override; // Smallest limb this monster's melee attacks can hit
+        int get_hitsize_max() const override; // Largest limb this monster's melee attacks can hit
         int get_grab_strength() const; // intensity of grabbed effect
 
         monster_horde_attraction get_horde_attraction();
