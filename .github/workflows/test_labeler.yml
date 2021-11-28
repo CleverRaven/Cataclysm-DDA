@@ -28,7 +28,7 @@ jobs:
         name: pull_request_id
     - run: cat pull_request_id
     - name: set-pr-id
-      run: echo "::set-output name=pr-id::$( echo pull_request_id )"    
+      run: echo "::set-output name=pr-id::$( cat pull_request_id )"    
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       uses: actions/github-script@v5
