@@ -1,5 +1,5 @@
-
-   {
+[
+  {
     "id": "mon_large_scorpion",
     "type": "MONSTER",
     "name": { "str": "large scorpion", "str_pl": "large scorpions" },
@@ -9,7 +9,7 @@
     "volume": "32 L",
     "weight": "40 kg",
     "upgrades": { "half_life": 14, "into": "mon_scorpion_giant" }
-   },
+  },
   {
     "id": "mon_scorpion_giant",
     "type": "MONSTER",
@@ -41,7 +41,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
   },
   {
-	"id": "mon_horned_beetle",
+    "id": "mon_horned_beetle",
     "type": "MONSTER",
     "name": { "str": "horned beetle", "str_pl": "horned beetles" },
     "description": "A large horned beetle of undescribed kind.",
@@ -50,12 +50,12 @@
     "volume": "40 L",
     "weight": "45 kg",
     "upgrades": { "half_life": 14, "into": "mon_heraclean_beetle" }
-	},
-	{
-	"id": "mon_heraclean_beetle",
+  },
+  {
+    "id": "mon_heraclean_beetle",
     "type": "MONSTER",
     "name": { "str": "heraclean beetle" },
-    "description": "A huge beetle the size of cattle, doesnt look predatory but the thick carapace and the enormous horn on its head seem like it can be formidable when fighting for mates",
+    "description": "A huge beetle the size of cattle.  doesnt look predatory but the thick carapace and the enormous horn on its head seem like it can be formidable when fighting for mates.",
     "default_faction": "beetle",
     "bodytype": "insect",
     "species": [ "INSECT" ],
@@ -75,19 +75,19 @@
     "dodge": 1,
     "armor_bash": 6,
     "armor_cut": 6,
-	"armor_bullet": 6,
+    "armor_bullet": 6,
     "vision_day": 4,
     "vision_night": 4,
     "harvest": "arachnid_beetle",
-	"anger_triggers": [ "HURT", "MATING_SEASON" ],
-	"baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "PUSH_MON", "PUSH_VEH"]
-	},
-	{
+    "anger_triggers": [ "HURT", "MATING_SEASON" ],
+    "baby_flags": [ "AUTUMN" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PUSH_MON", "PUSH_VEH" ]
+  },
+  {
     "id": "mon_diving_larva",
     "type": "MONSTER",
     "name": { "str": "giant water tiger" },
-    "description": "The predatory, aquatic larva of a diving bettle grown to large proportions.",
+    "description": "The predatory, aquatic larva of a diving bettle grown to large proportions. Its quite slow but still a good ambusher.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -119,7 +119,7 @@
     "description": "Water beetles can be found worldwide in all freshwater environments, with diving beetles being their predatory variant.  These however seem to have grown far larger with the Cataclysm.",
     "bodytype": "insect",
     "species": [ "INSECT" ],
-	"default_faction": "beetle",
+    "default_faction": "beetle",
     "volume": "200 L",
     "weight": "200 kg",
     "diff": 2,
@@ -150,13 +150,7 @@
     "reproduction": { "baby_egg": "egg_water_beetle", "baby_count": 3, "baby_timer": 15 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "AQUATIC",
-	  "WATER_CAMOUFLAGE"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_water_scorpion",
@@ -193,15 +187,15 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "GRABS" ]
   },
   {
-	"id": "mon_water_scorpion_larva",
+    "id": "mon_water_scorpion_larva",
     "type": "MONSTER",
     "name": { "str": "water scorpion nymph" },
     "description": "The nymp of a water scorpion, looks like a smaller version of its parents. ",
     "copy-from": "mon_water_scorpion",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
-	"symbol": "w",
+    "symbol": "w",
     "volume": "10 L",
     "weight": "15 kg",
     "upgrades": { "half_life": 14, "into": "mon_water_scorpion" }
-   }
+  }
 ]
