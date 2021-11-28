@@ -264,6 +264,7 @@ static std::string get_encumbrance_description( const Character &you, const body
             s += melee_cost_text( you.melee_thrown_move_modifier_hands() );
             s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
                                 you.aim_speed_modifier() );
+            s += ranged_cost_text( you.ranged_dispersion_modifier_hands() );
             break;
         case bp_leg_l:
         case bp_leg_r:
