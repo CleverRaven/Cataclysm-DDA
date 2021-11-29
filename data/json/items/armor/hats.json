@@ -524,7 +524,7 @@
     "color": "red",
     "warmth": 25,
     "material_thickness": 0.3,
-    "flags": [  "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
   },
   {

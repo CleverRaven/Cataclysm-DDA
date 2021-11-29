@@ -724,6 +724,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "material": [ "cotton", "faux_fur" ],
+    "repairs_like": "gloves_light",
     "symbol": "[",
     "looks_like": "gloves_fur",
     "color": "red",

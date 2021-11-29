@@ -918,6 +918,33 @@
     ]
   },
   {
+    "id": "santa_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "shorts" },
+    "description": "A pair of red shorts with a white trim.  For when santa is on summer vacation.",
+    "weight": "230 g",
+    "volume": "1 L",
+    "price": 2200,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "shorts",
+    "color": "red",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
     "id": "santa_pants",
     "type": "ARMOR",
     "name": { "str_sp": "santa pants" },
