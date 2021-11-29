@@ -1605,6 +1605,26 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "santa_jacket_short",
+    "type": "ARMOR",
+    "name": { "str": "short santa jacket" },
+    "description": "A short red jacket with white faux fur as trim, similar to a santa jacket but sleeveless.  This version is for those who seek a sexier santa in christmas.",
+    "weight": "1200 g",
+    "volume": "2000 ml",
+    "price": 18000,
+    "price_postapoc": 70,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_red",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 } ],
+    "warmth": 15,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
     "id": "ski_jacket",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
