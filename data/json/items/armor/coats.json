@@ -1566,6 +1566,45 @@
     "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
   },
   {
+    "id": "santa_jacket",
+    "type": "ARMOR",
+    "name": { "str": "santa jacket" },
+    "description": "A white faux fur trimmed red jacket commonly used by bearded men in christmas.  Warm and with a couple of small pockets.",
+    "weight": "1500 g",
+    "volume": "4500 ml",
+    "price": 45000,
+    "price_postapoc": 500,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 18 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "ski_jacket",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
