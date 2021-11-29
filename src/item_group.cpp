@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
@@ -145,8 +146,8 @@ static void put_into_container(
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
-        const std::string &context )
-    : Item_spawn_data( _probability, context )
+        const std::string &context, holiday event )
+    : Item_spawn_data( _probability, context, event )
     , id( _id )
     , type( _type )
 {
@@ -594,8 +595,8 @@ void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> 
 }
 
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
-                        const std::string &context )
-    : Item_spawn_data( probability, context )
+                        const std::string &context, holiday event )
+    : Item_spawn_data( probability, context, event )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
@@ -635,13 +636,13 @@ void Item_group::add_group_entry( const item_group_id &groupid, int probability 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
     cata_assert( ptr.get() != nullptr );
-    if( ptr->probability <= 0 ) {
+    if( ptr->get_probability( false ) <= 0 ) {
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->probability = std::min( 100, ptr->probability );
+        ptr->set_probablility( std::min( 100, ptr->get_probability( false ) ) );
     }
-    sum_prob += ptr->probability;
+    sum_prob += ptr->get_probability( false );
 
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
@@ -658,7 +659,7 @@ Item_spawn_data::ItemList Item_group::create(
     ItemList result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
             ItemList tmp = elem->create( birthday, rec, flags );
@@ -667,7 +668,7 @@ Item_spawn_data::ItemList Item_group::create(
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= elem->probability;
+            p -= elem->get_probability( false );
             if( p >= 0 ) {
                 continue;
             }
@@ -685,7 +686,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= elem->probability ) {
+            if( rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
             return elem->create_single( birthday, rec );
@@ -693,7 +694,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= elem->probability;
+            p -= elem->get_probability( false );
             if( p >= 0 ) {
                 continue;
             }
@@ -716,11 +717,19 @@ void Item_spawn_data::set_container_item( const itype_id &container )
     container_item = container;
 }
 
+int Item_spawn_data::get_probability( bool skip_event_check ) const
+{
+    if( skip_event_check || event == holiday::none || event == get_holiday_from_time( 0 ) ) {
+        return probability;
+    }
+    return 0;
+}
+
 bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
-            sum_prob -= ( *a )->probability;
+            sum_prob -= ( *a )->get_probability( false );
             a = items.erase( a );
         } else {
             ++a;
