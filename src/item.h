@@ -1377,7 +1377,7 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-		
+
         /**
          * returns whether the item can be reloaded with the specified item.
          * @param ammo item to be loaded in
