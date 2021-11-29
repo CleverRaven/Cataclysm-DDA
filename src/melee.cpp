@@ -73,6 +73,10 @@ static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
 static const bionic_id bio_shock( "bio_shock" );
 
+static const character_modifier_id character_modifier_melee_attack_roll_mod( "melee_attack_roll_mod" );
+static const character_modifier_id character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
+static const character_modifier_id character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -346,7 +350,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= melee_attack_roll_modifier();
+    hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
 }
@@ -2534,8 +2538,8 @@ int Character::attack_speed( const item &weap ) const
     const float ma_mult = mabuff_attack_cost_mult();
 
     double move_cost = base_move_cost;
-    move_cost *= melee_thrown_move_modifier_hands();
-    move_cost *= melee_thrown_move_modifier_torso();
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_balance_mod );
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;

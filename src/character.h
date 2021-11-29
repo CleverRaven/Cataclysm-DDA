@@ -585,34 +585,11 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
         int get_most_accurate_sight( const item &gun ) const;
-        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
-        double aim_speed_dex_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
 
-        // multiplicative modifiers
-
-        // modifier to aim speed based on manipulator score
-        float aim_speed_modifier() const;
-
-        float melee_thrown_move_modifier_hands() const;
-        float melee_thrown_move_modifier_torso() const;
-        float melee_stamina_cost_modifier() const;
-        float reloading_move_modifier() const;
-        float thrown_dex_modifier() const;
-        float stamina_recovery_breathing_modifier() const;
-        float limb_speed_movecost_modifier() const;
-        float limb_footing_movecost_modifier() const;
-        // movecost is modified by the average of limb speed and balance.
-        float limb_run_cost_modifier() const;
-        float swim_modifier() const;
-        // min is 0.2 instead of 0
-        float melee_attack_roll_modifier() const;
-        // additive modifier
-        float ranged_dispersion_modifier_hands() const;
-        float ranged_dispersion_modifier_vision() const;
-        // get descriptions to display encumbrance effects on modifiers
-        std::vector<std::string> get_modifier_descriptions( const limb_score_id &score,
-                nc_color val_color = c_white ) const;
+        // Get the value of the specified character modifier.
+        // (some modifiers require a skill_id, ex: aim_speed_skill_mod)
+        float get_modifier( const character_modifier_id &mod, const skill_id &skill = skill_id::NULL_ID() ) const;
 
         /* Gun stuff */
         /**
@@ -2517,7 +2494,6 @@ class Character : public Creature, public visitable
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
-        float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 

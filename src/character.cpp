@@ -166,6 +166,17 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
 
+static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
+static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
+static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
+static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
+static const character_modifier_id character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
+static const character_modifier_id character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
+static const character_modifier_id character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
+static const character_modifier_id character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
+static const character_modifier_id character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+static const character_modifier_id character_modifier_swim_mod( "swim_mod" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -802,7 +813,7 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += ranged_dispersion_modifier_vision();
+    dispersion += get_modifier( character_modifier_ranged_dispersion_vision_mod );
 
     return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
 }
@@ -896,16 +907,16 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     skill_id gun_skill = gun.gun_skill();
     // Ranges [0 - 10]
-    aim_speed += aim_speed_skill_modifier( gun_skill );
+    aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
 
     // Range [0 - 12]
     /** @EFFECT_DEX increases aiming speed */
-    aim_speed += aim_speed_dex_modifier();
+    aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
     // Range [0 - 10]
     aim_speed += sight_speed_modifier;
 
-    aim_speed *= aim_speed_modifier();
+    aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
     aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
@@ -1129,7 +1140,7 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
     /** @EFFECT_SWIMMING increases swim speed */
-    ret *= swim_modifier();
+    ret *= get_modifier( character_modifier_swim_mod );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( const item &i : worn ) {
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
@@ -2453,7 +2464,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
                             16_gram : thrown_item->weight() / 16_gram;
-    return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
+    return ( weight_cost + 50 ) * -1 * get_modifier( character_modifier_melee_stamina_cost_mod );
 }
 
 std::vector<item_location> Character::nearby( const
@@ -6074,7 +6085,7 @@ void Character::burn_move_stamina( int moves )
     }
 
     burn_ratio *= move_mode->stamina_mult();
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier( character_modifier_stamina_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -6105,7 +6116,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        effective_regen_rate * stamina_recovery_breathing_modifier() );
+                        effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -8755,7 +8766,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost *= limb_run_cost_modifier();
+        movecost *= get_modifier( character_modifier_limb_run_cost_mod );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -8814,7 +8825,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
+        movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
     }
 
     if( diag ) {
@@ -10483,7 +10494,7 @@ float Character::fall_damage_mod() const
 
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
-    dex_dodge *= limb_speed_movecost_modifier();
+    dex_dodge *= get_modifier( character_modifier_limb_speed_movecost_mod );
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on

@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_modifier.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -234,11 +235,15 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         float cur_score = part->get_limb_score( sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
-        std::vector<std::string> mod_s = you.get_modifier_descriptions( sc.getId(),
-                                         limb_score_current_color( cur_score, bp_score ) );
-        for( std::string tmp_s : mod_s ) {
-            s.emplace_back( tmp_s );
+    }
+    for( const character_modifier &mod : character_modifier::get_all() ) {
+        const limb_score_id &sc = mod.use_limb_score();
+        if( sc.is_null() || !bp->has_limb_score( sc ) ) {
+            continue;
         }
+        std::string desc = mod.description().translated();
+        std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ), limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
+        s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
     }
     return s;
 }

@@ -343,6 +343,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
 
     if( jo.has_member( "limb_scores" ) ) {
+        limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
         for( const JsonValue &jval : jarr ) {
             bp_limb_score bpls;

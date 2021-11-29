@@ -1,5 +1,10 @@
 #include "character.h"
+#include "character_modifier.h"
+#include "generic_factory.h"
 #include "move_mode.h"
+
+static const character_modifier_id character_modifier_limb_balance_movecost_mod( "limb_balance_movecost_mod" );
+static const character_modifier_id character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -12,6 +17,95 @@ static const limb_score_id limb_score_vision( "vision" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_swimming( "swimming" );
+
+namespace
+{
+
+generic_factory<character_modifier> character_modifier_factory( "character modifier" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const character_modifier &string_id<character_modifier>::obj() const
+{
+    return character_modifier_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<character_modifier>::is_valid() const
+{
+    return character_modifier_factory.is_valid( *this );
+}
+
+void character_modifier::load_character_modifiers( const JsonObject &jo, const std::string &src )
+{
+    character_modifier_factory.load( jo, src );
+}
+
+void character_modifier::reset()
+{
+    character_modifier_factory.reset();
+}
+
+const std::vector<character_modifier> &character_modifier::get_all()
+{
+    return character_modifier_factory.get_all();
+}
+
+static character_modifier::mod_type string_to_modtype( const std::string &s )
+{
+    static const std::map<std::string, character_modifier::mod_type> modtype_map = {
+        { "+", character_modifier::ADD },
+        { "x", character_modifier::MULT },
+        { "*", character_modifier::MULT },
+        { "", character_modifier::NONE }
+    };
+    const auto &iter = modtype_map.find( s );
+    if( iter == modtype_map.end() ) {
+        debugmsg( "Invalid mod_type %s", s );
+        return character_modifier::NONE;
+    }
+    return iter->second;
+}
+
+static float load_float_or_maxmovecost( const JsonObject &jo, const std::string &field )
+{
+    float val = 0.0f;
+    if( jo.has_string( field ) ) {
+        std::string val_str = jo.get_string( field );
+        if( val_str == "max_move_cost" ) {
+            val = MAX_MOVECOST_MODIFIER;
+        } else {
+            jo.throw_error( string_format( "invalid %s %s: use a float value or \"max_move_cost\"", field, val_str ) );
+        }
+    } else if( jo.has_float( field ) ) {
+        mandatory( jo, false, field, val );
+    }
+    return val;
+}
+
+void character_modifier::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "description", desc );
+
+    std::string modtypestr;
+    optional( jo, was_loaded, "mod_type", modtypestr, "" );
+    modtype = string_to_modtype( modtypestr );
+
+    const JsonObject &jobj = jo.get_object( "value" );
+    optional( jobj, was_loaded, "builtin", builtin, "" );
+    if( builtin.empty() ) {
+        mandatory( jobj, was_loaded, "limb_score", limbscore );
+        optional( jobj, was_loaded, "limb_type", limbtype, body_part_type::type::num_types );
+        min_val = load_float_or_maxmovecost( jobj, "min" );
+        max_val = load_float_or_maxmovecost( jobj, "max" );
+        optional( jobj, was_loaded, "nominator", nominator, 0.0f );
+        optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
+    }
+}
 
 // Scores
 
@@ -63,7 +157,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
 
 // Modifiers
 
-double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
+static double aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
 {
     double skill_mult = 1.0;
     if( gun_skill == skill_pistol ) {
@@ -76,245 +170,76 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
+    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) );
 }
 
-double Character::aim_speed_dex_modifier() const
+static double aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
-    return get_dex() - 8;
+    return c.get_dex() - 8;
 }
 
-float Character::aim_speed_modifier() const
-{
-    return get_limb_score( limb_score_manip );
-}
-
-float Character::melee_thrown_move_modifier_hands() const
-{
-    float manip_score = get_limb_score( limb_score_manip );
-    if( manip_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manip_score );
-    }
-}
-
-float Character::melee_thrown_move_modifier_torso() const
-{
-    float balance_score = get_limb_score( limb_score_balance );
-    if( balance_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score );
-    }
-}
-
-float Character::melee_stamina_cost_modifier() const
-{
-    float lift_score = get_limb_score( limb_score_lift, body_part_type::type::arm );
-    if( lift_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / lift_score );
-    }
-}
-
-float Character::reloading_move_modifier() const
-{
-    float manip_score = get_limb_score( limb_score_manip );
-    if( manip_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manip_score );
-    }
-}
-
-float Character::thrown_dex_modifier() const
-{
-    return get_limb_score( limb_score_manip );
-}
-
-float Character::ranged_dispersion_modifier_hands() const
-{
-    float manip_score = get_limb_score( limb_score_manip );
-    if( manip_score == 0.0f ) {
-        return 1000.0f;
-    } else {
-        return std::min( 1000.0f, ( 22.8f / manip_score ) - 22.8f );
-    }
-}
-
-float Character::ranged_dispersion_modifier_vision() const
-{
-    float vision_score = get_limb_score( limb_score_vision );
-    if( vision_score == 0.0f ) {
-        return 10'000.0f;
-    } else {
-        return std::min( 10'000.0f, ( 30.0f / vision_score ) - 30.0f );
-    }
-}
-
-float Character::stamina_move_cost_modifier() const
+static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 {
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    return stamina_modifier * move_mode->move_speed_mult();
+    float stamina_modifier = ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
+    return stamina_modifier * c.move_mode->move_speed_mult();
 }
 
-float Character::stamina_recovery_breathing_modifier() const
+static float limb_run_cost_modifier( const Character &c, const skill_id & )
 {
-    return get_limb_score( limb_score_breathing );
+    return ( character_modifier_limb_balance_movecost_mod->modifier( c ) + character_modifier_limb_speed_movecost_mod->modifier( c ) ) / 2.0f;
 }
 
-float Character::limb_speed_movecost_modifier() const
+static float call_builtin( const std::string &builtin, const Character &c, const skill_id &skill )
 {
-    float move_speed_score = get_limb_score( limb_score_move_speed );
-    if( move_speed_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / move_speed_score );
-    }
-}
-
-float Character::limb_footing_movecost_modifier() const
-{
-    float balance_score = get_limb_score( limb_score_balance );
-    if( balance_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score );
-    }
-}
-
-float Character::limb_run_cost_modifier() const
-{
-    return ( limb_footing_movecost_modifier() + limb_speed_movecost_modifier() * 2 ) / 3.0f;
-}
-
-float Character::swim_modifier() const
-{
-    float swim_score = get_limb_score( limb_score_swim );
-    if( swim_score == 0.0f ) {
-        return MAX_MOVECOST_MODIFIER;
-    } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / swim_score );
-    }
-}
-
-float Character::melee_attack_roll_modifier() const
-{
-    return std::max( 0.2f, get_limb_score( limb_score_balance ) );
-}
-
-using mod_func_ptr = float ( Character::* )() const;
-static const std::map<const limb_score_id, std::map<std::string, mod_func_ptr>> score_mod_map = {
-    {
-        limb_score_balance,
-        {
-            {
-                translate_marker( "Melee and thrown attack movement point modifier: x" ),
-                &Character::melee_thrown_move_modifier_torso
-            },
-            {
-                translate_marker( "Melee attack rolls: x" ),
-                &Character::melee_attack_roll_modifier
-            },
-            {
-                translate_marker( "Balance movecost modifier: x" ),
-                &Character::limb_balance_movecost_modifier
-            }
-        }
-    },
-    {
-        limb_score_breathing,
-        {
-            {
-                translate_marker( "Stamina Regeneration: x" ),
-                &Character::stamina_recovery_breathing_modifier
-            }
-        }
-    },
-    {
-        limb_score_lift,
-        {
-            {
-                translate_marker( "Melee stamina cost: x" ),
-                &Character::melee_stamina_cost_modifier
-            }
-        }
-    },
-    {
-        limb_score_manip,
-        {
-            {
-                translate_marker( "Gun aim speed modifier: x" ),
-                &Character::aim_speed_modifier
-            },
-            {
-                translate_marker( "Melee and thrown attack movement point modifier: x" ),
-                &Character::melee_thrown_move_modifier_hands
-            },
-            {
-                translate_marker( "Reloading movement point cost: x" ),
-                &Character::reloading_move_modifier
-            },
-            {
-                translate_marker( "Dexterity when throwing items: x" ),
-                &Character::thrown_dex_modifier
-            },
-            {
-                translate_marker( "Hand dispersion when using ranged attacks: +" ),
-                &Character::ranged_dispersion_modifier_hands
-            }
-        }
-    },
-    {
-        limb_score_move_speed,
-        {
-            {
-                translate_marker( "Limb speed movecost modifier: x" ),
-                &Character::limb_speed_movecost_modifier
-            }
-        }
-    },
-    {
-        limb_score_swim,
-        {
-            {
-                translate_marker( "Swimming movement point cost: x" ),
-                &Character::swim_modifier
-            }
-        }
-    },
-    {
-        limb_score_vision,
-        {
-            {
-                translate_marker( "Sight dispersion when using ranged attacks: +" ),
-                &Character::ranged_dispersion_modifier_vision
-            }
-        }
-    }
-};
-
-std::vector<std::string> Character::get_modifier_descriptions( const limb_score_id &score,
-        nc_color val_color ) const
-{
-    std::vector<std::string> s;
-    const auto &func_map = score_mod_map.find( score );
-    if( func_map == score_mod_map.end() ) {
-        return s;
-    }
-
-    auto txt_fmt = [val_color]( const std::string & txt, float val ) {
-        return _( txt ) + colorize( string_format( "%.2f", val ), val_color );
+    static const std::map<std::string, std::function<float ( const Character &, const skill_id & )>> func_map = {
+        { "limb_run_cost_modifier", limb_run_cost_modifier },
+        { "stamina_move_cost_modifier", stamina_move_cost_modifier },
+        { "aim_speed_dex_modifier", aim_speed_dex_modifier },
+        { "aim_speed_skill_modifier", aim_speed_skill_modifier }
     };
 
-    for( const auto &func_pair : func_map->second ) {
-        float ( Character::* tmp )() const = func_pair.second;
-        s.emplace_back( txt_fmt( func_pair.first, ( this->*tmp )() ) );
+    auto iter = func_map.find( builtin );
+    if( iter == func_map.end() ) {
+        debugmsg( "Invalid builtin function %s for character modifier", builtin );
+        return 0.0f;
     }
 
-    return s;
+    return ( iter->second )( c, skill );
+}
+
+// Generally for cost mods: mod = min( max_val, ( nominator / limb_score ) - subtractor )
+// for melee attack roll:   mod = max( min_val, limb_score )
+// for straight limb_score: nominator == 0, subtractor == 0, max_val == 0, min_val == 0
+float character_modifier::modifier( const Character &c, const skill_id &skill ) const
+{
+    // use builtin to calculate modifier
+    if( !builtin.empty() ) {
+        return call_builtin( builtin, c, skill );
+    }
+
+    float score = c.get_limb_score( limbscore, limbtype );
+    // score == 0
+    if( score < std::numeric_limits<float>::epsilon() ) {
+        return min_val > std::numeric_limits<float>::epsilon() ? min_val : max_val > std::numeric_limits<float>::epsilon() ? max_val : 0.0f;
+    }
+    if( nominator > std::numeric_limits<float>::epsilon() ) {
+        score = nominator / score;
+    }
+    if( subtractor > std::numeric_limits<float>::epsilon() ) {
+        score -= subtractor;
+    }
+    if( max_val > std::numeric_limits<float>::epsilon() ) {
+        score = std::min( max_val, score );
+    }
+    if( min_val > std::numeric_limits<float>::epsilon() ) {
+        score = std::max( min_val, score );
+    }
+    return score;
+}
+
+float Character::get_modifier( const character_modifier_id &mod, const skill_id &skill ) const
+{
+    return mod->modifier( *this, skill );
 }
