@@ -44,7 +44,7 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 4, "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "cloak",

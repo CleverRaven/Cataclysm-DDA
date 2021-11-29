@@ -209,6 +209,8 @@ struct field_type {
         field_type_str_id wandering_field;
         std::string looks_like;
 
+        bool mopsafe = false;
+
         bool decrease_intensity_on_contact = false;
 
     private:

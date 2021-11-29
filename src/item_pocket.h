@@ -126,6 +126,7 @@ class item_pocket
 
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
+        bool is_ablative() const;
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
@@ -154,12 +155,20 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
+
+
+        /**
+         * Is the pocket compatible with the specified item?
+         * Does not check if the item actually fits volume/weight wise
+         * @param it the item being put in
+         */
+        ret_val<contain_code> is_compatible( const item &it ) const;
+
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
-        ret_val<contain_code> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -365,18 +374,20 @@ class pocket_data
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = 0_ml;
+        units::volume volume_capacity = 2000000000_ml;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // max weight of stuff the pocket can hold
-        units::mass max_contains_weight = 0_gram;
+        units::mass max_contains_weight = 2000000_kilogram;
         // longest item that can fit into the pocket
         // if not defined in json, calculated to be cbrt( volume ) * sqrt( 2 )
         units::length max_item_length = 0_mm;
         // if true, this pocket can can contain one and only one item
         bool holster = false;
+        // if true, this pocket holds ablative armor
+        bool ablative = false;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number

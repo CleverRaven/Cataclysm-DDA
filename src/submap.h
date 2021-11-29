@@ -339,6 +339,11 @@ struct maptile {
         const item &get_uppermost_item() const {
             return *std::prev( sm->get_items( pos() ).cend() );
         }
+
+        // Gets all items
+        const cata::colony<item> &get_items() const {
+            return sm->get_items( pos() );
+        }
 };
 
 #endif // CATA_SRC_SUBMAP_H

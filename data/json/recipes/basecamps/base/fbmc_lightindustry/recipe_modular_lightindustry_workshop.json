@@ -19,7 +19,7 @@
       { "id": "industrial_recipes_air_compressor" },
       { "id": "fbmc_lightindustry_workshop" }
     ],
-    "blueprint_resources": [ "fake_power_lathe", "fake_drill_press", "fake_hydraulic_press", "fake_air_compressor", "fake_arc_furnace" ],
+    "blueprint_resources": [ "fake_heavy_lathe", "fake_drill_press", "fake_hydraulic_press", "fake_air_compressor", "fake_arc_furnace" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "expansion survey",
     "check_blueprint_needs": false

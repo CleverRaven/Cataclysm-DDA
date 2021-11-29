@@ -27,6 +27,10 @@
 #include "stomach.h"
 #include "type_id.h"
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
+static const move_mode_id move_mode_walk( "walk" );
+
 int get_remaining_charges( const std::string &tool_id )
 {
     const inventory crafting_inv = get_player_character().crafting_inventory();
@@ -98,7 +102,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.reset_cardio_acc();
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( move_mode_id( "walk" ) );
+    dummy.set_movement_mode( move_mode_walk );
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.
@@ -126,7 +130,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
     // XL so arrows can fit.
-    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+    if( !shooter.is_wearing( itype_debug_backpack ) ) {
         shooter.worn.emplace_back( "debug_backpack" );
     }
 

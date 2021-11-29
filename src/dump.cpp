@@ -18,6 +18,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "npc.h"
 #include "output.h"
@@ -33,13 +34,19 @@
 #include "vehicle.h"
 #include "vitamin.h"
 
+static const itype_id itype_223( "223" );
+static const itype_id itype_270( "270" );
+static const itype_id itype_9mm( "9mm" );
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
+
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
+        load_packs( _( "Loading content packs" ), { MOD_INFORMATION_dda }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -68,10 +75,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                             4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
-    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_id( "223" ) );
-    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_id( "270" ) );
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_9mm );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_9mm );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_223 );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_270 );
     test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {

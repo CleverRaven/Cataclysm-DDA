@@ -58,14 +58,16 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
+
+static const material_id material_iflesh( "iflesh" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -79,7 +81,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return !type->in_species( species_FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
+        return !made_of( material_iflesh ) || has_flag( MF_INSECTICIDEPROOF );
     }
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );

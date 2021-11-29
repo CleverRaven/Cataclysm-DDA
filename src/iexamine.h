@@ -36,6 +36,12 @@ struct iexamine_actor {
     virtual ~iexamine_actor() = default;
 };
 
+enum fuel_station_fuel_type {
+    FUEL_TYPE_NONE,
+    FUEL_TYPE_GASOLINE,
+    FUEL_TYPE_DIESEL
+};
+
 namespace iexamine
 {
 
@@ -140,7 +146,7 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
 cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
-        const std::string &fuel_type );
+        fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );
 

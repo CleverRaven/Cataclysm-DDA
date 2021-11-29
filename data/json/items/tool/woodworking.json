@@ -16,7 +16,8 @@
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "bow_saw",
@@ -136,7 +137,8 @@
     "color": "brown",
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "type": "GENERIC",
@@ -269,7 +271,8 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "saw",
