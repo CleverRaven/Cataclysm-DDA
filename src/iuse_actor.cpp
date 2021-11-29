@@ -4068,7 +4068,7 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool t,
 
 
     if( prompt.ret >= 0 ) {
-        p.set_wielded_item( it.get_contents().remove_pocket( prompt.ret ) );
+        p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
