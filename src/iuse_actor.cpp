@@ -4047,37 +4047,45 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     return 0;
 }
 
-ret_val<bool> molle_attach_actor::can_use_on( const Character &, const item &,
-        const item &target ) const
-{
-    if( !target.is_gun() ) {
-        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
-    }
-
-    if( target.type->gun->barrel_volume <= 0_ml ) {
-        return ret_val<bool>::make_failure( _( "The barrel is too small." ) );
-    }
-
-    if( target.gunmod_find( itype_barrel_small ) ) {
-        return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
-    }
-
-    const auto gunmods = target.gunmods();
-    const bool modified_barrel = std::any_of( gunmods.begin(), gunmods.end(),
-    []( const item * mod ) {
-        return mod->type->gunmod->location == gunmod_location( "barrel" );
-    } );
-
-    if( modified_barrel ) {
-        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
-    }
-
-    return ret_val<bool>::make_success();
-}
-
 std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
 {
     return std::make_unique<molle_attach_actor>( *this );
+}
+
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
+{
+
+    std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
+    uilist prompt;
+    prompt.text = _( "Remove which modification?" );
+
+    for( size_t i = 0; i != items_attached.size(); ++i ) {
+        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+    }
+
+    prompt.query();
+
+
+    if( prompt.ret >= 0 ) {
+        it.get_contents().remove_pocket( prompt.ret );
+        p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
+        return 0;
+    }
+
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
+{
+    return std::make_unique<molle_detach_actor>( *this );
+}
+
+void molle_detach_actor::load( const JsonObject &jo )
+{
+    return;
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,

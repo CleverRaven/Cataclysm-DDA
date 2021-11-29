@@ -1411,6 +1411,27 @@ void item_contents::add_pocket( const item &pocket_item )
 
 }
 
+void item_contents::remove_pocket( int index )
+{
+    units::volume total_nonrigid_volume = 0_ml;
+    for( const item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
+        total_nonrigid_volume += i_pocket->max_contains_volume();
+    }
+    additional_pockets_encumbrance -= total_nonrigid_volume / 250_ml;
+
+    contents.erase( std::next( contents.begin(), index ) );
+    additional_pockets.erase( additional_pockets.begin() + index );
+    /*
+    units::volume total_nonrigid_volume = 0_ml;
+    for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+        contents.push_back( *i_pocket );
+        total_nonrigid_volume += i_pocket->max_contains_volume();
+    }
+    additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
+    additional_pockets.push_back( pocket_item );
+    */
+}
+
 bool item_contents::has_additional_pockets() const
 {
     // if there are additional pockets return true

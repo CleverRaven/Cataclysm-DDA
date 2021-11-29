@@ -148,7 +148,14 @@ class item_contents
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
+        // called when adding an item as pockets
+        // to a molle item
         void add_pocket( const item &pocket );
+
+        // called when removing a molle pocket
+        // needs the index of the pocket in both
+        // related vectors
+        void remove_pocket( int index );
 
         std::vector<const item *> get_added_pockets() const;
 
@@ -302,7 +309,7 @@ class item_contents
         std::list<item_pocket> contents;
 
         // pockets that have been custom added
-        std::list<item> additional_pockets;
+        std::vector<item> additional_pockets;
         int additional_pockets_encumbrance = 0;
 
         struct item_contents_helper;
