@@ -11999,6 +11999,18 @@ units::volume item::check_for_free_space() const
     return volume;
 }
 
+int item::get_pocket_size() const
+{
+    // set the ammount of space that will be used on the vest based on the size of the item
+    if( has_flag( flag_PALS_SMALL ) ) {
+        return 1;
+    } else if( has_flag( flag_PALS_MEDIUM ) ) {
+        return 2;
+    } else {
+        return 3;
+    }
+}
+
 units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const
 {
     auto stack = without.find( this );

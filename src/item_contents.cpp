@@ -1407,6 +1407,7 @@ void item_contents::add_pocket( const item &pocket_item )
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
     additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
+    additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
 
 }
@@ -1434,6 +1435,7 @@ item item_contents::remove_pocket( int index )
         contents.erase( it++ );
     }
     additional_pockets_encumbrance -= total_nonrigid_volume / 250_ml;
+    additional_pockets_space_used -= additional_pockets[index].get_pocket_size();
 
     // create a copy of the item to return and delete the old items entry
     item it_return( additional_pockets[index] );
@@ -1451,6 +1453,11 @@ bool item_contents::has_additional_pockets() const
 int item_contents::get_additional_pocket_encumbrance() const
 {
     return additional_pockets_encumbrance;
+}
+
+int item_contents::get_additional_space_used() const
+{
+    return additional_pockets_space_used;
 }
 
 std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const

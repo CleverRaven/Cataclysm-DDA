@@ -163,6 +163,7 @@ class item_contents
         bool has_additional_pockets() const;
 
         int get_additional_pocket_encumbrance( ) const;
+        int get_additional_space_used() const;
 
         // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
         std::vector<const item_pocket *> get_all_reloadable_pockets() const;
@@ -312,6 +313,9 @@ class item_contents
         // pockets that have been custom added
         std::vector<item> additional_pockets;
         int additional_pockets_encumbrance = 0;
+
+        // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
+        int additional_pockets_space_used = 0;
 
         struct item_contents_helper;
 
