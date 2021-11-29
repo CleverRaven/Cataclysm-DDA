@@ -438,6 +438,8 @@ class Character : public Creature, public visitable
 
         bool manual_examine = false;
         int volume = 0;
+
+
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -579,15 +581,20 @@ class Character : public Creature, public visitable
         bool has_mission_item( int mission_id ) const;
 
         /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
+        int effective_dispersion( int dispersion, bool zoom = false ) const;
+        int effective_dispersion( const item *weapon, itype_id main_sight, bool laser_sight = false ) const;
 
         /* Accessors for aspects of aim speed. */
-        std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        std::vector<aim_type> get_aim_types( const item &gun, const item *p_main_sight = nullptr,
+                                             bool laser_sight = false ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil,
+                                               bool appointed_sight = false, const itype_id main_sight_id = itype_id::NULL_ID(),
+                                               bool laser_sight = true ) const;
         int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
-        double aim_cap_from_volume( const item &gun ) const;
+        double aim_factor_from_volume( const item &gun ) const;
+        double aim_factor_from_length( const item &gun ) const;
 
         // multiplicative modifiers
 
@@ -618,8 +625,13 @@ class Character : public Creature, public visitable
         bool has_gun_for_ammo( const ammotype &at ) const;
         bool has_magazine_for_ammo( const ammotype &at ) const;
 
-        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
-        double aim_per_move( const item &gun, double recoil ) const;
+        /**
+         * Calculate aim improvement per move spent aiming at a given @ref recoil
+         * @param If p_main_sight is nullptr character will use the sight choosed in advance
+         */
+        double aim_per_move( const item &gun, double recoil, const item *p_main_sight = nullptr,
+                             bool laser_sight = false ) const;
+        bool laser_sight_available( const tripoint target_pos ) const;
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
@@ -2528,7 +2540,8 @@ class Character : public Creature, public visitable
         double recoil_total() const;
 
         /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL,
+                                  const item *p_main_sight = nullptr, bool laser_sight = false ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
@@ -2546,6 +2559,8 @@ class Character : public Creature, public visitable
          *  @return number of shots actually fired
          */
         int fire_gun( const tripoint &target, int shots, item &gun );
+        /** The increase in recoil gives the character backswing which can be reduced by strenth.*/
+        int get_shoot_backswing( int increased_recoil, int shot_num ) const;
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );

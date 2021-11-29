@@ -1781,5 +1781,15 @@
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."
+  },
+  {
+    "id": "LASER_SIGHT",
+    "type": "json_flag",
+    "info": "",
+    "name": "laser sight"
+  },
+  {
+    "id": "CHOKE",
+    "type": "json_flag"
   }
 ]

@@ -2086,6 +2086,8 @@ class item : public visitable
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
 
+        std::vector<const item *> main_sights() const;
+
         std::vector<const item *> mods() const;
 
         std::vector<const item *> softwares() const;
@@ -2123,8 +2125,10 @@ class item : public visitable
         void gun_cycle_mode();
 
         /** Get lowest dispersion of either integral or any attached sights */
-        int sight_dispersion() const;
-
+        int sight_dispersion( const itype_id current_main_sight_id ) const;
+        item *most_accurate_main_sight( const Character &shooter ) const;
+        item *fastest_main_sight( const Character &shooter )const;
+        itype_id current_main_sight_id = itype_id::NULL_ID();
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
             int volume;
@@ -2161,6 +2165,10 @@ class item : public visitable
          */
         int gun_recoil( const Character &p, bool bipod = false ) const;
 
+        /**
+        * Summed shot spread from mods. Returns 0 on non-gun items.
+        */
+        int gun_shot_spread() const;
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
          * Returns empty instance on non-gun items.

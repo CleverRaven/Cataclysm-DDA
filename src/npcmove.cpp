@@ -2193,12 +2193,12 @@ bool npc::enough_time_to_reload( const item &gun ) const
 void npc::aim()
 {
     const item &weapon = get_wielded_item();
-    double aim_amount = aim_per_move( weapon, recoil );
+    double aim_amount = aim_per_move( weapon, recoil, weapon.fastest_main_sight( *this ), false );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil );
+        aim_amount = aim_per_move( weapon, recoil, weapon.fastest_main_sight( *this ), false );
     }
 }
 

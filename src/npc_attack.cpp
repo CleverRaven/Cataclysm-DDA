@@ -392,7 +392,9 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
-    if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
+    if( dist > 1 &&
+        source.aim_per_move( gun, source.recoil, gun.fastest_main_sight( source ),
+                             source.laser_sight_available( location ) ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim();

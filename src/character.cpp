@@ -330,9 +330,9 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
+// static const skill_id skill_rifle( "rifle" );
+// static const skill_id skill_shotgun( "shotgun" );
+// static const skill_id skill_smg( "smg" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
@@ -791,37 +791,90 @@ void Character::add_msg_player_or_say( const game_message_params &params,
     Messages::add_msg( params, player_msg );
 }
 
-int Character::effective_dispersion( int dispersion ) const
+int Character::effective_dispersion( int dispersion, bool zoom ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
-    dispersion += ranged_per_mod();
+    if( !zoom ) {
+        dispersion += ranged_per_mod();
+    } else {
+        dispersion += ranged_per_mod() / 4;
+    }
 
     dispersion += ranged_dispersion_modifier_vision();
 
     return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
 }
 
-std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
+int Character::effective_dispersion( const item *weapon, itype_id main_sight_id,
+                                     bool laser_sight ) const
+{
+    if( !weapon->is_gun() ) {
+        return 0;
+    }
+
+    int res = effective_dispersion( 90 );
+    if( weapon->current_main_sight_id.is_null() ) {
+        res = effective_dispersion( weapon->type->gun->sight_dispersion );
+    }
+    for( const item *e : weapon->gunmods() ) {
+        const islot_gunmod &mod = *e->type->gunmod;
+        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
+            continue; // skip gunmods which don't provide a sight
+        }
+        if( e->has_flag( flag_LASER_SIGHT ) && !laser_sight ) {
+            continue;
+        }
+        if( !e->has_flag( flag_LASER_SIGHT ) && main_sight_id != e->type->get_id() ) {
+            continue;
+        }
+        res = std::min( res, effective_dispersion( mod.sight_dispersion, e->has_flag( flag_ZOOM ) ) );
+    }
+    return res;
+}
+std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil,
+        bool appointed_sight,
+        const itype_id main_sight_id, bool laser_sight ) const
 {
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
     int limit = 0;
-    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+
+    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil &&
+        gun.current_main_sight_id.is_null() ) {
         sight_speed_modifier = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 : 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
-
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod.sight_dispersion ) < recoil &&
-            mod.aim_speed > sight_speed_modifier ) {
-            sight_speed_modifier = mod.aim_speed;
-            limit = effective_dispersion( mod.sight_dispersion );
+        if( appointed_sight ) {
+            if( !e->has_flag( flag_LASER_SIGHT ) && main_sight_id != e->type->get_id() ) {
+                continue;
+            }
+        } else {
+            if( !e->has_flag( flag_LASER_SIGHT ) && gun.current_main_sight_id != e->type->get_id() ) {
+                continue;
+            }
+        }
+        if( e->has_flag( flag_LASER_SIGHT ) && !laser_sight ) {
+            // skip laser sights if they are not available
+            continue;
+        }
+        bool zoom = e->has_flag( flag_ZOOM );
+        int effective_aim_speed = mod.aim_speed;
+        if( zoom && mod.aim_speed < 6 ) {
+            // Aiming speed of sights with magnification function will be buffed at low recoil
+            effective_aim_speed += ( 6 - mod.aim_speed ) * logarithmic( -recoil / ( MAX_RECOIL / 10 ) ) * 2;
+        }
+        if( effective_dispersion( mod.sight_dispersion, zoom ) < recoil &&
+            effective_aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = effective_aim_speed;
+            limit = effective_dispersion( mod.sight_dispersion, zoom );
         }
     }
+    sight_speed_modifier += sight_speed_modifier <= 6 ? 0 : 1 * ( sight_speed_modifier - 6 );
     return std::make_pair( sight_speed_modifier, limit );
 }
 
@@ -835,52 +888,87 @@ int Character::get_most_accurate_sight( const item &gun ) const
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.aim_speed >= 0 ) {
-            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
+            limit = std::min( limit, effective_dispersion( mod.sight_dispersion, e->has_flag( flag_ZOOM ) ) );
         }
     }
 
     return limit;
 }
 
-double Character::aim_cap_from_volume( const item &gun ) const
+double Character::aim_factor_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
-
-    units::volume wielded_volume = gun.volume();
+    double wielded_volume = gun.volume() / 1_ml;
     if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
         // use the unfolded volume
-        wielded_volume += gun.collapsed_volume_delta();
+        wielded_volume += gun.collapsed_volume_delta() / 1_ml;
     }
-
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
-    // TODO: also scale with skill level.
-    if( gun_skill == skill_smg || gun_skill == skill_shotgun ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_pistol ) {
-        aim_cap = std::max( 15.0, aim_cap * 1.25 );
-    } else if( gun_skill == skill_rifle ) {
-        aim_cap = std::max( 7.0, aim_cap - 7.0 );
-    } else if( gun_skill == skill_archery ) {
-        aim_cap = std::max( 13.0, aim_cap );
-    } else { // Launchers, etc.
-        aim_cap = std::max( 10.0, aim_cap );
+    double factor;
+    if( gun_skill == skill_pistol ) {
+        factor = 3 * logarithmic( 5000 / wielded_volume );;
+    } else {
+        factor = logarithmic( 10000 / wielded_volume );
     }
-    return aim_cap;
+    return factor;
 }
 
-double Character::aim_per_move( const item &gun, double recoil ) const
+double Character::aim_factor_from_length( const item &gun ) const
+{
+    tripoint cur_pos = pos();
+    bool nw_to_se = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
+                    1,
+                    0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, -1,
+                            0 ) );
+    bool w_to_e = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
+                  0,
+                  0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, 0,
+                          0 ) );
+    bool sw_to_ne = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
+                    -1,
+                    0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, 1,
+                            0 ) );
+    bool n_to_s = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 0,
+                  1,
+                  0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 0, -1,
+                          0 ) );
+    double wielded_length = gun.length() / 1_mm;
+    double factor = 1.0;
+    // When the character is in an open area, it will not be affected by the length of the weapon.
+    // Weapons less than 500mm in length are not affected.
+    // Weapons longer than 1500mm are difficult to use in confined spaces.
+    if( nw_to_se || w_to_e || sw_to_ne || n_to_s ) {
+        factor = 1 - static_cast<float>( ( wielded_length - 500 ) / 1000 );
+        factor = std::max( std::min( factor, 1.0 ), 0.0 );
+    }
+    return factor;
+}
+
+bool Character::laser_sight_available( const tripoint target_pos ) const
+{
+    const int base_distance = 10;
+    const float light_limit = 120.0f;
+    return rl_dist( pos(), target_pos ) <= ( base_distance + per_cur ) * std::max(
+               1.0f - get_map().ambient_light_at( target_pos ) / light_limit, 0.0f ) &&
+           sees( target_pos ) ;
+}
+
+double Character::aim_per_move( const item &gun,
+                                double recoil, const item *p_main_sight, bool laser_sight ) const
 {
     if( !gun.is_gun() ) {
         return 0.0;
     }
 
-    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
-    int sight_speed_modifier = best_sight.first;
+    bool appointed = p_main_sight;
+    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil, appointed,
+                                     appointed ? p_main_sight->type->get_id() : itype_id::NULL_ID(), laser_sight );
+    double sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
         // No suitable sights (already at maximum aim).
         return 0;
     }
+
 
     // Overall strategy for determining aim speed is to sum the factors that contribute to it,
     // then scale that speed by current recoil level.
@@ -892,25 +980,32 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     // Ranges [0 - 10]
     aim_speed += aim_speed_skill_modifier( gun_skill );
 
-    // Range [0 - 12]
+    // Range [0 - 5]
     /** @EFFECT_DEX increases aiming speed */
     aim_speed += aim_speed_dex_modifier();
 
-    // Range [0 - 10]
+    int rapid_draw_limit = 900 + 80 - 10 * std::min( per_cur,
+                           20 ) - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    double rapid_draw_speed_modifier = 24.0;
+    if( recoil > rapid_draw_limit ) {
+        sight_speed_modifier = std::max( sight_speed_modifier,
+                                         rapid_draw_speed_modifier * aim_factor_from_volume( gun ) * aim_factor_from_length( gun ) );
+    }
     aim_speed += sight_speed_modifier;
 
     aim_speed *= aim_speed_modifier();
 
-    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
     // Just a raw scaling factor.
-    aim_speed *= 6.5;
+    aim_speed *= 2.0;
 
-    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
-    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+    // Use a milder attenuation function to replace the previous logarithmic attenuation function,
+    // and set a lower limit for the attenuation coefficient.
+    // This can not only set the upper limit for the sniper time but also keep the aiming speed difference during sniping.
+    aim_speed *= std::max( recoil / MAX_RECOIL, 0.05 );
 
-    // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
-    aim_speed = std::max( aim_speed, 5.0 );
+    // Minimum improvement is 0.01MoA.  This is just to prevent data anomalies
+    aim_speed = std::max( aim_speed, 0.01 );
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
@@ -1182,7 +1277,8 @@ player_activity Character::get_stashed_activity() const
     return stashed_outbounds_activity;
 }
 
-void Character::set_stashed_activity( const player_activity &act, const player_activity &act_back )
+void Character::set_stashed_activity( const player_activity &act,
+                                      const player_activity &act_back )
 {
     stashed_outbounds_activity = act;
     stashed_outbounds_backlog = act_back;
@@ -7040,7 +7136,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+                              const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         // don't do any more damage if we're already dead
@@ -8548,7 +8645,8 @@ void Character::on_item_acquire( const item &it )
     }
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
+void Character::on_effect_int_change( const efftype_id &eid, int intensity,
+                                      const bodypart_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()

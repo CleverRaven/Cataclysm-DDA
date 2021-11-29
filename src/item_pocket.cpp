@@ -570,6 +570,19 @@ std::vector<const item *> item_pocket::gunmods() const
     return mods;
 }
 
+std::vector<const item *> item_pocket::main_sights() const
+{
+    std::vector<const item *> main_sights;
+    for( const item &it : contents ) {
+        if( it.is_gunmod() ) {
+            if( it.type->gunmod->sight_dispersion >= 0 && it.type->gunmod->aim_speed >= 0 &&
+                !it.has_flag( flag_LASER_SIGHT ) ) {
+                main_sights.push_back( &it );
+            }
+        }
+    }
+    return main_sights;
+}
 cata::flat_set<itype_id> item_pocket::item_type_restrictions() const
 {
     return data->item_id_restriction;

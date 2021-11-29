@@ -1188,6 +1188,18 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+std::vector<const item *> item_contents::main_sights() const
+{
+    std::vector<const item *> main_sights;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            std::vector<const item *> internal_main_sights{ pocket.main_sights() };
+            main_sights.insert( main_sights.end(), internal_main_sights.begin(), internal_main_sights.end() );
+        }
+    }
+    return main_sights;
+}
+
 bool item_contents::allows_speedloader( const itype_id &speedloader_id ) const
 {
     for( const item_pocket &pocket : contents ) {

@@ -1149,6 +1149,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SWITCH_SIGHT",
+    "category": "TARGET",
+    "name": "Switch sight",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_MODE",
     "category": "TARGET",
     "name": "Switch Firing Mode",

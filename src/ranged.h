@@ -65,4 +65,6 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
 int throw_cost( const Character &c, const item &to_throw );
 
+int automatic_recoil( int base_recoil, int curshot );
+
 #endif // CATA_SRC_RANGED_H

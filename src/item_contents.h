@@ -97,6 +97,8 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> main_sights() const;
         // checks the pockets if this speedloader is compatible
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 

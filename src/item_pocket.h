@@ -212,6 +212,8 @@ class item_pocket
         std::vector<item *> gunmods();
         // returns a list of pointers of all gunmods in the pocket
         std::vector<const item *> gunmods() const;
+        // returns a list of pointers of all main sights in the pocket
+        std::vector<const item *> main_sights() const;
         cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
         // returns the default magazine if MAGAZINE_WELL, otherwise NULL_ID

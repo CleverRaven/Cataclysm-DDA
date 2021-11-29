@@ -336,6 +336,10 @@ class target_ui
 
         // Switch ammo. Returns 'false' if requires a reloading UI.
         bool action_switch_ammo();
+        // Switch main sight Refers to a sighting device with a label,
+        // and only one such sight can be used at the same time.
+        // When switching the main sight, it is often necessary to tilt the firearm, which will bring extra recoil.
+        bool action_switch_main_sight();
 
         // Aim for 10 turns. Returns 'false' if ran out of moves
         bool action_aim();
@@ -365,6 +369,7 @@ class target_ui
         void panel_cursor_info( int &text_y );
         void panel_gun_info( int &text_y );
         void panel_recoil( int &text_y );
+        void penel_backwing( int &text_y );
         void panel_spell_info( int &text_y );
         void panel_target_info( int &text_y, bool fill_with_blank_if_no_target );
         void panel_fire_mode_aim( int &text_y );
@@ -521,13 +526,14 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int Character::gun_engagement_moves( const item &gun, int target, int start ) const
+int Character::gun_engagement_moves( const item &gun, int target, int start,
+                                     const item *p_main_sight, bool laser_sight ) const
 {
     int mv = 0;
     double penalty = start;
 
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty );
+        double adj = aim_per_move( gun, penalty, p_main_sight, laser_sight );
         if( adj <= 0 ) {
             break;
         }
@@ -731,6 +737,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
+    if( gun.has_flag( flag_CHOKE ) && !gun.ammo_effects().count( "SHOT" ) ) {
+        add_msg_if_player( _( "Shotguns equipped with choke cannot fire slugs" ) );
+        return 0;
+    }
     bool is_mech_weapon = false;
     if( is_mounted() &&
         mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -846,8 +856,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
             break;
         }
-
-        int qty = gun.gun_recoil( *this, bipod );
+        // The recoil increases indefinitely as the number of shots increases, which is unrealistic.
+        // The increase in recoil is set to decrease as the number of consecutive shots increases, so that the recoil converges
+        int qty = automatic_recoil( gun.gun_recoil( *this, bipod ), curshot );
         delay  += qty * absorb;
         // Temporarily scale by 5x as we adjust MAX_RECOIL.
         recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
@@ -918,9 +929,27 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
+    int backswing = get_shoot_backswing( gun.gun_recoil( *this, bipod ), curshot );
+    if( backswing >= 100 ) {
+        add_msg_if_player( m_bad, _( "Excessive recoil almost knocks you down!" ) );
+    }
+    moves -= backswing;
     return curshot;
 }
-
+int automatic_recoil( int base_recoil, int curshot )
+{
+    return base_recoil * std::pow( 0.8, curshot - 1 );
+}
+int Character::get_shoot_backswing( int recoil, int shot_num ) const
+{
+    // 0-100
+    // Not obvious when increment < ( MAX_RECOIL / 10 * str_cur )
+    int total_recoil = 0;
+    for( int i = 1; i <= shot_num; i++ ) {
+        total_recoil += automatic_recoil( recoil, i );
+    }
+    return ( logarithmic( total_recoil / ( MAX_RECOIL / 20 * str_cur ) ) - 0.5 ) * 2 * 200;
+}
 int throw_cost( const Character &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
@@ -1284,9 +1313,11 @@ static void mod_stamina_archery( Character &you, const item &relevant )
     you.mod_stamina( -stamina_cost );
 }
 
-static void do_aim( Character &you, const item &relevant, const double min_recoil )
+static void do_aim( Character &you, const item &relevant, const double min_recoil,
+                    tripoint target_pos )
 {
-    const double aim_amount = you.aim_per_move( relevant, you.recoil );
+    const double aim_amount = you.aim_per_move( relevant, you.recoil, nullptr,
+                              you.laser_sight_available( target_pos ) );
     if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         you.mod_moves( -1 );
@@ -1392,12 +1423,13 @@ static std::string get_colored_bar( const double val, const int width, const std
 static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+                                tripoint target_pos, double target_size, int recoil = 0 )
 {
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
+    const double range = rl_dist( you.pos(), target_pos );
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width -= bars_pad;
     }
@@ -1414,7 +1446,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
     if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
         aim_types = get_default_aim_type();
     } else {
-        aim_types = you.get_aim_types( ranged_weapon );
+        aim_types = you.get_aim_types( ranged_weapon, nullptr, you.laser_sight_available( target_pos ) );
     }
 
     if( display_type != "numbers" ) {
@@ -1474,8 +1506,9 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             moves_to_fire = throw_cost( you, ranged_weapon );
         } else {
-            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( you,
-                            *ranged_weapon.type );
+            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil, nullptr,
+                            you.laser_sight_available( target_pos ) ) + time_to_attack( you,
+                                    *ranged_weapon.type );
         }
 
         const input_event hotkey = front_or( type.action.empty() ? "FIRE" : type.action, input_event() );
@@ -1596,7 +1629,8 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
 
     const double min_recoil = calculate_aim_cap( you, pos );
     const double effective_recoil = you.effective_dispersion(
-                                        you.get_wielded_item().sight_dispersion() );
+                                        you.get_wielded_item().sight_dispersion( weapon->current_main_sight_id ),
+                                        you.get_wielded_item().has_flag( flag_ZOOM ) );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1613,12 +1647,11 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
         }
     };
 
-    const double range = rl_dist( you.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
-                                range, target_size, predicted_recoil );
+                                pos, target_size, predicted_recoil );
 }
 
 static void draw_throw_aim( const Character &you, const catacurses::window &w, int &text_y,
@@ -1631,7 +1664,6 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
     }
 
     const dispersion_sources dispersion( you.throwing_dispersion( weapon, target, is_blind_throw ) );
-    const double range = rl_dist( you.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
@@ -1653,16 +1685,27 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
             target_ui::TargetMode::Throw;
     text_y = print_ranged_chance( you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
                                   confidence_config,
-                                  range, target_size );
+                                  target_pos, target_size );
 }
 
-std::vector<aim_type> Character::get_aim_types( const item &gun ) const
+std::vector<aim_type> Character::get_aim_types( const item &gun, const item *p_main_sight,
+        bool laser_sight ) const
 {
     std::vector<aim_type> aim_types = get_default_aim_type();
     if( !gun.is_gun() ) {
         return aim_types;
     }
-    int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
+    itype_id sight_id = itype_id::NULL_ID();
+    if( p_main_sight ) {
+        sight_id = p_main_sight->type->get_id();
+    } else {
+        if( !gun.current_main_sight_id.is_null() ) {
+            sight_id = gun.current_main_sight_id;
+        } else if( gun.current_main_sight_id.is_null() && gun.has_flag( flag_DISABLE_SIGHTS ) ) {
+            sight_id = gun.fastest_main_sight( *this )->type->get_id();
+        }
+    }
+    int sight_dispersion = effective_dispersion( &gun, sight_id, laser_sight );
     // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
@@ -1734,7 +1777,7 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
-        proj.shot_spread = ammo->shot_spread;
+        proj.shot_spread = ammo->shot_spread + gun.gun_shot_spread();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
@@ -1898,7 +1941,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     return { 0, "" }; // silent weapons
 }
 
-static double dispersion_from_skill( double skill, double weapon_dispersion )
+static double dispersion_from_skill( double skill, int weapon_dispersion )
 {
     if( skill >= MAX_SKILL ) {
         return 0.0;
@@ -1906,6 +1949,10 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
     double dispersion_penalty = 3 * skill_shortfall;
     double skill_threshold = 5;
+    // If the value is affected by the accuracy of the firearm itself,
+    // then beginners will rely heavily on high-precision weapons, while experts are not.
+    // Obviously this is not true.
+    // So use a constant instead.
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
@@ -1943,7 +1990,14 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
                                            get_skill_level( obj.gun_skill() ) ) / 2.0;
     avgSkill = std::min( avgSkill, static_cast<double>( MAX_SKILL ) );
 
-    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
+    if( obj.gun_skill() == skill_archery ) {
+        dispersion.add_range( dispersion_from_skill( avgSkill,
+                              720 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+    } else {
+        dispersion.add_range( dispersion_from_skill( avgSkill,
+                              450 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+    }
+
 
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
@@ -1994,7 +2048,8 @@ double Character::gun_value( const item &weap, int ammo ) const
         tmp.ammo_set( ammo_type );
     }
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
-                           effective_dispersion( tmp.sight_dispersion() );
+                           effective_dispersion( tmp.sight_dispersion( tmp.current_main_sight_id ),
+                                   tmp.has_flag( flag_ZOOM ) );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
@@ -2092,7 +2147,40 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     } else if( mode == TargetMode::Fire ) {
-        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
+        std::vector<const item *> main_sights = relevant->main_sights();
+        int fastest_speed = 0;
+        int disp = 90;
+        itype_id main_sight_id;
+        bool zoom = false;
+        for( const item *e : main_sights ) {
+
+            if( !e ) {
+                if( relevant->current_main_sight_id.is_null() ) {
+                    main_sight_id = itype_id::NULL_ID();
+                    zoom = false;
+                    break;
+                }
+                if( fastest_speed < 6 ) {
+                    fastest_speed = 6;
+                    disp = 30;
+                    main_sight_id = itype_id::NULL_ID();
+                }
+            } else {
+                main_sight_id = e->type->get_id();
+                zoom = e->has_flag( flag_ZOOM );
+                if( relevant->current_main_sight_id == e->type->get_id() ) {
+                    break;
+                }
+                if( fastest_speed < e->type->gunmod->aim_speed || ( fastest_speed == e->type->gunmod->aim_speed &&
+                        disp > e->type->gunmod->sight_dispersion ) ) {
+                    fastest_speed = e->type->gunmod->aim_speed;
+                    disp = e->type->gunmod->sight_dispersion;
+                }
+            }
+        }
+        relevant->current_main_sight_id = main_sight_id;
+        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion(
+                               relevant->current_main_sight_id ), zoom );
     }
 
     map &here = get_map();
@@ -2193,7 +2281,6 @@ target_handler::trajectory target_ui::run()
         }
     }
 
-
     // Event loop!
     ExitCode loop_exit_code;
     std::string timed_out_action;
@@ -2246,6 +2333,9 @@ target_handler::trajectory target_ui::run()
             if( !action_switch_ammo() ) {
                 loop_exit_code = ExitCode::Reload;
                 break;
+            }
+        } else if( action == "SWITCH_SIGHT" ) {
+            if( !action_switch_main_sight() ) {
             }
         } else if( action == "FIRE" ) {
             if( status != Status::Good ) {
@@ -2384,12 +2474,13 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "SWITCH_MODE" );
         if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
             ctxt.register_action( "SWITCH_AMMO" );
+            ctxt.register_action( "SWITCH_SIGHT" );
         }
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
 
-        aim_types = you->get_aim_types( *relevant );
+        aim_types = you->get_aim_types( *relevant, nullptr, you->laser_sight_available( dst ) );
         for( aim_type &type : aim_types ) {
             if( type.has_threshold ) {
                 ctxt.register_action( type.action );
@@ -3014,13 +3105,53 @@ bool target_ui::action_switch_ammo()
     return true;
 }
 
+bool target_ui::action_switch_main_sight()
+{
+    std::vector<const item *> main_sights = relevant->main_sights();
+    bool refresh = false;
+    //  Return when the firearm has no offset sights.
+    if( main_sights.empty() ) {
+        return refresh;
+    }
+    uilist menu;
+    menu.settext( _( "Select main sight" ) );
+    for( auto it = main_sights.begin(); it != main_sights.end(); ++it ) {
+        const bool is_active_main_sight =  relevant->current_main_sight_id  == ( ( *it ) ?
+                                           ( *it )->type->get_id() : itype_id::NULL_ID() );
+        const std::string text = ( !( *it )  ? _( "iron sight" ) : ( *it )->type->nname( 1 ) ) +
+                                 ( is_active_main_sight ? _( " (current)" ) : "" ) ;
+        menu.entries.emplace_back( std::distance( main_sights.begin(), it ),
+                                   true, MENU_AUTOASSIGN, text );
+        if( is_active_main_sight ) {
+            menu.entries.back().text_color = c_light_green;
+        }
+    }
+    menu.query();
+    if( menu.ret == UILIST_CANCEL ) {
+        return refresh;
+    }
+    const item *choosed_sight = *( main_sights.begin() + menu.ret );
+    itype_id choosed_sight_id = ( choosed_sight ?
+                                  choosed_sight ->type->get_id() : itype_id::NULL_ID() );
+    bool zoom = choosed_sight->has_flag( flag_ZOOM ) ;
+    if( relevant->current_main_sight_id != choosed_sight_id ) {
+        refresh = true;
+        relevant->current_main_sight_id = choosed_sight_id;
+        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion( choosed_sight_id ),
+                           zoom );
+        you->recoil = std::max( MAX_RECOIL / 10, you->recoil );
+        predicted_recoil = you->recoil;
+    }
+    return refresh;
+}
+
 bool target_ui::action_aim()
 {
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
     for( int i = 0; i < 10; ++i ) {
-        do_aim( *you, *relevant, min_recoil );
+        do_aim( *you, *relevant, min_recoil, dst );
     }
 
     // We've changed pc.recoil, update penalty
@@ -3046,7 +3177,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
-        do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
+        do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil, dst );
     } while( you->moves > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 
@@ -3157,6 +3288,7 @@ void target_ui::draw_ui_window()
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         panel_gun_info( text_y );
         panel_recoil( text_y );
+        penel_backwing( text_y );
         text_y += compact ? 0 : 1;
     } else if( mode == TargetMode::Spell ) {
         panel_spell_info( text_y );
@@ -3172,6 +3304,14 @@ void target_ui::draw_ui_window()
     } else if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
         if( mode == TargetMode::Fire ) {
+            // Update aim_types
+            aim_types = you->get_aim_types( *relevant, nullptr, you->laser_sight_available( dst ) );
+            aim_mode = aim_types.begin();
+            for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+                if( you->preferred_aiming_mode == it->action ) {
+                    aim_mode = it; // default to persisted mode if possible
+                }
+            }
             panel_fire_mode_aim( text_y );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
             bool blind = mode == TargetMode::ThrowBlind;
@@ -3407,7 +3547,9 @@ void target_ui::panel_gun_info( int &text_y )
 void target_ui::panel_recoil( int &text_y )
 {
     const int val = you->recoil_total();
-    const int min_recoil = you->effective_dispersion( relevant->sight_dispersion() );
+    const int min_recoil = you->effective_dispersion( relevant->sight_dispersion(
+                               relevant->current_main_sight_id ),
+                           relevant->has_flag( flag_ZOOM ) );
     const int recoil_range = MAX_RECOIL - min_recoil;
     std::string str;
     if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
@@ -3423,7 +3565,16 @@ void target_ui::panel_recoil( int &text_y )
     nc_color clr = c_light_gray;
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
 }
-
+void target_ui::penel_backwing( int &text_y )
+{
+    bool bipod = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, src ) ||
+                 you->is_prone();
+    const int backswing = you->get_shoot_backswing( relevant->gun_recoil( *you, bipod ),
+                          relevant->gun_current_mode().qty );
+    nc_color clr = c_light_gray;
+    std::string str = string_format( _( "Backswing: %u" ), backswing );
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+}
 void target_ui::panel_spell_info( int &text_y )
 {
     nc_color clr = c_light_gray;
@@ -3523,7 +3674,8 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     int predicted_delay = 0;
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
         do {
-            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil );
+            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil, nullptr,
+                                      you->laser_sight_available( dst ) );
             if( aim_amount > 0 ) {
                 predicted_delay++;
                 predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );

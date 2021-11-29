@@ -2644,8 +2644,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     info.back().bNewLine = true;
 
     // if effective sight dispersion differs from actual sight dispersion display both
-    int act_disp = mod->sight_dispersion();
-    int eff_disp = player_character.effective_dispersion( act_disp );
+    item *most_accurate_sight = mod->most_accurate_main_sight( player_character );
+    int act_disp = most_accurate_sight ? most_accurate_sight->type->gunmod->sight_dispersion :
+                   mod->type->gun->sight_dispersion;
+    int eff_disp = player_character.effective_dispersion( act_disp,
+                   most_accurate_sight ? most_accurate_sight->has_flag( flag_ZOOM ) : false );
     int adj_disp = eff_disp - act_disp;
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
@@ -2755,26 +2758,32 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
-        insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
-                           player_character.aim_per_move( *mod, MAX_RECOIL ) );
-        for( const aim_type &type : player_character.get_aim_types( *mod ) ) {
-            // Nameless aim levels don't get an entry.
-            if( type.name.empty() ) {
-                continue;
+        /*info.emplace_back("GUN", _("<bold>Base aim speed</bold>: "), "<num>", iteminfo::no_flags,
+                           player_character.aim_per_move( *mod, MAX_RECOIL ) );*/
+        for( const item *e : mod->main_sights() ) {
+            insert_separation_line( info );
+            std::string sight_name = e ? e->tname() : "iron sight";
+            info.emplace_back( "GUN_" + sight_name, _( "Sight: " ), string_format( "<stat>%s</stat>",
+                               sight_name ) );
+            for( const aim_type &type : player_character.get_aim_types( *mod, e ) ) {
+                // Nameless aim levels don't get an entry.
+                if( type.name.empty() ) {
+                    continue;
+                }
+                // For item comparison to work correctly each info object needs a
+                // distinct tag per aim type.
+                const std::string tag = "GUN_" + type.name;
+                info.emplace_back( tag, string_format( "<info>%s</info>", type.name ) );
+                int max_dispersion = player_character.get_weapon_dispersion( *loaded_mod ).max();
+                int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
+                info.emplace_back( tag, _( "Even chance of good hit at range: " ),
+                                   _( "<num>" ), iteminfo::no_flags, range );
+                int aim_mv = player_character.gun_engagement_moves( *mod, type.threshold, 3000, e );
+                info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves" ),
+                                   iteminfo::lower_is_better, aim_mv );
             }
-            // For item comparison to work correctly each info object needs a
-            // distinct tag per aim type.
-            const std::string tag = "GUN_" + type.name;
-            info.emplace_back( tag, string_format( "<info>%s</info>", type.name ) );
-            int max_dispersion = player_character.get_weapon_dispersion( *loaded_mod ).max();
-            int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
-            info.emplace_back( tag, _( "Even chance of good hit at range: " ),
-                               _( "<num>" ), iteminfo::no_flags, range );
-            int aim_mv = player_character.gun_engagement_moves( *mod, type.threshold );
-            info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves" ),
-                               iteminfo::lower_is_better, aim_mv );
         }
+
     }
 
     if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -8763,23 +8772,78 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     return dispersion_sum;
 }
 
-int item::sight_dispersion() const
+int item::sight_dispersion( const itype_id current_main_sight_id ) const
 {
     if( !is_gun() ) {
         return 0;
     }
 
-    int res = has_flag( flag_DISABLE_SIGHTS ) ? 90 : type->gun->sight_dispersion;
+    int res = 90;
+    if( current_main_sight_id.is_null() && !has_flag( flag_DISABLE_SIGHTS ) ) {
+        res = type->gun->sight_dispersion;
+    }
 
     for( const item *e : gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
+        if( !e->has_flag( flag_LASER_SIGHT ) && current_main_sight_id != e->type->get_id() ) {
+            continue;
+        }
         res = std::min( res, mod.sight_dispersion );
     }
-
     return res;
+}
+
+item *item::most_accurate_main_sight( const Character &shooter ) const
+{
+    item *most_accurate_sight = nullptr;
+    int eff_disp = shooter.effective_dispersion( 90, false );
+    int aim_speed = 0;
+    for( const item *e : main_sights() ) {
+        if( !e ) {
+            eff_disp = shooter.effective_dispersion( type->gun->sight_dispersion, false );
+            aim_speed = 6;
+            continue;
+        }
+        const islot_gunmod &mod = *e->type->gunmod;
+        int sight_dispersion = mod.sight_dispersion;
+        int this_eff_disp = shooter.effective_dispersion( sight_dispersion,
+                            e->has_flag( flag_ZOOM ) );
+        int this_aim_speed = mod.aim_speed;
+        if( this_eff_disp < eff_disp || ( this_eff_disp == eff_disp && this_aim_speed > aim_speed ) ) {
+            eff_disp = this_eff_disp;
+            aim_speed = this_aim_speed;
+            most_accurate_sight = const_cast<item *>( e );
+        }
+    }
+    return most_accurate_sight;
+}
+
+item *item::fastest_main_sight( const Character &shooter )const
+{
+    item *fastest_sight = nullptr;
+    int eff_disp = shooter.effective_dispersion( 90, false );
+    int aim_speed = 0;
+    for( const item *e : main_sights() ) {
+        if( !e ) {
+            eff_disp = shooter.effective_dispersion( type->gun->sight_dispersion, false );
+            aim_speed = 6;
+            continue;
+        }
+        const islot_gunmod &mod = *e->type->gunmod;
+        int sight_dispersion = mod.sight_dispersion;
+        int this_eff_disp = shooter.effective_dispersion( sight_dispersion,
+                            e->has_flag( flag_ZOOM ) );
+        int this_aim_speed = mod.aim_speed;
+        if( this_aim_speed > aim_speed || ( this_aim_speed == aim_speed && this_eff_disp < eff_disp ) ) {
+            eff_disp = this_eff_disp;
+            aim_speed = this_aim_speed;
+            fastest_sight = const_cast<item *>( e );
+        }
+    }
+    return fastest_sight;
 }
 
 damage_instance item::gun_damage( bool with_ammo, bool shot ) const
@@ -8886,6 +8950,18 @@ int item::gun_range( const Character *p ) const
     }
 
     return std::max( 0, ret );
+}
+
+int item::gun_shot_spread() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int ret = 0;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->shot_spread;
+    }
+    return ret;
 }
 
 units::energy item::energy_remaining() const
@@ -9263,6 +9339,15 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     return contents.gunmods();
+}
+
+std::vector<const item * > item::main_sights() const
+{
+    std::vector<const item *> main_sights = contents.main_sights();
+    if( !this->has_flag( flag_DISABLE_SIGHTS ) ) {
+        main_sights.emplace_back( nullptr );
+    }
+    return main_sights;
 }
 
 std::vector<const item *> item::mods() const

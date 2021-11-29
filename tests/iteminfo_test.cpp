@@ -1503,16 +1503,16 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
         CHECK( item_info_str( glock, aim_stats ) ==
                "--\n"
-               "<color_c_white>Base aim speed</color>: <color_c_yellow>104</color>\n"
+               "Sight: <color_c_light_blue>iron sight</color>\n"
                "<color_c_cyan>Regular</color>\n"
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
-               "Time to reach aim level: <color_c_yellow>115</color> moves\n"
+               "Time to reach aim level: <color_c_yellow>110</color> moves\n"
                "<color_c_cyan>Careful</color>\n"
                "Even chance of good hit at range: <color_c_yellow>4</color>\n"
-               "Time to reach aim level: <color_c_yellow>145</color> moves\n"
+               "Time to reach aim level: <color_c_yellow>164</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>6</color>\n"
-               "Time to reach aim level: <color_c_yellow>174</color> moves\n" );
+               "Even chance of good hit at range: <color_c_yellow>7</color>\n"
+               "Time to reach aim level: <color_c_yellow>253</color> moves\n" );
     }
 
     SECTION( "compatible magazines" ) {

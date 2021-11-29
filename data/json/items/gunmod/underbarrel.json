@@ -247,7 +247,7 @@
     "sight_dispersion": 30,
     "aim_speed": 9,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "lemat_revolver_shotgun",

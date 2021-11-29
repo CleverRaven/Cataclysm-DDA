@@ -2528,6 +2528,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "range_multiplier", slot.range_multiplier );
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
+    assign( jo, "shot_spread_modifier", slot.shot_spread );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );

@@ -100,7 +100,8 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 30,
     "aim_speed": 9,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "flags": [ "LASER_SIGHT" ]
   },
   {
     "id": "stabilizer",
