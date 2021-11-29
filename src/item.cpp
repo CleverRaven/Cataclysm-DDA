@@ -8236,111 +8236,21 @@ bool item::is_reloadable_helper( const item &ammo, bool now ) const
         return false; // turrets ignore NO_RELOAD flag
     }
 
-    // Check if the item is in general compatible with any reloadable pocket.
-    for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
-
-        if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            // Only watertight container pockets are reloadable
-            if( !pocket->watertight() ) {
-                continue;
+    if( now && ammo.is_magazine() && !ammo.empty() ) {
+        if( is_tool() ) {
+            // Dirty hack because "ammo" on tools is actually completely separate thing from "ammo" on guns and "ammo_types()" works only for guns
+            if( !type->tool->ammo_id.count( ammo.contents.first_ammo().ammo_type() ) ) {
+                return false;
             }
-
-            // CONTAINER pockets can reload liquids only
-            if( !ammo.made_of( phase_id::LIQUID ) ) {
-                continue;
-            }
-        }
-
-        if( ammo.has_flag( flag_SPEEDLOADER ) ) {
-            if( !pocket->allows_speedloader( ammo.typeId() ) ) {
-                continue;
-            }
-
-            // Speedloader works only if
-            // pocket is empty and the ammo from the speedloader is compatible
-            if( pocket->empty() && pocket->is_compatible( ammo.loaded_ammo() ).success() ) {
-                return true;
-            }
-            continue;
-        }
-
-        if( !pocket->is_compatible( ammo ).success() ) {
-            continue;
-        }
-
-        if( !now ) {
-            return true;
         } else {
-
-            if( pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-                // Reloading is refused if
-                // Pocket contains ammo that can't combine (empty casings ignored)
-                // Pocket is full and does not contain empty casings
-
-                if( pocket->empty() ) {
-                    return true;
-                }
-
-                bool has_casings = false;
-                bool can_combine = true;
-
-                for( const item *loaded : all_items_top() ) {
-                    if( loaded->has_flag( flag_CASING ) ) {
-                        has_casings = true;
-                        continue;
-                    }
-                    if( !loaded->can_combine( ammo ) ) {
-                        can_combine = false;
-                        break;
-                    }
-                }
-
-                bool is_full = has_casings ? false : pocket->full( false );
-
-                if( !is_full && can_combine ) {
-                    return true;
-                }
-            } else if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-                // Reloading is refused if
-                // There already is full magazine here
-                // The new magazine has incompatible ammo
-
-                if( !pocket->empty() && pocket->front().is_magazine_full() ) {
-                    continue;
-                }
-
-                if( ammo.empty() ) {
-                    return true;
-                }
-
-                if( is_tool() ) {
-                    // Dirty hack because "ammo" on tools is actually completely separate thing from "ammo" on guns.
-                    if( type->tool->ammo_id.count( ammo.contents.first_ammo().ammo_type() ) ) {
-                        return true;
-                    }
-                } else {
-                    if( ammo_types().count( ammo.contents.first_ammo().ammo_type() ) ) {
-                        return true;
-                    }
-                }
-            } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
-                // Reloading is possible if either
-                // Pocket is empty
-                // Ammo combines with already contained ammo
-
-                if( pocket->empty() ) {
-                    return true;
-                }
-
-                if( pocket->front().can_combine( ammo ) ) {
-                    return true;
-                }
+            if( !ammo_types().count( ammo.contents.first_ammo().ammo_type() ) ) {
+                return false;
             }
-
         }
     }
 
-    return false;
+    // Check if the item is in general compatible with any reloadable pocket.
+    return contents.can_reload_with( ammo, now );
 }
 
 bool item::is_salvageable() const
@@ -9643,8 +9553,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
-	
-	if( !is_reloadable_with( *ammo.get_item() ) ) {
+
+    if( !is_reloadable_with( *ammo.get_item() ) ) {
         return false;
     }
 

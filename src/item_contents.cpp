@@ -701,6 +701,17 @@ bool item_contents::can_contain_liquid( bool held_or_ground ) const
     return false;
 }
 
+bool item_contents::can_reload_with( const item &ammo, const bool now ) const
+{
+    for( const item_pocket *pocket : get_all_reloadable_pockets() ) {
+        if( pocket->can_reload_with( ammo, now ) ) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
 bool item_contents::can_unload_liquid() const
 {
     for( const item_pocket &pocket : contents ) {

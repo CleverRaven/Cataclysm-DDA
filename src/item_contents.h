@@ -63,6 +63,14 @@ class item_contents
         ret_val<bool> can_contain( const item &it ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+
+        /**
+         * returns whether any of the pockets can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now when false ignores currently contained items
+         */
+        bool can_reload_with( const item &ammo, const bool now ) const;
+
         // does not ignore mods
         bool empty_real() const;
         bool empty() const;
