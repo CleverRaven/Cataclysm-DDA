@@ -8,13 +8,8 @@ character_modifier_limb_balance_movecost_mod( "limb_balance_movecost_mod" );
 static const character_modifier_id
 character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
-static const limb_score_id limb_score_balance( "balance" );
-static const limb_score_id limb_score_breathing( "breathing" );
-static const limb_score_id limb_score_lift( "lift" );
 static const limb_score_id limb_score_manip( "manip" );
-static const limb_score_id limb_score_move_speed( "move_speed" );
 static const limb_score_id limb_score_swim( "swim" );
-static const limb_score_id limb_score_vision( "vision" );
 
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
