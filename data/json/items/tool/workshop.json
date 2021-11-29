@@ -783,7 +783,7 @@
     "qualities": [ [ "WRENCH", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
- {
+  {
     "id": "big_pliers",
     "type": "TOOL",
     "name": { "str_sp": "tongue-and-groove pliers" },
