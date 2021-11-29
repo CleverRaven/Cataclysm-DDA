@@ -1865,10 +1865,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Examine Nearby Terrain",
+    "name": "Examine nearby terrain or furniture",
     "category": "DEFAULTMODE",
     "id": "examine",
     "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Examine nearby terrain, furniture, and items",
+    "category": "DEFAULTMODE",
+    "id": "examine_and_pickup"
   },
   {
     "type": "keybinding",
