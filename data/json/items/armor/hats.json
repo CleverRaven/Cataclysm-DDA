@@ -510,6 +510,24 @@
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
   },
   {
+    "id": "santa_hat",
+    "type": "ARMOR",
+    "name": { "str": "santa hat" },
+    "description": "A white faux fur trimmed red hat commonly used by bearded men in christmas.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "hat_knit",
+    "color": "red",
+    "warmth": 25,
+    "material_thickness": 0.3,
+    "flags": [  "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
+  },
+  {
     "id": "straw_hat",
     "type": "ARMOR",
     "name": { "str": "straw hat" },
