@@ -356,13 +356,17 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {
-            if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+            if( !base.magazine_integral() && !base.magazine_current() ) {
                 add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
                                    base.tname() );
 
             } else if( ammo_match_found ) {
                 add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand." ) );
             } else {
+                if( base.is_magazine_full() ) {
+                    add_msg_if_player( m_info, _( "The %s is already full!" ),
+                                       base.tname() );
+                }
                 std::string name;
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
@@ -375,37 +379,44 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
                         return at->name();
                     }, enumeration_conjunction::none );
                 }
+            } else {
                 add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                    name, base.tname() );
             }
         }
-        return item::reload_option();
     }
+    return item::reload_option();
+}
 
-    // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
-        return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
-    } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
-        return lhs.moves() < rhs.moves();
-    } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
-        return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
-    } );
+// sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
+std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option &lhs,
+                  const item::reload_option &rhs )
+{
+    return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
+} );
+std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option &lhs,
+                  const item::reload_option &rhs )
+{
+    return lhs.moves() < rhs.moves();
+} );
+std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option &lhs,
+                  const item::reload_option &rhs )
+{
+    return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
+} );
 
-    if( is_npc() ) {
-        return ammo_list[ 0 ];
-    }
+if( is_npc() )
+{
+    return ammo_list[ 0 ];
+}
 
-    if( !prompt && ammo_list.size() == 1 ) {
-        // unconditionally suppress the prompt if there's only one option
-        return ammo_list[ 0 ];
-    }
+if( !prompt && ammo_list.size() == 1 )
+{
+    // unconditionally suppress the prompt if there's only one option
+    return ammo_list[ 0 ];
+}
 
-    return select_ammo( base, std::move( ammo_list ) );
+return select_ammo( base, std::move( ammo_list ) );
 }
 
 int Character::item_reload_cost( const item &it, const item &ammo, int qty ) const
