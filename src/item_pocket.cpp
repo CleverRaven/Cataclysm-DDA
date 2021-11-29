@@ -1300,16 +1300,12 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         if( !ammo.made_of( phase_id::LIQUID ) ) {
             return false;
         }
+        return true;
     }
 
     if( ammo.has_flag( flag_SPEEDLOADER ) ) {
-        if( !allows_speedloader( ammo.typeId() ) ) {
-            return false;
-        }
-
-        // Speedloader works only if
-        // pocket is empty and the ammo from the speedloader is compatible
-        if( empty() && is_compatible( ammo.loaded_ammo() ).success() ) {
+        if( !allows_speedloader( ammo.typeId() ) && empty() &&
+            is_compatible( ammo.loaded_ammo() ).success() ) {
             return true;
         }
         return false;
@@ -1322,15 +1318,17 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     if( !now ) {
         return true;
     } else {
+        // Require that the new ammo can fit in with the old ammo.
+
+        // No need to combine if empty.
+        if( empty() ) {
+            return true;
+        }
 
         if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
             // Reloading is refused if
             // Pocket contains ammo that can't combine (empty casings ignored)
-            // Pocket is full and does not contain empty casings
-
-            if( empty() ) {
-                return true;
-            }
+            // Pocket is full of ammo
 
             bool has_casings = false;
             bool can_combine = true;
@@ -1338,7 +1336,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
             for( const item *loaded : all_items_top() ) {
                 if( loaded->has_flag( flag_CASING ) ) {
                     has_casings = true;
-                    return false;
+                    continue;
                 }
                 if( !loaded->can_combine( ammo ) ) {
                     can_combine = false;
@@ -1346,28 +1344,22 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 }
             }
 
+            // It is assumed that the only way to have empty casings is that the gun was fired so it can't be full.
             bool is_full = has_casings ? false : full( false );
 
             if( !is_full && can_combine ) {
                 return true;
             }
         } else if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            // Reloading is refused if
-            // There already is full magazine here
-            // The new magazine has incompatible ammo
+            // Reloading is refused if there already is full magazine here
+            // Pocket can't know what magazines are compatible with the item so that is checked elsewhere
 
             if( !empty() && front().is_magazine_full() ) {
                 return false;
             }
             return true;
         } else if( is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            // Reloading is possible if either
-            // Pocket is empty
-            // Ammo combines with already contained ammo
-
-            if( empty() ) {
-                return true;
-            }
+            // Reloading is possible ammo combines with already contained ammo
 
             if( front().can_combine( ammo ) ) {
                 return true;

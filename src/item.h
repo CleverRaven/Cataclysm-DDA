@@ -1381,7 +1381,7 @@ class item : public visitable
         /**
          * returns whether the item can be reloaded with the specified item.
          * @param ammo item to be loaded in
-         * @param now when false ignores currently contained items
+         * @param now whether the currently contained ammo/magazine should be taken into account
          */
         bool can_reload_with( const item &ammo, bool now ) const;
 
