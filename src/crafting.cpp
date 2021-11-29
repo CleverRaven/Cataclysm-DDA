@@ -922,22 +922,17 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         cata::optional<time_duration> max_experience;
     };
 
-    const std::vector<Character *> all_crafters = [&]() {
-        std::vector<Character *> v;
-        const std::vector<npc *> helpers = get_crafting_helpers();
-        v.reserve( 1 + helpers.size() );
-        v.push_back( this );
-        v.insert( v.end(), helpers.begin(), helpers.end() );
-        return v;
-    }
-    ();
+    const std::vector<npc *> helpers = get_crafting_helpers();
+    std::vector<Character *> all_crafters{ helpers.begin(), helpers.end() };
+    all_crafters.push_back( this );
 
-    const auto practice_proficiencies = [&]( Character & p ) {
+    bool player_gained_prof = false;
+    for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
         for( const recipe_proficiency &prof : making.proficiencies ) {
-            if( !p._proficiencies->has_learned( prof.id ) &&
+            if( !p->_proficiencies->has_learned( prof.id ) &&
                 prof.id->can_learn() &&
-                p._proficiencies->has_prereqs( prof.id ) ) {
+                p->_proficiencies->has_prereqs( prof.id ) ) {
                 learn_subject subject{
                     prof.id,
                     prof.learning_time_mult / prof.time_multiplier,
@@ -948,34 +943,29 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         }
 
         if( subjects.empty() ) {
-            return false;
+            player_gained_prof = false;
+            continue;
         }
         const time_duration learn_time = time / subjects.size();
 
-        const auto get_helper_bonus = [&]( const proficiency_id & prof ) {
-            for( const Character *c : all_crafters ) {
-                if( &p != c && c->has_proficiency( prof ) ) {
-                    // Other characters who know the proficiency help you learn faster
-                    return 2;
-                }
-            }
-            return 1;
-        };
-
         bool gained_prof = false;
         for( const learn_subject &subject : subjects ) {
-            gained_prof |= p.practice_proficiency( subject.proficiency,
-                                                   subject.time_multiplier * learn_time * get_helper_bonus( subject.proficiency ),
-                                                   subject.max_experience );
+            int helper_bonus = 1;
+            for( const Character *other : all_crafters ) {
+                if( p != other && other->has_proficiency( subject.proficiency ) ) {
+                    // Other characters who know the proficiency help you learn faster
+                    helper_bonus = 2;
+                }
+            }
+            gained_prof |= p->practice_proficiency( subject.proficiency,
+                                                    subject.time_multiplier * learn_time * helper_bonus,
+                                                    subject.max_experience );
         }
-        return gained_prof;
-    };
-
-    for( npc *helper : get_crafting_helpers() ) {
-        practice_proficiencies( *helper );
+        // This depends on the player being the last element in the iteration
+        player_gained_prof = gained_prof;
     }
 
-    return practice_proficiencies( *this );
+    return player_gained_prof;
 }
 
 double Character::crafting_success_roll( const recipe &making ) const
