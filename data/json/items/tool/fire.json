@@ -5,7 +5,7 @@
     "name": { "str": "electric firestarter" },
     "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
     "weight": "14 g",
-    "volume": "250 ml",
+    "volume": "50 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "steel" ],

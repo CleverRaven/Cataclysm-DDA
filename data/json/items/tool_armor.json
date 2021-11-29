@@ -114,7 +114,7 @@
     "//": "A folded bandana still takes up some space on the head.",
     "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
     "weight": "72 g",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "price": 600,
     "price_postapoc": 10,
     "material": [ "cotton" ],
