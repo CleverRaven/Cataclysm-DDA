@@ -5929,6 +5929,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
+    // if it has additional pockets include the mass of those
+    if( contents.has_additional_pockets() ) {
+        ret += contents.get_additional_weight();
+    }
+
     if( include_contents ) {
         ret += contents.item_weight_modifier();
     }
@@ -6125,6 +6130,11 @@ units::volume item::volume( bool integral, bool ignore_contents ) const
 
     if( !ignore_contents ) {
         ret += contents.item_size_modifier();
+    }
+
+    // if it has additional pockets include the volume of those
+    if( contents.has_additional_pockets() ) {
+        ret += contents.get_additional_volume();
     }
 
     // TODO: do a check if the item is collapsed or not

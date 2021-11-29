@@ -164,6 +164,8 @@ class item_contents
 
         int get_additional_pocket_encumbrance( ) const;
         int get_additional_space_used() const;
+        units::mass get_additional_weight() const;
+        units::volume get_additional_volume() const;
 
         // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
         std::vector<const item_pocket *> get_all_reloadable_pockets() const;

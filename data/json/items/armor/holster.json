@@ -219,7 +219,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "flags": [ "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
         "encumbrance": [ 3, 4 ],

@@ -1460,6 +1460,24 @@ int item_contents::get_additional_space_used() const
     return additional_pockets_space_used;
 }
 
+units::mass item_contents::get_additional_weight() const
+{
+    units::mass ret = 0_kilogram;
+    for( const item it : additional_pockets ) {
+        ret += it.weight( false );
+    }
+    return ret;
+}
+
+units::volume item_contents::get_additional_volume() const
+{
+    units::volume ret = 0_ml;
+    for( const item it : additional_pockets ) {
+        ret += it.volume( false, true );
+    }
+    return ret;
+}
+
 std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const
 {
     std::vector<const item_pocket *> pockets;
