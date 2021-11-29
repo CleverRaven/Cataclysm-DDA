@@ -3,7 +3,7 @@
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
+// static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_swimming( "swimming" );
 
 // Scores

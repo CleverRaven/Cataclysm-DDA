@@ -324,7 +324,7 @@ static const quality_id qual_LIFT( "LIFT" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
 
-static const skill_id skill_archery( "archery" );
+// static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -915,22 +915,18 @@ double Character::aim_factor_from_volume( const item &gun ) const
 double Character::aim_factor_from_length( const item &gun ) const
 {
     tripoint cur_pos = pos();
-    bool nw_to_se = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
-                    1,
-                    0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, -1,
-                            0 ) );
-    bool w_to_e = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
-                  0,
-                  0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, 0,
-                          0 ) );
-    bool sw_to_ne = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 1,
-                    -1,
-                    0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( -1, 1,
-                            0 ) );
-    bool n_to_s = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 0,
-                  1,
-                  0 ) ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint( 0, -1,
-                          0 ) );
+    bool nw_to_se = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM,
+                    cur_pos + tripoint_south_east ) &&
+                    get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint_north_west );
+    bool w_to_e = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM,
+                  cur_pos + tripoint_west ) &&
+                  get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint_east );
+    bool sw_to_ne = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM,
+                    cur_pos + tripoint_south_west ) &&
+                    get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint_north_east );
+    bool n_to_s = get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM,
+                  cur_pos + tripoint_north ) &&
+                  get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOITEM, cur_pos + tripoint_south );
     double wielded_length = gun.length() / 1_mm;
     double factor = 1.0;
     // When the character is in an open area, it will not be affected by the length of the weapon.
