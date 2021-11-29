@@ -404,7 +404,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -453,7 +453,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -585,7 +585,7 @@
             { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -637,7 +637,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -692,7 +692,7 @@
             { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -743,7 +743,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -778,7 +778,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 25,
-          "coverage": 7,
+          "coverage": 14,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -856,7 +856,7 @@
         {
           "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }

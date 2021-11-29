@@ -565,7 +565,7 @@
     "id": "EOC_PORTAL_GIANT_APPENDAGE",
     "condition": "u_is_outside",
     "effect": [
-      { "u_message": "Bizzare limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
+      { "u_message": "Bizarre limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
       {
         "u_set_spawn_monster": "mon_giant_appendage",
         "real_count": 1,

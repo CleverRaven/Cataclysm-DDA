@@ -786,7 +786,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
 
     bool has_sub_data = false;
     // if the item has no sub location info then it should return that it does cover it
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             has_sub_data = true;
         }
@@ -913,7 +913,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
         return;
     }
 
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
                 for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
@@ -3577,11 +3577,13 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     insert_separation_line( info );
     const islot_book &book = *type->book;
+    avatar &player_character = get_avatar();
     // Some things about a book you CAN tell by it's cover.
-    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
+    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) &&
+        player_character.studied_all_recipes( *type ) ) {
         info.emplace_back( "BOOK", _( "Just for fun." ) );
     }
-    avatar &player_character = get_avatar();
+
     if( type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
         info.emplace_back( "BOOK",
                            _( "Some sort of <info>martial arts training "
@@ -5158,7 +5160,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
-        } else if( tmp.skill || type->can_use( "MA_MANUAL" ) ) {
+        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) &&
+                   !player_character.studied_all_recipes( *type ) ) {
             // Book can teach you something and hasn't been identified yet
             ret = c_red;
         } else {
@@ -6827,61 +6830,6 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     return encumber;
 }
 
-int item::get_encumber( const Character &p, const sub_bodypart_id &bodypart,
-                        encumber_flags flags ) const
-{
-    const islot_armor *t = find_armor_data();
-    if( !t ) {
-        // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
-    }
-
-    int encumber = 0;
-    float relative_encumbrance = 1.0f;
-    // Additional encumbrance from non-rigid pockets
-    if( !( flags & encumber_flags::assume_full ) ) {
-        // p.get_check_encumbrance() may be set when it's not possible
-        // to reset `cached_relative_encumbrance` for individual items
-        // (e.g. when dropping via AIM, see #42983)
-        if( !cached_relative_encumbrance || p.get_check_encumbrance() ) {
-            cached_relative_encumbrance = contents.relative_encumbrance();
-        }
-        relative_encumbrance = *cached_relative_encumbrance;
-    }
-
-    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        encumber = portion_data->encumber;
-        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
-                               portion_data->encumber ) );
-    }
-
-    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
-        encumber = std::max( encumber / 2, encumber - 10 );
-    }
-
-    // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
-    switch( sizing_level ) {
-        case sizing::small_sized_human_char:
-        case sizing::small_sized_big_char:
-            // non small characters have a HARD time wearing undersized clothing
-            encumber *= 3;
-            break;
-        case sizing::human_sized_small_char:
-        case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
-            encumber *= 2;
-            break;
-        default:
-            break;
-    }
-
-    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
-
-    return encumber;
-}
-
 layer_level item::get_layer() const
 {
     if( type->armor ) {
@@ -6997,7 +6945,7 @@ const armor_portion_data *item::portion_for_bodypart( const sub_bodypart_id &bod
     if( !t ) {
         return nullptr;
     }
-    for( const armor_portion_data &entry : t->data ) {
+    for( const armor_portion_data &entry : t->sub_data ) {
         if( !entry.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
                 const sub_bodypart_id &subpart = tmp;

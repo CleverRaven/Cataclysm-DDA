@@ -395,6 +395,20 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         armor_enchantment_adjust( *this, elem );
 
+        sub_bodypart_id sbp;
+        sub_bodypart_id secondary_sbp;
+        // if this body part has sub part locations roll one
+        if( !bp->sub_parts.empty() ) {
+            sbp = bp->random_sub_part( false );
+            // the torso has a second layer of hanging body parts
+            if( bp == body_part_torso ) {
+                secondary_sbp = bp->random_sub_part( true );
+            }
+        }
+
+        // generate a single roll for determining if hit
+        int roll = rng( 1, 100 );
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
@@ -425,10 +439,18 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
 
             if( !destroy ) {
-                if( armor.is_ablative() ) {
-                    ablative_armor_absorb( elem, armor, bp );
+                // if we don't have sub parts data
+                // this is the feet head and hands
+                if( bp->sub_parts.empty() ) {
+                    destroy = armor_absorb( elem, armor, bp, roll );
+                } else {
+                    // if this armor has sublocation data test against it instead of just a generic roll
+                    destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                    // for the torso we also need to consider if it hits anything hanging off the player or their neck
+                    if( bp == body_part_torso ) {
+                        destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
+                    }
                 }
-                destroy = armor_absorb( elem, armor, bp );
             }
 
             if( destroy ) {
@@ -467,21 +489,8 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
-
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
-    if( du.type == damage_type::BULLET ) {
-        ctype = item::cover_type::COVER_RANGED;
-    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
-               du.type == damage_type::STAB ) {
-        ctype = item::cover_type::COVER_MELEE;
-    }
-
-    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
-        return false;
-    }
-
     // TODO: add some check for power armor
     armor.mitigate_damage( du );
 
@@ -539,7 +548,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
-bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
+                              const sub_bodypart_id &sbp, int roll )
 {
     item::cover_type ctype = item::cover_type::COVER_DEFAULT;
     if( du.type == damage_type::BULLET ) {
@@ -549,7 +559,47 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
         ctype = item::cover_type::COVER_MELEE;
     }
 
-    float roll = rng_float( 0.0, 100.0 );
+    if( roll > armor.get_coverage( sbp, ctype ) ) {
+        return false;
+    }
+
+    // if the armor location has ablative armor apply that first
+    if( armor.is_ablative() ) {
+        ablative_armor_absorb( du, armor, sbp, roll );
+    }
+
+    // if we hit the specific location then we should continue with absorption as normal
+    return armor_absorb( du, armor, bp );
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( roll > armor.get_coverage( bp, ctype ) ) {
+        return false;
+    }
+
+    return armor_absorb( du, armor, bp );
+}
+
+bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp,
+                                       int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
     for( item_pocket *const pocket : armor.get_all_contained_pockets().value() ) {
         // if the pocket is ablative and not empty we should use its values
         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
@@ -569,7 +619,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const bodyp
 
             // if the attack hits this plate
             if( roll < coverage ) {
-                // ablative plates are concerned with the damage they absorbe not what they don't absorb
+                // ablative plates are concerned with the damage they absorb not what they don't absorb
                 float incoming_damage = du.amount;
 
                 // mitigate the actual damage instance

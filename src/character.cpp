@@ -5923,7 +5923,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                     {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                                        "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), get_skill_level( sk.first ), sk.second );
                     }
                 } ) );

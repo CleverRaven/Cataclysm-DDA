@@ -117,7 +117,7 @@ jobs:
             test-stage: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static.gcc11
+            mxe_target: x86_64-w64-mingw32.static.gcc11
             wine: wine
 
           - compiler: clang++-6.0
@@ -221,6 +221,11 @@ jobs:
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pull_request_id
+        path: pull_request_id
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()

@@ -22,9 +22,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 9,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -53,9 +53,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 2,
-        "coverage": 36,
-        "cover_melee": 36,
-        "cover_ranged": 36,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 90,
         "cover_vitals": 50,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -178,9 +178,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
-        "coverage": 75,
-        "cover_melee": 76,
-        "cover_ranged": 72,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 100,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -272,9 +272,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 0,
-        "coverage": 5,
-        "cover_melee": 5,
-        "cover_ranged": 5,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_knee_r", "leg_knee_l" ]
       }
@@ -302,9 +302,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 5,
-        "coverage": 38,
-        "cover_melee": 38,
-        "cover_ranged": 36,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -342,9 +342,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 10,
-        "coverage": 75,
-        "cover_melee": 72,
-        "cover_ranged": 76,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -372,9 +372,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 8,
-        "coverage": 76,
-        "cover_melee": 76,
-        "cover_ranged": 76,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -411,9 +411,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 3,
-        "coverage": 38,
-        "cover_melee": 38,
-        "cover_ranged": 36,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -450,9 +450,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -480,9 +480,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -512,9 +512,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 6,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -551,9 +551,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
-        "coverage": 60,
-        "cover_melee": 60,
-        "cover_ranged": 60,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
       }
