@@ -15,15 +15,22 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_MAX_STAMINA",
-    "info": "Sets max stamina value of the player.",
+    "name": "PLAYER_MAX_STAMINA_BASE",
+    "info": "Sets the base max stamina value of the player, before cardio modifiers.",
     "stype": "int",
-    "value": 10000
+    "value": 3500
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
+    "info": "Sets the effect of cardio on maximum stamina.",
+    "stype": "int",
+    "value": 3
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
-    "info": "Sets base stamina regeneration per turn of the player.  May be used as an offset in stamina draining effects.",
+    "info": "Sets base stamina regeneration per turn of the player, before cardio modifiers.  May be used as an offset in stamina draining effects.",
     "stype": "float",
     "value": 20
   },

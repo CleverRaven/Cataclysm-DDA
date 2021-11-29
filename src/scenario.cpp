@@ -38,6 +38,7 @@ bool string_id<scenario>::is_valid() const
 static scen_blacklist sc_blacklist;
 
 scenario::scenario()
+// NOLINTNEXTLINE(cata-static-string_id-constants)
     : id( "" ), _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),

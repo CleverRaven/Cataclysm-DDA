@@ -17,6 +17,10 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id bio_batteries( "bio_batteries" );
+static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+
 static void clear_bionics( Character &you )
 {
     you.my_bionics->clear();
@@ -36,14 +40,14 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     INFO( "no power capacity at first" );
     CHECK( !dummy.has_max_power() );
 
-    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
+    dummy.add_bionic( bio_power_storage );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_fuel_cell_gasoline" ) {
-        dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
+        dummy.add_bionic( bio_fuel_cell_gasoline );
 
         item gasoline = item( "gasoline" );
         REQUIRE( gasoline.charges != 0 );
@@ -62,13 +66,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        dummy.add_bionic( bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bio_batteries );
 
         item battery = item( "light_battery_cell" );
 
         // Empty battery won't work
         battery.ammo_set( battery.ammo_default(), 0 );
-        CHECK( !dummy.can_fuel_bionic_with( battery ) );
+        CHECK_FALSE( dummy.can_fuel_bionic_with( battery ) );
 
         // Full battery works
         battery.ammo_set( battery.ammo_default(), 50 );
@@ -78,7 +82,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         item flashlight = item( "flashlight" );
         flashlight.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( flashlight.ammo_remaining() == 50 );
-        CHECK( !dummy.can_fuel_bionic_with( flashlight ) );
+        CHECK_FALSE( dummy.can_fuel_bionic_with( flashlight ) );
 
     }
 

@@ -76,50 +76,35 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_welder( "welder" );
-
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
-
-static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
-static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
-static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
-static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
-static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_MINING( "MINING" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
-static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
-static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
-static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -128,6 +113,32 @@ static const quality_id qual_FISHING( "FISHING" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
+
+static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const zone_type_id zone_type_( "" );
+static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
+static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
+static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
+static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
+static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
+static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 
 /** Activity-associated item */
 struct act_item {
@@ -983,7 +994,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                id == ACT_VEHICLE_REPAIR ||
                id == ACT_MULTIPLE_CHOP_TREES ||
                id == ACT_MULTIPLE_FISH ||
-               id == ACT_MULTIPLE_MINE;
+               id == ACT_MULTIPLE_MINE ||
+               id == ACT_MULTIPLE_MOP;
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
                               check_weight_if( you.backlog.front().id() ) );
@@ -1214,6 +1226,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
         }
     }
+    if( act == ACT_MULTIPLE_MOP ) {
+        if( !here.terrain_moppable( src_loc ) ) {
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        }
+
+        if( you.has_item_with( []( const item & itm ) {
+        return itm.typeId() == itype_mop;
+        } ) ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
+        } else {
+            return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
+        }
+    }
     if( act == ACT_MULTIPLE_FISH ) {
         if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1397,7 +1422,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
-                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
+                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_disassembly ) ?
                                   i.components.front().typeId() : i.typeId() );
                 req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
@@ -1441,7 +1466,7 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
         map &here = get_map();
         if( guy->assigned_camp &&
             mgr.has_near( zone_type_CAMP_STORAGE, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
+            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_CAMP_STORAGE,
                     here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
             for( const tripoint &elem : bc_storage_set ) {
                 tripoint here_local = here.getlocal( elem );
@@ -1887,9 +1912,10 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
-                        add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
+                        add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
                     }
                     item leftovers = it;
@@ -2165,11 +2191,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+            if( id != zone_type_LOOT_CUSTOM && mgr.has( id, src ) ) {
                 continue;
             }
 
-            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
+            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
@@ -2292,6 +2318,15 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 
 }
 
+// Not really an activity like the others; relies on zone activity alerting on enemies
+static bool mop_activity( Character &you, const tripoint &src_loc )
+{
+    // iuse::mop costs 15 moves per use
+    you.assign_activity( ACT_MOP, 15 );
+    you.activity.placement = get_map().getabs( src_loc );
+    return true;
+}
+
 static bool chop_tree_activity( Character &you, const tripoint &src_loc )
 {
     item *best_qual = you.best_quality_item( qual_AXE );
@@ -2329,7 +2364,7 @@ static void check_npc_revert( Character &you )
 static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
                                       const activity_id &act_id )
 {
-    zone_type_id ret = zone_type_id( "" );
+    zone_type_id ret = zone_type_;
     if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
         ret = zone_type_VEHICLE_DECONSTRUCT;
     }
@@ -2357,8 +2392,11 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == ACT_MULTIPLE_MINE ) {
         ret = zone_type_MINING;
     }
+    if( act_id == ACT_MULTIPLE_MOP ) {
+        ret = zone_type_MOPPING;
+    }
     if( act_id == ACT_MULTIPLE_DIS ) {
-        ret = zone_type_id( "zone_disassemble" );
+        ret = zone_type_zone_disassemble;
     }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
@@ -2462,12 +2500,20 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
     }
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
+    const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         const tripoint set_pt = here.getlocal( *it2 );
-        if( here.dangerous_field_at( set_pt ) ) {
-            it2 = src_set.erase( it2 );
-            continue;
+        if( MOP_ACTIVITY ) {
+            if( !here.mopsafe_field_at( set_pt ) ) {
+                it2 = src_set.erase( it2 );
+                continue;
+            }
+        } else {
+            if( here.dangerous_field_at( set_pt ) ) {
+                it2 = src_set.erase( it2 );
+                continue;
+            }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
         if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
@@ -2486,7 +2532,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
         }
     }
     const bool post_dark_check = src_set.empty();
-    if( !pre_dark_check && post_dark_check ) {
+    if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
         you.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
     }
     return src_set;
@@ -2602,7 +2648,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
             requirement_data::save_requirement( reqs, req_id );
             what_we_need = req_id;
         } else if( reason == do_activity_reason::NEEDS_MINING ) {
-            what_we_need = requirement_id( "mining_standard" );
+            what_we_need = requirement_data_mining_standard;
         } else if( reason == do_activity_reason::NEEDS_TILLING ||
                    reason == do_activity_reason::NEEDS_PLANTING ||
                    reason == do_activity_reason::NEEDS_CHOPPING ||
@@ -2804,6 +2850,11 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_MOP ) {
+        if( mop_activity( you, src_loc ) ) {
+            you.backlog.push_front( player_activity( act_id ) );
+            return false;
+        }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
             you.backlog.push_front( player_activity( act_id ) );
@@ -2823,7 +2874,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    const auto &r = ( elem.typeId() == itype_id( "disassembly" ) ) ? elem.get_making() :
+                    const auto &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
                                     recipe_dictionary::get_uncraft( elem.typeId() );
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
@@ -3060,9 +3111,9 @@ int get_auto_consume_moves( Character &you, const bool food )
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );
     if( food ) {
-        consume_type_zone = zone_type_id( "AUTO_EAT" );
+        consume_type_zone = zone_type_AUTO_EAT;
     } else {
-        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+        consume_type_zone = zone_type_AUTO_DRINK;
     }
     map &here = get_map();
     const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, here.getabs( pos ),

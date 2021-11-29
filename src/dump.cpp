@@ -18,6 +18,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "npc.h"
 #include "output.h"
@@ -33,13 +34,19 @@
 #include "vehicle.h"
 #include "vitamin.h"
 
+static const itype_id itype_223( "223" );
+static const itype_id itype_270( "270" );
+static const itype_id itype_9mm( "9mm" );
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
+
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
+        load_packs( _( "Loading content packs" ), { MOD_INFORMATION_dda }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -68,10 +75,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                             4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
-    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_id( "223" ) );
-    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_id( "270" ) );
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_9mm );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_9mm );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_223 );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_270 );
     test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {
@@ -102,7 +109,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
+            "Name",
+            "Encumber (fit)",
+            "Warmth",
+            "Weight",
+            "Coverage",
+            "Coverage (M)",
+            "Coverage (R)",
+            "Coverage (V)",
+            "Bash",
+            "Cut",
+            "Bullet",
+            "Acid",
+            "Fire"
         };
         const bodypart_id bp_null( "bp_null" );
         bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
@@ -112,7 +131,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_encumber( get_player_character(),  bp ) ) );
             r.push_back( std::to_string( obj.get_warmth() ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
-            r.push_back( std::to_string( obj.get_coverage( bp ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_DEFAULT ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
             r.push_back( std::to_string( obj.bash_resist() ) );
             r.push_back( std::to_string( obj.cut_resist() ) );
             r.push_back( std::to_string( obj.bullet_resist() ) );

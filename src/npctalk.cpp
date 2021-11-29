@@ -24,6 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -71,6 +72,7 @@
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "veh_type.h"
@@ -83,20 +85,25 @@ static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
+static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
-static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
-static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
+static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+
+static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -105,6 +112,31 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 static int topic_category( const talk_topic &the_topic );
 
 static const talk_topic &special_talk( const std::string &action );
+
+static bool friendly_teacher( const Character &student, const Character &teacher )
+{
+    return ( student.is_npc() && teacher.is_avatar() ) ||
+           ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
+}
+
+static tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
+                                       bool global )
+{
+    tripoint target_pos = get_map().getabs( target->pos() );
+    if( target_var.has_value() ) {
+        std::string value;
+        if( global ) {
+            global_variables &globvars = get_globals();
+            value = globvars.get_global_value( target_var.value() );
+        } else {
+            value = target->get_value( target_var.value() );
+        }
+        if( !value.empty() ) {
+            target_pos = tripoint::from_string( value );
+        }
+    }
+    return target_pos;
+}
 
 std::string talk_trial::name() const
 {
@@ -119,52 +151,104 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
-/** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
-           1_seconds * p.get_skill_level( skill );
+    return calc_skill_training_time_char( p, get_player_character(), skill );
+}
+
+/** Time (in turns) and cost (in cent) for training: */
+time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
+        const skill_id &skill )
+{
+    return 1_hours + 30_minutes * student.get_skill_level( skill ) -
+           1_minutes * teacher.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
-    if( p.is_player_ally() ) {
+    return calc_skill_training_cost_char( p, get_player_character(), skill );
+}
+
+int calc_skill_training_cost_char( const Character &teacher, const Character &student,
+                                   const skill_id &skill )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
-    int skill_level = get_player_character().get_knowledge_level( skill );
+    int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 
-time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency )
+time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
 {
-    return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+    const Character &c = get_player_character();
+    return calc_proficiency_training_time( c, c, proficiency );
+}
+
+time_duration calc_proficiency_training_time( const Character &, const Character &student,
+        const proficiency_id &proficiency )
+{
+    return std::min( 30_minutes, student.proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const Character &teacher, const Character &student,
+                                    const proficiency_id &proficiency )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
 }
 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
 {
-    if( p.is_player_ally() ) {
-        return 0;
-    }
+    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
+}
 
-    return to_seconds<int>( calc_proficiency_training_time( p, proficiency ) );
+
+time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
+{
+    return calc_ma_style_training_time( p, get_player_character(), id );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+time_duration calc_ma_style_training_time( const Character &, const Character &,
+        const matype_id & )
 {
     return 30_minutes;
 }
 
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
+int calc_ma_style_training_cost( const npc &p, const matype_id &id )
 {
-    if( p.is_player_ally() ) {
+    return calc_ma_style_training_cost( p, get_player_character(), id );
+}
+
+int calc_ma_style_training_cost( const Character &teacher, const Character &student,
+                                 const matype_id & )
+{
+    if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-
     return 800;
+}
+
+// quicker to learn with instruction as opposed to books.
+// if this is a known spell, then there is a set time to gain some exp.
+// if player doesn't know this spell, then the NPC will teach all of it
+// which takes max 6 hours, min 3 hours.
+// TODO: a system for NPCs to train new stuff in bits and pieces
+// and remember the progress.
+time_duration calc_spell_training_time( const Character &, const Character &student,
+                                        const spell_id &id )
+{
+    if( student.magic->knows_spell( id ) ) {
+        return 1_hours;
+    } else {
+        const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
+        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+    }
 }
 
 int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
@@ -172,6 +256,23 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
     if( is_player_ally() ) {
         return 0;
     }
+    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+}
+
+int calc_spell_training_cost( const Character &teacher, const Character &student,
+                              const spell_id &id )
+{
+    if( friendly_teacher( student, teacher ) ) {
+        return 0;
+    }
+    const spell &temp_spell = teacher.magic->get_spell( id );
+    const bool knows = student.magic->knows_spell( id );
+    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+                                         temp_spell.get_level() );
+}
+
+int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+{
     int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
     if( !knows ) {
         ret = ret * 2;
@@ -193,6 +294,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -239,6 +341,68 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return nmenu.ret;
     }
 
+}
+
+static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
+        const std::string &prompt,
+        std::function<bool( const npc * )> exclude_func = nullptr )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            entry += npc_list[i]->name_and_activity();
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+    } while( true );
+    return picked;
+}
+
+static skill_id skill_select_menu( const Character &c, const std::string &prompt )
+{
+    int i = 0;
+    uilist nmenu;
+    nmenu.text = prompt;
+    for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+        bool enabled = s.second.level() > 0;
+        std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
+        nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
+        i++;
+    }
+    nmenu.query();
+    if( nmenu.ret > -1 ) {
+        i = 0;
+        for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+            if( i == nmenu.ret ) {
+                return s.first;
+            }
+            i++;
+        }
+    }
+    return skill_id();
 }
 
 static void npc_batch_override_toggle(
@@ -417,8 +581,8 @@ void game::chat()
     const int guard_count = guards.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
-        !( player_character.is_wearing( itype_id( "foodperson_mask" ) ) ||
-           player_character.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        !( player_character.is_wearing( itype_foodperson_mask ) ||
+           player_character.is_wearing( itype_foodperson_mask_on ) ) ) {
         add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -484,6 +648,10 @@ void game::chat()
                       );
     }
     if( !followers.empty() ) {
+        bool enable_seminar = !player_character.has_effect( effect_asked_to_train );
+        nmenu.addentry( NPC_CHAT_START_SEMINAR, enable_seminar, 'T',
+                        enable_seminar ? _( "Start a training seminar" ) :
+                        _( "Start a training seminar (You've already taught enough for now)" ) );
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
@@ -530,6 +698,34 @@ void game::chat()
             .query();
             yell_msg = popup.text();
             is_order = false;
+            break;
+        }
+        case NPC_CHAT_START_SEMINAR: {
+            // TODO: Also allow group training of martial arts/spells/proficiencies
+            const skill_id &sk = skill_select_menu( player_character,
+                                                    _( "Which skill would you like to teach?" ) );
+            if( !sk.is_valid() ) {
+                return;
+            }
+            std::vector<int> selected = npcs_select_menu( followers,
+            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+            } );
+            if( selected.empty() ) {
+                return;
+            }
+            std::vector<Character *> to_train;
+            for( int i : selected ) {
+                if( followers[i] ) {
+                    to_train.push_back( followers[i] );
+                }
+            }
+            talk_function::teach_domain d;
+            d.skill = sk;
+            d.style = matype_id();
+            d.prof = proficiency_id();
+            d.spell = spell_id();
+            talk_function::start_training_gen( player_character, to_train, d );
             break;
         }
         case NPC_CHAT_GUARD: {
@@ -648,7 +844,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
-        say( "<acknowledged>" );
+        say( chatbin.snip_acknowledged );
     }
 
     if( sees( spos ) || is_hallucination() ) {
@@ -730,7 +926,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
-void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool radio_contact )
+void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
+                      bool is_computer )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
     if( !talk_with->will_talk_to_u( *this, has_mind_control ) ) {
@@ -752,11 +949,11 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
         d.add_topic( topic_id );
     }
     dialogue_window d_win;
-    d_win.open_dialogue( text_only );
+    d_win.is_computer = is_computer;
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, get_name(), d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -764,7 +961,10 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            d.actor( true )->say( _( "Bye." ) );
+            npc *npc_actor = d.actor( true )->get_npc();
+            if( npc_actor ) {
+                d.actor( true )->say( _( npc_actor->chatbin.snip_bye ) );
+            }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -829,7 +1029,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                                  "medication or sedation wears off.\nYou estimate it will wear "
                                  "off in %2$s." ),
                               actor( true )->disp_name(),
-                              to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
+                              to_string_approx( player_character.estimate_effect_dur( skill_firstaid,
                                                 effect_narcosis, 90_minutes, 60_minutes, 6,
                                                 *actor( true )->get_npc() ) ) );
     }
@@ -871,7 +1071,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return _( "Bye." );
+        return _( actor( true )->get_npc()->chatbin.snip_bye );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -882,6 +1082,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you…" );
         }
+    } else if( topic == "TALK_TRAIN_NPC" ) {
+        if( actor( false )->skills_offered_to( *actor( true ) ).empty() ) {
+            return _( "Sorry, there's nothing I can learn from you." );
+        } else {
+            return _( "Sure, I'm all ears." );
+        }
+    } else if( topic == "TALK_TRAIN_SEMINAR" ) {
+        return _( "What do you want me to teach?" );
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return actor( true )->distance_to_goal();
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
@@ -909,8 +1117,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     }
 
-    return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
-                          topic );
+    debugmsg( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic );
+    return "";
 }
 
 void dialogue::apply_speaker_effects( const talk_topic &the_topic )
@@ -1056,6 +1264,33 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
+    } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
+        const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
+        if( trainable.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &s : trainable ) {
+            const std::string &text = actor( true )->skill_training_text( *actor( true ), s );
+            if( !text.empty() && !s->obsolete() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", s );
+            }
+        }
+        add_response_none( _( "Eh, never mind." ) );
+    } else if( the_topic.id == "TALK_TRAIN_SEMINAR" ) {
+        const std::vector<skill_id> &slist = actor( true )->skills_teacheable();
+        if( slist.empty() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
+        }
+        for( const skill_id &sk : slist ) {
+            if( sk->obsolete() ) {
+                continue;
+            }
+            const std::string &text = actor( true )->skill_seminar_text( sk );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", sk );
+        }
+        add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
             player_character.backlog.front().index == actor( true )->getID().get_value() ) {
@@ -1237,7 +1472,8 @@ int topic_category( const talk_topic &the_topic )
         return 5;
     }
     static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
+            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
+            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
         }
     };
     if( topic_6.count( topic ) > 0 ) {
@@ -1313,7 +1549,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
             if( guy->current_activity_id ) {
-                activity_name = guy->current_activity_id.obj().verb().translated();
+                activity_name = guy->get_current_activity();
             } else {
                 activity_name = _( "doing this and that" );
             }
@@ -1474,10 +1710,18 @@ const talk_topic &special_talk( const std::string &action )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
-                          const talk_topic &topic )
+talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
-    bool text_only = d_win.text_only;
+    d_win.add_history_separator();
+
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
+    // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
@@ -1490,29 +1734,21 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 topic.item_type );
     capitalize_letter( challenge );
 
-    // Prepend "My Name: "
+    d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
         // No name prepended!
         challenge = challenge.substr( 1 );
+        d_win.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
+        // Prepend name
         challenge = string_format( pgettext( "npc does something", "%s %s" ), actor( true )->disp_name(),
                                    challenge.substr( 1 ) );
+        d_win.add_to_history( challenge );
     } else {
-        challenge = string_format( pgettext( "npc says something", "%s: %s" ), actor( true )->disp_name(),
-                                   challenge );
+        npc *npc_actor = actor( true )->get_npc();
+        d_win.add_to_history( challenge, actor( true )->disp_name(),
+                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
-
-    d_win.add_history_separator();
-
-    ui_adaptor ui;
-    const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    };
-    ui.on_screen_resize( resize_cb );
-    resize_cb( ui );
-
-    // Number of lines to highlight
-    const size_t hilight_lines = d_win.add_to_history( challenge );
 
     apply_speaker_effects( topic );
 
@@ -1522,15 +1758,18 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     }
 
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    ctxt.register_action( "LOOK_AT" );
-    ctxt.register_action( "SIZE_UP_STATS" );
-    ctxt.register_action( "YELL" );
-    ctxt.register_action( "CHECK_OPINION" );
+    if( !d_win.is_computer ) {
+        ctxt.register_action( "LOOK_AT" );
+        ctxt.register_action( "SIZE_UP_STATS" );
+        ctxt.register_action( "YELL" );
+        ctxt.register_action( "CHECK_OPINION" );
+    }
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
     const auto generate_response_lines = [&]() {
@@ -1554,8 +1793,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.print_header( npc_name );
-        d_win.display_responses( hilight_lines, response_lines );
+        d_win.draw( actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
@@ -1566,13 +1804,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         do {
             ui_manager::redraw();
             input_event evt;
-            if( !text_only ) {
-                action = ctxt.handle_input();
-                evt = ctxt.get_raw_input();
-            } else {
-                action = "ANY_INPUT";
-                evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
-            }
+            action = ctxt.handle_input();
+            evt = ctxt.get_raw_input();
             d_win.handle_scrolling( action );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
@@ -1582,11 +1815,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
             } else if( action == "ANY_INPUT" ) {
+                // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
                                                   response_hotkeys.end(), evt );
                 response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+            } else if( action == "QUIT" ) {
+                response_ind = get_best_quit_response();
             }
-        } while( action != "ANY_INPUT" || response_ind >= response_hotkeys.size() );
+        } while( ( action != "ANY_INPUT" && action != "QUIT" ) || response_ind >= response_hotkeys.size() );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -1595,13 +1831,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
             okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );
+
     d_win.add_history_separator();
+    d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
 
     talk_response chosen = responses[response_ind];
-    std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[response_ind].text );
-    d_win.add_to_history( response_printed );
-
     if( chosen.mission_selected != nullptr ) {
         actor( true )->select_mission( chosen.mission_selected );
     }
@@ -1613,6 +1847,45 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
     return effects.apply( *this );
+}
+
+/**
+ * Finds the best response to use when the player is trying to quit.
+ *
+ * Returns the index into the response list.
+ */
+int dialogue::get_best_quit_response() const
+{
+    if( responses.size() == 1 ) {
+        // Only one response. Use it. Consequences will be prompted for by the caller.
+        return 0;
+    }
+
+    // Find relevant responses
+    for( size_t i = 0; i < responses.size(); ++i ) {
+        const talk_response &response = responses[i];
+        if( response.trial.calc_chance( *this ) < 100 ) {
+            // Don't pick anything with a chance to fail.
+            continue;
+        }
+
+        if( !response.success.effects.empty() ) {
+            // Don't pick anything with side effects
+            continue;
+        }
+
+        // Unfortunately, while we'd like to be able to go "back" from nested dialogue trees, the
+        // topic stack doesn't always shrink. Returning to the previous topic is sometimes done
+        // with TALK_NONE, or sometimes by referencing the topic id directly. No solution really
+        // gives us something that feels right in all cases, so we only support completely leaving
+        // the conversation via the quit key.
+
+        if( response.success.next_topic.id == "TALK_DONE" ) {
+            return i;
+        }
+    }
+
+    return responses.size(); // Didn't find a good option
 }
 
 talk_trial::talk_trial( const JsonObject &jo )
@@ -2029,6 +2302,65 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
     };
 }
 
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    JsonObject member_obj = jo.get_object( member );
+    bool global = member_obj.get_bool( "global", false );
+    std::string var_name = get_talk_varname( member_obj, "value" );
+    int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
+    int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global,
+                    is_npc]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint talker_pos = get_map().getabs( target->pos() );
+        tripoint target_pos = talker_pos;
+        int max_radius = iov_max_radius.evaluate( target );
+        if( max_radius > 0 ) {
+            bool found = false;
+            int min_radius = iov_min_radius.evaluate( target );
+            for( int attempts = 0; attempts < 25; attempts++ ) {
+                target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
+                                                    0 );
+                if( ( !outdoor_only || get_map().is_outside( target_pos ) ) &&
+                    rl_dist( target_pos, talker_pos ) >= min_radius ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                return;
+            }
+        }
+        if( global ) {
+            global_variables &globvars = get_globals();
+            globvars.set_global_value( var_name, target_pos.to_string() );
+        } else {
+            target->set_value( var_name, target_pos.to_string() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
+    int_or_var iov = get_int_or_var( jo, member );
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
+    }
+    function = [iov, transform, target_var, global, is_npc]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        get_map().transform_radius( transform, iov.evaluate( target ), target_pos );
+    };
+}
+
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
@@ -2311,6 +2643,8 @@ void talk_effect_fun_t::set_open_dialogue()
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
         } else if( d.actor( true )->get_item() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
+        } else if( d.actor( true )->get_computer() != nullptr ) {
+            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, true );
         }
     };
 }
@@ -2389,14 +2723,18 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
 
 void talk_effect_fun_t::set_lightning()
 {
-    if( get_player_character().posz() >= 0 ) {
-        get_weather().lightning_active = true;
-    }
+    function = []( const dialogue & ) {
+        if( get_player_character().posz() >= 0 ) {
+            get_weather().lightning_active = true;
+        }
+    };
 }
 
 void talk_effect_fun_t::set_next_weather()
 {
-    get_weather().set_nextweather( calendar::turn );
+    function = []( const dialogue & ) {
+        get_weather().set_nextweather( calendar::turn );
+    };
 }
 
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
@@ -2797,15 +3135,23 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
 void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
-    bool success = jo.get_bool( "success" );
-    function = [mission_name, success]( const dialogue & ) {
+    bool success = false;
+    cata::optional<int> step;
+    if( jo.has_int( "step" ) ) {
+        step = jo.get_int( "step" );
+    } else {
+        success = jo.get_bool( "success" );
+    }
+    function = [mission_name, success, step]( const dialogue & ) {
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
         std::vector<mission *> missions = player_character.get_active_missions();
         for( mission *mission : missions ) {
             if( mission->mission_id() == mission_type ) {
-                if( success ) {
+                if( step.has_value() ) {
+                    mission->step_complete( step.value() );
+                } else if( success ) {
                     mission->wrap_up();
                 } else {
                     mission->fail();
@@ -2823,7 +3169,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
 
     int volume;
     mandatory( jo, false, "volume", volume );
-
+    bool snippet = jo.get_bool( "snippet", false );
+    bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -2853,10 +3200,36 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     } else {
         jo.throw_error( "Invalid message type." );
     }
-
-    function = [is_npc, message, volume, type]( const dialogue & d ) {
-
-        sounds::sound( d.actor( is_npc )->pos(), volume, type, _( message ) );
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
+    }
+    function = [is_npc, message, volume, type, target_var, global, snippet,
+            same_snippet]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        std::string translated_message;
+        if( snippet ) {
+            if( same_snippet ) {
+                talker *target = d.actor( !is_npc );
+                std::string sid = target->get_value( message + "_snippet_id" );
+                if( sid.empty() ) {
+                    sid = SNIPPET.random_id_from_category( message ).c_str();
+                    target->set_value( message + "_snippet_id", sid );
+                }
+                translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                        translation() ).translated() );
+            } else {
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                        translation() ).translated() );
+            }
+        } else {
+            translated_message = _( message );
+        }
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
     };
 }
 
@@ -2919,9 +3292,9 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
                 Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
                 item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
                 dialogue newDialog(
-                    ( creature_alpha ) ? get_talker_for( creature_alpha ) : ( item_alpha ) ? get_talker_for(
+                    creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
                         item_alpha ) : nullptr,
-                    ( creature_beta ) ? get_talker_for( creature_beta ) : ( item_beta ) ? get_talker_for(
+                    creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
                         item_beta ) : nullptr
                 );
                 for( const effect_on_condition_id &eoc : eocs ) {
@@ -2983,6 +3356,22 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     };
 }
 
+void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int_or_var trust = get_int_or_var( jo, member );
+    function = [trust]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u += trust.evaluate( d.actor( false ) );
+    };
+}
+
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
+{
+    int_or_var trust = get_int_or_var( jo, member );
+    function = [trust]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u -= trust.evaluate( d.actor( false ) );
+    };
+}
+
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
@@ -3018,9 +3407,16 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
 
     duration_or_var dov_lifespan_min = get_duration_or_var( jo, "lifespan_min", false, 0_seconds );
     duration_or_var dov_lifespan_max = get_duration_or_var( jo, "lifespan_max", false, 0_seconds );
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        target_var = get_talk_varname( target_obj, "value" );
+        global = target_obj.get_bool( "global" );
+    }
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                         iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
-            dov_lifespan_max]( const dialogue & d ) {
+            dov_lifespan_max, target_var, global]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3046,9 +3442,11 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         int real_count = iov_real_count.evaluate( d.actor( is_npc ) );
         int hallucination_count = iov_hallucination_count.evaluate( d.actor( is_npc ) );
         cata::optional<time_duration> lifespan;
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_map().getlocal( get_tripoint_from_var( target, target_var, global ) );
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
-            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
                 if( min > 0_seconds ) {
@@ -3059,7 +3457,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
@@ -3081,11 +3479,24 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
+
+    cata::optional<std::string> target_var;
+    bool global = false;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        target_var = get_talk_varname( target_obj, "value" );
+        global = target_obj.get_bool( "global", false );
+    }
+
     function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-            hit_player]( const dialogue & d ) {
+            hit_player, target_var, global]( const dialogue & d ) {
         int radius = iov_radius.evaluate( d.actor( is_npc ) );
         int intensity = iov_intensity.evaluate( d.actor( is_npc ) );
-        for( const tripoint &dest : get_map().points_in_radius( d.actor( is_npc )->pos(), radius ) ) {
+
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
+                radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
                 get_map().add_field( dest, new_field, intensity, dov_age.evaluate( d.actor( is_npc ) ),
                                      hit_player );
@@ -3334,6 +3745,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_object( "u_transform_radius" ) || jo.has_int( "u_transform_radius" ) ) {
+        subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
+    } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
+        subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
+    } else if( jo.has_object( "u_location_variable" ) ) {
+        subeffect_fun.set_location_variable( jo, "u_location_variable", false );
+    } else if( jo.has_object( "npc_location_variable" ) ) {
+        subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
     } else if( jo.has_string( "u_buy_monster" ) ) {
         const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
         const int cost = jo.get_int( "cost", 0 );
@@ -3390,6 +3809,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_string( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
+    } else if( jo.has_int( "u_add_faction_trust" ) || jo.has_object( "u_add_faction_trust" ) ) {
+        subeffect_fun.set_add_faction_trust( jo, "u_add_faction_trust" );
+    } else if( jo.has_int( "u_lose_faction_trust" ) || jo.has_object( "u_lose_faction_trust" ) ) {
+        subeffect_fun.set_lose_faction_trust( jo, "u_lose_faction_trust" );
     } else if( jo.has_string( "u_add_bionic" ) ) {
         subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
     } else if( jo.has_string( "npc_add_bionic" ) ) {
@@ -3441,6 +3864,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_fishing ),
             WRAP( do_construction ),
             WRAP( do_mining ),
+            WRAP( do_mopping ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3496,6 +3920,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
             WRAP( start_training ),
+            WRAP( start_training_npc ),
+            WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),

@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "computer.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
@@ -45,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -61,6 +63,9 @@
 
 static const efftype_id effect_amigara( "amigara" );
 
+static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
+static const furn_str_id furn_f_console_broken( "f_console_broken" );
+
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_c4( "c4" );
@@ -73,13 +78,24 @@ static const itype_id itype_sewage( "sewage" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
 
 static catacurses::window init_window()
 {
@@ -229,7 +245,7 @@ bool computer_session::hack_attempt( Character &you, int Security )
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
-    bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
+    bool successful_attempt = dice( player_roll, 6 ) >= dice( Security, 6 );
     you.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
@@ -287,6 +303,7 @@ computer_session::computer_action_functions = {
     { COMPACT_MAP_SUBWAY, &computer_session::action_map_subway },
     { COMPACT_MAPS, &computer_session::action_maps },
     { COMPACT_MISS_DISARM, &computer_session::action_miss_disarm },
+    { COMPACT_MISS_LAUNCH, &computer_session::action_miss_launch },
     { COMPACT_OPEN, &computer_session::action_open },
     { COMPACT_OPEN_GATE, &computer_session::action_open_gate },
     { COMPACT_CLOSE_GATE, &computer_session::action_close_gate },
@@ -530,7 +547,7 @@ void computer_session::action_portal()
             }
         }
         if( numtowers >= 4 ) {
-            if( here.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
+            if( here.tr_at( tmp ).id == tr_portal ) {
                 here.remove_trap( tmp );
             } else {
                 here.trap_set( tmp, tr_portal );
@@ -620,7 +637,7 @@ void computer_session::action_map_sewer()
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( is_ot_match( "sewer", oter, ot_match_type::type ) ||
+            if( ( oter->get_type_id() == oter_type_sewer ) ||
                 is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
                 overmap_buffer.set_seen( center + offset, true );
             }
@@ -639,7 +656,7 @@ void computer_session::action_map_subway()
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( is_ot_match( "subway", oter, ot_match_type::type ) ||
+            if( ( oter->get_type_id() == oter_type_subway ) ||
                 is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
                 overmap_buffer.set_seen( center + offset, true );
             }
@@ -662,6 +679,64 @@ void computer_session::action_miss_disarm()
         add_msg( m_neutral, _( "Nuclear missile remains active." ) );
         return;
     }
+}
+
+void computer_session::action_miss_launch()
+{
+    // Target Acquisition.
+    const tripoint_abs_omt target( ui::omap::choose_point( 0 ) );
+    if( target == overmap::invalid_tripoint ) {
+        add_msg( m_info, _( "Target acquisition canceled." ) );
+        return;
+    }
+
+    if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
+        add_msg( m_info, _( "Nuclear missile launched!" ) );
+        //Remove the option to fire another missile.
+        comp.options.clear();
+    } else {
+        add_msg( m_info, _( "Nuclear missile launch aborted." ) );
+        return;
+    }
+
+    //Put some smoke gas and explosions at the nuke location.
+    const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
+    for( const auto &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+        if( one_in( 4 ) ) {
+            get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
+        }
+    }
+
+    //Only explode once. But make it large.
+    explosion_handler::explosion( nuke_location, 2000, 0.7, true );
+
+    //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
+    // For each level between here and the surface, remove the missile
+    for( int level = get_map().get_abs_sub().z; level <= 0; level++ ) {
+        map tmpmap;
+        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().x, get_map().get_abs_sub().y, level ),
+                     false );
+
+        if( level < 0 ) {
+            tmpmap.translate( t_missile, t_hole );
+        } else {
+            tmpmap.translate( t_metal_floor, t_hole );
+        }
+        tmpmap.save();
+    }
+
+    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
+        // give it a nice rounded shape
+        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
+            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
+            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+        }
+    }
+    explosion_handler::nuke( target );
+
+    activate_failure( COMPFAIL_SHUTDOWN );
 }
 
 void computer_session::action_list_bionics()
@@ -779,7 +854,7 @@ void computer_session::action_amigara_start()
 void computer_session::action_complete_disable_external_power()
 {
     for( mission *miss : get_avatar().get_active_missions() ) {
-        static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+        static const mission_type_id commo_2 = mission_MISSION_OLD_GUARD_NEC_COMMO_2;
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
             print_error( _( "Mission Complete!" ) );
@@ -797,8 +872,8 @@ void computer_session::action_repeater_mod()
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" );
-            static const mission_type_id commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+            static const mission_type_id commo_3 = mission_MISSION_OLD_GUARD_NEC_COMMO_3;
+            static const mission_type_id commo_4 = mission_MISSION_OLD_GUARD_NEC_COMMO_4;
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
@@ -842,7 +917,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
+        if( here.furn( dest ) == furn_f_centrifuge ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1396,7 +1471,7 @@ void computer_session::failure_shutdown()
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-            here.furn_set( p, furn_str_id( "f_console_broken" ) );
+            here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
         }
@@ -1406,7 +1481,7 @@ void computer_session::failure_shutdown()
     }
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-            here.furn_set( p, furn_str_id( "f_console_broken" ) );
+            here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
         }
     }
@@ -1521,7 +1596,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
+        if( here.furn( dest ) == furn_f_centrifuge ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1571,7 +1646,6 @@ void computer_session::action_emerg_ref_center()
     reset_terminal();
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
-    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
@@ -1579,18 +1653,20 @@ void computer_session::action_emerg_ref_center()
     std::vector<mission *> missions = player_character.get_active_missions();
     missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
-    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
-    &mission_target ]( mission * mission ) {
-        if( mission->get_type().id == mission_type ) {
+    auto is_refugee_mission = [ &mission_target ]( mission * mission ) {
+        if( mission->get_type().id == mission_MISSION_REACH_REFUGEE_CENTER ) {
             mission_target = mission->get_target();
             return true;
         }
 
         return false;
-    } );
+    };
+
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), is_refugee_mission );
 
     if( !has_mission ) {
-        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        mission *new_mission =
+            mission::reserve_new( mission_MISSION_REACH_REFUGEE_CENTER, character_id() );
         new_mission->assign( player_character );
         mission_target = new_mission->get_target();
     }

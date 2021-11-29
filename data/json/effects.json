@@ -299,6 +299,17 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "staggered",
+    "name": [ "Staggered" ],
+    "//": "Mainly for monsters",
+    "desc": [ "You've been knocked off-balance by an attack'." ],
+    "apply_message": "You're staggered off-balance.",
+    "base_mods": { "speed_mod": [ -20 ] },
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -433,7 +444,8 @@
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "BLIND" ]
   },
   {
     "type": "effect_type",
@@ -1318,7 +1330,7 @@
   {
     "type": "effect_type",
     "id": "hallu",
-    "max_duration": "30 m",
+    "max_duration": "6 h",
     "blood_analysis_description": "Hallucinations"
   },
   {
@@ -2477,13 +2489,14 @@
   },
   {
     "type": "effect_type",
-    "id": "nightmares"
+    "id": "nightmares",
+    "max_duration": "72 hours"
   },
   {
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if composed of mist." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ]
   },
   {
     "type": "effect_type",

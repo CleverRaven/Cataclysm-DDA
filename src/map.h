@@ -812,6 +812,12 @@ class map
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
+        void furn_clear( const tripoint &p ) {
+            furn_set( p, f_clear );
+        };
+        void furn_clear( const point &p ) {
+            furn_clear( tripoint( p, abs_sub.z ) );
+        }
         std::string furnname( const tripoint &p );
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
@@ -1087,6 +1093,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
+        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
@@ -1132,9 +1139,15 @@ class map
         bool has_adjacent_furniture_with( const tripoint &p,
                                           const std::function<bool( const furn_t & )> &filter );
         /**
+         * Check for moppable fields/items at this location
+         * @param p the location
+         * @return true if anything is moppable here, false otherwise.
+         */
+        bool terrain_moppable( const tripoint &p );
+        /**
          * Remove moppable fields/items at this location
-         *  @param p the location
-         *  @return true if anything moppable was there, false otherwise.
+         * @param p the location
+         * @return true if anything moppable was there, false otherwise.
          */
         bool mop_spills( const tripoint &p );
         /**
@@ -1453,6 +1466,10 @@ class map
          */
         field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
+
+        // Check if player can move on top of it during mopping zone activity
+        bool mopsafe_field_at( const tripoint &p );
+
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1778,7 +1795,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
-        void draw_spider_pit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.

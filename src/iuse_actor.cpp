@@ -94,19 +94,20 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_music( "music" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
@@ -120,24 +121,34 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+static const mutation_category_id mutation_category_ELFA( "ELFA" );
+
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const quality_id qual_DIG( "DIG" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -1221,11 +1232,11 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
-    if( here.tr_at( pos ).id == trap_str_id( "tr_firewood_source" ) ) {
+    if( here.tr_at( pos ).id == tr_firewood_source ) {
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_id( "SOURCE_FIREWOOD" ), here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -1397,8 +1408,8 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
 // Helper to visit instances of all the sub-materials of an item.
 static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
 {
-    for( const material_id &material : it.made_of() ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+    for( const auto &material : it.made_of() ) {
+        if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );
         }
@@ -1503,7 +1514,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
-    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
+    const std::map<material_id, int> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     float remaining_weight = 1;
 
@@ -1562,15 +1573,20 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             continue;
         }
         // Discard invalid component
-        if( !temp.made_of_any( std::set<material_id>( cut_material_components.begin(),
-                               cut_material_components.end() ) ) ) {
+        std::set<material_id> mat_set;
+        for( std::pair<material_id, int> mat : cut_material_components ) {
+            mat_set.insert( mat.first );
+        }
+        if( !temp.made_of_any( mat_set ) ) {
             continue;
         }
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
             for( const auto &type : temp.made_of() ) {
-                mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                             ( static_cast<float>( type.second ) / mat_total );
             }
             continue;
         }
@@ -1602,11 +1618,13 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         // No crafting recipe available
         if( iter == recipe_dict.end() ) {
             // Check disassemble recipe too
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
                 // No recipes found, count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }
@@ -1618,7 +1636,8 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             if( weight > temp.weight() ) {
                 // Bad disassemble recipe.  Count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }
@@ -1876,7 +1895,7 @@ bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
     bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != bodypart_id( "bp_null" ) ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
+        if( !p.has_trait( trait_NOPAIN ) ) {
             p.mod_pain( 15 );
             p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
         } else {
@@ -2292,7 +2311,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         spell_text = sp_id.obj().name.translated();
-        if( pc.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
             if( pc.magic->knows_spell( sp_id ) ) {
@@ -2319,7 +2338,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return cata::nullopt;
     }
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         p.add_msg_if_player( _( "You can't read." ) );
         return cata::nullopt;
     }
@@ -3567,7 +3586,7 @@ static bodypart_id pick_part_to_heal(
             } else if( healed_part == bodypart_id( "leg_l" ) || healed_part == bodypart_id( "leg_r" ) ) {
                 add_msg( m_info, _( "That leg is broken.  It needs surgical attention or a splint." ) );
             } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+                debugmsg( "That body part is bugged.  It needs developer's attention." );
             }
 
             continue;
@@ -3859,7 +3878,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
         }
     }
 
-    const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
+    const bool has_shovel = p.has_quality( qual_DIG, 3 );
     const bool is_diggable = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
@@ -4228,7 +4247,7 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_avatar" part, implement NPC screams
-    if( p.is_avatar() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
@@ -4251,9 +4270,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 
-    if( m_category.id == mutation_category_id( "CHIMERA" ) ) {
+    if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == mutation_category_id( "ELFA" ) ) {
+    } else if( m_category.id == mutation_category_ELFA ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
@@ -4508,7 +4527,13 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( !it.ammo_sufficient( &p, thread_needed ) ) {
+            if( obj.restricted &&
+                std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
+                                        mod.tname( 1, false ) );
+            } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt.translated() ), thread_needed );
@@ -4517,12 +4542,6 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
                                         tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
@@ -4655,7 +4674,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, false, scent_mod );
+    p.add_effect( effect_masked_scent, duration, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
@@ -4700,7 +4719,7 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
         char_ptr = n;
     }
 
-    item_location loc( *( p.as_character() ), &it );
+    item_location loc( *p.as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {

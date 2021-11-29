@@ -7,6 +7,7 @@
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
+#include "system_language.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -182,6 +183,10 @@ std::string PATH_INFO::defaultsounddir()
 std::string PATH_INFO::defaulttilejson()
 {
     return "tile_config.json";
+}
+std::string PATH_INFO::defaultlayeringjson()
+{
+    return "layering.json";
 }
 std::string PATH_INFO::defaulttilepng()
 {

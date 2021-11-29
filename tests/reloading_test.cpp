@@ -22,6 +22,12 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const flag_id json_flag_SPEEDLOADER( "SPEEDLOADER" );
+
+static const itype_id itype_glock_19( "glock_19" );
+static const itype_id itype_glockbigmag( "glockbigmag" );
+static const itype_id itype_glockmag( "glockmag" );
+
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     Character &dummy = get_avatar();
@@ -61,7 +67,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( gun.magazine_integral() );
     REQUIRE( dummy.has_item( speedloader ) );
     REQUIRE( speedloader.ammo_remaining() == 0 );
-    REQUIRE( speedloader.has_flag( flag_id( "SPEEDLOADER" ) ) );
+    REQUIRE( speedloader.has_flag( json_flag_SPEEDLOADER ) );
 
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
@@ -101,7 +107,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     dummy.i_add( gun );
 
     const std::vector<item *> guns = dummy.items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "glock_19" );
+        return it.typeId() == itype_glock_19;
     } );
     REQUIRE( guns.size() == 1 );
     item &glock = *guns.front();
@@ -110,7 +116,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     item_location glock_loc( dummy, &glock );
     REQUIRE( dummy.unload( glock_loc ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "glockmag" );
+        return it.typeId() == itype_glockmag;
     } );
     REQUIRE( glock_mags.size() == 1 );
     item &magazine = *glock_mags.front();
@@ -230,7 +236,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
             THEN( "the associated magazine is reloaded" ) {
                 const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                    return it.typeId() == itype_id( "glockmag" );
+                    return it.typeId() == itype_glockmag;
                 } );
                 REQUIRE( mags.size() == 1 );
                 REQUIRE( !mags.front()->empty() );
@@ -266,7 +272,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                 THEN( "the associated magazine is reloaded" ) {
                     const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                        return it.typeId() == itype_id( "glockmag" );
+                        return it.typeId() == itype_glockmag;
                     } );
                     REQUIRE( mags.size() == 1 );
                     REQUIRE( !mags.front()->empty() );
@@ -287,7 +293,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                         THEN( "the second associated magazine is reloaded" ) {
                             const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                                return it.typeId() == itype_id( "glockbigmag" );
+                                return it.typeId() == itype_glockbigmag;
                             } );
                             REQUIRE( mags.size() == 1 );
                             REQUIRE( !mags.front()->empty() );

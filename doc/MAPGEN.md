@@ -1,3 +1,4 @@
+
 # MAPGEN
 
 * [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
@@ -22,6 +23,7 @@
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -556,6 +558,18 @@ Example 2:
 ]
 ```
 This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
+
+## Spawn an entire group of monsters with "place_monsters"
+Using `place_monsters` to spawn a group of monsters works in a similar fashion to `place_monster`. The key difference is that `place_monsters` guarantees that each valid entry in the group is spawned. It is strongly advised that you avoid using this flag with larger monster groups, as the total number of spawns is quite difficult to control.
+
+|Field|Description  |
+|--|--|
+| monster | The ID of the monster group that you wish to spawn |
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
+| repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
+| density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
+
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -1137,7 +1151,7 @@ Rotates the generated map after all the other mapgen stuff has been done. The va
 Values are 90° steps.
 
 
-## Pre-load a base mapgen with "predecessor_mapgen"
+## Pre-load a base mapgen with `"predecessor_mapgen"`
 
 Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type first, before applying
 the rest of the mapgen defined here. The primary use case for this is when our mapgen for a location takes place in a
@@ -1147,6 +1161,26 @@ the cabin fit in) which leads to them being out of sync when the generation of t
 `predecessor_mapgen`, you can instead focus on the things that are added to the existing location type.
 
 Example: `"predecessor_mapgen": "forest"`
+
+
+## Dynamically use base mapgen with `"fallback_predecessor_mapgen"`
+
+If your map could exist in a variety of surroundings, you might want to
+automatically take advantage of the mapgen for whatever terrain was assumed to
+be here before this one was set.  For example, overmap specials are always
+placed over existing terrain like fields and forests.
+
+Defining `"fallback_predecessor_mapgen"` allows your map to opt-in to
+requesting that whatever that previous terrain was, it should be generated
+first, before your mapgen is applied on top.  This works the same as for
+`"predecessor_mapgen"` above, except that it will pick the correct terrain for
+the context automatically.
+
+However, to support savegame migration across changes to mapgen definitions,
+you must provide a fallback value which will be used in the event that the game
+doesn't know what the previous terrain was.
+
+Example: `"predecessor_mapgen": "field"`
 
 
 # Palettes

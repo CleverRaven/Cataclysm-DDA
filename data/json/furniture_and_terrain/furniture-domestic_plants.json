@@ -81,7 +81,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
-    "examine_action": "aggie_plant",
+    "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_null", "base": "f_null" }
   },
@@ -172,7 +172,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
-    "examine_action": "aggie_plant",
+    "examine_action": "harvest_plant_ex",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },

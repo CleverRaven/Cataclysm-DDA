@@ -677,11 +677,11 @@
       { "item": "biscuit", "prob": 50 },
       { "item": "crackers", "prob": 40 },
       { "item": "soybean_seed", "prob": 40 },
-      { "item": "almond_unshelled", "prob": 20 },
-      { "item": "pecan_unshelled", "prob": 20 },
+      { "item": "almond_shelled", "prob": 20 },
+      { "item": "pecan_shelled", "prob": 20 },
       { "item": "cashews", "prob": 20 },
-      { "item": "pistachio_unshelled", "prob": 20 },
-      { "item": "peanut_unshelled", "prob": 20 }
+      { "item": "pistachio_shelled", "prob": 20 },
+      { "item": "peanut_shelled", "prob": 20 }
     ]
   },
   {
@@ -1145,6 +1145,7 @@
     "items": [
       [ "keg", 100 ],
       { "item": "beer", "prob": 40, "container-item": "keg" },
+      { "item": "drink_hard_seltzer", "prob": 40, "container-item": "keg" },
       { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
       { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
       { "item": "wine_barley", "prob": 17, "container-item": "keg" },

@@ -758,6 +758,20 @@ The definition of the `microlab` overmap might look like this:
 This allows it to join with hallways which are already placed on the overmap,
 but new unresolved joins will only match more `microlab`s.
 
+#### Testing your new mutable special
+
+If you want to exhaustively test your mutable special for placement errors, and
+you are in a position to compile the game, then an easy way to do so is to use
+the existing test in `tests/overmap_test.cpp`.
+
+In that file, look for `TEST_CASE( "mutable_overmap_placement"`.  At the start
+of that function there is a list of mutable special ids that tests tries
+spawning.  Replace one of them with your new special's id, recompile and run
+the test.
+
+The test will attempt to place your special a few thousand times, and should
+find most ways in which placement might fail.
+
 ### Joins
 
 A join definition can be a simple string, which will be its id.  Alternatively,

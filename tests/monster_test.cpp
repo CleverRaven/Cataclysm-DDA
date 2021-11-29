@@ -31,6 +31,8 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
@@ -112,7 +114,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
 
-    int moves_spent = 0;
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
@@ -145,7 +146,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                 rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_monster.pos()
                                } );
-            moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
                 INFO( tracker );
                 clear_map();
@@ -352,7 +352,7 @@ TEST_CASE( "monster_extend_flags", "[monster]" )
 
     // This test verifies that "extend" works on monster flags by checking both
     // those take effect
-    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    const mtype &m = *mon_dog_zombie_brute;
     CHECK( m.has_flag( MF_SEES ) );
     CHECK( m.has_flag( MF_PUSH_VEH ) );
 }

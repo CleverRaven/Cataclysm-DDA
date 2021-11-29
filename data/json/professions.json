@@ -765,7 +765,17 @@
     ],
     "items": {
       "both": {
-        "items": [ "pants_army", "undershirt", "jacket_army", "gloves_liner", "socks", "boots", "beret", "wristwatch", "binoculars" ],
+        "items": [
+          "pants_army",
+          "undershirt",
+          "jacket_army_modern",
+          "gloves_liner",
+          "socks",
+          "boots",
+          "beret",
+          "wristwatch",
+          "binoculars"
+        ],
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
@@ -798,8 +808,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
-          "ballistic_vest_esapi",
+          "combat_shirt",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -811,6 +820,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -850,8 +860,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
-          "ballistic_vest_esapi",
+          "combat_shirt",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -862,6 +871,7 @@
           "molle_pack"
         ],
         "entries": [
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "hacksaw" },
@@ -899,7 +909,6 @@
           "pants_army",
           "undershirt",
           "jacket_army",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -911,6 +920,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "c4", "count": 3 }
@@ -943,8 +953,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
-          "ballistic_vest_esapi",
+          "combat_shirt",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -956,6 +965,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -994,8 +1004,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
-          "ballistic_vest_esapi",
+          "combat_shirt",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -1007,6 +1016,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1086,7 +1096,7 @@
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
-      "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
+      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat" ]
     }
   },
   {
@@ -1942,7 +1952,7 @@
       "both": {
         "items": [
           "pants_army",
-          "jacket_army",
+          "combat_shirt",
           "socks",
           "sweatshirt",
           "boots",
@@ -2342,9 +2352,9 @@
     "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "both": { "items": [  ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": { "items": [ "ring_wedding" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "garter_belt", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -2948,7 +2958,7 @@
         "items": [
           "socks",
           "pants_army",
-          "jacket_army",
+          "jacket_army_modern",
           "balclava",
           "boots_combat",
           "gloves_tactical",
@@ -3525,7 +3535,7 @@
     "skills": { "level": 2, "name": "melee" },
     "items": {
       "both": {
-        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta", "bellywrap" ],
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
@@ -3746,22 +3756,22 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
-          "socks",
-          "undershirt",
+          "nomex_socks",
           "boots_combat",
           "wristwatch",
-          "fancy_sunglasses",
           "gloves_tactical",
-          "helmet_army",
-          "jacket_army",
+          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
+          "mil_flight_suit",
+          "chestrig",
           "webbing_belt",
           "legpouch_large"
         ],
         "entries": [
-          { "group": "charged_two_way_radio" },
+          { "group": "charged_matches" },
+          { "group": "charged_flashlight" },
+          { "item": "handflare", "count": 2, "charges": 200 },
+          { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
@@ -3847,8 +3857,7 @@
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
-          "ballistic_vest_esapi",
+          "combat_shirt",
           "helmet_army",
           "gloves_liner",
           "gloves_tactical",
@@ -3868,6 +3877,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -3968,7 +3978,7 @@
           "wristwatch",
           "gloves_tactical",
           "helmet_army",
-          "jacket_army",
+          "jacket_army_modern",
           "webbing_belt",
           "chestpouch"
         ],
@@ -4083,6 +4093,22 @@
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" }
         ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "birder",
+    "name": "Bird Watcher",
+    "description": "You were at your favorite park looking at the robins when the Cataclysm struck.  Now all you have are your binoculars and a lot of trivia about local birds to share with any survivors you may find.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "binoculars" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

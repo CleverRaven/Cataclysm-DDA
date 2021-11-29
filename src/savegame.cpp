@@ -39,6 +39,11 @@
 
 class overmap_connection;
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
+
+static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
+
 #if defined(__ANDROID__)
 #include "input.h"
 
@@ -89,6 +94,10 @@ void game::serialize( std::ostream &fout )
     json.member( "levz", pos_sm.z );
     json.member( "om_x", pos_om.x );
     json.member( "om_y", pos_om.y );
+    // view offset
+    json.member( "view_offset_x", u.view_offset.x );
+    json.member( "view_offset_y", u.view_offset.y );
+    json.member( "view_offset_z", u.view_offset.z );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -201,6 +210,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "levz", lev.z() );
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
+
+        data.read( "view_offset_x", u.view_offset.x );
+        data.read( "view_offset_y", u.view_offset.y );
+        data.read( "view_offset_z", u.view_offset.z );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
@@ -372,8 +385,8 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( old ) );
             const oter_id oter_ground = ter( tripoint_om_omt( pos.xy(), 0 ) );
             const oter_id oter_above = ter( pos + tripoint_above );
-            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) &&
-                !is_ot_match( "bridge_road", oter_above, ot_match_type::type ) ) {
+            if( ( oter_ground->get_type_id() == oter_type_bridge ) &&
+                !( oter_above->get_type_id() == oter_type_bridge_road ) ) {
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
@@ -570,7 +583,7 @@ void overmap::unserialize( std::istream &fin )
             // Legacy data, superceded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
-                connections_out[string_id<overmap_connection>( "local_road" )];
+                connections_out[overmap_connection_local_road];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
@@ -733,6 +746,12 @@ void overmap::unserialize( std::istream &fin )
             jsin.read( flat_index, true );
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
+            }
+        } else if( name == "predecessors" ) {
+            std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
+            jsin.read( flattened_predecessors, true );
+            for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
+                predecessors_.insert( std::move( p ) );
             }
         }
     }
@@ -1152,6 +1171,11 @@ void overmap::serialize( std::ostream &fout ) const
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
+    fout << std::endl;
+
+    std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors(
+        predecessors_.begin(), predecessors_.end() );
+    json.member( "predecessors", flattened_predecessors );
     fout << std::endl;
 
     json.end_object();

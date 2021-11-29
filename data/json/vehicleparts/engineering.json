@@ -2,7 +2,7 @@
   {
     "id": "crane_pseudo_item",
     "type": "TOOL",
-    "copy-from": "butchery_rack_pseudo",
+    "copy-from": "fake_butcher_rack",
     "name": { "str_sp": "suspending for butchering" }
   },
   {

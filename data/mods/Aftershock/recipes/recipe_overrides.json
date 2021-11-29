@@ -172,10 +172,11 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "brain", 2 ] ],
-      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
-      [ [ "seasoning_mild", 4, "LIST" ] ]
+      [ [ "seasoning_mild", 4, "LIST" ] ],
+      [ [ "fry_oil", 4, "LIST" ] ]
     ]
   },
   {

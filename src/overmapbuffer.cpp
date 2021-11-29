@@ -43,6 +43,26 @@
 
 class map_extra;
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
+static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
+static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
+static const oter_type_str_id oter_type_deep_rock( "deep_rock" );
+static const oter_type_str_id oter_type_empty_rock( "empty_rock" );
+static const oter_type_str_id oter_type_field( "field" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_lab_subway( "lab_subway" );
+static const oter_type_str_id oter_type_lake_surface( "lake_surface" );
+static const oter_type_str_id oter_type_microlab_rock_border( "microlab_rock_border" );
+static const oter_type_str_id oter_type_open_air( "open_air" );
+static const oter_type_str_id oter_type_river_center( "river_center" );
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
+static const oter_type_str_id oter_type_subway( "subway" );
+
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
@@ -755,6 +775,12 @@ std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube
     return om_loc.om->join_used_at( { om_loc.local, p.second } );
 }
 
+std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->predecessors( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
@@ -858,41 +884,41 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         return -1;
     }
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
-    if( is_ot_match( "road", oter, ot_match_type::type ) ||
-        is_ot_match( "bridge_road", oter, ot_match_type::type ) ||
-        is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
-        is_ot_match( "bridgehead_ramp", oter, ot_match_type::type ) ||
-        is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
+    if( ( oter->get_type_id() == oter_type_road ) ||
+        ( oter->get_type_id() == oter_type_bridge_road ) ||
+        ( oter->get_type_id() == oter_type_bridgehead_ground ) ||
+        ( oter->get_type_id() == oter_type_bridgehead_ramp ) ||
+        ( oter->get_type_id() == oter_type_road_nesw_manhole ) ) {
         return params.road_cost;
-    } else if( is_ot_match( "field", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_field ) {
         return params.field_cost;
     } else if( is_ot_match( "rural_road", oter, ot_match_type::prefix ) ||
                is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ||
-               is_ot_match( "subway", oter, ot_match_type::type ) ||
-               is_ot_match( "lab_subway", oter, ot_match_type::type ) ) {
+               ( oter->get_type_id() == oter_type_subway ) ||
+               ( oter->get_type_id() == oter_type_lab_subway ) ) {
         return params.dirt_road_cost;
-    } else if( is_ot_match( "forest_trail", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_forest_trail ) {
         return params.trail_cost;
-    } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_forest_water ) {
         return params.swamp_cost;
     } else if( is_ot_match( "river", oter, ot_match_type::prefix ) ||
                is_ot_match( "lake", oter, ot_match_type::prefix ) ) {
-        if( is_ot_match( "river_center", oter, ot_match_type::type ) ||
-            is_ot_match( "lake_surface", oter, ot_match_type::type ) ) {
+        if( ( oter->get_type_id() == oter_type_river_center ) ||
+            ( oter->get_type_id() == oter_type_lake_surface ) ) {
             return params.water_cost;
         } else {
             return params.shore_cost;
         }
-    } else if( is_ot_match( "bridge", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_bridge ) {
         return params.water_cost;
-    } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_open_air ) {
         return params.air_cost;
-    } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
+    } else if( oter->get_type_id() == oter_type_forest ) {
         return params.forest_cost;
-    } else if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-               is_ot_match( "deep_rock", oter, ot_match_type::type ) ||
-               is_ot_match( "solid_earth", oter, ot_match_type::type ) ||
-               is_ot_match( "microlab_rock_border", oter, ot_match_type::type ) ) {
+    } else if( ( oter->get_type_id() == oter_type_empty_rock ) ||
+               ( oter->get_type_id() == oter_type_deep_rock ) ||
+               ( oter->get_type_id() == oter_type_solid_earth ) ||
+               ( oter->get_type_id() == oter_type_microlab_rock_border ) ) {
         return -1;
     } else {
         return params.other_cost;
@@ -902,8 +928,8 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
 static bool is_ramp( const tripoint_abs_omt &omt_pos )
 {
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
-    return is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
-           is_ot_match( "bridgehead_ramp", oter, ot_match_type::type );
+    return ( oter->get_type_id() == oter_type_bridgehead_ground ) ||
+           ( oter->get_type_id() == oter_type_bridgehead_ramp );
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
