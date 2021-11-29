@@ -155,7 +155,8 @@ class item_contents
         // called when removing a molle pocket
         // needs the index of the pocket in both
         // related vectors
-        void remove_pocket( int index );
+        // returns the item that was attached
+        item remove_pocket( int index );
 
         std::vector<const item *> get_added_pockets() const;
 

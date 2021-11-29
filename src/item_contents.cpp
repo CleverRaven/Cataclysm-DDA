@@ -1411,25 +1411,35 @@ void item_contents::add_pocket( const item &pocket_item )
 
 }
 
-void item_contents::remove_pocket( int index )
+item item_contents::remove_pocket( int index )
 {
+    // start at the first true item
+    auto it = ++contents.begin();
+    // find the pockets to remove from the item
+    for( size_t i = 0; i != index; ++i ) {
+        // move the iterator past all the pockets we aren't removing
+        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+    }
+
     units::volume total_nonrigid_volume = 0_ml;
-    for( const item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
+    for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
         total_nonrigid_volume += i_pocket->max_contains_volume();
+
+        // move items from the consolidated pockets to the item that will be returned
+        for( const item *item_to_move : it->all_items_top() ) {
+            i_pocket->add( *item_to_move );
+        }
+
+        // finally remove the pocket data
+        contents.erase( it++ );
     }
     additional_pockets_encumbrance -= total_nonrigid_volume / 250_ml;
 
-    contents.erase( std::next( contents.begin(), index ) );
+    // create a copy of the item to return and delete the old items entry
+    item it_return( additional_pockets[index] );
     additional_pockets.erase( additional_pockets.begin() + index );
-    /*
-    units::volume total_nonrigid_volume = 0_ml;
-    for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
-        contents.push_back( *i_pocket );
-        total_nonrigid_volume += i_pocket->max_contains_volume();
-    }
-    additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
-    additional_pockets.push_back( pocket_item );
-    */
+
+    return it_return;
 }
 
 bool item_contents::has_additional_pockets() const
