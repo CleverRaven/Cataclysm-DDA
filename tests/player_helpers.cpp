@@ -151,7 +151,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
     const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
     if( gun.magazine_integral() ) {
         item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.is_reloadable_with(ammo) );
+        REQUIRE( gun.can_reload_with(ammo, true) );
         REQUIRE( shooter.can_reload( gun, &ammo) );
         gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
     } else {
@@ -159,7 +159,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
         item &magazine = shooter.i_add( item( magazine_id ) );
         item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                           magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.is_reloadable_with(ammo) );
+        REQUIRE( magazine.can_reload_with(ammo,  true) );
         REQUIRE( shooter.can_reload( magazine, &ammo) );
         magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );

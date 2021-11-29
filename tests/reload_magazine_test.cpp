@@ -62,9 +62,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     const item bad_mag_it( "glockmag" ); // any incompatible magazine
     CHECK( mag.is_magazine() == true );
     CHECK( mag.is_reloadable() == true );
-    CHECK( mag.is_reloadable_with( ammo_it ) == true );
-    CHECK( mag.is_reloadable_with( alt_ammo_it ) == true );
-    CHECK( mag.is_reloadable_with( bad_ammo_it ) == false );
+    CHECK( mag.can_reload_with( ammo_it, true ) == true );
+    CHECK( mag.can_reload_with( alt_ammo_it, true ) == true );
+    CHECK( mag.can_reload_with( bad_ammo_it, true ) == false );
     CHECK( player_character.can_reload( mag_it ) == true );
     CHECK( player_character.can_reload( mag, &ammo_it ) == true );
     CHECK( player_character.can_reload( mag, &alt_ammo_it ) == true );

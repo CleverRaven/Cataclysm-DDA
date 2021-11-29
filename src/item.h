@@ -1377,10 +1377,13 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo (ignores currently contained ammo). */
-        bool can_reload_with( const item &ammo ) const;
-        /** Returns true if this item can be reloaded with specified ammo type at this moment (considers currently contained ammo). */
-        bool is_reloadable_with( const item &ammo ) const;
+		
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now when false ignores currently contained items
+         */
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
           * Returns true if any of the contents are not frozen or not empty if it's liquid
@@ -2484,9 +2487,6 @@ class item : public visitable
 
         /** Update flags associated with temperature */
         void set_temp_flags( float new_temperature, float freeze_percentage );
-
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const item &ammo, bool now ) const;
 
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;

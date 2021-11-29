@@ -183,7 +183,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         dummy.set_wielded_item( item( "sw_610", calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item().ammo_remaining() == 0 );
-        REQUIRE( dummy.get_wielded_item().can_reload_with( ammo ) );
+        REQUIRE( dummy.get_wielded_item().can_reload_with( ammo, false ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, dummy.get_wielded_item(), ammo );
@@ -197,7 +197,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item &gun2 = dummy.i_add( item( "sw_610", calendar::turn_zero, 0 ) );
             REQUIRE( gun2.ammo_remaining() == 0 );
-            REQUIRE( gun2.can_reload_with( ammo ) );
+            REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, dummy.get_wielded_item(), ammo );
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {

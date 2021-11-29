@@ -8219,18 +8219,7 @@ bool item::allows_speedloader( const itype_id &speedloader_id ) const
     return contents.allows_speedloader( speedloader_id );
 }
 
-
-bool item::can_reload_with( const item &ammo ) const
-{
-    return is_reloadable_helper( ammo, false );
-}
-
-bool item::is_reloadable_with( const item &ammo ) const
-{
-    return is_reloadable_helper( ammo, true );
-}
-
-bool item::is_reloadable_helper( const item &ammo, bool now ) const
+bool item::can_reload_with( const item &ammo, bool now ) const
 {
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
@@ -9554,7 +9543,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         return false;
     }
 
-    if( !is_reloadable_with( *ammo.get_item() ) ) {
+    if( !can_reload_with( *ammo.get_item(), true ) ) {
         return false;
     }
 
