@@ -3376,7 +3376,7 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "money_bundle_hundred",
+    "result": "money_bundle_FMCNote",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "6 s",
