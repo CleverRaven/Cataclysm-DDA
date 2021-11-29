@@ -402,9 +402,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -451,9 +451,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -581,11 +581,11 @@
       "armor": [
         {
           "material": [
-            { "type": "wood", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "bone", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -635,9 +635,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -688,11 +688,11 @@
       "armor": [
         {
           "material": [
-            { "type": "steel", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -741,9 +741,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 20,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -776,9 +776,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 2.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
           "encumbrance": 25,
-          "coverage": 7,
+          "coverage": 14,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }
@@ -854,9 +854,9 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "portion_cover": 100, "thickness": 1.0 } ],
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
           "encumbrance": 14,
-          "coverage": 5,
+          "coverage": 10,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
         }

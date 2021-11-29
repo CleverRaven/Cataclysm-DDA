@@ -30,9 +30,9 @@
       "armor": [
         {
           "material": [
-            { "type": "orichalcum_metal", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "gold", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "wood", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 14,
           "coverage": 5,

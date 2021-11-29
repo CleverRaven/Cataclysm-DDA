@@ -5,6 +5,8 @@
 #include "json.h"
 #include "type_id.h"
 
+const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
+const flag_id flag_ABLATIVE_MEDIUM( "ABLATIVE_MEDIUM" );
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
 const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
@@ -49,6 +51,7 @@ const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
 const flag_id flag_CANNIBALISM( "CANNIBALISM" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
+const flag_id flag_CANT_WEAR( "CANT_WEAR" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
 const flag_id flag_CASING( "CASING" );
 const flag_id flag_CATTLE( "CATTLE" );

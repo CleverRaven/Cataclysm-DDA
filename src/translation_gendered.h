@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 void reset_sanity_check_genders();
 

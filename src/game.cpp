@@ -224,6 +224,10 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+static const harvest_drop_type_id harvest_drop_offal( "offal" );
+static const harvest_drop_type_id harvest_drop_skin( "skin" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -234,6 +238,8 @@ static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
+
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const material_id material_glass( "glass" );
 
@@ -261,7 +267,6 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -1884,11 +1889,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     if( locThisItem.get_item()->type->has_use() &&
-                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
+                    } else if( locThisItem.get_item()->has_relic_activation() ) {
+                        avatar_action::use_item( u, locThisItem );
                     } else {
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
                         break;
@@ -2175,6 +2182,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "smash" );
     ctxt.register_action( "loot" );
     ctxt.register_action( "examine" );
+    ctxt.register_action( "examine_and_pickup" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "pickup_all" );
@@ -4295,7 +4303,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -5147,24 +5155,34 @@ bool game::npc_menu( npc &who )
     return true;
 }
 
-void game::examine()
+void game::examine( bool with_pickup )
 {
     // if we are driving a vehicle, examine the
     // current tile without asking.
     const optional_vpart_position vp = m.veh_at( u.pos() );
     if( vp && vp->vehicle().player_in_control( u ) ) {
-        examine( u.pos() );
+        examine( u.pos(), with_pickup );
         return;
     }
 
-    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Examine where?" ),
-                                            _( "There is nothing that can be examined nearby." ),
-                                            ACTION_EXAMINE, false );
-    if( !examp_ ) {
+    cata::optional<tripoint> examp;
+    if( with_pickup ) {
+        // Examine and/or pick up items
+        examp = choose_adjacent_highlight( _( "Examine terrain, furniture, or items where?" ),
+                                           _( "There is nothing that can be examined nearby." ),
+                                           ACTION_EXAMINE_AND_PICKUP, false );
+    } else {
+        // Examine but do not pick up items
+        examp = choose_adjacent_highlight( _( "Examine terrain or furniture where?" ),
+                                           _( "There is nothing that can be examined nearby." ),
+                                           ACTION_EXAMINE, false );
+    }
+
+    if( !examp ) {
         return;
     }
     u.manual_examine = true;
-    examine( *examp_ );
+    examine( *examp, with_pickup );
     u.manual_examine = false;
 }
 
@@ -5235,7 +5253,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
     return {};
 }
 
-void game::examine( const tripoint &examp )
+void game::examine( const tripoint &examp, bool with_pickup )
 {
     if( disable_robot( examp ) ) {
         return;
@@ -5355,6 +5373,11 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
+            // Pick up items, if there are any, unless there is reason to not to
+            if( with_pickup && m.has_items( examp ) && !u.is_mounted() &&
+                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
+                pickup( examp );
+            }
         }
     }
 }
@@ -5376,6 +5399,18 @@ void game::pickup_all()
 {
     // Pick up items from current and all adjacent tiles
     u.pick_up( game_menus::inv::pickup( u ) );
+}
+
+void game::pickup( const tripoint &p )
+{
+    // Highlight target
+    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
+    } );
+    add_draw_callback( hilite_cb );
+
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, p ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -8045,17 +8080,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
+                if( entry.type == harvest_drop_skin && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
+                if( entry.type == harvest_drop_offal && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                if( entry.type == harvest_drop_blood && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }

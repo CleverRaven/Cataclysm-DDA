@@ -96,6 +96,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->add_nearby_items( 1 );
     _panes[_trader]->add_character_items( trader );
     if( trader.mission == NPC_MISSION_SHOPKEEP ) {
+        _panes[_trader]->categorize_map_items( true );
         _panes[_trader]->add_nearby_items( PICKUP_RANGE );
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );

@@ -208,6 +208,9 @@ struct body_part_type {
 
         int fire_warmth_bonus = 0;
 
+        //Innate environmental protection
+        int env_protection = 0;
+
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
@@ -218,6 +221,11 @@ struct body_part_type {
         int drench_max = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
+
+
+        // return a random sub part from the weighted list of subparts
+        // if secondary is true instead returns a part from only the secondary sublocations
+        sub_bodypart_id random_sub_part( bool secondary ) const;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();

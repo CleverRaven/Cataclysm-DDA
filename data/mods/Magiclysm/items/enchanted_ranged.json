@@ -26,8 +26,8 @@
       "armor": [
         {
           "material": [
-            { "type": "wood", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "bone", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 13,
           "coverage": 5,

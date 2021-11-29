@@ -428,13 +428,14 @@
     "id": "mansion_bookcase",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [
-      [ "novels", 40 ],
-      [ "mansion_books", 50 ],
-      [ "homebooks", 30 ],
-      [ "manuals", 10 ],
-      [ "textbooks", 5 ],
-      [ "exotic_books", 5 ]
+    "items": [
+      { "group": "novels", "prob": 40 },
+      { "group": "mansion_books", "prob": 50 },
+      { "group": "homebooks", "prob": 30 },
+      { "group": "manuals", "prob": 10 },
+      { "group": "textbooks", "prob": 5 },
+      { "group": "exotic_books", "prob": 5 },
+      [ "necronomicon", 1 ]
     ]
   },
   {
