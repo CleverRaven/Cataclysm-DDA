@@ -385,7 +385,7 @@ class Tilesheet:
         self.offset_x = specs.get('sprite_offset_x', 0)
         self.offset_y = specs.get('sprite_offset_y', 0)
 
-        self.sprites_across = config.get('sprites_across', 16)
+        self.sprites_across = specs.get('sprites_across', 16)
         self.exclude = specs.get('exclude', tuple())
 
         self.is_fallback = specs.get('fallback', False)
