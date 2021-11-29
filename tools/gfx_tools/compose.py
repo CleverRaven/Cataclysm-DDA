@@ -15,6 +15,7 @@ output directory will be created if it does not already exist.
 
 import argparse
 import json
+# TODO: logging
 import os
 import subprocess
 import sys
@@ -431,7 +432,7 @@ class Tilesheet:
         Find and process all JSON and PNG files within sheet directory
         '''
         all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
-        excluded_paths = [
+        excluded_paths = [  # TODO: dict by parent dirs
             self.subdir_path / ignored_path for ignored_path in self.exclude
         ]
 
@@ -476,12 +477,12 @@ class Tilesheet:
         self.tileset.unreferenced_pngnames[
             'filler' if self.is_filler else 'main'].append(pngname)
 
-    def load_image(self, png_path: str) -> pyvips.Image:
+    def load_image(self, png_path: Union[str, Path]) -> pyvips.Image:
         '''
         Load and verify an image using pyvips
         '''
         try:
-            image = Vips.Image.pngload(png_path)
+            image = Vips.Image.pngload(str(png_path))
         except pyvips.error.Error as pyvips_error:
             raise ComposingException(
                 f'Cannot load {png_path}: {pyvips_error.message}') from None
@@ -554,11 +555,11 @@ class Tilesheet:
         if self.tileset.palette:
             pngsave_args['palette'] = True
 
-        sheet_image.pngsave(self.output, **pngsave_args)
+        sheet_image.pngsave(str(self.output), **pngsave_args)
 
         if self.tileset.palette_copies and not self.tileset.palette:
             sheet_image.pngsave(
-                self.output + '8', palette=True, **pngsave_args)
+                str(self.output) + '8', palette=True, **pngsave_args)
 
         return True
 
