@@ -488,20 +488,20 @@ TEST_CASE( "shot_features", "[gun]" )
     // BUCKSHOT
     // Unarmored target
     // Heavy damage at range.
-    shoot_monster( "shot_00", 10, 135, 195, "mon_wolf_mutant_huge" );
+    shoot_monster( "shot_00", 10, 115, 195, "mon_wolf_mutant_huge" );
     // More damage at close range.
-    shoot_monster( "shot_00", 5, 135, 195, "mon_wolf_mutant_huge" );
+    shoot_monster( "shot_00", 5, 115, 195, "mon_wolf_mutant_huge" );
     // Extreme damage at point blank range.
-    shoot_monster( "shot_00", 1, 50, 90, "mon_wolf_mutant_huge" );
+    shoot_monster( "shot_00", 1, 30, 90, "mon_wolf_mutant_huge" );
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
-    shoot_monster( "shot_00", 10, 90, 130, "mon_boomer_glutton" );
-    shoot_monster( "shot_00", 5, 90, 130, "mon_boomer_glutton" );
-    shoot_monster( "shot_00", 1, 45, 85, "mon_boomer_glutton" );
+    shoot_monster( "shot_00", 10, 70, 130, "mon_boomer_glutton" );
+    shoot_monster( "shot_00", 5, 70, 130, "mon_boomer_glutton" );
+    shoot_monster( "shot_00", 1, 25, 85, "mon_boomer_glutton" );
 
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shot_00", 10, 45, 65, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shot_00", 5, 45, 65, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shot_00", 1, 40, 75, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shot_00", 10, 25, 65, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shot_00", 5, 25, 65, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shot_00", 1, 20, 75, "mon_hulk_pupa_decoy" );
 }
