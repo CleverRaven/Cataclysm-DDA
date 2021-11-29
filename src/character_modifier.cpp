@@ -3,8 +3,10 @@
 #include "generic_factory.h"
 #include "move_mode.h"
 
-static const character_modifier_id character_modifier_limb_balance_movecost_mod( "limb_balance_movecost_mod" );
-static const character_modifier_id character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
+static const character_modifier_id
+character_modifier_limb_balance_movecost_mod( "limb_balance_movecost_mod" );
+static const character_modifier_id
+character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -78,7 +80,8 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
         if( val_str == "max_move_cost" ) {
             val = MAX_MOVECOST_MODIFIER;
         } else {
-            jo.throw_error( string_format( "invalid %s %s: use a float value or \"max_move_cost\"", field, val_str ) );
+            jo.throw_error( string_format( "invalid %s %s: use a float value or \"max_move_cost\"", field,
+                                           val_str ) );
         }
     } else if( jo.has_float( field ) ) {
         mandatory( jo, false, field, val );
@@ -188,12 +191,14 @@ static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 
 static float limb_run_cost_modifier( const Character &c, const skill_id & )
 {
-    return ( character_modifier_limb_balance_movecost_mod->modifier( c ) + character_modifier_limb_speed_movecost_mod->modifier( c ) ) / 2.0f;
+    return ( character_modifier_limb_balance_movecost_mod->modifier( c ) +
+             character_modifier_limb_speed_movecost_mod->modifier( c ) ) / 2.0f;
 }
 
 static float call_builtin( const std::string &builtin, const Character &c, const skill_id &skill )
 {
-    static const std::map<std::string, std::function<float ( const Character &, const skill_id & )>> func_map = {
+    static const std::map<std::string, std::function<float ( const Character &, const skill_id & )>>
+    func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
         { "aim_speed_dex_modifier", aim_speed_dex_modifier },
@@ -222,7 +227,8 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     float score = c.get_limb_score( limbscore, limbtype );
     // score == 0
     if( score < std::numeric_limits<float>::epsilon() ) {
-        return min_val > std::numeric_limits<float>::epsilon() ? min_val : max_val > std::numeric_limits<float>::epsilon() ? max_val : 0.0f;
+        return min_val > std::numeric_limits<float>::epsilon() ? min_val :
+               max_val > std::numeric_limits<float>::epsilon() ? max_val : 0.0f;
     }
     if( nominator > std::numeric_limits<float>::epsilon() ) {
         score = nominator / score;

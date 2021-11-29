@@ -242,7 +242,8 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
             continue;
         }
         std::string desc = mod.description().translated();
-        std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ), limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
+        std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
+                                       limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
         s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
     }
     return s;

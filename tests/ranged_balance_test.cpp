@@ -34,7 +34,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const character_modifier_id character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 
 using firing_statistics = statistics<bool>;
 

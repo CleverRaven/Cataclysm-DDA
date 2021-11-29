@@ -589,7 +589,8 @@ class Character : public Creature, public visitable
 
         // Get the value of the specified character modifier.
         // (some modifiers require a skill_id, ex: aim_speed_skill_mod)
-        float get_modifier( const character_modifier_id &mod, const skill_id &skill = skill_id::NULL_ID() ) const;
+        float get_modifier( const character_modifier_id &mod,
+                            const skill_id &skill = skill_id::NULL_ID() ) const;
 
         /* Gun stuff */
         /**

@@ -78,9 +78,12 @@
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
-static const character_modifier_id character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
-static const character_modifier_id character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
-static const character_modifier_id character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
 
 static const efftype_id effect_downed( "downed" );

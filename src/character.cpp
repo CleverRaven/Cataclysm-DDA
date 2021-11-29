@@ -170,11 +170,16 @@ static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_sp
 static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
 static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
-static const character_modifier_id character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
-static const character_modifier_id character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
-static const character_modifier_id character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
-static const character_modifier_id character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
-static const character_modifier_id character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+static const character_modifier_id
+character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
+static const character_modifier_id
+character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
+static const character_modifier_id
+character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
+static const character_modifier_id
+character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
 static const character_modifier_id character_modifier_swim_mod( "swim_mod" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -6085,7 +6090,8 @@ void Character::burn_move_stamina( int moves )
     }
 
     burn_ratio *= move_mode->stamina_mult();
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier( character_modifier_stamina_move_cost_mod ) );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
+                     character_modifier_stamina_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried

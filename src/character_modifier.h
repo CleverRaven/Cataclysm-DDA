@@ -39,10 +39,13 @@ struct character_modifier {
         // Same as above, but for displaying in the UI
         std::string mod_type_str() const {
             switch( modtype ) {
-                case ADD: return "+";
-                case MULT: return "x";
+                case ADD:
+                    return "+";
+                case MULT:
+                    return "x";
                 case NONE:
-                default: break;
+                default:
+                    break;
             }
             return std::string();
         }
