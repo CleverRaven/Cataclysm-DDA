@@ -8,6 +8,8 @@ from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
 from .parsers.construction_group import parse_construction_group
+from .parsers.difficulty_impact import parse_difficulty_impact
+from .parsers.difficulty_opt import parse_difficulty_opt
 from .parsers.dream import parse_dream
 from .parsers.effect_on_condition import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
@@ -108,8 +110,10 @@ parsers = {
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
-    "dream": parse_dream,
+    "difficulty_impact": parse_difficulty_impact,
+    "difficulty_opt": parse_difficulty_opt,
     "disease_type": dummy_parser,
+    "dream": parse_dream,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
