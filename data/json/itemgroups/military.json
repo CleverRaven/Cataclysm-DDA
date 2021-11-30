@@ -70,10 +70,10 @@
       { "item": "tool_pouch", "prob": 10 },
       { "item": "flashlight_pouch", "prob": 20 },
       { "item": "tactical_holster", "prob": 20 },
-      { "item": "gasmask_pouch", "prob": 10 },
+      { "item": "gas_mask_pouch", "prob": 10 },
       { "item": "tactical_grenade_pouch", "prob": 40 },
       { "item": "grenade_pouch", "prob": 10 },
-      { "item": "tripple_stacker_pouch", "prob": 10 },
+      { "item": "triple_stacker_pouch", "prob": 10 },
       { "item": "dump_pouch", "prob": 20 }
     ]
   },
