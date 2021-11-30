@@ -4,7 +4,9 @@ from ..write_text import write_text
 def parse_profession(json, origin):
     name_male = ""
     name_female = ""
-    if type(json["name"]) is dict:
+    if "name" not in json:
+        name_male = name_female = json["id"]
+    elif type(json["name"]) is dict:
         name_male = json["name"]["male"]
         name_female = json["name"]["female"]
     elif type(json["name"]) is str:
