@@ -719,9 +719,22 @@ void Item_spawn_data::set_container_item( const itype_id &container )
 
 int Item_spawn_data::get_probability( bool skip_event_check ) const
 {
-    if( skip_event_check || event == holiday::none || event == get_holiday_from_time( 0 ) ) {
+    // Use probability as normal
+    if( skip_event_check || event == holiday::none ) {
         return probability;
     }
+
+    // Item spawn is event-based, but option is disabled
+    if( get_option<std::string>( "EVENT_SPAWNS" ) != "items" ) {
+        return 0;
+    }
+
+    // Use probability if the current holiday matches the item's spawn event
+    if( event == get_holiday_from_time() ) {
+        return probability;
+    }
+
+    // Not currently the item's holiday
     return 0;
 }
 
