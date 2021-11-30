@@ -75,7 +75,7 @@ class safemode
          */
         // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map < std::string, std::array < std::array < rule_state_class, 3 >, 2 >>
-                safemode_rules_hostile;
+                safemode_rules_hostile; // NOLINT(cata-serialize)
         // NOLINTNEXTLINE(cata-serialize)
         std::array < std::vector < rules_class >, 2 > safemode_rules_sound;
 
@@ -107,7 +107,8 @@ class safemode
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
                                   int proximity_in, const bool driving = false ) const;
 
-        bool is_sound_safe( const std::string &sound_name_in, int proximity_in, const bool driving ) const;
+        bool is_sound_safe( const std::string &sound_name_in, int proximity_in,
+                            const bool driving = false ) const;
 
         std::string npc_type_name();
 
