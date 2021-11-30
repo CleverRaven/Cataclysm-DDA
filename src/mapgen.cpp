@@ -724,6 +724,14 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
         return false;
     }
 
+    if( x.valmax < x.val ) {
+        jso.throw_error( "x maximum is less than x minimum" );
+    }
+
+    if( y.valmax < y.val ) {
+        jso.throw_error( "y maximum is less than y minimum" );
+    }
+
     if( x.valmax > mapgensize.x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
     }
