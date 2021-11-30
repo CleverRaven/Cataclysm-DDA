@@ -1783,17 +1783,6 @@ class attach_molle_inventory_preset : public inventory_selector_preset
                 return "item needs to be empty.";
             }
 
-            int space_used = 0;
-
-            // set the ammount of space that will be used on the vest
-            if( loc->has_flag( flag_PALS_SMALL ) ) {
-                space_used = 1;
-            } else if( loc->has_flag( flag_PALS_MEDIUM ) ) {
-                space_used = 2;
-            } else {
-                space_used = 3;
-            }
-
             if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
                 return "not enough space left on the vest.";
             }
