@@ -1748,7 +1748,7 @@
         "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch", "gold_watch", "money_strap_fifty" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "briefs", "gold_dental_grill" ],
+      "male": [ "briefs", "citrine_gold_cufflinks" ],
       "female": [ "bra", "panties", "gold_ear" ]
     }
   },
@@ -1983,7 +1983,7 @@
           "mbag",
           "nomex_socks",
           "water_clean",
-          "diving_watch"
+          "pocketwatch"
         ],
         "entries": [
           { "group": "full_1st_aid" },
@@ -2584,7 +2584,7 @@
           "glasses_safety",
           "nomex_hood",
           "firehelmet",
-          "diving_watch"
+          "pocketwatch"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
