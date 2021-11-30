@@ -4080,8 +4080,8 @@ void jmapgen_objects::apply( const mapgendata &dat ) const
 {
     bool terrain_resolved = false;
     for( const jmapgen_obj &obj : objects ) {
-        const auto &where = obj.first;
-        const auto &what = *obj.second;
+        const jmapgen_place &where = obj.first;
+        const jmapgen_piece &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
         if( !terrain_resolved && typeid( what ) == typeid( jmapgen_vehicle ) ) {
