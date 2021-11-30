@@ -3420,7 +3420,7 @@
     "name": { "str": "Pounce" },
     "points": 1,
     "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
-  	"//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
+    "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
     "spells_learned": [ [ "spell_feline_leap", 1 ] ],
     "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
     "prereqs": [ "TAIL_LONG" ],
@@ -7767,9 +7767,9 @@
     "points": 4,
     "description": "Your muscles, joints, and movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
     "valid": false,
-	  "purifiable": false,
-	  "threshreq": [ "THRESH_FELINE" ],
-	  "category": [ "FELINE" ],
+    "purifiable": false,
+    "threshreq": [ "THRESH_FELINE" ],
+    "category": [ "FELINE" ],
     "movecost_obstacle_modifier": 0.5
   },
   {
@@ -7780,7 +7780,8 @@
     "description": "You really hate getting your fur all wet.  This increases morale penalties for being wet, and you will get them even when wearing appropriate clothing.",
     "valid": false,
     "prereqs": [ "FELINE_FUR" ],
-	  "category": [ "FELINE" ],
+    "category": [ "FELINE" ],
+    "cancels": [ "OUTDOORSMAN" ],
     "wet_protection": [
       { "part": "head", "good": -12 },
       { "part": "leg_l", "good": -16 },
