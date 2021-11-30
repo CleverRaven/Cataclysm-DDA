@@ -636,13 +636,13 @@ void Item_group::add_group_entry( const item_group_id &groupid, int probability 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
     cata_assert( ptr.get() != nullptr );
-    if( ptr->get_probability( false ) <= 0 ) {
+    if( ptr->get_probability( true ) <= 0 ) {
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->set_probablility( std::min( 100, ptr->get_probability( false ) ) );
+        ptr->set_probablility( std::min( 100, ptr->get_probability( true ) ) );
     }
-    sum_prob += ptr->get_probability( false );
+    sum_prob += ptr->get_probability( true );
 
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
@@ -668,8 +668,11 @@ Item_spawn_data::ItemList Item_group::create(
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= elem->get_probability( false );
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
             ItemList tmp = elem->create( birthday, rec, flags );
@@ -694,8 +697,11 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= elem->get_probability( false );
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
             return elem->create_single( birthday, rec );
@@ -742,7 +748,7 @@ bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
-            sum_prob -= ( *a )->get_probability( false );
+            sum_prob -= ( *a )->get_probability( true );
             a = items.erase( a );
         } else {
             ++a;

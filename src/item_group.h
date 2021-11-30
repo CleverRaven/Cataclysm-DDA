@@ -178,6 +178,10 @@ class Item_spawn_data
         void set_probablility( int prob ) {
             probability = prob;
         }
+        bool is_event_based() const {
+            return event != holiday::none;
+        }
+
         /**
          * The group spawns contained in this item
          */
