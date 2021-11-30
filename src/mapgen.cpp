@@ -6080,7 +6080,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
                      int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
-        debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
+        debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
     }
     point offset;
