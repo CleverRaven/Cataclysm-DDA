@@ -314,10 +314,10 @@ class item_contents
 
         // pockets that have been custom added
         std::vector<item> additional_pockets;
-        int additional_pockets_encumbrance = 0;
+        int additional_pockets_encumbrance = 0; // NOLINT(cata-serialize)
 
         // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
-        int additional_pockets_space_used = 0;
+        int additional_pockets_space_used = 0; // NOLINT(cata-serialize)
 
         struct item_contents_helper;
 

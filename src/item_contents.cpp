@@ -1421,10 +1421,11 @@ item item_contents::remove_pocket( int index )
 {
     // start at the first true item
     auto it = ++contents.begin();
+
     // find the pockets to remove from the item
-    for( size_t i = 0; i != index; ++i ) {
+    for( const item &pocket_item : additional_pockets ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+        std::advance( it, pocket_item.get_all_contained_pockets().value().size() );
     }
 
     units::volume total_nonrigid_volume = 0_ml;
@@ -1468,7 +1469,7 @@ int item_contents::get_additional_space_used() const
 units::mass item_contents::get_additional_weight() const
 {
     units::mass ret = 0_kilogram;
-    for( const item it : additional_pockets ) {
+    for( const item &it : additional_pockets ) {
         ret += it.weight( false );
     }
     return ret;
@@ -1477,7 +1478,7 @@ units::mass item_contents::get_additional_weight() const
 units::volume item_contents::get_additional_volume() const
 {
     units::volume ret = 0_ml;
-    for( const item it : additional_pockets ) {
+    for( const item &it : additional_pockets ) {
         ret += it.volume( false, true );
     }
     return ret;

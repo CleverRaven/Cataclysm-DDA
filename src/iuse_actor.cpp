@@ -4016,6 +4016,7 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 void molle_attach_actor::load( const JsonObject &jo )
 {
     assign( jo, "size", size );
+    assign( jo, "moves", moves );
 }
 
 cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
@@ -4052,7 +4053,7 @@ std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
     return std::make_unique<molle_attach_actor>( *this );
 }
 
-cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool t,
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
 
@@ -4085,7 +4086,7 @@ std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
 
 void molle_detach_actor::load( const JsonObject &jo )
 {
-    return;
+    assign( jo, "moves", moves );
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,

@@ -1010,6 +1010,7 @@ class molle_attach_actor : public iuse_actor
         explicit molle_attach_actor( const std::string &type = "attach_molle" ) : iuse_actor( type ) {}
 
         int size;
+        int moves;
 
         void load( const JsonObject &jo ) override;
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
@@ -1021,6 +1022,8 @@ class molle_detach_actor : public iuse_actor
 {
     public:
         explicit molle_detach_actor( const std::string &type = "detach_molle" ) : iuse_actor( type ) {}
+
+        int moves;
 
         void load( const JsonObject &jo ) override;
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;

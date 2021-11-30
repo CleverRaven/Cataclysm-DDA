@@ -1894,7 +1894,7 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                          _( "Attach an item to the vest" ), 1,
                          _( "You don't have any MOLLE compatible items." ),
                          string_format(
-                             _( "Choose an accessory to attach to your %s \n There is space for %d small items" ),
+                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
                              tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
                          )
                        );
