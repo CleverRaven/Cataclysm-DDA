@@ -476,7 +476,7 @@ void diary::stat_changes()
                 add_to_change_list( _( "Stats: " ) );
                 flag = false;
             }
-            add_to_change_list( string_format( _( "Desxterity: %d -> %d" ), prevpage->dexterity,
+            add_to_change_list( string_format( _( "Dexterity: %d -> %d" ), prevpage->dexterity,
                                                currpage->dexterity ) );
         }
         if( currpage->intelligence != prevpage->intelligence ) {
