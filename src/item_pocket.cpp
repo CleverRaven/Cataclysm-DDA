@@ -1138,7 +1138,6 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
                        contain_code::ERR_AMMO, _( "item is not an ammo" ) );
         }
 
-        const ammotype it_ammo = it.ammo_type();
         const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
 
         if( ammo_restriction_iter == data->ammo_restriction.end() ) {
