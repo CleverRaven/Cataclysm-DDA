@@ -1593,16 +1593,16 @@ bool item_pocket::full( bool allow_bucket ) const
         return true;
     }
 
-    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-        if( empty() ) {
-            return false;
-        } else if( front().has_flag( flag_CASING ) ) {
-            // It is assumed that casing can be in here only if shots have been fired and thus ammo is not full.
-            return false;
-        } else if( ammo_capacity( front().ammo_type() ) != 0 ) {
-            // Fullness from remaining ammo capacity instead of volume
-            return remaining_ammo_capacity( front().ammo_type() ) == 0;
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) && !data->ammo_restriction.empty() ) {
+        // Fullness from remaining ammo capacity instead of volume
+        for( const item &it : contents ) {
+            if( it.has_flag( flag_CASING ) ) {
+                continue;
+            } else {
+                return remaining_ammo_capacity( front().ammo_type() ) == 0;
+            }
         }
+        return false;
     }
 
     return remaining_volume() == 0_ml;
