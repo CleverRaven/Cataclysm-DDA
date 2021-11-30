@@ -5233,7 +5233,6 @@ cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const t
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    
     if( it->typeId() == itype_atomic_coffeepot ) {
         heat_item( *p );
     }
