@@ -636,4 +636,11 @@ std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_se
     return lhv;
 }
 
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
+
 #endif // CATA_SRC_CATA_UTILITY_H

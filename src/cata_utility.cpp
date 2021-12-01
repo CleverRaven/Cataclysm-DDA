@@ -539,3 +539,22 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
     }
     return buffer.str();
 }
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    auto total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
+}
