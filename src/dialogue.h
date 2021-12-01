@@ -160,6 +160,7 @@ struct talk_effect_fun_t {
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_open_dialogue();
         void set_take_control();
         void set_take_control_menu();
