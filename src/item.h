@@ -2171,6 +2171,10 @@ class item : public visitable
          */
         int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
         /**
+        * Summed shot spread from mods. Returns 0 on non-gun items.
+        */
+        float gun_shot_spread_multiplier() const;
+        /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */
         skill_id gun_skill() const;

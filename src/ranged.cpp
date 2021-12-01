@@ -731,6 +731,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
+    if( gun.has_flag( flag_CHOKE ) && !gun.ammo_effects().count( "SHOT" ) ) {
+        add_msg_if_player( _( "A shotgun equipped with choke cannot fire slugs." ) );
+        return 0;
+    }
     bool is_mech_weapon = false;
     if( is_mounted() &&
         mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -1734,7 +1738,7 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
-        proj.shot_spread = ammo->shot_spread;
+        proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {

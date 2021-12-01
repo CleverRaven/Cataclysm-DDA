@@ -8851,6 +8851,18 @@ int item::gun_recoil( const Character &p, bool bipod ) const
     }
 }
 
+float item::gun_shot_spread_multiplier() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    float ret = 1.0f;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->shot_spread_multiplier_modifier;
+    }
+    return std::max( ret, 0.0f );
+}
+
 int item::gun_range( bool with_ammo ) const
 {
     if( !is_gun() ) {
