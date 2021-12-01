@@ -1544,14 +1544,16 @@ void inventory_selector::add_map_items( const tripoint &target )
         map_stack items = here.i_at( target );
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
+        const item_category *const custom_cat = _categorize_map_items ? nullptr : &map_cat;
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( map_cursor( target ), it );
-        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
+        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), custom_cat );
 
         for( item &it_elem : items ) {
             item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column, &map_cat, get_topmost_parent( nullptr, parent, preset ) );
+            add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
+                                 preset ) );
         }
     }
 }
@@ -1568,16 +1570,17 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
+    const item_category *const custom_cat = _categorize_map_items ? nullptr : &vehicle_cat;
 
     const bool check_components = this->preset.get_checking_components();
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
-    }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
+    }, restack_items( items.begin(), items.end(), check_components ), custom_cat );
 
     for( item &it_elem : items ) {
         item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column, &vehicle_cat, get_topmost_parent( nullptr, parent,
+        add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
                              preset ) );
     }
 }
@@ -3265,4 +3268,9 @@ void trade_selector::resize( point const &size, point const &origin )
 shared_ptr_fast<ui_adaptor> trade_selector::get_ui() const
 {
     return _ui;
+}
+
+void trade_selector::categorize_map_items( bool toggle )
+{
+    _categorize_map_items = toggle;
 }

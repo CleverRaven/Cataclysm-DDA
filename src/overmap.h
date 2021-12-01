@@ -165,47 +165,6 @@ class overmap_special_batch
         point_abs_om origin_overmap;
 };
 
-static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN", oter_flags::known_down },
-    { "KNOWN_UP", oter_flags::known_up },
-    { "RIVER", oter_flags::river_tile },
-    { "SIDEWALK", oter_flags::has_sidewalk },
-    { "NO_ROTATE", oter_flags::no_rotate },
-    { "IGNORE_ROTATION_FOR_ADJACENCY", oter_flags::ignore_rotation_for_adjacency },
-    { "LINEAR", oter_flags::line_drawing },
-    { "SUBWAY", oter_flags::subway_connection },
-    { "REQUIRES_PREDECESSOR", oter_flags::requires_predecessor },
-    { "LAKE", oter_flags::lake },
-    { "LAKE_SHORE", oter_flags::lake_shore },
-    { "RAVINE", oter_flags::ravine },
-    { "RAVINE_EDGE", oter_flags::ravine_edge },
-    { "GENERIC_LOOT", oter_flags::generic_loot },
-    { "RISK_HIGH", oter_flags::risk_high },
-    { "RISK_LOW", oter_flags::risk_low },
-    { "SOURCE_AMMO", oter_flags::source_ammo },
-    { "SOURCE_ANIMALS", oter_flags::source_animals },
-    { "SOURCE_BOOKS", oter_flags::source_books },
-    { "SOURCE_CHEMISTRY", oter_flags::source_chemistry },
-    { "SOURCE_CLOTHING", oter_flags::source_clothing },
-    { "SOURCE_CONSTRUCTION", oter_flags::source_construction },
-    { "SOURCE_COOKING", oter_flags::source_cooking },
-    { "SOURCE_DRINK", oter_flags::source_drink },
-    { "SOURCE_ELECTRONICS", oter_flags::source_electronics },
-    { "SOURCE_FABRICATION", oter_flags::source_fabrication },
-    { "SOURCE_FARMING", oter_flags::source_farming },
-    { "SOURCE_FOOD", oter_flags::source_food },
-    { "SOURCE_FORAGE", oter_flags::source_forage },
-    { "SOURCE_FUEL", oter_flags::source_fuel },
-    { "SOURCE_GUN", oter_flags::source_gun },
-    { "SOURCE_LUXURY", oter_flags::source_luxury },
-    { "SOURCE_MEDICINE", oter_flags::source_medicine },
-    { "SOURCE_PEOPLE", oter_flags::source_people },
-    { "SOURCE_SAFETY", oter_flags::source_safety },
-    { "SOURCE_TAILORING", oter_flags::source_tailoring },
-    { "SOURCE_VEHICLES", oter_flags::source_vehicles },
-    { "SOURCE_WEAPON", oter_flags::source_weapon }
-};
-
 template<typename Tripoint>
 struct pos_dir {
     Tripoint p;
