@@ -179,7 +179,7 @@
     "id": "santa_belt",
     "type": "ARMOR",
     "name": { "str": "broad belt" },
-    "description": "A broad, buckled leather belt, commonly used by bearded men in christmas.  Usually worn over a red jacket.",
+    "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
     "weight": "150 g",
     "volume": "350 ml",
     "price": 9000,
