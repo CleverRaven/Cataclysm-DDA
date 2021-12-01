@@ -577,13 +577,19 @@ float bodypart::skill_adjusted_limb_value( float val, int skill ) const
     return std::min( val, mitigated_score );
 }
 
-float bodypart::get_limb_score( const limb_score_id &score, int skill ) const
+float bodypart::get_limb_score( const limb_score_id &score, int skill, int override_encumb,
+                                int override_wounds ) const
 {
+    bool process_wounds = override_wounds == 1 || ( override_wounds == -1 &&
+                          score->affected_by_wounds() );
+    bool process_encumb = override_encumb == 1 || ( override_encumb == -1 &&
+                          score->affected_by_encumb() );
+
     float sc = id->get_limb_score( score );
-    if( score->affected_by_wounds() ) {
+    if( process_wounds ) {
         sc = wound_adjusted_limb_value( sc );
     }
-    if( score->affected_by_encumb() ) {
+    if( process_encumb ) {
         sc = encumb_adjusted_limb_value( sc );
     }
     if( skill >= 0 ) {

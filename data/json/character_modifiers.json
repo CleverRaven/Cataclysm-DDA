@@ -39,7 +39,7 @@
     "id": "melee_stamina_cost_mod",
     "description": "Melee stamina cost",
     "mod_type": "x",
-    "value": { "limb_score": "lift", "limb_type": "arm", "max": "max_move_cost", "nominator": 1.0 }
+    "value": { "limb_score": "lift", "limb_type": "arm", "override_encumb": true, "max": "max_move_cost", "nominator": 1.0 }
   },
   {
     "type": "character_mod",
@@ -92,10 +92,10 @@
   },
   {
     "type": "character_mod",
-    "id": "limb_balance_movecost_mod",
-    "description": "Balance movecost modifier",
+    "id": "limb_footing_movecost_mod",
+    "description": "Footing movecost modifier",
     "mod_type": "x",
-    "value": { "limb_score": "balance", "max": "max_move_cost", "nominator": 1.0 }
+    "value": { "limb_score": "footing", "max": "max_move_cost", "nominator": 1.0 }
   },
   {
     "type": "character_mod",

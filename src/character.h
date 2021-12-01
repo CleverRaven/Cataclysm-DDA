@@ -1151,8 +1151,10 @@ class Character : public Creature, public visitable
         bool is_deaf() const;
         bool is_mute() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
+        // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
         float get_limb_score( const limb_score_id &score,
-                              const body_part_type::type &bp = body_part_type::type::num_types ) const;
+                              const body_part_type::type &bp = body_part_type::type::num_types,
+                              int override_encumb = -1, int override_wounds = -1 ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"

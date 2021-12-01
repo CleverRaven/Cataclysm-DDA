@@ -4,7 +4,7 @@
 #include "move_mode.h"
 
 static const character_modifier_id
-character_modifier_limb_balance_movecost_mod( "limb_balance_movecost_mod" );
+character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );
 static const character_modifier_id
 character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
@@ -98,6 +98,16 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
     if( builtin.empty() ) {
         mandatory( jobj, was_loaded, "limb_score", limbscore );
         optional( jobj, was_loaded, "limb_type", limbtype, body_part_type::type::num_types );
+        if( jobj.has_member( "override_encumb" ) ) {
+            bool over;
+            mandatory( jobj, was_loaded, "override_encumb", over );
+            override_encumb = over ? 1 : 0;
+        }
+        if( jobj.has_member( "override_wounds" ) ) {
+            bool over;
+            mandatory( jobj, was_loaded, "override_wounds", over );
+            override_wounds = over ? 1 : 0;
+        }
         min_val = load_float_or_maxmovecost( jobj, "min" );
         max_val = load_float_or_maxmovecost( jobj, "max" );
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
@@ -135,7 +145,8 @@ static float manipulator_score( const std::map<bodypart_str_id, bodypart> body )
     }
 }
 
-float Character::get_limb_score( const limb_score_id &score, const body_part_type::type &bp ) const
+float Character::get_limb_score( const limb_score_id &score, const body_part_type::type &bp,
+                                 int override_encumb, int override_wounds ) const
 {
     int skill = -1;
     // manipulator/swim scores are treated a little special for now
@@ -147,7 +158,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         if( bp == body_part_type::type::num_types || id.first->limb_type == bp ) {
-            total += id.second.get_limb_score( score, skill );
+            total += id.second.get_limb_score( score, skill, override_encumb, override_wounds );
         }
     }
     return std::max( 0.0f, total );
@@ -186,8 +197,8 @@ static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 
 static float limb_run_cost_modifier( const Character &c, const skill_id & )
 {
-    return ( character_modifier_limb_balance_movecost_mod->modifier( c ) +
-             character_modifier_limb_speed_movecost_mod->modifier( c ) ) / 2.0f;
+    return ( character_modifier_limb_footing_movecost_mod->modifier( c ) +
+             character_modifier_limb_speed_movecost_mod->modifier( c ) * 2 ) / 3.0f;
 }
 
 static float call_builtin( const std::string &builtin, const Character &c, const skill_id &skill )
@@ -219,7 +230,7 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
         return call_builtin( builtin, c, skill );
     }
 
-    float score = c.get_limb_score( limbscore, limbtype );
+    float score = c.get_limb_score( limbscore, limbtype, override_encumb, override_wounds );
     // score == 0
     if( score < std::numeric_limits<float>::epsilon() ) {
         return min_val > std::numeric_limits<float>::epsilon() ? min_val :

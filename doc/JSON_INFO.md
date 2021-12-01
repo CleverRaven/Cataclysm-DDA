@@ -754,6 +754,8 @@ Character modifiers define how effective different behaviours are for actions th
 |------        |------------
 | `limb_score` | Refers to a `limb_score` id. This is the limb score from which this modifier is derived.
 | `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
+| `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
+| `override_wounds` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb health if true/false.(Overrides `affected_by_wounds` in `limb_score`)
 | `min`        | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
 | `max`        | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
 | `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / limb_score`.

@@ -436,7 +436,10 @@ class bodypart
         int get_encumbrance_threshold() const;
         int get_encumbrance_limit() const;
 
-        float get_limb_score( const limb_score_id &score, int skill = -1 ) const;
+        // Get modified limb score as defined in limb_scores.json.
+        // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
+        float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
+                              int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
 
         int get_hp_cur() const;

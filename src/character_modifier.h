@@ -68,6 +68,8 @@ struct character_modifier {
         float min_val = 0.0f;
         float nominator = 0.0f;
         float subtractor = 0.0f;
+        int override_encumb = -1;
+        int override_wounds = -1;
         std::string builtin;
         bool was_loaded = false;
         friend class generic_factory<character_modifier>;

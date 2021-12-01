@@ -137,13 +137,7 @@
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "limb_type": "arm",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "lift", 0.5 ],
-      [ "balance", 0.15 ],
-      [ "block", 1.0 ],
-      [ "swim", 0.1 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
     "side": "left",
     "legacy_id": "ARM_L",
     "hot_morale_mod": 0.5,
@@ -176,13 +170,7 @@
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "limb_type": "arm",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "lift", 0.5 ],
-      [ "balance", 0.15 ],
-      [ "block", 1.0 ],
-      [ "swim", 0.1 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.15 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
     "side": "right",
     "legacy_id": "ARM_R",
     "hot_morale_mod": 0.5,
@@ -339,11 +327,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "limb_type": "foot",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "footing", 0.5 ],
-      [ "swim", 0.1 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
     "side": "left",
     "legacy_id": "FOOT_L",
     "stylish_bonus": 0.5,
@@ -373,11 +357,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "limb_type": "foot",
-    "limb_scores": [
-      [ "manip", 0.1, 0.2 ],
-      [ "footing", 0.5 ],
-      [ "swim", 0.1 ]
-    ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
     "side": "right",
     "legacy_id": "FOOT_R",
     "stylish_bonus": 0.5,
