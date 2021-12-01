@@ -11412,6 +11412,7 @@
       [ "crafting", "normal" ],
       [ "environment", "normal" ],
       [ "social", "normal" ]
+    ]
   },
   {
     "type": "mutation",
