@@ -813,8 +813,7 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
             point bolt = p.xy();
             for( int n = 0; n < dist; n++ ) {
                 bolt += dir;
-                pd.here.add_field( tripoint( bolt, p.z ), pd.here.get_applicable_electricity_field( p ), rng( 2,
-                                   3 ) );
+                pd.here.add_field( tripoint( bolt, p.z ), fd_electricity, rng( 2, 3 ) );
                 if( one_in( 4 ) ) {
                     if( dir.x == 0 ) {
                         dir.x = rng( 0, 1 ) * 2 - 1;

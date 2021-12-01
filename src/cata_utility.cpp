@@ -664,7 +664,7 @@ holiday get_holiday_from_time( std::time_t time, bool force_refresh )
 
 int bucket_index_from_weight_list( const std::vector<int> &weights )
 {
-    auto total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
     if( total_weight < 1 ) {
         return 0;
     }

@@ -1589,7 +1589,7 @@
     "half_life": "4 turns",
     "phase": "plasma",
     "display_items": false,
-    "display_field": true,
+    "display_field": false,
     "looks_like": "fd_electricity"
   }
 ]
