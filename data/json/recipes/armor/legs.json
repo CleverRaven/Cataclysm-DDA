@@ -385,7 +385,13 @@
     "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ], [ "steel_tiny", 12 ] ],
+    "using": [
+      [ "forging_standard", 6 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 12 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_armorsmithing" },
@@ -397,7 +403,13 @@
     "type": "recipe",
     "copy-from": "legguard_metal",
     "time": "9 h",
-    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ], [ "steel_tiny", 16 ] ]
+    "using": [
+      [ "forging_standard", 8 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 16 ]
+    ]
   },
   {
     "result": "legguard_paper",
