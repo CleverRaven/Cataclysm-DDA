@@ -2206,7 +2206,7 @@ float monster::dodge_roll() const
 bool monster::can_attack_high() const
 {
     if( type->size < creature_size::medium && !has_flag( MF_FLIES ) && !has_flag( MF_ATTACK_UPPER ) ) {
-        return;
+        return false;
     } else {
         return true;
     }
