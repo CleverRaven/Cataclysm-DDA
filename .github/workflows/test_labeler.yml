@@ -31,7 +31,7 @@ jobs:
         name: basic-build
     - name: set-basic-build-success
       id: set-basic-build-success
-      run: echo "::set-output name=basic-build-success::$( cat basic_build_success )"
+      run: echo "::set-output name=basic-build-success::$( cat basic-build )"
     - name: Download pr id artifact
       uses: dawidd6/action-download-artifact@v2
       with:
