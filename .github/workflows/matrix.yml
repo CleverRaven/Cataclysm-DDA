@@ -70,6 +70,7 @@ jobs:
             gold: 1
             lto: 1
             native: linux64
+            archive-success: basic-build
             title: Basic Build and Test (GCC 9, Curses, LTO)
 
           - compiler: clang++-12
@@ -161,6 +162,7 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
+        ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
@@ -221,11 +223,20 @@ jobs:
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
-    - run: echo ${{ github.event.number }} > pull_request_id
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo ${{ success() }} > ${{ env.ARCHIVE_SUCCESS }}
+      if: env.ARCHIVE_SUCCESS
     - uses: actions/upload-artifact@v2
+      if: env.ARCHIVE_SUCCESS
       with:
         name: pull_request_id
         path: pull_request_id
+    - uses: actions/upload-artifact@v2
+      if: env.ARCHIVE_SUCCESS
+      with:
+        name: ${{ env.ARCHIVE_SUCCESS }}
+        path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()
