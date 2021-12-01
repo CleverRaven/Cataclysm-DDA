@@ -5792,7 +5792,7 @@ void Character::burn_move_stamina( int moves )
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
-        burn_ratio += 100 / std::pow( 1.5, get_skill_level( skill_swimming ) );
+        burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
     burn_ratio *= move_mode->stamina_mult();
