@@ -1209,8 +1209,6 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
-        int hitsize_min = -1;
-        int hitsize_max = -1;
 
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;

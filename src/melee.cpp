@@ -360,8 +360,8 @@ float Character::hit_roll() const
 
 bool Character::can_attack_high() const
 {
-    if( is_prone() ) {
-        return false;
+    if( is_on_ground() ) {
+        return;
     } else {
         return true;
     }
