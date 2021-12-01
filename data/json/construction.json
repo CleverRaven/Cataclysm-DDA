@@ -4093,7 +4093,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
-    "post_terrain": "t_metal_grate_window"
+    "post_terrain": "t_metal_grate_window_noglass"
   },
   {
     "type": "construction",
@@ -4118,8 +4118,8 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
-    "pre_terrain": "t_metal_grate_window",
-    "post_terrain": "t_metal_grate_window_with_curtain"
+    "pre_terrain": "t_metal_grate_window_noglass",
+    "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
   {
     "type": "construction",
