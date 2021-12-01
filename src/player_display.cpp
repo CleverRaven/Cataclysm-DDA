@@ -225,8 +225,14 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
     std::vector<std::string> s;
     const bodypart *part = you.get_part( bp );
     if( !bp->encumb_text.empty() ) {
-        s.emplace_back( colorize( string_format( _( "Encumberance effects: %s" ), bp->encumb_text ),
+        s.emplace_back( colorize( string_format( _( "Encumbrance effects: %s" ), bp->encumb_text ),
                                   c_magenta ) );
+    }
+    if( bp->encumb_impacts_dodge && you.is_avatar() ) {
+        int dodge = get_avatar().limb_dodge_encumbrance();
+        nc_color dodge_c = dodge > 10 ? c_light_red : dodge > 5 ? c_yellow : c_white;
+        std::string dodge_str = colorize( string_format( "-%d", dodge ), dodge_c );
+        s.emplace_back( string_format( _( "Encumbrance dodge modifier: %s" ), dodge_str ) );
     }
     for( const limb_score &sc : limb_score::get_all() ) {
         if( !bp->has_limb_score( sc.getId() ) ) {

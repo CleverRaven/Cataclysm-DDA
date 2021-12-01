@@ -301,6 +301,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
+    optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
 
     // tokens are actually legacy code that should be on their way out.
     if( !was_loaded ) {

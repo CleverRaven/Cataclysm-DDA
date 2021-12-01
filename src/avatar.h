@@ -201,6 +201,9 @@ class avatar : public Character
         void identify( const item &item ) override;
         void clear_identified();
 
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
@@ -335,9 +338,6 @@ class avatar : public Character
 
         bool mood_face_horizontal = false;
         cata::optional<mood_face_id> mood_face_cache;
-
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

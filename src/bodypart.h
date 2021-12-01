@@ -215,6 +215,9 @@ struct body_part_type {
         // Limit of encumbrance, after reaching this point the limb contributes no scores
         int encumbrance_limit = 0;
 
+        // If true, extra encumbrance on this limb affects dodge effectiveness
+        bool encumb_impacts_dodge = false;
+
         float smash_efficiency = 0.5f;
 
         //Morale parameters
