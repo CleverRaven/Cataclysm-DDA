@@ -4059,7 +4059,7 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
     uilist prompt;
-    prompt.text = _( "Remove which modification?" );
+    prompt.text = _( "Remove which accessory?" );
 
     for( size_t i = 0; i != items_attached.size(); ++i ) {
         prompt.addentry( i, true, -1, items_attached[i]->tname() );
