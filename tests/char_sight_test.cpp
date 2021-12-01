@@ -13,6 +13,12 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_darkness( "darkness" );
+
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+
 // Tests of Character vision and sight
 //
 // Functions tested:
@@ -52,12 +58,12 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 
     SECTION( "full daylight" ) {
         // Set clock to noon
-        calendar::turn = calendar::turn_zero + 12_hours;
+        calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
         // Build map cache including lightmap
         here.build_map_cache( 0, false );
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-        // ambient_light_at is 100.0 in full sun (this fails if lightmap cache is not built)
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ) );
+        // ambient_light_at is ~100.0 at this time of day (this fails if lightmap cache is not built)
+        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ).margin( 1 ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
@@ -135,8 +141,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "boomered" ) {
-        dummy.add_effect( efftype_id( "boomered" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
+        dummy.add_effect( effect_boomered, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_boomered ) );
 
         THEN( "impaired sight, with 1 tile of range" ) {
             dummy.recalc_sight_limits();
@@ -146,8 +152,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "nearsighted" ) {
-        dummy.toggle_trait( trait_id( "MYOPIC" ) );
-        REQUIRE( dummy.has_trait( trait_id( "MYOPIC" ) ) );
+        dummy.toggle_trait( trait_MYOPIC );
+        REQUIRE( dummy.has_trait( trait_MYOPIC ) );
 
         WHEN( "without glasses" ) {
             dummy.worn.clear();
@@ -173,8 +179,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     GIVEN( "darkness effect" ) {
-        dummy.add_effect( efftype_id( "darkness" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "darkness" ) ) );
+        dummy.add_effect( effect_darkness, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_darkness ) );
 
         THEN( "impaired sight, with 10 tiles of range" ) {
             dummy.recalc_sight_limits();
@@ -210,8 +216,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
     float light_here = 0.0f;
 
     GIVEN( "character with ursine eyes and no eyeglasses" ) {
-        dummy.toggle_trait( trait_id( "URSINE_EYE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "URSINE_EYE" ) ) );
+        dummy.toggle_trait( trait_URSINE_EYE );
+        REQUIRE( dummy.has_trait( trait_URSINE_EYE ) );
 
         dummy.worn.clear();
         REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
@@ -236,11 +242,11 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_DIM ).margin( 1.0f ) );
 
-            THEN( "unimpaired sight, with 10 tiles of range" ) {
+            THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 10 );
+                CHECK( dummy.sight_range( light_here ) == 8 );
             }
         }
 
@@ -248,22 +254,22 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero + 14_days;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( LIGHT_AMBIENT_LIT ) );
+            REQUIRE( light_here == Approx( 7 ) );
 
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 27 );
+                CHECK( dummy.sight_range( light_here ) == 18 );
             }
         }
 
         WHEN( "under the noonday sun" ) {
-            calendar::turn = calendar::turn_zero + 12_hours;
+            calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-            REQUIRE( light_here == Approx( 100.0f ) );
+            REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
 
             THEN( "impaired sight, with 4 tiles of range" ) {
                 dummy.recalc_sight_limits();

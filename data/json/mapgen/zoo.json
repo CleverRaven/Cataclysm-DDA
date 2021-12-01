@@ -2,29 +2,17 @@
   {
     "name": "GROUP_BEARS",
     "type": "monstergroup",
-    "default": "mon_bear",
-    "monsters": [
-      { "monster": "mon_bear", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombear", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_bear", "weight": 950 }, { "monster": "mon_zombear", "weight": 50 } ]
   },
   {
     "name": "GROUP_MOOSE",
     "type": "monstergroup",
-    "default": "mon_moose",
-    "monsters": [
-      { "monster": "mon_moose", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zoose", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_moose", "weight": 950 }, { "monster": "mon_zoose", "weight": 50 } ]
   },
   {
     "name": "GROUP_PIGS",
     "type": "monstergroup",
-    "default": "mon_pig",
-    "monsters": [
-      { "monster": "mon_pig", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_pig", "freq": 50, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_pig", "weight": 950 }, { "monster": "mon_zombie_pig", "weight": 50 } ]
   },
   {
     "method": "json",
@@ -358,7 +346,7 @@
       ],
       "place_monster": [
         { "monster": "mon_bobcat", "x": 8, "y": 5 },
-        { "monster": "mon_spider_jumping", "x": 18, "y": 9 },
+        { "monster": "mon_spider_jumping_small", "x": 18, "y": 9 },
         { "monster": "mon_bat", "x": 18, "y": 12 },
         { "monster": "mon_opossum", "x": 9, "y": 13 },
         { "monster": "mon_opossum", "x": 8, "y": 16 },
@@ -466,8 +454,8 @@
         "ffffff|fffC|...bcc__dd_|",
         "ffff|fffffS|...bddddd_d|",
         "|ww|||||||||...|||||||||",
-        ".._e|sd__c_b...wsssdff||",
-        ".._d|s7d_+_+...wWWs_c+||",
+        ".._e|sd__c_b...wWssdff||",
+        ".._d|s7d_+_+...wWss_c+||",
         ".._D|_d__ggb...wWssdcf||",
         ".._d|______b...wsssdc+||",
         "..__|bbbbbb|...|www||.||",
@@ -488,7 +476,7 @@
         "7": "t_tree_dead",
         "B": "t_dirt",
         "D": "t_dirt",
-        "W": "t_water_sh",
+        "W": "t_water_pool_outdoors",
         "_": "t_grass",
         "a": "t_door_c",
         "b": "t_bars",
@@ -498,7 +486,7 @@
         "f": "t_floor",
         "g": "t_chainfence_h",
         "h": "t_dirt",
-        "s": "t_swater_sh",
+        "s": "t_water_pool_shallow_outdoors",
         "t": "t_sidewalk",
         "u": "t_underbrush",
         "w": "t_reinforced_glass",
@@ -573,8 +561,8 @@
         "ffffff|fffC|...bcc__dd_|",
         "ffff|fffffS|...bddddd_d|",
         "|ww|||||||||...|||||||||",
-        ".._e|sd__c_b...wsssdff||",
-        ".._d|s7d_+_+...wWWs_c+||",
+        ".._e|sd__c_b...wWssdff||",
+        ".._d|s7d_+_+...wWss_c+||",
         ".._D|_d__ggb...wWssdcf||",
         ".._d|______b...wsssdc+||",
         "..__|bb_bbb|...|www||.||",
@@ -594,7 +582,7 @@
         "7": "t_tree_dead",
         "B": "t_dirt",
         "D": "t_dirt",
-        "W": "t_water_sh",
+        "W": "t_water_pool_outdoors",
         "_": "t_grass",
         "a": "t_door_c",
         "b": "t_bars",
@@ -604,7 +592,7 @@
         "f": "t_floor",
         "g": "t_chainfence_h",
         "h": "t_dirt",
-        "s": "t_swater_sh",
+        "s": "t_water_pool_shallow_outdoors",
         "t": "t_sidewalk",
         "u": "t_underbrush",
         "w": "t_reinforced_glass",

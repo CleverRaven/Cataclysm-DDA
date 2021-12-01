@@ -61,7 +61,7 @@
         [ "mustard_powder", 7 ]
       ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
-      [ [ "bread_sandwich", 1, "LIST" ] ]
+      [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ]
     ]
   }
 ]

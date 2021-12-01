@@ -11,6 +11,10 @@
 #include "type_id.h"
 #include "units.h"
 
+static const itype_id itype_crowbar( "crowbar" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_purse( "purse" );
+
 TEST_CASE( "item_contents" )
 {
     item tool_belt( "test_tool_belt" );
@@ -60,19 +64,19 @@ TEST_CASE( "item_contents" )
     // check that individual (not including contained items) weight is correct
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
     // check that the tool belt is "full"
-    CHECK( !tool_belt.contents.can_contain( crowbar ).success() );
+    CHECK( !tool_belt.can_contain( crowbar ).success() );
 
-    tool_belt.contents.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
+    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
-    tool_belt.contents.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
-    tool_belt.contents.overflow( tripoint_zero );
+    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
+    tool_belt.overflow( tripoint_zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.contents.overflow( tripoint_zero );
+    tool_belt.overflow( tripoint_zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
-    tool_belt.contents.remove_items_if( []( item & it ) {
-        return it.typeId() == itype_id( "crowbar" );
+    tool_belt.remove_items_with( []( const item & it ) {
+        return it.typeId() == itype_crowbar;
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
@@ -83,27 +87,27 @@ TEST_CASE( "item_contents" )
 TEST_CASE( "overflow on combine", "[item]" )
 {
     tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
+    item purse( itype_purse );
+    item log( itype_log );
     item_contents overfull_contents( purse.type->pockets );
     overfull_contents.force_insert_item( log, item_pocket::pocket_type::CONTAINER );
     capture_debugmsg_during( [&purse, &overfull_contents]() {
-        purse.contents.combine( overfull_contents );
+        purse.combine( overfull_contents );
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.contents.overflow( origin );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
 TEST_CASE( "overflow test", "[item]" )
 {
     tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
-    purse.contents.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
+    item purse( itype_purse );
+    item log( itype_log );
+    purse.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
     map &here = get_map();
     here.i_clear( origin );
-    purse.contents.overflow( origin );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }

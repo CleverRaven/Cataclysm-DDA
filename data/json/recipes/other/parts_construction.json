@@ -11,7 +11,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -20,6 +19,7 @@
     "result": "wood_beam",
     "id_suffix": "from logs",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 h",
@@ -36,6 +36,7 @@
     "result": "wood_beam",
     "id_suffix": "with_planer",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 m",
@@ -50,6 +51,7 @@
     "result": "wood_panel",
     "id_suffix": "from wooden beams",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
@@ -64,6 +66,7 @@
     "result": "wood_panel",
     "id_suffix": "from wooden sheets",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
@@ -77,6 +80,7 @@
     "result": "wood_panel",
     "id_suffix": "from nailed planks",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
@@ -90,6 +94,7 @@
     "result": "2x4",
     "id_suffix": "from wooden beams",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
@@ -104,6 +109,7 @@
     "result": "2x4",
     "id_suffix": "with_power_saw",
     "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "10 m",
@@ -149,7 +155,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -164,7 +169,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -178,7 +182,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -283,7 +287,6 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -296,7 +299,7 @@
     "difficulty": 5,
     "time": "1 h 30 m",
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 8, "LIST" ] ] ]

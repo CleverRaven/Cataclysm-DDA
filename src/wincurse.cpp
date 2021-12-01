@@ -1,6 +1,7 @@
 #if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
 #ifndef CMAKE
+#pragma GCC diagnostic ignored "-Wunused-macros"
 #define _UNICODE 1
 #endif
 #include "cursesport.h" // IWYU pragma: associated
@@ -662,6 +663,19 @@ static uint64_t GetPerfCount()
     uint64_t Count;
     QueryPerformanceCounter( reinterpret_cast<PLARGE_INTEGER>( &Count ) );
     return Count;
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
 }
 
 // we can probably add support for keycode mode, but wincurse is deprecated

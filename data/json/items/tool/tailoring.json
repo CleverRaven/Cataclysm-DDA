@@ -78,7 +78,6 @@
     "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 2 ] ],
     "use_action": {
@@ -107,7 +106,6 @@
     "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW_CURVED", 1 ] ],
     "use_action": {
@@ -136,7 +134,6 @@
     "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
-    "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 1 ] ],
     "use_action": {
@@ -271,8 +268,6 @@
     "color": "red",
     "ammo": [ "thread" ],
     "sub": "sewing_kit",
-    "initial_charges": 50,
-    "max_charges": 400,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 400 } } ],

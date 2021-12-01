@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_CUBOID_RECTANGLE_H
 #define CATA_SRC_CUBOID_RECTANGLE_H
 
+#include "cata_utility.h"
 #include "point.h"
 #include "point_traits.h"
 
@@ -63,27 +64,6 @@ struct inclusive_rectangle : rectangle<Point> {
     }
 };
 
-// Clamp p to the rectangle r.
-// This independently clamps each coordinate of p to the bounds of the
-// rectangle.
-// Useful for example to round an arbitrary point to the nearest point on the
-// screen, or the nearest point in a particular submap.
-template<typename Point>
-Point clamp( const Point &p, const half_open_rectangle<Point> &r )
-{
-    using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
-}
-
-template<typename Point>
-Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
-{
-    using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
-}
-
 template<typename Tripoint, decltype( std::declval<decltype( Tripoint::dimension )>(), int() ) = 0>
 struct cuboid {
     static_assert( Tripoint::dimension == 3,
@@ -134,6 +114,45 @@ struct inclusive_cuboid : cuboid<Tripoint> {
                Traits::z( p ) >= Traits::z( p_min ) && Traits::z( p ) <= Traits::z( p_max );
     }
 };
+
+// Clamp p to the rectangle r.
+// This independently clamps each coordinate of p to the bounds of the
+// rectangle.
+// Useful for example to round an arbitrary point to the nearest point on the
+// screen, or the nearest point in a particular submap.
+template<typename Point>
+Point clamp( const Point &p, const half_open_rectangle<Point> &r )
+{
+    using Traits = point_traits<Point>;
+    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
+                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
+}
+
+template<typename Point>
+Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
+{
+    using Traits = point_traits<Point>;
+    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
+                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
+}
+
+template<typename Tripoint>
+Tripoint clamp( const Tripoint &p, const half_open_cuboid<Tripoint> &c )
+{
+    using Traits = point_traits<Tripoint>;
+    return Tripoint( clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) - 1 ),
+                     clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) - 1 ),
+                     clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) - 1 ) );
+}
+
+template<typename Tripoint>
+Tripoint clamp( const Tripoint &p, const inclusive_cuboid<Tripoint> &c )
+{
+    using Traits = point_traits<Tripoint>;
+    return Tripoint( clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) ),
+                     clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) ),
+                     clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) ) );
+}
 
 static constexpr rectangle<point> rectangle_zero( point_zero, point_zero );
 static constexpr cuboid<tripoint> cuboid_zero( tripoint_zero, tripoint_zero );

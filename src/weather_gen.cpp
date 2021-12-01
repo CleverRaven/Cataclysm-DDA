@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
-#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
@@ -179,13 +178,18 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
     return wt;
 }
 
-weather_type_id weather_generator::get_weather_conditions( const w_point & ) const
+weather_type_id weather_generator::get_weather_conditions( const w_point &w ) const
 {
+    // We're being asked for the weather condition given a set of parameters (humidity, pressure, etc),
+    // but the dialogue condition system which drives that logic has no way for us to provide them
+    // directly; it can only reference the current game state. Until it's overhauled, we'll just hack
+    // the current game state while checking the conditions.
+    const weather_manager &game_weather = get_weather_const();
+    w_point original_weather_precise = *game_weather.weather_precise;
+    *game_weather.weather_precise = w;
+
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const std::string &weather_type : weather_types ) {
         weather_type_id type = weather_type_id( weather_type );
 
@@ -204,6 +208,9 @@ weather_type_id weather_generator::get_weather_conditions( const w_point & ) con
             continue;
         }
     }
+
+    // Cleanup our conditional hack.
+    *game_weather.weather_precise = original_weather_precise;
     return current_conditions;
 }
 
@@ -270,7 +277,6 @@ void weather_generator::test_weather( unsigned seed ) const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    w_point weatherPoint = *g->weather.weather_precise;
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
@@ -281,7 +287,6 @@ void weather_generator::test_weather( unsigned seed ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w );
-            *g->weather.weather_precise = w;
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -300,7 +305,6 @@ void weather_generator::test_weather( unsigned seed ) const
         }
 
     }, "weather test file" );
-    *g->weather.weather_precise = weatherPoint;
 }
 
 weather_generator weather_generator::load( const JsonObject &jo )

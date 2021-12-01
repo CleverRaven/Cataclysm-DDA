@@ -38,7 +38,8 @@
       "place_items": [
         { "item": "guns_rifle_common", "chance": 70, "x": [ 20, 21 ], "y": 20 },
         { "item": "tools_hunting", "chance": 80, "x": [ 18, 19 ], "y": 20 },
-        { "item": "book_mag_surv", "chance": 80, "x": 22, "y": [ 8, 10 ] }
+        { "item": "book_mag_surv", "chance": 80, "x": 22, "y": [ 8, 10 ] },
+        { "item": "office_DinoLab", "chance": 80, "x": [ 19, 21 ], "y": 9 }
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 2, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },
@@ -100,7 +101,8 @@
       "place_items": [
         { "item": "guns_rifle_common", "chance": 70, "x": [ 20, 21 ], "y": 20 },
         { "item": "tools_hunting", "chance": 80, "x": [ 18, 19 ], "y": 20 },
-        { "item": "book_mag_surv", "chance": 80, "x": 22, "y": [ 9, 10 ] }
+        { "item": "book_mag_surv", "chance": 80, "x": 22, "y": [ 9, 10 ] },
+        { "item": "office_DinoLab", "chance": 80, "x": [ 19, 21 ], "y": 9 }
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_HARMLESS_HATCHLING", "chance": 2, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },

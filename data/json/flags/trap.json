@@ -1,12 +1,10 @@
 [
   {
     "type": "json_flag",
-    "id": "SONAR_DETECTABLE",
-    "context": [  ]
+    "id": "SONAR_DETECTABLE"
   },
   {
     "type": "json_flag",
-    "id": "CONVECTS_TEMPERATURE",
-    "context": [  ]
+    "id": "CONVECTS_TEMPERATURE"
   }
 ]

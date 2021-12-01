@@ -23,7 +23,8 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CPPFLAGS += -I../src -isystem ../src/third-party
+CXXFLAGS += -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
 ifndef PCH
@@ -54,7 +55,7 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)

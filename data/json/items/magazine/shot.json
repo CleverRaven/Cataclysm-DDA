@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Saiga shotgun 10-round magazine" },
     "description": "A removable plastic magazine for the Saiga shotgun.  Holds 10 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "saiga10mag",
@@ -30,6 +31,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Saiga shotgun 30-round drum magazine" },
     "description": "A removable plastic magazine for the Saiga shotgun.  Holds 30 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "saiga30mag",
@@ -64,7 +66,17 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 2,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_upper" ]
+        }
+      ]
+    },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },

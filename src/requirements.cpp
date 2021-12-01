@@ -25,6 +25,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "output.h"
 #include "point.h"
@@ -33,6 +34,7 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );
 static const itype_id itype_fire( "fire" );
@@ -41,13 +43,25 @@ static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
+static const quality_id qual_CUT( "CUT" );
+static const quality_id qual_GLARE( "GLARE" );
+static const quality_id qual_KNIT( "KNIT" );
+static const quality_id qual_PULL( "PULL" );
+static const quality_id qual_SAW_M_FINE( "SAW_M_FINE" );
+static const quality_id qual_SEW( "SEW" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
+
 static std::map<requirement_id, requirement_data> requirements_all;
+
+static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
+static bool a_satisfies_b( const std::vector<quality_requirement> &a,
+                           const std::vector<quality_requirement> &b );
+
 
 /** @relates string_id */
 template<>
@@ -123,16 +137,16 @@ bool string_id<quality>::is_valid() const
 std::string quality_requirement::to_string( const int, const int ) const
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
-    return string_format( ngettext( "%1$d tool with %2$s of %3$d or more.",
-                                    "%1$d tools with %2$s of %3$d or more.", count ),
+    return string_format( n_gettext( "%1$d tool with %2$s of %3$d or more.",
+                                     "%1$d tools with %2$s of %3$d or more.", count ),
                           count, type.obj().name, level );
 }
 
 std::string quality_requirement::to_colored_string() const
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
-    return string_format( ngettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
-                                    "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
+    return string_format( n_gettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
+                                     "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
                           count, type.obj().name, level );
 }
 
@@ -318,18 +332,75 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     return res;
 }
 
+static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b )
+{
+    return a.type == b.type && a.level >= b.level
+           && a.requirement == b.requirement && a.count == b.count;
+}
+
+static bool a_satisfies_b( const std::vector<quality_requirement> &a,
+                           const std::vector<quality_requirement> &b )
+{
+    // every b_x is satisfied by some a_x
+    for( const quality_requirement &b_x : b ) {
+        bool satisfied = false;
+        for( const quality_requirement &a_x : a ) {
+            if( a_satisfies_b( a_x, b_x ) ) {
+                satisfied = true;
+                break;
+            }
+        }
+        if( !satisfied ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 requirement_data requirement_data::operator+( const requirement_data &rhs ) const
 {
     requirement_data res = *this;
 
     res.components.insert( res.components.end(), rhs.components.begin(), rhs.components.end() );
     res.tools.insert( res.tools.end(), rhs.tools.begin(), rhs.tools.end() );
-    res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
+    /*
+    TODO: what is / isn't implemented:
+    I will represent type by letter and level by number, always true: count = 1 && requirement = false
+    A1 then has type A with level 1, (count = 1, requirement = false)
+    X) [implemented ? "x" else " "] What's required -> How should it be displayed
+    1) [x] A1 && A1 -> A1
+    2) [x] A1 && A2 -> A2
+    3) [x] (A1 || B1) && A1 -> A1
+    4) [ ] A1 || A2 -> A1
+    5) [ ] (A1 || B1) && A2 -> A2
+    6) [ ] (A1 || B1 || C1) || (A1 || B1) -> A1 || B1 || C1
+    Note: (1) covers most cases, (2) probably the rest, (3..6) probably isn't anywhere?
+
+    It all takes O(n^2), but that's acceptable since n is very small.
+    @Brambor
+    */
+    for( const std::vector<quality_requirement> &new_quality : rhs.qualities ) {
+        bool add = true;
+        for( std::vector<quality_requirement> &old_quality : res.qualities ) {
+            if( a_satisfies_b( new_quality, old_quality ) ) {
+                add = false;
+                old_quality = new_quality;
+                break;
+            } else if( a_satisfies_b( old_quality, new_quality ) ) {
+                add = false;
+                break;
+            }
+        }
+        if( add ) {
+            res.qualities.emplace_back( new_quality );
+        }
+    }
 
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // TODO: deduplicate qualities and combine other requirements
+    // TODO: combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -1046,14 +1117,14 @@ requirement_data requirement_data::disassembly_requirements() const
             // If crafting required a welder or forge then disassembly requires metal sawing
             if( type == itype_welder || type == itype_welder_crude || type == itype_oxy_torch ||
                 type == itype_forge || type == itype_char_forge ) {
-                new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
+                new_qualities.emplace_back( qual_SAW_M_FINE, 1, 1 );
                 replaced = true;
                 break;
             }
             //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
             if( type == itype_sewing_kit ||
                 type == itype_mold_plastic ) {
-                new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
+                new_qualities.emplace_back( qual_CUT, 1, 1 );
                 replaced = true;
                 break;
             }
@@ -1066,7 +1137,7 @@ requirement_data requirement_data::disassembly_requirements() const
             if( type == itype_press ) {
                 replaced = true;
                 remove_fire = true;
-                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
+                new_qualities.emplace_back( qual_PULL, 1, 1 );
                 break;
             }
             if( type == itype_fire && remove_fire ) {
@@ -1093,19 +1164,19 @@ requirement_data requirement_data::disassembly_requirements() const
         for( auto &it : ret.qualities ) {
             bool replaced = false;
             for( const auto &quality : it ) {
-                if( quality.type == quality_id( "SEW" ) ) {
+                if( quality.type == qual_SEW ) {
                     replaced = true;
-                    new_qualities.emplace_back( quality_id( "CUT" ), 1, quality.level );
+                    new_qualities.emplace_back( qual_CUT, 1, quality.level );
                     break;
                 }
-                if( quality.type == quality_id( "GLARE" ) ) {
+                if( quality.type == qual_GLARE ) {
                     replaced = true;
                     //Just remove the glare protection requirement from deconstruction
                     //This only happens in case of a reversible recipe, an explicit
                     //deconstruction recipe can still specify glare protection
                     break;
                 }
-                if( quality.type == quality_id( "KNIT" ) ) {
+                if( quality.type == qual_KNIT ) {
                     replaced = true;
                     //Ditto for knitting needles
                     break;

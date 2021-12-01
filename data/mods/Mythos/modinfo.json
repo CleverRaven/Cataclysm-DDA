@@ -1,0 +1,30 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Mythos",
+    "name": "[WIP] Mythos Mod - No Zombies",
+    "authors": [ "mythosmod" ],
+    "description": "Removes all the zombies (including fungus zombies), cyborgs and robots from the game - a very work-in-progress start to a more Lovecraftian-focused version of Cataclysm set in the 1920s, with 99.9% of the population mysteriously disappearing at midnight of day 0.  Players will take on the roles of investigators in a variety of professions battling the denizens of the shadows to recover and rebuild society.",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "version": "0.1"
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_zombie_fungus",
+      "mon_boomer_fungus",
+      "mon_zombie_child_fungus",
+      "mon_zombie_gasbag_fungus",
+      "mon_zombie_smoker_fungus",
+      "mon_skeleton_fungus",
+      "mon_skeleton_brute_fungus",
+      "mon_skeleton_hulk_fungus",
+      "mon_chud"
+    ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "ZOMBIE", "ROBOT", "CYBORG" ]
+  }
+]

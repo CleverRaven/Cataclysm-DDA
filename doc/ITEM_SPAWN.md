@@ -105,7 +105,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
-`variant`: A valid gun variant id for this item.
+`variant`: A valid itype variant id for this item.
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```json

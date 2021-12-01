@@ -1,89 +1,95 @@
 #include "activity_tracker.h"
 
+#include "cata_assert.h"
 #include "game_constants.h"
 #include "options.h"
 #include "string_formatter.h"
 
 #include <cmath>
-#include <limits>
 
 int activity_tracker::weariness() const
 {
     if( intake > tracker ) {
-        return tracker * 0.5;
+        return tracker / 2000;
     }
-    return tracker - intake * 0.5;
+    return ( tracker - intake * 0.5 ) / 1000;
 }
 
 // Called every 5 minutes, when activity level is logged
-void activity_tracker::try_reduce_weariness( int bmr, bool sleeping )
+void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod )
 {
-    tick_counter++;
-    if( average_activity() - NO_EXERCISE <= std::numeric_limits<float>::epsilon() ) {
-        low_activity_ticks++;
-        // Recover twice as fast at rest
-        if( sleeping ) {
-            low_activity_ticks++;
+    if( average_activity() < LIGHT_EXERCISE ) {
+        cata_assert( fatigue_mod > 0.0f );
+        low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
+                                                ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / fatigue_mod;
+        // Recover (by default) twice as fast while sleeping
+        if( average_activity() < NO_EXERCISE ) {
+            low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) /
+                                    ( NO_EXERCISE - SLEEP_EXERCISE ) ) * fatigue_regen_mod;
         }
     }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
+    const int bmr_cal = bmr * 1000;
 
-    if( low_activity_ticks >= 1 ) {
+    if( low_activity_ticks >= 1.0f ) {
         int reduction = tracker;
         // 1/120 of whichever's bigger
-        if( bmr > reduction ) {
-            reduction = std::floor( bmr * recovery_mult * low_activity_ticks / 6.0f );
+        if( bmr_cal > reduction ) {
+            reduction = std::floor( bmr_cal * recovery_mult * low_activity_ticks / 6.0f );
         } else {
             reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
         }
-        low_activity_ticks = 0;
+        low_activity_ticks = 0.0f;
 
         tracker -= std::max( reduction, 1 );
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
-    if( tick_counter >= 3 ) {
-        intake *= std::pow( 1 - recovery_mult, 0.25f );
-        tick_counter -= 3;
-    }
+    intake *= std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) );
 
     // Normalize values, make sure we stay above 0
     intake = std::max( intake, 0 );
     tracker = std::max( tracker, 0 );
-    tick_counter = std::max( tick_counter, 0 );
-    low_activity_ticks = std::max( low_activity_ticks, 0 );
+    low_activity_ticks = std::max( low_activity_ticks, 0.0f );
 }
 
 void activity_tracker::weary_clear()
 {
     tracker = 0;
     intake = 0;
-    low_activity_ticks = 0;
-    tick_counter = 0;
+    low_activity_ticks = 0.0f;
+}
+
+void activity_tracker::set_intake( int ncal )
+{
+    intake = ncal;
 }
 
 std::string activity_tracker::debug_weary_info() const
 {
-    return string_format( "Intake: %d Tracker: %d", intake, tracker );
+    return string_format( "Intake: %.1f Tracker: %.1f", intake / 1000.0f, tracker / 1000.0f );
 }
 
-void activity_tracker::calorie_adjust( int nkcal )
+void activity_tracker::calorie_adjust( int ncal )
 {
-    if( nkcal > 0 ) {
-        intake += nkcal;
+    if( ncal > 0 ) {
+        intake += ncal;
     } else {
-        // nkcal is negative, we need positive
-        tracker -= nkcal;
+        // ncal is negative, we need positive
+        tracker -= ncal;
     }
 }
 
-float activity_tracker::activity() const
+float activity_tracker::activity( bool sleeping ) const
 {
     if( current_turn == calendar::turn ) {
         return current_activity;
+    } else if( sleeping ) {
+        return SLEEP_EXERCISE;
+    } else {
+        return NO_EXERCISE;
     }
-    return 1.0f;
 }
 
 float activity_tracker::average_activity() const
@@ -112,12 +118,14 @@ void activity_tracker::log_activity( float new_level )
     current_turn = calendar::turn;
 }
 
-void activity_tracker::new_turn()
+void activity_tracker::new_turn( bool sleeping )
 {
+    float base_activity_level = sleeping ? SLEEP_EXERCISE : NO_EXERCISE;
+
     if( activity_reset ) {
         activity_reset = false;
         previous_turn_activity = current_activity;
-        current_activity = NO_EXERCISE;
+        current_activity = base_activity_level;
         accumulated_activity = 0.0f;
         num_events = 1;
     } else {
@@ -126,11 +134,11 @@ void activity_tracker::new_turn()
         // Then handle the interventing turns that had no activity logged.
         int num_turns = to_turns<int>( calendar::turn - current_turn );
         if( num_turns > 1 ) {
-            accumulated_activity += ( num_turns - 1 ) * NO_EXERCISE;
+            accumulated_activity += ( num_turns - 1 ) * std::min( NO_EXERCISE, current_activity );
             num_events += num_turns - 1;
         }
         previous_turn_activity = current_activity;
-        current_activity = NO_EXERCISE;
+        current_activity = base_activity_level;
         num_events++;
     }
 }

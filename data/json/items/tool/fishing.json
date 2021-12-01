@@ -14,7 +14,6 @@
     "color": "green",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 5 } } ],
-    "max_charges": 5,
     "use_action": [ "FISH_TRAP" ]
   },
   {

@@ -5,22 +5,25 @@
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
-static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const item_category_id item_category_food( "food" );
+
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
+static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
+static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 
 static void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint pos )
 {
     zone_manager &zm = zone_manager::get_manager();
-    zm.add( name, zone_type, faction_id( "your_followers" ), false, true, pos, pos );
+    zm.add( name, zone_type, faction_your_followers, false, true, pos, pos );
 }
 
 // Comestibles sorting is a bit awkward. Unlike other loot, they're almost
@@ -98,7 +101,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( nonperishable_food, item_pocket::pocket_type::CONTAINER ).success() );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::unsealed );
+                REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the food zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_FOOD );
@@ -111,7 +114,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
+                REQUIRE( container.all_pockets_sealed() );
 
                 THEN( "should put in the food zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_FOOD );
@@ -132,7 +135,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( nonperishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::unsealed );
+                REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the drink zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_DRINK );
@@ -145,7 +148,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
+                REQUIRE( container.all_pockets_sealed() );
 
                 THEN( "should put in the drink zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_DRINK );
@@ -166,7 +169,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( perishable_food, item_pocket::pocket_type::CONTAINER ).success() );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::unsealed );
+                REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the perishable food zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_PFOOD );
@@ -179,7 +182,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
+                REQUIRE( container.all_pockets_sealed() );
 
                 THEN( "should put in the food zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_FOOD );
@@ -200,7 +203,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( perishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::unsealed );
+                REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the perishable drink zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_PDRINK );
@@ -213,7 +216,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
-                REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
+                REQUIRE( container.all_pockets_sealed() );
 
                 THEN( "should put in the drink zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_DRINK );
@@ -224,7 +227,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
         // MREs are under the food category but are not directly edible.
         GIVEN( "a non-comestible food" ) {
             item noncomestible_food( "mre_dessert" );
-            REQUIRE( noncomestible_food.get_category_shallow().get_id() == item_category_id( "food" ) );
+            REQUIRE( noncomestible_food.get_category_shallow().get_id() == item_category_food );
             REQUIRE_FALSE( noncomestible_food.is_comestible() );
 
             WHEN( "sorting" ) {

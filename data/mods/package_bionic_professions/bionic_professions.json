@@ -483,7 +483,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m27_assault_rifle",
             "variant": "h&k416a5",
             "ammo-item": "556",
             "charges": 30,
@@ -544,7 +544,7 @@
           "wristwatch",
           "mbag",
           "water_mineral",
-          "money_bundle"
+          "money_strap_twenty"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
@@ -690,7 +690,7 @@
     ],
     "skills": [
       { "level": 3, "name": "melee" },
-      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "dodge" },
       { "level": 2, "name": "survival" }
     ],

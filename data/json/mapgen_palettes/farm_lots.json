@@ -33,6 +33,7 @@
       "y": "t_palisade",
       "3": "t_splitrail_fencegate_c",
       "2": "t_wall_metal",
+      "≷": "t_ladder_up_down",
       "<": "t_ladder_up",
       ">": "t_ladder_down",
       "-": "t_grate",

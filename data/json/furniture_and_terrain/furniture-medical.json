@@ -735,8 +735,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 6,
-    "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
+    "flags": [ "BLOCKSDOOR" ],
+    "looks_like": "f_ventilator",
     "deconstruct": {
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
@@ -781,7 +781,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 5,
-    "flags": [ "BLOCKS_DOOR" ],
+    "flags": [ "BLOCKSDOOR" ],
     "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
@@ -825,7 +825,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 4,
-    "flags": [ "BLOCKS_DOOR" ],
+    "flags": [ "BLOCKSDOOR" ],
     "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [

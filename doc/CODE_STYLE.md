@@ -60,3 +60,6 @@ These are less generic guidelines and more pain points we've stumbled across ove
     1. Aliasing for extremely long iterator or functional declarations.
     2. Generic code support (but `decltype` is better).
 3. Avoid using declaration for standard namespaces.
+4. Keep lambda small or avoid them. There should be no substantial logic in lambdas.
+    1. If you need code reuse, hoist the code to a helper function or method.
+    2. Avoid implicit capture ( [&] or [=] ).

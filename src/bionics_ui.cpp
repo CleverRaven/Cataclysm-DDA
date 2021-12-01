@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
 #include <cstddef>
 #include <functional>
@@ -21,6 +19,7 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
+#include "localized_comparator.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
@@ -32,6 +31,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+
+static const material_id material_sunlight( "sunlight" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -206,7 +207,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         for( const material_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             if( fuel->get_fuel_data().is_perpetual_fuel ) {
-                if( fuel == material_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                if( fuel == material_sunlight && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
                 fuel_string += colorize( fuel->name(), c_green ) + " ";
@@ -648,7 +649,7 @@ void avatar::power_bionics()
             return;
         }
 
-        sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
 
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
@@ -727,7 +728,7 @@ void avatar::power_bionics()
         ui_manager::redraw();
 
         //track which list we are looking at
-        ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        ::sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
         cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
@@ -903,7 +904,7 @@ void avatar::power_bionics()
                         bool close_ui = false;
                         activate_bionic( b, false, &close_ui );
                         // Exit this ui if we are firing a complex bionic
-                        if( close_ui || tmp->ammo_count > 0 ) {
+                        if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
                             break;
                         }
                     }

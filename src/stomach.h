@@ -9,7 +9,7 @@
 #include "units.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 struct needs_rates;
 
@@ -148,12 +148,12 @@ class stomach_contents
         void ate();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &json );
+        void deserialize( const JsonObject &jo );
 
     private:
 
         // If true, this object represents a stomach; if false, this object represents guts.
-        bool stomach = false;
+        bool stomach = false; // NOLINT(cata-serialize)
 
         // nutrients (calories and vitamins)
         nutrients nutr;

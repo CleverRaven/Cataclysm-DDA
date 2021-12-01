@@ -17,7 +17,6 @@
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "map.h"
@@ -37,12 +36,17 @@
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_fire( "fire" );
 static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
-static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
+
+static const material_id material_iron( "iron" );
 
 struct itype;
 
@@ -346,7 +350,7 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     }
     item it_batt( it.magazine_default() );
     item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
-    if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
+    if( it_ammo.is_null() || it_ammo.typeId() != itype_battery ) {
         return &it;
     }
 
@@ -483,8 +487,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( "TREE" ) ) {
-            provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
+        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+            provide_pseudo_item( itype_butchery_tree_pseudo, 0 );
         }
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
@@ -509,7 +513,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            if( item *fire = provide_pseudo_item( itype_id( "fire" ), 0 ) ) {
+            if( item *fire = provide_pseudo_item( itype_fire, 0 ) ) {
                 fire->charges = 1;
             }
         }
@@ -646,6 +650,15 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
 }
 
 void inventory::dump( std::vector<item *> &dest )
+{
+    for( auto &elem : items ) {
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( &elem_stack_iter );
+        }
+    }
+}
+
+void inventory::dump( std::vector<const item *> &dest ) const
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
@@ -811,7 +824,7 @@ void inventory::rust_iron_items()
     map &here = get_map();
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
+            if( elem_stack_iter.made_of( material_iron ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
                 elem_stack_iter.damage() < elem_stack_iter.max_damage() / 2 &&
@@ -1031,17 +1044,18 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     update_cache_with_item( it );
 }
 
-void inventory::update_invlet( item &newit, bool assign_invlet )
+void inventory::update_invlet( item &newit, bool assign_invlet,
+                               const item *ignore_invlet_collision_with )
 {
-    // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
-        assigned_invlet[newit.invlet] != newit.typeId() ) {
-        newit.invlet = '\0';
-    }
-
-    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
+        // Avoid letters that have been manually assigned to other things.
+        if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
+            if( assigned_invlet[newit.invlet] != newit.typeId() ) {
+                newit.invlet = '\0';
+            }
+
+            // Remove letters that are not in the favorites cache
+        } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }
@@ -1051,7 +1065,9 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( player_character.invlet_to_item( tmp_invlet ) == nullptr ) {
+        item *collidingItem = player_character.invlet_to_item( tmp_invlet );
+
+        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }

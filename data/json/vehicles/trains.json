@@ -410,11 +410,38 @@
     "id": "miniature_train_loco_steerable",
     "type": "vehicle",
     "name": "Miniature Train Locomotive",
-    "blueprint": [ "oo" ],
+    "blueprint": [ "##oo" ],
     "parts": [
-      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_steerable" ] },
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel_steerable", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] }
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_electric", "rail_wheel_steerable", "halfboard_vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel", "controls" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "livestock_stall", "rail_wheel" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "storage_battery" } ] }
+    ]
+  },
+  {
+    "id": "miniature_train_loco_steerable_2",
+    "type": "vehicle",
+    "name": "Miniature Train Locomotive",
+    "blueprint": [ "##oo" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_electric", "rail_wheel_steerable", "halfboard_vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel", "controls" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "animal_compartment", "rail_wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical_2", "animal_compartment", "rail_wheel" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "storage_battery" } ] }
+    ]
+  },
+  {
+    "id": "miniature_train_loco_steerable_3",
+    "type": "vehicle",
+    "name": "Miniature Train Locomotive",
+    "blueprint": [ "##oo" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_electric", "rail_wheel_steerable", "halfboard_vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel", "controls" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "animal_compartment", "rail_wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical_2", "cargo_space", "rail_wheel" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "storage_battery" } ] }
     ]
   }
 ]

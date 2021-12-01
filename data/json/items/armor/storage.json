@@ -8,7 +8,7 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
@@ -24,7 +24,7 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "backpack_hiking",
@@ -76,7 +76,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -84,7 +84,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -93,7 +93,9 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 10, 40 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 10, 40 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "backpack_giant",
@@ -105,7 +107,7 @@
     "volume": "9186 ml",
     "price": 4500,
     "price_postapoc": 750,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -122,7 +124,15 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "armor": [ { "encumbrance": [ 20, 60 ], "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "encumbrance": [ 20, 60 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] },
+      {
+        "encumbrance": 10,
+        "coverage": 60,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "backpack_leather",
@@ -149,7 +159,7 @@
     "warmth": 9,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 4, 26 ], "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 26 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "backpack_tactical_large",
@@ -201,7 +211,9 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 10, 55 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 10, 55 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "basket_laundry",
@@ -285,7 +297,9 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 16, 65 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 16, 65 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "bindle",
@@ -339,7 +353,7 @@
     "cutting": 4,
     "price": 3500,
     "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ],
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "briefcase",
@@ -417,7 +431,7 @@
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
     "price_postapoc": 500,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -431,7 +445,9 @@
     ],
     "warmth": 5,
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": [ 2, 18 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 2, 18 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "dive_bag",
@@ -458,7 +474,7 @@
     ],
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 30 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "duffelbag",
@@ -486,7 +502,9 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 35 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 5, 35 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "dump_pouch",
@@ -528,7 +546,7 @@
     "price": 3500,
     "to_hit": 2,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "green",
@@ -543,8 +561,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
     "id": "golf_bag",
@@ -556,7 +574,7 @@
     "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "green",
@@ -581,7 +599,9 @@
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" },
-    "armor": [ { "encumbrance": [ 30, 35 ], "coverage": 35, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 30, 35 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "hide_bag",
@@ -596,8 +616,14 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "sided": true,
-      "material_thickness": 0.1,
-      "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": [ 10, 100 ],
+          "coverage": 5,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ]
     },
     "pocket_data": [
       {
@@ -624,8 +650,14 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "sided": true,
-      "material_thickness": 0.1,
-      "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": [ 10, 100 ],
+          "coverage": 5,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ]
     },
     "pocket_data": [
       {
@@ -688,7 +720,7 @@
       }
     ],
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "leather_pouch",
@@ -727,7 +759,7 @@
     "volume": "1050 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
     "pocket_data": [
@@ -750,7 +782,14 @@
     ],
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 20, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "armrig",
@@ -761,7 +800,7 @@
     "volume": "550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "armguard_soft",
     "color": "dark_gray",
@@ -777,7 +816,14 @@
     ],
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 20, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 7 ],
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
   },
   {
     "id": "makeshift_knapsack",
@@ -804,7 +850,7 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "makeshift_sling",
@@ -833,7 +879,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 4, 15 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 15 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "mbag",
@@ -848,7 +894,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
@@ -864,7 +910,7 @@
     ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "molle_pack",
@@ -876,7 +922,7 @@
     "volume": "5000 ml",
     "price": 6700,
     "price_postapoc": 1500,
-    "material": [ "cotton", "nylon" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -917,7 +963,7 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 35, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "net_backpack",
@@ -942,7 +988,7 @@
     ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 25 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 1, 25 ], "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "petpack",
@@ -953,7 +999,7 @@
     "volume": "36750 ml",
     "price": 7900,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "blue",
@@ -972,7 +1018,7 @@
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 35, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "plastic_shopping_bag",
@@ -1023,7 +1069,7 @@
     ],
     "material_thickness": 1,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "ragpouch",
@@ -1062,7 +1108,7 @@
     "volume": "11 L",
     "price": 9200,
     "price_postapoc": 1250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -1103,10 +1149,13 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 10, 50 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 10, 50 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "runner_bag",
+    "repairs_like": "survivor_runner_pack",
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
@@ -1133,7 +1182,7 @@
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "slingpack",
@@ -1147,7 +1196,7 @@
     "price": 2900,
     "price_postapoc": 750,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
@@ -1164,7 +1213,7 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 30, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "straw_basket",
@@ -1255,118 +1304,6 @@
     "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "survivor_duffel_bag",
-    "type": "ARMOR",
-    "name": { "str": "survivor duffel bag" },
-    "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "1000 g",
-    "volume": "7875 ml",
-    "price": 24000,
-    "price_postapoc": 3250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "38 L",
-        "max_contains_weight": "60 kg",
-        "max_item_length": "60 cm",
-        "magazine_well": "7500 ml",
-        "moves": 300
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 8, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor backpack" },
-    "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "600 g",
-    "volume": "5250 ml",
-    "price": 24000,
-    "price_postapoc": 2250,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "30 L",
-        "max_contains_weight": "32 kg",
-        "max_item_length": "50 cm",
-        "magazine_well": "5 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 6,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 24 ], "coverage": 30, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_rucksack",
-    "type": "ARMOR",
-    "name": { "str": "survivor rucksack" },
-    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "800 g",
-    "volume": "10 L",
-    "price": 24000,
-    "price_postapoc": 3000,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "35 L",
-        "max_contains_weight": "40 kg",
-        "max_item_length": "55 cm",
-        "magazine_well": "6 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 8,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 3, 28 ], "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "survivor_runner_pack",
-    "type": "ARMOR",
-    "name": { "str": "survivor runner pack" },
-    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "440 g",
-    "volume": "4200 ml",
-    "price": 24000,
-    "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "16 kg",
-        "max_item_length": "40 cm",
-        "magazine_well": "4 L",
-        "moves": 250
-      }
-    ],
-    "warmth": 2,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "swag_bag",
     "type": "ARMOR",
     "name": { "str": "swag bag" },
@@ -1406,7 +1343,7 @@
     "volume": "5 L",
     "price": 7000,
     "price_postapoc": 1500,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
@@ -1447,7 +1384,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "vest",
@@ -1495,8 +1432,8 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "wicker_backpack",
@@ -1522,7 +1459,7 @@
     ],
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "debug_backpack",
@@ -1550,7 +1487,7 @@
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ],
-    "armor": [ { "encumbrance": [ 0, 0 ] } ]
+    "armor": [ { "encumbrance": [ 0, 0 ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "long_duffelbag",
@@ -1578,7 +1515,9 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 8, 42 ], "coverage": 80, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "rifle_case_soft",
@@ -1613,7 +1552,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "rifle_case_soft_leather",
@@ -1648,7 +1587,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "rifle_case_soft_2",
@@ -1699,7 +1638,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "rifle_case_soft_leather_2",
@@ -1750,7 +1689,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "rifle_case_xl_soft_leather",
@@ -1785,7 +1724,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "camera_bag",
@@ -1798,7 +1737,7 @@
     "price": 5500,
     "price_postapoc": 700,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "yellow",
@@ -1823,7 +1762,7 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "bookstrap",
@@ -1851,6 +1790,13 @@
     ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 0, 11 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 0, 11 ],
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   }
 ]

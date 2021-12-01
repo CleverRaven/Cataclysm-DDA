@@ -11,7 +11,7 @@ install:
     - cmd: cd c:\tools\vcpkg\
     - cmd: git pull
     - cmd: bootstrap-vcpkg.bat -disableMetrics
-    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext --recurse
+    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext --recurse
 build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   parallel: true

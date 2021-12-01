@@ -145,7 +145,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "molotov", "count": 10 },
+        { "u_spawn_item": "molotov", "count": 10 },
         { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
       ]
     }

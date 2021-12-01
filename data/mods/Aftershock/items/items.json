@@ -60,6 +60,15 @@
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {
+    "type": "AMMO",
+    "id": "clearcrete_chunk",
+    "copy-from": "rock",
+    "name": { "str": "clearcrete chunk" },
+    "category": "other",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
+    "material": [ "clearcrete" ]
+  },
+  {
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
     "type": "GENERIC",

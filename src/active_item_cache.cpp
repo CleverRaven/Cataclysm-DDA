@@ -72,6 +72,10 @@ std::vector<item_reference> active_item_cache::get()
 std::vector<item_reference> active_item_cache::get_for_processing()
 {
     std::vector<item_reference> items_to_process;
+    items_to_process.reserve( std::accumulate( active_items.begin(), active_items.end(), 0,
+    []( size_t prev, const auto & kv ) {
+        return prev + kv.second.size() / kv.first;
+    } ) );
     for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
         // Rely on iteration logic to make sure the number is sane.
         int num_to_process = kv.second.size() / kv.first;
@@ -116,6 +120,19 @@ void active_item_cache::rotate_locations( int turns, const point &dim )
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             ir.location = ir.location.rotate( turns, dim );
+        }
+    }
+}
+
+void active_item_cache::mirror( const point &dim, bool horizontally )
+{
+    for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
+        for( item_reference &ir : pair.second ) {
+            if( horizontally ) {
+                ir.location.x = dim.x - 1 - ir.location.x;
+            } else {
+                ir.location.y = dim.y - 1 - ir.location.y;
+            }
         }
     }
 }

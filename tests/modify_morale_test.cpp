@@ -9,12 +9,13 @@
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
+
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -486,7 +487,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for drinking milk" ) {
             item &milk_container = dummy.i_add( item( "milk" ).in_its_container() );
-            item &milk = milk_container.contents.only_item();
+            item &milk = milk_container.only_item();
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
@@ -606,7 +607,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
             dummy.mutate_towards( trait_URSINE_FUR );
             dummy.mutate_towards( trait_URSINE_EYE );
             dummy.mutate_towards( trait_PADDED_FEET );
-            REQUIRE( dummy.mutation_category_level[mutation_category_id( "URSINE" )] > 40 );
+            REQUIRE( dummy.mutation_category_level[mutation_category_URSINE] > 40 );
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( honeycomb );

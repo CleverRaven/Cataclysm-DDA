@@ -29,7 +29,7 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie",
-    "special_attacks": [ [ "SHOCKSTORM", 15 ], [ "SMASH", 30 ] ],
+    "special_attacks": [ [ "SHOCKSTORM", 15 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "flags": [
