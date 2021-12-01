@@ -25,7 +25,7 @@ These properties are required for all monsters:
 | `description`     | (string) In-game description of the monster, in one or two sentences
 | `ascii_picture`   | (string) Id of the asci_art used for this monster
 | `hp`              | (integer) Hit points
-| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`
+| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 | `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 | `symbol`          | (string) UTF-8 single-character string representing the monster in-game
 | `color`           | (string) Symbol color for the monster
@@ -42,7 +42,6 @@ Monsters may also have any of these optional properties:
 | `species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
 | `scent_tracked`          | (array of strings) Monster tracks these scents
 | `scent_ignored`          | (array of strings) Monster ignores these scents
-| `size`                   | (string) Size flag, ex. TINY, SMALL, MEDIUM, LARGE, HUGE
 | `material`               | (array of strings) Materials the monster is made of
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
@@ -662,6 +661,7 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
 |						| targeted with a chance proportional to the value.
 | `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
 | `hitsize_min`         | Integer, upper bound of limb size this attack can target.
