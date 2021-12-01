@@ -601,7 +601,7 @@ class Character : public Creature, public visitable
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
         float limb_speed_movecost_modifier() const;
-        float limb_balance_movecost_modifier() const;
+        float limb_footing_movecost_modifier() const;
         // movecost is modified by the average of limb speed and balance.
         float limb_run_cost_modifier() const;
         float swim_modifier() const;
@@ -1173,12 +1173,14 @@ class Character : public Creature, public visitable
         float manipulator_score() const;
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
+        float encumb_adjusted_lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
         float swim_score() const;
         float vision_score() const;
         float nightvision_score() const;
         float reaction_score() const;
         float movement_speed_score() const;
+        float footing_score() const;
         float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
