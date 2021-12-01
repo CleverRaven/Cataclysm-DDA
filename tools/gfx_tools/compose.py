@@ -821,7 +821,7 @@ def main() -> Union[int, ComposingException]:
         help='Only output the tile_config.json')
     arg_parser.add_argument(
         '--loglevel', dest='loglevel',
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+        choices=['INFO', 'WARNING', 'ERROR'],  # 'DEBUG', 'CRITICAL'
         default='WARNING',
         help="set verbosity level")
 
