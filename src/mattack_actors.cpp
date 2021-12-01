@@ -236,6 +236,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
     optional( obj, was_loaded, "hitsize_min", hitsize_min, -1 );
     optional( obj, was_loaded, "hitsize_max", hitsize_max, -1 );
+    optional( obj, was_loaded, "attack_upper", attack_upper, true );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -336,7 +337,7 @@ bool melee_actor::call( monster &z ) const
 
     // Pick body part
     bodypart_str_id bp_hit = body_parts.empty() ?
-                             target->select_body_part( hitsize_min, hitsize_max, hitspread ).id() :
+                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
                              *body_parts.pick();
 
     bodypart_id bp_id = bodypart_id( bp_hit );

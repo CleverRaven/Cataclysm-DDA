@@ -725,8 +725,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = bp == nullptr ? select_body_part( source->get_hitsize_min(),
-                         source->get_hitsize_max(), hit_spread ) : *bp;
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -2642,13 +2642,22 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
 }
 
 
-bodypart_id Creature::select_body_part( int min_hit, int max_hit, int hit_roll ) const
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
     add_msg_debug( debugmode::DF_CREATURE, "min_hit = %d", min_hit );
     add_msg_debug( debugmode::DF_CREATURE, "max_hit = %d", max_hit );
+    if( can_attack_high ) {
+        add_msg_debug( debugmode::DF_CREATURE, "can attack high!" );
+    }
+    if( !is_monster() ) {
+        can_attack_high = as_character()->is_on_ground();
+        add_msg_debug( debugmode::DF_CREATURE, "We're targeting a prone char, that true?" );
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

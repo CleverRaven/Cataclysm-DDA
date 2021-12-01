@@ -183,6 +183,7 @@ enum m_flag : int {
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
     MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
+    MF_ATTACK_UPPER,         // This monster is capable of hitting upper limbs
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -328,8 +329,6 @@ struct mtype {
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
         // Monster can only melee attack bodyparts within this hitsize range
-        int hitsize_min = -1;
-        int hitsize_max = -1;
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */

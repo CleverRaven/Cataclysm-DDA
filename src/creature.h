@@ -324,8 +324,7 @@ class Creature : public viewer
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
-        virtual int get_hitsize_min() const = 0;
-        virtual int get_hitsize_max() const = 0;
+        virtual bool can_attack_high() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -1239,7 +1238,7 @@ class Creature : public viewer
         int archery_aim_counter = 0;
 
         // Select a bodypart depending on the attack's hit size restriction
-        bodypart_id select_body_part( int min_hit, int max_hit, int hit_roll ) const;
+        bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );

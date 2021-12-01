@@ -86,6 +86,7 @@ class melee_actor : public mattack_actor
         // Limits on target bodypart hit sizes
         int hitsize_min = -1;
         int hitsize_max = -1;
+        bool attack_upper = true;
 
         /**
          * If empty, regular melee roll body part selection is used.
