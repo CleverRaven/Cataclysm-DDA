@@ -83,24 +83,13 @@ def write_to_json(
     if not format_json:
         return
 
-    json_formatter = './tools/format/json_formatter.cgi'
-    if os.path.isfile(json_formatter):
+    json_formatter = Path('tools/format/json_formatter.cgi')
+    if json_formatter.is_file():
         cmd = [json_formatter, pathname]
         subprocess.call(cmd)
     else:
         print(f'{json_formatter} not found, '
               'Python built-in formatter was used.')
-
-
-def find_or_make_dir(pathname: str) -> None:
-    '''
-    Autocreate needed directory if it doesn't exist
-    TODO: just use pathlib
-    '''
-    try:
-        os.stat(pathname)
-    except OSError:
-        os.mkdir(pathname)
 
 
 def list_or_first(iterable: list) -> Any:
@@ -136,8 +125,8 @@ class Tileset:
     '''
     def __init__(
         self,
-        source_dir: Union[str, Path],
-        output_dir: Union[str, Path],
+        source_dir: Path,
+        output_dir: Path,
         use_all: bool = False,
         obsolete_fillers: bool = False,
         palette_copies: bool = False,
@@ -163,13 +152,13 @@ class Tileset:
 
         self.pngname_to_pngnum = {'null_image': 0}
 
-        if not os.access(self.source_dir, os.R_OK) \
-                or not os.path.isdir(self.source_dir):
+        if not self.source_dir.is_dir() or \
+                not os.access(self.source_dir, os.R_OK):
             raise ComposingException(
                 f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
-        info_path = Path(self.source_dir) / 'tile_info.json'
+        info_path = self.source_dir / 'tile_info.json'
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
@@ -194,7 +183,7 @@ class Tileset:
         properties = {}
 
         for candidate_path in (self.source_dir, self.output_dir):
-            properties_path = os.path.join(candidate_path, PROPERTIES_FILENAME)
+            properties_path = candidate_path / PROPERTIES_FILENAME
             if os.access(properties_path, os.R_OK):
                 properties = read_properties(properties_path)
                 if properties:
@@ -216,9 +205,8 @@ class Tileset:
         '''
         Convert a composing tileset into a package readable by the game
         '''
-        os.makedirs(self.output_dir, exist_ok=True)
-        tileset_confpath = os.path.join(
-            self.output_dir, self.determine_conffile())
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        tileset_confpath = self.output_dir / self.determine_conffile()
         typed_sheets = {
             'main': [],
             'filler': [],
@@ -228,8 +216,13 @@ class Tileset:
 
         # loop through tilesheets and parse all configs in subdirectories,
         # create sheet images
-        for config_index in range(1, len(self.info)):
-            sheet = Tilesheet(self, config_index)
+        added_first_null = False
+        for config in self.info[1:]:
+            sheet = Tilesheet(self, config)
+
+            if not added_first_null:
+                sheet.sprites.append(sheet.null_image)
+                added_first_null = True
 
             if sheet.is_filler:
                 sheet_type = 'filler'
@@ -378,14 +371,12 @@ class Tilesheet:
     def __init__(
         self,
         tileset: Tileset,
-        config_index: int,
-        sheet_width: int = 16,
+        config: dict,
     ) -> None:
-        self.sheet_width = sheet_width  # sprites across, could be anything
-        tilesheet_config_obj = tileset.info[config_index]
-        self.name = next(iter(tilesheet_config_obj))
-        specs = tilesheet_config_obj[self.name] or {}
         self.tileset = tileset
+
+        self.name = next(iter(config))
+        specs = config.get(self.name, {})
 
         self.sprite_width = specs.get(
             'sprite_width', tileset.sprite_width)
@@ -394,6 +385,7 @@ class Tilesheet:
         self.offset_x = specs.get('sprite_offset_x', 0)
         self.offset_y = specs.get('sprite_offset_y', 0)
 
+        self.sprites_across = specs.get('sprites_across', 16)
         self.exclude = specs.get('exclude', tuple())
 
         self.is_fallback = specs.get('fallback', False)
@@ -403,14 +395,14 @@ class Tilesheet:
         output_root = self.name.split('.png')[0]
         dir_name = \
             f'pngs_{output_root}_{self.sprite_width}x{self.sprite_height}'
-        self.subdir_path = Path(tileset.source_dir) / dir_name
+        self.subdir_path = tileset.source_dir / dir_name
 
-        self.output = Path(tileset.output_dir) / self.name
+        self.output = tileset.output_dir / self.name
 
         self.tile_entries = []
         self.null_image = \
             Vips.Image.grey(self.sprite_width, self.sprite_height)
-        self.sprites = [self.null_image] if config_index == 1 else []
+        self.sprites = []
 
         self.first_index = self.tileset.pngnum + 1
         self.max_index = self.tileset.pngnum
@@ -447,23 +439,24 @@ class Tilesheet:
 
             for filename in sorted(filenames):
                 filepath = subdir_fpath / filename
-                if filename.endswith('.png'):
-                    self.process_png(filepath, filename)
-                elif filename.endswith('.json'):
+
+                if filepath.suffixes == ['.png']:
+                    self.process_png(filepath)
+
+                elif filepath.suffixes == ['.json']:
                     self.process_json(filepath)
 
-    def process_png(self, filepath, filename) -> None:
+    def process_png(self, filepath: Union[str, Path]) -> None:
         '''
         Verify image root name is unique, load it and register
         '''
-        pngname = filename.split('.png')[0]
-        if pngname in self.tileset.pngname_to_pngnum:
+        if filepath.stem in self.tileset.pngname_to_pngnum:
             if not self.is_filler:
-                print(f'Error: duplicate {pngname}.png')
+                print(f'Error: duplicate {filepath.name}')
                 self.tileset.error_logged = True
 
             if self.is_filler and self.tileset.obsolete_fillers:
-                print(f'Warning: {pngname}.png is already present in a '
+                print(f'Warning: {filepath.name} is already present in a '
                       'non-filler sheet')
 
             return
@@ -472,10 +465,11 @@ class Tilesheet:
             self.sprites.append(self.load_image(filepath))
         else:
             self.sprites.append(None)
+
         self.tileset.pngnum += 1
-        self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
+        self.tileset.pngname_to_pngnum[filepath.stem] = self.tileset.pngnum
         self.tileset.unreferenced_pngnames[
-            'filler' if self.is_filler else 'main'].append(pngname)
+            'filler' if self.is_filler else 'main'].append(filepath.stem)
 
     def load_image(self, png_path: Union[str, Path]) -> pyvips.Image:
         '''
@@ -541,14 +535,14 @@ class Tilesheet:
             return False
 
         # count empty spaces in the last row
-        self.tileset.pngnum += self.sheet_width - \
-            ((len(self.sprites) % self.sheet_width) or self.sheet_width)
+        self.tileset.pngnum += self.sprites_across - \
+            ((len(self.sprites) % self.sprites_across) or self.sprites_across)
 
         if self.tileset.only_json:
             return True
 
         sheet_image = Vips.Image.arrayjoin(
-            self.sprites, across=self.sheet_width)
+            self.sprites, across=self.sprites_across)
 
         pngsave_args = PNGSAVE_ARGS.copy()
 
@@ -755,8 +749,8 @@ if __name__ == '__main__':
     # compose the tileset
     try:
         tileset_worker = Tileset(
-            source_dir=args_dict.get('source_dir'),
-            output_dir=(
+            source_dir=Path(args_dict.get('source_dir')),
+            output_dir=Path(
                 args_dict.get('output_dir') or
                 args_dict.get('source_dir')
             ),
