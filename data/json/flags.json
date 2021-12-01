@@ -552,17 +552,17 @@
   {
     "id": "PALS_SMALL",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>tactical vests</info> taking a <good>small ammount of space</good>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
   },
   {
     "id": "PALS_MEDIUM",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>tactical vests</info>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking an average ammount of space."
   },
   {
     "id": "PALS_LARGE",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>tactical vests</info> take a <bad>large ammount of space</bad>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> take a <bad>large ammount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
