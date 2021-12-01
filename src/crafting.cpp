@@ -89,9 +89,9 @@ static const itype_id itype_plut_cell( "plut_cell" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
-static const quality_id qual_BOIL( "BOIL" );
-
 static const limb_score_id limb_score_manip( "manip" );
+
+static const quality_id qual_BOIL( "BOIL" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
