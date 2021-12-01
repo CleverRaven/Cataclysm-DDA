@@ -2545,14 +2545,14 @@ void mapgen_forest( mapgendata &dat )
         const int feather_selection = *direction_pool.pick();
         switch( feather_selection ) {
             case no_dir:
-                return *( self_biome.groundcover.pick() );
+                return *self_biome.groundcover.pick();
             case empty:
-                return *( dat.region.default_groundcover.pick() );
+                return *dat.region.default_groundcover.pick();
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
-                    return *( adjacent_biomes[feather_selection]->groundcover.pick() );
+                    return *adjacent_biomes[feather_selection]->groundcover.pick();
                 } else {
-                    return *( dat.region.default_groundcover.pick() );
+                    return *dat.region.default_groundcover.pick();
                 }
         }
     };
