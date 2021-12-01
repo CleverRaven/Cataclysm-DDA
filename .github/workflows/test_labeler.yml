@@ -23,7 +23,7 @@ jobs:
           echo "::set-output name=label::BasicBuildPassed"
         fi
     - name: Download success artifact from basic build
-      if: ${{ github.event.workflow_run.name == "General build matrix" }}
+      if: ${{ github.event.workflow_run.name == 'General build matrix' }}
       uses: dawidd6/action-download-artifact@v2
       with:
         workflow: ${{ github.event.workflow_run.name }}
