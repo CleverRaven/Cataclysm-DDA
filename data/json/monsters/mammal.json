@@ -314,7 +314,7 @@
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
-      "pet": "The %s sofly purrs as you pet it.  It demands more."
+      "pet": "The %s softly purrs as you pet it.  It demands more."
     },
     "flags": [
       "SEES",
@@ -362,7 +362,7 @@
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
-      "pet": "The %s sofly purrs as you pet it.  It demands more."
+      "pet": "The %s softly purrs as you pet it.  It demands more."
     },
     "flags": [
       "SEES",

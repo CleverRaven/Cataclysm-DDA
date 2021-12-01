@@ -107,7 +107,7 @@ class MonsterGenerator
         pimpl<generic_factory<species_type>> mon_species;
         std::vector<mtype_id> hallucination_monsters;
 
-        std::map<std::string, phase_id> phase_map;
+        std::unordered_map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
         std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, mtype_special_attack> attack_map;

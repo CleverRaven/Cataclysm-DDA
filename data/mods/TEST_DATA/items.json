@@ -360,7 +360,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "TORSO" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",
@@ -1140,10 +1140,14 @@
     "symbol": ")",
     "color": "brown",
     "armor_data": {
-      "material": [ "leather" ],
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ]
+        }
+      ]
     },
     "pocket_data": [
       {
@@ -2081,6 +2085,76 @@
     "flags": [ "POCKETS", "STURDY" ]
   },
   {
+    "id": "test_swat_mostly_cotton",
+    "type": "ARMOR",
+    "name": "SWAT armor",
+    "copy-from": "test_swat_armor",
+    "armor": [
+      {
+        "covers": [ "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "test_swat_mostly_steel",
+    "type": "ARMOR",
+    "name": "SWAT armor",
+    "copy-from": "test_swat_armor",
+    "armor": [
+      {
+        "covers": [ "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
+        ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 5, "thickness": 0.2 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "test_pants_fur",
     "type": "ARMOR",
     "name": { "str_sp": "fur pants" },
@@ -2178,9 +2252,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "aluminum" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2241,9 +2320,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "plastic" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2283,9 +2367,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "plastic" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -2312,9 +2401,14 @@
       }
     ],
     "armor_data": {
-      "material": [ "cotton" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "flags": [ "BELTED" ]
   },

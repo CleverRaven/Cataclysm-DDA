@@ -45,10 +45,18 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_fake_burrowing( "fake_burrowing" );
+
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+
+static const mtype_id mon_player_blob( "mon_player_blob" );
+
+static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
+static const mutation_category_id mutation_category_ANY( "ANY" );
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -667,11 +675,11 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
-        item burrowing_item( itype_id( "fake_burrowing" ) );
+        item burrowing_item( itype_fake_burrowing );
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
+        monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
@@ -1004,7 +1012,7 @@ void Character::mutate_category( const mutation_category_id &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
-    if( cat == mutation_category_id( "ANY" ) ) {
+    if( cat == mutation_category_ANY ) {
         mutate();
         return;
     }
@@ -1771,8 +1779,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         // Alpha is similarly eclipsed by other mutation categories.
         // Will add others if there's serious/demonstrable need.
         int booster = 0;
-        if( mutation_category == mutation_category_id( "URSINE" ) ||
-            mutation_category == mutation_category_id( "ALPHA" ) ) {
+        if( mutation_category == mutation_category_URSINE ||
+            mutation_category == mutation_category_ALPHA ) {
             booster = 50;
         }
         int breacher = breach_power + booster;
@@ -1784,7 +1792,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == mutation_category_id( "URSINE" ) &&
+            if( mutation_category == mutation_category_URSINE &&
                 guy.has_trait( trait_CARNIVORE ) ) {
                 guy.unset_mutation( trait_CARNIVORE );
                 guy.add_msg_if_player( _( "Your appetite for blood fades." ) );

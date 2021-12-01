@@ -314,11 +314,11 @@
     "name": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_null", "weight": 100 },
-      { "monster": "mon_zombie_child", "weight": 650 },
-      { "monster": "mon_zombie_fat", "weight": 50 },
-      { "monster": "mon_zombie_tough", "weight": 50 },
-      { "monster": "mon_zombie", "weight": 150 }
+      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_zombie_child", "weight": 4 },
+      { "monster": "mon_zombie_fat", "weight": 1 },
+      { "monster": "mon_zombie_tough", "weight": 1 },
+      { "monster": "mon_zombie", "weight": 3 }
     ]
   },
   {

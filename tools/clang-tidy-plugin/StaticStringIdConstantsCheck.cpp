@@ -21,6 +21,20 @@ static auto isStringIdConstructor()
     return cxxConstructorDecl( ofClass( isStringIdType() ) );
 }
 
+static auto testWhetherInStaticMacro()
+{
+    return cxxConstructExpr(
+               anyOf(
+                   hasAncestor(
+                       callExpr(
+                           callee( decl( functionDecl( hasName( "static_argument_identity" ) ) ) )
+                       ).bind( "staticArgument" )
+                   ),
+                   anything()
+               )
+           );
+}
+
 static auto isStringIdConstructExpr()
 {
     return cxxConstructExpr(
@@ -28,6 +42,7 @@ static auto isStringIdConstructExpr()
                testWhetherConstructingTemporary(),
                testWhetherParentIsVarDecl(),
                testWhetherGrandparentIsTranslationUnitDecl(),
+               testWhetherInStaticMacro(),
                hasArgument( 0, stringLiteral().bind( "arg" ) )
            ).bind( "constructorCall" );
 }
@@ -60,6 +75,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
         { "ammunition_type", "ammo_" },
         { "bionic_data", "" },
         { "fault", "" },
+        { "furn_t", "furn_" },
         { "ma_technique", "" },
         { "martialart", "" },
         { "MonsterGroup", "" },
@@ -101,6 +117,11 @@ static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef 
         if( !isalnum( c ) ) {
             c = '_';
         }
+    }
+
+    static const std::string anon_prefix = "_anonymous_namespace___";
+    if( StringRef( Result ).startswith( anon_prefix ) ) {
+        Result.erase( Result.begin(), Result.begin() + anon_prefix.size() );
     }
 
     return Result;
@@ -185,18 +206,41 @@ void StaticStringIdConstantsCheck::CheckConstructor( const MatchFinder::MatchRes
         }
         return;
     }
+
+    // At this point we are looking at a construction call which is not a
+    // VarDecl at translation unit scope
+
+    // First ignore anything in a STATIC macro call
+    const CallExpr *IsInStaticMacro = Result.Nodes.getNodeAs<CallExpr>( "staticArgument" );
+    unsigned offset = SM.getFileOffset( ConstructorCall->getBeginLoc() );
+    if( !IsInStaticMacro && !CanonicalName.empty() && promotable_set_.insert( offset ).second ) {
+        promotable_.push_back(
+            PromotableCall{ VarDeclParent, ConstructorCall, CanonicalName, Arg->getString() } );
+    }
 }
 
 struct CompareDecls {
-    bool operator()( const FoundDecl &l, const FoundDecl &r ) const {
-        auto as_tuple = []( const VarDecl * d ) {
-            return std::make_pair( d->getType().getAsString(), d->getName() );
-        };
-        // NOLINTNEXTLINE(cata-use-localized-sorting)
-        return as_tuple( l.decl ) < as_tuple( r.decl );
+    auto as_tuple( const VarDecl *d ) const {
+        return std::make_pair( d->getType().getLocalUnqualifiedType().getAsString(), d->getName() );
     }
 
-    bool operator()( const FoundDecl *l, const FoundDecl *r ) const {
+    auto as_tuple( const FoundDecl &d ) const {
+        return as_tuple( d.decl );
+    }
+
+    auto as_tuple( const PromotableCall &p ) const {
+        return std::make_pair( p.construction->getType().getAsString(),
+                               StringRef( p.canonical_name ) );
+    }
+
+    template<typename T, typename U>
+    bool operator()( const T &l, const U &r ) const {
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        return as_tuple( l ) < as_tuple( r );
+    }
+
+    template<typename T, typename U>
+    bool operator()( const T *l, const U *r ) const {
         return ( *this )( *l, *r );
     }
 };
@@ -271,69 +315,176 @@ void StaticStringIdConstantsCheck::onEndOfTranslationUnit()
 
     // Now we're in the case where the initial segment of declarations is
     // sorted, and we need to add any later ones in amongst them.
-    if( first_after_gap == found_decls_.end() ) {
+    if( first_after_gap != found_decls_.end() ) {
+        std::unordered_map<ptrdiff_t, std::vector<const FoundDecl *>> to_insert;
+        std::vector<FixItHint> fixits;
+        for( auto decl_it = first_after_gap; decl_it != found_decls_.end(); ++decl_it ) {
+            auto insert_at_it = std::lower_bound( begin, first_after_gap, *decl_it, compare_decls );
+            ptrdiff_t insert_at_pos = insert_at_it - begin;
+            to_insert[insert_at_pos].push_back( &*decl_it );
+            fixits.push_back( FixItHint::CreateRemoval( decl_it->range ) );
+        }
+
+        for( std::pair<const ptrdiff_t, std::vector<const FoundDecl *>> &p : to_insert ) {
+            const ptrdiff_t insert_at_pos = p.first;
+            std::vector<const FoundDecl *> &decls_to_insert = p.second;
+            const bool at_end = insert_at_pos == first_after_gap - begin;
+            SourceLocation insert_at;
+            QualType type_after;
+            if( at_end ) {
+                insert_at = last_before_gap->range.getEnd();
+            } else {
+                insert_at = found_decls_[insert_at_pos].range.getBegin();
+                type_after = found_decls_[insert_at_pos].decl->getType();
+            }
+            QualType last_type;
+            if( insert_at_pos != 0 ) {
+                last_type = found_decls_[insert_at_pos - 1].decl->getType();
+            }
+
+            std::sort( decls_to_insert.begin(), decls_to_insert.end(), compare_decls );
+            std::string to_insert;
+            for( const FoundDecl *decl : decls_to_insert ) {
+                if( last_type != decl->decl->getType() ) {
+                    if( last_type != QualType() ) {
+                        to_insert += "\n";
+                    }
+                    last_type = decl->decl->getType();
+                }
+
+                to_insert += decl->text;
+            }
+            if( !at_end && last_type != type_after ) {
+                to_insert += "\n";
+            }
+            fixits.push_back( FixItHint::CreateInsertion( insert_at, to_insert ) );
+        }
+
+        diag(
+            first_after_gap->decl->getBeginLoc(),
+            "string_id declarations should be together."
+        ) << fixits;
+        int num_out_of_place = found_decls_.end() - first_after_gap - 1;
+        diag(
+            begin->decl->getBeginLoc(),
+            "%0 (and %2 others) should be added to the group starting at %1.", DiagnosticIDs::Note
+        ) << first_after_gap->decl << begin->decl << ( num_out_of_place - 1 );
+        if( const NamedDecl *separating_decl =
+                dyn_cast_or_null<NamedDecl>( last_before_gap->decl->getNextDeclInContext() ) ) {
+            diag(
+                separating_decl->getBeginLoc(), "They are currently separated by %0.",
+                DiagnosticIDs::Note
+            ) << separating_decl;
+        }
         return;
     }
 
-    std::unordered_map<ptrdiff_t, std::vector<const FoundDecl *>> to_insert;
-    std::vector<FixItHint> fixits;
-    for( auto decl_it = first_after_gap; decl_it != found_decls_.end(); ++decl_it ) {
-        auto insert_at_it = std::lower_bound( begin, first_after_gap, *decl_it, compare_decls );
-        ptrdiff_t insert_at_pos = insert_at_it - begin;
-        to_insert[insert_at_pos].push_back( &*decl_it );
-        fixits.push_back( FixItHint::CreateRemoval( decl_it->range ) );
+    // If we reached here then we know that all the static declarations are in
+    // a single group and are sorted properly.  So it's safe to start promoting
+    // temporaries to statics
+    std::unordered_map<ptrdiff_t, std::vector<const PromotableCall *>> to_insert;
+    for( const PromotableCall &prom : promotable_ ) {
+        if( prom.decl ) {
+            // Doing this automatically for local variable declarations is
+            // hard, so don't try; just report a warning.
+            if( prom.decl->getType().isConstQualified() ) {
+                diag( prom.construction->getBeginLoc(),
+                      "Local const string_id instances with fixed content should be promoted to a "
+                      "static instance at global scope." );
+            }
+        } else if( found_decls_.empty() ) {
+            // If no existing decls then we can't know where to put them, so
+            // just report a warning.
+            diag(
+                prom.construction->getBeginLoc(),
+                "Temporary string_id instances with fixed content should be promoted to a static "
+                "instance at global scope."
+            );
+        } else {
+            auto insert_at_it = std::upper_bound( begin, found_decls_.end(), prom, compare_decls );
+            ptrdiff_t insert_at_pos = insert_at_it - begin;
+            to_insert[insert_at_pos].push_back( &prom );
+        }
     }
 
-    for( std::pair<const ptrdiff_t, std::vector<const FoundDecl *>> &p : to_insert ) {
+    auto decl_for_call = []( const PromotableCall * call ) {
+        std::string result = "static const ";
+        result += call->construction->getType().getAsString();
+        result += " ";
+        result += call->canonical_name;
+        result += "( \"";
+        result += call->string_literal_arg;
+        result += "\" );\n";
+        return result;
+    };
+
+    for( std::pair<const ptrdiff_t, std::vector<const PromotableCall *>> &p : to_insert ) {
         const ptrdiff_t insert_at_pos = p.first;
-        std::vector<const FoundDecl *> &decls_to_insert = p.second;
-        const bool at_end = insert_at_pos == first_after_gap - begin;
+        std::vector<const PromotableCall *> &calls = p.second;
+
+        const bool at_end = insert_at_pos == found_decls_.end() - begin;
+        bool inserting_at_end = false;
         SourceLocation insert_at;
         QualType type_after;
+        StringRef last_canonical_name;
         if( at_end ) {
             insert_at = last_before_gap->range.getEnd();
+            inserting_at_end = true;
         } else {
             insert_at = found_decls_[insert_at_pos].range.getBegin();
-            type_after = found_decls_[insert_at_pos].decl->getType();
+            type_after = found_decls_[insert_at_pos].decl->getType().getLocalUnqualifiedType();
         }
         QualType last_type;
         if( insert_at_pos != 0 ) {
-            last_type = found_decls_[insert_at_pos - 1].decl->getType();
+            const VarDecl *last_decl = found_decls_[insert_at_pos - 1].decl;
+            last_type = last_decl->getType().getLocalUnqualifiedType();
+            last_canonical_name = last_decl->getName();
+        }
+        if( last_type == calls.front()->construction->getType() ) {
+            // When the type is the same as the one we're inserting after we
+            // whouls switch to inserting at the end of the previous rather
+            // than the beginning of the next
+            insert_at = found_decls_[insert_at_pos - 1].range.getEnd();
+            inserting_at_end = true;
         }
 
-        std::sort( decls_to_insert.begin(), decls_to_insert.end(), compare_decls );
+        std::sort( calls.begin(), calls.end(), compare_decls );
+
         std::string to_insert;
-        for( const FoundDecl *decl : decls_to_insert ) {
-            if( last_type != decl->decl->getType() ) {
-                if( last_type != QualType() ) {
-                    to_insert += "\n";
+        std::vector<FixItHint> fixits;
+        bool first = true;
+        for( const PromotableCall *call : calls ) {
+            fixits.push_back(
+                FixItHint::CreateReplacement( call->construction->getSourceRange(),
+                                              call->canonical_name ) );
+            if( call->canonical_name != last_canonical_name ) {
+                if( last_type != call->construction->getType() ) {
+                    if( last_type != QualType() && ( !first || inserting_at_end ) ) {
+                        to_insert += "\n";
+                    }
+                    last_type = call->construction->getType();
                 }
-                last_type = decl->decl->getType();
+                to_insert += decl_for_call( call );
+                last_canonical_name = call->canonical_name;
             }
-
-            to_insert += decl->text;
+            first = false;
         }
-        if( !at_end && last_type != type_after ) {
+        if( !inserting_at_end && last_type != type_after ) {
             to_insert += "\n";
         }
         fixits.push_back( FixItHint::CreateInsertion( insert_at, to_insert ) );
-    }
-
-    diag(
-        first_after_gap->decl->getBeginLoc(),
-        "string_id declarations should be together."
-    ) << fixits;
-    int num_out_of_place = found_decls_.end() - first_after_gap - 1;
-    diag(
-        begin->decl->getBeginLoc(),
-        "%0 (and %2 others) should be added to the group starting at %1.", DiagnosticIDs::Note
-    ) << first_after_gap->decl << begin->decl << ( num_out_of_place - 1 );
-    if( const NamedDecl *separating_decl =
-            dyn_cast_or_null<NamedDecl>( last_before_gap->decl->getNextDeclInContext() ) ) {
         diag(
-            separating_decl->getBeginLoc(), "They are currently separated by %0.",
-            DiagnosticIDs::Note
-        ) << separating_decl;
+            calls.front()->construction->getBeginLoc(),
+            "Temporary string_id instances with fixed content should be promoted to a static "
+            "instance at global scope."
+        ) << fixits;
+        for( auto call = calls.begin() + 1; call != calls.end(); ++call ) {
+            diag(
+                ( *call )->construction->getBeginLoc(),
+                "Temporary string_id instances with fixed content should be promoted to a static "
+                "instance at global scope."
+            );
+        }
     }
 }
 

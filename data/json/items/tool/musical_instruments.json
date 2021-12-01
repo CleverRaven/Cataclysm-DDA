@@ -302,7 +302,7 @@
     "bashing": 18,
     "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 27, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -342,7 +342,7 @@
     "bashing": 26,
     "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 27, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -380,7 +380,7 @@
     "bashing": 4,
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -416,7 +416,7 @@
     "armor": [
       {
         "encumbrance": 30,
-        "coverage": 20,
+        "coverage": 65,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
       }
@@ -461,7 +461,7 @@
     "armor": [
       {
         "encumbrance": 30,
-        "coverage": 20,
+        "coverage": 65,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
       }

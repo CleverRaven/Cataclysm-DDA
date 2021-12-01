@@ -49,6 +49,7 @@ class monster;
 class nc_color;
 class recipe;
 class relic;
+struct part_material;
 struct armor_portion_data;
 struct itype_variant_data;
 struct islot_comestible;
@@ -123,6 +124,9 @@ struct iteminfo {
         /** Internal double floating point version of value, for numerical comparisons */
         double dValue;
 
+        /** Same as dValue, adjusted for the minimum unit (for numerical comparisons) */
+        double dUnitAdjustedVal;
+
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
@@ -159,9 +163,9 @@ struct iteminfo {
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags Flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999, double UnitVal = 0 );
         iteminfo( const std::string &Type, const std::string &Name, flags Flags );
-        iteminfo( const std::string &Type, const std::string &Name, double Value );
+        iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal = 0 );
 };
 
 template<>
@@ -546,11 +550,10 @@ class item : public visitable
 
         /**
          * Returns the monetary value of an item by itself.
-         * Price includes hidden contents such as ammo and liquids.
          * If `practical` is false, returns pre-cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical );
+        int price_no_contents( bool practical ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -1034,10 +1037,17 @@ class item : public visitable
         const material_type &get_base_material() const;
         /**
          * The ids of all the materials this is made of.
+         * This may return an empty map.
+         * The returned map does not contain the null id.
+         */
+        const std::map<material_id, int> &made_of() const;
+        /**
+         * The ids of the materials a specific portion is made of. The specific
+         * portion is the part of the armour covering the specified body part.
          * This may return an empty vector.
          * The returned vector does not contain the null id.
          */
-        const std::map<material_id, int> &made_of() const;
+        std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
         /**
         * The ids of all the qualities this contains.
         */
@@ -1100,12 +1110,14 @@ class item : public visitable
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
-        float acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        float fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        float bash_resist( bool to_self = false ) const;
-        float cut_resist( bool to_self = false )  const;
-        float stab_resist( bool to_self = false ) const;
-        float bullet_resist( bool to_self = false ) const;
+        float acid_resist( bool to_self = false, int base_env_resist = 0,
+                           const bodypart_id &bp = bodypart_id() ) const;
+        float fire_resist( bool to_self = false, int base_env_resist = 0,
+                           const bodypart_id &bp = bodypart_id() ) const;
+        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
+        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() )  const;
+        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
+        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
         /*@}*/
 
         /**
@@ -1116,14 +1128,15 @@ class item : public visitable
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
-        float damage_resist( damage_type dt, bool to_self = false ) const;
+        float damage_resist( damage_type dt, bool to_self = false,
+                             const bodypart_id &bp = bodypart_id() ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
          * Calculated from item's materials.
          * @param worst If this is true, the worst resistance is used. Otherwise the best one.
          */
-        int chip_resistance( bool worst = false ) const;
+        int chip_resistance( bool worst = false, const bodypart_id &bp = bodypart_id() ) const;
 
         /** How much damage has the item sustained? */
         int damage() const;
@@ -1310,11 +1323,6 @@ class item : public visitable
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
-
-        // If this is food, returns itself.  If it contains food, return that
-        // contents.  Otherwise, returns nullptr.
-        item *get_food();
-        const item *get_food() const;
 
         void set_last_temp_check( const time_point &pt );
 
@@ -1724,6 +1732,10 @@ class item : public visitable
          */
         bool swap_side();
         /**
+         * Returns if the armor has ablative pockets
+         */
+        bool is_ablative() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
@@ -1734,6 +1746,11 @@ class item : public visitable
          * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
         float get_thickness() const;
+        /**
+         * Returns the average thickness value for the specified bodypart, or 0 for non-armor. Thickness is a
+         * relative value that affects the items resistance against bash / cutting / bullet damage.
+         */
+        float get_thickness( const bodypart_id &bp ) const;
         /**
          * Returns clothing layer for item.
          */
@@ -1781,9 +1798,6 @@ class item : public visitable
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
-                          encumber_flags = encumber_flags::none ) const;
-
-        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**

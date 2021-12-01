@@ -218,6 +218,21 @@ struct islot_brewable {
     void deserialize( const JsonObject &jo );
 };
 
+/** Material data for individual armor body parts */
+struct part_material {
+    material_id id; //material type
+    int cover; //portion coverage % of this material
+    float thickness; //portion thickness of this material
+
+    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material( material_id id, int cover, float thickness ) :
+        id( id ), cover( cover ), thickness( thickness ) {}
+    part_material( const std::string &id, int cover, float thickness ) :
+        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct armor_portion_data {
 
     // How much this piece encumbers the player.
@@ -234,10 +249,10 @@ struct armor_portion_data {
     int cover_vitals = 0;
 
     /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
+     * Average material thickness for all materials from
+     * this armor portion
      */
-    float thickness = 0.0f;
+    float avg_thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -247,8 +262,11 @@ struct armor_portion_data {
      */
     int env_resist_w_filter = 0;
 
-    // What materials this portion is made of, for armor purposes
-    std::vector<material_id> materials;
+    /**
+     * What materials this portion is made of, for armor purposes.
+     * Includes material portion and thickness.
+     */
+    std::vector<part_material> materials;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
@@ -260,6 +278,15 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
+
     void deserialize( const JsonObject &jo );
 };
 
@@ -268,6 +295,10 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
+    /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
     /**
      * How much warmth this item provides.
      */
@@ -285,6 +316,10 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
@@ -295,8 +330,14 @@ struct islot_armor {
      */
     bool has_sub_coverage = false;
 
-    // Layer, encumbrance and coverage information.
+    // Layer, encumbrance and coverage information for each body part.
+    // This isn't directly loaded in but is instead generated from the loaded in
+    // sub_data vector
     std::vector<armor_portion_data> data;
+
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
 
     bool was_loaded = false;
 
@@ -944,7 +985,7 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
-        std::set<std::string> weapon_category;
+        std::set<weapon_category_id> weapon_category;
 
         std::string snippet_category;
         translation description; // Flavor text

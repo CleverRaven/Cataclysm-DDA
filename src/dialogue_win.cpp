@@ -83,7 +83,7 @@ void dialogue_window::add_to_history( const std::string &text, const std::string
 
 void dialogue_window::add_to_history( const std::string &text )
 {
-    add_to_history( text, c_white );
+    add_to_history( text, default_color() );
 }
 
 void dialogue_window::add_to_history( const std::string &text, nc_color color )
@@ -96,7 +96,7 @@ void dialogue_window::add_to_history( const std::string &text, nc_color color )
 
 void dialogue_window::add_history_separator()
 {
-    add_to_history( "", c_white );
+    add_to_history( "", default_color() );
 }
 
 void dialogue_window::clear_history_highlights()
@@ -135,12 +135,19 @@ void dialogue_window::rebuild_folded_history()
     }
 }
 
+nc_color dialogue_window::default_color()
+{
+    return is_computer ? c_green : c_white;
+}
+
 void dialogue_window::print_header( const std::string &name )
 {
     draw_border( d_win );
-
-    mvwprintz( d_win, point( 2, 1 ), c_white, _( "Dialogue: %s" ), name );
-
+    if( is_computer ) {
+        mvwprintz( d_win, point( 2, 1 ), default_color(), _( "Interaction: %s" ), name );
+    } else {
+        mvwprintz( d_win, point( 2, 1 ), default_color(), _( "Dialogue: %s" ), name );
+    }
     const int xmax = getmaxx( d_win );
     const int ymax = getmaxy( d_win );
     const int ybar = ymax - 1 - RESPONSES_LINES - 1;
@@ -148,8 +155,13 @@ void dialogue_window::print_header( const std::string &name )
     mvwputch( d_win, point( 0, ybar ), BORDER_COLOR, LINE_XXXO );
     mvwhline( d_win, point( 1, ybar ), LINE_OXOX, xmax - 1 );
     mvwputch( d_win, point( xmax - 1, ybar ), BORDER_COLOR, LINE_XOXX );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( d_win, point( 2, ybar + 1 ), c_white, _( "Your response:" ) );
+    if( is_computer ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your input:" ) );
+    } else {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your response:" ) );
+    }
 }
 
 
@@ -189,7 +201,7 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
         const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
-        const nc_color &color = responses[i].color;
+        const nc_color &color = is_computer ? default_color() : responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, ycurrent++ ) {
             if( ycurrent < yoffset ) {
                 // Off screen (above)
@@ -210,17 +222,19 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     // Actions go on the right column; they're unaffected by scrolling.
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     ycurrent = yoffset;
-    const int actions_xoffset = xmid + 2;
-    mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Look at" ),
-               ctxt.get_desc( "LOOK_AT", 1 ) );
-    ++ycurrent;
-    mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Size up stats" ),
-               ctxt.get_desc( "SIZE_UP_STATS", 1 ) );
-    ++ycurrent;
-    mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Yell" ),
-               ctxt.get_desc( "YELL", 1 ) );
-    ++ycurrent;
-    mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Check opinion" ),
-               ctxt.get_desc( "CHECK_OPINION", 1 ) );
+    if( !is_computer ) {
+        const int actions_xoffset = xmid + 2;
+        mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Look at" ),
+                   ctxt.get_desc( "LOOK_AT", 1 ) );
+        ++ycurrent;
+        mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Size up stats" ),
+                   ctxt.get_desc( "SIZE_UP_STATS", 1 ) );
+        ++ycurrent;
+        mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Yell" ),
+                   ctxt.get_desc( "YELL", 1 ) );
+        ++ycurrent;
+        mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Check opinion" ),
+                   ctxt.get_desc( "CHECK_OPINION", 1 ) );
+    }
     return more_responses_to_display;
 }

@@ -12,7 +12,6 @@
 #include "generic_factory.h"
 #include "subbodypart.h"
 #include "json.h"
-#include "type_id.h"
 #include "rng.h"
 
 
@@ -198,10 +197,32 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-
-bool body_part_type::has_flag( const std::string &flag ) const
+bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
+}
+
+sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
+{
+    int total_weight = 0;
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            total_weight += bp->max_coverage;
+        }
+    }
+    int roll = rng( 1, total_weight );
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            if( roll <= bp->max_coverage ) {
+                return bp.id();
+            }
+            roll = roll - bp->max_coverage;
+        }
+    }
+    // should never get here
+    return ( sub_bodypart_id() );
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()
@@ -254,6 +275,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         legacy_id = "BP_NULL";
         token = body_part::num_bp;
     }
+
+    optional( jo, was_loaded, "env_protection", env_protection, 0 );
 
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 

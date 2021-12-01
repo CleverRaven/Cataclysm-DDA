@@ -185,79 +185,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "fur",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "fur pelt" },
-    "description": "A small bolt of fur from an animal.  Can be made into warm clothing.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
-    "id": "faux_fur",
-    "copy-from": "fur",
-    "color": "pink",
-    "name": { "str": "faux fur pelt" },
-    "price_postapoc": 10,
-    "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
-    "flags": [ "NO_SALVAGE" ],
-    "material": [ "faux_fur" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "leather",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "leather patch", "str_pl": "leather patches" },
-    "description": "A smallish patch of leather, could be used to make tough clothing.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "leather", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "felt_patch",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "felt patch", "str_pl": "felt patches" },
-    "description": "A smallish patch of felt, could be disassembled for wool fiber.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "wool" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "nomex",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "Nomex patch", "str_pl": "Nomex patches" },
-    "description": "A small bolt of Nomex fire-resistant fabric.",
-    "price": 4000,
-    "price_postapoc": 20,
-    "material": [ "nomex" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "42 g",
-    "volume": "250 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "superglue",
     "category": "spare_parts",
     "symbol": ",",
@@ -268,6 +195,23 @@
     "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "45 g",
+    "volume": "250 ml",
+    "to_hit": -2,
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rubber_cement",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "rubber cement" },
+    "looks_like": "superglue",
+    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility.  Typically smelly and toxic.",
+    "price": 1800,
+    "price_postapoc": 80,
+    "material": [ "plastic" ],
+    "weight": "52 g",
     "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
@@ -553,8 +497,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "type": "GENERIC",
@@ -1364,7 +1307,7 @@
     "id": "book_binder",
     "type": "TOOL",
     "category": "books",
-    "use_action": "BINDER_ADD_RECIPE",
+    "use_action": [ "BINDER_ADD_RECIPE", "BINDER_MANAGE_RECIPE" ],
     "symbol": "/",
     "looks_like": "story_book",
     "color": "light_gray",
@@ -2396,68 +2339,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "cured_hide",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "cured hide" },
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "125 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_hide",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned hide" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "leather" ],
-    "weight": "600 g",
-    "volume": "1500 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "cured_pelt",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "cured pelt" },
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "170 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_pelt",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned pelt" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "fur" ],
-    "weight": "684 g",
-    "volume": "1500 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
@@ -2624,10 +2505,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 6,
-      "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 25,
+          "coverage": 70,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -2666,10 +2552,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -2708,10 +2599,15 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
     "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
   },
@@ -3544,7 +3440,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",

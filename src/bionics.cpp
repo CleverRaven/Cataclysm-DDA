@@ -158,6 +158,7 @@ static const efftype_id effect_visuals( "visuals" );
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const itype_id itype_anesthetic( "anesthetic" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -173,6 +174,12 @@ static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
+static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
+
+static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
@@ -183,6 +190,7 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
@@ -942,7 +950,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
         static const std::set<material_id> affected_materials =
-        { material_id( "iron" ), material_id( "steel" ), material_id( "hardsteel" ), material_id( "budget_steel" ) };
+        { material_iron, material_steel, material_hardsteel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
@@ -1588,7 +1596,7 @@ material_id Character::find_remote_fuel( bool look_only )
             continue;
         }
         if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
+            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_battery,
                        true ) ) );
         }
         remote_fuel = fuel_type_battery;
@@ -2043,7 +2051,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient )
     }
 
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+    const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
@@ -2056,7 +2064,7 @@ bool Character::has_enough_anesth( const itype &cbm )
         return true;
     }
     const int weight = units::to_kilogram( bodyweight() ) / 10;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+    const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
     if( !req_anesth.can_make_with_inventory( crafting_inventory(),
             is_crafting_component ) ) {
@@ -2072,7 +2080,7 @@ bool Character::has_enough_anesth( const itype &cbm )
 void Character::consume_anesth_requirement( const itype &cbm, Character &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+    const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
     for( const auto &e : req_anesth.get_components() ) {
         consume_items( e, 1, is_crafting_component );
@@ -2425,7 +2433,7 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
                                 _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) :
                                 _( "CBM is not sterile." );
         return ret_val<bool>::make_failure( msg );
-    } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+    } else if( it->has_fault( fault_bionic_salvaged ) ) {
         return ret_val<bool>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
     } else if( has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
@@ -2849,7 +2857,7 @@ void Character::add_bionic( const bionic_id &b )
 
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
         const spell_id learned_spell = spell_pair.first;
-        if( learned_spell->spell_class != trait_id( "NONE" ) ) {
+        if( learned_spell->spell_class != trait_NONE ) {
             const trait_id spell_class = learned_spell->spell_class;
             // spells you learn from a bionic overwrite the opposite spell class.
             // for best UX, include those spell classes in "canceled_mutations"

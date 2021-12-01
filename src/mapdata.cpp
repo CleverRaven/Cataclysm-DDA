@@ -26,6 +26,8 @@
 #include "trap.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
 namespace
 {
 
@@ -293,7 +295,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     str_min_supported( -1 ), str_max_supported( -1 ),
     explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
     collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
-    drop_group( "EMPTY_GROUP" ),
+    drop_group( Item_spawn_data_EMPTY_GROUP ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
@@ -348,7 +350,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
         drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
                      "map_bash_info for " + context );
     } else {
-        drop_group = item_group_id( "EMPTY_GROUP" );
+        drop_group = Item_spawn_data_EMPTY_GROUP;
     }
 
     if( j.has_array( "tent_centers" ) ) {
@@ -1095,7 +1097,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-furn_id f_null,
+furn_id f_null, f_clear,
         f_hay,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
         f_barricade_road, f_sandbag_half, f_sandbag_wall,
@@ -1143,6 +1145,7 @@ furn_id f_null,
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
+    f_clear = furn_id( "f_clear" );
     f_hay = furn_id( "f_hay" );
     f_rubble = furn_id( "f_rubble" );
     f_rubble_rock = furn_id( "f_rubble_rock" );
