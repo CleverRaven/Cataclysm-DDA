@@ -7765,7 +7765,7 @@
     "id": "FELINE_FLEXIBILITY",
     "name": { "str": "Feline Flexibility" },
     "points": 4,
-    "description": "Your muscles, joints, and movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
+    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_FELINE" ],
