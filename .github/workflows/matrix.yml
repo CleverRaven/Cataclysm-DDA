@@ -225,8 +225,12 @@ jobs:
       run: bash ./build-scripts/build.sh
     - run: |
         echo ${{ github.event.number }} > pull_request_id
-        echo ${{ success() }} > ${{ env.ARCHIVE_SUCCESS }}
-      if: env.ARCHIVE_SUCCESS
+        echo "true" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && success() }}
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "false" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && failure() }}
     - uses: actions/upload-artifact@v2
       if: env.ARCHIVE_SUCCESS
       with:
