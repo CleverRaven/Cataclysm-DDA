@@ -1235,7 +1235,7 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
-        // Select a bodypart depending on the attack's hit size restriction
+        // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 

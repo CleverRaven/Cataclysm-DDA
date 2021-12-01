@@ -821,9 +821,6 @@ std::string monster::extended_description() const
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
 
-    if( can_attack_high() ) {
-        ss += string_format( _( "It can attack upper limbs." ) ) + "\n";
-    }
     std::vector<std::string> types = type->species_descriptions();
     if( type->has_flag( MF_ANIMAL ) ) {
         types.emplace_back( _( "an animal" ) );

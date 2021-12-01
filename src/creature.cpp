@@ -2646,14 +2646,8 @@ bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attac
                                         int hit_roll ) const
 {
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "min_hit = %d", min_hit );
-    add_msg_debug( debugmode::DF_CREATURE, "max_hit = %d", max_hit );
-    if( can_attack_high ) {
-        add_msg_debug( debugmode::DF_CREATURE, "can attack high!" );
-    }
     if( !is_monster() ) {
         can_attack_high = as_character()->is_on_ground();
-        add_msg_debug( debugmode::DF_CREATURE, "We're targeting a prone char, that true?" );
     }
 
     return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,

@@ -181,8 +181,8 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
         float weight = bp->hit_size;
         //Filter out too-large or too-small bodyparts
         if( weight < min_hit || ( max_hit > -1 && weight > max_hit ) ) {
-            add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, hitsize %.1f", body_part_name( bp ),
-                           weight );
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "BP %s discarded - hitsize %.1f( min %d max %d )",
+                           body_part_name( bp ), weight, min_hit, max_hit );
             continue;
         }
 
@@ -193,10 +193,7 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
         }
 
         if( hit_roll != 0 ) {
-            add_msg_debug( debugmode::DF_ANATOMY_BP, "limb, weight = %s %.1f", body_part_name( bp ), weight );
-            add_msg_debug( debugmode::DF_ANATOMY_BP, "hit difficulty = %.1f", bp->hit_difficulty );
             weight *= std::pow( hit_roll, bp->hit_difficulty );
-            add_msg_debug( debugmode::DF_ANATOMY_BP, "adjusted weight = %.1f", weight );
         }
 
         hit_weights.add( bp, weight );
