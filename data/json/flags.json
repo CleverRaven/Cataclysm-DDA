@@ -922,6 +922,11 @@
     "//": "items spawned by spells are put in their containers."
   },
   {
+    "id": "SPAWN_WITH_DEATH_DROPS",
+    "type": "json_flag",
+    "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."

@@ -1036,7 +1036,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
-    spawned_mon.no_extra_death_drops = true;
+    spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     return true;
 }
 
