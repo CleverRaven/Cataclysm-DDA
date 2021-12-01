@@ -120,6 +120,7 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_sunglasses( "sunglasses" );
 static const itype_id itype_sw_619( "sw_619" );
+static const itype_id itype_tire_iron( "tire_iron" );
 static const itype_id itype_touring_suit( "touring_suit" );
 static const itype_id itype_tux( "tux" );
 static const itype_id itype_umbrella( "umbrella" );
@@ -127,7 +128,6 @@ static const itype_id itype_usp_45( "usp_45" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
-static const itype_id itype_wrench( "wrench" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
@@ -2539,7 +2539,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
-            m.spawn_item( { 16, 16, abs_sub.z }, itype_wrench );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_tire_iron );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
                 m.put_items_from_loc( Item_spawn_data_everyday_corpse, { 16, 15, abs_sub.z } );
