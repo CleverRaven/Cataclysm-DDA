@@ -1408,7 +1408,8 @@ void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;
     for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
-        contents.push_back( *i_pocket );
+        // need to insert before the end since the final pocket is the migration pocket
+        contents.insert( --contents.end(), *i_pocket );
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
     additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
@@ -1419,13 +1420,13 @@ void item_contents::add_pocket( const item &pocket_item )
 
 item item_contents::remove_pocket( int index )
 {
-    // start at the first true item
-    auto it = ++contents.begin();
+    // start at the first pocket
+    auto it = contents.begin();
 
     // find the pockets to remove from the item
-    for( const item &pocket_item : additional_pockets ) {
+    for( int i = 0; i < index; ++i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( it, pocket_item.get_all_contained_pockets().value().size() );
+        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
     units::volume total_nonrigid_volume = 0_ml;
