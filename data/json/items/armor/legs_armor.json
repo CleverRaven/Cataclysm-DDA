@@ -433,7 +433,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of metal leg guards", "str_pl": "pair of metal leg guards" },
-    "description": "A pair of leg guards hammered out from metal with plates to tie on the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "description": "A pair of leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
     "weight": "2260 g",
     "volume": "5500 ml",
     "price": 40000,
