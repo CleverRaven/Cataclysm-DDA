@@ -443,8 +443,7 @@
     "description": "A handful of finely-ground aluminum powder.  This strong reducing agent was used in combination with various oxidants for chemical welding and explosives alike.  Just before the Cataclysm, however, it was the basis of virtually all commercial metallic-hued paints and anti-corrosive coatings.",
     "material": [ "powder" ],
     "volume": "250 ml",
-    "weight": "2 g",
-    "//": "Weight should be 1.76g but the game will round down the number to 1g and 1.76g is closer to 2g",
+    "weight": "1760 mg",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
@@ -1440,7 +1439,7 @@
     "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You have yet to find some use for it.",
     "material": [ "steel", "plastic" ],
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
-    "volume": "250 ml",
+    "volume": "90 ml",
     "weight": "80 g"
   },
   {

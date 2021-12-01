@@ -116,7 +116,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -194,8 +194,8 @@
     "price": 1800,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "weight": "45 g",
-    "volume": "250 ml",
+    "weight": "8 g",
+    "volume": "10 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -228,7 +228,7 @@
     "price_postapoc": 50,
     "material": [ "bone" ],
     "weight": "45 g",
-    "volume": "250 ml",
+    "volume": "150 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
@@ -681,7 +681,7 @@
     "price_postapoc": 100,
     "material": [ "steel" ],
     "weight": "151 g",
-    "volume": "500 ml",
+    "volume": "100 ml",
     "to_hit": -2
   },
   {
@@ -1617,7 +1617,7 @@
     "price_postapoc": 100,
     "material": [ "glass" ],
     "weight": "30 g",
-    "volume": "1 ml",
+    "volume": "10 ml",
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
@@ -1862,7 +1862,7 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "50 g",
-    "volume": "250 ml"
+    "volume": "50 ml"
   },
   {
     "type": "GENERIC",
@@ -2490,7 +2490,7 @@
     "symbol": "!",
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
     "weight": "9 g",
-    "volume": "250 ml",
+    "volume": "15 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2816,7 +2816,7 @@
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 0,
     "price_postapoc": 0,
     "stack_size": 50,
@@ -2958,7 +2958,7 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "5 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "bashing": 1
   },
   {
@@ -3201,7 +3201,7 @@
     "name": { "str": "wallet" },
     "looks_like": "bag_plastic",
     "description": "A small, flat case used to carry items such as currency, identification documents, and laminated cards.",
-    "volume": "250 ml",
+    "volume": "200 ml",
     "weight": "60 g",
     "price": 1,
     "price_postapoc": 10,
