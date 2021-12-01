@@ -3436,7 +3436,7 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You've gained a strong ability to leap from a standing position.",
-    "spells_learned": [ [ "spell_feline_leap", 1 ] ],
+    "spells_learned": [ [ "spell_short_leap", 1 ] ],
     "changes_to": [ "LEAPING_LEGS2" ],
     "category": [ "BATRACHIAN", "RABBIT" ]
   },
