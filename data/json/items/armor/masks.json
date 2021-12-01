@@ -224,7 +224,7 @@
     "id": "santa_beard",
     "type": "ARMOR",
     "name": { "str": "white beard" },
-    "description": "A fake white beard that straps over the mouth.  Perfect for your santa costume!",
+    "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
     "weight": "200 g",
     "volume": "150 ml",
     "price": 800,
