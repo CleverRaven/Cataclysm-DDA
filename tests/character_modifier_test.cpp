@@ -4,7 +4,7 @@
 #include "magic_enchantment.h"
 #include "player_helpers.h"
 
-static const bodypart_str_id bodypart_test_tail( "test_tail" );
+static const bodypart_str_id body_part_test_tail( "test_tail" );
 static const character_modifier_id character_modifier_test_char_cost_mod( "test_char_cost_mod" );
 static const enchantment_id enchantment_ENCH_TEST_TAIL( "ENCH_TEST_TAIL" );
 static const itype_id itype_test_tail_encumber( "test_tail_encumber" );
@@ -16,14 +16,14 @@ static void create_char( Character &dude )
 
     dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_TAIL );
     dude.recalculate_bodyparts();
-    REQUIRE( dude.has_part( bodypart_test_tail ) );
+    REQUIRE( dude.has_part( body_part_test_tail ) );
 }
 
 TEST_CASE( "Basic limb score test", "[character][encumbrance]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
-    const bodypart *test_bp = dude.get_part( bodypart_test_tail );
+    const bodypart *test_bp = dude.get_part( body_part_test_tail );
     REQUIRE( test_bp != nullptr );
 
     GIVEN( "limb is not encumbered" ) {
@@ -65,7 +65,7 @@ TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
-    const bodypart *test_bp = dude.get_part( bodypart_test_tail );
+    const bodypart *test_bp = dude.get_part( body_part_test_tail );
     REQUIRE( test_bp != nullptr );
     REQUIRE( character_modifier_test_char_cost_mod->use_limb_score() == limb_score_test );
 
