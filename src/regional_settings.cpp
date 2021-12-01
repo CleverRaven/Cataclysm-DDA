@@ -166,8 +166,25 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                 continue;
             }
             JsonObject forest_biome_jo = member.get_object();
-            load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
-                               overlay );
+            if( forest_biome_jo.has_array( "terrains" ) ) {
+                JsonArray forest_biome_ter_keys = forest_biome_jo.get_array( "terrains" );
+                if( forest_biome_ter_keys.empty() ) {
+                    forest_biome_jo.throw_error( "Biome is not associated with any terrains." );
+                }
+                std::string first_ter = forest_biome_ter_keys.get_string( 0 );
+                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[first_ter],
+                                   overlay );
+                for( size_t biome_ter_idx = 1; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                    forest_mapgen_settings.unfinalized_biomes.insert( std::pair<std::string, forest_biome>
+                            ( forest_biome_ter_keys.get_string( biome_ter_idx ),
+                              forest_mapgen_settings.unfinalized_biomes[first_ter] ) );
+                }
+            } else {
+                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
+                                   overlay );
+            }
+
+
         }
     }
 }
