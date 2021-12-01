@@ -2185,10 +2185,14 @@ bool inventory_selector::has_available_choices() const
 
 inventory_input inventory_selector::get_input()
 {
-    inventory_input res;
+    std::string const &action = ctxt.handle_input();
+    int const ch = ctxt.get_raw_input().get_first_input();
+    return process_input( action, ch );
+}
 
-    res.action = ctxt.handle_input();
-    res.ch = ctxt.get_raw_input().get_first_input();
+inventory_input inventory_selector::process_input( const std::string &action, int ch )
+{
+    inventory_input res{ action, ch, nullptr };
 
     if( res.action == "SELECT" ) {
         cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
@@ -3210,11 +3214,16 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 inventory_selector_preset const &preset,
                                 std::string const &selection_column_title,
                                 point const &size, point const &origin )
-    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent )
+    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent ),
+      _ctxt_trade( "INVENTORY" )
 {
+    _ctxt_trade.register_action( ACTION_SWITCH_PANES );
+    _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
+    _ctxt_trade.register_action( ACTION_TRADE_OK );
+    _ctxt_trade.register_action( "ANY_INPUT" );
+    // duplicate this action in the parent ctxt so it shows up in the keybindings menu
+    // CANCEL and OK are already set in inventory_selector
     ctxt.register_action( ACTION_SWITCH_PANES );
-    ctxt.register_action( ACTION_TRADE_CANCEL );
-    ctxt.register_action( ACTION_TRADE_OK );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
     set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
@@ -3234,22 +3243,27 @@ void trade_selector::execute()
     while( !exit ) {
         _ui->invalidate_ui();
         ui_manager::redraw_invalidated();
-        inventory_input const input = get_input();
-        if( input.action == ACTION_SWITCH_PANES ) {
+        std::string const &action = _ctxt_trade.handle_input();
+        if( action == ACTION_SWITCH_PANES ) {
             _parent->pushevent( trade_ui::event::SWITCH );
             get_active_column().on_deactivate();
             exit = true;
-        } else if( input.action == ACTION_TRADE_OK ) {
+        } else if( action == ACTION_TRADE_OK ) {
             _parent->pushevent( trade_ui::event::TRADEOK );
             exit = true;
-        } else if( input.action == ACTION_TRADE_CANCEL ) {
+        } else if( action == ACTION_TRADE_CANCEL ) {
             _parent->pushevent( trade_ui::event::TRADECANCEL );
             exit = true;
         } else {
+            input_event const iev = _ctxt_trade.get_raw_input();
+            inventory_input const input =
+                process_input( ctxt.input_to_action( iev ), iev.get_first_input() );
             inventory_drop_selector::on_input( input );
-            // FIXME: this would be better done in a callback from toggle_entries()
-            if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
-                input.entry != nullptr ) {
+            if( input.action == "HELP_KEYBINDINGS" ) {
+                ctxt.display_menu();
+            } else if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
+                       input.entry != nullptr ) {
+                // FIXME: this would be better done in a callback from toggle_entries()
                 _parent->recalc_values_cpane();
             }
         }
@@ -3268,6 +3282,11 @@ void trade_selector::resize( point const &size, point const &origin )
 shared_ptr_fast<ui_adaptor> trade_selector::get_ui() const
 {
     return _ui;
+}
+
+input_context const *trade_selector::get_ctxt() const
+{
+    return &_ctxt_trade;
 }
 
 void trade_selector::categorize_map_items( bool toggle )
