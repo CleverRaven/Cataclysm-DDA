@@ -2646,7 +2646,7 @@ bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attac
                                         int hit_roll ) const
 {
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    if( !is_monster() ) {
+    if( !is_monster() && !can_attack_high ) {
         can_attack_high = as_character()->is_on_ground();
     }
 

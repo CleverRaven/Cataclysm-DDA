@@ -360,11 +360,7 @@ float Character::hit_roll() const
 
 bool Character::can_attack_high() const
 {
-    if( is_on_ground() ) {
-        return false;
-    } else {
-        return true;
-    }
+    return !is_on_ground();
 }
 
 void Character::add_miss_reason( const std::string &reason, const unsigned int weight )
