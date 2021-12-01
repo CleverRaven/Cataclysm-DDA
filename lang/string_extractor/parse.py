@@ -12,7 +12,12 @@ def parse_json_object(json, origin):
     if "type" in json and type(json["type"]) is str:
         json_type = json["type"].lower()
         if json_type in parsers:
-            parsers[json_type](json, origin)
+            try:
+                parsers[json_type](json, origin)
+            except Exception as E:
+                print("Exception when parsing JSON data type \"{}\""
+                      .format(json_type))
+                raise E
         else:
             raise Exception("Unrecognized JSON data type \"{}\""
                             .format(json_type))

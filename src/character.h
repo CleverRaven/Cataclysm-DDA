@@ -601,7 +601,7 @@ class Character : public Creature, public visitable
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
         float limb_speed_movecost_modifier() const;
-        float limb_balance_movecost_modifier() const;
+        float limb_footing_movecost_modifier() const;
         // movecost is modified by the average of limb speed and balance.
         float limb_run_cost_modifier() const;
         float swim_modifier() const;
@@ -1173,12 +1173,14 @@ class Character : public Creature, public visitable
         float manipulator_score() const;
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
+        float encumb_adjusted_lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
         float swim_score() const;
         float vision_score() const;
         float nightvision_score() const;
         float reaction_score() const;
         float movement_speed_score() const;
+        float footing_score() const;
         float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -2868,6 +2870,8 @@ class Character : public Creature, public visitable
         * */
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
+        const inventory &crafting_inventory( const recipe *rec, const tripoint &src_pos = tripoint_zero,
+                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
@@ -3003,7 +3007,7 @@ class Character : public Creature, public visitable
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true, bool disassemble_all = false );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );
@@ -3364,6 +3368,7 @@ class Character : public Creature, public visitable
             int moves;
             tripoint position;
             int radius;
+            const recipe *rec;
             pimpl<inventory> crafting_inventory;
         };
         mutable crafting_cache_type crafting_cache;

@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -13,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "enums.h"
 #include "json.h"
 
 class JsonIn;
@@ -635,6 +637,13 @@ std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_se
     rhv.clear();
     return lhv;
 }
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
 
 /**
  * Returns a random (weighted) bucket index from a list of weights

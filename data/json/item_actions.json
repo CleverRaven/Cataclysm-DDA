@@ -81,6 +81,11 @@
   },
   {
     "type": "item_action",
+    "id": "HOTPLATE_ATOMIC",
+    "name": { "str": "Heat up food (with it)" }
+  },
+  {
+    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": { "str": "Attach as toolmod" }
   },

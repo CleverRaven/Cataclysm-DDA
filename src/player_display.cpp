@@ -229,7 +229,6 @@ static std::string get_encumbrance_description( const Character &you, const body
             s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
                                 you.melee_attack_roll_modifier() );
             s += melee_cost_text( you.melee_thrown_move_modifier_torso() );
-            s += swim_cost_text( you.swim_modifier() );
             break;
         }
         case bp_head:
@@ -251,9 +250,10 @@ static std::string get_encumbrance_description( const Character &you, const body
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost and accuracy of melee attacks.</color>\n" );
             s += melee_stamina_cost_text( you.melee_stamina_cost_modifier() );
-            s += ranged_cost_text( you.ranged_dispersion_modifier_hands() );
+            s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
+                                you.melee_attack_roll_modifier() );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -264,17 +264,18 @@ static std::string get_encumbrance_description( const Character &you, const body
             s += melee_cost_text( you.melee_thrown_move_modifier_hands() );
             s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
                                 you.aim_speed_modifier() );
+            s += ranged_cost_text( you.ranged_dispersion_modifier_hands() );
             break;
         case bp_leg_l:
         case bp_leg_r:
             s += string_format( _( "Limb speed movecost modifier: <color_white>x%.2f</color>\n" ),
-                                you.limb_speed_movecost_modifier() );
+                                you.limb_run_cost_modifier() );
             s += swim_cost_text( you.swim_modifier() );
             break;
         case bp_foot_l:
         case bp_foot_r:
-            s += string_format( _( "Balance movecost modifier: <color_white>x%.2f</color>" ),
-                                you.limb_balance_movecost_modifier() );
+            s += string_format( _( "Footing movecost modifier: <color_white>x%.2f</color>" ),
+                                you.limb_footing_movecost_modifier() );
             break;
         case num_bp:
             break;

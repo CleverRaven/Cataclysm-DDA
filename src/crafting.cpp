@@ -89,6 +89,8 @@ static const itype_id itype_plut_cell( "plut_cell" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
+static const quality_id qual_BOIL( "BOIL" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -104,6 +106,7 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
+static const std::string flag_UNCRAFT_BY_QUANTITY( "UNCRAFT_BY_QUANTITY" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
 
@@ -507,9 +510,25 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     return conts;
 }
 
+static std::vector<std::pair<quality_id, int>> get_quals_for_rec( const recipe *r )
+{
+    std::vector<std::pair<quality_id, int>> quals;
+    if( r == nullptr ) {
+        return quals;
+    }
+    for( const auto &req : r->deduped_requirements().alternatives() ) {
+        for( const auto &qual : req.get_qualities() ) {
+            for( const auto &q : qual ) {
+                quals.emplace_back( q.type, q.level );
+            }
+        }
+    }
+    return quals;
+}
+
 bool Character::can_make( const recipe *r, int batch_size )
 {
-    const inventory &crafting_inv = crafting_inventory();
+    const inventory &crafting_inv = crafting_inventory( r );
 
     if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
@@ -533,7 +552,7 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, i
         return false;
     }
 
-    const inventory &inv = crafting_inventory();
+    const inventory &inv = crafting_inventory( rec );
     return rec->deduped_requirements().can_make_with_inventory(
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
@@ -546,11 +565,18 @@ const inventory &Character::crafting_inventory( bool clear_path ) const
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
+    return crafting_inventory( nullptr, src_pos, radius, clear_path );
+}
+
+const inventory &Character::crafting_inventory( const recipe *rec, const tripoint &src_pos,
+        int radius, bool clear_path ) const
+{
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    if( moves == crafting_cache.moves
+    if( rec == crafting_cache.rec
+        && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position ) {
@@ -561,11 +587,28 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
+    const std::vector<std::pair<quality_id, int>> &qual = get_quals_for_rec( rec );
+
     // TODO: Add a const overload of all_items_loc() that returns something like
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
-        // can't craft with containers that have items in them
+        // add containers separately from their contents
         if( !it->empty_container() ) {
+            // is the non-empty container used for BOIL?
+            bool unusable_boil_qual = it->is_watertight_container() && !qual.empty() &&
+            std::any_of( qual.begin(), qual.end(), [&it]( const std::pair<quality_id, int> &q ) {
+                const std::map<quality_id, int> &qmap = it->quality_of();
+                return q.first == qual_BOIL && !qmap.empty() &&
+                std::any_of( qmap.begin(), qmap.end(), [&q]( const std::pair<quality_id, int> &qit ) {
+                    // if BOIL quality satisfies recipe level,
+                    // we can't use it because it's not empty
+                    return q.first == qit.first && q.second <= qit.second;
+                } );
+            } );
+
+            if( !unusable_boil_qual ) {
+                *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
+            }
             continue;
         }
         crafting_cache.crafting_inventory->add_item( *it );
@@ -580,6 +623,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
+    crafting_cache.rec = rec;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -847,6 +891,9 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
     }
 
     item craft = command.create_in_progress_craft();
+    if( craft.is_null() ) {
+        return;
+    }
     const recipe &making = craft.get_making();
     if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
@@ -922,43 +969,50 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         cata::optional<time_duration> max_experience;
     };
 
-    // The proficiency, and the multiplier on the time we learn it for
-    std::vector<learn_subject> subjects;
-    for( const recipe_proficiency &prof : making.proficiencies ) {
-        if( !_proficiencies->has_learned( prof.id ) &&
-            prof.id->can_learn() &&
-            _proficiencies->has_prereqs( prof.id ) ) {
-            learn_subject subject{
-                prof.id,
-                prof.learning_time_mult / prof.time_multiplier,
-                prof.max_experience
-            };
-            subjects.push_back( subject );
-        }
-    }
-    if( subjects.empty() ) {
-        return false;
-    }
-    const time_duration learn_time = time / subjects.size();
+    const std::vector<npc *> helpers = get_crafting_helpers();
+    std::vector<Character *> all_crafters{ helpers.begin(), helpers.end() };
+    all_crafters.push_back( this );
 
-    int npc_helper_bonus = 1;
-    for( npc *helper : get_crafting_helpers() ) {
-        for( const learn_subject &subject : subjects ) {
-            if( helper->has_proficiency( subject.proficiency ) ) {
-                // NPCs who know the proficiency and help teach you faster
-                npc_helper_bonus = 2;
+    bool player_gained_prof = false;
+    for( Character *p : all_crafters ) {
+        std::vector<learn_subject> subjects;
+        for( const recipe_proficiency &prof : making.proficiencies ) {
+            if( !p->_proficiencies->has_learned( prof.id ) &&
+                prof.id->can_learn() &&
+                p->_proficiencies->has_prereqs( prof.id ) ) {
+                learn_subject subject{
+                    prof.id,
+                    prof.learning_time_mult / prof.time_multiplier,
+                    prof.max_experience
+                };
+                subjects.push_back( subject );
             }
-            helper->practice_proficiency( subject.proficiency, subject.time_multiplier * learn_time,
-                                          subject.max_experience );
         }
+
+        if( subjects.empty() ) {
+            player_gained_prof = false;
+            continue;
+        }
+        const time_duration learn_time = time / subjects.size();
+
+        bool gained_prof = false;
+        for( const learn_subject &subject : subjects ) {
+            int helper_bonus = 1;
+            for( const Character *other : all_crafters ) {
+                if( p != other && other->has_proficiency( subject.proficiency ) ) {
+                    // Other characters who know the proficiency help you learn faster
+                    helper_bonus = 2;
+                }
+            }
+            gained_prof |= p->practice_proficiency( subject.proficiency,
+                                                    subject.time_multiplier * learn_time * helper_bonus,
+                                                    subject.max_experience );
+        }
+        // This depends on the player being the last element in the iteration
+        player_gained_prof = gained_prof;
     }
 
-    bool gained_prof = false;
-    for( const learn_subject &subject : subjects ) {
-        gained_prof |= practice_proficiency( subject.proficiency,
-                                             learn_time * subject.time_multiplier * npc_helper_bonus, subject.max_experience );
-    }
-    return gained_prof;
+    return player_gained_prof;
 }
 
 double Character::crafting_success_roll( const recipe &making ) const
@@ -1371,7 +1425,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), filter, batch_size ) ) {
             std::string buffer = _( "You don't have the required components to continue crafting!" );
             buffer += "\n";
             buffer += continue_reqs.list_missing();
@@ -1386,7 +1440,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
+        if( continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), no_rotten_filter,
                 batch_size ) ) {
             filter = no_rotten_filter;
         } else {
@@ -1439,7 +1493,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 std::vector<std::vector<quality_requirement>>(),
                 std::vector<std::vector<item_comp>>() );
 
-        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
+        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), return_true<item> ) ) {
             std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
             buffer += "\n";
             buffer += tool_continue_reqs.list_missing();
@@ -2195,7 +2249,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         }
         if( orig_item.count_by_charges() ) {
             // remove the charges that one would get from crafting it
-            if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+            if( !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
                 //subtract selected number of rounds to disassemble
                 orig_item.charges -= activity.position;
                 new_disassembly.charges = activity.position;
@@ -2227,7 +2281,7 @@ bool Character::disassemble()
     return disassemble( game_menus::inv::disassemble( *this ), false );
 }
 
-bool Character::disassemble( item_location target, bool interactive )
+bool Character::disassemble( item_location target, bool interactive, bool disassemble_all )
 {
     if( !target ) {
         add_msg( _( "Never mind." ) );
@@ -2293,17 +2347,20 @@ bool Character::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         player_activity new_act;
-        // If we're disassembling ammo, prompt the player to specify amount
-        // This could be extended more generally in the future
+        // When disassembling items with charges, prompt the player to specify amount
         int num_dis = 0;
-        if( obj.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            string_input_popup popup_input;
-            const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
-                                      obj.type_name( 1 ), obj.charges );
-            popup_input.title( title ).edit( num_dis );
-            if( popup_input.canceled() || num_dis <= 0 ) {
-                add_msg( _( "Never mind." ) );
-                return false;
+        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+            if( !disassemble_all && obj.charges > 1 ) {
+                string_input_popup popup_input;
+                const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
+                                          obj.type_name( 1 ), obj.charges );
+                popup_input.title( title ).edit( num_dis );
+                if( popup_input.canceled() || num_dis <= 0 ) {
+                    add_msg( _( "Never mind." ) );
+                    return false;
+                }
+            } else {
+                num_dis = obj.charges;
             }
         }
         if( obj.typeId() != itype_disassembly ) {
@@ -2324,6 +2381,7 @@ bool Character::disassemble( item_location target, bool interactive )
         new_act.index = false;
         // Unused position attribute used to store ammo to disassemble
         new_act.position = std::min( num_dis, obj.charges );
+        new_act.values.push_back( disassemble_all );
         assign_activity( new_act );
     } else {
         // index is used as a bool that indicates if we want recursive uncraft.
@@ -2351,7 +2409,7 @@ void Character::disassemble_all( bool one_pass )
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
         // and choosing to place it on the ground
-        if( disassemble( it_loc, false ) ) {
+        if( disassemble( it_loc, false, true ) ) {
             found_any = true;
         }
     }
@@ -2411,15 +2469,20 @@ void Character::complete_disassemble( item_location target )
     }
     int num_dis = 1;
     const item &obj = *activity.targets.back().get_item();
-    if( obj.is_ammo() && !next_recipe.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-        string_input_popup popup_input;
-        const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
-                                  obj.type_name( 1 ), obj.charges );
-        popup_input.title( title ).edit( num_dis );
-        if( popup_input.canceled() || num_dis <= 0 ) {
-            add_msg( _( "Never mind." ) );
-            activity.set_to_null();
-            return;
+    if( obj.count_by_charges() && !next_recipe.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+        // get_value( 0 ) is true if the player wants to disassemble all charges
+        if( !activity.get_value( 0 ) && obj.charges > 1 ) {
+            string_input_popup popup_input;
+            const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
+                                      obj.type_name( 1 ), obj.charges );
+            popup_input.title( title ).edit( num_dis );
+            if( popup_input.canceled() || num_dis <= 0 ) {
+                add_msg( _( "Never mind." ) );
+                activity.set_to_null();
+                return;
+            }
+        } else {
+            num_dis = obj.charges;
         }
     }
     player_activity new_act = player_activity( disassemble_activity_actor(
@@ -2489,13 +2552,14 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
-            //If ammo, overwrite component count with selected quantity of ammo
-            if( dis_item.is_ammo() ) {
-                compcount *= activity.position;
-            } else if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
-                // Counted-by-charge items that can be disassembled individually
-                // have their component count multiplied by the number of charges.
-                compcount *= std::min( dis_item.charges, dis.create_result().charges );
+            if( dis_item.count_by_charges() ) {
+                if( dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+                    // Counted-by-charge items that can be disassembled individually
+                    // have their component count multiplied by the number of charges.
+                    compcount *= std::min( dis_item.charges, dis.create_result().charges );
+                } else {
+                    compcount *= activity.position;
+                }
             }
             const bool is_liquid = newit.made_of( phase_id::LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
