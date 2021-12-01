@@ -232,12 +232,12 @@ jobs:
         echo "false" > ${{ env.ARCHIVE_SUCCESS }}
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
     - uses: actions/upload-artifact@v2
-      if: env.ARCHIVE_SUCCESS
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
     - uses: actions/upload-artifact@v2
-      if: env.ARCHIVE_SUCCESS
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: ${{ env.ARCHIVE_SUCCESS }}
         path: ${{ env.ARCHIVE_SUCCESS }}
