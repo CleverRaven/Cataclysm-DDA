@@ -388,7 +388,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
     give_tools( tools );
     player_character.moves--;
-    const inventory &crafting_inv = player_character.crafting_inventory( &r );
+    const inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements().can_make_with_inventory(
                                            crafting_inv, r.get_component_filter() );

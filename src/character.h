@@ -2870,8 +2870,6 @@ class Character : public Creature, public visitable
         * */
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
-        const inventory &crafting_inventory( const recipe *rec, const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
@@ -3368,7 +3366,6 @@ class Character : public Creature, public visitable
             int moves;
             tripoint position;
             int radius;
-            const recipe *rec;
             pimpl<inventory> crafting_inventory;
         };
         mutable crafting_cache_type crafting_cache;

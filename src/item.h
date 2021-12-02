@@ -863,6 +863,7 @@ class item : public visitable
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        int get_raw_quality( const quality_id &id ) const;
         bool count_by_charges() const;
 
         /**

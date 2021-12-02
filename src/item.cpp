@@ -6402,6 +6402,20 @@ int item::get_quality( const quality_id &id ) const
     return return_quality;
 }
 
+int item::get_raw_quality( const quality_id &id ) const
+{
+    int return_quality = INT_MIN;
+
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
+        if( quality.first == id ) {
+            return_quality = quality.second;
+        }
+    }
+    return_quality = std::max( return_quality, contents.best_quality( id ) );
+
+    return return_quality;
+}
+
 bool item::has_technique( const matec_id &tech ) const
 {
     return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
