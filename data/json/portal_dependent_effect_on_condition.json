@@ -186,6 +186,7 @@
               [ "EOC_PORTAL_DEPENDENT_STUN", 3 ],
               [ "EOC_PORTAL_DEPENDENT_DOWNED", 3 ],
               [ "EOC_PORTAL_DEPENDENT_STATS_BAD", 3 ],
+              [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
               [ "EOC_PORTAL_DEPENDENT_PAIN", 2 ],
               [ "EOC_PORTAL_DEPENDENT_PAIN_CONSTANT", 1 ],
               [ "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT", 1 ]
