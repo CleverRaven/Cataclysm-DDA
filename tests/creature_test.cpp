@@ -48,7 +48,8 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
     const int num_tests = 15000;
 
     for( int i = 0; i < num_tests; ++i ) {
-        selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
+        selected_part_histogram[defender.select_body_part( -1, -1, attacker.can_attack_high(),
+                                                           hit_roll )]++;
     }
 
     float total_weight = 0.0f;
