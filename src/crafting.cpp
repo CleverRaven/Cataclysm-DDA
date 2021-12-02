@@ -510,22 +510,6 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     return conts;
 }
 
-static std::vector<std::pair<quality_id, int>> get_quals_for_rec( const recipe *r )
-{
-    std::vector<std::pair<quality_id, int>> quals;
-    if( r == nullptr ) {
-        return quals;
-    }
-    for( const auto &req : r->deduped_requirements().alternatives() ) {
-        for( const auto &qual : req.get_qualities() ) {
-            for( const auto &q : qual ) {
-                quals.emplace_back( q.type, q.level );
-            }
-        }
-    }
-    return quals;
-}
-
 bool Character::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory( r );
@@ -552,7 +536,7 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, i
         return false;
     }
 
-    const inventory &inv = crafting_inventory( rec );
+    const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
@@ -565,18 +549,11 @@ const inventory &Character::crafting_inventory( bool clear_path ) const
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
-    return crafting_inventory( nullptr, src_pos, radius, clear_path );
-}
-
-const inventory &Character::crafting_inventory( const recipe *rec, const tripoint &src_pos,
-        int radius, bool clear_path ) const
-{
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    if( rec == crafting_cache.rec
-        && moves == crafting_cache.moves
+    if( moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position ) {
@@ -587,26 +564,13 @@ const inventory &Character::crafting_inventory( const recipe *rec, const tripoin
         crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
-    const std::vector<std::pair<quality_id, int>> &qual = get_quals_for_rec( rec );
-
     // TODO: Add a const overload of all_items_loc() that returns something like
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            bool unusable_boil_qual = it->is_watertight_container() && !qual.empty() &&
-            std::any_of( qual.begin(), qual.end(), [&it]( const std::pair<quality_id, int> &q ) {
-                const std::map<quality_id, int> &qmap = it->quality_of();
-                return q.first == qual_BOIL && !qmap.empty() &&
-                std::any_of( qmap.begin(), qmap.end(), [&q]( const std::pair<quality_id, int> &qit ) {
-                    // if BOIL quality satisfies recipe level,
-                    // we can't use it because it's not empty
-                    return q.first == qit.first && q.second <= qit.second;
-                } );
-            } );
-
-            if( !unusable_boil_qual ) {
+            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
                 *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
             }
             continue;
@@ -623,7 +587,6 @@ const inventory &Character::crafting_inventory( const recipe *rec, const tripoin
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
-    crafting_cache.rec = rec;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -1425,7 +1388,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
             std::string buffer = _( "You don't have the required components to continue crafting!" );
             buffer += "\n";
             buffer += continue_reqs.list_missing();
@@ -1440,7 +1403,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), no_rotten_filter,
+        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
                 batch_size ) ) {
             filter = no_rotten_filter;
         } else {
@@ -1493,7 +1456,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 std::vector<std::vector<quality_requirement>>(),
                 std::vector<std::vector<item_comp>>() );
 
-        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory( &rec ), return_true<item> ) ) {
+        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
             std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
             buffer += "\n";
             buffer += tool_continue_reqs.list_missing();
