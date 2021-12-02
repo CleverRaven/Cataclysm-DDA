@@ -100,7 +100,7 @@
     "type": "COMESTIBLE",
     "id": "egg_water_bug",
     "name": "water scorpion egg",
-    "copy-from": "egg_water_beetler",
+    "copy-from": "egg_water_beetle",
     "description": "The egg of a water scorpion, usually found near aquatic grass.",
     "rot_spawn": "GROUP_EGG_WATER_BUG"
   }
