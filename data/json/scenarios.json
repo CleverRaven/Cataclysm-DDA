@@ -693,6 +693,19 @@
   },
   {
     "type": "scenario",
+    "id": "portal_dependent",
+    "name": "Challenge - Portal Dependent",
+    "points": -8,
+    "description": "You were caught on a huge and unstable portal storm.  You feel…  different.",
+    "forced_traits": [ "PORTAL_DEPENDENT" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
+  },
+  {
+    "type": "scenario",
     "id": "Mansion",
     "name": "Mansion Escape",
     "points": -1,
