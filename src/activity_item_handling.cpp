@@ -508,7 +508,8 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         return;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
                !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid_crafting_component ) ) {
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, 
+                                         is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
         act->set_to_null();
