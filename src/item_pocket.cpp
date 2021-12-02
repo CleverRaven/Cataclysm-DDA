@@ -153,6 +153,8 @@ void pocket_data::load( const JsonObject &jo )
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
         optional( jo, was_loaded, "min_item_length", min_item_length );
+        optional( jo, was_loaded, "extra_encumbrance", extra_encumbrance, 0 );
+        optional( jo, was_loaded, "ripoff", ripoff, 0 );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );

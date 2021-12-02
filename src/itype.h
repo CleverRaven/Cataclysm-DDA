@@ -320,6 +320,14 @@ struct islot_armor {
      */
     bool ablative = false;
     /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */

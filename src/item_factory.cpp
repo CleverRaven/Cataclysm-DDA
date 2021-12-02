@@ -799,10 +799,17 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // go through the pockets and apply some characteristics
         for( const pocket_data &pocket : obj.pockets ) {
             if( pocket.ablative ) {
                 obj.armor->ablative = true;
                 break;
+            }
+            if( pocket.extra_encumbrance > 0 ) {
+                obj.armor->additional_pocket_enc = true;
+            }
+            if( pocket.ripoff > 0 ) {
+                obj.armor->ripoff_chance = true;
             }
         }
     }

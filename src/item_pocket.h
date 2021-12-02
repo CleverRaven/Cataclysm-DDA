@@ -397,6 +397,10 @@ class pocket_data
         bool holster = false;
         // if true, this pocket holds ablative armor
         bool ablative = false;
+        // additional encumbrance when this pocket is in use
+        int extra_encumbrance = 0;
+        // chance this pockets contents get ripped off when escaping a grab
+        int ripoff = 0;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
