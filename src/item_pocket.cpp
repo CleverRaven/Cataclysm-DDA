@@ -152,6 +152,7 @@ void pocket_data::load( const JsonObject &jo )
                   max_weight_for_container );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
+        optional( jo, was_loaded, "min_item_length", min_item_length );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
@@ -907,6 +908,14 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                            convert_length( data->max_item_length ), data->max_item_length.value() );
     }
 
+    if( data->min_item_length > 0_mm && !is_ablative() ) {
+        info.back().bNewLine = true;
+        info.emplace_back( base_type_str, _( "Minimum item length: " ),
+                           string_format( "<num> %s", length_units( data->min_item_length ) ),
+                           iteminfo::no_flags,
+                           convert_length( data->min_item_length ), data->min_item_length.value() );
+    }
+
     if( data->min_item_volume > 0_ml ) {
         std::string fmt = string_format( "<num> %s", volume_units_abbr() );
         info.emplace_back( base_type_str, _( "Minimum item volume: " ), fmt,
@@ -1175,6 +1184,11 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     if( it.length() > data->max_item_length ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item is too long" ) );
+    }
+
+    if( it.length() < data->min_item_length ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_TOO_BIG, _( "item is too short" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {
@@ -1614,6 +1628,14 @@ units::length item_pocket::max_containable_length() const
 {
     if( data ) {
         return data->max_item_length;
+    }
+    return 0_mm;
+}
+
+units::length item_pocket::min_containable_length() const
+{
+    if( data ) {
+        return data->min_item_length;
     }
     return 0_mm;
 }

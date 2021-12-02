@@ -1363,6 +1363,7 @@ class item : public visitable
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
+        units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
         /**

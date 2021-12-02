@@ -8394,6 +8394,11 @@ units::length item::max_containable_length() const
     return contents.max_containable_length();
 }
 
+units::length item::min_containable_length() const
+{
+    return contents.min_containable_length();
+}
+
 units::volume item::max_containable_volume() const
 {
     return contents.max_containable_volume();

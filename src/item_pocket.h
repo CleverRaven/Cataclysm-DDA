@@ -175,6 +175,7 @@ class item_pocket
         bool contains_phase( phase_id phase ) const;
 
         units::length max_containable_length() const;
+        units::length min_containable_length() const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -385,6 +386,8 @@ class pocket_data
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
+        // min length of item that can be contained used for exterior pockets
+        units::length min_item_length = 0_mm;
         // max weight of stuff the pocket can hold
         units::mass max_contains_weight = max_weight_for_container;
         // longest item that can fit into the pocket
