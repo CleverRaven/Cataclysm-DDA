@@ -779,7 +779,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1133 mg gunpowder rounded to 11 100 mg 'pieces'",
     "components": 
-      [ [ "gunpowder", 11 ] , [ "gunpowder_rifle", 11 ] ] ,
+      [ [ "gunpowder", 11 ], [ "gunpowder_rifle", 11 ] ],
 		  [ [ "copper", 1 ] ] ]
   },
   {
