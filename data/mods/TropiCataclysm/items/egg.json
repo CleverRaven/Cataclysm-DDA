@@ -76,7 +76,7 @@
     "type": "COMESTIBLE",
     "id": "egg_monitor",
     "name": "varanid egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_constrictor",
     "description": "The egg of a monitor lizard.",
     "rot_spawn": "GROUP_EGG_MONITOR"
   },
@@ -84,7 +84,7 @@
     "type": "COMESTIBLE",
     "id": "egg_iguana",
     "name": "iguana egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_constrictor",
     "description": "The egg of an iguana.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },
