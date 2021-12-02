@@ -788,7 +788,7 @@
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "white_gloves",
+    "id": "gloves_white",
     "type": "ARMOR",
     "name": { "str": "pair of white gloves", "str_pl": "pairs of white gloves" },
     "description": "A pair of white costume gloves made out of cotton.",
