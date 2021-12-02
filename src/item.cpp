@@ -5160,7 +5160,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
-        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) &&
+        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) ||
                    !player_character.studied_all_recipes( *type ) ) {
             // Book can teach you something and hasn't been identified yet
             ret = c_red;
