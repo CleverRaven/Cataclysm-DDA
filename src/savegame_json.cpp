@@ -762,6 +762,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
+    update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -959,7 +960,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level", max_power_level, false, 0_kJ );
+    assign( data, "bionic_power_capacity_mod", bionic_power_capacity_mod, false, 0_kJ );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1199,7 +1200,7 @@ void Character::store( JsonOut &json ) const
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
-    json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
+    json.member( "bionic_power_capacity_mod", units::to_kilojoule( bionic_power_capacity_mod ) );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );

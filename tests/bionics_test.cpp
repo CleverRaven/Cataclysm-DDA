@@ -25,7 +25,7 @@ static void clear_bionics( Character &you )
 {
     you.my_bionics->clear();
     you.set_power_level( 0_kJ );
-    you.set_max_power_level( 0_kJ );
+    you.set_bionic_capacity( 0_kJ );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )

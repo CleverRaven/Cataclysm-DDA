@@ -525,7 +525,6 @@ Character::Character() :
     crafting_cache.time = calendar::before_time_starts;
 
     set_power_level( 0_kJ );
-    set_max_power_level( 0_kJ );
     cash = 0;
     scent = 500;
     male = true;
@@ -2335,34 +2334,36 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
+    units::energy val = enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER,
+                        bionic_power_capacity_cached + bionic_power_capacity_mod );
+    return clamp( val, 0_kJ, units::energy_max );
 }
 
 void Character::set_power_level( const units::energy &npower )
 {
-    power_level = std::min( npower, get_max_power_level() );
+    power_level = clamp( npower, 0_kJ, get_max_power_level() );
 }
 
-void Character::set_max_power_level( const units::energy &npower_max )
+void Character::set_bionic_capacity_modifier( const units::energy &capacity )
 {
-    max_power_level = npower_max;
+    bionic_power_capacity_mod = clamp( capacity, units::energy_min, units::energy_max );
+}
+
+void Character::set_bionic_capacity( const units::energy &capacity )
+{
+    bionic_power_capacity_mod = clamp( capacity - bionic_power_capacity_cached, units::energy_min,
+                                       units::energy_max );
 }
 
 void Character::mod_power_level( const units::energy &npower )
 {
-    // Remaining capacity between current and maximum power levels we can make use of.
-    const units::energy remaining_capacity = get_max_power_level() - get_power_level();
-    // We can't add more than remaining capacity, so get the minimum of the two
-    const units::energy minned_npower = std::min( npower, remaining_capacity );
-    // new candidate power level
-    const units::energy new_power = get_power_level() + minned_npower;
-    // set new power level while prevending it from going negative
-    set_power_level( std::max( 0_kJ, new_power ) );
+    set_power_level( power_level + npower );
 }
 
-void Character::mod_max_power_level( const units::energy &npower_max )
+void Character::mod_bionic_capacity_modifier( const units::energy &npower )
 {
-    max_power_level += npower_max;
+    bionic_power_capacity_mod = clamp( bionic_power_capacity_mod + npower, units::energy_min,
+                                       units::energy_max );
 }
 
 bool Character::is_max_power() const
