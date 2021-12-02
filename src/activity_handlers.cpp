@@ -719,6 +719,17 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     return time_to_cut;
 }
 
+static int butcher_tool_skill_effect( int roll, int tool_quality, int skill_lvl )
+{
+    // Very high tool quality produces diminishing returns
+    // ( 2 ( 2x + y ) )^( 1 / 3 ) / 5
+    const double mod = tool_quality < 0 ? 0.2 :
+                       std::pow( 2 * ( 2 * tool_quality + skill_lvl ), 1.0 / 3.0 ) / 5.0;
+
+    // Clamp the result to [0.2, 1.0] * roll
+    return roll * clamp( mod, 0.2, 1.0 );
+}
+
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const harvest_drop_type_id &entry_type,
                                  int damage_level )
@@ -872,11 +883,19 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
+            // dissection uses its own roll
+            if( action != butcher_type::DISSECT ) {
+                roll = butcher_tool_skill_effect( roll, tool_quality, skill_level - tool_quality );
+            }
         } else if( !entry.type->dissect_only() ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
+            // dissection uses its own roll
+            if( action != butcher_type::DISSECT ) {
+                roll = butcher_tool_skill_effect( roll, tool_quality, skill_level - tool_quality );
+            }
             // will not give less than min_num defined in the JSON
-            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
-                                  entry.base_num.first );
+            roll = std::max<int>( roll, entry.base_num.first );
         }
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
