@@ -55,6 +55,17 @@ float Character::lifting_score( const body_part_type::type &bp ) const
     return std::max( 0.0f, total );
 }
 
+float Character::encumb_adjusted_lifting_score( const body_part_type::type &bp ) const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        if( id.first->limb_type == bp ) {
+            total += id.second.get_encumb_adjusted_lifting_score();
+        }
+    }
+    return std::max( 0.0f, total );
+}
+
 float Character::breathing_score() const
 {
     float total = 0.0f;
@@ -105,6 +116,15 @@ float Character::movement_speed_score() const
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         total += id.second.get_movement_speed_score();
+    }
+    return std::max( 0.0f, total );
+}
+
+float Character::footing_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_footing_score();
     }
     return std::max( 0.0f, total );
 }
@@ -169,7 +189,8 @@ float Character::melee_stamina_cost_modifier() const
     if( lifting_score( body_part_type::type::arm ) == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / lifting_score( body_part_type::type::arm ) );
+        return std::min( MAX_MOVECOST_MODIFIER,
+                         1.0f / encumb_adjusted_lifting_score( body_part_type::type::arm ) );
     }
 }
 
@@ -228,18 +249,18 @@ float Character::limb_speed_movecost_modifier() const
     }
 }
 
-float Character::limb_balance_movecost_modifier() const
+float Character::limb_footing_movecost_modifier() const
 {
-    if( balance_score() == 0.0f ) {
+    if( footing_score() == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score() );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / footing_score() );
     }
 }
 
 float Character::limb_run_cost_modifier() const
 {
-    return ( limb_balance_movecost_modifier() + limb_speed_movecost_modifier() ) / 2.0f;
+    return ( limb_footing_movecost_modifier() + limb_speed_movecost_modifier() * 2 ) / 3.0f;
 }
 
 float Character::swim_modifier() const

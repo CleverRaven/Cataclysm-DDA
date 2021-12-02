@@ -913,9 +913,9 @@
     "id": "bio_tools",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Integrated Toolset CBM" },
+    "name": { "str": "Integrated Welder CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A surgically implanted set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder and heating elements.  These can be used in place of many tools when crafting.",
+    "description": "A surgically implanted set of welding and soldering equipment which run off the user's power banks.",
     "price": 800000,
     "difficulty": 6
   },

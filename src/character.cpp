@@ -5925,7 +5925,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                     {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                                        "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), get_skill_level( sk.first ), sk.second );
                     }
                 } ) );
@@ -6063,6 +6063,12 @@ void Character::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
+
+    ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+        burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
+    }
+
     burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );

@@ -1026,6 +1026,12 @@ static void sleep()
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
     }
+
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+        add_msg( m_info, _( "You cannot sleep while swimming." ) );
+        return;
+    }
+
     uilist as_m;
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o

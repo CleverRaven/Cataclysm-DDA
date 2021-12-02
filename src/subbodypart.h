@@ -20,6 +20,8 @@ class JsonObject;
 class JsonOut;
 class JsonValue;
 struct sub_body_part_type;
+struct body_part_type;
+
 
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
@@ -42,14 +44,30 @@ struct sub_body_part_type {
     sub_bodypart_str_id id;
     sub_bodypart_str_id opposite;
 
+
+
     bool was_loaded = false;
 
-    //name of the sub part
+    // name of the sub part
     translation name;
 
     translation name_multiple;
 
     side part_side = side::BOTH;
+
+    // the body part this belongs to
+    string_id<body_part_type> parent;
+
+    // this flags that the sub location
+    // is in addition to the normal limb
+    // parts. Currently used for torso for
+    // hanging locations.
+    bool secondary = false;
+
+    // the maximum coverage value for this part
+    // if something entirely covered this part it
+    // would have this value
+    int max_coverage = 0;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

@@ -127,6 +127,8 @@ class item_pocket
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
+        // checks if the pocket is a holster and if it has something in it
+        bool holster_full() const;
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
@@ -372,15 +374,19 @@ class pocket_data
             rigid = true;
         }
 
+        // fixed values for the weight and volume of undefined pockets
+        static constexpr units::volume max_volume_for_container = 200000000_ml;
+        static constexpr units::mass max_weight_for_container = 2000000_kilogram;
+
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = 2000000000_ml;
+        units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // max weight of stuff the pocket can hold
-        units::mass max_contains_weight = 2000000_kilogram;
+        units::mass max_contains_weight = max_weight_for_container;
         // longest item that can fit into the pocket
         // if not defined in json, calculated to be cbrt( volume ) * sqrt( 2 )
         units::length max_item_length = 0_mm;

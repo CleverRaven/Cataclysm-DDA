@@ -750,11 +750,20 @@ static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int trun
 std::pair<std::string, nc_color> display::morale_emotion( const int morale_cur,
         const mood_face &face )
 {
+    std::string current_face;
+    nc_color current_color;
+
     for( const mood_face_value &face_value : face.values() ) {
+        current_face = remove_color_tags( face_value.face() );
+        current_color = get_color_from_tag( face_value.face() ).color;
         if( face_value.value() <= morale_cur ) {
-            const nc_color colour = get_color_from_tag( face_value.face() ).color;
-            return std::make_pair( remove_color_tags( face_value.face() ), colour );
+            return std::make_pair( current_face, current_color );
         }
+    }
+
+    // Return the last value found
+    if( !current_face.empty() ) {
+        return std::make_pair( current_face, current_color );
     }
 
     debugmsg( "morale_emotion no matching face found for: %s", face.getId().str() );

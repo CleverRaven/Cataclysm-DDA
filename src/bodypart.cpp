@@ -202,6 +202,29 @@ bool body_part_type::has_flag( const json_character_flag &flag ) const
     return flags.count( flag ) > 0;
 }
 
+sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
+{
+    int total_weight = 0;
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            total_weight += bp->max_coverage;
+        }
+    }
+    int roll = rng( 1, total_weight );
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            if( roll <= bp->max_coverage ) {
+                return bp.id();
+            }
+            roll = roll - bp->max_coverage;
+        }
+    }
+    // should never get here
+    return ( sub_bodypart_id() );
+}
+
 const std::vector<body_part_type> &body_part_type::get_all()
 {
     return body_part_factory.get_all();
@@ -278,11 +301,15 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "flags", flags );
 
+    optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+
     optional( jo, was_loaded, "manipulator_score", manipulator_score );
     optional( jo, was_loaded, "manipulator_max", manipulator_max );
 
     optional( jo, was_loaded, "lifting_score", lifting_score );
     optional( jo, was_loaded, "movement_speed_score", movement_speed_score );
+    optional( jo, was_loaded, "footing_score", footing_score );
     optional( jo, was_loaded, "balance_score", balance_score );
 
     optional( jo, was_loaded, "blocking_score", blocking_score );
@@ -471,6 +498,16 @@ float bodypart::get_wetness_percentage() const
     return static_cast<float>( wetness ) / id->drench_max;
 }
 
+int bodypart::get_encumbrance_threshold() const
+{
+    return id->encumbrance_threshold;
+}
+
+int bodypart::get_encumbrance_limit() const
+{
+    return id->encumbrance_limit;
+}
+
 float bodypart::wound_adjusted_limb_value( const float val ) const
 {
     double percent = static_cast<double>( get_hp_cur() ) /
@@ -484,9 +521,16 @@ float bodypart::wound_adjusted_limb_value( const float val ) const
 
 float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
+    int enc = get_encumbrance_data().encumbrance;
+    // Check if we're over our encumbrance limit, return 0 if so
+    if( enc >= get_encumbrance_limit() ) {
+        return 0;
+    }
+    // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0
+    enc = std::max( 0, ( enc - get_encumbrance_threshold() ) );
     // This is designed to get a 5% adjustment for an increase of 3 encumbrance, with further
     // adjustments decreasing to avoid a multiplier of 0 (or infinity if reciprocal).
-    return val * 19.0f / ( 19.0f + get_encumbrance_data().encumbrance / 3.0f );
+    return val * 19.0f / ( 19.0f + enc / 3.0f );
 }
 
 float bodypart::get_manipulator_score() const
@@ -519,6 +563,11 @@ float bodypart::get_lifting_score() const
     return wound_adjusted_limb_value( id->lifting_score );
 }
 
+float bodypart::get_encumb_adjusted_lifting_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->lifting_score ) );
+}
+
 float bodypart::get_breathing_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->breathing_score ) );
@@ -542,6 +591,11 @@ float bodypart::get_reaction_score() const
 float bodypart::get_movement_speed_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->movement_speed_score ) );
+}
+
+float bodypart::get_footing_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->footing_score ) );
 }
 
 float bodypart::get_balance_score() const

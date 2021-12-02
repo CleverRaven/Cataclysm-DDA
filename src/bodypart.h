@@ -176,6 +176,11 @@ struct body_part_type {
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
 
+        // Threshold to start encumbrance scaling
+        int encumbrance_threshold = 0;
+        // Limit of encumbrance, after reaching this point the limb contributes no scores
+        int encumbrance_limit = 0;
+
         // fine motor control
         float manipulator_score = 0.0f;
         float manipulator_max = 0.0f;
@@ -195,6 +200,7 @@ struct body_part_type {
         // general reaction speed - dodge
         float reaction_score = 0.0f;
         float movement_speed_score = 0.0f;
+        float footing_score = 0.0f;
         float balance_score = 0.0f;
         float swim_score = 0.0f;
 
@@ -221,6 +227,11 @@ struct body_part_type {
         int drench_max = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
+
+
+        // return a random sub part from the weighted list of subparts
+        // if secondary is true instead returns a part from only the secondary sublocations
+        sub_bodypart_id random_sub_part( bool secondary ) const;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -381,17 +392,22 @@ class bodypart
 
         float get_wetness_percentage() const;
 
+        int get_encumbrance_threshold() const;
+        int get_encumbrance_limit() const;
+
         float get_manipulator_score() const;
         float get_encumb_adjusted_manipulator_score() const;
         float get_wound_adjusted_manipulator_score() const;
         float get_manipulator_max() const;
         float get_blocking_score() const;
         float get_lifting_score() const;
+        float get_encumb_adjusted_lifting_score() const;
         float get_breathing_score() const;
         float get_vision_score() const;
         float get_nightvision_score() const;
         float get_reaction_score() const;
         float get_movement_speed_score() const;
+        float get_footing_score() const;
         float get_balance_score() const;
         float get_swim_score( double swim_skill = 0.0 ) const;
 

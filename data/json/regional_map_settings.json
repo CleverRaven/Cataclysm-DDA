@@ -266,6 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
+        "terrains": [ "forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -297,6 +298,25 @@
         "terrain_furniture": {  }
       },
       "forest_thick": {
+        "terrains": [
+          "forest_thick",
+          "forest_trail_isolated",
+          "forest_trail_end_north",
+          "forest_trail_end_east",
+          "forest_trail_end_south",
+          "forest_trail_end_west",
+          "forest_trail_ns",
+          "forest_trail_ew",
+          "forest_trail_ne",
+          "forest_trail_es",
+          "forest_trail_sw",
+          "forest_trail_wn",
+          "forest_trail_new",
+          "forest_trail_nsw",
+          "forest_trail_esw",
+          "forest_trail_nes",
+          "forest_trail_nesw"
+        ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -328,6 +348,7 @@
         "terrain_furniture": {  }
       },
       "forest_water": {
+        "terrains": [ "forest_water" ],
         "sparseness_adjacency_factor": 2,
         "item_group": "forest",
         "item_group_chance": 60,

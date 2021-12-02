@@ -270,8 +270,8 @@
     "skill_used": "tailor",
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 16 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 16 ] ], [ [ "filament", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
