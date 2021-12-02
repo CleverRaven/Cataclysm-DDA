@@ -116,7 +116,7 @@
     "damage": { "damage_type": "bullet", "amount": 60 },
     "shot_damage": { "damage_type": "bullet", "amount": 17 },
     "projectile_count": 9,
-    "shot_spread": 450,
+    "shot_spread": 300,
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -145,7 +145,7 @@
     "price": 100,
     "price_postapoc": 400,
     "projectile_count": 100,
-    "shot_spread": 450,
+    "shot_spread": 300,
     "range": 18,
     "shot_damage": { "damage_type": "bullet", "amount": 0.2 },
     "damage": { "damage_type": "bullet", "amount": 50 },
