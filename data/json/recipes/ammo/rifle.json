@@ -798,7 +798,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-	"components": [ [ [ "chem_black_powder", 11 ] ], [ [ "copper", 1 ] ] ]
+	 "components": [ [ [ "chem_black_powder", 11 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_556",
