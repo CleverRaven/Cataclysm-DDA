@@ -18,15 +18,16 @@ static const mtype_id mon_fish_trout( "mon_fish_trout" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 
-static float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
-    { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
-    { 36.57, 5.71,   .57,  0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 }
+static float expected_weights_base[][12] = { { 45, 0,   0,  0, 0, 0, 3, 3, 9, 9, 3, 3 },
+    { 45, 6, 0.5, 0.5, 9, 9, 3, 3, 9, 9, 3, 3 }
 };
 
-static float expected_weights_max[][12] = { { 2000, 0,   0,   0, 1191.49, 1191.49, 0, 0, 2228.12, 2228.12, 0, 0 },
-    { 3333, 1167.77, 65.84, 0, 1588.66, 1588.66, 0, 0, 1069.50, 1069.50, 0, 0 },
-    { 3657, 2861.78,   113.73,  0, 1815.83, 1815.83, 0, 0, 508.904, 508.904, 0, 0 }
+static float expected_weights_max[][12] = { { 4500, 0, 0, 0, 0, 0, 475.47, 475.47, 802.12, 802.12, 119.44, 119.44 },
+    { 4500, 3007.13, 99.77, 99.77, 714.9, 714.9, 475.46, 475.46, 802.12, 802.12, 119.43, 119.43 }
 };
+// Torso   head   eyes   mouth   arm   arm   hand   hand   leg   leg   foot   foot
+//   45      6     0.5    0.5     9     9     3      3      9     9     3      3
+//   1     1.35   1.15   1.15   0.95  0.95   1.1    1.1   0.975 0.975  0.8    0.8
 
 static void calculate_bodypart_distribution( const creature_size asize, const creature_size dsize,
         const int hit_roll, float ( &expected )[12] )
@@ -66,19 +67,19 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
     }
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." )
+TEST_CASE( "Check distribution of attacks to body parts for same sized opponents.", "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( creature_size::small, creature_size::small, 0,
+    calculate_bodypart_distribution( creature_size::medium, creature_size::medium, 0,
                                      expected_weights_base[1] );
-    calculate_bodypart_distribution( creature_size::small, creature_size::small, 1,
+    calculate_bodypart_distribution( creature_size::medium, creature_size::medium, 1,
                                      expected_weights_base[1] );
-    calculate_bodypart_distribution( creature_size::small, creature_size::small, 100,
+    calculate_bodypart_distribution( creature_size::medium, creature_size::medium, 100,
                                      expected_weights_max[1] );
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
+TEST_CASE( "Check distribution of attacks to body parts for a small attacker.", "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );
 
@@ -88,18 +89,6 @@ TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
                                      expected_weights_base[0] );
     calculate_bodypart_distribution( creature_size::small, creature_size::medium, 100,
                                      expected_weights_max[0] );
-}
-
-TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
-{
-    rng_set_engine_seed( 4242424242 );
-
-    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 0,
-                                     expected_weights_base[2] );
-    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 1,
-                                     expected_weights_base[2] );
-    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 100,
-                                     expected_weights_max[2] );
 }
 
 TEST_CASE( "body_part_sorting_all", "[bodypart]" )
