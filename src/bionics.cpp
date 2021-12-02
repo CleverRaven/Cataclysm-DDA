@@ -2277,7 +2277,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, b
 
     int success = chance_of_success - rng( 1, 100 );
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
-        perform_uninstall( b_id, difficulty, success, b_id->capacity, pl_skill );
+        perform_uninstall( b_id, difficulty, success, pl_skill );
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
@@ -2301,8 +2301,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, b
     return true;
 }
 
-void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success,
-                                   const units::energy &power_lvl, int pl_skill )
+void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success, int pl_skill )
 {
     map &here = get_map();
     if( success > 0 ) {
