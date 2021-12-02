@@ -1914,6 +1914,11 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
+
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
         { "color_pixel_darken", to_translation( "Darkened" ) },
