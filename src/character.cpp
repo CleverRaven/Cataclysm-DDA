@@ -7176,6 +7176,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
+        // TODO: is this code used anymore? It seems like it is now covered in the monattack file
         if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
             !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed */
@@ -7191,7 +7192,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                                            source->disp_name() );
                 }
             } else {
-                int prev_effect = get_effect_int( effect_grabbed );
+                const int prev_effect = get_effect_int( effect_grabbed, body_part_torso );
                 add_effect( effect_grabbed, 2_turns,  body_part_torso, false, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),

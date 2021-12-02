@@ -2691,9 +2691,9 @@ bool mattack::ranged_pull( monster *z )
         }
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2751,9 +2751,9 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
