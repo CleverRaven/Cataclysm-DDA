@@ -812,6 +812,12 @@ class map
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
+        void furn_clear( const tripoint &p ) {
+            furn_set( p, f_clear );
+        };
+        void furn_clear( const point &p ) {
+            furn_clear( tripoint( p, abs_sub.z ) );
+        }
         std::string furnname( const tripoint &p );
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
@@ -1087,6 +1093,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
+        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction

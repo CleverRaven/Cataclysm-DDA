@@ -135,6 +135,7 @@ cata::optional<int> hand_crank( Character *, item *, bool, const tripoint & );
 cata::optional<int> heat_food( Character *, item *, bool, const tripoint & );
 cata::optional<int> heatpack( Character *, item *, bool, const tripoint & );
 cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
+cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
 cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
 cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
 cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
@@ -157,6 +158,7 @@ cata::optional<int> noise_emitter_on( Character *, item *, bool, const tripoint 
 cata::optional<int> oxygen_bottle( Character *, item *, bool, const tripoint & );
 cata::optional<int> oxytorch( Character *, item *, bool, const tripoint & );
 cata::optional<int> binder_add_recipe( Character *, item *, bool, const tripoint & );
+cata::optional<int> binder_manage_recipe( Character *, item *, bool, const tripoint & );
 cata::optional<int> pack_cbm( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> pack_item( Character *, item *, bool, const tripoint & );
 cata::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );

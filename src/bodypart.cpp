@@ -10,21 +10,23 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
+#include "subbodypart.h"
 #include "json.h"
-#include "type_id.h"
+#include "rng.h"
 
-const bodypart_str_id body_part_head( "head" );
-const bodypart_str_id body_part_eyes( "eyes" );
-const bodypart_str_id body_part_mouth( "mouth" );
-const bodypart_str_id body_part_torso( "torso" );
+
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
 const bodypart_str_id body_part_hand_l( "hand_l" );
 const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_leg_l( "leg_l" );
-const bodypart_str_id body_part_foot_l( "foot_l" );
 const bodypart_str_id body_part_leg_r( "leg_r" );
-const bodypart_str_id body_part_foot_r( "foot_r" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
 
 side opposite_side( side s )
 {
@@ -195,9 +197,32 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-bool body_part_type::has_flag( const std::string &flag ) const
+bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
+}
+
+sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
+{
+    int total_weight = 0;
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            total_weight += bp->max_coverage;
+        }
+    }
+    int roll = rng( 1, total_weight );
+    for( const sub_bodypart_str_id &bp : sub_parts ) {
+        // filter for secondary sub locations
+        if( secondary == bp->secondary ) {
+            if( roll <= bp->max_coverage ) {
+                return bp.id();
+            }
+            roll = roll - bp->max_coverage;
+        }
+    }
+    // should never get here
+    return ( sub_bodypart_id() );
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()
@@ -251,6 +276,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         token = body_part::num_bp;
     }
 
+    optional( jo, was_loaded, "env_protection", env_protection, 0 );
+
     optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 
     mandatory( jo, was_loaded, "main_part", main_part );
@@ -274,11 +301,15 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "flags", flags );
 
+    optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+
     optional( jo, was_loaded, "manipulator_score", manipulator_score );
     optional( jo, was_loaded, "manipulator_max", manipulator_max );
 
     optional( jo, was_loaded, "lifting_score", lifting_score );
     optional( jo, was_loaded, "movement_speed_score", movement_speed_score );
+    optional( jo, was_loaded, "footing_score", footing_score );
     optional( jo, was_loaded, "balance_score", balance_score );
 
     optional( jo, was_loaded, "blocking_score", blocking_score );
@@ -291,6 +322,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "reaction_score", reaction_score );
 
     mandatory( jo, was_loaded, "side", part_side );
+
+    optional( jo, was_loaded, "sub_parts", sub_parts );
 }
 
 void body_part_type::reset()
@@ -298,14 +331,18 @@ void body_part_type::reset()
     body_part_factory.reset();
 }
 
+
 void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
 
+
 void body_part_type::finalize()
 {
+
 }
+
 
 void body_part_type::check_consistency()
 {
@@ -461,6 +498,16 @@ float bodypart::get_wetness_percentage() const
     return static_cast<float>( wetness ) / id->drench_max;
 }
 
+int bodypart::get_encumbrance_threshold() const
+{
+    return id->encumbrance_threshold;
+}
+
+int bodypart::get_encumbrance_limit() const
+{
+    return id->encumbrance_limit;
+}
+
 float bodypart::wound_adjusted_limb_value( const float val ) const
 {
     double percent = static_cast<double>( get_hp_cur() ) /
@@ -474,9 +521,16 @@ float bodypart::wound_adjusted_limb_value( const float val ) const
 
 float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
+    int enc = get_encumbrance_data().encumbrance;
+    // Check if we're over our encumbrance limit, return 0 if so
+    if( enc >= get_encumbrance_limit() ) {
+        return 0;
+    }
+    // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0
+    enc = std::max( 0, ( enc - get_encumbrance_threshold() ) );
     // This is designed to get a 5% adjustment for an increase of 3 encumbrance, with further
     // adjustments decreasing to avoid a multiplier of 0 (or infinity if reciprocal).
-    return val * 19.0f / ( 19.0f + get_encumbrance_data().encumbrance / 3.0f );
+    return val * 19.0f / ( 19.0f + enc / 3.0f );
 }
 
 float bodypart::get_manipulator_score() const
@@ -509,6 +563,11 @@ float bodypart::get_lifting_score() const
     return wound_adjusted_limb_value( id->lifting_score );
 }
 
+float bodypart::get_encumb_adjusted_lifting_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->lifting_score ) );
+}
+
 float bodypart::get_breathing_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->breathing_score ) );
@@ -532,6 +591,11 @@ float bodypart::get_reaction_score() const
 float bodypart::get_movement_speed_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->movement_speed_score ) );
+}
+
+float bodypart::get_footing_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->footing_score ) );
 }
 
 float bodypart::get_balance_score() const

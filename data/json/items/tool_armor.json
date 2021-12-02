@@ -114,7 +114,7 @@
     "//": "A folded bandana still takes up some space on the head.",
     "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
     "weight": "72 g",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "price": 600,
     "price_postapoc": 10,
     "material": [ "cotton" ],
@@ -181,7 +181,14 @@
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" },
-    "armor": [ { "encumbrance": 35, "coverage": 50, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_r", "arm_shoulder_l" ]
+      }
+    ]
   },
   {
     "id": "personal_gobag",
@@ -430,16 +437,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 25,
     "warmth": 10,
@@ -707,7 +705,7 @@
     "to_hit": -1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "wearable_light",
@@ -920,20 +918,11 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
     "price": 50000000,
     "price_postapoc": 10000,
-    "material": [ "ceramic", "kevlar_layered" ],
+    "material": [ "hyperweave_off", "kevlar_layered" ],
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 5,
     "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
@@ -955,7 +944,7 @@
     "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
-    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
+    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
     "flags": [
       "VARSIZE",
       "STURDY",
@@ -974,7 +963,6 @@
     ],
     "turns_per_charge": 18,
     "revert_to": "rm13_armor",
-    "material": [ "ceramic", "kevlar_layered" ],
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
     "qualities": [ [ "GLARE", 1 ] ],
@@ -1063,16 +1051,7 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -2716,7 +2695,7 @@
     "weight": "150 g",
     "volume": "250 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "makeshift_stethoscope",
@@ -2731,7 +2710,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 3, "coverage": 8, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "solarpack",
@@ -2950,7 +2929,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scuba_tank_on",
@@ -2980,7 +2959,9 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "small_scuba_tank",
@@ -3007,7 +2988,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "small_scuba_tank_on",
@@ -3037,7 +3018,9 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "electric_blanket",
@@ -3250,10 +3233,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
@@ -3293,10 +3273,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }

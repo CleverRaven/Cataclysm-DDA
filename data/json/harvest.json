@@ -409,7 +409,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
-      { "drop": "rabbit_foot", "type": "bionic_group" },
+      { "drop": "rabbit_foot", "type": "mutagen_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -464,7 +464,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "lupine_sample", "type": "bionic_group" },
+      { "drop": "lupine_sample", "type": "mutagen_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -485,7 +485,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "feline_sample", "type": "bionic_group" },
+      { "drop": "feline_sample", "type": "mutagen_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -775,7 +775,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "reptile_sample", "type": "bionic_group" },
+      { "drop": "reptile_sample", "type": "mutagen_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -796,7 +796,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "bovine_sample", "type": "bionic_group" },
+      { "drop": "bovine_sample", "type": "mutagen_group" },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -836,7 +836,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "molerat_sample", "type": "bionic_group" },
+      { "drop": "molerat_sample", "type": "mutagen_group" },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
@@ -949,7 +949,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
-      { "drop": "reptile_sample", "type": "bionic_group" },
+      { "drop": "reptile_sample", "type": "mutagen_group" },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
@@ -968,7 +968,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
-      { "drop": "frog_sample", "type": "bionic_group" },
+      { "drop": "frog_sample", "type": "mutagen_group" },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
@@ -1066,7 +1066,7 @@
     "type": "harvest",
     "message": "<arachnid_harvest>",
     "entries": [
-      { "drop": "spider_sample", "type": "bionic_group" },
+      { "drop": "spider_sample", "type": "mutagen_group" },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
@@ -1110,7 +1110,7 @@
     "message": "<centipede_harvest>",
     "//": "More legs = more sinew, more endochitin, less rest",
     "entries": [
-      { "drop": "insect_sample", "type": "bionic_group" },
+      { "drop": "insect_sample", "type": "mutagen_group" },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.01 },
@@ -1206,7 +1206,7 @@
     "type": "harvest",
     "message": "What appeared to be insect hairs on the chitin of this creature look more like tiny feathers as you pare them back.  Inside is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about real bees.",
     "entries": [
-      { "drop": "insect_sample", "type": "bionic_group" },
+      { "drop": "insect_sample", "type": "mutagen_group" },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.23 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -1427,7 +1427,7 @@
     "id": "demihuman_snail",
     "type": "harvest",
     "entries": [
-      { "drop": "snail_sample", "type": "bionic_group" },
+      { "drop": "snail_sample", "type": "mutagen_group" },
       { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },

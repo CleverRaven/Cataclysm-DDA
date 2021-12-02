@@ -174,6 +174,20 @@
     ]
   },
   {
+    "id": "fastener_shoes",
+    "type": "requirement",
+    "//": "Identical in every way to fastener_small but given string_6 first so that world objects spawn with shoelaces as those are much more common than button or zipper shoes.",
+    "components": [
+      [
+        [ "string_6", 2 ],
+        [ "zipper_short_plastic", 1 ],
+        [ "snapfastener_steel", 3 ],
+        [ "touch_fastener", 2 ],
+        [ "button", 3, "LIST" ]
+      ]
+    ]
+  },
+  {
     "id": "clasps",
     "type": "requirement",
     "//": "All kinds of fasteners for strapped-on objects like belts, per single strap.",

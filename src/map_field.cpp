@@ -66,11 +66,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
-static const itype_id itype_rock( "rock" );
-
-static const species_id species_FUNGUS( "FUNGUS" );
-
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
@@ -81,16 +76,27 @@ static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rock( "rock" );
+
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_veggy( "veggy" );
+
+static const mutation_category_id mutation_category_INSECT( "INSECT" );
+static const mutation_category_id mutation_category_SPIDER( "SPIDER" );
+
+static const species_id species_FUNGUS( "FUNGUS" );
+
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 using namespace map_field_processing;
 
@@ -1701,8 +1707,8 @@ void map::player_in_field( Character &you )
                                                        intensity * 1_minutes );
                     if( you.has_trait( trait_THRESH_MYCUS ) || you.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas &&
-                          ( you.get_highest_category() == mutation_category_id( "INSECT" ) ||
-                            you.get_highest_category() == mutation_category_id( "SPIDER" ) ) ) ) {
+                          ( you.get_highest_category() == mutation_category_INSECT ||
+                            you.get_highest_category() == mutation_category_SPIDER ) ) ) {
                         inhaled |= you.add_env_effect( effect_badpoison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
                         you.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         you.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
@@ -1849,7 +1855,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_id( "veggy" ) ) ) {
+            if( z.made_of( material_veggy ) ) {
                 dam += 12;
             }
             if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -1889,7 +1895,7 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng( 10, 20 );
                 }
                 // Plants suffer from smoke even worse
-                if( z.made_of( material_id( "veggy" ) ) ) {
+                if( z.made_of( material_veggy ) ) {
                     z.moves -= rng( 1, cur.get_field_intensity() * 12 );
                 }
             }
@@ -1906,7 +1912,7 @@ void map::monster_in_field( monster &z )
                 } else {
                     z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
                 }
-                if( z.made_of( material_id( "veggy" ) ) ) {
+                if( z.made_of( material_veggy ) ) {
                     z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
                     dam += cur.get_field_intensity() * rng( 8, 14 );
                 }
@@ -1948,7 +1954,7 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng( 0, 15 );
                     dam += rng( 0, 12 );
                 }
-                if( z.made_of( material_id( "veggy" ) ) ) {
+                if( z.made_of( material_veggy ) ) {
                     z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
                     dam *= cur.get_field_intensity();
                 }
@@ -1963,7 +1969,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_id( "veggy" ) ) ) {
+            if( z.made_of( material_veggy ) ) {
                 dam += 12;
             }
             if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -1994,7 +2000,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_id( "veggy" ) ) ) {
+            if( z.made_of( material_veggy ) ) {
                 dam += 12;
             }
             if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -2038,7 +2044,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.made_of( material_id( "iflesh" ) ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
+            if( z.made_of( material_iflesh ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

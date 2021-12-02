@@ -1,5 +1,17 @@
 [
   {
+    "id": "ABLATIVE_LARGE",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>large</info> armor pockets",
+    "restriction": "Item must be a large ablative plate"
+  },
+  {
+    "id": "ABLATIVE_MEDIUM",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>medium</info> armor pockets",
+    "restriction": "Item must be a medium ablative plate"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -160,6 +172,11 @@
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "info": "This med can't be used by everyone, it requires a special mutation."
+  },
+  {
+    "id": "CANT_WEAR",
+    "type": "json_flag",
+    "info": "This armor can't be worn directly."
   },
   {
     "id": "DIRTY",
@@ -903,6 +920,11 @@
     "id": "WITH_CONTAINER",
     "type": "json_flag",
     "//": "items spawned by spells are put in their containers."
+  },
+  {
+    "id": "SPAWN_WITH_DEATH_DROPS",
+    "type": "json_flag",
+    "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
   },
   {
     "id": "NON_THRESH",

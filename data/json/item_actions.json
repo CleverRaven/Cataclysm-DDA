@@ -81,6 +81,11 @@
   },
   {
     "type": "item_action",
+    "id": "HOTPLATE_ATOMIC",
+    "name": { "str": "Heat up food (with it)" }
+  },
+  {
+    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": { "str": "Attach as toolmod" }
   },
@@ -358,6 +363,11 @@
     "type": "item_action",
     "id": "BINDER_ADD_RECIPE",
     "name": { "str": "Copy a recipe" }
+  },
+  {
+    "type": "item_action",
+    "id": "BINDER_MANAGE_RECIPE",
+    "name": { "str": "Remove a recipe" }
   },
   {
     "type": "item_action",

@@ -252,6 +252,53 @@
     "components": [ [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
+    "result": "armor_nomad",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "3 h 20 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 90 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "components": [
+      [ [ "duster", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
+      [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "fanny", 1 ] ],
+      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
+      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
+      [ [ "leather", 24 ], [ "tanned_hide", 4 ] ]
+    ]
+  },
+  {
+    "result": "armor_nomad_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 90 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [
+      [ [ "tunic", 1 ] ],
+      [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
+      [ [ "ragpouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
+      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
+      [ [ "rag", 20 ] ]
+    ]
+  },
+  {
     "result": "armor_plarmor",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -355,12 +402,18 @@
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [
-      [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
+      [ [ "jacket_army", 1 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
       [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -643,7 +696,13 @@
       [ [ "nomex", 40 ] ],
       [ [ "sheet_kevlar_layered", 8 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 5 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -657,7 +716,13 @@
       [ [ "nomex", 60 ] ],
       [ [ "sheet_kevlar_layered", 12 ] ],
       [ [ "duct_tape", 300 ], [ "superglue", 7 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -695,7 +760,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 200 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -721,7 +792,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -762,7 +839,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -790,7 +873,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -922,7 +1011,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -965,7 +1060,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -1054,7 +1155,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 200 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -1079,7 +1186,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -1160,7 +1273,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -1327,7 +1446,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 24 ]
+      ]
     ]
   },
   {
@@ -1355,7 +1480,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -1398,7 +1529,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 48 ]
+      ]
     ]
   },
   {
@@ -1439,7 +1576,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 42 ] ]
+      [
+        [ "kevlar", 2 ],
+        [ "ballistic_vest_light", 2 ],
+        [ "ballistic_vest_esapi", 2 ],
+        [ "swat_armor", 2 ],
+        [ "sheet_kevlar_layered", 42 ]
+      ]
     ]
   },
   {
