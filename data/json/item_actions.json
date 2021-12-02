@@ -831,6 +831,11 @@
   },
   {
     "type": "item_action",
+    "id": "ENCRYPTED_CHAT",
+    "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
     "id": "RADIO_ON",
     "name": { "str": "Turn off" }
   },

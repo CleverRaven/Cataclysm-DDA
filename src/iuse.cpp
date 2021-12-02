@@ -2219,6 +2219,22 @@ cata::optional<int> iuse::radio_off( Character *p, item *it, bool, const tripoin
     return it->type->charges_to_use();
 }
 
+cata::optional<int> iuse::encrypted_chat( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_avatar() ) {
+        npc *encrypted_npc;
+        for( g->all_npcs() )
+        { } );
+    }
+    p->add_msg_if_player(
+        _( "Bizzare distorted noise errupts from the speaker before converging into a voice." ) );
+    p->as_avatar().talk_to( get_talker_for( *guy ), radio_interactable );
+}
+
+
+
+}
+
 cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, const tripoint & )
 {
     // Find out if we have an active radio

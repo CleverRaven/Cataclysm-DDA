@@ -119,6 +119,25 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "encrypted_radio",
+    "type": "TOOL",
+    "name": { "str": "strange radio (off)", "str_pl": "strange radios (off)" },
+    "description": "This is a portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcast and play them audibly.",
+    "weight": "295 g",
+    "volume": "1 L",
+    "price": 1000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 1,
+    "use_action": [ "ENCRYPTED_CHAT" ]
+  },
+  {
     "id": "two_way_radio",
     "type": "TOOL",
     "name": { "str": "two-way radio" },

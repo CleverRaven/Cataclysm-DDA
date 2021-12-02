@@ -105,6 +105,7 @@ cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> encrypted_chat( Character *, item *, bool, const tripoint & );
 cata::optional<int> ecs_lajatang_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> ecs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
