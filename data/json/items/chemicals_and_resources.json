@@ -1749,6 +1749,7 @@
     "type": "AMMO",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
+    "category": "chems",
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_bathroom",
