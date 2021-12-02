@@ -2812,7 +2812,7 @@ bool mattack::grab_drag( monster *z )
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
-    int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
