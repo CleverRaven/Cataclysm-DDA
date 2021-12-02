@@ -346,7 +346,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
-        for( const JsonValue &jval : jarr ) {
+        for( const JsonValue jval : jarr ) {
             bp_limb_score bpls;
             bpls.id = limb_score_id( jval.get_array().get_string( 0 ) );
             bpls.score = jval.get_array().get_float( 1 );
