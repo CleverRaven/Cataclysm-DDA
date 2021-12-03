@@ -863,6 +863,7 @@ class item : public visitable
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        int get_raw_quality( const quality_id &id ) const;
         bool count_by_charges() const;
 
         /**
@@ -1798,9 +1799,6 @@ class item : public visitable
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
-                          encumber_flags = encumber_flags::none ) const;
-
-        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**

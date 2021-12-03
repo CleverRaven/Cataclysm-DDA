@@ -12,6 +12,7 @@
     "items": [
       { "group": "used_1st_aid", "prob": 5 },
       [ "aspirin", 50 ],
+      [ "alcohol_wipes", 40 ],
       [ "bandages", 30 ],
       [ "adhesive_bandages", 30 ],
       [ "cotton_ball", 40 ],
@@ -157,6 +158,7 @@
       { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
       { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "item": "alcohol_wipes", "prob": 75, "charges": [ 1, 40 ] },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "vaccine_shot", 10 ],
       { "item": "homeopathic_pills", "prob": 10, "charges": [ 1, 20 ] },

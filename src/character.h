@@ -601,7 +601,7 @@ class Character : public Creature, public visitable
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
         float limb_speed_movecost_modifier() const;
-        float limb_balance_movecost_modifier() const;
+        float limb_footing_movecost_modifier() const;
         // movecost is modified by the average of limb speed and balance.
         float limb_run_cost_modifier() const;
         float swim_modifier() const;
@@ -1040,6 +1040,20 @@ class Character : public Creature, public visitable
         float throw_weakpoint_skill() const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
+         * Requires a roll out of 100
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll );
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * Requires a roll out of 100
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, const sub_bodypart_id &sbp,
+                           int roll );
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * Is wrapped by the other two armor absorb calls
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
@@ -1048,7 +1062,7 @@ class Character : public Creature, public visitable
          * If the armor is fully destroyed it is replaced
          * @return true if the armor was completely destroyed.
          */
-        bool ablative_armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
+        bool ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp, int roll );
         /**
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
@@ -1159,12 +1173,14 @@ class Character : public Creature, public visitable
         float manipulator_score() const;
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
+        float encumb_adjusted_lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
         float swim_score() const;
         float vision_score() const;
         float nightvision_score() const;
         float reaction_score() const;
         float movement_speed_score() const;
+        float footing_score() const;
         float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -2989,7 +3005,7 @@ class Character : public Creature, public visitable
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true, bool disassemble_all = false );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );

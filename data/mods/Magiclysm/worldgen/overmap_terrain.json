@@ -503,7 +503,9 @@
       "mine_balrog_finale_ne",
       "mine_balrog_finale_sw",
       "mine_balrog_finale_s",
-      "mine_balrog_finale_se"
+      "mine_balrog_finale_se",
+      "mine_balrog_bottomless_pit",
+      "mine_balrog_lava"
     ],
     "name": "mine tunnels",
     "sym": "O",

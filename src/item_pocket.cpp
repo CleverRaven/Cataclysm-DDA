@@ -54,6 +54,10 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 // *INDENT-ON*
 } // namespace io
 
+constexpr units::volume pocket_data::max_volume_for_container;
+constexpr units::mass pocket_data::max_weight_for_container;
+
+
 std::string pocket_data::check_definition() const
 {
     if( type == item_pocket::pocket_type::MOD ||
@@ -142,9 +146,10 @@ void pocket_data::load( const JsonObject &jo )
         if( temp != -1_ml ) {
             max_item_volume = temp;
         }
-        optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(), 2000000000_ml );
+        optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(),
+                  max_volume_for_container );
         optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(),
-                  2000000_kilogram );
+                  max_weight_for_container );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
     }
@@ -1592,6 +1597,12 @@ bool item_pocket::is_type( pocket_type ptype ) const
 bool item_pocket::is_ablative() const
 {
     return get_pocket_data()->ablative;
+}
+
+bool item_pocket::holster_full() const
+{
+    const pocket_data *p_data = get_pocket_data();
+    return p_data->holster && !all_items_top().empty();
 }
 
 bool item_pocket::is_valid() const

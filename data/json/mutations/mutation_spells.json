@@ -106,5 +106,27 @@
     "base_energy_cost": 6000,
     "max_level": 1,
     "energy_source": "STAMINA"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_feline_leap",
+    "name": "Pounce",
+    "description": "You squat down, build up tension in your legs, waggling your tail, then release.  Launching yourself quite a distance.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_increment": 0,
+    "damage_type": "bash",
+    "min_range": 3,
+    "max_range": 3,
+    "spell_class": "NONE",
+    "difficulty": -20,
+    "base_casting_time": 100,
+    "base_energy_cost": 1500,
+    "max_level": 1,
+    "energy_source": "STAMINA"
   }
 ]

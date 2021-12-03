@@ -612,6 +612,7 @@ class inventory_selector
                         const item_category *custom_category = nullptr );
 
         inventory_input get_input();
+        inventory_input process_input( const std::string &action, int ch );
 
         /** Given an action from the input_context, try to act according to it.
         * Should handle all actions standard to derived classes. **/
@@ -684,6 +685,7 @@ class inventory_selector
 
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
+        bool _categorize_map_items = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

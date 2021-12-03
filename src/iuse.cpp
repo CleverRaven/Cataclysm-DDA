@@ -5202,7 +5202,7 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( it->typeId() != itype_atomic_coffeepot && ( !it->ammo_sufficient( p ) ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
@@ -5224,6 +5224,19 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
     } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
     }
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return cata::nullopt;
+    }
+    if( it->typeId() == itype_atomic_coffeepot ) {
+        heat_item( *p );
+    }
+
     return cata::nullopt;
 }
 
