@@ -150,16 +150,16 @@
     "type": "GENERIC",
     "id": "vehicle_controls_xl_rig",
     "name": { "str": "XL vehicle control rig", "str_pl": "sets of XL control rigs" },
-    "description": "A huge, adjustable combined seat, controls and belting to fit all sizes.",
-    "weight": "24000 g",
+    "description": "A huge, adjustable combination seat, controls and belting able to fit all sizes.",
+    "weight": "25000 g",
     "to_hit": -4,
     "color": "light_cyan",
     "symbol": "$",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "steel", "cotton" ],
     "volume": "20 L",
     "bashing": 2,
     "category": "veh_parts",
     "price": 40000,
-    "price_postapoc": 500
+    "price_postapoc": 1500
   }
 ]
