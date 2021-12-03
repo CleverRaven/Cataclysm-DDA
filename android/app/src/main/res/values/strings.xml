@@ -17,4 +17,6 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="unavailableOption">The option you chose is not available.</string>
 </resources>
