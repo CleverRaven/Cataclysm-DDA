@@ -328,6 +328,10 @@ struct islot_armor {
      */
     bool ripoff_chance = false;
     /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */

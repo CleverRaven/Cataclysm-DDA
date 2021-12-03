@@ -811,6 +811,9 @@ void Item_factory::finalize_post( itype &obj )
             if( pocket.ripoff > 0 ) {
                 obj.armor->ripoff_chance = true;
             }
+            if( pocket.activity_noise.chance > 0 ) {
+                obj.armor->noisy = true;
+            }
         }
     }
 

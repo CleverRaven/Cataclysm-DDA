@@ -362,6 +362,18 @@ struct sealable_data {
     void deserialize( const JsonObject &data );
 };
 
+// the chance and volume this pocket makes when moving
+struct activity_noise {
+    // required for generic_factory
+    bool was_loaded = false;
+    /** multiplier for spoilage rate of contained items when sealed */
+    int volume = 0;
+    int chance = 0;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
 class pocket_data
 {
     public:
@@ -401,6 +413,8 @@ class pocket_data
         int extra_encumbrance = 0;
         // chance this pockets contents get ripped off when escaping a grab
         int ripoff = 0;
+        // volume this pocket makes when moving
+        activity_noise activity_noise;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number

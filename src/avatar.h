@@ -324,6 +324,9 @@ class avatar : public Character
 
         int movecounter = 0;
 
+        // ammount of turns since last check for pocket noise
+        time_point last_pocket_noise = time_point( 0 );
+
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;

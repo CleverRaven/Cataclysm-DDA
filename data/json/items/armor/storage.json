@@ -30,7 +30,8 @@
         "min_item_length": "7 cm",
         "moves": 80,
         "extra_encumbrance": 2,
-        "ripoff": 1
+        "ripoff": 1,
+        "activity_noise": { "volume": 10, "chance": 100 }
       }
     ],
     "warmth": 6,

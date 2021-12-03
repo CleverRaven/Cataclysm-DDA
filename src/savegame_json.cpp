@@ -307,6 +307,12 @@ void sealable_data::deserialize( const JsonObject &data )
     load( data );
 }
 
+void activity_noise::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+    load( data );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player_activity.h
 

@@ -1018,6 +1018,12 @@ bool item::has_ripoff_pockets() const
     return t ? t->ripoff_chance : false;
 }
 
+bool item::has_noisy_pockets() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->noisy : false;
+}
+
 bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );

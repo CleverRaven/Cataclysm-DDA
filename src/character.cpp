@@ -1760,6 +1760,27 @@ int Character::footstep_sound() const
     return std::round( volume );
 }
 
+int Character::clatter_sound() const
+{
+    int max_volume = 0;
+    for( const item &i : worn ) {
+        // if the item has noise making pockets we should check if they have clatered
+        if( i.has_noisy_pockets() ) {
+            for( const item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+                int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
+                int volume = pocket->get_pocket_data()->activity_noise.volume;
+                if( noise_chance > 0 && !pocket->empty() ) {
+                    // if this pocket causes more volume and it triggers noise
+                    if( volume > max_volume && rng( 1, 100 ) < noise_chance ) {
+                        max_volume = volume;
+                    }
+                }
+            }
+        }
+    }
+    return std::round( max_volume );
+}
+
 void Character::make_footstep_noise() const
 {
     const int volume = footstep_sound();
@@ -1775,6 +1796,17 @@ void Character::make_footstep_noise() const
                        "none", "none" );    // Sound of footsteps may awaken nearby monsters
     }
     sfx::do_footstep();
+}
+
+void Character::make_clatter_sound() const
+{
+
+    const int volume = clatter_sound();
+    if( volume <= 0 ) {
+        return;
+    }
+    sounds::sound( pos(), volume, sounds::sound_t::movement, _( "clattering equipment" ), true,
+                   "none", "none" );   // Sound of footsteps may awaken nearby monsters
 }
 
 steed_type Character::get_steed_type() const
@@ -7046,7 +7078,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+                              const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         // don't do any more damage if we're already dead
@@ -8554,7 +8587,8 @@ void Character::on_item_acquire( const item &it )
     }
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
+void Character::on_effect_int_change( const efftype_id &eid, int intensity,
+                                      const bodypart_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()

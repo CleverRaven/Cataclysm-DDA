@@ -827,7 +827,11 @@ class Character : public Creature, public visitable
         bool is_prone() const;
 
         int footstep_sound() const;
+        // the sound clattering items dangling off you can make
+        int clatter_sound() const;
         void make_footstep_noise() const;
+        void make_clatter_sound() const;
+
 
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
