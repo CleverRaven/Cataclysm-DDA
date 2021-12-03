@@ -2382,6 +2382,7 @@ bool cata_tiles::draw_sprite_at(
 
     const int sprite_index = spritelist[sprite_num];
     const texture *sprite_tex = tileset_ptr->get_tile( sprite_index );
+    
     //use night vision colors when in use
     //then use low light tile if available
     if( ll == lit_level::MEMORIZED ) {
