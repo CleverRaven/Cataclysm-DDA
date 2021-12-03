@@ -23,7 +23,7 @@
     "type": "terrain",
     "id": "t_outcrop",
     "name": "outcrop",
-    "description": "An assortment of various large, sharp rocks that jut out from the surrounding terrain.  Could be as a surface for a number of things or climbed on if worn with proper footwear.",
+    "description": "An assortment of various large, sharp rocks that jut out from the surrounding terrain.  Could be used as a surface for a number of things or climbed on if worn with proper footwear.",
     "symbol": "O",
     "color": "dark_gray",
     "move_cost": 8,

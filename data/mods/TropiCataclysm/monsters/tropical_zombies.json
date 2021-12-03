@@ -20,7 +20,7 @@
     "id": "mon_skeleton_master",
     "type": "MONSTER",
     "name": { "str": "skeletal master" },
-    "description": "This ossified zombie seems different than the others it seems to calculate its movements.",
+    "description": "This ossified zombie seems different than the others.  It seems to calculate its movements.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
