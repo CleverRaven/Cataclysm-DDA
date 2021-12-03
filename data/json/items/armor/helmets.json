@@ -368,7 +368,7 @@
     "price": 50000,
     "price_postapoc": 5000,
     "bashing": 6,
-    "material": [ "steel", "leather" ],
+    "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "dark_gray",
