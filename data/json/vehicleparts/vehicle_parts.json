@@ -1437,7 +1437,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART", "LIMITED_SPACE" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
@@ -1524,7 +1524,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART", "LIMITED_SPACE" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
