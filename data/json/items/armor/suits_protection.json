@@ -350,7 +350,7 @@
     "price": 90000,
     "price_postapoc": 8000,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "dark_gray",
