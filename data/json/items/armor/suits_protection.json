@@ -344,7 +344,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "O-yoroi" },
-    "description": "An ornate suit of Japanese samurai armor.",
+    "description": "An ornamental suit of Japanese samurai armor.",
     "weight": "9220 g",
     "volume": "11500 ml",
     "price": 90000,
