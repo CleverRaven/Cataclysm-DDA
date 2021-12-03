@@ -3160,21 +3160,25 @@
     "name": { "str": "XL control rig" },
     "symbol": "$",
     "categories": [ "operations", "passengers" ],
-    "color": "light_gray",
+    "color": "red",
     "broken_symbol": "$",
     "broken_color": "red",
     "damage_modifier": 10,
-    "durability": 120,
-    "bonus": 20,
+    "durability": 150,
     "description": "A carefully constructed all-in-one adjustible belted seat and controls combination, fits all sizes.",
     "bonus": 10,
+    "location": "center",
+    "looks_like": "reclining_seat",
+    "comfort": 2,
+    "floor_bedding_warmth": 200,
+    "size": 30,
     "item": "vehicle_controls_xl_rig",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
     },
-    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "SEATBELT", "NONBELTABLE" ],
+    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "SEATBELT", "NONBELTABLE", "CARGO" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -3183,6 +3187,7 @@
       { "item": "rag", "charges": [ 4, 8 ] },
       { "item": "string_36", "charges": [ 1, 3 ] }
     ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "type": "vehicle_part"
   }
 ]
