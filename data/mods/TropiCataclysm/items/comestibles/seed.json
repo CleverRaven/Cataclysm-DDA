@@ -36,7 +36,7 @@
     "description": "Some raw banana seeds.",
     "price": 100,
     "charges": 2,
-    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "grow": "91 days" }
+    "seed_data": { "plant_name": "banana", "fruit": "banana", "fruit_div": 3, "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
