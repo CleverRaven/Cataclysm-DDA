@@ -1201,7 +1201,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This
   might be because it exists only for testing purposes, or it is part of a
-  partially completed feature wher emore work is required before it can start spawning.
+  partially completed feature where more work is required before it can start spawning.
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs
