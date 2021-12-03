@@ -277,7 +277,7 @@
     "type": "overmap_terrain",
     "id": "hunting_blind",
     "copy-from": "hunting_blind",
-    "sym": "\u00ED",
+    "sym": "\u00A0",
     "color": "brown"
   },
   {
