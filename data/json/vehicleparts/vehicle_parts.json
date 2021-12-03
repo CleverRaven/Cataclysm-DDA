@@ -3165,7 +3165,7 @@
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 150,
-    "description": "A carefully constructed all-in-one adjustible belted seat and controls combination, fits all sizes.",
+    "description": "A carefully constructed all-in-one adjustible seat and controls combination, fits all sizes.",
     "bonus": 10,
     "location": "center",
     "looks_like": "reclining_seat",
@@ -3178,7 +3178,7 @@
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
     },
-    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "SEATBELT", "NONBELTABLE", "CARGO" ],
+    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "CARGO" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
