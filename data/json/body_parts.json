@@ -62,7 +62,8 @@
     "drench_capacity": 7,
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 18
+    "bionic_slots": 18,
+    "flags": [ "LIMB_UPPER" ]
   },
   {
     "id": "eyes",
@@ -75,7 +76,7 @@
     "encumbrance_limit": 60,
     "main_part": "head",
     "opposite_part": "eyes",
-    "hit_size": 1,
+    "hit_size": 0.5,
     "hit_size_relative": [ 0, 0.33, 0.57 ],
     "hit_difficulty": 1.15,
     "limb_type": "sensor",
@@ -86,7 +87,7 @@
     "squeamish_penalty": 8,
     "base_hp": 60,
     "drench_capacity": 1,
-    "flags": [ "IGNORE_TEMP" ],
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4
@@ -101,7 +102,7 @@
     "encumbrance_text": "Running is slowed.",
     "main_part": "head",
     "opposite_part": "mouth",
-    "hit_size": 1,
+    "hit_size": 0.5,
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.15,
     "limb_type": "mouth",
@@ -116,7 +117,8 @@
     "drench_capacity": 1,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "flags": [ "LIMB_UPPER" ]
   },
   {
     "id": "arm_l",
@@ -150,7 +152,8 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
+    "flags": [ "LIMB_UPPER" ]
   },
   {
     "id": "arm_r",
@@ -183,7 +186,8 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
+    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
+    "flags": [ "LIMB_UPPER" ]
   },
   {
     "id": "hand_l",
