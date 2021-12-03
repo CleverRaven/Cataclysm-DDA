@@ -55,30 +55,6 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "activity_noise": { "volume": 8, "chance": 60 }
-      },
-      {
-        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "100 cm",
-        "min_item_length": "40 cm",
-        "moves": 300,
-        "extra_encumbrance": 1,
-        "ripoff": 5
-      },
-      {
-        "//": "items slipped under the top of a duffelbag not well secured",
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "100 cm",
-        "min_item_length": "40 cm",
-        "moves": 80,
-        "extra_encumbrance": 5,
-        "ripoff": 1
       }
     ],
     "warmth": 6,
