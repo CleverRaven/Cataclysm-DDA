@@ -2176,7 +2176,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
                        found_id + "_" + multitile_keys[subtile], category, subcategory, pos, -1, rota, ll,
-                nv_color_active, height_3d );
+                       nv_color_active, height_3d );
         }
     }
 
@@ -2330,7 +2330,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     //draw it!
     draw_tile_at( display_tile, screen_pos, loc_rand, rota, ll,
-        nv_color_active, height_3d );
+                  nv_color_active, height_3d );
 
     return true;
 }
@@ -2391,7 +2391,7 @@ bool cata_tiles::draw_sprite_at(
         }
     } else if( apply_night_vision_goggles ) {
         if( ll != lit_level::LOW ) {
-            if ( nv_color_overlay ) {
+            if( nv_color_overlay ) {
                 if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
                     sprite_tex = ptr;
                 }
