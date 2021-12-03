@@ -4420,7 +4420,7 @@ void Character::update_needs( int rate_multiplier )
         // whether or not you are working the controls you will recieve pain if you are in a limited_space area.
         if( veh && veh->has_part( pos(), "LIMITED_SPACE" ) ) {
             add_msg_if_player( m_bad,
-                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
+                               _( "This vehicle is too restrictive and is causing you pain." ) );
             if( is_npc() ) {
                 npc &as_npc = dynamic_cast<npc &>( *this );
                 as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
