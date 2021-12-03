@@ -5160,7 +5160,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
-        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) &&
+        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) ||
                    !player_character.studied_all_recipes( *type ) ) {
             // Book can teach you something and hasn't been identified yet
             ret = c_red;
@@ -6391,6 +6391,20 @@ int item::get_quality( const quality_id &id ) const
     if( id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
+
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
+        if( quality.first == id ) {
+            return_quality = quality.second;
+        }
+    }
+    return_quality = std::max( return_quality, contents.best_quality( id ) );
+
+    return return_quality;
+}
+
+int item::get_raw_quality( const quality_id &id ) const
+{
+    int return_quality = INT_MIN;
 
     for( const std::pair<const quality_id, int> &quality : type->qualities ) {
         if( quality.first == id ) {

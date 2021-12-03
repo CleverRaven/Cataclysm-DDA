@@ -2341,6 +2341,13 @@ void options_manager::add_options_android()
          android_get_default_setting( "Trap Back button", true )
        );
 
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
+       );
+
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
          to_translation( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),
          true

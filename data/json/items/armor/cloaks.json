@@ -141,7 +141,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "brown",
-    "warmth": 50,
+    "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
     "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ],

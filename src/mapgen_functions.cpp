@@ -35,8 +35,6 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
-static const item_group_id Item_spawn_data_cannedfood( "cannedfood" );
-static const item_group_id Item_spawn_data_cavern( "cavern" );
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
 static const item_group_id Item_spawn_data_hive( "hive" );
@@ -44,10 +42,6 @@ static const item_group_id Item_spawn_data_hive_center( "hive_center" );
 static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_wreckage( "wreckage" );
-
-static const itype_id itype_hat_hard( "hat_hard" );
-static const itype_id itype_jackhammer( "jackhammer" );
-static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
@@ -57,7 +51,6 @@ static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 static const npc_template_id npc_template_apis( "apis" );
 
-static const oter_str_id oter_cavern( "cavern" );
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
@@ -95,8 +88,6 @@ static const oter_str_id oter_sewer_sw( "sewer_sw" );
 static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_subway_ew( "subway_ew" );
-static const oter_str_id oter_subway_ns( "subway_ns" );
 
 static const oter_type_str_id oter_type_railroad( "railroad" );
 
@@ -170,7 +161,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
             { "rift", &mapgen_rift },
             { "hellmouth", &mapgen_hellmouth },
@@ -1931,104 +1921,12 @@ void mapgen_river_curved( mapgendata &dat )
     }
 }
 
-void mapgen_cavern( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    // FIXME: don't look at me like that, this was messed up before I touched it :P - AD
-    for( int i = 0; i < 4; i++ ) {
-        dat.set_dir( i,
-                     ( dat.t_nesw[i] == oter_cavern || dat.t_nesw[i] == oter_subway_ns ||
-                       dat.t_nesw[i] == oter_subway_ew ? 0 : 3 )
-                   );
-    }
-    dat.e_fac = SEEX * 2 - 1 - dat.e_fac;
-    dat.s_fac = SEEY * 2 - 1 - dat.s_fac;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j < dat.n_fac || j > dat.s_fac || i < dat.w_fac || i > dat.e_fac ) &&
-                ( !one_in( 3 ) || j == 0 || j == SEEY * 2 - 1 || i == 0 || i == SEEX * 2 - 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-
-    // Number of pillars
-    int rn = rng( 0, 2 ) * rng( 0, 3 ) + rng( 0, 1 );
-    for( int n = 0; n < rn; n++ ) {
-        point p( rng( 5, SEEX * 2 - 6 ), rng( 5, SEEY * 2 - 6 ) );
-        for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-            for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock );
-            }
-        }
-    }
-
-    if( connects_to( dat.north(), 2 ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.east(), 3 ) ) {
-        for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.south(), 0 ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.west(), 1 ) ) {
-        for( int i = 0; i <= SEEX; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    m->place_items( Item_spawn_data_cavern, 60, point_zero,
-                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
-    if( one_in( 6 ) ) { // Miner remains
-        point p2;
-        do {
-            p2.x = rng( 0, SEEX * 2 - 1 );
-            p2.y = rng( 0, SEEY * 2 - 1 );
-        } while( m->impassable( p2 ) );
-        if( !one_in( 3 ) ) {
-            m->spawn_item( p2, itype_jackhammer );
-        }
-        if( one_in( 3 ) ) {
-            m->spawn_item( p2, itype_mask_dust );
-        }
-        if( one_in( 2 ) ) {
-            m->spawn_item( p2, itype_hat_hard );
-        }
-        while( !one_in( 3 ) ) {
-            for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( Item_spawn_data_cannedfood,
-                                       tripoint( p2, m->get_abs_sub().z ), dat.when() );
-            }
-        }
-    }
-
-}
-
 void mapgen_rock_partial( mapgendata &dat )
 {
     map *const m = &dat.m;
     fill_background( m, t_rock );
     for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == oter_cavern || dat.t_nesw[i] == oter_slimepit ||
-            dat.t_nesw[i] == oter_slimepit_down ) {
+        if( dat.t_nesw[i] == oter_slimepit || dat.t_nesw[i] == oter_slimepit_down ) {
             dat.dir( i ) = 6;
         } else {
             dat.dir( i ) = 0;
@@ -2545,14 +2443,14 @@ void mapgen_forest( mapgendata &dat )
         const int feather_selection = *direction_pool.pick();
         switch( feather_selection ) {
             case no_dir:
-                return *( self_biome.groundcover.pick() );
+                return *self_biome.groundcover.pick();
             case empty:
-                return *( dat.region.default_groundcover.pick() );
+                return *dat.region.default_groundcover.pick();
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
-                    return *( adjacent_biomes[feather_selection]->groundcover.pick() );
+                    return *adjacent_biomes[feather_selection]->groundcover.pick();
                 } else {
-                    return *( dat.region.default_groundcover.pick() );
+                    return *dat.region.default_groundcover.pick();
                 }
         }
     };

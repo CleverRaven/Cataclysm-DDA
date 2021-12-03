@@ -23,6 +23,7 @@
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -417,10 +418,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
     return min_width;
 }
 
-/**
- * Calculate sizes, populate arrays, initialize window
- */
-void uilist::setup()
+void uilist::calc_data()
 {
     bool w_auto = !w_width_setup.fun;
 
@@ -601,6 +599,11 @@ void uilist::setup()
     } else {
         w_y  = w_y_setup.fun( w_height );
     }
+}
+
+void uilist::setup()
+{
+    calc_data();
 
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
@@ -875,6 +878,73 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
  */
 void uilist::query( bool loop, int timeout )
 {
+#if defined(__ANDROID__)
+    bool auto_pos = w_x_setup.fun == nullptr && w_y_setup.fun == nullptr &&
+                    w_width_setup.fun == nullptr && w_height_setup.fun == nullptr;
+
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && auto_pos ) {
+        if( !started ) {
+            calc_data();
+            started = true;
+        }
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID list_menu_method_id = env->GetMethodID( native_ui_cls, "singleChoiceList",
+                                        "(Ljava/lang/String;[Ljava/lang/String;[Z)I" );
+        jstring jstr_message = env->NewStringUTF( text.c_str() );
+        jobjectArray j_options = env->NewObjectArray( entries.size(), env->FindClass( "java/lang/String" ),
+                                 env->NewStringUTF( "" ) );
+        jbooleanArray j_enabled = env->NewBooleanArray( entries.size() );
+        jboolean *n_enabled = new jboolean[entries.size()];
+        for( std::size_t i = 0; i < entries.size(); i++ ) {
+            std::string entry = remove_color_tags( entries[i].txt );
+            if( !entries[i].ctxt.empty() ) {
+                std::string ctxt = remove_color_tags( entries[i].ctxt );
+                while( !ctxt.empty() && ctxt.back() == '\n' ) {
+                    ctxt.pop_back();
+                }
+                if( !ctxt.empty() ) {
+                    str_append( entry, "\n", ctxt );
+                }
+            }
+            if( desc_enabled ) {
+                std::string desc = remove_color_tags( entries[i].desc );
+                while( !desc.empty() && desc.back() == '\n' ) {
+                    desc.pop_back();
+                }
+                if( !desc.empty() ) {
+                    str_append( entry, "\n", desc );
+                }
+            }
+            env->SetObjectArrayElement( j_options, i, env->NewStringUTF( entry.c_str() ) );
+            n_enabled[i] = entries[i].enabled;
+        }
+        env->SetBooleanArrayRegion( j_enabled, 0, entries.size(), n_enabled );
+        int j_ret = env->CallIntMethod( native_ui_obj, list_menu_method_id, jstr_message, j_options,
+                                        j_enabled );
+        env->DeleteLocalRef( j_enabled );
+        env->DeleteLocalRef( j_options );
+        env->DeleteLocalRef( jstr_message );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        delete[] n_enabled;
+        if( j_ret == -1 ) {
+            ret = UILIST_CANCEL;
+        } else if( 0 <= j_ret && j_ret < entries.size() ) {
+            ret = entries[j_ret].retval;
+        } else {
+            ret = UILIST_ERROR;
+        }
+        return;
+    }
+#endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;

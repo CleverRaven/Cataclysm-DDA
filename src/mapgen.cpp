@@ -162,7 +162,6 @@ static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_temple( "temple" );
 static const oter_str_id oter_temple_finale( "temple_finale" );
 static const oter_str_id oter_temple_stairs( "temple_stairs" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
@@ -4071,11 +4070,20 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
  */
 void jmapgen_objects::apply( const mapgendata &dat ) const
 {
+    bool terrain_resolved = false;
     for( const jmapgen_obj &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
+        if( !terrain_resolved && typeid( what ) == typeid( jmapgen_vehicle ) ) {
+            // In order to determine collisions between vehicles and local "terrain" the terrain has to be resolved
+            // This code is based on two assumptions:
+            // 1. The terrain part of a definition is always placed first.
+            // 2. Only vehicles require the terrain to be resolved. The general solution is to use a virtual function.
+            resolve_regional_terrain_and_furniture( dat );
+            terrain_resolved = true;
+        }
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y );
@@ -5161,7 +5169,7 @@ void map::draw_lab( mapgendata &dat )
 void map::draw_temple( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_temple || terrain_type == oter_temple_stairs ) {
+    if( terrain_type == oter_temple_stairs ) {
         if( dat.zlevel() == 0 ) {
             // Ground floor
             // TODO: More varieties?
