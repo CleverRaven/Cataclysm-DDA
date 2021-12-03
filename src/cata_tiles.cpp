@@ -2391,11 +2391,10 @@ bool cata_tiles::draw_sprite_at(
         }
     } else if( apply_night_vision_goggles ) {
         if( ll != lit_level::LOW ) {
-            if( nv_color_overlay ) {
-                if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
-                    sprite_tex = ptr;
-                }
+            if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
+                sprite_tex = ptr;
             }
+
         } else {
             if( const texture *ptr = tileset_ptr->get_night_tile( sprite_index ) ) {
                 sprite_tex = ptr;
