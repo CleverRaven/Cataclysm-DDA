@@ -3187,7 +3187,6 @@
       { "item": "rag", "charges": [ 4, 8 ] },
       { "item": "string_36", "charges": [ 1, 3 ] }
     ],
-    "damage_reduction": { "all": 6 },
-    "type": "vehicle_part"
+    "damage_reduction": { "all": 6 }
   }
 ]
