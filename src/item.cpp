@@ -11358,19 +11358,6 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         return false;
     }
 
-    int energy = 0;
-    if( type->tool->turns_per_charge > 0 &&
-        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = type->tool->power_draw / 1000000;
-        // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
-    }
-
-    ammo_consume( energy, pos, carrier );
-
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0 ) &&
@@ -11391,6 +11378,21 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         } else {
             return true;
         }
+    }
+
+    int energy = 0;
+    if( type->tool->turns_per_charge > 0 &&
+        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        energy = std::max( ammo_required(), 1 );
+    } else if( type->tool->power_draw > 0 ) {
+        // power_draw in mW / 1000000 to give kJ (battery unit) per second
+        energy = type->tool->power_draw / 1000000;
+        // energy_bat remainder results in chance at additional charge/discharge
+        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+    }
+
+    if( energy > 0 ) {
+        ammo_consume( energy, pos, carrier );
     }
 
     type->tick( carrier != nullptr ? *carrier : player_character, *this, pos );
