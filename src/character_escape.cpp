@@ -214,7 +214,6 @@ bool Character::try_remove_grab()
                 // choose an item to be ripped off
                 int index = rng( 0, pd.size() - 1 );
                 int chance = rng( 0, get_effect_int( effect_grabbed, body_part_torso ) );
-                add_msg( m_bad, _( "GRAB CHANCE %d" ), chance );
                 // the item is ripped off your character
                 if( chance > pd[index]->get_pocket_data()->ripoff ) {
                     pd[index]->spill_contents( adjacent_tile() );

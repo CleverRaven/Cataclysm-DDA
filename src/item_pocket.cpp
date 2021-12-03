@@ -317,6 +317,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return !rhs.data->get_flag_restrictions().empty();
     }
 
+    if( data->extra_encumbrance != rhs.data->extra_encumbrance ) {
+        // pockets without extra encumbrance should be prioritized
+        return !rhs.data->extra_encumbrance;
+    }
+
+    if( data->ripoff > rhs.data->ripoff ) {
+        // pockets without ripoff chance should be prioritized
+        return true;
+    }
+
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
