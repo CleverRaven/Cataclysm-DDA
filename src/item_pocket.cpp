@@ -947,7 +947,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->extra_encumbrance > 0 ) {
         info.emplace_back( "DESCRIPTION",
-                           string_format( "Causes %d <bad>additional encumbrance</bad> while in use.",
+                           string_format( _( "Causes %d <bad>additional encumbrance</bad> while in use." ),
                                           data->extra_encumbrance ) ) ;
     }
 
