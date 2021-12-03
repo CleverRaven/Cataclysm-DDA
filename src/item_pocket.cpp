@@ -181,7 +181,7 @@ void sealable_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
 }
 
-void activity_noise::load( const JsonObject &jo )
+void pocket_noise::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "volume", volume, 0 );
     optional( jo, was_loaded, "chance", chance, 0 );
@@ -943,6 +943,22 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                        "<num>", iteminfo::lower_is_better, data->moves );
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
+    }
+
+    if( data->extra_encumbrance > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( "Causes %d <bad>additional encumbrance</bad> while in use.",
+                                          data->extra_encumbrance ) ) ;
+    }
+
+    if( data->ripoff > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "Items have a chance of <bad>falling out</bad> when you are grabbed." ) );
+    }
+
+    if( data->activity_noise.chance > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "Items will <bad>make noise</bad> when you move." ) );
     }
 
     if( data->watertight ) {

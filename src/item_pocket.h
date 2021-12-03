@@ -363,7 +363,7 @@ struct sealable_data {
 };
 
 // the chance and volume this pocket makes when moving
-struct activity_noise {
+struct pocket_noise {
     // required for generic_factory
     bool was_loaded = false;
     /** multiplier for spoilage rate of contained items when sealed */
@@ -414,7 +414,7 @@ class pocket_data
         // chance this pockets contents get ripped off when escaping a grab
         int ripoff = 0;
         // volume this pocket makes when moving
-        activity_noise activity_noise;
+        pocket_noise activity_noise;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
