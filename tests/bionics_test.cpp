@@ -24,8 +24,27 @@ static const bionic_id bio_power_storage( "bio_power_storage" );
 static void clear_bionics( Character &you )
 {
     you.my_bionics->clear();
+    you.update_bionic_power_capacity();
     you.set_power_level( 0_kJ );
-    you.set_bionic_capacity( 0_kJ );
+    you.set_bionic_capacity_modifier( 0_kJ );
+}
+
+TEST_CASE( "Bionic power capacity", "[bionics]" )
+{
+    avatar &dummy = get_avatar();
+
+    GIVEN( "character starts without bionics and no bionic power" ) {
+        clear_avatar();
+        REQUIRE( !dummy.has_max_power() );
+
+        WHEN( "a Power Storage CBM is installed" ) {
+            dummy.add_bionic( bio_power_storage );
+
+            THEN( "their total bionic power capacity increases by the Power Storage capacity" ) {
+                CHECK( dummy.get_max_power_level() == bio_power_storage->capacity );
+            }
+        }
+    }
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
@@ -44,6 +63,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
+
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_fuel_cell_gasoline" ) {
@@ -62,8 +82,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         item armor = item( "rm13_armor" );
         CHECK( !dummy.can_fuel_bionic_with( armor ) );
     }
-
-    clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
         dummy.add_bionic( bio_batteries );

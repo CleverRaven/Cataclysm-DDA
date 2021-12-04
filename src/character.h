@@ -1580,7 +1580,7 @@ class Character : public Creature, public visitable
         void mod_bionic_capacity_modifier( const units::energy &npower_max );
         void set_power_level( const units::energy &npower );
         void set_bionic_capacity( const units::energy &capacity );
-        void set_bionic_capacity_modifier( const units::energy &npower );
+        void set_bionic_capacity_modifier( const units::energy &capacity );
         void update_bionic_power_capacity();
         bool is_max_power() const;
         bool has_power() const;
