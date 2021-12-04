@@ -639,7 +639,7 @@
     "type": "furniture",
     "id": "f_absence",
     "name": "less than nothing",
-    "description": "There is nothing here. Not even time or space.",
+    "description": "There is nothing here.  Not even time or space.",
     "symbol": "O",
     "color": "black",
     "move_cost_mod": -1,
