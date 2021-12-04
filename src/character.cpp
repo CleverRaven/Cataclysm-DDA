@@ -6083,7 +6083,7 @@ void Character::update_heartrate_index()
     float hr_bp_loss_mod;
     float curr_blood_press_index = get_bloodpress_index();
     if( curr_blood_press_index < 1.00f ) {
-        // proof of concept, needs serius improvements for non-linearity and balance.
+        // proof of concept, needs serious improvements for non-linearity and balance.
         hr_bp_loss_mod = ( 1.00f - curr_blood_press_index ) / 2;
     } else {
         hr_bp_loss_mod = 0.0f;
@@ -6094,9 +6094,9 @@ void Character::update_heartrate_index()
 
     // The following ranges were calculated assuming a bpm around 75.
     if( heart_rate_index > 3.2 ) {
-        // tachycardia effects
-    } else if( heart_rate_index > 2.5 ) {
         // deadly tachycardia effects
+    } else if( heart_rate_index > 2.5 ) {
+        // tachycardia effects
     }
     // low heart rate effects should be handled by low blood pressure.
     update_cardiac_output();
@@ -6110,11 +6110,11 @@ float Character::get_bloodpress_index() const
 void Character::update_bloodpress_index()
 {
     float bp_hr_mod = 0.0f;
-    // proof of concept, needs serius improvements for non-linearity and balance.
+    // proof of concept, needs serious improvements for non-linearity and balance.
     float curr_heart_rate_index = get_heartrate_index();
     if( curr_heart_rate_index >= 1.0 ) {
         bp_hr_mod = ( curr_heart_rate_index - 1 ) * 1.5;
-    } else if( curr_heart_rate_index < 1.0 ) {
+    } else  {
         bp_hr_mod = -( 2 * curr_heart_rate_index - 2 ) * ( 2 * curr_heart_rate_index - 2 );
     }
     blood_press_index = 1.0f + bp_hr_mod;
