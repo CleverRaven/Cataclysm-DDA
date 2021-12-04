@@ -2519,10 +2519,10 @@ class Character : public Creature, public visitable
         void mod_rad( int mod );
 
         float get_heartrate_index() const;
-        void set_heartrate_index( float nheart_rate_index );
+        void update_heartrate_index();
 
         float get_bloodpress_index() const;
-        void set_bloodpress_index( float nblood_press_index );
+        void update_bloodpress_index();
 
         float get_resprate_index() const;
         void set_resprate_index( float nresp_rate_index );
@@ -3360,9 +3360,9 @@ class Character : public Creature, public visitable
 
         // All indices represent the percentage compared to normal.
         // i.e. a value of 1.1 means 110% of normal.
-        float heart_rate_index;
-        float blood_press_index;
-        float resp_rate_index;
+        float heart_rate_index = 1.0f;
+        float blood_press_index = 1.0f;
+        float resp_rate_index = 1.0f;
 
         float circulation;
         // Should remain fixed at 1.0 for now.

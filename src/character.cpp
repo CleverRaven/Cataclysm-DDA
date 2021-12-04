@@ -6001,9 +6001,88 @@ float Character::get_heartrate_index() const
     return heart_rate_index;
 }
 
-void Character::set_heartrate_index( float nheart_rate_index )
+void Character::update_heartrate_index()
 {
-    heart_rate_index = nheart_rate_index;
+    // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
+    //This function returns heartrate in BPM basing of health, physical state, tiredness,
+    //moral effects, stimulators and anything that should fit here.
+    //Some values are picked to make sense from math point of view
+    //and seem correct but effects may vary in real life.
+    //This needs more attention from experienced contributors to work more smooth.
+
+    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
+    const int player_local_temp = get_weather().get_temperature( pos() );
+    float temperature_modifier = 0.0f;
+    if( has_trait( trait_COLDBLOOD ) ) {
+        temperature_modifier = 0.002f;
+    }
+    if( has_trait( trait_COLDBLOOD2 ) ) {
+        temperature_modifier = 0.00333f;
+    }
+    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
+        temperature_modifier = 0.005f;
+    }
+    double hr_temp_mod = ( ( player_local_temp - 65 ) * temperature_modifier );
+    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
+    float hr_stamina_mod = 0.0f;
+    // The influence of stamina on heartrate seemeed excessive and was toned down.
+    if( stamina_level >= 0.9f ) {
+        hr_stamina_mod = 0.0f;
+    } else if( stamina_level >= 0.8f ) {
+        hr_stamina_mod = 0.2f;
+    } else if( stamina_level >= 0.6f ) {
+        hr_stamina_mod = 0.5f;
+    } else if( stamina_level >= 0.4f ) {
+        hr_stamina_mod = 0.8f;
+    } else if( stamina_level >= 0.2f ) {
+        hr_stamina_mod = 1.2f;
+    } else {
+        hr_stamina_mod = 1.6f;
+    }
+
+    const int stim_level = get_stim();
+    float hr_stim_mod = 0.0f;
+    if( stim_level > 0 ) {
+        //that's asymptotical function that is equal to 1 at around 30 stim level
+        //and slows down all the time almost reaching 2.
+        //Tweaking x*x multiplier will accordingly change effect accumulation
+        hr_stim_mod = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
+    }
+    float hr_nicotine_mod = 0.0f;
+    if( get_effect_dur( effect_cig ) > 0_turns ) {
+        //Nicotine-induced tachycardia
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+            hr_nicotine_mod = 0.4f;
+        } else {
+            hr_nicotine_mod = 0.1f;
+        }
+    }
+    // Todo: Add cardio effects on the following.
+    //health effect that can make things better or worse is applied in the end.
+    //Based on get_max_healthy that already has bmi factored
+    const int healthy = get_max_healthy();
+    //a bit arbitrary formula that can use some love
+    float hr_health_mod = - 0.05f * std::round( healthy / 20.0f );
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
+
+    const int cur_pain = get_perceived_pain();
+    float hr_pain_mod = 0.0f;
+    if( cur_pain > 5 ) {
+        hr_pain_mod = 0.02 * ( cur_pain - 5 );
+    }
+    // TODO: Add support for adrenaline trait
+    float hr_trait_mod = 0.0f;
+
+    // TODO: refine support for HR increasing to compensate for low BP.
+    float hr_bp_loss_mod = 0.0f;
+
+    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
+                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
+    if( heart_rate_index > 2.0 ) {
+        // tachycardia effects
+    } else if( heart_rate_index > 3.0 ) {
+        // deadly tachycardia effects
+    }
     update_circulation();
 }
 
@@ -6012,9 +6091,9 @@ float Character::get_bloodpress_index() const
     return blood_press_index;
 }
 
-void Character::set_bloodpress_index( float nblood_press_index )
+void Character::update_bloodpress_index()
 {
-    blood_press_index = nblood_press_index;
+    blood_press_index;
     update_circulation();
 }
 
@@ -6033,9 +6112,10 @@ float Character::get_circulation_mod() const
     return circulation_mod;
 }
 
-void Character::set_circulation_mod(float ncirculation_mod)
+void Character::set_circulation_mod( float ncirculation_mod )
 {
     circulation_mod = ncirculation_mod;
+    update_circulation();
 }
 
 void Character::update_circulation()
@@ -8447,6 +8527,8 @@ void Character::use_fire( const int quantity )
     }
 }
 
+// Todo: refactor this function to take into account only heart_rate_index.
+// Will need to set-up the rng stats as modifiers during player creation to keep consistent.
 int Character::heartrate_bpm() const
 {
     //Dead have no heartbeat usually and no heartbeat in omnicell
