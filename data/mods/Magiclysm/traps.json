@@ -37,9 +37,7 @@
     "difficulty": 99,
     "trap_radius": 4,
     "action": "spell",
-    "spell_data": {
-      "id": "Summon_trapspider"
-    },
+    "spell_data": { "id": "Summon_trapspider" },
     "always_invisible": true
-}
+  }
 ]
