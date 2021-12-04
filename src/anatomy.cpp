@@ -20,8 +20,8 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
 namespace
 {

@@ -14,8 +14,8 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
-static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
 static const mtype_id mon_fish_trout( "mon_fish_trout" );
 static const mtype_id mon_zombie( "mon_zombie" );
