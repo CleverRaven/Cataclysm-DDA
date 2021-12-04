@@ -281,10 +281,14 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
         bool from_subgroups )
 {
     const MonsterGroup &g = group.obj();
-
     std::vector<mtype_id> monsters;
+    std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
+    const bool can_spawn_events = opt == "monsters" || opt == "both";
 
     for( const MonsterGroupEntry &elem : g.monsters ) {
+        if( elem.event != holiday::none && ( !can_spawn_events || elem.event != get_holiday_from_time() ) ) {
+            continue;
+        }
         if( elem.is_group() ) {
             if( from_subgroups ) {
                 std::vector<mtype_id> submons = GetMonstersFromGroup( elem.group, from_subgroups );
@@ -428,12 +432,14 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 id_name = mon.get_string( "monster" );
             }
 
+            holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
+
             int freq = mon.get_int( "weight", 1 );
             if( mon.has_int( "freq" ) ) {
                 freq = mon.get_int( "freq" );
             }
             if( freq > max_freq.second ) {
-                if( !isgroup ) {
+                if( !isgroup && event == holiday::none ) {
                     max_freq = { mtype_id( id_name ), freq };
                 }
             }
@@ -467,7 +473,6 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                     }
                 }
             }
-            holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
             MonsterGroupEntry new_mon_group = isgroup ?
                                               MonsterGroupEntry( mongroup_id( id_name ), freq, cost,
                                                       pack_min, pack_max, data, starts, ends, event ) :
@@ -561,7 +566,10 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
     for( const auto &monster_type : group.monsters ) {
-        if( monster_type.frequency >= spawn_chance && ( monster_type.event == holiday::none || ( can_spawn_events && monster_type.event == get_holiday_from_time() ) ) ) {
+        if( monster_type.event != holiday::none && ( !can_spawn_events || monster_type.event != get_holiday_from_time() ) ) {
+            continue;
+        }
+        if( monster_type.frequency >= spawn_chance ) {
             if( monster_type.is_group() ) {
                 return GetRandomMonsterFromGroup( monster_type.group );
             }

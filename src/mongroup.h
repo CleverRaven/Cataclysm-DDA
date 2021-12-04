@@ -222,8 +222,6 @@ class MonsterGroupManager
 
         static bool is_animal( const mongroup_id &group );
 
-        static void extract_mons_from_subgroups();
-
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
         using t_string_set = std::set<std::string>;
