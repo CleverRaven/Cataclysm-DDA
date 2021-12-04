@@ -152,7 +152,7 @@
         { "chance": 75, "repeat": [ 1, 8 ], "item": "clothing_work_gloves", "x": [ 14, 15 ], "y": [ 15, 16 ] },
         { "chance": 70, "repeat": [ 1, 3 ], "item": "tools_earthworking", "x": [ 14, 18 ], "y": 18 },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "supplies_farming", "x": [ 17, 18 ], "y": [ 15, 16 ] },
-        { "chance": 35, "repeat": 2, "item": "trash", "x": 9, "y": [ 15, 14 ] }
+        { "chance": 35, "repeat": 2, "item": "trash", "x": 9, "y": [ 14, 15 ] }
       ],
       "place_vehicles": [ { "chance": 55, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "pickup", "x": 5, "y": 18 } ],
       "rows": [

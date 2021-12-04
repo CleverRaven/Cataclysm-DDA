@@ -132,7 +132,7 @@
       "place_vehicles": [
         { "vehicle": "back_alley", "x": 6, "y": 22, "rotation": 180, "chance": 20 },
         { "vehicle": "back_alley", "x": 19, "y": 22, "rotation": 180, "chance": 20 },
-        { "vehicle": "back_alley", "x": [ 36, 19 ], "y": 22, "rotation": 180, "chance": 20 }
+        { "vehicle": "back_alley", "x": [ 24, 36 ], "y": 22, "rotation": 180, "chance": 20 }
       ],
       "place_loot": [
         { "item": "television", "x": 3, "y": 8, "chance": 50 },
