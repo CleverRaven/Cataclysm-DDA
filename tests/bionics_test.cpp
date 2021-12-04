@@ -65,7 +65,7 @@ TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
                 dummy.remove_bionic( bio_power_storage );
                 THEN( "maximum power decreases by the Power Storage capacity without changing current power level" ) {
                     CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
-                    CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
+                    CHECK( dummy.get_power_level() == bio_power_storage->capacity * 2 );
                 }
             }
         }
