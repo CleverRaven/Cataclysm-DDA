@@ -342,5 +342,34 @@
     "update_mapgen_id": "fbmh_2_radio_console",
     "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_radio_controls", "x": 16, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_parkour_south",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour_south" ], "x": 16, "y": 5 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_parkour_south",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ".vv...",
+        "....+.",
+        "..x.+.",
+        "...x..",
+        "......",
+        ".wWw.."
+      ],
+      "palettes": [ "fbmh_2_parkour" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "fbmh_2_parkour",
+    "terrain": { ".": "t_rubber_mulch", "x": "t_concrete_wall_rope", "+": "t_parkour_bars", "v": "t_rubber_mulch", "w": "t_rubber_mulch", "W": "t_rubber_mulch" },
+    "furniture": { "x": "t_thconc_floor", "+": "t_thconc_floor", "v": "f_counter", "w": "f_earthbag_half", "W": "f_earthbag_wall" }
   }
 ]

@@ -539,5 +539,19 @@
       [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
     ],
     "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "fbmh_2_parkour",
+    "description": "Let's build an obstacle course area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_parkour_south",
+    "blueprint_name": "build an obstacle course",
+    "blueprint_requires": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_parkour_south" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_parkour_south" } ]
   }
 ]

@@ -276,6 +276,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_parkour_bars",
+    "name": "Build Parkour Bars"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fence",
     "name": "Build Fence"
   },
@@ -508,6 +513,11 @@
     "type": "construction_group",
     "id": "build_reinforced_concrete_wall",
     "name": "Build Reinforced Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_concrete_wall_ropes",
+    "name": "Build Reinforced Concrete Wall with Ropes"
   },
   {
     "type": "construction_group",

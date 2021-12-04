@@ -1135,6 +1135,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_parkour_bars",
+    "group": "build_parkour_bars",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "420 m",
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [ [ [ "pipe", 36 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_parkour_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_strconc_wall_halfway",
     "group": "build_reinforced_concrete_wall",
     "//": "Step 2: foundation",
@@ -1160,6 +1172,20 @@
     "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_rope",
+    "group": "build_reinforced_concrete_wall_ropes",
+    "//": "Step 3: finish wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "rope_6", 8 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_strconc_wall_halfway",
+    "post_terrain": "t_concrete_wall_rope"
   },
   {
     "type": "construction",

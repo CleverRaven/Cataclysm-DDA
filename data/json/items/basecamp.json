@@ -70,5 +70,13 @@
     "name": { "str": "basecamp drop hammer" },
     "description": "A fake drop hammer used for basecamps.",
     "qualities": [ [ "HAMMER", 5 ] ]
+  },
+  {
+    "id": "parkour_practice",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "basecamp parkour gym" },
+    "description": "A fake drop hammer used for basecamps.",
+    "qualities": [ [ "PARKOUR", 1 ] ]
   }
 ]
