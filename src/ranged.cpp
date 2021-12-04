@@ -78,6 +78,14 @@
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
+static const character_modifier_id
+character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
+static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -938,8 +946,8 @@ int throw_cost( const Character &c, const item &to_throw )
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
-    move_cost *= c.melee_thrown_move_modifier_hands();
-    move_cost *= c.melee_thrown_move_modifier_torso();
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_balance_mod );
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
@@ -956,7 +964,7 @@ int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
     float effective_dex = 2 + get_dex() / 4.0f;
-    effective_dex *= thrown_dex_modifier();
+    effective_dex *= get_modifier( character_modifier_thrown_dex_mod );
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1927,7 +1935,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ranged_dispersion_modifier_hands() );
+    dispersion.add_range( get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
