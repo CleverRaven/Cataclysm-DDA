@@ -116,7 +116,7 @@ TEST_CASE( "Event-based monsters from an event-only mongroup", "[monster][mongro
             REQUIRE( cur_event == holiday::none );
             THEN( "don't spawn any monsters" ) {
                 std::vector<mtype_id> mons = MonsterGroupManager::GetMonstersFromGroup( test_group, true );
-                CHECK( mons.size() == 0 );
+                CHECK( mons.empty() );
 
                 const std::vector<mtype_id> ylist = {};
                 const std::vector<mtype_id> nlist = { mon_test_non_shearable, mon_test_shearable, mon_test_bovine };
