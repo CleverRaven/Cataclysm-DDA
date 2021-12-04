@@ -32,7 +32,7 @@
         "ripoff": 2
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -54,7 +54,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
     "warmth": 6,
@@ -137,7 +137,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -150,7 +150,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -304,7 +304,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -317,7 +317,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -330,7 +330,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
     "warmth": 10,
@@ -497,7 +497,7 @@
         "moves": 300
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -519,7 +519,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
     "warmth": 5,
@@ -617,7 +617,7 @@
         "moves": 300
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -650,7 +650,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
     "warmth": 5,
@@ -1069,7 +1069,7 @@
         "moves": 300
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -1204,7 +1204,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -1217,10 +1217,10 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -1418,7 +1418,7 @@
         "moves": 120
       },
       {
-        "//": "tucked pocket",
+        "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -1440,7 +1440,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -1453,7 +1453,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
         "//": "carabiner pocket",
@@ -1466,7 +1466,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
     "warmth": 8,
