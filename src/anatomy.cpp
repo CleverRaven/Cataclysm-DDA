@@ -21,6 +21,7 @@
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 
 namespace
 {
@@ -186,10 +187,18 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
             continue;
         }
 
-        if( !can_attack_high && bp->has_flag( json_flag_LIMB_UPPER ) ) {
-            add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, we can't attack upper limbs",
-                           body_part_name( bp ) );
-            continue;
+        if( !can_attack_high ) {
+            if( bp->has_flag( json_flag_LIMB_UPPER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, we can't attack upper limbs",
+                               body_part_name( bp ) );
+                continue;
+            }
+            if( bp->has_flag( json_flag_LIMB_LOWER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP,
+                               "limb %s's weight tripled for short attackers",
+                               body_part_name( bp ) );
+                weight *= 3;
+            }
         }
 
         if( hit_roll != 0 ) {

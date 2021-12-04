@@ -16,7 +16,7 @@
     "encumbrance_threshold": 6,
     "encumb_impacts_dodge": true,
     "is_vital": true,
-    "hit_size": 45,
+    "hit_size": 36,
     "hit_size_relative": [ 20, 33.33, 36.57 ],
     "hit_difficulty": 1,
     "side": "both",
@@ -48,9 +48,9 @@
     "limb_type": "head",
     "limb_scores": [ [ "reaction", 0.3 ] ],
     "is_vital": true,
-    "hit_size": 6,
+    "hit_size": 4,
     "hit_size_relative": [ 0, 2.33, 5.71 ],
-    "hit_difficulty": 1.35,
+    "hit_difficulty": 1.2,
     "side": "both",
     "legacy_id": "HEAD",
     "stylish_bonus": 3,
@@ -136,7 +136,7 @@
     "main_part": "arm_l",
     "connected_to": "torso",
     "opposite_part": "arm_r",
-    "hit_size": 9,
+    "hit_size": 13,
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "limb_type": "arm",
@@ -152,8 +152,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
-    "flags": [ "LIMB_UPPER" ]
+    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
   },
   {
     "id": "arm_r",
@@ -170,7 +169,7 @@
     "main_part": "arm_r",
     "connected_to": "torso",
     "opposite_part": "arm_l",
-    "hit_size": 9,
+    "hit_size": 13,
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "limb_type": "arm",
@@ -186,8 +185,7 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
-    "flags": [ "LIMB_UPPER" ]
+    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
   },
   {
     "id": "hand_l",
@@ -201,7 +199,7 @@
     "encumbrance_text": "Manual tasks are slowed.",
     "main_part": "arm_l",
     "opposite_part": "hand_r",
-    "hit_size": 3,
+    "hit_size": 1.5,
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "limb_type": "hand",
@@ -230,7 +228,7 @@
     "encumbrance_text": "Manual tasks are slowed.",
     "main_part": "arm_r",
     "opposite_part": "hand_l",
-    "hit_size": 3,
+    "hit_size": 1.5,
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "limb_type": "hand",
@@ -262,9 +260,9 @@
     "main_part": "leg_l",
     "connected_to": "torso",
     "opposite_part": "leg_r",
-    "hit_size": 9,
+    "hit_size": 13,
     "hit_size_relative": [ 25, 12, 5.71 ],
-    "hit_difficulty": 0.975,
+    "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ] ],
     "encumb_impacts_dodge": true,
@@ -280,7 +278,8 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ]
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
+    "flags": [ "LIMB_LOWER" ]
   },
   {
     "id": "leg_r",
@@ -297,9 +296,9 @@
     "main_part": "leg_r",
     "connected_to": "torso",
     "opposite_part": "leg_l",
-    "hit_size": 9,
+    "hit_size": 13,
     "hit_size_relative": [ 25, 12, 5.71 ],
-    "hit_difficulty": 0.975,
+    "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ] ],
     "encumb_impacts_dodge": true,
@@ -315,7 +314,8 @@
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ]
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
+    "flags": [ "LIMB_LOWER" ]
   },
   {
     "id": "foot_l",
@@ -330,7 +330,7 @@
     "encumbrance_threshold": 5,
     "main_part": "leg_l",
     "opposite_part": "foot_r",
-    "hit_size": 3,
+    "hit_size": 2,
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "limb_type": "foot",
@@ -345,7 +345,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "bionic_slots": 7,
+    "flags": [ "LIMB_LOWER" ]
   },
   {
     "id": "foot_r",
@@ -360,7 +361,7 @@
     "encumbrance_threshold": 5,
     "main_part": "leg_r",
     "opposite_part": "foot_l",
-    "hit_size": 3,
+    "hit_size": 2,
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "limb_type": "foot",
@@ -375,7 +376,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "bionic_slots": 7,
+    "flags": [ "LIMB_LOWER" ]
   },
   {
     "id": "debug_tail",

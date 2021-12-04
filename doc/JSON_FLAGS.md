@@ -338,6 +338,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Bodyparts
 
 -```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+-```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
 -```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
 
 
