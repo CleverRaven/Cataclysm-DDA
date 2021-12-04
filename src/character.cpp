@@ -6076,15 +6076,14 @@ void Character::update_heartrate_index()
     // TODO: refine support for HR increasing to compensate for low BP.
     // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
     // increasing/decreasing blood pressure, as the geometry of blood vessels also changes. This means that at low
-    // bp, we can consider that a rise in x in heart rate index might cause more than x blood pressure index change as 
-    // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure 
+    // bp, we can consider that a rise in x in heart rate index might cause more than x blood pressure index change as
+    // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     float hr_bp_loss_mod;
-    if (blood_press_index < 1.00f) {
+    if( blood_press_index < 1.00f ) {
         // very rough calculation, needs improvement (non linear perhaps)
-        hr_bp_loss_mod = (1.00f - blood_press_index)/2;
-    }
-    else {
+        hr_bp_loss_mod = ( 1.00f - blood_press_index ) / 2;
+    } else {
         hr_bp_loss_mod = 0.0f;
     }
 
