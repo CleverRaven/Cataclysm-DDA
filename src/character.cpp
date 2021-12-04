@@ -6022,7 +6022,7 @@ void Character::update_heartrate_index()
     if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
         temperature_modifier = 0.005f;
     }
-    const float hr_temp_mod = ( ( player_local_temp - 65 ) * temperature_modifier );
+    const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier ;
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float hr_stamina_mod = 0.0f;
     // The influence of stamina on heartrate seemeed excessive and was toned down.
@@ -6093,9 +6093,9 @@ void Character::update_heartrate_index()
                        hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
 
     // The following ranges were calculated assuming a bpm around 75.
-    if( heart_rate_index > 2.5 ) {
+    if( heart_rate_index > 3.2 ) {
         // tachycardia effects
-    } else if( heart_rate_index > 3.2 ) {
+    } else if( heart_rate_index > 2.5 ) {
         // deadly tachycardia effects
     }
     // low heart rate effects should be handled by low blood pressure.
@@ -6109,15 +6109,15 @@ float Character::get_bloodpress_index() const
 
 void Character::update_bloodpress_index()
 {
-    float bp_hr_mod;
+    float bp_hr_mod = 0.0f;
     // proof of concept, needs serius improvements for non-linearity and balance.
     float curr_heart_rate_index = get_heartrate_index();
-    if( curr_heart_rate_index > 1.0 ) {
-        bp_hr_mod = ( curr_heart_rate_index - 1 ) / 2;
+    if( curr_heart_rate_index >= 1.0 ) {
+        bp_hr_mod = ( curr_heart_rate_index - 1 ) * 1.5;
     } else if( curr_heart_rate_index < 1.0 ) {
-        bp_hr_mod = -( curr_heart_rate_index - 1 ) * ( curr_heart_rate_index - 1 );
+        bp_hr_mod = -( 2 * curr_heart_rate_index - 2 ) * ( 2 * curr_heart_rate_index - 2 );
     }
-    blood_press_index = 1.0 + bp_hr_mod;
+    blood_press_index = 1.0f + bp_hr_mod;
     update_cardiac_output();
 }
 
