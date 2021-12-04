@@ -428,16 +428,16 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     return true;
 }
 
-void inventory_column::select( size_t new_index, scroll_direction dir )
+void inventory_column::highlight( size_t new_index, scroll_direction dir )
 {
     if( new_index < entries.size() ) {
         if( !entries[new_index].is_highlightable( skip_unselectable ) ) {
             new_index = next_highlightable_index( new_index, dir );
         }
 
-        selected_index = new_index;
+        highlighted_index = new_index;
         page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
-                      0 : selected_index - selected_index % entries_per_page;
+                      0 : highlighted_index - highlighted_index % entries_per_page;
     }
 }
 
@@ -467,23 +467,23 @@ size_t inventory_column::next_highlightable_index( size_t index, scroll_directio
 
 void inventory_column::move_selection( scroll_direction dir )
 {
-    size_t index = selected_index;
+    size_t index = highlighted_index;
 
     do {
         index = next_highlightable_index( index, dir );
-    } while( index != selected_index && is_selected_by_category( entries[index] ) );
+    } while( index != highlighted_index && is_selected_by_category( entries[index] ) );
 
-    select( index, dir );
+    highlight( index, dir );
 }
 
 void inventory_column::move_selection_page( scroll_direction dir )
 {
-    size_t index = selected_index;
+    size_t index = highlighted_index;
 
     do {
         const size_t next_index = next_highlightable_index( index, dir );
-        const bool flipped = next_index == selected_index ||
-                             ( next_index > selected_index ) != ( static_cast<int>( dir ) > 0 );
+        const bool flipped = next_index == highlighted_index ||
+                             ( next_index > highlighted_index ) != ( static_cast<int>( dir ) > 0 );
 
         if( flipped && page_of( next_index ) == page_index() ) {
             break; // If flipped and still on the same page - no need to flip
@@ -492,7 +492,7 @@ void inventory_column::move_selection_page( scroll_direction dir )
         index = next_index;
     } while( page_of( next_highlightable_index( index, dir ) ) == page_index() );
 
-    select( index, dir );
+    highlight( index, dir );
 }
 
 size_t inventory_column::get_entry_cell_width( size_t index, size_t cell_index ) const
@@ -687,30 +687,30 @@ bool inventory_column::has_available_choices() const
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
-    return entry == get_selected() || ( multiselect && is_selected_by_category( entry ) );
+    return entry == get_highlighted() || ( multiselect && is_selected_by_category( entry ) );
 }
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
     return entry.is_item() && mode == navigation_mode::CATEGORY
-           && entry.get_category_ptr() == get_selected().get_category_ptr()
+           && entry.get_category_ptr() == get_highlighted().get_category_ptr()
            && page_of( entry ) == page_index();
 }
 
-const inventory_entry &inventory_column::get_selected() const
+const inventory_entry &inventory_column::get_highlighted() const
 {
-    if( selected_index >= entries.size() || !entries[selected_index].is_item() ) {
+    if( highlighted_index >= entries.size() || !entries[highlighted_index].is_item() ) {
         // clang complains if we use the default constructor here
         static const inventory_entry dummy( nullptr );
         return dummy;
     }
-    return entries[selected_index];
+    return entries[highlighted_index];
 }
 
-inventory_entry &inventory_column::get_selected()
+inventory_entry &inventory_column::get_highlighted()
 {
     return const_cast<inventory_entry &>( const_cast<const inventory_column *>
-                                          ( this )->get_selected() );
+                                          ( this )->get_highlighted() );
 }
 
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
@@ -784,17 +784,17 @@ void inventory_column::on_input( const inventory_input &input )
         } else if( input.action == "PAGE_UP" ) {
             move_selection_page( scroll_direction::BACKWARD );
         } else if( input.action == "HOME" ) {
-            select( 0, scroll_direction::FORWARD );
+            highlight( 0, scroll_direction::FORWARD );
         } else if( input.action == "END" ) {
-            select( entries.size() - 1, scroll_direction::BACKWARD );
+            highlight( entries.size() - 1, scroll_direction::BACKWARD );
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            inventory_entry &selected = get_selected();
+            inventory_entry &selected = get_highlighted();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
         } else if( input.action == "HIDE_CONTENTS" ) {
-            inventory_entry &selected = get_selected();
+            inventory_entry &selected = get_highlighted();
             set_collapsed( selected, true );
         } else if( input.action == "SHOW_CONTENTS" ) {
-            inventory_entry &selected = get_selected();
+            inventory_entry &selected = get_highlighted();
             set_collapsed( selected, false );
         }
     }
@@ -1036,8 +1036,8 @@ void inventory_column::prepare_paging( const std::string &filter )
     entries_cell_cache.clear();
     paging_is_valid = true;
     // Select the uppermost possible entry
-    const size_t ind = selected_index >= entries.size() ? 0 : selected_index;
-    select( ind, ind ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
+    const size_t ind = highlighted_index >= entries.size() ? 0 : highlighted_index;
+    highlight( ind, ind ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
 }
 
 void inventory_column::clear()
@@ -1048,14 +1048,14 @@ void inventory_column::clear()
     paging_is_valid = false;
 }
 
-bool inventory_column::select( const item_location &loc )
+bool inventory_column::highlight( const item_location &loc )
 {
     for( size_t index = 0; index < entries.size(); ++index ) {
         if( entries[index].is_selectable()
             && std::find( entries[index].locations.begin(),
                           entries[index].locations.end(),
                           loc ) != entries[index].locations.end() ) {
-            select( index, scroll_direction::FORWARD );
+            highlight( index, scroll_direction::FORWARD );
             return true;
         }
     }
@@ -1299,7 +1299,7 @@ void selection_column::prepare_paging( const std::string & )
     if( !last_changed.is_null() ) {
         const auto iter = std::find( entries.begin(), entries.end(), last_changed );
         if( iter != entries.end() ) {
-            select( std::distance( entries.begin(), iter ), scroll_direction::FORWARD );
+            highlight( std::distance( entries.begin(), iter ), scroll_direction::FORWARD );
         }
         last_changed = inventory_entry();
     }
@@ -1619,13 +1619,13 @@ void inventory_selector::clear_items()
     map_column.clear();
 }
 
-bool inventory_selector::select( const item_location &loc )
+bool inventory_selector::highlight( const item_location &loc )
 {
     bool res = false;
 
     for( size_t i = 0; i < columns.size(); ++i ) {
         inventory_column *elem = columns[i];
-        if( elem->visible() && elem->select( loc ) ) {
+        if( elem->visible() && elem->highlight( loc ) ) {
             if( !res && elem->activatable() ) {
                 set_active_column( i );
                 res = true;
@@ -1636,11 +1636,11 @@ bool inventory_selector::select( const item_location &loc )
     return res;
 }
 
-bool inventory_selector::select_one_of( const std::vector<item_location> &locations )
+bool inventory_selector::highlight_one_of( const std::vector<item_location> &locations )
 {
     prepare_layout();
     for( const item_location &loc : locations ) {
-        if( select( loc ) ) {
+        if( highlight( loc ) ) {
             return true;
         }
     }
@@ -1672,7 +1672,7 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( const point &coor
 // once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
 {
-    const inventory_entry &prev_entry = get_selected();
+    const inventory_entry &prev_entry = get_highlighted();
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
     while( is_overflown( client_width ) ) {
@@ -1685,14 +1685,14 @@ void inventory_selector::rearrange_columns( size_t client_width )
         }
     }
     if( prev_selection ) {
-        select( prev_selection );
+        highlight( prev_selection );
     }
 }
 
 void inventory_selector::prepare_layout( size_t client_width, size_t client_height )
 {
     // This block adds categories and should go before any width evaluations
-    const bool initial = get_active_column().get_selected_index() == static_cast<size_t>( -1 );
+    const bool initial = get_active_column().get_highlighted_index() == static_cast<size_t>( -1 );
     for( auto &elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
@@ -1702,7 +1702,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     // Handle screen overflow
     rearrange_columns( client_width );
     if( initial ) {
-        get_active_column().select( 0, scroll_direction::FORWARD );
+        get_active_column().highlight( 0, scroll_direction::FORWARD );
     }
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
@@ -2238,7 +2238,7 @@ void inventory_selector::on_input( const inventory_input &input )
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
     } else if( input.action == "EXAMINE_CONTENTS" ) {
-        const inventory_entry &selected = get_active_column().get_selected();
+        const inventory_entry &selected = get_active_column().get_highlighted();
         if( selected ) {
             //TODO: Should probably be any_item() rather than direct front() access, but that seems to lock us into const item_location, which various functions are unprepared for
             item_location sitem = selected.locations.front();
@@ -2255,7 +2255,7 @@ void inventory_selector::on_input( const inventory_input &input )
             }
         }
     } else if( input.action == "EXAMINE" ) {
-        const inventory_entry &selected = get_active_column().get_selected();
+        const inventory_entry &selected = get_active_column().get_highlighted();
         if( selected ) {
             const item_location &sitem = selected.any_item();
             action_examine( sitem );
@@ -2282,9 +2282,9 @@ void inventory_selector::on_input( const inventory_input &input )
                 col->invalidate_paging();
             }
             if( current_ui ) {
-                std::vector<item_location> inv = get_selected().locations;
+                std::vector<item_location> inv = get_highlighted().locations;
                 current_ui->mark_resize();
-                select_one_of( inv );
+                highlight_one_of( inv );
             }
         }
     }
@@ -2369,9 +2369,9 @@ void inventory_selector::toggle_categorize_contained()
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
     };
-    std::vector<item_location> selected;
-    if( get_selected().is_item() ) {
-        selected = get_selected().locations;
+    std::vector<item_location> highlighted;
+    if( get_highlighted().is_item() ) {
+        highlighted = get_highlighted().locations;
     }
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
@@ -2420,8 +2420,8 @@ void inventory_selector::toggle_categorize_contained()
         own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
-    if( !selected.empty() ) {
-        select_one_of( selected );
+    if( !highlighted.empty() ) {
+        highlight_one_of( highlighted );
     }
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -2494,16 +2494,16 @@ item_location inventory_pick_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
-            if( select( input.entry->any_item() ) ) {
+            if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
             return input.entry->any_item();
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected && selected.is_selectable() ) {
-                return selected.any_item();
+            const inventory_entry &highlighted = get_active_column().get_highlighted();
+            if( highlighted && highlighted.is_selectable() ) {
+                return highlighted.any_item();
             }
         } else {
             on_input( input );
@@ -2533,7 +2533,7 @@ void inventory_selector::highlight()
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
     };
-    const inventory_entry &selected = get_active_column().get_selected();
+    const inventory_entry &selected = get_active_column().get_highlighted();
     if( !selected.is_item() ) {
         return;
     }
@@ -2737,7 +2737,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         inventory_entry *just_selected = nullptr;
 
         if( input.entry != nullptr ) {
-            select( input.entry->any_item() );
+            highlight( input.entry->any_item() );
             toggle_entry( input.entry );
             just_selected = input.entry;
         } else if( input.action == "TOGGLE_ENTRY" ) {
@@ -2825,7 +2825,7 @@ drop_locations inventory_iuse_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) { // Single Item from mouse
-            select( input.entry->any_item() );
+            highlight( input.entry->any_item() );
             toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
             toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
@@ -2926,7 +2926,7 @@ void inventory_drop_selector::on_input( const inventory_input &input )
     bool const noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
 
     if( input.entry != nullptr ) { // Single Item from mouse
-        select( input.entry->any_item() );
+        highlight( input.entry->any_item() );
         toggle_entries( count );
     } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
         toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
@@ -3032,7 +3032,7 @@ drop_locations pickup_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) { // Single Item from mouse
-            select( input.entry->any_item() );
+            highlight( input.entry->any_item() );
             toggle_entries( count );
         } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
             toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
@@ -3186,7 +3186,7 @@ int inventory_examiner::execute()
     ui_examine.mark_resize();
 
     ui_examine.on_redraw( [&]( const ui_adaptor & ) {
-        const inventory_entry &selected = get_active_column().get_selected();
+        const inventory_entry &selected = get_active_column().get_highlighted();
         if( selected ) {
             if( selected_item != selected.any_item() ) {
                 //A new item has been selected, reset scrolling
@@ -3205,7 +3205,7 @@ int inventory_examiner::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
-            if( select( input.entry->any_item() ) ) {
+            if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
             return cleanup();

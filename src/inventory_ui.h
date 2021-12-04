@@ -311,8 +311,8 @@ class inventory_column
          */
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
-        const inventory_entry &get_selected() const;
-        inventory_entry &get_selected();
+        const inventory_entry &get_highlighted() const;
+        inventory_entry &get_highlighted();
         std::vector<inventory_entry *> get_all_selected() const;
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
@@ -332,18 +332,18 @@ class inventory_column
 
         void set_collapsed( inventory_entry &entry, const bool collapse );
 
-        /** Selects the specified location. */
-        bool select( const item_location &loc );
+        /** Highlights the specified location. */
+        bool highlight( const item_location &loc );
 
         /**
-         * Change the selection.
-         * @param new_index Index of the entry to select.
-         * @param dir If the entry is not selectable, move in the specified direction
+         * Change the highlight.
+         * @param new_index Index of the entry to highlight.
+         * @param dir If the entry is not highlightable, move in the specified direction
          */
-        void select( size_t new_index, scroll_direction dir );
+        void highlight( size_t new_index, scroll_direction dir );
 
-        size_t get_selected_index() {
-            return selected_index;
+        size_t get_highlighted_index() {
+            return highlighted_index;
         }
 
         void set_multiselect( bool multiselect ) {
@@ -467,7 +467,7 @@ class inventory_column
         bool paging_is_valid = false;
         bool visibility = true;
 
-        size_t selected_index = std::numeric_limits<size_t>::max();
+        size_t highlighted_index = std::numeric_limits<size_t>::max();
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
@@ -676,7 +676,7 @@ class inventory_selector
         std::vector<inventory_column *> get_visible_columns() const;
 
         std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
-        /** Highlight parent and contents of selected item.
+        /** Highlight parent and contents of highlighted item.
         */
         void highlight();
 
@@ -712,28 +712,28 @@ class inventory_selector
 
     public:
         /**
-         * Select a location
-         * @param loc Location to select
+         * Highlight a location
+         * @param loc Location to highlight
          * @return true on success.
          */
-        bool select( const item_location &loc );
+        bool highlight( const item_location &loc );
 
-        const inventory_entry &get_selected() {
-            return get_active_column().get_selected();
+        const inventory_entry &get_highlighted() {
+            return get_active_column().get_highlighted();
         }
 
-        void select_position( std::pair<size_t, size_t> position ) {
+        void highlight_position( std::pair<size_t, size_t> position ) {
             prepare_layout();
             set_active_column( position.first );
-            get_active_column().select( position.second, scroll_direction::BACKWARD );
+            get_active_column().highlight( position.second, scroll_direction::BACKWARD );
         }
 
-        bool select_one_of( const std::vector<item_location> &locations );
+        bool highlight_one_of( const std::vector<item_location> &locations );
 
-        std::pair<size_t, size_t> get_selection_position() {
+        std::pair<size_t, size_t> get_highlighted_position() {
             std::pair<size_t, size_t> position;
             position.first = active_column_index;
-            position.second = get_active_column().get_selected_index();
+            position.second = get_active_column().get_highlighted_index();
             return position;
         }
 
