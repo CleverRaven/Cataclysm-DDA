@@ -3178,7 +3178,7 @@
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
     },
-    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "CARGO" ],
+    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
