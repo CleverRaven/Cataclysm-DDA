@@ -277,7 +277,7 @@
     "effect_str": "mon_spider_trapdoor_giant",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "flags": [ "PERMANENT", "HOSTILE_SUMMON"],
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON" ],
     "max_level": 15,
     "min_aoe": 2,
     "max_aoe": 3,
