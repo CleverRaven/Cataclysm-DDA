@@ -28,7 +28,7 @@
   },
   {
     "type": "trap",
-    "id": "tr_spiderden",
+    "id": "tr_spider",
     "name": "Trapdoor spiderden",
     "color": "green",
     "symbol": "#",
