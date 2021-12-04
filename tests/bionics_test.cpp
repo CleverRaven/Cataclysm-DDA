@@ -77,7 +77,7 @@ TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
             WHEN( "a Power Storage CBM is uninstalled" ) {
                 dummy.remove_bionic( bio_power_storage );
                 THEN( "current power is reduced to fit the new capacity" ) {
-                    CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
+                    CHECK( dummy.get_power_level() == dummy.get_max_power_level() );
                 }
             }
         }
