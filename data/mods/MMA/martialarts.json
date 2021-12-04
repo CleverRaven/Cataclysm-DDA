@@ -391,7 +391,11 @@
         "melee_allowed": true,
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 }, { "stat": "damage", "type": "cut", "scale": 1.2 }, { "stat": "damage", "type": "stab", "scale": 1.2 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "ondodge_buffs": [
