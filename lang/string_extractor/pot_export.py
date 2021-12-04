@@ -4,7 +4,7 @@ import json
 import os
 import polib
 
-from .message import messages
+from .message import messages, occurrences
 
 
 def deduplciate(comments):
@@ -76,7 +76,9 @@ def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
         sanitize_plural_colissions(sanitize)
     if with_header:
         write_pot_header(fp, pkg_name)
-    for (context, text) in sorted(messages):
+    for (context, text) in occurrences:
+        if (context, text) not in messages:
+            continue
         comments = []
         origins = set()
         format_tag = ""
@@ -88,7 +90,7 @@ def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
                 format_tag = message.format_tag
             if message.text_plural:
                 text_plural = message.text_plural
-        origin = " ".join(origins)
+        origin = " ".join(sorted(origins))
 
         # translator comments
         for line in deduplciate(comments):
@@ -116,3 +118,5 @@ def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
             print("msgstr \"\"", file=fp)
 
         print("", file=fp)
+
+        del messages[(context, text)]
