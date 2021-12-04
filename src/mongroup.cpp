@@ -6,6 +6,7 @@
 
 #include "assign.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "json.h"
 #include "mtype.h"
@@ -109,7 +110,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity, bool *mon_found )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
-    int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
+    int spawn_chance = rng( 1, group.event_adjusted_freq_total() ); //Default 1000 unless specified
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
 
@@ -122,8 +123,14 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
+
+        // If an event was specified for this entry, check if it matches the current holiday
+        if( it->event != holiday::none && it->event != get_holiday_from_time() ) {
+            valid_entry = false;
+        }
+
         // Check for monsters within subgroup
-        if( it->is_group() ) {
+        if( valid_entry && it->is_group() ) {
             MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
             if( monster_found ) {
                 // Valid monster found withing subgroup, break early
@@ -233,6 +240,20 @@ bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
         }
     }
     return false;
+}
+
+int MonsterGroup::event_adjusted_freq_total( holiday event ) const
+{
+    if( event == holiday::num_holiday ) {
+        event = get_holiday_from_time();
+    }
+    int total = 0;
+    for( const auto &mon : monsters ) {
+        if( mon.event == holiday::none || mon.event == event ) {
+            total += mon.frequency;
+        }
+    }
+    return total;
 }
 
 bool MonsterGroupManager::IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster )
@@ -440,11 +461,12 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                     }
                 }
             }
+            holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
             MonsterGroupEntry new_mon_group = isgroup ?
                                               MonsterGroupEntry( mongroup_id( id_name ), freq, cost,
-                                                      pack_min, pack_max, data, starts, ends ) :
+                                                      pack_min, pack_max, data, starts, ends, event ) :
                                               MonsterGroupEntry( mtype_id( id_name ), freq, cost, pack_min,
-                                                      pack_max, data, starts, ends );
+                                                      pack_max, data, starts, ends, event );
             if( mon.has_member( "conditions" ) ) {
                 for( const std::string line : mon.get_array( "conditions" ) ) {
                     new_mon_group.conditions.push_back( line );
@@ -529,9 +551,10 @@ void MonsterGroupManager::check_group_definitions()
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
     const auto &group = group_name.obj();
-    int spawn_chance = rng( 1, group.freq_total );
+    int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     for( const auto &monster_type : group.monsters ) {
-        if( monster_type.frequency >= spawn_chance ) {
+        if( monster_type.frequency >= spawn_chance &&
+        ( monster_type.event == holiday::none || monster_type.event == get_holiday_from_time() ) ) {
             if( monster_type.is_group() ) {
                 return GetRandomMonsterFromGroup( monster_type.group );
             }
