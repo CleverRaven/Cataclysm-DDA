@@ -5996,6 +5996,52 @@ void Character::mod_rad( int mod )
     }
     set_rad( std::max( 0, get_rad() + mod ) );
 }
+float Character::get_heartrate_index() const
+{
+    return heart_rate_index;
+}
+
+void Character::set_heartrate_index( float nheart_rate_index )
+{
+    heart_rate_index = nheart_rate_index;
+    update_circulation();
+}
+
+float Character::get_bloodpress_index() const
+{
+    return blood_press_index;
+}
+
+void Character::set_bloodpress_index( float nblood_press_index )
+{
+    blood_press_index = nblood_press_index;
+    update_circulation();
+}
+
+float Character::get_resprate_index() const
+{
+    return resp_rate_index;
+}
+
+void Character::set_resprate_index( float nresp_rate_index )
+{
+    resp_rate_index = nresp_rate_index;
+}
+
+float Character::get_circulation_mod() const
+{
+    return circulation_mod;
+}
+
+void Character::set_circulation_mod(float ncirculation_mod)
+{
+    circulation_mod = ncirculation_mod;
+}
+
+void Character::update_circulation()
+{
+    circulation = get_bloodpress_index() * get_heartrate_index() * get_circulation_mod();
+}
 
 int Character::get_stamina() const
 {
