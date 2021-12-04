@@ -66,7 +66,7 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
 
     int str_before = p.get_str();
 
-    p.set_bionic_capacity( 100_kJ );
+    p.set_max_power_level( 100_kJ );
     p.set_power_level( 100_kJ );
 
     give_and_activate_bionic( p, test_bio_ench );

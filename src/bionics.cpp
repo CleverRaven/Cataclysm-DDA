@@ -2313,9 +2313,6 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
         add_msg( m_good, _( "Successfully removed %s." ), bid.obj().name );
         remove_bionic( bid );
 
-        // remove power bank provided by bionic
-        update_bionic_power_capacity();
-
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid->itype() ) ) {
             cbm = item( bid.c_str() );
@@ -2392,8 +2389,6 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
         }
 
-        // remove power bank provided by bionic
-        patient.update_bionic_power_capacity();
         patient.remove_bionic( target_cbm.id );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.info().itype() ) ) {
@@ -2872,6 +2867,7 @@ void Character::add_bionic( const bionic_id &b )
         add_proficiency( learned );
     }
 
+    update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
     if( is_avatar() && has_flag( json_flag_ENHANCED_VISION ) ) {
@@ -2884,7 +2880,6 @@ void Character::add_bionic( const bionic_id &b )
     effect_on_conditions::process_reactivate( *this );
 
     invalidate_pseudo_items();
-    update_bionic_power_capacity();
 }
 
 void Character::remove_bionic( const bionic_id &b )
@@ -2924,6 +2919,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
+    update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -3492,11 +3488,11 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
 
 void Character::update_bionic_power_capacity()
 {
-    bionic_power_capacity_cached = 0_kJ;
+    max_power_level_cached = 0_kJ;
     for( const bionic_id &bid : get_bionics() ) {
-        bionic_power_capacity_cached += bid->capacity;
+        max_power_level_cached += bid->capacity;
     }
-    bionic_power_capacity_cached = clamp( bionic_power_capacity_cached, 0_kJ, units::energy_max );
+    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy_max );
 
     set_power_level( get_power_level() );
 }

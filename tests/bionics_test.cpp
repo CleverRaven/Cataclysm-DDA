@@ -26,15 +26,16 @@ static void clear_bionics( Character &you )
     you.my_bionics->clear();
     you.update_bionic_power_capacity();
     you.set_power_level( 0_kJ );
-    you.set_bionic_capacity_modifier( 0_kJ );
+    you.set_max_power_level_modifier( 0_kJ );
 }
 
-TEST_CASE( "Bionic power capacity", "[bionics]" )
+TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
 {
     avatar &dummy = get_avatar();
 
     GIVEN( "character starts without bionics and no bionic power" ) {
         clear_avatar();
+        clear_bionics( dummy );
         REQUIRE( !dummy.has_max_power() );
 
         WHEN( "a Power Storage CBM is installed" ) {
@@ -42,6 +43,42 @@ TEST_CASE( "Bionic power capacity", "[bionics]" )
 
             THEN( "their total bionic power capacity increases by the Power Storage capacity" ) {
                 CHECK( dummy.get_max_power_level() == bio_power_storage->capacity );
+            }
+        }
+    }
+
+    GIVEN( "character starts with 3 power storage bionics" ) {
+        clear_avatar();
+        clear_bionics( dummy );
+        dummy.add_bionic( bio_power_storage );
+        dummy.add_bionic( bio_power_storage );
+        dummy.add_bionic( bio_power_storage );
+        REQUIRE( dummy.has_max_power() );
+        units::energy current_max_power = dummy.get_max_power_level();
+        REQUIRE( !dummy.has_power() );
+
+        AND_GIVEN( "power level is twice the capacity of a power storage bionic (not maxed)" ) {
+            dummy.set_power_level( bio_power_storage->capacity * 2 );
+            REQUIRE( dummy.get_power_level() == bio_power_storage->capacity * 2 );
+
+            WHEN( "a Power Storage CBM is uninstalled" ) {
+                dummy.remove_bionic( bio_power_storage );
+                THEN( "maximum power decreases by the Power Storage capacity without changing current power level" ) {
+                    CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
+                    CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
+                }
+            }
+        }
+
+        AND_GIVEN( "power level is maxed" ) {
+            dummy.set_power_level( dummy.get_max_power_level() );
+            REQUIRE( dummy.is_max_power() );
+
+            WHEN( "a Power Storage CBM is uninstalled" ) {
+                dummy.remove_bionic( bio_power_storage );
+                THEN( "current power is reduced to fit the new capacity" ) {
+                    CHECK( dummy.get_max_power_level() == current_max_power - bio_power_storage->capacity );
+                }
             }
         }
     }

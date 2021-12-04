@@ -1134,7 +1134,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
-    player_character.set_bionic_capacity( 44_mJ );
+    player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
     player_character.add_morale( MORALE_HAIRCUT, 23 );
     player_character.set_focus( 24 );
@@ -1442,7 +1442,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 10_mJ );
-    player_character.set_bionic_capacity( 44_mJ );
+    player_character.set_max_power_level( 44_mJ );
     // "Sets power to 18."
     effects = d.responses[ 17 ].success;
     effects.apply( d );

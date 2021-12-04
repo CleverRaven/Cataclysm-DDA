@@ -419,7 +419,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
         REQUIRE( garlic_fun < 0 );
 
         AND_GIVEN( "character has a taste modifier CBM" ) {
-            dummy.set_bionic_capacity( 1000_kJ );
+            dummy.set_max_power_level( 1000_kJ );
             give_and_activate_bionic( dummy, bio_taste_blocker );
             REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );
 

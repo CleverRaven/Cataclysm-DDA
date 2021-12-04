@@ -1577,10 +1577,10 @@ class Character : public Creature, public visitable
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
         void mod_power_level( const units::energy &npower );
-        void mod_bionic_capacity_modifier( const units::energy &npower_max );
+        void mod_max_power_level_modifier( const units::energy &npower_max );
         void set_power_level( const units::energy &npower );
-        void set_bionic_capacity( const units::energy &capacity );
-        void set_bionic_capacity_modifier( const units::energy &capacity );
+        void set_max_power_level( const units::energy &capacity );
+        void set_max_power_level_modifier( const units::energy &capacity );
         void update_bionic_power_capacity();
         bool is_max_power() const;
         bool has_power() const;
@@ -3334,8 +3334,8 @@ class Character : public Creature, public visitable
         character_id id;
 
         units::energy power_level;
-        units::energy bionic_power_capacity_cached;
-        units::energy bionic_power_capacity_mod;
+        units::energy max_power_level_cached;
+        units::energy max_power_level_modifier;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
