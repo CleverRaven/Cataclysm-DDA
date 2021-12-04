@@ -29,6 +29,18 @@ on:
 # https://apt.llvm.org/
 
 jobs:
+  skip-basic-build:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip_basic_build: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "lang/**"]'
   skip-duplicates:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -163,7 +175,7 @@ jobs:
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
-        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
+        SKIP: ${{ ( matrix.archive-success == 'basic-build' && needs.skip-basic-build.outputs.should_skip_basic_build == 'true' ) || ( matrix.archive-success != 'basic-build' && needs.skip-duplicates.outputs.should_skip == 'true' ) || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
