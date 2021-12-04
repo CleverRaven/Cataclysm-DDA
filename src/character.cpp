@@ -6022,7 +6022,7 @@ void Character::update_heartrate_index()
     if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
         temperature_modifier = 0.005f;
     }
-    double hr_temp_mod = ( ( player_local_temp - 65 ) * temperature_modifier );
+    const float hr_temp_mod = ( ( player_local_temp - 65 ) * temperature_modifier );
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float hr_stamina_mod = 0.0f;
     // The influence of stamina on heartrate seemeed excessive and was toned down.
@@ -6062,7 +6062,7 @@ void Character::update_heartrate_index()
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     //a bit arbitrary formula that can use some love
-    float hr_health_mod = - 0.05f * std::round( healthy / 20.0f );
+    const float hr_health_mod = - 0.05f * std::round( healthy / 20.0f );
     //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
 
     const int cur_pain = get_perceived_pain();
@@ -6074,7 +6074,19 @@ void Character::update_heartrate_index()
     float hr_trait_mod = 0.0f;
 
     // TODO: refine support for HR increasing to compensate for low BP.
-    float hr_bp_loss_mod = 0.0f;
+    // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
+    // increasing/decreasing blood pressure, as the geometry of blood vessels also changes. This means that at low
+    // bp, we can consider that a rise in x in heart rate index might cause more than x blood pressure index change as 
+    // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure 
+    // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
+    float hr_bp_loss_mod;
+    if (blood_press_index < 1.00f) {
+        // very rough calculation, needs improvement (non linear perhaps)
+        hr_bp_loss_mod = (1.00f - blood_press_index)/2;
+    }
+    else {
+        hr_bp_loss_mod = 0.0f;
+    }
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
                        hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
@@ -6083,7 +6095,7 @@ void Character::update_heartrate_index()
     } else if( heart_rate_index > 3.0 ) {
         // deadly tachycardia effects
     }
-    update_circulation();
+    update_cardiac_output();
 }
 
 float Character::get_bloodpress_index() const
@@ -6094,7 +6106,7 @@ float Character::get_bloodpress_index() const
 void Character::update_bloodpress_index()
 {
     blood_press_index;
-    update_circulation();
+    update_cardiac_output();
 }
 
 float Character::get_resprate_index() const
@@ -6107,20 +6119,20 @@ void Character::set_resprate_index( float nresp_rate_index )
     resp_rate_index = nresp_rate_index;
 }
 
-float Character::get_circulation_mod() const
+float Character::get_cardiac_output_mod() const
 {
-    return circulation_mod;
+    return cardiac_output_mod;
 }
 
-void Character::set_circulation_mod( float ncirculation_mod )
+void Character::set_cardiac_output_mod( float ncardiac_output_mod )
 {
-    circulation_mod = ncirculation_mod;
-    update_circulation();
+    cardiac_output_mod = ncardiac_output_mod;
+    update_cardiac_output();
 }
 
-void Character::update_circulation()
+void Character::update_cardiac_output()
 {
-    circulation = get_bloodpress_index() * get_heartrate_index() * get_circulation_mod();
+    cardiac_output = get_bloodpress_index() * get_heartrate_index() * get_cardiac_output_mod();
 }
 
 int Character::get_stamina() const

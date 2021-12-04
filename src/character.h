@@ -2527,10 +2527,10 @@ class Character : public Creature, public visitable
         float get_resprate_index() const;
         void set_resprate_index( float nresp_rate_index );
 
-        float get_circulation_mod() const;
-        void set_circulation_mod( float ncirculation_mod );
+        float get_cardiac_output_mod() const;
+        void set_cardiac_output_mod( float ncardiac_output_mod );
 
-        void update_circulation();
+        void update_cardiac_output();
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -3364,9 +3364,9 @@ class Character : public Creature, public visitable
         float blood_press_index = 1.0f;
         float resp_rate_index = 1.0f;
 
-        float circulation;
+        float cardiac_output;
         // Should remain fixed at 1.0 for now.
-        float circulation_mod = 1.0f;
+        float cardiac_output_mod = 1.0f;
 
         int fatigue;
         int sleep_deprivation;
