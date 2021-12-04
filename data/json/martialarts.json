@@ -870,14 +870,12 @@
       {
         "id": "buff_muay_thai_ongethit",
         "name": "Determination",
-        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\nDamage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\nBash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
-          { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.25 },
-          { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.25 },
           { "stat": "block", "scaling-stat": "str", "scale": 0.5 }
         ]
       }
@@ -1306,7 +1304,7 @@
       {
         "id": "buff_tai_chi_onblock",
         "name": "Repulse the Monkey",
-        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception.  Gains Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,
