@@ -16,7 +16,8 @@ static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_ba
 
 static const int max_iters = 10000;
 
-static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<mtype_id> yesspawn, const std::vector<mtype_id> &nospawn )
+static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<mtype_id> yesspawn,
+                              const std::vector<mtype_id> &nospawn )
 {
     std::set<mtype_id> rand_gets;
     std::set<mtype_id> rand_results;

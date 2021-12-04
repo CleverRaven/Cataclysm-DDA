@@ -1,14 +1,14 @@
 [
-    {
-        "name": "test_event_mongroup",
-        "type": "monstergroup",
-        "monsters": [
-            { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
-            { "monster": "mon_test_shearable", "weight": 50, "event": "christmas" },
-            { "monster": "mon_test_bovine", "weight": 50, "event": "christmas" },
-            { "monster": "mon_test_CBM", "weight": 50, "event": "halloween" },
-            { "monster": "mon_test_speed_desc_base", "weight": 50, "event": "halloween" },
-            { "monster": "mon_test_speed_desc_base_immobile", "weight": 50 }
-        ]
-    }
+  {
+    "name": "test_event_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_bovine", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_CBM", "weight": 50, "event": "halloween" },
+      { "monster": "mon_test_speed_desc_base", "weight": 50, "event": "halloween" },
+      { "monster": "mon_test_speed_desc_base_immobile", "weight": 50 }
+    ]
+  }
 ]

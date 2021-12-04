@@ -286,7 +286,8 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
     const bool can_spawn_events = opt == "monsters" || opt == "both";
 
     for( const MonsterGroupEntry &elem : g.monsters ) {
-        if( elem.event != holiday::none && ( !can_spawn_events || elem.event != get_holiday_from_time() ) ) {
+        if( elem.event != holiday::none && ( !can_spawn_events ||
+                                             elem.event != get_holiday_from_time() ) ) {
             continue;
         }
         if( elem.is_group() ) {
@@ -566,7 +567,8 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
     for( const auto &monster_type : group.monsters ) {
-        if( monster_type.event != holiday::none && ( !can_spawn_events || monster_type.event != get_holiday_from_time() ) ) {
+        if( monster_type.event != holiday::none && ( !can_spawn_events ||
+                monster_type.event != get_holiday_from_time() ) ) {
             continue;
         }
         if( monster_type.frequency >= spawn_chance ) {
