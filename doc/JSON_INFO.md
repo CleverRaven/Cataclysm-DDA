@@ -4268,9 +4268,15 @@ Defines the various things that happen when the player or something else bashes 
 }
 ```
 
-#### `str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`
+#### `str_min`, `str_max`
 
-TODO
+The bash succeeds if str >= random # between str_min & str_max
+
+#### `str_min_blocked`, `str_max_blocked`
+(Optional) Will be used instead of str_min & str_max if the furniture is blocked, for example a washing machine behind a door
+
+#### `str_min_supported`, `str_max_supported`
+(Optional) Will be used instead of str_min & str_max if beneath this is something that can support a roof.
 
 #### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
 (Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
