@@ -729,6 +729,9 @@ struct islot_gunmod : common_ranged_data {
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
 
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
+
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 
