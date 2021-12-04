@@ -9239,6 +9239,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     u.make_footstep_noise();
 
+    //only clatter items every so often based on activity level
+    if( to_turns<int>( calendar::turn - u.last_pocket_noise ) > std::max( static_cast<int>
+            ( 10 - u.activity_level() ), 1 ) )  {
+        u.make_clatter_sound();
+        u.last_pocket_noise = calendar::turn;
+    }
+
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }

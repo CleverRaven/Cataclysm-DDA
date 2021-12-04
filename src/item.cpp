@@ -1006,6 +1006,24 @@ bool item::is_ablative() const
     return t ? t->ablative : false;
 }
 
+bool item::has_additional_encumbrance() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->additional_pocket_enc : false;
+}
+
+bool item::has_ripoff_pockets() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ripoff_chance : false;
+}
+
+bool item::has_noisy_pockets() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->noisy : false;
+}
+
 bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
@@ -6790,8 +6808,8 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
 
-        // add the encumbrance values of any ablative plates
-        if( is_ablative() ) {
+        // add the encumbrance values of any ablative plates and additional encumbrance pockets
+        if( is_ablative() || has_additional_encumbrance() ) {
             for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
                 if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                     // get the contained plate
@@ -6801,6 +6819,9 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                                 bodypart ) ) {
                         encumber += ablative_portion_data->encumber;
                     }
+                }
+                if( pocket->get_pocket_data()->extra_encumbrance > 0 && !pocket->empty() ) {
+                    encumber += pocket->get_pocket_data()->extra_encumbrance;
                 }
             }
         }
@@ -8406,6 +8427,11 @@ double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod va
 units::length item::max_containable_length() const
 {
     return contents.max_containable_length();
+}
+
+units::length item::min_containable_length() const
+{
+    return contents.min_containable_length();
 }
 
 units::volume item::max_containable_volume() const
