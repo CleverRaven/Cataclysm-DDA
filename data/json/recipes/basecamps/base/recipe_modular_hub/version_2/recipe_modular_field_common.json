@@ -543,15 +543,14 @@
   {
     "type": "recipe",
     "result": "fbmh_2_parkour",
-    "description": "Let's build an obstacle course area.",
+    "description": "Let's build a parkour obstacle training course in the northern courtyard.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_2_parkour_south",
+    "construction_blueprint": "fbmh_2_parkour",
     "blueprint_name": "build an obstacle course",
-    "blueprint_requires": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_parkour_south" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_parkour_south" } ]
+    "blueprint_provides": [ { "id": "fbmh_2_parkour" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_parkour" } ]
   }
 ]

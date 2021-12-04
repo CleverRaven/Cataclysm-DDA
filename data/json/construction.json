@@ -1057,6 +1057,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_rubber_mulch",
+    "group": "make_rubber_mulch",
+    "//": "Covers the floor with rubber mulch. Used for constructing exercise spaces.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "shredded_rubber", 200 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_rubber_mulch"
+  },
+  {
+    "type": "construction",
     "id": "constr_railroad_track_small",
     "group": "build_straight_small_railroad_track",
     "category": "CONSTRUCT",
@@ -4561,6 +4573,18 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_rubber_mulch",
+    "group": "remove_rubber_mulch",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "shredded_rubber", "count": [ 150, 200 ] } ],
+    "pre_terrain": "t_rubber_mulch",
     "post_terrain": "t_dirt"
   },
   {

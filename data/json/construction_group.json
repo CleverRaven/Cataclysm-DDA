@@ -1016,6 +1016,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_rubber_mulch",
+    "name": "Make Rubber Mulch Floor"
+  },
+  {
+    "type": "construction_group",
     "id": "make_woodchip_floor",
     "name": "Make Woodchip Floor"
   },
@@ -1223,6 +1228,11 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rubber_mulch",
+    "name": "Remove Rubber Mulch"
   },
   {
     "type": "construction_group",

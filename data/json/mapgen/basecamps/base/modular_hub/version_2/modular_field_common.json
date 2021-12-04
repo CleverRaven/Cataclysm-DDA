@@ -345,14 +345,14 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmh_2_parkour_south",
+    "update_mapgen_id": "fbmh_2_parkour",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour_south" ], "x": 16, "y": 5 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour" ], "x": 5, "y": 2 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmh_2_parkour_south",
+    "nested_mapgen_id": "fbmh_2_parkour",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -370,6 +370,6 @@
     "type": "palette",
     "id": "fbmh_2_parkour",
     "terrain": { ".": "t_rubber_mulch", "x": "t_concrete_wall_rope", "+": "t_parkour_bars", "v": "t_rubber_mulch", "w": "t_rubber_mulch", "W": "t_rubber_mulch" },
-    "furniture": { "x": "t_thconc_floor", "+": "t_thconc_floor", "v": "f_counter", "w": "f_earthbag_half", "W": "f_earthbag_wall" }
+    "furniture": { "v": "f_counter", "w": "f_earthbag_half", "W": "f_earthbag_wall" }
   }
 ]
