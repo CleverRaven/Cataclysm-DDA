@@ -6062,13 +6062,14 @@ void Character::update_heartrate_index()
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     //a bit arbitrary formula that can use some love
-    const float hr_health_mod = - 0.05f * std::round( healthy / 20.0f );
-    //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
+    const float hr_health_mod = -0.05f * std::round( healthy / 20.0f );
 
+    //Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
+    // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
     const int cur_pain = get_perceived_pain();
     float hr_pain_mod = 0.0f;
     if( cur_pain > 5 ) {
-        hr_pain_mod = 0.02 * ( cur_pain - 5 );
+        hr_pain_mod = 0.01 * ( cur_pain - 5 );
     }
     // TODO: Add support for adrenaline trait
     float hr_trait_mod = 0.0f;
@@ -6080,20 +6081,24 @@ void Character::update_heartrate_index()
     // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     float hr_bp_loss_mod;
-    if( blood_press_index < 1.00f ) {
-        // very rough calculation, needs improvement (non linear perhaps)
-        hr_bp_loss_mod = ( 1.00f - blood_press_index ) / 2;
+    float curr_blood_press_index = get_bloodpress_index();
+    if( curr_blood_press_index < 1.00f ) {
+        // proof of concept, needs serius improvements for non-linearity and balance.
+        hr_bp_loss_mod = ( 1.00f - curr_blood_press_index ) / 2;
     } else {
         hr_bp_loss_mod = 0.0f;
     }
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
                        hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
-    if( heart_rate_index > 2.0 ) {
+
+    // The following ranges were calculated assuming a bpm around 75.
+    if( heart_rate_index > 2.5 ) {
         // tachycardia effects
-    } else if( heart_rate_index > 3.0 ) {
+    } else if( heart_rate_index > 3.2 ) {
         // deadly tachycardia effects
     }
+    // low heart rate effects should be handled by low blood pressure.
     update_cardiac_output();
 }
 
@@ -6104,7 +6109,15 @@ float Character::get_bloodpress_index() const
 
 void Character::update_bloodpress_index()
 {
-    blood_press_index;
+    float bp_hr_mod;
+    // proof of concept, needs serius improvements for non-linearity and balance.
+    float curr_heart_rate_index = get_heartrate_index();
+    if( curr_heart_rate_index > 1.0 ) {
+        bp_hr_mod = ( curr_heart_rate_index - 1 ) / 2;
+    } else if( curr_heart_rate_index < 1.0 ) {
+        bp_hr_mod = -( curr_heart_rate_index - 1 ) * ( curr_heart_rate_index - 1 );
+    }
+    blood_press_index = 1.0 + bp_hr_mod;
     update_cardiac_output();
 }
 
