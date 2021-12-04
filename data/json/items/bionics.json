@@ -915,7 +915,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Integrated Multitool CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A surgically implanted set of compact tools and a welder which runs off the user's power banks.",
+    "description": "A surgically implanted set of compact tools and a welder which runs off the user's power banks.  Includes screwdriving heads, a multi-purpose knife, a low-power impact wrench and a nail prying tool.",
     "price": 800000,
     "difficulty": 6
   },
