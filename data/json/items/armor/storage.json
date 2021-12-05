@@ -2179,7 +2179,7 @@
         "min_item_length": "60 cm",
         "moves": 1000,
         "ripoff": 5,
-        "activity_noise": { "volume": 4, "chance": 15 },
+        "activity_noise": { "volume": 9, "chance": 15 },
         "extra_encumbrance": 20
       }
     ],
