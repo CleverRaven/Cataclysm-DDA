@@ -14,7 +14,7 @@
     "speed": 120,
     "material": [ "flesh" ],
     "symbol": "^",
-    "color": "white_blue",
+    "color": "blue_white",
     "aggression": 100,
     "morale": 90,
     "melee_skill": 5,
