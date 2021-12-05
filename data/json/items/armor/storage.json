@@ -2178,11 +2178,12 @@
         "max_contains_weight": "80 kg",
         "min_item_length": "60 cm",
         "moves": 1000,
-        "ripoff": 6,
-        "activity_noise": { "volume": 4, "chance": 15 }
+        "ripoff": 5,
+        "activity_noise": { "volume": 4, "chance": 15 },
+        "extra_encumbrance": 20
       }
     ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": [ 3, 90 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 80 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]
