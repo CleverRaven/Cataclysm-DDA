@@ -677,7 +677,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade",
-    "looks_like": "juice ",
+    "looks_like": "juice",
     "name": { "str_sp": "lemonade" },
     "weight": "260 g",
     "color": "yellow",
