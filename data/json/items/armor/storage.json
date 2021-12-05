@@ -2169,14 +2169,13 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "light_gray",
+    "looks_like": "rope_6",
     "flags": [ "NO_SALVAGE", "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "pocket_data": [
       {
-        "//": "tucked against back",
         "pocket_type": "CONTAINER",
-        "holster": true,
         "max_contains_volume": "50 L",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "80 kg",
         "min_item_length": "60 cm",
         "moves": 1000,
         "ripoff": 6,
