@@ -666,6 +666,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::river_tile: return "RIVER";
         case oter_flags::has_sidewalk: return "SIDEWALK";
         case oter_flags::no_rotate: return "NO_ROTATE";
+        case oter_flags::should_not_spawn: return "SHOULD_NOT_SPAWN";
         case oter_flags::ignore_rotation_for_adjacency: return "IGNORE_ROTATION_FOR_ADJACENCY";
         case oter_flags::line_drawing: return "LINEAR";
         case oter_flags::subway_connection: return "SUBWAY";
@@ -961,7 +962,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_b_entrance",
         "slimepit",
         "slimepit_down",
-        "temple",
         "temple_finale",
         "temple_stairs"
     };

@@ -769,6 +769,23 @@
     "armor": [ { "coverage": 1 } ]
   },
   {
+    "id": "test_tail_encumber",
+    "type": "ARMOR",
+    "name": "TEST tail encumbrance",
+    "description": "Tests the effects of encumbrance on the test body part.",
+    "weight": "500 g",
+    "volume": "3 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
+  },
+  {
     "id": "test_hazmat_suit",
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",

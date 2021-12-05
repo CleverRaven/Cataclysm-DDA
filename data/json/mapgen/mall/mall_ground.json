@@ -1258,8 +1258,8 @@
       },
       "place_monsters": [
         { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
-        { "monster": "GROUP_MALL", "x": [ 31, 23 ], "y": [ 9, 14 ], "density": 0.6 },
-        { "monster": "GROUP_MALL", "x": [ 26, 6 ], "y": [ 1, 22 ], "density": 0.5 },
+        { "monster": "GROUP_MALL", "x": [ 24, 31 ], "y": [ 9, 14 ], "density": 0.6 },
+        { "monster": "GROUP_MALL", "x": [ 6, 23 ], "y": [ 1, 22 ], "density": 0.5 },
         { "monster": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "density": 0.3 },
         { "monster": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 0, 6 ], "density": 0.6 },
@@ -1843,9 +1843,9 @@
       },
       "place_monsters": [
         { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.3 },
-        { "monster": "GROUP_MALL", "x": [ 34, 23 ], "y": [ 0, 12 ], "density": 0.3 },
-        { "monster": "GROUP_MALL", "x": [ 24, 8 ], "y": [ 0, 12 ], "density": 0.3 },
-        { "monster": "GROUP_MALL", "x": [ 37, 23 ], "y": [ 1, 22 ], "density": 0.3 },
+        { "monster": "GROUP_MALL", "x": [ 24, 34 ], "y": [ 0, 12 ], "density": 0.3 },
+        { "monster": "GROUP_MALL", "x": [ 8, 23 ], "y": [ 0, 12 ], "density": 0.3 },
+        { "monster": "GROUP_MALL", "x": [ 24, 37 ], "y": [ 1, 22 ], "density": 0.3 },
         { "monster": "GROUP_MALL", "x": [ 48, 61 ], "y": [ 1, 12 ], "density": 0.3 },
         { "monster": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 14, 23 ], "density": 0.4 },
         { "monster": "GROUP_MALL", "x": [ 87, 95 ], "y": [ 0, 12 ], "density": 0.3 },

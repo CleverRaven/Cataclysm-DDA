@@ -1786,5 +1786,9 @@
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."
+  },
+  {
+    "id": "CHOKE",
+    "type": "json_flag"
   }
 ]

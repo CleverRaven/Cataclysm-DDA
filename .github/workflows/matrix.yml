@@ -29,24 +29,24 @@ on:
 # https://apt.llvm.org/
 
 jobs:
-  skip-duplicates:
+  skip-duplicates-code:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
-  skip-duplicates-mods:
+  skip-duplicates-data:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip_mods: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
@@ -54,7 +54,7 @@ jobs:
           cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
-    needs: skip-duplicates
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
     strategy:
       max-parallel: 1
       matrix:
@@ -71,6 +71,7 @@ jobs:
             lto: 1
             native: linux64
             archive-success: basic-build
+            dont_skip_data_only_changes: 1
             title: Basic Build and Test (GCC 9, Curses, LTO)
 
           - compiler: clang++-12
@@ -83,6 +84,7 @@ jobs:
             native: linux64
             sanitize: address
             mods: --mods=magiclysm
+            dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
 
           - compiler: g++-11
@@ -163,7 +165,7 @@ jobs:
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
-        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
+        SKIP: ${{ ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
