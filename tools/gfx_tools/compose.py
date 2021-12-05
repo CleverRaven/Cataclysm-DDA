@@ -102,6 +102,11 @@ FALLBACK = {
 log = logging.getLogger(__name__)
 
 
+class FailFastHandler(logging.StreamHandler):
+    def emit(self, record):
+        sys.exit(1)
+
+
 def write_to_json(
     pathname: str,
     data: Union[dict, list],
@@ -821,6 +826,9 @@ def main() -> Union[int, ComposingException]:
         '--only-json', dest='only_json', action='store_true',
         help='Only output the tile_config.json')
     arg_parser.add_argument(
+        '--fail-fast', dest='fail_fast', action='store_true',
+        help='Stop immediately after an error has occured')
+    arg_parser.add_argument(
         '--loglevel', dest='loglevel',
         choices=['INFO', 'WARNING', 'ERROR'],  # 'DEBUG', 'CRITICAL'
         default='WARNING',
@@ -832,6 +840,11 @@ def main() -> Union[int, ComposingException]:
     log.setLevel(getattr(logging, args_dict.get('loglevel')))
     log_tracker = LevelTrackingFilter()
     log.addFilter(log_tracker)
+
+    if args_dict.get('fail_fast'):
+        failfast_handler = FailFastHandler()
+        failfast_handler.setLevel(logging.ERROR)
+        log.addHandler(failfast_handler)
 
     # compose the tileset
     try:
