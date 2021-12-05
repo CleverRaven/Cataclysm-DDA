@@ -369,7 +369,14 @@
   {
     "type": "palette",
     "id": "fbmh_2_parkour",
-    "terrain": { ".": "t_rubber_mulch", "x": "t_concrete_wall_rope", "+": "t_parkour_bars", "v": "t_rubber_mulch", "w": "t_rubber_mulch", "W": "t_rubber_mulch" },
+    "terrain": {
+      ".": "t_rubber_mulch",
+      "x": "t_concrete_wall_rope",
+      "+": "t_parkour_bars",
+      "v": "t_rubber_mulch",
+      "w": "t_rubber_mulch",
+      "W": "t_rubber_mulch"
+    },
     "furniture": { "v": "f_counter", "w": "f_earthbag_half", "W": "f_earthbag_wall" }
   }
 ]
