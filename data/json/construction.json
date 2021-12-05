@@ -1155,7 +1155,7 @@
     "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "pipe", 36 ] ] ],
     "pre_terrain": "t_pit",
-    "post_terrain": "t_parkour_bars"
+    "post_terrain": "f_parkour_bars"
   },
   {
     "type": "construction",
