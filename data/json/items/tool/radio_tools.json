@@ -121,7 +121,7 @@
   {
     "id": "encrypted_radio",
     "type": "TOOL",
-    "name": { "str": "strange radio (off)", "str_pl": "strange radios (off)" },
+    "name": { "str": "strange radio", "str_pl": "strange radios" },
     "description": "This is a portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcast and play them audibly.",
     "weight": "295 g",
     "volume": "1 L",
@@ -134,7 +134,6 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 1,
     "use_action": [ "ENCRYPTED_CHAT" ]
   },
   {

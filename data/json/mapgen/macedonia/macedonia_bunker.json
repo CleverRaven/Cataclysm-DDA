@@ -1,0 +1,53 @@
+[
+{
+  "type": "mapgen",
+  "om_terrain": [
+    [ "macedonia_surface" ]
+  ],
+  "method": "json",
+  "object": {
+    "fill_ter": "t_thconc_floor",
+    "rows": [
+      ",,,,yyyyyyyyyyyyyyyyssss",
+      ",,,,________________ssss",
+      ",,||___________555555555",
+      ",,|,_________555555555__",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,__________yyyyyyyyyy",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,__________yyyyyyyyyy",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,____________________",
+      ",,|,__________yyyyyyyyyy",
+      ",,|,__________ssssssssss"
+    ],
+    "palettes": [ "robofachq" ],
+    "terrain": {
+      "-": "t_wall_metal",
+      "G": "t_card_robofac",
+      "e": "t_elevator",
+      "E": "t_elevator_control",
+      "Y": "t_utility_light",
+      "I": "t_intercom"
+    },
+    "items": {
+      "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
+      "i": { "item": "cleaning", "chance": 50 },
+      "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ]
+    },
+    "place_npcs": [ { "class": "robofac_intercom", "x": 46, "y": 17 } ]
+  }
+}
+]

@@ -69,6 +69,7 @@
 #include "memorial_logger.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "mission.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -314,6 +315,8 @@ static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 static const mtype_id mon_hologram( "mon_hologram" );
 static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
+
+static const npc_class_id BALTH_RADIO( "BALTH_RADIO" );
 
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
@@ -2222,17 +2225,42 @@ cata::optional<int> iuse::radio_off( Character *p, item *it, bool, const tripoin
 cata::optional<int> iuse::encrypted_chat( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_avatar() ) {
-        npc *encrypted_npc;
-        for( g->all_npcs() )
-        { } );
+        mission_target_params params;
+        params.overmap_terrain = "macedonia_surface";
+        params.overmap_special = overmap_special_id( "lonely_bunker" );
+        params.reveal_radius = 5;
+        params.random = true;
+        params.search_range = 360;
+        params.z = 0;
+        mission_util::get_om_terrain_pos( params );
+        const std::vector<npc *> encrypted_npc = g->get_npcs_if( []( const npc & guy ) {
+            return guy.myclass == BALTH_RADIO;
+        } );
+        if( encrypted_npc.empty() ) {
+            p->add_msg_if_player( m_info, _( "No one responds." ) );
+        } else {
+            // TODO: This needs to be converted a talker_console or something
+            p->add_msg_if_player(
+                _( "Distorted noise errupts from the speaker before converging into a voice." ) );
+            p->as_avatar()->talk_to( get_talker_for( encrypted_npc.front() ), false );
+        }
+
+        /*
+        const npc *encrypted_npc;
+        for( const npc &guy : g->all_npcs() ) {
+            if( guy.name == "Balthazar_Radio" ) {
+                encrypted_npc = &guy;
+                break;
+            }
+        }
+
+        if( encrypted_npc != NULL ) {
+
+        }
+        */
     }
-    p->add_msg_if_player(
-        _( "Bizzare distorted noise errupts from the speaker before converging into a voice." ) );
-    p->as_avatar().talk_to( get_talker_for( *guy ), radio_interactable );
-}
 
-
-
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, const tripoint & )

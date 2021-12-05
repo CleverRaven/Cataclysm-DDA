@@ -1,0 +1,10 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "macedonia_surface" ],
+    "name": "lonely bunker",
+    "sym": "B",
+    "color": "blue",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  }
+]
