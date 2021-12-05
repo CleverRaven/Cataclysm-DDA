@@ -499,13 +499,14 @@ class Tilesheet:
         if filepath.stem in self.tileset.pngname_to_pngnum:
             if not self.is_filler:
                 log.error(
-                    'duplicate %s',
-                    filepath.name)
+                    'duplicate root name %s: %s',
+                    filepath.name, filepath)
 
             if self.is_filler and self.tileset.obsolete_fillers:
                 log.warning(
-                    '%s is already present in a non-filler sheet',
-                    filepath.name)
+                    'root name %s is already present in a non-filler sheet: '
+                    '%s',
+                    filepath.name, filepath)
 
             return
 
