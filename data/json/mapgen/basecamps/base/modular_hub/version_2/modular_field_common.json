@@ -11,7 +11,14 @@
       "w": "t_rubber_mulch",
       "W": "t_rubber_mulch"
     },
-    "furniture": { ",": "f_clear", "+": "f_parkour_bars", ";": "f_bulletin", "v": "f_counter", "w": "f_earthbag_half", "W": "f_earthbag_wall" }
+    "furniture": {
+      ",": "f_clear",
+      "+": "f_parkour_bars",
+      ";": "f_bulletin",
+      "v": "f_counter",
+      "w": "f_earthbag_half",
+      "W": "f_earthbag_wall"
+    }
   },
   {
     "type": "mapgen",
