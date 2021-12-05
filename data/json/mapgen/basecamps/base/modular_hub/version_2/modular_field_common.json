@@ -362,7 +362,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_parkour",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour" ], "x": 5, "y": 2 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour" ], "x": 5, "y": 1 } ] }
   },
   {
     "type": "mapgen",
