@@ -103,5 +103,29 @@
     "copy-from": "egg_strider",
     "description": "The egg of a water scorpion, usually found near aquatic grass.",
     "rot_spawn": "GROUP_EGG_WATER_BUG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle",
+    "name": "turtle egg egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a turtle.  Its covered in leaves",
+    "rot_spawn": "GROUP_EGG_TURTLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_snapper",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a snapping turtle. Its covered in mud",
+    "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tortoise",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a tortoise. Its covered in dirt",
+    "rot_spawn": "GROUP_EGG_IGUANA"
   }
 ]
