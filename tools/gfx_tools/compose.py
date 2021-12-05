@@ -500,13 +500,13 @@ class Tilesheet:
             if not self.is_filler:
                 log.error(
                     'duplicate root name %s: %s',
-                    filepath.name, filepath)
+                    filepath.stem, filepath)
 
             if self.is_filler and self.tileset.obsolete_fillers:
                 log.warning(
                     'root name %s is already present in a non-filler sheet: '
                     '%s',
-                    filepath.name, filepath)
+                    filepath.stem, filepath)
 
             return
 
