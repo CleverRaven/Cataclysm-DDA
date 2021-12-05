@@ -581,6 +581,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FRESH_WATER``` Source of fresh water. Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
@@ -616,7 +617,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
-- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source"). Will spawn salt water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
 - ```SHALLOW_WATER``` This is water that is not deep enough to submerge the player.
@@ -624,6 +625,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
+- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag and salt water via `SALT_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
