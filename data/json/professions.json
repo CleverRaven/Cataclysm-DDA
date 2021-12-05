@@ -1217,6 +1217,7 @@
           "jacket_light",
           "knife_folding",
           "hat_ball",
+          "kevlar",
           "wristwatch",
           "leather_belt"
         ],
@@ -4113,5 +4114,34 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "portal_traveler",
+    "name": "Portal Traveler",
+    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost your conscience and woke up in this place.",
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
+        "entries": [
+          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "rad_monitor"
+          },
+          {
+            "item": "medium_atomic_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "broken_dimensional_anchor"
+          },
+          { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

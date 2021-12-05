@@ -39,6 +39,7 @@
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 #endif
 
@@ -695,6 +696,26 @@ int border_helper::border_connection::as_curses_line() const
 
 bool query_yn( const std::string &text )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "queryYN", "(Ljava/lang/String;)Z" );
+        jstring jstr = env->NewStringUTF( text.c_str() );
+        bool result = env->CallBooleanMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return result;
+    }
+#endif // defined(__ANDROID__)
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
@@ -747,6 +768,26 @@ std::vector<std::string> get_hotkeys( const std::string &s )
 
 int popup( const std::string &text, PopupFlags flags )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "popup", "(Ljava/lang/String;)V" );
+        jstring jstr = env->NewStringUTF( remove_color_tags( text ).c_str() );
+        env->CallVoidMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return UNKNOWN_UNICODE;
+    }
+#endif
     query_popup pop;
     pop.preferred_keyboard_mode( keyboard_mode::keychar );
     pop.message( "%s", text );

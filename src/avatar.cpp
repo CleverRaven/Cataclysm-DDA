@@ -888,28 +888,24 @@ void avatar::disp_morale()
 
 int avatar::limb_dodge_encumbrance() const
 {
-    float leg_encumbrance = 0.0f;
-    float torso_encumbrance = 0.0f;
-    const std::vector<bodypart_id> legs =
-        get_all_body_parts_of_type( body_part_type::type::leg );
-    const std::vector<bodypart_id> torsos =
-        get_all_body_parts_of_type( body_part_type::type::torso );
-
-    for( const bodypart_id &leg : legs ) {
-        leg_encumbrance += encumb( leg );
-    }
-    if( !legs.empty() ) {
-        leg_encumbrance /= legs.size() * 10.0f;
+    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
+    for( const auto &bp : body ) {
+        if( bp.first->encumb_impacts_dodge ) {
+            bps[bp.first->limb_type].emplace_back( bp.first );
+        }
     }
 
-    for( const bodypart_id &torso : torsos ) {
-        torso_encumbrance += encumb( torso );
-    }
-    if( !torsos.empty() ) {
-        torso_encumbrance /= torsos.size() * 10.0f;
+    float total = 0.0f;
+    for( auto &bp : bps ) {
+        float sub_total = 0.0f;
+        for( auto &b : bp.second ) {
+            sub_total += encumb( b );
+        }
+        sub_total /= bp.second.size() * 10.0f;
+        total += sub_total;
     }
 
-    return std::floor( torso_encumbrance + leg_encumbrance );
+    return std::floor( total );
 }
 
 void avatar::reset_stats()

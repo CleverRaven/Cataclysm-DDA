@@ -53,7 +53,7 @@ then
 fi
 
 echo "> Merging translation templates"
-msgcat -o lang/po/cataclysm-dda.pot --sort-output --use-first lang/po/json.pot lang/po/gui.pot
+msgcat -o lang/po/cataclysm-dda.pot --use-first lang/po/json.pot lang/po/gui.pot
 if [ ! -f lang/po/cataclysm-dda.pot ]; then
     echo "Error in merging translatoin templates. Aborting."
     exit 1

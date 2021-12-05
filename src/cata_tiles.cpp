@@ -238,6 +238,21 @@ void cata_tiles::on_options_changed()
     minimap->set_settings( settings );
 }
 
+void tileset::clear()
+{
+    tile_values.clear();
+    shadow_tile_values.clear();
+    night_tile_values.clear();
+    overexposed_tile_values.clear();
+    memory_tile_values.clear();
+    duplicate_ids.clear();
+    tile_ids.clear();
+    for( int i = 0; i < season_type::NUM_SEASONS; ++i ) {
+        tile_ids_by_season[i].clear();
+    }
+    layer_data.clear();
+}
+
 const tile_type *tileset::find_tile_type( const std::string &id ) const
 {
     const auto iter = tile_ids.find( id );
@@ -648,6 +663,8 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         config.allow_omitted_members();
         return;
     }
+
+    ts.clear();
 
     // Load tile information if available.
     offset = 0;

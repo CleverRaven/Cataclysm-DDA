@@ -12,3 +12,4 @@ class Message:
 
 
 messages = dict()
+occurrences = []

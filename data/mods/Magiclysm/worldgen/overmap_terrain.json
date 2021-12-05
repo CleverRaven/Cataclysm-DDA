@@ -102,6 +102,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "house_detatched5_basement" ],
+    "//": "overriden by the magic basement, so suppress warnings about it not spawning",
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NW",
     "name": "swamp",
     "sym": "F",

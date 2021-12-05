@@ -266,6 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
+        "terrains": [ "forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -297,6 +298,25 @@
         "terrain_furniture": {  }
       },
       "forest_thick": {
+        "terrains": [
+          "forest_thick",
+          "forest_trail_isolated",
+          "forest_trail_end_north",
+          "forest_trail_end_east",
+          "forest_trail_end_south",
+          "forest_trail_end_west",
+          "forest_trail_ns",
+          "forest_trail_ew",
+          "forest_trail_ne",
+          "forest_trail_es",
+          "forest_trail_sw",
+          "forest_trail_wn",
+          "forest_trail_new",
+          "forest_trail_nsw",
+          "forest_trail_esw",
+          "forest_trail_nes",
+          "forest_trail_nesw"
+        ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -328,6 +348,7 @@
         "terrain_furniture": {  }
       },
       "forest_water": {
+        "terrains": [ "forest_water" ],
         "sparseness_adjacency_factor": 2,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -705,6 +726,7 @@
         "house_garage8": 50,
         "rural_house1": 50,
         "rural_house2": 50,
+        "garden_house_1": 50,
         "house_toolshed": 50,
         "house_suicide": 20,
         "house_quiverfull": 30,
@@ -763,6 +785,7 @@
         "park_5": 50,
         "park_6": 50,
         "park_7": 50,
+        "pool": 20,
         "pool_1": 20,
         "pool_2": 20,
         "pool_3": 20,
@@ -817,6 +840,7 @@
         "craft_shop": 200,
         "craft_shop_1": 200,
         "craft_shop_2": 200,
+        "craft_shop_3": 200,
         "s_gas": 500,
         "s_gas_1": 500,
         "s_pharm": 300,
@@ -914,7 +938,7 @@
         "s_lot": 400,
         "s_arcade": 200,
         "s_games": 200,
-        "s_jewelry": 200,
+        "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
         "museum": 100,

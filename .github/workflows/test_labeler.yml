@@ -2,7 +2,7 @@ name: Apply Test Labels
 
 on:
   workflow_run:
-    workflows: ["astyle", "JSON Validation", "Basic Build and Test (GCC 9, Curses, LTO)"]
+    workflows: ["astyle", "JSON Validation", "General build matrix"]
     types: [completed]
 
 jobs:
@@ -19,21 +19,30 @@ jobs:
         if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
           echo "::set-output name=label::json-styled"
         fi
-        if [[ "${{ github.event.workflow_run.name }}" == "Basic Build and Test (GCC 9, Curses, LTO)" ]]; then
+        if [[ "${{ github.event.workflow_run.name }}" == "General build matrix" ]]; then
           echo "::set-output name=label::BasicBuildPassed"
         fi
+    - name: Download success artifact from basic build
+      if: ${{ github.event.workflow_run.name == 'General build matrix' }}
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: ${{ github.event.workflow_run.name }}
+        run_id: ${{ github.event.workflow_run.id }}
+        name: basic-build
+    - name: set-basic-build-success
+      id: set-basic-build-success
+      run: echo "::set-output name=basic-build-success::$( cat basic-build )"
     - name: Download pr id artifact
       uses: dawidd6/action-download-artifact@v2
       with:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
         name: pull_request_id
-    - run: cat pull_request_id
     - name: set-pr-id
       id: set-pr-id
-      run: echo "::set-output name=pr-id::$( cat pull_request_id )"    
+      run: echo "::set-output name=pr-id::$( cat pull_request_id )"
     - name: set-label
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      if: ${{ github.event.workflow_run.conclusion == 'success' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
       uses: actions/github-script@v5
       with:
         script: |

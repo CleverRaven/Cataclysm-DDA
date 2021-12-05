@@ -593,6 +593,22 @@ units::length item_contents::max_containable_length() const
     return ret;
 }
 
+units::length item_contents::min_containable_length() const
+{
+    units::length ret = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
+            pocket.holster_full() ) {
+            continue;
+        }
+        units::length candidate = pocket.min_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
 std::set<flag_id> item_contents::magazine_flag_restrictions() const
 {
     std::set<flag_id> ret;

@@ -3913,7 +3913,8 @@ void game::mon_info_update( )
                 need_processing = get_safemode().check_monster(
                                       critter.name(),
                                       critter.attitude_to( u ),
-                                      mon_dist ) == rule_state::BLACKLISTED;
+                                      mon_dist,
+                                      u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
                 need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
             }
@@ -3961,7 +3962,8 @@ void game::mon_info_update( )
                 need_processing = get_safemode().check_monster(
                                       get_safemode().npc_type_name(),
                                       p->attitude_to( u ),
-                                      npc_dist ) == rule_state::BLACKLISTED ;
+                                      npc_dist,
+                                      u.controlling_vehicle ) == rule_state::BLACKLISTED ;
             } else {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
@@ -7969,8 +7971,7 @@ static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_d
             // Also push new entry string
             result_strings.push_back( tname );
         }
-        // Increase count result pair at index s
-        ++result[s].second;
+        result[s].second += it->count_by_charges() ? it->charges : 1;
     }
 
     return result;
@@ -8359,7 +8360,9 @@ void game::butcher()
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
-        if( disassembles.size() > 1 ) {
+
+        if( disassembly_stacks.size() > 1 || ( disassembly_stacks.size() == 1 &&
+                                               disassembly_stacks.front().second > 1 ) ) {
             int time_to_disassemble_once = 0;
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
@@ -9235,6 +9238,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     u.make_footstep_noise();
+
+    //only clatter items every so often based on activity level
+    if( to_turns<int>( calendar::turn - u.last_pocket_noise ) > std::max( static_cast<int>
+            ( 10 - u.activity_level() ), 1 ) )  {
+        u.make_clatter_sound();
+        u.last_pocket_noise = calendar::turn;
+    }
 
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
