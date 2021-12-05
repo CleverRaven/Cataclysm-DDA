@@ -667,6 +667,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_wattle_fence_posts"
   },
   {
@@ -1461,6 +1462,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_fence_post"
   },
   {
@@ -1490,6 +1492,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_fencegate_c"
   },
   {
@@ -1536,6 +1539,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ], [ [ "scrap", 8 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_chainfence_posts"
   },
   {
@@ -1599,6 +1603,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_fence_post"
   },
   {
@@ -3694,6 +3699,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_splitrail_fencegate_c"
   },
   {
@@ -3711,6 +3717,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_privacy_fencegate_c"
   },
   {
@@ -3724,6 +3731,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_splitrail_fence"
   },
   {
@@ -3750,6 +3758,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
     "post_terrain": "t_privacy_fence"
   },
   {
@@ -4084,7 +4093,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
-    "post_terrain": "t_metal_grate_window"
+    "post_terrain": "t_metal_grate_window_noglass"
   },
   {
     "type": "construction",
@@ -4094,8 +4103,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
@@ -4108,11 +4116,10 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
-    "pre_terrain": "t_metal_grate_window",
-    "post_terrain": "t_metal_grate_window_with_curtain"
+    "pre_terrain": "t_metal_grate_window_noglass",
+    "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
   {
     "type": "construction",

@@ -278,6 +278,15 @@ struct armor_portion_data {
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
 
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
+
     void deserialize( const JsonObject &jo );
 };
 
@@ -286,6 +295,10 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
+    /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
     /**
      * How much warmth this item provides.
      */
@@ -303,6 +316,22 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
@@ -313,8 +342,14 @@ struct islot_armor {
      */
     bool has_sub_coverage = false;
 
-    // Layer, encumbrance and coverage information.
+    // Layer, encumbrance and coverage information for each body part.
+    // This isn't directly loaded in but is instead generated from the loaded in
+    // sub_data vector
     std::vector<armor_portion_data> data;
+
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
 
     bool was_loaded = false;
 
@@ -705,6 +740,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
+
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;

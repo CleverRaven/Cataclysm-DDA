@@ -168,6 +168,11 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
                 continue;
             }
 
+            // Prevent drinking frozen liquids that have specific use actions (ex: ALCOHOL)
+            if( actual_item->is_frozen_liquid() ) {
+                continue;
+            }
+
             // Add to usable items if it needs less charges per use or has less charges
             auto found = candidates.find( use );
             bool better = false;

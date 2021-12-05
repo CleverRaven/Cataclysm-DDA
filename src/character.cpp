@@ -166,6 +166,22 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
 
+static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
+static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
+static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
+static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
+static const character_modifier_id
+character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
+static const character_modifier_id
+character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
+static const character_modifier_id
+character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
+static const character_modifier_id
+character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+static const character_modifier_id character_modifier_swim_mod( "swim_mod" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -276,9 +292,12 @@ static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
+static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
+static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
@@ -295,6 +314,12 @@ static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYAN
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
+
+static const limb_score_id limb_score_breathing( "breathing" );
+static const limb_score_id limb_score_lift( "lift" );
+static const limb_score_id limb_score_manip( "manip" );
+static const limb_score_id limb_score_night_vis( "night_vis" );
+static const limb_score_id limb_score_vision( "vision" );
 
 static const matec_id tec_none( "tec_none" );
 
@@ -381,7 +406,6 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_HOOVES( "HOOVES" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
@@ -395,7 +419,6 @@ static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
 static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
 static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUTE( "MUTE" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
@@ -795,7 +818,7 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += ranged_dispersion_modifier_vision();
+    dispersion += get_modifier( character_modifier_ranged_dispersion_vision_mod );
 
     return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
 }
@@ -889,16 +912,16 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     skill_id gun_skill = gun.gun_skill();
     // Ranges [0 - 10]
-    aim_speed += aim_speed_skill_modifier( gun_skill );
+    aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
 
     // Range [0 - 12]
     /** @EFFECT_DEX increases aiming speed */
-    aim_speed += aim_speed_dex_modifier();
+    aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
     // Range [0 - 10]
     aim_speed += sight_speed_modifier;
 
-    aim_speed *= aim_speed_modifier();
+    aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
     aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
@@ -1024,7 +1047,7 @@ bool Character::sight_impaired() const
              ( !has_trait( trait_PER_SLIME_OK ) ) ) ||
            ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) &&
              !worn_with_flag( flag_SWIM_GOGGLES ) ) ||
-           ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
+           ( ( has_flag( json_flag_MYOPIC ) || ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
              !worn_with_flag( flag_FIX_NEARSIGHT ) &&
              !has_effect( effect_contacts ) &&
              !has_flag( json_flag_ENHANCED_VISION ) ) ||
@@ -1122,7 +1145,7 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
     /** @EFFECT_SWIMMING increases swim speed */
-    ret *= swim_modifier();
+    ret *= get_modifier( character_modifier_swim_mod );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( const item &i : worn ) {
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
@@ -1639,14 +1662,14 @@ void Character::handle_skill_warning( const skill_id &id, bool force_warning )
 
 bool Character::has_min_manipulators() const
 {
-    return manipulator_score() > MIN_MANIPULATOR_SCORE;
+    return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
 /** Returns true if the character has two functioning arms */
 bool Character::has_two_arms_lifting() const
 {
     // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return lifting_score( body_part_type::type::arm ) > 0.5f;
+    return get_limb_score( limb_score_lift, body_part_type::type::arm ) > 0.5f;
 }
 
 // working is defined here as not broken
@@ -1759,6 +1782,27 @@ int Character::footstep_sound() const
     return std::round( volume );
 }
 
+int Character::clatter_sound() const
+{
+    int max_volume = 0;
+    for( const item &i : worn ) {
+        // if the item has noise making pockets we should check if they have clatered
+        if( i.has_noisy_pockets() ) {
+            for( const item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+                int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
+                int volume = pocket->get_pocket_data()->activity_noise.volume;
+                if( noise_chance > 0 && !pocket->empty() ) {
+                    // if this pocket causes more volume and it triggers noise
+                    if( volume > max_volume && rng( 1, 100 ) < noise_chance ) {
+                        max_volume = volume;
+                    }
+                }
+            }
+        }
+    }
+    return std::round( max_volume );
+}
+
 void Character::make_footstep_noise() const
 {
     const int volume = footstep_sound();
@@ -1774,6 +1818,17 @@ void Character::make_footstep_noise() const
                        "none", "none" );    // Sound of footsteps may awaken nearby monsters
     }
     sfx::do_footstep();
+}
+
+void Character::make_clatter_sound() const
+{
+
+    const int volume = clatter_sound();
+    if( volume <= 0 ) {
+        return;
+    }
+    sounds::sound( pos(), volume, sounds::sound_t::movement, _( "clattering equipment" ), true,
+                   "none", "none" );   // Sound of footsteps may awaken nearby monsters
 }
 
 steed_type Character::get_steed_type() const
@@ -2037,7 +2092,8 @@ void Character::recalc_sight_limits()
     } else if( has_active_mutation( trait_SHELL2 ) ) {
         // You can kinda see out a bit.
         sight_max = 2;
-    } else if( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
+    } else if( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
+                 has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) ) {
         sight_max = 4;
     } else if( has_trait( trait_PER_SLIME ) ) {
@@ -2136,7 +2192,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range * nightvision_score() );
+    range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
@@ -2445,7 +2501,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
                             16_gram : thrown_item->weight() / 16_gram;
-    return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
+    return ( weight_cost + 50 ) * -1 * get_modifier( character_modifier_melee_stamina_cost_mod );
 }
 
 std::vector<item_location> Character::nearby( const
@@ -5247,7 +5303,7 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 bool Character::is_blind() const
 {
     return worn_with_flag( flag_BLIND ) ||
-           has_flag( json_flag_BLIND ) || vision_score() <= 0;
+           has_flag( json_flag_BLIND ) || get_limb_score( limb_score_vision ) <= 0;
 }
 
 bool Character::is_invisible() const
@@ -5921,7 +5977,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                     {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                                        "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), get_skill_level( sk.first ), sk.second );
                     }
                 } ) );
@@ -6059,8 +6115,15 @@ void Character::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
+
+    ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+        burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
+    }
+
     burn_ratio *= move_mode->stamina_mult();
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
+                     character_modifier_stamina_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -6091,7 +6154,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        effective_regen_rate * stamina_recovery_breathing_modifier() );
+                        effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -6448,7 +6511,7 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    int noise = ( base + str_cur * shout_multiplier ) * breathing_score();
+    int noise = ( base + str_cur * shout_multiplier ) * get_limb_score( limb_score_breathing );
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -6522,7 +6585,7 @@ void Character::shout( std::string msg, bool order )
         add_msg_if_player( m_warning,
                            _( "The sound of your voice is almost completely muffled!" ) );
         msg = is_avatar() ? _( "your muffled shout" ) : _( "an indistinct voice" );
-    } else if( breathing_score() < 0.5f ) {
+    } else if( get_limb_score( limb_score_breathing ) < 0.5f ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
@@ -7038,7 +7101,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+                              const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         // don't do any more damage if we're already dead
@@ -7168,6 +7232,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
+        // TODO: is this code used anymore? It seems like it is now covered in the monattack file
         if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
             !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed */
@@ -7183,7 +7248,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                                            source->disp_name() );
                 }
             } else {
-                int prev_effect = get_effect_int( effect_grabbed );
+                const int prev_effect = get_effect_int( effect_grabbed, body_part_torso );
                 add_effect( effect_grabbed, 2_turns,  body_part_torso, false, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
@@ -8546,7 +8611,8 @@ void Character::on_item_acquire( const item &it )
     }
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
+void Character::on_effect_int_change( const efftype_id &eid, int intensity,
+                                      const bodypart_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()
@@ -8740,7 +8806,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost *= limb_run_cost_modifier();
+        movecost *= get_modifier( character_modifier_limb_run_cost_mod );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -8799,7 +8865,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
+        movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
     }
 
     if( diag ) {
@@ -10114,7 +10180,7 @@ const Character *Character::get_book_reader( const item &book,
     if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
-    } else if( has_trait( trait_HYPEROPIC ) &&
+    } else if( has_flag( json_flag_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) &&
                !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
@@ -10152,7 +10218,7 @@ const Character *Character::get_book_reader( const item &book,
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
                                               elem->get_knowledge_level( book_skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+        } else if( elem->has_flag( json_flag_HYPEROPIC ) &&
                    !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
@@ -10468,7 +10534,7 @@ float Character::fall_damage_mod() const
 
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
-    dex_dodge *= limb_speed_movecost_modifier();
+    dex_dodge *= get_modifier( character_modifier_limb_speed_movecost_mod );
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on

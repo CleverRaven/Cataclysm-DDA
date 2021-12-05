@@ -60,6 +60,7 @@
       [ "hammer", 80 ],
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
+      [ "big_pliers", 2 ],
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
       [ "screwdriver", 100 ],
@@ -117,6 +118,7 @@
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
       [ "pliers_locking", 40 ],
+      [ "big_pliers", 5 ],
       [ "wrench", 75 ],
       [ "wrench_large", 20 ],
       [ "socket_wrench_set", 20 ],
@@ -163,7 +165,8 @@
       [ "plastic_sheet", 50 ],
       [ "shovel_snow", 10 ],
       [ "shovel_snow_plastic", 15 ],
-      [ "hose_garden", 20 ]
+      [ "hose_garden", 20 ],
+      [ "big_pliers", 10 ]
     ]
   },
   {
@@ -230,6 +233,7 @@
       { "group": "tools_common", "prob": 100 },
       [ "wrench", 200 ],
       [ "wrench_large", 20 ],
+      [ "big_pliers", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "pliers", 200 ],

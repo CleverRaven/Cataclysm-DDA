@@ -439,7 +439,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
-            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
+            return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {

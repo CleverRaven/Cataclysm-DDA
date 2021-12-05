@@ -472,12 +472,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "copy-from": "looted_building",
-    "sym": "\u00E5"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "campsite",
     "name": "campsite",
     "copy-from": "campsite",

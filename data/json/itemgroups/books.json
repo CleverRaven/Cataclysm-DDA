@@ -599,7 +599,8 @@
       { "item": "manual_barbaran", "prob": 1 },
       { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 },
-      { "item": "scots_tailor", "prob": 30 }
+      { "item": "scots_tailor", "prob": 30 },
+      { "item": "necronomicon", "prob": 1 }
     ]
   },
   {

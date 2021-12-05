@@ -1026,6 +1026,12 @@ static void sleep()
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
     }
+
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+        add_msg( m_info, _( "You cannot sleep while swimming." ) );
+        return;
+    }
+
     uilist as_m;
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
@@ -1979,12 +1985,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_EXAMINE:
+        case ACTION_EXAMINE_AND_PICKUP:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
             } else if( mouse_target ) {
-                examine( *mouse_target );
+                // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
+                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
             } else {
-                examine();
+                examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
             break;
 
@@ -2008,6 +2016,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( mouse_target ) {
+                pickup( *mouse_target );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();

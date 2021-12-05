@@ -27,10 +27,15 @@ struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
 
-
 struct sub_body_part_type;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
+
+struct character_modifier;
+using character_modifier_id = string_id<character_modifier>;
+
+struct limb_score;
+using limb_score_id = string_id<limb_score>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -78,6 +83,9 @@ using furn_str_id = string_id<furn_t>;
 
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
+
+class harvest_drop_type;
+using harvest_drop_type_id = string_id<harvest_drop_type>;
 
 class harvest_list;
 using harvest_id = string_id<harvest_list>;

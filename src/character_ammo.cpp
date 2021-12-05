@@ -1,10 +1,12 @@
 #include "ammo.h"
 #include "character.h"
+#include "character_modifier.h"
 #include "flag.h"
 #include "game.h"
 #include "itype.h"
 #include "output.h"
 
+static const character_modifier_id character_modifier_reloading_move_mod( "reloading_move_mod" );
 static const itype_id itype_battery( "battery" );
 static const skill_id skill_gun( "gun" );
 
@@ -473,7 +475,8 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( static_cast<int>( std::round( mv * reloading_move_modifier() ) ), 25 );
+    return std::max( static_cast<int>( std::round( mv * get_modifier(
+                                           character_modifier_reloading_move_mod ) ) ), 25 );
 }
 
 std::vector<item_location> Character::find_reloadables()

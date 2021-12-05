@@ -134,6 +134,8 @@ static const mtype_id mon_wolf( "mon_wolf" );
 static const oter_str_id oter_faction_hide_site_0( "faction_hide_site_0" );
 static const oter_str_id oter_forest_wet( "forest_wet" );
 
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -3557,7 +3559,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         // Player walks 1 om in roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
-        } else if( is_ot_match( "forest_trail", omt_ref, ot_match_type::type ) ) {
+        } else if( omt_ref->get_type_id() == oter_type_forest_trail ) {
             one_way += 35 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
             one_way += 50 + 30 * haulage;

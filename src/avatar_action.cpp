@@ -68,6 +68,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
@@ -598,7 +599,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
-    if( movecost >= 500 ) {
+    if( movecost >= 500 || you.has_effect( effect_winded ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
@@ -1096,6 +1097,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             add_msg( _( "Never mind." ) );
             return;
         }
+    }
+
+    if( loc->is_comestible() && loc->is_frozen_liquid() ) {
+        add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
+        return;
     }
 
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {

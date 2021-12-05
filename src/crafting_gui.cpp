@@ -763,7 +763,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     const recipe *chosen = nullptr;
 
     Character &player_character = get_player_character();
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const inventory &crafting_inv = player_character.crafting_inventory( chosen );
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 

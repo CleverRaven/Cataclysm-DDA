@@ -809,7 +809,6 @@
           "pants_army",
           "undershirt",
           "combat_shirt",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -821,6 +820,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -861,7 +861,6 @@
           "pants_army",
           "undershirt",
           "combat_shirt",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -872,6 +871,7 @@
           "molle_pack"
         ],
         "entries": [
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "hacksaw" },
@@ -909,7 +909,6 @@
           "pants_army",
           "undershirt",
           "jacket_army",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -921,6 +920,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "c4", "count": 3 }
@@ -954,7 +954,6 @@
           "pants_army",
           "undershirt",
           "combat_shirt",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -966,6 +965,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -1005,7 +1005,6 @@
           "pants_army",
           "undershirt",
           "combat_shirt",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -1017,6 +1016,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1096,7 +1096,7 @@
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
-      "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
+      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat" ]
     }
   },
   {
@@ -1217,6 +1217,7 @@
           "jacket_light",
           "knife_folding",
           "hat_ball",
+          "kevlar",
           "wristwatch",
           "leather_belt"
         ],
@@ -2352,9 +2353,9 @@
     "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "both": { "items": [  ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": { "items": [ "ring_wedding" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "garter_belt", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -3535,7 +3536,7 @@
     "skills": { "level": 2, "name": "melee" },
     "items": {
       "both": {
-        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta", "bellywrap" ],
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
@@ -3858,7 +3859,6 @@
           "pants_army",
           "undershirt",
           "combat_shirt",
-          "ballistic_vest_esapi",
           "helmet_army",
           "gloves_liner",
           "gloves_tactical",
@@ -3878,6 +3878,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -4113,5 +4114,34 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "portal_traveler",
+    "name": "Portal Traveler",
+    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost your conscience and woke up in this place.",
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
+        "entries": [
+          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "rad_monitor"
+          },
+          {
+            "item": "medium_atomic_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "broken_dimensional_anchor"
+          },
+          { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

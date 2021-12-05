@@ -294,6 +294,26 @@
   },
   {
     "type": "mutation",
+    "id": "PORTAL_DEPENDENT",
+    "name": { "str": "Portal Dependent" },
+    "points": -8,
+    "description": "Your body is not quite there.  You feel as if part of you remained behind with the portal storm.  You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in the world.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "REALITY_GRASP",
+    "name": { "str": "Stabilized in Reality" },
+    "points": 0,
+    "description": "You have regained some substance and have stabilized somewhat, lack of portal storms will not affect you as strongly as before.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "OPTIMISTIC",
     "name": { "str": "Optimist" },
     "points": 2,
@@ -602,7 +622,7 @@
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "RABBIT" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "RABBIT", "FELINE" ]
   },
   {
     "type": "mutation",
@@ -1029,7 +1049,8 @@
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
     "cancels": [ "URSINE_EYE" ],
-    "category": [ "BEAST", "TROGLOBITE" ]
+    "category": [ "BEAST", "TROGLOBITE" ],
+    "flags": [ "MYOPIC" ]
   },
   {
     "type": "mutation",
@@ -1076,7 +1097,8 @@
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
     "valid": false,
-    "category": [ "BATRACHIAN" ]
+    "category": [ "BATRACHIAN" ],
+    "flags": [ "HYPEROPIC" ]
   },
   {
     "type": "mutation",
@@ -1250,9 +1272,9 @@
   {
     "type": "mutation",
     "id": "ANTIFRUIT",
-    "name": { "str": "Hates Fruit" },
+    "name": { "str": "Fructose Intolerance" },
     "points": -3,
-    "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
+    "description": "Eating fruits always causes your stomach to ache.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -1759,6 +1781,7 @@
       "MYOPIC"
     ],
     "category": [ "URSINE", "BATRACHIAN" ],
+    "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
     "starts_active": true
   },
@@ -3406,10 +3429,24 @@
     "points": 1,
     "visibility": 1,
     "description": "Your legs have gained muscle mass to propel you across any terrain.",
-    "leads_to": [ "LEAPING_LEGS" ],
+    "leads_to": [ "LEAPING_LEGS", "FELINE_LEAP" ],
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
     "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FELINE_LEAP",
+    "name": { "str": "Pounce" },
+    "points": 1,
+    "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
+    "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
+    "spells_learned": [ [ "spell_feline_leap", 1 ] ],
+    "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
+    "prereqs": [ "TAIL_LONG" ],
+    "threshreq": [ "THRESH_FELINE" ],
+    "category": [ "FELINE" ],
+    "valid": false
   },
   {
     "type": "mutation",
@@ -7608,7 +7645,8 @@
     "points": 2,
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 3
+    "dodge_modifier": 3,
+    "category": [ "FELINE" ]
   },
   {
     "type": "mutation",
@@ -7741,5 +7779,40 @@
     "points": 0,
     "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "FELINE_FLEXIBILITY",
+    "name": { "str": "Feline Flexibility" },
+    "points": 4,
+    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_FELINE" ],
+    "category": [ "FELINE" ],
+    "movecost_obstacle_modifier": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "HATES_WATER",
+    "name": { "str": "Hates Water" },
+    "points": -2,
+    "description": "You really hate getting your fur all wet.  This increases morale penalties for being wet, and you will get them even when wearing appropriate clothing.",
+    "valid": false,
+    "prereqs": [ "FELINE_FUR" ],
+    "category": [ "FELINE" ],
+    "cancels": [ "OUTDOORSMAN" ],
+    "wet_protection": [
+      { "part": "head", "good": -12 },
+      { "part": "leg_l", "good": -16 },
+      { "part": "leg_r", "good": -16 },
+      { "part": "foot_l", "good": -4 },
+      { "part": "foot_r", "good": -4 },
+      { "part": "arm_l", "good": -16 },
+      { "part": "arm_r", "good": -16 },
+      { "part": "hand_l", "good": -16 },
+      { "part": "hand_r", "good": -16 },
+      { "part": "torso", "good": -30 }
+    ]
   }
 ]
