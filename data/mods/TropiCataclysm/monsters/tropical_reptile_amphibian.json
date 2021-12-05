@@ -370,7 +370,7 @@
     "id": "mon_turtle",
     "type": "MONSTER",
     "name": { "str": "pond turtle" },
-    "description": "Widely distributed around the globe due to pet trade, pond turtles can be found on most temperate to warm climates living in different aquatic environments.",
+    "description": "Widely distributed around the globe due to pet trade.  pond turtles can be found on most temperate to warm climates living in different aquatic environments.",
     "default_faction": "small_animal",
     "bodytype": "lizard",
     "categories": [ "WILDLIFE" ],
@@ -408,7 +408,7 @@
     "id": "mon_turtle_snapper",
     "type": "MONSTER",
     "name": { "str": "snapping turtle" },
-    "description": "Known worldwide due to the famous Alligator Snapping Turtle, this genus of turtles is present beyond US borders from Mexico to some parts of South America.",
+    "description": "Known worldwide due to the famous Alligator Snapping Turtle.  this genus of turtles is present beyond US borders from Mexico to some parts of South America.",
     "default_faction": "small_animal",
     "bodytype": "lizard",
     "categories": [ "WILDLIFE" ],
@@ -455,7 +455,8 @@
     "name": { "str": "tortoise" },
     "description": "Unlike turtles, tortoises are adapted mostly to dry environments.  Many species worldwide have grown to big sizes if the conditions are just right.",
     "copy-from": "mon_turtle_wood",
-    "reproduction": { "baby_egg": "egg_tortoise", "baby_count": 6, "baby_timer": 10 }
+    "reproduction": { "baby_egg": "egg_tortoise", "baby_count": 6, "baby_timer": 10 },
+    "flags": [ "ANIMAL", "KEENNOSE", "SEES", "HEARS", "SMELLS" ]
   }
 ]
 
