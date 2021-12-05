@@ -181,7 +181,8 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
-            return string_format( npgettext( "requirement", "%1$s (have %3$d of %2$d)", "%1$s (have %3$d of %2$d)", c ),
+            return string_format( npgettext( "requirement", "%1$s (have %3$d of %2$d)",
+                                             "%1$s (have %3$d of %2$d)", c ),
                                   type_ptr->nname( 1 ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: charge requirement
@@ -191,12 +192,14 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     } else {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: required count
-            return string_format( npgettext( "requirement", "need %2$d %1$s of infinite", "need %2$d %1$s of infinite",
+            return string_format( npgettext( "requirement", "need %2$d %1$s of infinite",
+                                             "need %2$d %1$s of infinite",
                                              c ),
                                   type_ptr->nname( c ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
-            return string_format( npgettext( "requirement", "have %3$d of %2$d %1$s", "have %3$d of %2$d of %1$s", c ),
+            return string_format( npgettext( "requirement", "have %3$d of %2$d %1$s",
+                                             "have %3$d of %2$d of %1$s", c ),
                                   type_ptr->nname( c ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: required count
@@ -844,7 +847,7 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
     }
 
     if( total_UPS_charges_used > 0 &&
-            total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
+        total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
         return false;
     }
     return retval;
@@ -864,7 +867,7 @@ nc_color quality_requirement::get_color( bool has_one, const read_only_visitable
         const std::function<bool( const item & )> &, int ) const
 {
     if( get_player_character().has_trait( trait_DEBUG_HS ) ||
-            available == available_status::a_true ) {
+        available == available_status::a_true ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
@@ -1116,14 +1119,14 @@ requirement_data requirement_data::disassembly_requirements() const
 
             // If crafting required a welder or forge then disassembly requires metal sawing
             if( type == itype_welder || type == itype_welder_crude || type == itype_oxy_torch ||
-                    type == itype_forge || type == itype_char_forge ) {
+                type == itype_forge || type == itype_char_forge ) {
                 new_qualities.emplace_back( qual_SAW_M_FINE, 1, 1 );
                 replaced = true;
                 break;
             }
             //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
             if( type == itype_sewing_kit ||
-                    type == itype_mold_plastic ) {
+                type == itype_mold_plastic ) {
                 new_qualities.emplace_back( qual_CUT, 1, 1 );
                 replaced = true;
                 break;
@@ -1324,7 +1327,7 @@ static std::vector<std::vector<T>> consolidate( std::vector<std::vector<T>> old_
             }
             if( match ) {
                 for( auto it1 = new_inner.begin(), it2 = old_inner.begin();
-                        it1 < new_inner.end(); ++it2 ) {
+                     it1 < new_inner.end(); ++it2 ) {
                     if( !type_lt( *it2, *it1 ) ) {
                         // which means *it2 and *it1 have the same type, since
                         // we know new_inner is a subsequence of old_inner
