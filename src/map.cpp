@@ -1748,6 +1748,19 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+
+    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
+        if( new_t.has_flag( "FRESH_WATER" ) ) {
+            item water( "water", calendar::start_of_cataclysm );
+            water.charges = rng( 4, 24 );
+            add_item( p, water );
+        } else if( new_t.has_flag( "SALT_WATER" ) ) {
+            item water( "salt_water", calendar::start_of_cataclysm );
+            water.charges = rng( 4, 24 );
+            add_item( p, water );
+        }
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
