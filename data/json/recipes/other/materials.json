@@ -56,7 +56,7 @@
     "difficulty": 1,
     "time": "10m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1  ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 2 ] ] ]
   },
   {
