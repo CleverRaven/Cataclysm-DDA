@@ -1017,7 +1017,7 @@
     "hp": 150,
     "speed": 40,
     "symbol": "O",
-    "color": "black",
+    "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
     "dodge": 8,
