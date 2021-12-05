@@ -405,51 +405,6 @@
     "copy-from": "mon_turtle"
   },
   {
-    "id": "mon_turtle_snapper",
-    "type": "MONSTER",
-    "name": { "str": "snapping turtle" },
-    "description": "This genus of turtles is present beyond US borders from Mexico to some parts of South America.",
-    "default_faction": "small_animal",
-    "bodytype": "lizard",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "volume": "10000 ml",
-    "weight": "1500 g",
-    "hp": 60,
-    "speed": 60,
-    "material": [ "iflesh" ],
-    "symbol": "t",
-    "color": "light_gray",
-    "aggression": 30,
-    "morale": 60,
-    "melee_skill": 4,
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 5,
-    "harvest": "mammal_tiny",
-    "reproduction": { "baby_egg": "egg_snapper", "baby_count": 4, "baby_timer": 10 },
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 20,
-        "accuracy": 6,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4.5, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 7.5, "armor_multiplier": 0.5 }
-        ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
-        "infection_chance": 50
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
-  },
-  {
     "id": "mon_tortoise",
     "type": "MONSTER",
     "name": { "str": "tortoise" },
