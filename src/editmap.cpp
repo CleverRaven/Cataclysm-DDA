@@ -1518,11 +1518,13 @@ void editmap::edit_itm()
                                 it.set_damage( retval );
                                 // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
                                 break;
                             case imenu_degradation:
                                 it.set_degradation( retval );
                                 // NOLINTNEXTLINE(cata-translate-string-literal)
-                                imenu.entries[imenu_damage].txt = string_format( "degradation: %d", it.degradation() );
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;
                             case imenu_burnt:
                                 it.burnt = retval;

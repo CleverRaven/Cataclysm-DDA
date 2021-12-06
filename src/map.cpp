@@ -4320,6 +4320,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
 
     new_item.set_damage( damlevel );
+    new_item.rand_degradation();
     for( const flag_id &flag : flags ) {
         new_item.set_flag( flag );
     }

@@ -696,7 +696,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( vpr.part(), tmp );
+            veh->set_hp( vpr.part(), tmp, true, it.degradation() );
         }
     } else {
         try {
@@ -710,7 +710,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
-                veh->set_hp( dst, src.hp() );
+                veh->set_hp( dst, src.hp(), true, it.degradation() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );

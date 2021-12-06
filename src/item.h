@@ -358,6 +358,11 @@ class item : public visitable
         std::string dirt_symbol() const;
 
         /**
+         * Returns a symbol indicating the current degradation of the item.
+         */
+        std::string degradation_symbol() const;
+
+        /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
         nc_color color() const;
@@ -1184,6 +1189,9 @@ class item : public visitable
 
         /** How much degradation has the item accumulated? */
         int degradation() const;
+
+        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        void rand_degradation();
 
         /**
          * Scale item damage to the given number of levels. This function is

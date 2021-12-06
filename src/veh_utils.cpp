@@ -170,7 +170,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {
-        veh.set_hp( pt, pt.info().durability );
+        veh.set_hp( pt, pt.info().durability, true );
     }
 
     // TODO: NPC doing that

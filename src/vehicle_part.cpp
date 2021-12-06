@@ -122,7 +122,8 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
+        res.insert( 0, colorize( base.damage_symbol(),
+                                 base.damage_color() ) + base.degradation_symbol() + " " );
     }
     return res;
 }
@@ -591,7 +592,7 @@ const vpart_info &vehicle_part::info() const
     return *info_cache;
 }
 
-void vehicle::set_hp( vehicle_part &pt, int qty )
+void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )
 {
     if( qty == pt.info().durability || pt.info().durability <= 0 ) {
         pt.base.set_damage( 0 );
@@ -601,6 +602,12 @@ void vehicle::set_hp( vehicle_part &pt, int qty )
 
     } else {
         pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
+    }
+    if( !keep_degradation ) {
+        pt.base.rand_degradation();
+    }
+    if( new_degradation >= 0 ) {
+        pt.base.set_degradation( 0 );
     }
 }
 
