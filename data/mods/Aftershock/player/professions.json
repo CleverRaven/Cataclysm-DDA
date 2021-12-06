@@ -449,17 +449,12 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "jumpsuit",
-          "hazmat_suit",
-          "mask_gas",
-          "socks",
-          "molle_pack",
-          "wristwatch",
-          "bot_manhack",
-          "bot_manhack"
-        ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "afs_cartridge", "charges": 1500 }, { "item": "makeshift_scrambler", "ammo-item": "afs_cartridge", "charges": 1500 } ]
+        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch", "bot_manhack", "bot_manhack" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "afs_cartridge", "charges": 1500 },
+          { "item": "makeshift_scrambler", "ammo-item": "afs_cartridge", "charges": 1500 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
