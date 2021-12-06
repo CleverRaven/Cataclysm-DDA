@@ -267,6 +267,7 @@
     "volume": "4500 ml",
     "price_postapoc": 2000,
     "range": 20,
+    "ammo": [ "battery" ],
     "ammo_to_fire": 10,
     "ups_charges": 0,
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
