@@ -267,7 +267,7 @@
     "volume": "4500 ml",
     "price_postapoc": 2000,
     "range": 20,
-    "ups_charges": 50,
+    "ups_charges": 0,
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ]
   },
