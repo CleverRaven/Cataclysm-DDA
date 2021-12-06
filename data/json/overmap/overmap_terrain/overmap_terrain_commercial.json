@@ -1134,7 +1134,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
-    "name": "Large Office Tower",
+    "name": "large office tower",
     "copy-from": "generic_city_building",
     "sym": "T",
     "color": "white"
@@ -1374,7 +1374,7 @@
     "type": "overmap_terrain",
     "id": "headshop",
     "copy-from": "generic_city_building",
-    "name": "Head Shop",
+    "name": "head shop",
     "sym": "0",
     "color": "i_white",
     "extend": { "flags": [ "SOURCE_LUXURY" ] }
