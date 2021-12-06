@@ -5451,7 +5451,7 @@ std::string item::dirt_symbol() const
 std::string item::degradation_symbol() const
 {
     const int inc = max_damage() / 5;
-    const int dgr_lvl = degradation() / inc;
+    const int dgr_lvl = degradation() / ( inc > 0 ? inc : 1 );
     std::string dgr_symbol;
 
     switch( dgr_lvl ) {
