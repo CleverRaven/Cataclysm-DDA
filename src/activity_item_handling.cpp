@@ -497,7 +497,8 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) ||
+                                               ( it == itype_liquid_soap ) );
     };
     const inventory &crafting_inv = you->crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
@@ -508,7 +509,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         return;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
                !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, 
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser,
                                          is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
