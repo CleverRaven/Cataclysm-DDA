@@ -200,6 +200,13 @@
     "autonote": true
   },
   {
+    "id": "mx_Trapdoor_spider_den",
+    "type": "map_extra",
+    "name": { "str": "Trapdoor Spiders" },
+    "description": "Several trapdoor spider nests.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_Trapdoor_spider_den" }
+  },
+  {
     "id": "mx_shia",
     "type": "map_extra",
     "name": { "str": "Shia LaBeouf" },

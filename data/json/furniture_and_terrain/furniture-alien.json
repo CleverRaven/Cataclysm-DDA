@@ -634,5 +634,16 @@
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
     "//": "decorative flora for breather biome.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_absence",
+    "name": "less than nothing",
+    "description": "There is nothing here.  Not even time or space.",
+    "symbol": "O",
+    "color": "black",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ]
   }
 ]

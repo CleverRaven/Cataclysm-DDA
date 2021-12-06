@@ -118,13 +118,13 @@
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 5, 5 ], "y": [ 2, 3 ] },
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 1, 2 ], "y": [ 4, 4 ] },
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 1, 2 ], "y": [ 0, 0 ] },
-        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 5, 1 ], "y": [ 4, 0 ] },
+        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 1, 5 ], "y": [ 0, 4 ] },
         { "group": "office_mess", "chance": 50, "repeat": [ 5 ], "x": [ 7, 9 ], "y": [ 0, 21 ] },
         { "group": "mut_lab", "chance": 80, "repeat": [ 4 ], "x": [ 14, 14 ], "y": [ 9, 10 ] },
         { "group": "chem_lab", "chance": 50, "repeat": [ 2 ], "x": [ 11, 11 ], "y": [ 9, 11 ] },
         { "group": "mut_lab", "chance": 80, "repeat": [ 2 ], "x": [ 11, 11 ], "y": [ 13, 15 ] },
         { "group": "chem_lab", "chance": 80, "repeat": [ 2 ], "x": [ 11, 11 ], "y": [ 11, 11 ] },
-        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 1, 5 ], "y": [ 14, 12 ] }
+        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 1, 5 ], "y": [ 12, 14 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_BUNKER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.8 },
