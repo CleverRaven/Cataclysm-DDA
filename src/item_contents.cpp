@@ -1139,11 +1139,11 @@ std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type
         return all_items_top( [pk_type]( item_pocket & pocket ) {
             return pocket.is_type( pk_type ) && pocket.settings.is_unloadable();
         } );
-    } else {
-        return all_items_top( [pk_type]( item_pocket & pocket ) {
-            return pocket.is_type( pk_type );
-        } );
     }
+    return all_items_top( [pk_type]( item_pocket & pocket ) {
+        return pocket.is_type( pk_type );
+    } );
+
 }
 
 std::list<const item *> item_contents::all_items_top( const
