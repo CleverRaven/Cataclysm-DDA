@@ -270,7 +270,8 @@
     "ammo_to_fire": 10,
     "ups_charges": 0,
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
