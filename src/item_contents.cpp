@@ -135,11 +135,9 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
                                     selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
     } else if( input == 'd' ) {
-        //toggle the disabled setting for this pocket
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
         return true;
     } else if( input == 'u' ) {
-        //toggle the unload setting for this pocket
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
         return true;
     }
