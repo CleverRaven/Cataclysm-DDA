@@ -459,7 +459,7 @@
           "bot_manhack",
           "bot_manhack"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "makeshift_scrambler" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "afs_cartridge", "charges": 1500 }, { "item": "makeshift_scrambler", "ammo-item": "afs_cartridge", "charges": 1500 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
