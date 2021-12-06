@@ -1444,8 +1444,7 @@ units::volume item_contents::total_container_capacity() const
             // item in it or is a pocket that has normal pickup disabled
             // instead of returning the volume return the volume of things contained
             if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                ( pocket.settings.is_disabled() ) ||
-                ( p_data->holster && !pocket.all_items_top().empty() ) ) {
+                pocket.settings.is_disabled() || ( p_data->holster && !pocket.all_items_top().empty() ) ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
