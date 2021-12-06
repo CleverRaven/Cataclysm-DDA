@@ -1762,6 +1762,6 @@
     "phase": "liquid",
     "ammo_type": "components",
     "flags": [ "DETERGENT" ],
-    "count": 5
+    "charges": 5
   }
 ]
