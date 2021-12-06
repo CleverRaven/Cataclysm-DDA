@@ -26,6 +26,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_milk",
+    "looks_like": "milk",
     "name": { "str": "almond milk" },
     "weight": "258 g",
     "color": "white",
@@ -49,6 +50,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soy_milk",
+    "looks_like": "milk",
     "name": { "str": "soy milk" },
     "weight": "258 g",
     "color": "white",
@@ -108,6 +110,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_coconut",
+    "looks_like": "milk",
     "name": { "str": "coconut milk" },
     "weight": "238 g",
     "color": "white",
@@ -130,6 +133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chai_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "chai tea" },
     "weight": "259 g",
     "color": "brown",
@@ -177,6 +181,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choc_drink",
+    "looks_like": "milk",
     "name": { "str": "chocolate drink" },
     "weight": "236 g",
     "color": "brown",
@@ -222,6 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_substitute",
+    "looks_like": "coffee",
     "name": { "str_sp": "coffee substitute" },
     "weight": "250 g",
     "color": "brown",
@@ -243,6 +249,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_coffee",
+    "looks_like": "coffee",
     "name": { "str_sp": "chicory brew" },
     "weight": "252 g",
     "color": "brown",
@@ -263,6 +270,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cola",
+    "looks_like": "coffee",
     "name": { "str": "dark cola" },
     "weight": "248 g",
     "color": "brown",
@@ -289,6 +297,7 @@
   {
     "type": "COMESTIBLE",
     "id": "colamdew",
+    "looks_like": "cola",
     "name": { "str": "energy cola" },
     "weight": "234 g",
     "color": "light_green",
@@ -315,6 +324,7 @@
   {
     "type": "COMESTIBLE",
     "id": "creamsoda",
+    "looks_like": "cola",
     "name": { "str": "cream soda" },
     "weight": "247 g",
     "color": "light_gray",
@@ -365,6 +375,7 @@
   {
     "type": "COMESTIBLE",
     "id": "crispycran",
+    "looks_like": "cranberry_juice",
     "name": { "str": "crispy cranberry", "str_pl": "crispy cranberries" },
     "weight": "250 g",
     "color": "pink",
@@ -387,6 +398,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "dandelion tea" },
     "weight": "252 g",
     "color": "yellow",
@@ -407,6 +419,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelionburdock_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "dandelion and burdock tea" },
     "weight": "252 g",
     "color": "yellow",
@@ -427,6 +440,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggnog",
+    "looks_like": "milk",
     "name": { "str": "eggnog" },
     "weight": "134 g",
     "color": "white",
@@ -450,6 +464,7 @@
   {
     "type": "COMESTIBLE",
     "id": "energy_drink",
+    "looks_like": "cola",
     "name": { "str": "energy drink" },
     "weight": "253 g",
     "color": "magenta",
@@ -477,6 +492,7 @@
   {
     "type": "COMESTIBLE",
     "id": "energy_drink_atomic",
+    "looks_like": "cola",
     "name": { "str": "atomic energy drink" },
     "copy-from": "energy_drink",
     "color": "light_green",
@@ -494,6 +510,7 @@
   {
     "type": "COMESTIBLE",
     "id": "herbal_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "herbal tea" },
     "weight": "250 g",
     "color": "green",
@@ -515,6 +532,7 @@
   {
     "id": "hot_chocolate",
     "type": "COMESTIBLE",
+    "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "hot chocolate" },
     "description": "Also known as hot cocoa, this heated chocolate beverage is perfect for a cold winter day.",
@@ -539,6 +557,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juice_pasteurized",
+    "looks_like": "juice",
     "name": { "str": "pasteurized fruit juice" },
     "copy-from": "juice",
     "spoils_in": "180 days",
@@ -605,6 +624,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kompot",
+    "looks_like": "juice",
     "name": { "str": "kompot" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
@@ -657,6 +677,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade",
+    "looks_like": "juice",
     "name": { "str_sp": "lemonade" },
     "weight": "260 g",
     "color": "yellow",
@@ -680,6 +701,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonlime",
+    "looks_like": "lemonade",
     "name": { "str": "lemon-lime soda" },
     "weight": "258 g",
     "color": "yellow",
@@ -717,6 +739,7 @@
   {
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
+    "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "Mexican hot chocolate" },
     "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
@@ -741,6 +764,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_coffee",
+    "looks_like": "coffee",
     "name": { "str": "coffee milk" },
     "weight": "259 g",
     "color": "brown",
@@ -769,6 +793,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_tea",
+    "looks_like": "tea",
     "name": { "str": "milk tea" },
     "weight": "259 g",
     "color": "brown",
@@ -796,6 +821,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oj",
+    "looks_like": "juice",
     "name": { "str": "orange juice" },
     "weight": "263 g",
     "color": "yellow",
@@ -821,6 +847,7 @@
   {
     "type": "COMESTIBLE",
     "id": "orangesoda",
+    "looks_like": "juice",
     "name": { "str": "orange soda" },
     "weight": "248 g",
     "color": "yellow",
@@ -843,6 +870,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "pine needle tea" },
     "weight": "268 g",
     "color": "light_green",
@@ -864,6 +892,7 @@
   {
     "type": "COMESTIBLE",
     "id": "purple_drink",
+    "looks_like": "cranberry_juice",
     "name": { "str": "grape drink" },
     "weight": "260 g",
     "color": "magenta",
@@ -888,6 +917,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_juice",
+    "looks_like": "water",
     "name": "mycus juice",
     "weight": "263 g",
     "color": "light_gray",
@@ -913,6 +943,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rootbeer",
+    "looks_like": "cola",
     "name": { "str_sp": "root beer" },
     "weight": "260 g",
     "color": "brown",
@@ -935,6 +966,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spezi",
+    "looks_like": "cola",
     "name": { "str": "spezi" },
     "weight": "250 g",
     "color": "brown",
@@ -960,6 +992,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sports_drink",
+    "looks_like": "cola",
     "name": { "str": "sports drink" },
     "weight": "257 g",
     "color": "light_red",
@@ -1023,6 +1056,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_water",
+    "looks_like": "water",
     "name": { "str_sp": "sweet water" },
     "weight": "260 g",
     "color": "light_cyan",
@@ -1043,6 +1077,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea",
+    "looks_like": "water",
     "name": { "str": "black tea" },
     "weight": "250 g",
     "color": "brown",
@@ -1079,6 +1114,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_bark",
+    "looks_like": "tea",
     "name": { "str": "bark tea" },
     "weight": "251 g",
     "color": "brown",
@@ -1099,6 +1135,7 @@
   {
     "type": "COMESTIBLE",
     "id": "V8",
+    "looks_like": "juice",
     "name": { "str": "V8" },
     "weight": "250 g",
     "color": "red",
