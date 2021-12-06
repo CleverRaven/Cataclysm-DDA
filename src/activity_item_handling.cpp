@@ -498,7 +498,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
 
     const auto is_liquid_crafting_component = []( const item & it ) {
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) ||
-                                               ( it == itype_liquid_soap ) );
+                                               ( it.typeId() == itype_liquid_soap ) );
     };
     const inventory &crafting_inv = you->crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
