@@ -1364,6 +1364,7 @@ class item : public visitable
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
+        units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
         /**
@@ -1736,6 +1737,18 @@ class item : public visitable
          * Returns if the armor has ablative pockets
          */
         bool is_ablative() const;
+        /**
+         * Returns if the armor has pockets with additional encumbrance
+         */
+        bool has_additional_encumbrance() const;
+        /**
+         * Returns if the armor has pockets with a chance to be ripped off
+         */
+        bool has_ripoff_pockets() const;
+        /**
+         * Returns if the armor has pockets with a chance to make noise when moving
+         */
+        bool has_noisy_pockets() const;
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
@@ -2168,6 +2181,10 @@ class item : public visitable
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
+        /**
+        * Summed shot spread from mods. Returns 0 on non-gun items.
+        */
+        float gun_shot_spread_multiplier() const;
         /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */

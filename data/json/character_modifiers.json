@@ -1,0 +1,121 @@
+[
+  {
+    "type": "character_mod",
+    "id": "aim_speed_skill_mod",
+    "description": "Aim speed skill modifier",
+    "mod_type": "+",
+    "value": { "builtin": "aim_speed_skill_modifier" }
+  },
+  {
+    "type": "character_mod",
+    "id": "aim_speed_dex_mod",
+    "description": "Aim speed dexterity modifier",
+    "mod_type": "+",
+    "value": { "builtin": "aim_speed_dex_modifier" }
+  },
+  {
+    "type": "character_mod",
+    "id": "aim_speed_mod",
+    "description": "Gun aim speed modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "manip" }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_thrown_move_manip_mod",
+    "description": "Melee and thrown attack movement point modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "manip", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_thrown_move_balance_mod",
+    "description": "Melee and thrown attack movement point modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "balance", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_stamina_cost_mod",
+    "description": "Melee stamina cost",
+    "mod_type": "x",
+    "value": { "limb_score": "lift", "limb_type": "arm", "override_encumb": true, "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "reloading_move_mod",
+    "description": "Reloading movement point cost",
+    "mod_type": "x",
+    "value": { "limb_score": "manip", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "thrown_dex_mod",
+    "description": "Dexterity when throwing items",
+    "mod_type": "x",
+    "value": { "limb_score": "manip" }
+  },
+  {
+    "type": "character_mod",
+    "id": "ranged_dispersion_manip_mod",
+    "description": "Hand dispersion when using ranged attacks",
+    "mod_type": "+",
+    "value": { "limb_score": "manip", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
+  },
+  {
+    "type": "character_mod",
+    "id": "ranged_dispersion_vision_mod",
+    "description": "Sight dispersion when using ranged attacks",
+    "mod_type": "+",
+    "value": { "limb_score": "vision", "max": 10000.0, "nominator": 30.0, "subtract": 30.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "stamina_move_cost_mod",
+    "description": "Stamina move cost modifier",
+    "mod_type": "x",
+    "value": { "builtin": "stamina_move_cost_modifier" }
+  },
+  {
+    "type": "character_mod",
+    "id": "stamina_recovery_breathing_mod",
+    "description": "Stamina Regeneration",
+    "mod_type": "x",
+    "value": { "limb_score": "breathing" }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_speed_movecost_mod",
+    "description": "Limb speed movecost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "move_speed", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_footing_movecost_mod",
+    "description": "Footing movecost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "footing", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_run_cost_mod",
+    "description": "Limb run cost modifier",
+    "mod_type": "x",
+    "value": { "builtin": "limb_run_cost_modifier" }
+  },
+  {
+    "type": "character_mod",
+    "id": "swim_mod",
+    "description": "Swimming movement point cost",
+    "mod_type": "x",
+    "value": { "limb_score": "swim", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_attack_roll_mod",
+    "description": "Melee attack rolls",
+    "mod_type": "x",
+    "value": { "limb_score": "balance", "min": 0.2 }
+  }
+]

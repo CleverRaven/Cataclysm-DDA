@@ -724,6 +724,14 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
         return false;
     }
 
+    if( x.valmax < x.val ) {
+        jso.throw_error( "x maximum is less than x minimum" );
+    }
+
+    if( y.valmax < y.val ) {
+        jso.throw_error( "y maximum is less than y minimum" );
+    }
+
     if( x.valmax > mapgensize.x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
     }
@@ -4072,8 +4080,8 @@ void jmapgen_objects::apply( const mapgendata &dat ) const
 {
     bool terrain_resolved = false;
     for( const jmapgen_obj &obj : objects ) {
-        const auto &where = obj.first;
-        const auto &what = *obj.second;
+        const jmapgen_place &where = obj.first;
+        const jmapgen_piece &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
         if( !terrain_resolved && typeid( what ) == typeid( jmapgen_vehicle ) ) {
@@ -6072,7 +6080,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
                      int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
-        debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
+        debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
     }
     point offset;

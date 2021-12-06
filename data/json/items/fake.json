@@ -28,8 +28,22 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "integrated welder" },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ]
+    "name": { "str": "integrated multitool" },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
+    "use_action": [ "HAMMER", "CROWBAR" ],
+    "qualities": [
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 1 ],
+      [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
+      [ "BUTCHER", -55 ]
+    ]
   },
   {
     "id": "fake_goggles",

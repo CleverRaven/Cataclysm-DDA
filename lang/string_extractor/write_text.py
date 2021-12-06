@@ -1,4 +1,4 @@
-from .message import Message, messages
+from .message import Message, messages, occurrences
 
 
 def append_comment(comments, new_comment):
@@ -68,3 +68,4 @@ def write_text(json, origin, context="", comment="",
 
     messages[(context, text)].append(
         Message(comments, origin, format_tag, context, text, text_plural))
+    occurrences.append((context, text))

@@ -1082,8 +1082,8 @@
   {
     "id": "toolset_extended",
     "type": "TOOL",
-    "name": { "str": "extended welder" },
-    "description": "Your welding kit, extended.  Ready to do repair work.",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
     "symbol": "#",
     "color": "white",
     "weight": "226 g",

@@ -3,6 +3,7 @@ from .parsers.activity_type import parse_activity_type
 from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
+from .parsers.character_mod import parse_character_mod
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -25,6 +26,7 @@ from .parsers.item_action import parse_item_action
 from .parsers.item_category import parse_item_category
 from .parsers.json_flag import parse_json_flag
 from .parsers.keybinding import parse_keybinding
+from .parsers.limb_score import parse_limb_score
 from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
@@ -96,6 +98,7 @@ parsers = {
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
+    "character_mod": parse_character_mod,
     "charge_removal_blacklist": dummy_parser,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
@@ -133,6 +136,7 @@ parsers = {
     "item_group": dummy_parser,
     "json_flag": parse_json_flag,
     "keybinding": parse_keybinding,
+    "limb_score": parse_limb_score,
     "loot_zone": parse_loot_zone,
     "magazine": parse_magazine,
     "map_extra": parse_map_extra,
