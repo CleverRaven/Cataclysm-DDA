@@ -9304,8 +9304,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       crafting_inv.charges_of( itype_detergent ),
-                                       crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) );
+                                       std::max( crafting_inv.charges_of( itype_detergent ),
+                                       crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
         return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
