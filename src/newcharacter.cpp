@@ -243,36 +243,36 @@ static int skill_points_left( const avatar &u, pool_type pool )
 }
 
 // Toggle this trait and all dependencies (sets mutation category levels)
-static void toggle_trait_deps( const trait_id &tr, Character &u )
+void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
     const mutation_branch &mdata = tr.obj();
-    if( !u.has_trait( tr ) && !mdata.category.empty() ) {
+    if( !has_trait( tr ) && !mdata.category.empty() ) {
         int rc = 0;
-        while( !u.has_trait( tr ) && rc < depth_max ) {
-            u.mutate_towards( tr );
+        while( !has_trait( tr ) && rc < depth_max ) {
+            mutate_towards( tr );
             rc++;
         }
-    } else if( u.has_trait( tr ) && !mdata.category.empty() ) {
+    } else if( has_trait( tr ) && !mdata.category.empty() ) {
         int rc = 0;
         std::unordered_map<trait_id, int> deps;
-        u.build_mut_dependency_map( tr, deps, 0 );
-        while( rc < depth_max && ( u.has_trait( tr ) ||
-        std::any_of( deps.begin(), deps.end(), [&u]( const std::pair<trait_id, int> &dep ) {
-        return u.has_trait( dep.first );
+        build_mut_dependency_map( tr, deps, 0 );
+        while( rc < depth_max && ( has_trait( tr ) ||
+        std::any_of( deps.begin(), deps.end(), [this]( const std::pair<trait_id, int> &dep ) {
+        return has_trait( dep.first );
         } ) ) ) {
             for( const auto &dep : deps ) {
-                if( u.has_trait( dep.first ) ) {
-                    u.remove_mutation( dep.first );
+                if( has_trait( dep.first ) ) {
+                    remove_mutation( dep.first );
                 }
             }
-            if( u.has_trait( tr ) ) {
-                u.remove_mutation( tr );
+            if( has_trait( tr ) ) {
+                remove_mutation( tr );
             }
             rc++;
         }
     } else {
-        u.toggle_trait( tr );
+        toggle_trait( tr );
     }
 }
 
@@ -440,7 +440,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
                      tries < 5 );
 
             if( tries < 5 && !has_conflicting_trait( rn ) ) {
-                toggle_trait_deps( rn, *this );
+                toggle_trait_deps( rn );
                 num_btraits -= rn->points;
             }
         } else {
@@ -487,7 +487,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
                     const mutation_branch &mdata = rn.obj();
                     if( !has_trait( rn ) && p.trait_points_left >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
-                        toggle_trait_deps( rn, *this );
+                        toggle_trait_deps( rn );
                         num_gtraits += mdata.points;
                     }
                     break;
@@ -1645,7 +1645,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
-                toggle_trait_deps( cur_trait, u );
+                u.toggle_trait_deps( cur_trait );
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
                 } else {
@@ -2061,7 +2061,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
         } else if( action == "CONFIRM" ) {
             // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                toggle_trait_deps( old_trait, u );
+                u.toggle_trait_deps( old_trait );
             }
 
             u.prof = &sorted_profs[cur_id].obj();
@@ -2072,7 +2072,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 if( u.has_conflicting_trait( new_trait ) ) {
                     for( const trait_id &suspect_trait : u.get_mutations() ) {
                         if( are_conflicting_traits( new_trait, suspect_trait ) ) {
-                            toggle_trait_deps( suspect_trait, u );
+                            u.toggle_trait_deps( suspect_trait );
                             popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
                                    suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
                         }
@@ -2448,7 +2448,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             for( const trait_id &trait : prof->get_locked_traits() ) {
                 if( enabling ) {
                     if( !u.has_trait( trait ) ) {
-                        toggle_trait_deps( trait, u );
+                        u.toggle_trait_deps( trait );
                     }
                     continue;
                 }
@@ -2461,7 +2461,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 if( from_other_hobbies > 0 ) {
                     continue;
                 }
-                toggle_trait_deps( trait, u );
+                u.toggle_trait_deps( trait );
             }
 
         } else if( action == "CHANGE_GENDER" ) {
@@ -4076,12 +4076,12 @@ void Character::add_traits()
     // TODO: get rid of using get_avatar() here, use `this` instead
     for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr, *this );
+            toggle_trait_deps( tr );
         }
     }
     for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr, *this );
+            toggle_trait_deps( tr );
         }
     }
 }
@@ -4253,7 +4253,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
         if( t.obj().hp_modifier.has_value() ) {
-            toggle_trait_deps( t, u );
+            u.toggle_trait_deps( t );
         }
     }
 
