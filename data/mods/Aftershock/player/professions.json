@@ -434,5 +434,30 @@
     "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
     "items": { "both": { "items": [ "wetsuit_cecalia", "trident", "dive_bag" ] } }
+  },
+  {
+    "type": "profession",
+    "id": "robot_scavenger",
+    "name": "Robot Scavenger",
+    "description": "Before the cataclysm struck, you were one of the members of an underground group striving to free cyborgs from their shackles, raiding laboratories and underground clinics in your pursuit of liberation.  Now that most of the humanity has been turned into zombies, your goal has become even more important to you.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch", "bot_manhack", "bot_manhack" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "afs_cartridge", "charges": 1500 },
+          { "item": "makeshift_scrambler", "ammo-item": "afs_cartridge", "charges": 1500 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]
