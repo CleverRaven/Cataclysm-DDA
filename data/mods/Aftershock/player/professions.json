@@ -454,7 +454,12 @@
           { "group": "charged_smart_phone" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           { "item": "makeshift_scrambler" },
-          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 , "container-item": "makeshift_scrambler" } 
+          {
+            "item": "afs_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "makeshift_scrambler"
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
