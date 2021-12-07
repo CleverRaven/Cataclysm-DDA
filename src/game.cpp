@@ -252,6 +252,8 @@ static const mtype_id mon_manhack( "mon_manhack" );
 static const overmap_special_id overmap_special_world( "world" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -5099,9 +5101,11 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
-
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
+        int prof_bonus = u.get_skill_level( skill_firstaid );
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
+        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
