@@ -1106,7 +1106,7 @@ bool Character::mutate_towards( const trait_id &mut )
         if( !has_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
             i--;
-        } else if( has_base_trait( cancel[i] ) ) {
+        } else if( has_base_trait( cancel[i] ) || !purifiable( cancel[i] ) ) {
             //If we have the trait, but it's a base trait, don't allow it to be removed normally
             canceltrait.push_back( cancel[i] );
             cancel.erase( cancel.begin() + i );
@@ -1123,6 +1123,13 @@ bool Character::mutate_towards( const trait_id &mut )
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
             return mutate_towards( mut );
+        }
+    }
+
+    for( size_t i = 0; i < canceltrait.size(); i++ ) {
+        if( !purifiable( canceltrait[i] ) ) {
+            // We can't cancel unpurifiable mutations
+            return false;
         }
     }
 

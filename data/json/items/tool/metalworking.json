@@ -322,7 +322,7 @@
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
     "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
     "weight": "10 g",
-    "volume": "500 ml",
+    "volume": "50 ml",
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",

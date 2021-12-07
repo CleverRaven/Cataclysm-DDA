@@ -360,7 +360,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "TORSO" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",
@@ -767,6 +767,23 @@
     "material_thickness": 1,
     "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ],
     "armor": [ { "coverage": 1 } ]
+  },
+  {
+    "id": "test_tail_encumber",
+    "type": "ARMOR",
+    "name": "TEST tail encumbrance",
+    "description": "Tests the effects of encumbrance on the test body part.",
+    "weight": "500 g",
+    "volume": "3 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
   },
   {
     "id": "test_hazmat_suit",

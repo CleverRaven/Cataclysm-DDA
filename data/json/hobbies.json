@@ -551,7 +551,8 @@
     "id": "redcross",
     "description": "You've got training and some experience in dealing with urgent injuries.  In the absence of any medical professionals, that'll have to do.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "firstaid" } ]
+    "skills": [ { "level": 2, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care" ]
   },
   {
     "type": "profession",

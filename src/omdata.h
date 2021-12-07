@@ -171,6 +171,7 @@ enum class oter_flags : int {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
+    should_not_spawn,
     river_tile,
     has_sidewalk,
     ignore_rotation_for_adjacency,

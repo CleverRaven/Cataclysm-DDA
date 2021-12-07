@@ -58,7 +58,7 @@
     "color": "white",
     "charges": 10,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 200 }
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 750 }
   },
   {
     "id": "adrenaline_injector",
@@ -178,7 +178,7 @@
     "charges": 3,
     "stack_size": 9,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift",
@@ -188,7 +188,7 @@
     "description": "Simple cloth bandages.  Better than nothing.",
     "price_postapoc": 100,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift_bleached",
@@ -198,7 +198,7 @@
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift_boiled",
@@ -208,7 +208,7 @@
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bfipowder",
@@ -219,7 +219,7 @@
     "weight": "6 g",
     "volume": "250 ml",
     "price": 900,
-    "price_postapoc": 4000,
+    "price_postapoc": 2000,
     "charges": 4,
     "stack_size": 40,
     "material": [ "powder" ],
@@ -227,7 +227,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
     "id": "caff_gum",
@@ -312,7 +312,7 @@
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
     "id": "cig",
@@ -487,7 +487,7 @@
     "color": "white",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 3000 }
   },
   {
     "id": "crack",
@@ -555,7 +555,7 @@
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
     "id": "disinfectant_makeshift",
@@ -565,7 +565,25 @@
     "copy-from": "disinfectant",
     "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect a wound.",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
+  },
+  {
+    "id": "alcohol_wipes",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "alcohol wipes" },
+    "description": "A type of wet wipe saturated with alcohol and stored in a sterile package.  Commonly used for personal hygiene or disinfecting small wounds.",
+    "weight": "5 g",
+    "volume": "25 ml",
+    "freezing_point": -48,
+    "price": 400,
+    "price_postapoc": 250,
+    "charges": 40,
+    "symbol": ",",
+    "color": "white",
+    "container": "box_small",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
   {
     "id": "diazepam",
@@ -1187,7 +1205,7 @@
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 200 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 6000 }
   },
   {
     "id": "meth",
@@ -1538,7 +1556,7 @@
     "color": "light_gray",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100 }
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
   {
     "id": "saline",
@@ -1593,7 +1611,7 @@
     "phase": "liquid",
     "spoils_in": "28 days",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
     "id": "tobacco",
@@ -1924,7 +1942,7 @@
       "type": "heal",
       "disinfectant_power": 2,
       "bite": 0.5,
-      "move_cost": 200,
+      "move_cost": 6000,
       "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
@@ -1948,7 +1966,7 @@
       "type": "heal",
       "disinfectant_power": 3,
       "bite": 0.66,
-      "move_cost": 300,
+      "move_cost": 6000,
       "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
     }
   },
@@ -2038,7 +2056,7 @@
       "type": "heal",
       "disinfectant_power": 3,
       "bite": 0.75,
-      "move_cost": 100,
+      "move_cost": 3000,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
   },
@@ -2080,6 +2098,6 @@
     "addiction_potential": 5,
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1", "duration": 720 } ] }
   }
 ]

@@ -127,6 +127,8 @@ class item_pocket
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
+        // checks if the pocket is a holster and if it has something in it
+        bool holster_full() const;
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
@@ -140,6 +142,9 @@ class item_pocket
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
+
+        bool is_allowed() const;
+        void set_usability( bool show );
 
         const pocket_data *get_pocket_data() const;
 
@@ -173,6 +178,7 @@ class item_pocket
         bool contains_phase( phase_id phase ) const;
 
         units::length max_containable_length() const;
+        units::length min_containable_length() const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -339,6 +345,8 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
+
+        bool allowed = true; // is it possible to put things in this pocket
 };
 
 /**
@@ -359,6 +367,18 @@ struct sealable_data {
     void deserialize( const JsonObject &data );
 };
 
+// the chance and volume this pocket makes when moving
+struct pocket_noise {
+    // required for generic_factory
+    bool was_loaded = false;
+    /** multiplier for spoilage rate of contained items when sealed */
+    int volume = 0;
+    int chance = 0;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
 class pocket_data
 {
     public:
@@ -372,15 +392,21 @@ class pocket_data
             rigid = true;
         }
 
+        // fixed values for the weight and volume of undefined pockets
+        static constexpr units::volume max_volume_for_container = 200000000_ml;
+        static constexpr units::mass max_weight_for_container = 2000000_kilogram;
+
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = 2000000000_ml;
+        units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
+        // min length of item that can be contained used for exterior pockets
+        units::length min_item_length = 0_mm;
         // max weight of stuff the pocket can hold
-        units::mass max_contains_weight = 2000000_kilogram;
+        units::mass max_contains_weight = max_weight_for_container;
         // longest item that can fit into the pocket
         // if not defined in json, calculated to be cbrt( volume ) * sqrt( 2 )
         units::length max_item_length = 0_mm;
@@ -388,6 +414,12 @@ class pocket_data
         bool holster = false;
         // if true, this pocket holds ablative armor
         bool ablative = false;
+        // additional encumbrance when this pocket is in use
+        int extra_encumbrance = 0;
+        // chance this pockets contents get ripped off when escaping a grab
+        int ripoff = 0;
+        // volume this pocket makes when moving
+        pocket_noise activity_noise;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number

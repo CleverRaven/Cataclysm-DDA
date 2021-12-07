@@ -786,7 +786,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
 
     bool has_sub_data = false;
     // if the item has no sub location info then it should return that it does cover it
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             has_sub_data = true;
         }
@@ -913,7 +913,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
         return;
     }
 
-    for( const armor_portion_data &data : armor->data ) {
+    for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
                 for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
@@ -1004,6 +1004,24 @@ bool item::is_ablative() const
 {
     const islot_armor *t = find_armor_data();
     return t ? t->ablative : false;
+}
+
+bool item::has_additional_encumbrance() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->additional_pocket_enc : false;
+}
+
+bool item::has_ripoff_pockets() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->ripoff_chance : false;
+}
+
+bool item::has_noisy_pockets() const
+{
+    const islot_armor *t = find_armor_data();
+    return t ? t->noisy : false;
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -3577,11 +3595,13 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     insert_separation_line( info );
     const islot_book &book = *type->book;
+    avatar &player_character = get_avatar();
     // Some things about a book you CAN tell by it's cover.
-    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
+    if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) &&
+        player_character.studied_all_recipes( *type ) ) {
         info.emplace_back( "BOOK", _( "Just for fun." ) );
     }
-    avatar &player_character = get_avatar();
+
     if( type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
         info.emplace_back( "BOOK",
                            _( "Some sort of <info>martial arts training "
@@ -5158,7 +5178,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
-        } else if( tmp.skill || type->can_use( "MA_MANUAL" ) ) {
+        } else if( ( tmp.skill || type->can_use( "MA_MANUAL" ) ) ||
+                   !player_character.studied_all_recipes( *type ) ) {
             // Book can teach you something and hasn't been identified yet
             ret = c_red;
         } else {
@@ -6399,6 +6420,20 @@ int item::get_quality( const quality_id &id ) const
     return return_quality;
 }
 
+int item::get_raw_quality( const quality_id &id ) const
+{
+    int return_quality = INT_MIN;
+
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
+        if( quality.first == id ) {
+            return_quality = quality.second;
+        }
+    }
+    return_quality = std::max( return_quality, contents.best_quality( id ) );
+
+    return return_quality;
+}
+
 bool item::has_technique( const matec_id &tech ) const
 {
     return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
@@ -6773,8 +6808,8 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
 
-        // add the encumbrance values of any ablative plates
-        if( is_ablative() ) {
+        // add the encumbrance values of any ablative plates and additional encumbrance pockets
+        if( is_ablative() || has_additional_encumbrance() ) {
             for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
                 if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                     // get the contained plate
@@ -6785,63 +6820,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                         encumber += ablative_portion_data->encumber;
                     }
                 }
+                if( pocket->get_pocket_data()->extra_encumbrance > 0 && !pocket->empty() ) {
+                    encumber += pocket->get_pocket_data()->extra_encumbrance;
+                }
             }
         }
-    }
-
-    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
-        encumber = std::max( encumber / 2, encumber - 10 );
-    }
-
-    // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
-    switch( sizing_level ) {
-        case sizing::small_sized_human_char:
-        case sizing::small_sized_big_char:
-            // non small characters have a HARD time wearing undersized clothing
-            encumber *= 3;
-            break;
-        case sizing::human_sized_small_char:
-        case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
-            encumber *= 2;
-            break;
-        default:
-            break;
-    }
-
-    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
-
-    return encumber;
-}
-
-int item::get_encumber( const Character &p, const sub_bodypart_id &bodypart,
-                        encumber_flags flags ) const
-{
-    const islot_armor *t = find_armor_data();
-    if( !t ) {
-        // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
-    }
-
-    int encumber = 0;
-    float relative_encumbrance = 1.0f;
-    // Additional encumbrance from non-rigid pockets
-    if( !( flags & encumber_flags::assume_full ) ) {
-        // p.get_check_encumbrance() may be set when it's not possible
-        // to reset `cached_relative_encumbrance` for individual items
-        // (e.g. when dropping via AIM, see #42983)
-        if( !cached_relative_encumbrance || p.get_check_encumbrance() ) {
-            cached_relative_encumbrance = contents.relative_encumbrance();
-        }
-        relative_encumbrance = *cached_relative_encumbrance;
-    }
-
-    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
-        encumber = portion_data->encumber;
-        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
-                               portion_data->encumber ) );
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -6986,7 +6969,7 @@ const armor_portion_data *item::portion_for_bodypart( const sub_bodypart_id &bod
     if( !t ) {
         return nullptr;
     }
-    for( const armor_portion_data &entry : t->data ) {
+    for( const armor_portion_data &entry : t->sub_data ) {
         if( !entry.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
                 const sub_bodypart_id &subpart = tmp;
@@ -8446,6 +8429,11 @@ units::length item::max_containable_length() const
     return contents.max_containable_length();
 }
 
+units::length item::min_containable_length() const
+{
+    return contents.min_containable_length();
+}
+
 units::volume item::max_containable_volume() const
 {
     return contents.max_containable_volume();
@@ -8849,6 +8837,18 @@ int item::gun_recoil( const Character &p, bool bipod ) const
     } else {
         return qty * ( 1.0 + std::abs( handling ) );
     }
+}
+
+float item::gun_shot_spread_multiplier() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    float ret = 1.0f;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->shot_spread_multiplier_modifier;
+    }
+    return std::max( ret, 0.0f );
 }
 
 int item::gun_range( bool with_ammo ) const
@@ -10054,7 +10054,7 @@ bool item::allow_crafting_component() const
         return valid;
     }
 
-    return contents.empty();
+    return true;
 }
 
 void item::set_item_specific_energy( const float new_specific_energy )

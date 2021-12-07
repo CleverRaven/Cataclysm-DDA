@@ -585,31 +585,12 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
         int get_most_accurate_sight( const item &gun ) const;
-        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
-        double aim_speed_dex_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
 
-        // multiplicative modifiers
-
-        // modifier to aim speed based on manipulator score
-        float aim_speed_modifier() const;
-
-        float melee_thrown_move_modifier_hands() const;
-        float melee_thrown_move_modifier_torso() const;
-        float melee_stamina_cost_modifier() const;
-        float reloading_move_modifier() const;
-        float thrown_dex_modifier() const;
-        float stamina_recovery_breathing_modifier() const;
-        float limb_speed_movecost_modifier() const;
-        float limb_balance_movecost_modifier() const;
-        // movecost is modified by the average of limb speed and balance.
-        float limb_run_cost_modifier() const;
-        float swim_modifier() const;
-        // min is 0.2 instead of 0
-        float melee_attack_roll_modifier() const;
-        // additive modifier
-        float ranged_dispersion_modifier_hands() const;
-        float ranged_dispersion_modifier_vision() const;
+        // Get the value of the specified character modifier.
+        // (some modifiers require a skill_id, ex: aim_speed_skill_mod)
+        float get_modifier( const character_modifier_id &mod,
+                            const skill_id &skill = skill_id::NULL_ID() ) const;
 
         /* Gun stuff */
         /**
@@ -827,7 +808,11 @@ class Character : public Creature, public visitable
         bool is_prone() const;
 
         int footstep_sound() const;
+        // the sound clattering items dangling off you can make
+        int clatter_sound() const;
         void make_footstep_noise() const;
+        void make_clatter_sound() const;
+
 
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
@@ -1040,6 +1025,20 @@ class Character : public Creature, public visitable
         float throw_weakpoint_skill() const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
+         * Requires a roll out of 100
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll );
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * Requires a roll out of 100
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, const sub_bodypart_id &sbp,
+                           int roll );
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * Is wrapped by the other two armor absorb calls
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
@@ -1048,7 +1047,7 @@ class Character : public Creature, public visitable
          * If the armor is fully destroyed it is replaced
          * @return true if the armor was completely destroyed.
          */
-        bool ablative_armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
+        bool ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp, int roll );
         /**
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
@@ -1155,17 +1154,12 @@ class Character : public Creature, public visitable
 
         bool is_deaf() const;
         bool is_mute() const;
-        // the total of the manipulator score in the best limb group
-        float manipulator_score() const;
-        float blocking_score( const body_part_type::type &bp ) const;
-        float lifting_score( const body_part_type::type &bp ) const;
-        float breathing_score() const;
-        float swim_score() const;
-        float vision_score() const;
-        float nightvision_score() const;
-        float reaction_score() const;
-        float movement_speed_score() const;
-        float balance_score() const;
+        // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
+        // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
+        float get_limb_score( const limb_score_id &score,
+                              const body_part_type::type &bp = body_part_type::type::num_types,
+                              int override_encumb = -1, int override_wounds = -1 ) const;
+
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
@@ -2230,6 +2224,8 @@ class Character : public Creature, public visitable
         }
         /** Empties the trait and mutations lists */
         void clear_mutations();
+        /** Steps through the dependency chain for the given trait */
+        void toggle_trait_deps( const trait_id &tr );
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -2507,7 +2503,6 @@ class Character : public Creature, public visitable
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
-        float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 
@@ -2989,7 +2984,7 @@ class Character : public Creature, public visitable
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
+        bool disassemble( item_location target, bool interactive = true, bool disassemble_all = false );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );

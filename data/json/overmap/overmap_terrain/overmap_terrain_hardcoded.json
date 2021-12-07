@@ -59,15 +59,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "temple",
-    "name": "strange temple",
-    "sym": "T",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "standing_stones",
     "name": "standing stones",
     "sym": "O",
@@ -188,16 +179,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cavern",
-    "name": "cavern",
-    "looks_like": "cave",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
     "//": "This is old rock type, new one (below) will replace it in new overmaps",
     "name": "solid rock",
@@ -223,7 +204,7 @@
     "sym": "^",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -232,7 +213,7 @@
     "sym": "^",
     "color": "light_red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -241,7 +222,7 @@
     "sym": "O",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -250,6 +231,6 @@
     "sym": "O",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   }
 ]
