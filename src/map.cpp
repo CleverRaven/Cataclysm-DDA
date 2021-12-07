@@ -1752,11 +1752,11 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
         if( new_t.has_flag( "FRESH_WATER" ) ) {
             item water( "water", calendar::start_of_cataclysm );
-            water.charges = rng( 4, 24 );
+            water.charges = rng( 40, 240 );
             add_item( p, water );
         } else if( new_t.has_flag( "SALT_WATER" ) ) {
             item water( "salt_water", calendar::start_of_cataclysm );
-            water.charges = rng( 4, 24 );
+            water.charges = rng( 40, 240 );
             add_item( p, water );
         }
     }
