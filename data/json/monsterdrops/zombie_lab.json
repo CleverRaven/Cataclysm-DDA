@@ -33,6 +33,7 @@
     "magazine": 100,
     "ammo": 40,
     "entries": [
+      { "group": "military_ballistic_vest_light", "prob": 30, "damage": [ 0, 2 ] },
       { "group": "cop_gear", "prob": 50, "damage": [ 0, 2 ] },
       { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
       { "group": "security_pants", "damage": [ 1, 4 ] },
@@ -49,13 +50,7 @@
     "id": "mon_devourer_lab_sec_death_drops",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "group": "cop_gear", "prob": 50, "damage": [ 2, 5 ], "count": [ 1, 5 ] },
-      { "group": "security_torso", "prob": 80, "damage": [ 2, 5 ], "count": [ 1, 6 ] },
-      { "group": "cop_weapons", "prob": 50, "damage": [ 2, 5 ], "count": [ 2, 4 ] },
-      { "item": "id_science_security_black" },
-      { "group": "lab_files_security" }
-    ]
+    "entries": [ { "group": "mon_zombie_labsecurity_death_drops", "count": [ 4, 6 ] }, { "item": "id_science_security_black" } ]
   },
   {
     "id": "security_pants",

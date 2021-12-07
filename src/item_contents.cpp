@@ -62,7 +62,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         ++i;
     }
 
-    if( selected_pocket != nullptr ) {
+    if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
         int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
@@ -501,6 +501,9 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
     if( !pocket.success() ) {
         return pocket;
     }
+    if( !pocket.value()->is_allowed() ) {
+        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
+    }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
@@ -581,10 +584,27 @@ units::length item_contents::max_containable_length() const
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
+            pocket.holster_full() ) {
             continue;
         }
         units::length candidate = pocket.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::length item_contents::min_containable_length() const
+{
+    units::length ret = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
+            pocket.holster_full() ) {
+            continue;
+        }
+        units::length candidate = pocket.min_containable_length();
         if( candidate > ret ) {
             ret = candidate;
         }
@@ -607,7 +627,10 @@ units::volume item_contents::max_containable_volume() const
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ) {
+        // pockets that aren't traditional containers or don't have a default value shouldn't be counted for this
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
+            pocket.holster_full() ||
+            pocket.volume_capacity() >= pocket_data::max_volume_for_container ) {
             continue;
         }
         units::volume candidate = pocket.remaining_volume();
@@ -1341,7 +1364,8 @@ units::mass item_contents::total_container_weight_capacity() const
 {
     units::mass total_weight = 0_gram;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && !pocket.is_ablative() ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && !pocket.is_ablative() &&
+            pocket.weight_capacity() < pocket_data::max_weight_for_container ) {
             total_weight += pocket.weight_capacity();
         }
     }
@@ -1403,7 +1427,15 @@ units::volume item_contents::total_container_capacity() const
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            total_vol += pocket.volume_capacity();
+            const pocket_data *p_data = pocket.get_pocket_data();
+            // if the pocket has default volume or is a holster that has an
+            // item in it instead of returning the volume return the volume of things contained
+            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container || ( p_data->holster &&
+                    !pocket.all_items_top().empty() ) ) {
+                total_vol += pocket.contains_volume();
+            } else {
+                total_vol += pocket.volume_capacity();
+            }
         }
     }
     return total_vol;
@@ -1656,6 +1688,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {
+            if( !pocket.is_allowed() ) {
+                continue;
+            }
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {

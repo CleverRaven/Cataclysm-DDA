@@ -10,11 +10,16 @@ jobs:
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          cancel_others: 'true'
-          paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@master
+      with:
+        cancel_others: 'true'
+        paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pull_request_id
+        path: pull_request_id
   astyle-code:
     name: astyle check
     needs: skip-duplicates
@@ -32,12 +37,6 @@ jobs:
 
     - name: astyle check
       run: make astyle-check
-
-    - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v2
-      with:
-        name: pull_request_id
-        path: pull_request_id
 
     - name: Display Corrections
       if: failure()

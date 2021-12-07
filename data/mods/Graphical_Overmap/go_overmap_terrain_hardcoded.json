@@ -43,12 +43,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "temple",
-    "copy-from": "temple",
-    "sym": "\u00FE"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "standing_stones",
     "copy-from": "standing_stones",
     "sym": "\u00E8"
@@ -183,12 +177,6 @@
     "copy-from": "triffid_finale",
     "sym": "\u00F5",
     "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cavern",
-    "copy-from": "cavern",
-    "sym": "\u00EA"
   },
   {
     "type": "overmap_terrain",

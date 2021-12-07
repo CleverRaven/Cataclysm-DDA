@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -173,6 +174,9 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        //return avatar diary
+        diary *get_avatar_diary();
+
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
                       bool is_computer = false );
@@ -200,6 +204,9 @@ class avatar : public Character
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
@@ -324,6 +331,9 @@ class avatar : public Character
 
         int movecounter = 0;
 
+        // ammount of turns since last check for pocket noise
+        time_point last_pocket_noise = time_point( 0 );
+
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
@@ -335,9 +345,6 @@ class avatar : public Character
 
         bool mood_face_horizontal = false;
         cata::optional<mood_face_id> mood_face_cache;
-
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -363,6 +370,10 @@ class avatar : public Character
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+        /**
+        * diary to track player progression and to write the players stroy
+        */
+        std::unique_ptr <diary> a_diary;
         /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day

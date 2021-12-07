@@ -1544,14 +1544,16 @@ void inventory_selector::add_map_items( const tripoint &target )
         map_stack items = here.i_at( target );
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
+        const item_category *const custom_cat = _categorize_map_items ? nullptr : &map_cat;
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( map_cursor( target ), it );
-        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
+        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), custom_cat );
 
         for( item &it_elem : items ) {
             item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column, &map_cat, get_topmost_parent( nullptr, parent, preset ) );
+            add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
+                                 preset ) );
         }
     }
 }
@@ -1568,16 +1570,17 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
+    const item_category *const custom_cat = _categorize_map_items ? nullptr : &vehicle_cat;
 
     const bool check_components = this->preset.get_checking_components();
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
-    }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
+    }, restack_items( items.begin(), items.end(), check_components ), custom_cat );
 
     for( item &it_elem : items ) {
         item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column, &vehicle_cat, get_topmost_parent( nullptr, parent,
+        add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
                              preset ) );
     }
 }
@@ -2182,10 +2185,14 @@ bool inventory_selector::has_available_choices() const
 
 inventory_input inventory_selector::get_input()
 {
-    inventory_input res;
+    std::string const &action = ctxt.handle_input();
+    int const ch = ctxt.get_raw_input().get_first_input();
+    return process_input( action, ch );
+}
 
-    res.action = ctxt.handle_input();
-    res.ch = ctxt.get_raw_input().get_first_input();
+inventory_input inventory_selector::process_input( const std::string &action, int ch )
+{
+    inventory_input res{ action, ch, nullptr };
 
     if( res.action == "SELECT" ) {
         cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
@@ -3207,11 +3214,16 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 inventory_selector_preset const &preset,
                                 std::string const &selection_column_title,
                                 point const &size, point const &origin )
-    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent )
+    : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent ),
+      _ctxt_trade( "INVENTORY" )
 {
+    _ctxt_trade.register_action( ACTION_SWITCH_PANES );
+    _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
+    _ctxt_trade.register_action( ACTION_TRADE_OK );
+    _ctxt_trade.register_action( "ANY_INPUT" );
+    // duplicate this action in the parent ctxt so it shows up in the keybindings menu
+    // CANCEL and OK are already set in inventory_selector
     ctxt.register_action( ACTION_SWITCH_PANES );
-    ctxt.register_action( ACTION_TRADE_CANCEL );
-    ctxt.register_action( ACTION_TRADE_OK );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
     set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
@@ -3231,22 +3243,27 @@ void trade_selector::execute()
     while( !exit ) {
         _ui->invalidate_ui();
         ui_manager::redraw_invalidated();
-        inventory_input const input = get_input();
-        if( input.action == ACTION_SWITCH_PANES ) {
+        std::string const &action = _ctxt_trade.handle_input();
+        if( action == ACTION_SWITCH_PANES ) {
             _parent->pushevent( trade_ui::event::SWITCH );
             get_active_column().on_deactivate();
             exit = true;
-        } else if( input.action == ACTION_TRADE_OK ) {
+        } else if( action == ACTION_TRADE_OK ) {
             _parent->pushevent( trade_ui::event::TRADEOK );
             exit = true;
-        } else if( input.action == ACTION_TRADE_CANCEL ) {
+        } else if( action == ACTION_TRADE_CANCEL ) {
             _parent->pushevent( trade_ui::event::TRADECANCEL );
             exit = true;
         } else {
+            input_event const iev = _ctxt_trade.get_raw_input();
+            inventory_input const input =
+                process_input( ctxt.input_to_action( iev ), iev.get_first_input() );
             inventory_drop_selector::on_input( input );
-            // FIXME: this would be better done in a callback from toggle_entries()
-            if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
-                input.entry != nullptr ) {
+            if( input.action == "HELP_KEYBINDINGS" ) {
+                ctxt.display_menu();
+            } else if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
+                       input.entry != nullptr ) {
+                // FIXME: this would be better done in a callback from toggle_entries()
                 _parent->recalc_values_cpane();
             }
         }
@@ -3265,4 +3282,14 @@ void trade_selector::resize( point const &size, point const &origin )
 shared_ptr_fast<ui_adaptor> trade_selector::get_ui() const
 {
     return _ui;
+}
+
+input_context const *trade_selector::get_ctxt() const
+{
+    return &_ctxt_trade;
+}
+
+void trade_selector::categorize_map_items( bool toggle )
+{
+    _categorize_map_items = toggle;
 }

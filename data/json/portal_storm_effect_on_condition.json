@@ -326,8 +326,10 @@
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_WRAITH", 5 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
+              [ "EOC_PORTAL_ABSENCE", 1 ],
               [ "EOC_PORTAL_PAIN", 1 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
+              [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
               [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
               [ "EOC_PORTAL_MESSAGE", 5 ]
             ]
@@ -367,9 +369,11 @@
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_WRAITH", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
+              [ "EOC_PORTAL_ABSENCE", 2 ],
               [ "EOC_PORTAL_PAIN", 3 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
+              [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
               [ "EOC_PORTAL_RADIATION", 1 ],
               [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
               [ "EOC_PORTAL_SMOKE", 2 ],
@@ -405,11 +409,13 @@
           "condition": "u_is_outside",
           "effect": {
             "set_weighted_list_eocs": [
-              [ "EOC_PORTAL_GIANT_APPENDAGE", 2 ],
+              [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
               [ "EOC_PORTAL_INCORPOREAL", 2 ],
               [ "EOC_PORTAL_WRAITH", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
+              [ "EOC_PORTAL_ABSENCE", 1 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
+              [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
               [ "EOC_PORTAL_RADIATION", 1 ],
               [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
               [ "EOC_PORTAL_MESSAGE", 5 ]
@@ -565,13 +571,27 @@
     "id": "EOC_PORTAL_GIANT_APPENDAGE",
     "condition": "u_is_outside",
     "effect": [
-      { "u_message": "Bizzare limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
+      { "u_message": "Bizarre limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
       {
         "u_set_spawn_monster": "mon_giant_appendage",
         "real_count": 1,
         "hallucination_count": 3,
         "lifespan_min": "5 seconds",
         "lifespan_max": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_ABSENCE",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less.", "type": "bad" },
+      {
+        "u_set_spawn_monster": "mon_absence",
+        "real_count": 1,
+        "lifespan_min": "45 seconds",
+        "lifespan_max": "5 minutes"
       }
     ]
   },
@@ -595,6 +615,43 @@
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant and smoke pours everywhere.", "type": "bad" },
       { "u_set_field": "fd_smoke" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TELEPORT_STUCK_START",
+    "global": true,
+    "effect": [
+      { "u_location_variable": { "value": "stuck", "type": "ps", "context": "teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
+      { "u_message": "This moment feels thick as if its not quite over.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
+    "condition": { "x_in_y_chance": { "x": 3, "y": 4 } },
+    "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
+    "false_effect": {
+      "u_make_sound": "a loud tearing sound.",
+      "target_var": { "value": "stuck", "type": "ps", "context": "teleport" },
+      "volume": 80,
+      "type": "alert"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TELEPORT_STUCK",
+    "effect": [
+      {
+        "u_teleport": { "value": "stuck", "type": "ps", "context": "teleport" },
+        "success_message": "You feel as if you just rewound a few seconds."
+      },
+      {
+        "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK_LOOP" ],
+        "time_in_future_min": "3 seconds",
+        "time_in_future_max": "5 seconds"
+      }
     ]
   },
   {

@@ -757,27 +757,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hdwr_large_entrance",
-    "name": "home improvement superstore entrance",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_WEAPON", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
-      "hdwr_large_SW",
       "hdwr_large_0_0_0",
       "hdwr_large_0_1_0",
       "hdwr_large_0_2_0",
       "hdwr_large_1_0_0",
       "hdwr_large_1_1_0",
-      "hdwr_large_1_2_0",
-      "hdwr_large_NE",
-      "hdwr_large_NW",
-      "hdwr_large_backroom",
-      "hdwr_large_loadingbay"
+      "hdwr_large_1_2_0"
     ],
     "name": "home improvement superstore",
     "sym": "H",
@@ -1148,7 +1134,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
-    "name": "Large Office Tower",
+    "name": "large office tower",
     "copy-from": "generic_city_building",
     "sym": "T",
     "color": "white"
@@ -1388,7 +1374,7 @@
     "type": "overmap_terrain",
     "id": "headshop",
     "copy-from": "generic_city_building",
-    "name": "Head Shop",
+    "name": "head shop",
     "sym": "0",
     "color": "i_white",
     "extend": { "flags": [ "SOURCE_LUXURY" ] }

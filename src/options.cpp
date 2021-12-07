@@ -1347,6 +1347,10 @@ void options_manager::add_options_general()
     "ask"
        );
 
+    add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
+         to_translation( "If enabled, unique items can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) } }, "off" );
+
     add_empty_line();
 
     add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
@@ -2335,6 +2339,13 @@ void options_manager::add_options_android()
          to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
+       );
+
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),

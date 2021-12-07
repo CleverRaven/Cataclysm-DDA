@@ -624,7 +624,7 @@ void sounds::process_sound_markers( Character *you )
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( !you->activity.is_distraction_ignored( distraction_type::noise ) &&
-                !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
+                !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
                 const std::string query = string_format( _( "Heard %s!" ),
                                           trim_trailing_punctuations( description ) );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );

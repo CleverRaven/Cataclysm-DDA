@@ -320,6 +320,18 @@ struct islot_armor {
      */
     bool ablative = false;
     /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
@@ -728,6 +740,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
+
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
