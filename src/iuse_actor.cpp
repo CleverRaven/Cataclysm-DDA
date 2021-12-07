@@ -3425,7 +3425,7 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
         /** @EFFECT_FIRSTAID increases healing item effects */
         int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
-                      prof_bonus + 1 : prof_bonus;
+                     prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
         return bleed + prof_bonus;
