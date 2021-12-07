@@ -9142,13 +9142,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    int multiplier = 1;
-    if( u.is_on_ground() ) {
-        multiplier *= 3;
-    }
-
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
-                                           via_ramp ) * multiplier;
+                                           via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
         return true;

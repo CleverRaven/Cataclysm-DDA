@@ -8866,6 +8866,10 @@ int Character::run_cost( int base_cost, bool diag ) const
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
+
+        if( !is_mounted() && !is_prone() && has_effect( effect_downed ) ) {
+            movecost *= 3;
+        }
     }
 
     if( diag ) {
