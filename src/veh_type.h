@@ -97,6 +97,9 @@ enum vpart_bitflags : int {
  * E_ALTERNATOR - The engine can mount and power an alternator
  * E_COMBUSTION - The engine burns fuel to provide power and can burn or explode
  * E_HIGHER_SKILL - Multiple engines with this flag are harder to install
+ * CRAMPED_FOR_MUTANTS - causes pain and focus loss to HUGE mutants occupying that space
+ * E_MUTANT_OK - can be used by HUGE mutants
+ * E_HUMAN_UNUSABLE - cannot be used by regular humans
  * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
