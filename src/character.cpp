@@ -336,12 +336,12 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const proficiency_id proficiency_prof_firstaid( "prof_firstaid" );
-static const proficiency_id proficiency_prof_firstaid_expert( "prof_firstaid_expert" );
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_cound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -11169,8 +11169,8 @@ void Character::pause()
         }
         // proficiency bonus is equal to having extra levels of firstaid skill (up to +3)
         int prof_bonus = get_skill_level( skill_firstaid );
-        prof_bonus = has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 2 : prof_bonus;
+        prof_bonus = has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
         time_duration penalty = 1_turns * total_hand_encumb;
         time_duration benefit = 5_turns + 10_turns * prof_bonus;
 
@@ -11197,8 +11197,8 @@ void Character::pause()
                                    _( "You attempt to put pressure on the bleeding wound!" ),
                                    _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
             practice( skill_firstaid, 1 );
-            practice_proficiency( proficiency_prof_firstaid, 1_turns );
-            practice_proficiency( proficiency_prof_firstaid_expert, 1_turns );
+            practice_proficiency( proficiency_prof_wound_care, 1_turns );
+            practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );
         }
     }
     // on-pause effects for martial arts
