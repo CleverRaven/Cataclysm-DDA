@@ -1788,7 +1788,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() ) {
+        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
