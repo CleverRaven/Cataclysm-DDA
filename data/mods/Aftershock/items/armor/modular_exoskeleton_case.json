@@ -1,0 +1,78 @@
+[
+	{
+	"id": "pa_torso_steel",
+	"type": "ARMOR",
+	"category": "armor",
+	"name": { "str": "exoskeleton torso steel plate"},
+	"description": "Designed to attach to an exoskeleton's torso, this is a sturdy plate of steel.",
+    "weight": "4200 g",
+    "volume": "6 L",
+	"material": ["steel"],
+	"symbol":"[",
+	"looks_like": "cuirass_lightplate",
+	"color": "light_gray",
+	"warmth": 20,
+	"material_thickness": 4,
+	"flags": ["OUTER", "STURDY", "CANT_WEAR"],
+	"armor": [
+	{"encumbrance": 20,"coverage": 95, "covers": ["torso"]}
+	]
+	},
+		{
+	"id": "pa_arm_steel",
+	"type": "ARMOR",
+	"category": "armor",
+	"name": { "str": "exoskeleton arm steel plate"},
+	"description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of steel.",
+    "weight": "4200 g",
+    "volume": "6 L",
+	"material": ["steel"],
+	"symbol":"[",
+	"looks_like": "cuirass_lightplate",
+	"color": "light_gray",
+	"warmth": 20,
+	"material_thickness": 4,
+	"flags": ["OUTER", "STURDY", "CANT_WEAR"],
+	"armor": [
+	{"encumbrance": 20,"coverage": 95, "covers": ["arm_l","arm_r"]}
+	]
+	},
+		{
+	"id": "pa_leg_steel",
+	"type": "ARMOR",
+	"category": "armor",
+	"name": { "str": "exoskeleton legs steel plate"},
+	"description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of steel.",
+    "weight": "4200 g",
+    "volume": "6 L",
+	"material": ["steel"],
+	"symbol":"[",
+	"looks_like": "cuirass_lightplate",
+	"color": "light_gray",
+	"warmth": 20,
+	"material_thickness": 4,
+	"flags": ["OUTER", "STURDY", "CANT_WEAR"],
+	"armor": [
+	{"encumbrance": 20,"coverage": 95, "covers": ["leg_l","leg_r"]}
+	]
+	},
+		{
+	"id": "pa_back_battery",
+	"type": "ARMOR",
+	"category": "armor",
+	"name": { "str": "exoskeleton battery power supply"},
+	"description": "Designed to attach to an exoskeleton's back, this is a heavy battery unit.",
+    "weight": "4200 g",
+    "volume": "6 L",
+	"material": ["steel"],
+	"symbol":"[",
+	"looks_like": "cuirass_lightplate",
+	"color": "light_gray",
+	"warmth": 20,
+	"material_thickness": 4,
+	"flags": ["STURDY", "CANT_WEAR"],
+	"armor": [
+	{"encumbrance": 20,"coverage": 95, "covers": ["torso"]}
+	]
+	}
+]
