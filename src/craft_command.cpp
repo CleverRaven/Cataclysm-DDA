@@ -280,7 +280,7 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
                     cont_not_empty = true;
                     iname = tmp_i.tname( 1U, true );
                 }
-                crafter->i_add_or_drop( tmp_i, real_count );
+                crafter->i_add_or_drop( tmp_i );
             }
             if( cont_not_empty && !query_yn( liq_cont_msg, iname ) ) {
                 return false;
