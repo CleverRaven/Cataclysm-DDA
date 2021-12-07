@@ -1,4 +1,26 @@
 [
+ {
+    "id": "afs_pa_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "powerframe undersuit" },
+    "description": "A form-fitting suit inlaid with meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "color": "brown",
+    "material": [ "nomex", "plastic" ],
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "pocket_data": [  ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+  },
   {
     "id": "utility_exoskeleton_off",
     "type": "TOOL_ARMOR",
@@ -22,6 +44,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
+	"power_armor": true,
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
@@ -71,6 +94,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 0,
+	"power_armor": true,
     "ammo": "gasoline",
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
