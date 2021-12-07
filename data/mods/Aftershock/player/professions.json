@@ -439,7 +439,7 @@
     "type": "profession",
     "id": "robot_scavenger",
     "name": "Robot Scavenger",
-    "description": "Before the cataclysm struck, you were one of the members of an underground group striving to free cyborgs from their shackles, raiding laboratories and underground clinics in your pursuit of liberation.  Now that most of the humanity has been turned into zombies, your goal has become even more important to you.",
+    "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
     "points": 4,
     "skills": [
       { "level": 2, "name": "gun" },
