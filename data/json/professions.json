@@ -4075,13 +4075,7 @@
       { "level": 4, "name": "firstaid" }
     ],
     "traits": [ "PROF_MED" ],
-    "proficiencies": [
-      "prof_spotting",
-      "prof_wound_care",
-      "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology"
-    ],
+    "proficiencies": [ "prof_spotting", "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology" ],
     "items": {
       "both": {
         "items": [
