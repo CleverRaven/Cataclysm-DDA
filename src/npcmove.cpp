@@ -1192,7 +1192,7 @@ void npc::execute_action( npc_action action )
             } else {
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
-                if( cbm_weapon_index >= 0 ) {
+                if( weapon_bionic_uid > 0 ) {
                     discharge_cbm_weapon();
                 }
             }
@@ -1599,7 +1599,7 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
-    cbm_weapon_index = -1;
+    weapon_bionic_uid = 0;
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )

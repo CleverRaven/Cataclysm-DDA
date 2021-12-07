@@ -116,6 +116,7 @@ struct bionic_data {
     std::vector<itype_id> passive_pseudo_items;
     std::vector<itype_id> toggled_pseudo_items;
     itype_id fake_weapon;
+    std::set<json_character_flag> installable_weapon_flags;
 
     /**
      * Mutations/trait that are removed upon installing this CBM.
@@ -184,10 +185,10 @@ struct bionic {
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
 
-        bionic() : bionic( bionic_id( "bio_batteries" ), 'a' ) {
+        bionic() : bionic( bionic_id( "bio_batteries" ), 'a', 0 ) {
         }
-        bionic( bionic_id pid, char pinvlet ) : id( pid ), invlet( pinvlet ),
-            incapacitated_time( 0_turns ) {
+        bionic( bionic_id pid, char pinvlet, unsigned int pbionic_uid ) : id( pid ), invlet( pinvlet ),
+            incapacitated_time( 0_turns ), bionic_uid( pbionic_uid ) {
             initialize_pseudo_items();
         }
 
@@ -202,7 +203,13 @@ struct bionic {
         int get_quality( const quality_id &quality ) const;
         item get_weapon() const;
         void set_weapon( item &new_weapon );
+        bool install_weapon( const item &new_weapon );
+        cata::optional<item> uninstall_weapon();
         bool has_weapon() const;
+        bool can_install_weapon() const;
+        bool can_install_weapon( const item &new_weapon ) const;
+        unsigned int get_uid() const;
+        void set_uid( unsigned int new_uid );
 
         std::vector<const item *> get_available_pseudo_items( bool include_weapon = true ) const;
 
@@ -229,6 +236,7 @@ struct bionic {
         item weapon;
         std::vector<item> toggled_pseudo_items; // NOLINT(cata-serialize)
         std::vector<item> passive_pseudo_items; // NOLINT(cata-serialize)
+        int bionic_uid;
         void initialize_pseudo_items();
 };
 

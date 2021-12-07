@@ -1357,6 +1357,10 @@ class Character : public Creature, public visitable
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
         void invalidate_pseudo_items();
+        /** Finds the highest UID for installed bionics and caches the next valid UID **/
+        void update_last_bionic_uid() const;
+        /** Returns the next valid UID for a bionic installation **/
+        unsigned int generate_bionic_uid() const;
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -1409,6 +1413,7 @@ class Character : public Creature, public visitable
         int get_used_bionics_slots( const bodypart_id &bp ) const;
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
+        bool replace_weapon_on_bionic( item_location &item_loc, int bionic_index );
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, Character &patient );
@@ -3395,6 +3400,10 @@ class Character : public Creature, public visitable
         mutable bool pseudo_items_valid = false;
         mutable std::vector<const item *> pseudo_items;
     protected:
+        // Bionic IDs are unique only within a character. Used to unambiguously identify bionics in a character
+        unsigned int weapon_bionic_uid = 0;
+        mutable unsigned int next_bionic_uid = 0;  // NOLINT(cata-serialize)
+
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
 

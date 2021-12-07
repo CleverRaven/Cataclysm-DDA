@@ -781,6 +781,14 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+
+    // Assing a UID to old bionics when migrating
+    for( bionic &bio : *my_bionics ) {
+        if( !bio.get_uid() ) {
+            bio.set_uid( generate_bionic_uid() );
+        }
+    }
+
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
@@ -2162,8 +2170,6 @@ void npc::load( const JsonObject &data )
     }
     real_weapon = item();
     data.read( "real_weapon", real_weapon );
-    cbm_weapon_index = -1;
-    data.read( "cbm_weapon_index", cbm_weapon_index );
 
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
@@ -2226,7 +2232,6 @@ void npc::store( JsonOut &json ) const
     if( !real_weapon.is_null() ) {
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
-    json.member( "cbm_weapon_index", cbm_weapon_index );
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );
