@@ -108,8 +108,8 @@ static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 static const mutation_category_id mutation_category_RAT( "RAT" );
 static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 
-static const proficiency_id proficiency_prof_firstaid( "prof_firstaid" );
-static const proficiency_id proficiency_prof_firstaid_expert( "prof_firstaid_expert" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -272,8 +272,8 @@ static void eff_fun_bleed( Character &u, effect &it )
     // proficiency improves that factor to 3/4 and 4/5 respectively
     bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
     int prof_bonus = 3;
-    prof_bonus = u.has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
-    prof_bonus = u.has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 1 : prof_bonus;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
     if( !( tourniquet && one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );

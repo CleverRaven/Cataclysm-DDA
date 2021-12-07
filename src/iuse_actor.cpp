@@ -124,10 +124,10 @@ static const itype_id itype_syringe( "syringe" );
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_ELFA( "ELFA" );
 
-static const proficiency_id proficiency_prof_firstaid( "prof_firstaid" );
-static const proficiency_id proficiency_prof_firstaid_expert( "prof_firstaid_expert" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_DIG( "DIG" );
 
@@ -3343,8 +3343,8 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
 
     // each tier of proficiency cuts requred time by half
     int cost = move_cost;
-    cost = p.has_proficiency( proficiency_prof_firstaid_expert ) ? cost / 2 : cost;
-    cost = p.has_proficiency( proficiency_prof_firstaid ) ? cost / 2 : cost;
+    cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
+    cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
@@ -3393,9 +3393,10 @@ int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
         int prof_bonus = healer.get_skill_level( skill_firstaid );
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 2 :
-                     prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
         return bandages_power + bandages_scaling * prof_bonus;
     }
@@ -3408,9 +3409,10 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
         int prof_bonus = healer.get_skill_level( skill_firstaid );
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 2 :
-                     prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         return disinfectant_power + disinfectant_scaling * prof_bonus;
     }
 
@@ -3422,9 +3424,10 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
         int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = healer.has_proficiency( proficiency_prof_firstaid_expert ) ? prof_bonus + 2 :
-                     prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                      prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         return bleed + prof_bonus;
     }
 
@@ -3558,9 +3561,9 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
-    healer.practice_proficiency( proficiency_prof_firstaid,
+    healer.practice_proficiency( proficiency_prof_wound_care,
                                  time_duration::from_turns( practice_amount ) );
-    healer.practice_proficiency( proficiency_prof_firstaid_expert,
+    healer.practice_proficiency( proficiency_prof_wound_care_expert,
                                  time_duration::from_turns( practice_amount ) );
     return it.type->charges_to_use();
 }
@@ -3580,8 +3583,8 @@ static bodypart_id pick_part_to_heal(
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
                          ( ( healer.get_skill_level( skill_firstaid ) +
-                             ( healer.has_proficiency( proficiency_prof_firstaid ) ? 0 : 1 ) +
-                             ( healer.has_proficiency( proficiency_prof_firstaid ) ? 0 : 2 ) ) * 4 +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
                            healer.per_cur >= 20 );
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,

@@ -1,7 +1,7 @@
 [
   {
     "type": "proficiency",
-    "id": "prof_firstaid",
+    "id": "prof_wound_care",
     "name": { "str": "Wound Care" },
     "description": "You know how to bandage wounds and understand basic principles of wound care.",
     "can_learn": true,
@@ -11,7 +11,7 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_firstaid_expert",
+    "id": "prof_wound_care_expert",
     "name": { "str": "Wound Care Expert" },
     "description": "Your extensive field experience in bandaging and wound care is on par with that of a paramedic.",
     "can_learn": true,
