@@ -539,9 +539,40 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_avatar() ) {
+        // add damage description
         SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
                  damage_verb,
                  m_info );
+
+        // when hit there is a small chance items fall out of spill pockets
+        // when you break out of a grab you have a chance to lose some things from your pockets
+        // that are hanging off your character
+        std::vector<item_pocket *> pd;
+        // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+        if( armor.has_ripoff_pockets() ) {
+            for( item_pocket *pocket : armor.get_all_contained_pockets().value() ) {
+                if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                    pd.push_back( pocket );
+                }
+            }
+        }
+        // if we have pockets that can be pulled off
+        if( !pd.empty() ) {
+            // choose a pocket to be ripped off
+            int index = rng( 0, pd.size() - 1 );
+            int chance = rng( 0, get_effect_int( effect_grabbed, body_part_torso ) );
+            int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+            // the item is ripped off your character
+            if( sturdiness < chance ) {
+                pd[index]->spill_contents( adjacent_tile() );
+                add_msg_player_or_npc( m_bad,
+                                       _( "As you escape the grab something comes loose and falls to the ground!" ),
+                                       _( "<npcname> escapes the grab something comes loose and falls to the ground!" ) );
+                if( is_avatar() ) {
+                    popup( _( "As you escape the grab something comes loose and falls to the ground!" ) );
+                }
+            }
+        }
     }
 
     return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?

@@ -361,10 +361,47 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
+        tripoint old_pos = target->pos();
+
         z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
         target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
+
+        // Items strapped to you may fall off as you hit the ground
+        // when you break out of a grab you have a chance to lose some things from your pockets
+        // that are hanging off your character
+        if( target->is_avatar() ) {
+            std::vector<item_pocket *> pd;
+            for( item &i : target->as_character()->worn ) {
+                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+                if( i.has_ripoff_pockets() ) {
+                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                            pd.push_back( pocket );
+                        }
+                    }
+                }
+            }
+            // if we have items that can be pulled off
+            if( !pd.empty() ) {
+                // choose an item to be ripped off
+                int index = rng( 0, pd.size() - 1 );
+                // the chance the monster knocks an item off
+                int chance = rng( 0, z.type->melee_sides * z.type->melee_dice );
+                // the chance the pocket resists
+                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+                // the item is ripped off your character
+                if( sturdiness < chance ) {
+                    float path_distance = rng_float( 0, 1.0 );
+                    tripoint vector = target->pos() - z.pos();
+                    vector = tripoint( vector.x * path_distance, vector.y * path_distance, vector.z * path_distance );
+                    pd[index]->spill_contents( z.pos() + vector );
+                    add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                    popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                }
+            }
+        }
     }
 
     return true;

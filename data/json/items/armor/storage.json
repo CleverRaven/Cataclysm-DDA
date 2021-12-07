@@ -41,6 +41,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       },
       {

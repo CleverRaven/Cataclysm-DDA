@@ -146,6 +146,8 @@ class item_pocket
         bool is_allowed() const;
         void set_usability( bool show );
 
+        std::string get_description() const;
+
         const pocket_data *get_pocket_data() const;
 
         std::list<item *> all_items_top();
@@ -438,6 +440,9 @@ class pocket_data
         bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
+
+        // a description of the pocket
+        std::string description = "";
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;
