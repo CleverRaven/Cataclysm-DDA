@@ -1157,7 +1157,7 @@
       { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
       { "group": "pants_mens", "prob": 10 },
-      { "group": "christmas_pants_male", "prob": 250, "event": "christmas" }
+      { "group": "christmas_pants_male", "prob": 150, "event": "christmas" }
     ]
   },
   {
@@ -1597,7 +1597,7 @@
       [ "eboshi", 30 ],
       [ "balclava", 20 ],
       [ "porkpie", 30 ],
-      { "group": "christmas_hats", "prob": 1450, "event": "christmas" }
+      { "group": "christmas_hats", "prob": 850, "event": "christmas" }
     ]
   },
   {
@@ -2818,7 +2818,7 @@
       { "item": "gloves_white", "prob": 10 },
       { "item": "mittens", "prob": 5 },
       { "item": "thermal_gloves", "prob": 2 },
-      { "group": "christmas_common_gloves", "prob": 150, "event": "christmas" }
+      { "group": "christmas_common_gloves", "prob": 70, "event": "christmas" }
     ]
   },
   {
@@ -3392,7 +3392,7 @@
         ],
         "prob": 40
       },
-      { "group": "christmas_coats_unisex", "prob": 350, "event": "christmas" }
+      { "group": "christmas_coats_unisex", "prob": 80, "event": "christmas" }
     ]
   },
   {
