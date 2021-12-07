@@ -589,8 +589,18 @@
     "type": "json_flag"
   },
   {
-    "id": "LIMITED_SPACE",
+    "id": "CRAMPED_FOR_MUTANTS",
     "type": "json_flag",
     "info": "This part won't leave enough room for huge mutants and will cause them pain if they try to fit."
+  },
+  {
+    "id": "MUTANT_OK",
+    "type": "json_flag",
+    "info": "This part can be used by huge or otherwise car-incompatible mutants."
+  },
+  {
+    "id": "HUMAN_UNUSABLE",
+    "type": "json_flag",
+    "info": "For vehicle controls. Cannot be used by regularly-sized humans."
   }
 ]
