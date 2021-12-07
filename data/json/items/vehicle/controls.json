@@ -47,6 +47,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "vehicle_controls_xl_rig",
+    "name": { "str": "XL vehicle control rig", "str_pl": "sets of XL control rigs" },
+    "description": "A huge, adjustable combination seat and controls suitable for abnormal mutated anatomy.  Won't work for normal folks.",
+    "weight": "25000 g",
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": "$",
+    "material": [ "plastic", "steel", "cotton" ],
+    "volume": "20 L",
+    "bashing": 2,
+    "category": "veh_parts",
+    "price": 40000,
+    "price_postapoc": 1500
+  },
+  {
+    "type": "GENERIC",
     "id": "veh_tracker",
     "name": { "str": "vehicle tracking device" },
     "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
@@ -145,21 +161,5 @@
     "price": 500000,
     "price_postapoc": 3000,
     "copy-from": "vehicle_controls"
-  },
-  {
-    "type": "GENERIC",
-    "id": "vehicle_controls_xl_rig",
-    "name": { "str": "XL vehicle control rig", "str_pl": "sets of XL control rigs" },
-    "description": "A huge, adjustable combination seat and controls able to fit all sizes.",
-    "weight": "25000 g",
-    "to_hit": -4,
-    "color": "light_cyan",
-    "symbol": "$",
-    "material": [ "plastic", "steel", "cotton" ],
-    "volume": "20 L",
-    "bashing": 2,
-    "category": "veh_parts",
-    "price": 40000,
-    "price_postapoc": 1500
   }
 ]
