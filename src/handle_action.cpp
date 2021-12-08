@@ -2321,9 +2321,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else if( player_character.creature_size::huge && veh && veh->has_part( player_character.pos(), "MUTANT_OK" ) ) {
+            } else if( ( player_character.get_size() == creature_size::huge ) && veh && veh->has_part( player_character.pos(), "MUTANT_OK" ) ) {
                 add_msg( m_info, _( "You're too big to use these controls." ) );
-            } else if( !player_character.creature_size::huge && veh && veh->has_part( player_character.pos(), "HUMAN_UNUSABLE" ) ) {
+            } else if( ( player_character.get_size() != creature_size::huge ) && veh && veh->has_part( player_character.pos(), "HUMAN_UNUSABLE" ) ) {
                 add_msg( m_info, _( "You're too small to use these controls." ) );
             } else { 
                 control_vehicle();
