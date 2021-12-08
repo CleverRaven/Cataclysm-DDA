@@ -160,7 +160,7 @@
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
-    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE", "MUTANT_OK" ],
     "damage_reduction": { "all": 2 }
   },
   {
