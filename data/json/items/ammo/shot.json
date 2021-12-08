@@ -112,11 +112,11 @@
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "price": 500,
     "price_postapoc": 800,
-    "range": 12,
+    "range": 18,
     "damage": { "damage_type": "bullet", "amount": 60 },
     "shot_damage": { "damage_type": "bullet", "amount": 15 },
     "projectile_count": 9,
-    "shot_spread": 10,
+    "shot_spread": 300,
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -145,8 +145,8 @@
     "price": 100,
     "price_postapoc": 400,
     "projectile_count": 100,
-    "shot_spread": 10,
-    "range": 15,
+    "shot_spread": 300,
+    "range": 18,
     "shot_damage": { "damage_type": "bullet", "amount": 0.2 },
     "damage": { "damage_type": "bullet", "amount": 50 },
     "recoil": 1500,
@@ -174,7 +174,7 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 }, "shot_spread": -5, "range": 12 }
+    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 }, "shot_spread": -150, "range": 12 }
   },
   {
     "id": "shot_he",
@@ -182,7 +182,7 @@
     "type": "AMMO",
     "name": { "str": "explosive slug" },
     "//": "$30/shot thanks to tight regulation, one way or another.",
-    "description": "A shotgun shell shooting a small explosive.  Damaging, but rather inaccurate and short ranged.  Banned in several states.",
+    "description": "A shotgun shell shooting a small explosive.  Banned in several states.  While an explosive from a shotgun sounds impressive, its practical applications are limited at best.  The loss in mass in order to accomodate an explosive give it much less impact force compared to traditional ammunition.  The relativley small size of the slug can only accomodate a limited amount of explosives, resulting in a fairly underwelming explosion.  These traits make it a utility tool for damaging barriers and disrupting other explosive devices, rather than something for anti-personnel use.",
     "price": 3000,
     "price_postapoc": 1600,
     "count": 5,

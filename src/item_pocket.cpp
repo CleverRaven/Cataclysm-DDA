@@ -152,6 +152,10 @@ void pocket_data::load( const JsonObject &jo )
                   max_weight_for_container );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
+        optional( jo, was_loaded, "min_item_length", min_item_length );
+        optional( jo, was_loaded, "extra_encumbrance", extra_encumbrance, 0 );
+        optional( jo, was_loaded, "ripoff", ripoff, 0 );
+        optional( jo, was_loaded, "activity_noise", activity_noise );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
@@ -175,6 +179,12 @@ void pocket_data::load( const JsonObject &jo )
 void sealable_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
+}
+
+void pocket_noise::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "volume", volume, 0 );
+    optional( jo, was_loaded, "chance", chance, 0 );
 }
 
 bool item_pocket::operator==( const item_pocket &rhs ) const
@@ -305,6 +315,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
     if( data->get_flag_restrictions().empty() != rhs.data->get_flag_restrictions().empty() ) {
         // pockets restricted by flag should try to get filled first
         return !rhs.data->get_flag_restrictions().empty();
+    }
+
+    if( data->extra_encumbrance != rhs.data->extra_encumbrance ) {
+        // pockets without extra encumbrance should be prioritized
+        return !rhs.data->extra_encumbrance;
+    }
+
+    if( data->ripoff > rhs.data->ripoff ) {
+        // pockets without ripoff chance should be prioritized
+        return true;
     }
 
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
@@ -908,6 +928,14 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                            convert_length( data->max_item_length ), data->max_item_length.value() );
     }
 
+    if( data->min_item_length > 0_mm && !is_ablative() ) {
+        info.back().bNewLine = true;
+        info.emplace_back( base_type_str, _( "Minimum item length: " ),
+                           string_format( "<num> %s", length_units( data->min_item_length ) ),
+                           iteminfo::no_flags,
+                           convert_length( data->min_item_length ), data->min_item_length.value() );
+    }
+
     if( data->min_item_volume > 0_ml ) {
         std::string fmt = string_format( "<num> %s", volume_units_abbr() );
         info.emplace_back( base_type_str, _( "Minimum item volume: " ), fmt,
@@ -926,6 +954,22 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                        "<num>", iteminfo::lower_is_better, data->moves );
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
+    }
+
+    if( data->extra_encumbrance > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Causes %d <bad>additional encumbrance</bad> while in use." ),
+                                          data->extra_encumbrance ) ) ;
+    }
+
+    if( data->ripoff > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "Items have a chance of <bad>falling out</bad> when you are grabbed." ) );
+    }
+
+    if( data->activity_noise.chance > 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "Items will <bad>make noise</bad> when you move." ) );
     }
 
     if( data->watertight ) {
@@ -1174,6 +1218,11 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     if( it.length() > data->max_item_length ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item is too long" ) );
+    }
+
+    if( it.length() < data->min_item_length ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_TOO_BIG, _( "item is too short" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {
@@ -1624,6 +1673,16 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
+bool item_pocket::is_allowed() const
+{
+    return allowed;
+}
+
+void item_pocket::set_usability( bool show )
+{
+    allowed = show;
+}
+
 bool item_pocket::airtight() const
 {
     return data->airtight;
@@ -1714,6 +1773,14 @@ units::length item_pocket::max_containable_length() const
 {
     if( data ) {
         return data->max_item_length;
+    }
+    return 0_mm;
+}
+
+units::length item_pocket::min_containable_length() const
+{
+    if( data ) {
+        return data->min_item_length;
     }
     return 0_mm;
 }

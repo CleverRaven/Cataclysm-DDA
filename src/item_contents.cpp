@@ -62,7 +62,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         ++i;
     }
 
-    if( selected_pocket != nullptr ) {
+    if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
         int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
@@ -512,6 +512,9 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
     if( !pocket.success() ) {
         return pocket;
     }
+    if( !pocket.value()->is_allowed() ) {
+        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
+    }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
@@ -597,6 +600,22 @@ units::length item_contents::max_containable_length() const
             continue;
         }
         units::length candidate = pocket.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::length item_contents::min_containable_length() const
+{
+    units::length ret = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
+            pocket.holster_full() ) {
+            continue;
+        }
+        units::length candidate = pocket.min_containable_length();
         if( candidate > ret ) {
             ret = candidate;
         }
@@ -1691,6 +1710,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {
+            if( !pocket.is_allowed() ) {
+                continue;
+            }
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {

@@ -4093,7 +4093,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
-    "post_terrain": "t_metal_grate_window"
+    "post_terrain": "t_metal_grate_window_noglass"
   },
   {
     "type": "construction",
@@ -4103,8 +4103,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
@@ -4117,11 +4116,10 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
-    "pre_terrain": "t_metal_grate_window",
-    "post_terrain": "t_metal_grate_window_with_curtain"
+    "pre_terrain": "t_metal_grate_window_noglass",
+    "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
   {
     "type": "construction",

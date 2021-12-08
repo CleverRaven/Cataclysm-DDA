@@ -141,12 +141,17 @@ Each JSON file can have either a single object or an array of one or more object
       "sprite_width": 64,   // Overriding values example
       "sprite_height": 80,
       "sprite_offset_x": -16,
-      "sprite_offset_y": -48
+      "sprite_offset_y": -48,
+      "sprites_across": 4   // Change the sheet width, default is 16. Reducing empty space in the end helps a bit with CDDA memory consumption
     }
   }, {
     "fillerhoder.png": {    // Unknown keys like `source` will be ignored by `compose.py` and can be used as comments.
       "source": "https://github.com/CleverRaven/Cataclysm-DDA/tree/b2d1f9f6cf6fae9c5076d29f9779e0ca6c03c222/gfx/HoderTileset",
-      "filler": true 
+      "filler": true,
+      "exclude": [          // all subdirectories of this sheet directory mentioned here will not be visited
+        "dir_that_will_be_ignored",
+        "subdir/with/any/depth"
+      ]
     }
   }, {
     "fallback.png": {

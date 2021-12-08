@@ -26,7 +26,9 @@ Use the `Home` key to return to the top.
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
     - [Body_parts](#body_parts)
-- [Limb scores](#limb-scores)
+    - [Limb scores](#limb-scores)
+    - [Character Modifiers](#character-modifiers)
+      - [Character Modifiers - Value](#character-modifiers---value)
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
@@ -178,7 +180,9 @@ Use the `Home` key to return to the top.
       - [`bash`](#bash)
       - [`deconstruct`](#deconstruct)
       - [`map_bash_info`](#map_bash_info)
-      - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#str_min-str_max-str_min_blocked-str_max_blocked-str_min_supported-str_max_supported)
+      - [`str_min`, `str_max`](#str_min-str_max)
+      - [`str_min_blocked`, `str_max_blocked`](#str_min_blocked-str_max_blocked)
+      - [`str_min_supported`, `str_max_supported`](#str_min_supported-str_max_supported)
       - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#sound-sound_fail-sound_vol-sound_fail_vol)
       - [`furn_set`, `ter_set`](#furn_set-ter_set)
       - [`explosive`](#explosive)
@@ -611,39 +615,97 @@ For information about tools with option to export ASCII art in format ready to b
 
 ### Body_parts
 
-| `Identifier`        | Description
-|---                  |---
-| `id`                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
-| `name`              | (_mandatory_) In-game name displayed.
-| `accusative`        | (_mandatory_) Accusative form for this bodypart.
-| `heading`           | (_mandatory_) How it's displayed in headings.
-| `heading_multiple`  | (_mandatory_) Plural form of heading.
-| `hp_bar_ui_text`    | (_mandatory_) How it's displayed next to the hp bar in the panel.
-| `main_part`         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
-| `connected_to`      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
-| `base_hp`           | (_mandatory_) The amount of hp this part has before any modification.
-| `opposite_part`     | (_mandatory_) What is the opposite part of this one in case of a pair.
-| `hit_size`          | (_mandatory_) Size of the body part when doing an unweighted selection.
-| `hit_size_relative` | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
-| `hit_difficulty`    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| `drench_capacity`   | (_mandatory_) How wet this part can get before being 100% drenched.
-| `stylish_bonus`     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
-| `hot_morale_mod`    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
-| `cold_morale_mod`   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
-| `squeamish_penalty` | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
-| `fire_warmth_bonus` | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
-| `env_protection`    | (_optional_) Innate environmental protection of this part. (default: `0`)
-| `stat_hp_mods`      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
-| `bionic_slots`      | (_optional_) How many bionic slots does this part have.
-| `is_limb`           | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
-| `smash_message`     | (_optional_) The message displayed when using that part to smash something.
-| `smash_efficiency`  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
-| `flags`             | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
-
-# Limb scores
-Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are all optional floats.
-
 | `Identifier`           | Description
+|---                     |---
+| `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| `name`                 | (_mandatory_) In-game name displayed.
+| `accusative`           | (_mandatory_) Accusative form for this bodypart.
+| `heading`              | (_mandatory_) How it's displayed in headings.
+| `heading_multiple`     | (_mandatory_) Plural form of heading.
+| `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
+| `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scorese start scaling bbased on encumbrance. Default 0, meaning sclaing from the first point of encumbrance.
+| `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
+| `encumb_impacts_dodge` | (_optional_) If true, this body part's encumbrance impacts dodge ability. Defaults to false.
+| `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
+| `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
+| `base_hp`              | (_mandatory_) The amount of hp this part has before any modification.
+| `opposite_part`        | (_mandatory_) What is the opposite part of this one in case of a pair.
+| `hit_size`             | (_mandatory_) Size of the body part when doing an unweighted selection.
+| `hit_size_relative`    | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched.
+| `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
+| `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
+| `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
+| `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
+| `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
+| `bionic_slots`         | (_optional_) How many bionic slots does this part have.
+| `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
+| `smash_message`        | (_optional_) The message displayed when using that part to smash something.
+| `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
+| `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
+| `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+
+```json
+{
+  "id": "arm_l",
+  "type": "body_part",
+  "//": "See comments in `body_part_struct::load` of bodypart.cpp about why xxx and xxx_multiple are not inside a single translation object.",
+  "name": "left arm",
+  "name_multiple": "arms",
+  "accusative": { "ctxt": "bodypart_accusative", "str": "left arm" },
+  "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "arms" },
+  "heading": "L. Arm",
+  "heading_multiple": "Arms",
+  "encumbrance_text": "Melee and ranged combat is hampered.",
+  "hp_bar_ui_text": "L ARM",
+  "main_part": "arm_l",
+  "connected_to": "torso",
+  "opposite_part": "arm_r",
+  "hit_size": 9,
+  "hit_size_relative": [ 15, 20, 22.86 ],
+  "hit_difficulty": 0.95,
+  "limb_type": "arm",
+  "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
+  "side": "left",
+  "legacy_id": "ARM_L",
+  "hot_morale_mod": 0.5,
+  "cold_morale_mod": 0.5,
+  "fire_warmth_bonus": 600,
+  "squeamish_penalty": 5,
+  "is_limb": true,
+  "base_hp": 60,
+  "drench_capacity": 10,
+  "smash_message": "You elbow-smash the %s.",
+  "bionic_slots": 20,
+  "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+}
+```
+
+### Limb scores
+Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are defined using the `"limb_score"` type:
+
+```json
+{
+  "type": "limb_score",
+  "id": "lift",
+  "name": "Lifting",
+  "affected_by_wounds": true,
+  "affected_by_encumb": false
+}
+```
+- `"type"`: Always "limb_score".
+- `"id"`: Identifies this limb score
+- `"name"`: Mandatory. Defines a translatable name for this limb score that will be displayed in the UI.
+- `"affected_by_wounds"`: Optional, defaults to true. Determines whether this limb score is affected by the character's limb health. Lower limb health => lower score.
+- `"affected_by_encumb"`: Optional, defaults to true. Determines whether this limb score is affected by the character's limb encumbrance. Higher encumbrance => lower score.
+
+Here are the currently defined limb scores:
+
+| Limb score id          | Description
 |------                  |------
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
@@ -653,38 +715,70 @@ Limb scores act as the basis of calculating the effect of limb encumbrance and d
 | `vision_score`         | Modifies ranged dispersion.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
 | `reaction_score`       | Modifies dodge chance and block effectivity.
-| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
-| `movement_speed_score` | Modifies movement cost.
+| `balance_score`        | Modifies thrown attack speed, melee attack rolls.
+| `footing_score`        | Modifies movement cost.
+| `movement_speed_score` | Modifies movement cost, twice as strongly as `footing_score`.
 | `swim_score`           | Modifies swim speed.
 
-```C++
-  {
-    "id": "torso",
-    "type": "body_part",
-    "name": "torso",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
-    "heading": "Torso",
-    "heading_multiple": "Torso",
-    "hp_bar_ui_text": "TORSO",
-    "encumbrance_text": "Dodging and melee is hampered.",
-    "main_part": "torso",
-    "opposite_part": "torso",
-    "hit_size": 45,
-    "hit_size_relative": [ 20, 33.33, 36.57 ],
-    "hit_difficulty": 1,
-    "side": "both",
-    "legacy_id": "TORSO",
-    "stylish_bonus": 6,
-    "hot_morale_mod": 2,
-    "cold_morale_mod": 2,
-    "squeamish_penalty": 6,
-    "base_hp": 60,
-    "drench_capacity": 40,
-    "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
-    "smash_message": "You smash the %s with a powerful shoulder-check.",
-    "bionic_slots": 80
-  }
+These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
+
+### Character Modifiers
+
+Character modifiers define how effective different behaviours are for actions the character takes. These are usually derived from a limb score.
+
+```json
+{
+  "type": "character_mod",
+  "id": "ranged_dispersion_manip_mod",
+  "description": "Hand dispersion when using ranged attacks",
+  "mod_type": "+",
+  "value": { "limb_score": "manip", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
+},
+{
+  "type": "character_mod",
+  "id": "stamina_move_cost_mod",
+  "description": "Stamina move cost modifier",
+  "mod_type": "x",
+  "value": { "builtin": "stamina_move_cost_modifier" }
+}
 ```
+
+| Field         | Description
+|------         |------------
+| `type`        | Always "character_mod".
+| `id`          | Unique identifier for this character modifier.
+| `description` | Translatable text that describes the function of this modifier, which will be displayed in the UI.
+| `mod_type`    | Describes how this modifier is applied. Can be `"+"` (added), `"x"` (multiplied), or `""` (unspecified).
+| `value`       | Object that describes how this modifier is calculated.
+
+#### Character Modifiers - Value
+
+| Field        | Description
+|------        |------------
+| `limb_score` | Refers to a `limb_score` id. This is the limb score from which this modifier is derived.
+| `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
+| `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
+| `override_wounds` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb health if true/false.(Overrides `affected_by_wounds` in `limb_score`)
+| `min`        | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
+| `max`        | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
+| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / limb_score`.
+| `subtract`   | (_optional_) Defines a value to subtract from the resulting modifier, such that `mod - subtract`.
+| `builtin`    | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
+
+The modifier is normally derived from a limb score, which is modified in a sequence of operations. Here are some possible outcomes for different combinations of specified fields in `value`:
+```C++
+// Only "limb_score" specified:
+mod = limb_score;
+// "max" specified:
+mod = min( max, limb_score );
+// "min" specified:
+mod = max( min, limb_score );
+// Both "max" and "nominator" specified:
+mod = min( max, nominator / limb_score );
+// "max", "nominator", and "subtract" specified:
+mod = min( max, ( nominator / limb_score ) - subtract );
+```
+
 
 ### Bionics
 
@@ -4176,9 +4270,15 @@ Defines the various things that happen when the player or something else bashes 
 }
 ```
 
-#### `str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`
+#### `str_min`, `str_max`
 
-TODO
+The bash succeeds if str >= random # between str_min & str_max
+
+#### `str_min_blocked`, `str_max_blocked`
+(Optional) Will be used instead of str_min & str_max if the furniture is blocked, for example a washing machine behind a door
+
+#### `str_min_supported`, `str_max_supported`
+(Optional) Will be used instead of str_min & str_max if beneath this is something that can support a roof.
 
 #### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
 (Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).

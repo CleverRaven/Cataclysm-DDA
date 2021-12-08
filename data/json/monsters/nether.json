@@ -1006,6 +1006,33 @@
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {
+    "id": "mon_absence",
+    "type": "MONSTER",
+    "name": { "str": "Absence" },
+    "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here, that is far from natural or safe.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 150,
+    "speed": 40,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "absence_capture_attack", "min_level": 1 },
+        "cooldown": 15,
+        "monster_message": "All the empty space around you is suddenly even emptier than should be possible."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
     "id": "mon_giant_appendage",
     "type": "MONSTER",
     "name": { "str": "Giant appendage" },

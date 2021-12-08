@@ -6,7 +6,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -108,7 +108,8 @@
     "type": "overmap_terrain",
     "id": "faction_hide_site_0",
     "copy-from": "faction_base_camp_0",
-    "name": "hide site"
+    "name": "hide site",
+    "extend": { "flags": [ "SHOULD_NOT_SPAWN" ] }
   },
   {
     "type": "overmap_terrain",
@@ -116,7 +117,8 @@
     "copy-from": "faction_base_camp_0",
     "name": "trench",
     "sym": "X",
-    "color": "light_gray"
+    "color": "light_gray",
+    "extend": { "flags": [ "SHOULD_NOT_SPAWN" ] }
   },
   {
     "type": "overmap_terrain",

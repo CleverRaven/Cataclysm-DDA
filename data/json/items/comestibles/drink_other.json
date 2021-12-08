@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
+    "looks_like": "tomato_juice",
     "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
@@ -50,6 +51,7 @@
   },
   {
     "id": "mayonnaise",
+    "looks_like": "milk",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
@@ -74,6 +76,7 @@
   {
     "id": "ketchup",
     "type": "COMESTIBLE",
+    "looks_like": "tomato_juice",
     "symbol": "~",
     "color": "red",
     "name": { "str": "ketchup" },
@@ -95,6 +98,7 @@
   {
     "id": "mustard",
     "type": "COMESTIBLE",
+    "looks_like": "mayonnaise",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "mustard" },
@@ -140,6 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
+    "looks_like": "water",
     "name": { "str_sp": "vinegar" },
     "weight": "15 g",
     "color": "white",
@@ -242,6 +247,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_syrup",
+    "looks_like": "coffee",
     "name": { "str_sp": "coffee syrup" },
     "weight": "32 g",
     "color": "brown",
