@@ -926,10 +926,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->max_item_length != 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
-        info.emplace_back( base_type_str, _( "Item length: " ),
-                           string_format( "<num> %s", length_units( data->min_item_length ) ),
-                           iteminfo::no_newline,
-                           convert_length( data->min_item_length ), data->min_item_length.value() );
+        // if the item has no minimum length then keep it in the same units as max
+        if( data->min_item_length == 0_mm ) {
+            info.emplace_back( base_type_str, _( "Item length: " ),
+                               string_format( "<num> %s", length_units( data->max_item_length ) ),
+                               iteminfo::no_newline,
+                               0 );
+        } else {
+            info.emplace_back( base_type_str, _( "Item length: " ),
+                               string_format( "<num> %s", length_units( data->min_item_length ) ),
+                               iteminfo::no_newline,
+                               convert_length( data->min_item_length ), data->min_item_length.value() );
+        }
         info.emplace_back( base_type_str, _( " to " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
                            iteminfo::no_flags,
