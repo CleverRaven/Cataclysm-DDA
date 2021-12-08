@@ -18,6 +18,6 @@
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.25,
     "time_to_learn": "14 h",
-    "required_proficiencies": [ "prof_firstaid" ]
+    "required_proficiencies": [ "prof_wound_care" ]
   }
 ]
