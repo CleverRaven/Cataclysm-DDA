@@ -4173,6 +4173,9 @@
         ],
         "entries": [ { "item": "shovel", "custom-flags": "auto_wield" } ]
       },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
     "traits": "PSYCHOPATH"
   }
 ]
