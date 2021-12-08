@@ -930,5 +930,21 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+  },
+  {
+    "id": "vest_safety",
+    "type": "ARMOR",
+    "name": { "str": "safety vest" },
+    "description": "A vest designed to increase your visibility.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "armor": [ { "covers": [ "torso" ], "coverage": 50 } ],
+    "color": "yellow",
+    "material": [ "cotton" ],
+    "warmth": 1,
+    "material_thickness": 0.2,
+    "symbol": "[",
+    "price": 1000,
+    "price_postapoc": 50
   }
 ]
