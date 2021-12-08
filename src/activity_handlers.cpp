@@ -1847,6 +1847,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
                 corpse.inc_damage( damage_type::BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
+                    for( item *it : corpse.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        here.add_item_or_charges( pos, *it );
+                        corpse.remove_item( *it );
+                    }
                     num_corpses++;
                 }
             }
