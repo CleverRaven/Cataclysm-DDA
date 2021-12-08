@@ -442,7 +442,7 @@ class pocket_data
         bool open_container = false;
 
         // a description of the pocket
-        std::string description = "";
+        std::string description;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

@@ -361,7 +361,6 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
-        tripoint old_pos = target->pos();
 
         z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
