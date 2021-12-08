@@ -29,6 +29,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
+        "description": "Small pocket for a waterbottle",
         "ripoff": 2
       },
       {
@@ -55,6 +56,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
@@ -138,6 +140,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -151,6 +154,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -163,6 +167,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       },
       {
@@ -175,6 +180,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       }
     ],
@@ -305,6 +311,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -318,6 +325,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -331,6 +339,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
@@ -429,6 +438,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       },
       {
@@ -441,6 +451,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       }
     ],
@@ -507,6 +518,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       },
       {
@@ -520,6 +532,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
@@ -627,6 +640,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       },
       {
@@ -638,6 +652,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
+        "description": "Small pocket for a waterbottle",
         "ripoff": 2
       },
       {
@@ -651,6 +666,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
@@ -719,6 +735,7 @@
         "min_item_length": "40 cm",
         "moves": 80,
         "extra_encumbrance": 5,
+        "description": "tucked under the carry handles",
         "ripoff": 1
       }
     ],
@@ -1079,6 +1096,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       }
     ],
@@ -1205,6 +1223,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -1218,6 +1237,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -1230,6 +1250,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       }
     ],
@@ -1428,6 +1449,7 @@
         "min_item_length": "60 cm",
         "moves": 200,
         "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
         "ripoff": 3
       },
       {
@@ -1441,6 +1463,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -1454,6 +1477,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
@@ -1467,6 +1491,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
         "activity_noise": { "volume": 8, "chance": 10 }
       }
     ],
@@ -1713,6 +1738,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
+        "description": "Small pocket for a waterbottle",
         "ripoff": 2
       },
       {
@@ -1725,6 +1751,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       },
       {
@@ -1737,6 +1764,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
         "ripoff": 5
       }
     ],
