@@ -3,60 +3,66 @@
     "id": "snail_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "snail_sample", "prob": 30 } ]
+    "entries": [ { "item": "snail_sample", "prob": 95 } ]
   },
   {
     "id": "rabbit_foot",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rabbit_foot", "prob": 30 } ]
+    "entries": [ { "item": "rabbit_foot", "prob": 95 } ]
   },
   {
     "id": "frog_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "frog_sample", "prob": 30 } ]
+    "entries": [ { "item": "frog_sample", "base_num": [ 1, 3 ], "prob": 65 } ]
   },
   {
     "id": "insect_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "insect_sample", "prob": 30 } ]
+    "entries": [ { "item": "insect_sample", "prob": 95 } ]
   },
   {
     "id": "bovine_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bovine_sample", "prob": 30 } ]
+    "entries": [ { "item": "bovine_sample", "base_num": [ 2, 5 ], "prob": 85 } ]
   },
   {
     "id": "spider_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "spider_sample", "prob": 30 } ]
+    "entries": [ { "item": "spider_sample", "prob": 95 } ]
   },
   {
     "id": "molerat_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "molerat_sample", "prob": 30 } ]
+    "entries": [ { "item": "molerat_sample", "base_num": [ 2, 6 ], "prob": 85 } ]
   },
   {
     "id": "reptile_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "reptile_sample", "prob": 30 } ]
+    "entries": [ { "item": "reptile_sample", "base_num": [ 1, 4 ], "prob": 95 } ]
   },
   {
     "id": "lupine_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lupine_sample", "prob": 30 } ]
+    "entries": [ { "item": "lupine_sample", "prob": 95 } ]
   },
   {
     "id": "feline_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "feline_sample", "prob": 30 } ]
+    "entries": [ { "item": "feline_sample", "prob": 95 } ]
+  },
+  {
+    "id": "human_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "prob": 95 } ]
   }
 ]
