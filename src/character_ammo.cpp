@@ -482,17 +482,14 @@ std::vector<item_location> Character::find_reloadables()
     std::vector<item_location> reloadables;
 
     visit_items( [this, &reloadables]( item * node, item * ) {
-        if( !node->is_gun() && !node->is_magazine() ) {
-            return VisitResponse::NEXT;
-        }
         bool reloadable = false;
-        if( node->is_gun() && node->uses_magazine() ) {
+        if( node->uses_magazine() ) {
             reloadable = node->magazine_current() == nullptr ||
                          node->remaining_ammo_capacity() > 0;
-        } else {
-            reloadable = ( node->is_magazine() ||
-                           ( node->is_gun() && node->magazine_integral() ) ) &&
-                         node->remaining_ammo_capacity() > 0;
+        } else if( node->magazine_integral() ) {
+            reloadable = node->remaining_ammo_capacity() > 0;
+        } else if( node->is_watertight_container() ) {
+            reloadable = true;
         }
         if( reloadable ) {
             reloadables.emplace_back( *this, node );
