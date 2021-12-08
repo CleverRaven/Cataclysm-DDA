@@ -213,8 +213,8 @@
     "trait": "WOOLALLERGY",
     "sub": [
       { "item": "blazer", "new": [ "jacket_leather_red" ] },
-      { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
-      { "item": "hat_newsboy", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
+      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
+      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
       { "item": "peacoat", "new": [ "jacket_flannel" ] },
       { "item": "sweater", "new": [ "sweatshirt" ] },
       { "item": "boots_winter", "new": [ "boots_fur" ] },
