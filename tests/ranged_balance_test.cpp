@@ -460,13 +460,13 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can rarely if ever inflict damage at range.
     // shoot_monster( "shot_bird", 10, 0, 5, "mon_zombie_tough" );
     // Can barely hurt at close range.
-    // Can hardly at point blank.
+    // Can barely hurt at point blank.
     shoot_monster( "shotgun_s", {}, "shot_bird", 1, 1, "mon_zombie_tough" );
 
     // Armored target (armor_bullet: 5)
     // Can't hurt at range
     // Can't hurt at close range.
-    // Can hardly at point blank.
+    // Can barely hurt at point blank.
     shoot_monster( "shotgun_s", {}, "shot_bird", 1, 1, "mon_zombie_brute" );
 
     // Heavily Armored target (armor_bullet: 36)
@@ -476,7 +476,6 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
     shoot_monster( "shotgun_s", {}, "shot_bird", 1, 1, "mon_skeleton_hulk" );
-    // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
     // Unarmored target
