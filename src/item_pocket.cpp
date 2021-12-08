@@ -927,8 +927,11 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     if( data->max_item_length != 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
         info.emplace_back( base_type_str, _( "Item length: " ),
-                           string_format( "<num> %s to <num> %s", length_units( data->min_item_length ),
-                                          length_units( data->max_item_length ) ),
+                           string_format( "<num> %s", length_units( data->min_item_length ) ),
+                           iteminfo::no_newline,
+                           convert_length( data->min_item_length ), data->min_item_length.value() );
+        info.emplace_back( base_type_str, _( " to " ),
+                           string_format( "<num> %s", length_units( data->max_item_length ) ),
                            iteminfo::no_flags,
                            convert_length( data->max_item_length ), data->max_item_length.value() );
     } else if( data->min_item_length > 0_mm && !is_ablative() ) {
@@ -939,17 +942,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                            convert_length( data->min_item_length ), data->min_item_length.value() );
     }
 
-    if( data->max_item_volume ) {
-        std::string fmt = string_format( "<num> %s to <num> %s", volume_units_abbr() );
-        info.emplace_back( base_type_str, _( "Item volume: " ), fmt,
-                           iteminfo::is_three_decimal, convert_volume( data->max_item_volume.value().value(), nullptr ),
-                           data->max_item_volume.value().value(), iteminfo::lower_is_better | iteminfo::is_three_decimal,
-                           convert_volume( data->min_item_volume.value(), nullptr ), data->min_item_volume.value() );
-    } else if( data->min_item_volume > 0_ml ) {
+    if( data->min_item_volume > 0_ml ) {
         std::string fmt = string_format( "<num> %s", volume_units_abbr() );
         info.emplace_back( base_type_str, _( "Minimum item volume: " ), fmt,
                            iteminfo::lower_is_better | iteminfo::is_three_decimal,
                            convert_volume( data->min_item_volume.value(), nullptr ), data->min_item_volume.value() );
+    }
+
+    if( data->max_item_volume ) {
+        std::string fmt = string_format( "<num> %s", volume_units_abbr() );
+        info.emplace_back( base_type_str, _( "Maximum item volume: " ), fmt,
+                           iteminfo::is_three_decimal, convert_volume( data->max_item_volume.value().value(), nullptr ),
+                           data->max_item_volume.value().value() );
     }
 
     info.emplace_back( base_type_str, _( "Base moves to remove item: " ),
