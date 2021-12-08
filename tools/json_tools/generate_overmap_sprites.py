@@ -3,36 +3,48 @@
 Generate sprites for mapgen IDs
 """
 import argparse
+import json
 
 from pathlib import Path
 from PIL import Image
+from typing import Optional, Union
 
 from util import import_data
 
 
-TERRAIN_COLORS = {
-    't_dirt': (111, 111, 0, 255),
-    't_grass': (0, 255, 0, 0),
-}
+def get_first_valid(
+    value: Union[str, list],
+    default: Optional[str] = None,
+) -> str:
+    """
+    Return first str value from a list [of lists] that is not empty
+    """
+    while isinstance(value, list):
+        for item in value:
+            if item:
+                value = item
+                break
+    if value:
+        return value
+    return default
 
-COLORS = {
-    'black': (0, 0, 0),
-    'red': (255, 0, 0),
-    'green': (0, 110, 0),
-    'brown': (97, 56, 28),
-    'blue': (10, 10, 220),
-    'magenta': (139, 58, 98),
-    'cyan': (0, 150, 180),
-    'gray': (150, 150, 150),
-    'dark_gray': (99, 99, 99),
-    'light_red': (255, 150, 150),
-    'light_green': (0, 255, 0),
-    'yellow': (255, 255, 0),
-    'light_blue': (100, 100, 255),
-    'light_magenta': (254, 0, 254),
-    'light_cyan': (0, 240, 255),
-    'white': (255, 255, 255),
-}
+
+class TupleJSONDecoder(json.JSONDecoder):
+    """
+    Decode JSON lists as tuples
+    https://stackoverflow.com/a/10889125
+    """
+
+    def __init__(self, **kwargs):
+        json.JSONDecoder.__init__(self, **kwargs)
+        # Use the custom JSONArray
+        self.parse_array = self.JSONArray
+        # Use the python implemenation of the scanner
+        self.scan_once = json.scanner.py_make_scanner(self)
+
+    def JSONArray(self, s_and_end, scan_once, **kwargs):
+        values, end = json.decoder.JSONArray(s_and_end, scan_once, **kwargs)
+        return tuple(values), end
 
 
 def main():
@@ -47,8 +59,18 @@ def main():
         'output_dir', type=Path,
         help='Output directory path',
     )
+    arg_parser.add_argument(
+        'color_scheme', type=Path,
+        help='path to a JSON color scheme',
+    )
     args_dict = vars(arg_parser.parse_args())
     output_dir = args_dict.get('output_dir')
+    color_scheme_path = args_dict.get('color_scheme')
+    with open(color_scheme_path) as filehandler:
+        scheme = json.load(filehandler, cls=TupleJSONDecoder)
+
+    # TODO: support fallback_predecessor_mapgen
+    scheme['terrain'][None] = (0, 0, 0, 0)
 
     terrain_colors = {}
     terrain_data, errors = import_data(
@@ -66,8 +88,7 @@ def main():
             terrain_color = terrain_color[0]
 
         if terrain_type == 'terrain' and terrain_id and terrain_color:
-            terrain_colors[terrain_id] = COLORS.get(
-                terrain_color, (0, 0, 0, 0))
+            terrain_colors[terrain_id] = terrain_color
 
     mapgen_data, errors = import_data(
         json_dir=Path('../../data/json/mapgen/'),
@@ -85,11 +106,10 @@ def main():
         if method != 'json':
             continue
 
-        om_id = entry.get('om_terrain')
+        # FIXME: support splitting
+        om_id = get_first_valid(entry.get('om_terrain'))
         if not om_id:
             continue
-        while isinstance(om_id, list):  # FIXME: support splitting
-            om_id = om_id[0]
 
         mapgen = entry.get('object')
         if not mapgen:
@@ -111,15 +131,21 @@ def main():
 
         for index_x, row in enumerate(rows):
             for index_y, char in enumerate(row):
-                terrain_id = terrain_dict.get(char, fill_ter)
+                terrain_id = get_first_valid(terrain_dict.get(char), fill_ter)
 
-                while isinstance(terrain_id, list):
-                    terrain_id = terrain_id[0]
-
-                color = TERRAIN_COLORS.get(terrain_id)
+                color = scheme['terrain'].get(terrain_id)
                 if not color:
-                    color = terrain_colors.get(terrain_id, (0, 0, 0, 0))
-                image_data[index_y, index_x] = color
+                    color = scheme['colors'].get(
+                        terrain_colors.get(terrain_id)
+                    )
+                if not color:
+                    # print(om_id, terrain_id)
+                    color = (0, 0, 0, 0)
+                try:
+                    image_data[index_y, index_x] = color
+                except TypeError:
+                    print(color)
+                    raise
 
         image.save(output_dir / f'{om_id}.png')
 
