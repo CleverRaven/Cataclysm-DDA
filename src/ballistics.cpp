@@ -427,7 +427,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             bool print_messages = true;
             // If the attack is shot, once we're past point-blank,
             // overwrite the default damage with shot damage.
-            if( proj.count > 1 && rl_dist( source, tp ) > 1 ) {
+            if( proj.count > 1 ) {
                 attack.proj.impact = attack.proj.shot_impact;
                 print_messages = false;
             }
