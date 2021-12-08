@@ -4417,8 +4417,8 @@ void Character::update_needs( int rate_multiplier )
     if( in_vehicle && get_size() == creature_size::huge &&
         !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
-        // whether or not you are working the controls you will recieve pain if you are in a limited_space area.
-        if( veh && veh->has_part( pos(), "LIMITED_SPACE" ) ) {
+        // whether or not you are working the controls you will recieve pain if you are in a cramped area.  Currently this mostly means roof and roof accessories.
+        if( veh && veh->has_part( pos(), "CRAMPED_FOR_MUTANTS" ) ) {
             add_msg_if_player( m_bad,
                                _( "This vehicle is too restrictive and is causing you pain." ) );
             if( is_npc() ) {
