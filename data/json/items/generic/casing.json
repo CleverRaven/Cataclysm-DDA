@@ -8,7 +8,8 @@
     "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [ 0, 0 ],
+    "flags": [ "CASING" ]
   },
   {
     "id": "223_casing",

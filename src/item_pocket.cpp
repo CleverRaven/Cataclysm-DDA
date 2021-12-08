@@ -1646,7 +1646,7 @@ bool item_pocket::full( bool allow_bucket ) const
             if( it.has_flag( flag_CASING ) ) {
                 continue;
             } else {
-                return remaining_ammo_capacity( front().ammo_type() ) == 0;
+                return remaining_ammo_capacity( it.ammo_type() ) == 0;
             }
         }
         return false;
