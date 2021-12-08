@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -172,6 +173,9 @@ class avatar : public Character
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+
+        //return avatar diary
+        diary *get_avatar_diary();
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
@@ -366,6 +370,10 @@ class avatar : public Character
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+        /**
+        * diary to track player progression and to write the players stroy
+        */
+        std::unique_ptr <diary> a_diary;
         /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day

@@ -2224,6 +2224,8 @@ class Character : public Creature, public visitable
         }
         /** Empties the trait and mutations lists */
         void clear_mutations();
+        /** Steps through the dependency chain for the given trait */
+        void toggle_trait_deps( const trait_id &tr );
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
