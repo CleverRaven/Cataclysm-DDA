@@ -128,7 +128,7 @@ static const int normal_column_gap = 8;
 static const double min_ratio_to_center = 0.85;
 
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
-static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
+static const std::set<std::string> ordered_categories = {};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
@@ -843,72 +843,6 @@ void inventory_column::on_input( const inventory_input &input )
 void inventory_column::on_change( const inventory_entry &/* entry */ )
 {
     // stub
-}
-
-void inventory_column::order_by_parent()
-{
-    std::unordered_map<std::uintptr_t, size_t> original_order;
-    original_order.reserve( entries.size() );
-    for( size_t idx = 0; idx < entries.size(); ++idx ) {
-        if( entries[idx].is_item() ) {
-            for( const item_location &loc : entries[idx].locations ) {
-                original_order.emplace( reinterpret_cast<std::uintptr_t>( &*loc ), idx );
-            }
-        } else {
-            original_order.emplace( reinterpret_cast<std::uintptr_t>( &entries[idx] ), idx );
-        }
-    }
-
-    struct entry_info {
-        inventory_entry entry;
-        std::vector<size_t> recursive_order;
-
-        entry_info( inventory_entry &&moved_entry,
-                    const std::unordered_map<std::uintptr_t, size_t> &original_order )
-            : entry( std::move( moved_entry ) ) {
-            if( entry.is_item() ) {
-                item_location loc = entry.any_item();
-                while( true ) {
-                    const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &*loc );
-                    const auto it = original_order.find( uintptr );
-                    if( it != original_order.end() ) {
-                        recursive_order.emplace_back( it->second );
-                    }
-                    if( loc.has_parent() ) {
-                        loc = loc.parent_item();
-                    } else {
-                        break;
-                    }
-                }
-                std::reverse( recursive_order.begin(), recursive_order.end() );
-            } else {
-                const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &moved_entry );
-                const auto it = original_order.find( uintptr );
-                if( it != original_order.end() ) {
-                    recursive_order.emplace_back( it->second );
-                }
-            }
-        }
-
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator inventory_entry &&() && { // *NOPAD*
-            return std::move( entry );
-        }
-
-        bool operator<( const entry_info &rhs ) const {
-            return recursive_order < rhs.recursive_order;
-        }
-    };
-
-    std::vector<entry_info> sorted_entries;
-    sorted_entries.reserve( entries.size() );
-    for( inventory_entry &entry : entries ) {
-        sorted_entries.emplace_back( std::move( entry ), original_order );
-    }
-    std::stable_sort( sorted_entries.begin(), sorted_entries.end() );
-
-    entries.assign( std::make_move_iterator( sorted_entries.begin() ),
-                    std::make_move_iterator( sorted_entries.end() ) );
 }
 
 void inventory_column::add_entry( const inventory_entry &entry )
@@ -2450,7 +2384,6 @@ void inventory_selector::toggle_categorize_contained()
                        /*custom_category=*/custom_category,
                        /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
         }
-        own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
     if( !selected.empty() ) {
