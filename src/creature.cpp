@@ -932,8 +932,7 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
+    } else if( goodhit < accuracy_headshot ) {
         ret.message = _( "Headshot!" );
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
         crit_mod = get_crit_factor( ret.bp_hit );
@@ -941,8 +940,7 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
         ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
         ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
-    } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
+    } else if( goodhit < accuracy_critical ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
