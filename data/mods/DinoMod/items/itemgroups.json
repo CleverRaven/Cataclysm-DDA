@@ -31,7 +31,7 @@
       { "item": "leather_armor_elephant", "prob": 10 },
       { "item": "leatherbone_armor_elephant", "prob": 10 },
       { "item": "rubber_armor_elephant", "prob": 10 },
-      { "item": "sweater_armor_elephant", "prob": 10 },
+      { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
       { "item": "kevlar_armor_ostrich", "prob": 10 },
       { "item": "acidchitin_armor_ostrich", "prob": 10 },
       { "item": "chitin_armor_ostrich", "prob": 10 },
@@ -39,7 +39,7 @@
       { "item": "leather_armor_ostrich", "prob": 10 },
       { "item": "leatherbone_armor_ostrich", "prob": 10 },
       { "item": "rubber_armor_ostrich", "prob": 10 },
-      { "item": "sweater_armor_ostrich", "prob": 10 }
+      { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" }
     ]
   },
   {
@@ -56,7 +56,7 @@
       { "item": "leather_armor_elephant", "prob": 10 },
       { "item": "leatherbone_armor_elephant", "prob": 10 },
       { "item": "rubber_armor_elephant", "prob": 10 },
-      { "item": "sweater_armor_elephant", "prob": 10 },
+      { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
       { "item": "kevlar_armor_ostrich", "prob": 10 },
       { "item": "acidchitin_armor_ostrich", "prob": 10 },
       { "item": "chitin_armor_ostrich", "prob": 10 },
@@ -64,7 +64,7 @@
       { "item": "leather_armor_ostrich", "prob": 10 },
       { "item": "leatherbone_armor_ostrich", "prob": 10 },
       { "item": "rubber_armor_ostrich", "prob": 10 },
-      { "item": "sweater_armor_ostrich", "prob": 10 }
+      { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" }
     ]
   },
   {
@@ -81,7 +81,7 @@
       { "item": "leather_armor_elephant", "prob": 10 },
       { "item": "leatherbone_armor_elephant", "prob": 10 },
       { "item": "rubber_armor_elephant", "prob": 10 },
-      { "item": "sweater_armor_elephant", "prob": 10 },
+      { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
       { "item": "kevlar_armor_ostrich", "prob": 10 },
       { "item": "acidchitin_armor_ostrich", "prob": 10 },
       { "item": "chitin_armor_ostrich", "prob": 10 },
@@ -89,7 +89,7 @@
       { "item": "leather_armor_ostrich", "prob": 10 },
       { "item": "leatherbone_armor_ostrich", "prob": 10 },
       { "item": "rubber_armor_ostrich", "prob": 10 },
-      { "item": "sweater_armor_ostrich", "prob": 10 }
+      { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" }
     ]
   },
   {
@@ -103,7 +103,7 @@
       { "item": "leather_armor_elephant", "prob": 10 },
       { "item": "leatherbone_armor_elephant", "prob": 10 },
       { "item": "rubber_armor_elephant", "prob": 10 },
-      { "item": "sweater_armor_elephant", "prob": 10 },
+      { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
       { "item": "kevlar_armor_ostrich", "prob": 10 },
       { "item": "acidchitin_armor_ostrich", "prob": 10 },
       { "item": "chitin_armor_ostrich", "prob": 10 },
@@ -111,7 +111,7 @@
       { "item": "leather_armor_ostrich", "prob": 10 },
       { "item": "leatherbone_armor_ostrich", "prob": 10 },
       { "item": "rubber_armor_ostrich", "prob": 10 },
-      { "item": "sweater_armor_ostrich", "prob": 10 }
+      { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" }
     ]
   }
 ]
