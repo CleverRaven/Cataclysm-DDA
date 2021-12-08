@@ -400,7 +400,7 @@
     "magazine": 100,
     "ammo": 15,
     "entries": [
-      { "group": "feral_handgun", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "heavy_flashlight", "prob": 100, "damage": [ 2, 4 ] },
       { "group": "survivor_grenades", "prob": 20 },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
