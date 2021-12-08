@@ -248,18 +248,17 @@ int MonsterGroup::event_adjusted_freq_total( holiday event ) const
 {
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     if( opt != "monsters" && opt != "both" ) {
-        event = holiday::none;
+        return freq_total;
     } else if( event == holiday::num_holiday ) {
         event = get_holiday_from_time();
     }
 
-    int total = 0;
-    for( const auto &mon : monsters ) {
-        if( mon.event == holiday::none || mon.event == event ) {
-            total += mon.frequency;
-        }
+    if( event == holiday::none ) {
+        return freq_total;
     }
-    return total;
+
+    auto iter = event_freq.find( event );
+    return freq_total + ( iter == event_freq.end() ? 0 : iter->second );
 }
 
 bool MonsterGroupManager::IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster )
@@ -444,7 +443,9 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                     max_freq = { mtype_id( id_name ), freq };
                 }
             }
-            freq_total += freq;
+            if( event == holiday::none ) {
+                freq_total += freq;
+            }
             int cost = mon.get_int( "cost_multiplier", 1 );
             int pack_min = 1;
             int pack_max = 1;
@@ -485,6 +486,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 }
             }
 
+            g.event_freq[event] += freq;
             g.monsters.push_back( new_mon_group );
         }
         // If no default monster specified, use the highest frequency spawn as the default

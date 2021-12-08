@@ -100,7 +100,8 @@ struct MonsterGroup {
     mongroup_id new_monster_group;
     time_duration monster_group_time = 0_turns;
     bool is_safe = false; /// Used for @ref mongroup::is_safe()
-    int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
+    int freq_total = 0; // max number to roll for spawns (non-event)
+    std::map<holiday, int> event_freq; // total freq for each event
     // Get the total frequency of entries that are valid for the specified event.
     // This includes entries that have an event of "none". By default, use the current holiday.
     int event_adjusted_freq_total( holiday event = holiday::num_holiday ) const;
