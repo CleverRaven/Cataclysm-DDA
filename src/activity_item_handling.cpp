@@ -530,13 +530,13 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     std::vector<item_comp> comps1;
     comps1.emplace_back( itype_soap, required.cleanser );
     comps1.emplace_back( itype_detergent, required.cleanser );
-    if ( !comps1.empty() ) {
+    if( !comps1.empty() ) {
         you->consume_items( comps1 );
     }
 
     std::vector<item_comp> comps2;
     comps2.emplace_back( itype_liquid_soap, required.cleanser );
-    if ( !comps2.empty() ) {
+    if( !comps2.empty() ) {
         you->consume_items(comps2, 1, is_liquid_crafting_component);
     }
 
