@@ -7,17 +7,18 @@
       ";": "t_dirt",
       ".": "t_rubber_mulch",
       "x": "t_concrete_wall_rope",
-      "v": "t_rubber_mulch",
-      "w": "t_rubber_mulch",
-      "W": "t_rubber_mulch"
+      "#": "t_rubber_mulch",
+      "c": "t_rubber_mulch",
+      "e": "t_rubber_mulch",
+      "E": "t_rubber_mulch"
     },
     "furniture": {
       ",": "f_clear",
-      "+": "f_parkour_bars",
+      "#": "f_parkour_bars",
       ";": "f_bulletin",
-      "v": "f_counter",
-      "w": "f_earthbag_half",
-      "W": "f_earthbag_wall"
+      "c": "f_counter",
+      "e": "f_earthbag_half",
+      "E": "f_earthbag_wall"
     }
   },
   {
@@ -371,12 +372,12 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        ".vv...",
-        "....+.",
-        "..x.+.",
+        ".cc...",
+        "....#.",
+        "..x.#.",
         "...x..",
         "......",
-        ".wWw.."
+        ".eEe.."
       ],
       "palettes": [ "fbmh_2_palette_common" ]
     }
