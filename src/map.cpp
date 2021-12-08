@@ -4535,6 +4535,14 @@ item map::water_from( const tripoint &p )
         return ret;
     }
 
+    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
+        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                                            temperatures::cold ) ) );
+        ret.poison = rng( 1, 6 );
+        return ret;
+    }
+
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
