@@ -601,6 +601,6 @@
   {
     "id": "HUMAN_UNUSABLE",
     "type": "json_flag",
-    "info": "For vehicle controls. Cannot be used by regularly-sized humans."
+    "info": "For vehicle controls.  Cannot be used by regularly-sized humans."
   }
 ]
