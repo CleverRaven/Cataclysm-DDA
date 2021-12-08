@@ -4160,12 +4160,19 @@
     "skills": [ { "level": 3, "name": "driving" } ],
     "items": {
       "both": {
-        "items": [ "hat_hard", "glasses_safety", "vest_safety", "gloves_work", "socks", "technician_pants_gray", "technician_shirt_gray", "tool_belt", "boots" ],
+        "items": [
+          "hat_hard",
+          "glasses_safety",
+          "vest_safety",
+          "gloves_work",
+          "socks",
+          "technician_pants_gray",
+          "technician_shirt_gray",
+          "tool_belt",
+          "boots"
+        ],
         "entries": [ { "item": "shovel", "custom-flags": "auto_wield" } ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    },
     "traits": "PSYCHOPATH"
   }
 ]
