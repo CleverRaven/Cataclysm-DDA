@@ -433,7 +433,7 @@
     "id": "mon_feral_prepper",
     "type": "MONSTER",
     "name": { "str": "feral prepper" },
-    "description": "A quick glance of this person would show that they have prepared well enough for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of their blood-stained improvised weapon, while the other grips on a firearm, treating both as clubs.",
+    "description": "A quick glance of this person would show that they have prepared well enough for times like these.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead shows that they have turned feral.  One of their hands clasp the handle of a makeshift weapon, while the other grips on a firearm, treating both as clubs.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -496,7 +496,7 @@
     "id": "mon_feral_survivalist",
     "type": "MONSTER",
     "name": { "str": "crazed survivalist" },
-    "description": "This feral prepper is seen having an athletic body, a sign of sturdy training before they turned feral.  In addition of handling their firearm more properly, they seem to have an awareness of self preservation when in critical harm, a byproduct of leftover survival instincts kicking in.",
+    "description": "Grasping a blade-sharp weapon, this feral prepper is seen having an athletic body, a sign of sturdy training before they turned feral.  In addition of utilizing a flashlight, they seem to have an awareness of self preservation when in critical harm, a byproduct of leftover survival instincts kicking in.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -511,8 +511,8 @@
     "morale": 12,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 5,
+    "melee_dice_sides": 7,
+    "melee_cut": 9,
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 4,
@@ -520,23 +520,8 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 4,
+    "luminance": 500,
     "harvest": "human",
-    "starting_ammo": { "9mm": 5 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "move_cost": 150,
-        "gun_type": "m9",
-        "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 2 ], [ "pistol", 2 ] ],
-        "fake_dex": 8,
-        "fake_per": 10,
-        "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 30, "DEFAULT" ] ],
-        "require_targeting_player": false,
-        "description": "The crazed survivalist fires their firearm!"
-      }
-    ],
     "death_drops": "mon_feral_survivalist_death_drops",
     "zombify_into": "mon_zombie_survivor",
     "flags": [
@@ -591,7 +576,7 @@
     "vision_night": 4,
     "harvest": "human",
     "luminance": 500,
-    "starting_ammo": { "223": 8 },
+    "starting_ammo": { "223": 10 },
     "special_attacks": [
       {
         "type": "gun",
