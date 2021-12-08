@@ -1359,7 +1359,6 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         if( !ammo.made_of( phase_id::LIQUID ) ) {
             return false;
         }
-        return true;
     }
 
     if( ammo.has_flag( flag_SPEEDLOADER ) ) {
