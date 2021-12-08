@@ -210,7 +210,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE", "LIMITED_SPACE" ],
+    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
     "breaks_into": "ig_vp_seat",
     "damage_reduction": { "all": 3, "bash": 5 }
   },
@@ -385,7 +385,7 @@
       "install": { "time": "5 m", "components": [ [ [ "string_6", 2 ], [ "duct_tape", 25 ] ] ] },
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "ROOF", "FOLDABLE", "LIMITED_SPACE" ],
+    "flags": [ "ROOF", "FOLDABLE", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -406,7 +406,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "ROOF", "LIMITED_SPACE" ],
+    "flags": [ "ROOF", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 20 }
   },
@@ -428,7 +428,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "ROOF", "LIMITED_SPACE" ],
+    "flags": [ "ROOF", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": "ig_vp_steel_plate",
     "damage_reduction": { "all": 30 }
   },
@@ -1217,7 +1217,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
     },
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
+    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY", "MUTANT_OK" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
     "damage_reduction": { "all": 5 }
   },
@@ -1264,12 +1264,46 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CONTROLS", "FOLDABLE", "LIMITED_SPACE" ],
+    "flags": [ "CONTROLS", "FOLDABLE", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
       { "item": "scrap", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 0, 4 ] }
+    ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "controls_xl",
+    "name": { "str": "XL control rig" },
+    "symbol": "$",
+    "categories": [ "operations", "passengers" ],
+    "color": "red",
+    "broken_symbol": "$",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 150,
+    "description": "A massive controls-and-seat combination made to fit enormous mutants.",
+    "bonus": 10,
+    "location": "center",
+    "looks_like": "reclining_seat",
+    "comfort": 2,
+    "floor_bedding_warmth": 200,
+    "size": 30,
+    "item": "vehicle_controls_xl_rig",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
+    },
+    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "CARGO", "BELTABLE", "MUTANT_OK", "HUMAN_UNUSABLE" ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 2, 4 ] },
+      { "item": "rag", "count": [ 4, 8 ] }
     ],
     "damage_reduction": { "all": 6 }
   },
@@ -1293,7 +1327,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "LIMITED_SPACE" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1315,7 +1349,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "LIMITED_SPACE" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "CRAMPED_FOR_MUTANTS" ],
     "emissions": [ "emit_heater_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1335,7 +1369,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "FOLDABLE", "LIMITED_SPACE" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "FOLDABLE", "CRAMPED_FOR_MUTANTS" ],
     "emissions": [ "emit_hot_air2_stream" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1358,7 +1392,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "LIMITED_SPACE" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "CRAMPED_FOR_MUTANTS" ],
     "emissions": [ "emit_cooler_vehicle" ],
     "exhaust": [ "emit_heater_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
@@ -1653,7 +1687,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "LIMITED_SPACE" ],
+    "flags": [ "SOLAR_PANEL", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -1681,7 +1715,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WIND_TURBINE", "LIMITED_SPACE" ],
+    "flags": [ "WIND_TURBINE", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -1711,7 +1745,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "1 m", "using": [ [ "welding_standard", 15 ] ] }
     },
-    "flags": [ "WIND_TURBINE", "EXTRA_DRAG", "LIMITED_SPACE" ],
+    "flags": [ "WIND_TURBINE", "EXTRA_DRAG", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 12 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -2270,7 +2304,7 @@
     "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "size": 200,
     "item": "animal_locker",
-    "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE", "LIMITED_SPACE" ],
+    "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
   },
   {
@@ -2593,7 +2627,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "ROOF", "LIMITED_SPACE" ],
+    "flags": [ "ROOF", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 16 }
   },
@@ -2669,7 +2703,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "LIMITED_SPACE" ],
+    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "CRAMPED_FOR_MUTANTS" ],
     "breaks_into": [ { "item": "motor_tiny" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
@@ -3153,39 +3187,5 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "controls_xl",
-    "name": { "str": "XL control rig" },
-    "symbol": "$",
-    "categories": [ "operations", "passengers" ],
-    "color": "red",
-    "broken_symbol": "$",
-    "broken_color": "red",
-    "damage_modifier": 10,
-    "durability": 150,
-    "description": "A massive controls-and-seat combination made to fit enormous mutants.",
-    "bonus": 10,
-    "location": "center",
-    "looks_like": "reclining_seat",
-    "comfort": 2,
-    "floor_bedding_warmth": 200,
-    "size": 30,
-    "item": "vehicle_controls_xl_rig",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] },
-      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 7 ] ] }
-    },
-    "flags": [ "CONTROLS", "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
-    "breaks_into": [
-      { "item": "steel_lump" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "cable", "charges": [ 2, 4 ] },
-      { "item": "rag", "count": [ 4, 8 ] }
-    ],
-    "damage_reduction": { "all": 6 }
   }
 ]
