@@ -102,12 +102,7 @@ bool Character::list_ammo( const item &base, std::vector<item::reload_option> &a
                 ammo_match_found = p.first->can_reload_with( *ammo.get_item(), false );
                 speedloader = true;
             }
-            if( can_reload( *p.first, ammo.get_item() ) &&
-                ( speedloader || p.first->ammo_remaining() == 0 ||
-                  p.first->ammo_remaining() < ammo->ammo_remaining() ||
-                  p.first->loaded_ammo().stacks_with( *ammo ) ||
-                  ( ammo->made_of_from_type( phase_id::LIQUID ) &&
-                    p.first->get_remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
+            if( can_reload( *p.first, ammo.get_item() ) ) {
                 ammo_list.emplace_back( this, p.first, p.second, std::move( ammo ) );
             }
         }
