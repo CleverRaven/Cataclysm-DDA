@@ -15,12 +15,14 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 100 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_house_no_sidewalk",
     "copy-from": "generic_city_house",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 100 },
     "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
