@@ -417,17 +417,5 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER" ],
     "examine_action": "finite_water_source"
-  },
-  {
-    "type": "terrain",
-    "id": "t_puddle_salt",
-    "name": "recess",
-    "description": "A shallow pit in the ground.",
-    "looks_like": "t_dirt",
-    "symbol": "~",
-    "color": "light_blue",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "SALT_WATER" ],
-    "examine_action": "finite_water_source"
   }
 ]
