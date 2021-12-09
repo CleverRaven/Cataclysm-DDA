@@ -1,0 +1,321 @@
+[
+	{
+    "id": "exo_rifle_storage",
+    "type": "ARMOR",
+    "name": { "str": "large storage pouch" },
+    "description": "A hardpoint for storing a rifle, with an additional small pocket.",
+    "weight": "454 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "12000 g",
+        "max_item_length": "133 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "magazine_well": "500 ml",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
+  },
+	{
+    "id": "exo_melee_storage",
+    "type": "ARMOR",
+    "name": { "str": "large storage pouch" },
+    "description": "A hardpoint for storing a sword. Activate to sheath/draw a sword .",
+    "weight": "454 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "bscabbard",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "magazine_well": "1750 ml",
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "180 cm",
+        "holster": true,
+        "moves": 60,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ]} ]
+  },
+	{
+    "id": "exo_large_storage",
+    "repairs_like": "backpack_tactical_large",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton large storage pack" },
+    "description": "A large storage pack, mountable on a hardpoint.",
+    "weight": "2291 g",
+    "volume": "15 L",
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "green",
+
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "55 L",
+        "max_contains_weight": "70 kg",
+        "max_item_length": "70 cm",
+        "magazine_well": "10 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "1 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "40 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "40 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "40 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "activity_noise": { "volume": 8, "chance": 10 }
+      }
+    ],
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+  },
+	{
+    "id": "exo_medium_storage",
+    "repairs_like": "fanny",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton medium pouch", "str_pl": "exoskeleton medium pouches" },
+    "description": "A medium storage pouch, mountable on a hardpoint.",
+    "weight": "275 g",
+    "volume": "2500 ml",
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "1 L",
+        "moves": 80
+      }
+    ]
+  },
+	{
+    "id": "exo_small_storage",
+    "repairs_like": "fanny",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton small pouch", "str_pl": "exoskeleton small pouches" },
+    "description": "A small storage pouch, mountable on a hardpoint.",
+    "weight": "272 g",
+    "volume": "1050 ml",
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "1 L",
+        "moves": 80
+      }
+    ]
+  },
+    {
+    "id": "exo_large_ammo_pouch",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton large ammo pouches", "str_pl": "exoskeleton large ammo pouches" },
+    "description": "A set of pouches that attach to a hardpoint.",
+    "weight": "205 g",
+    "volume": "1050 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+     "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
+    ],
+    "material_thickness": 0.2,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+    {
+    "id": "exo_small_ammo_pouch",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton small ammo pouches", "str_pl": "exoskeleton small ammo pouches" },
+    "description": "A set of pouches that attach to a hardpoint.",
+    "weight": "205 g",
+    "volume": "1050 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200,
+		"flag_restriction": [ "MAG_COMPACT"]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200,
+		"flag_restriction": [ "MAG_COMPACT"]
+      }
+    ],
+    "material_thickness": 0.2,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  }
+  ]
