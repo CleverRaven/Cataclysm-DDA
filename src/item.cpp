@@ -1348,6 +1348,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     return contents.stacks_with( rhs.contents );
 }
 
+bool item::same_contents( const item &rhs ) const
+{
+    return get_contents().same_contents( rhs.get_contents() );
+}
+
 bool item::merge_charges( const item &rhs )
 {
     if( !count_by_charges() || !stacks_with( rhs ) ) {
@@ -11594,14 +11599,25 @@ bool item::is_reloadable() const
     }
 
     for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
-        if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ||
-            pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            return true;
+        if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            if( pocket->empty() || !pocket->front().is_magazine_full() ) {
+                return true;
+            }
+        } else if( pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( remaining_ammo_capacity() > 0 ) {
+                return true;
+            }
+        } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
+            if( ( pocket->empty() || ( pocket->full( false ) &&
+                                       pocket->front().made_of( phase_id::LIQUID ) ) ) && pocket->watertight() ) {
+                return true;
+            }
         }
-        // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
-        if( pocket->full( false ) ) {
-            continue;
-        } else if( pocket->empty() || pocket->front().made_of( phase_id::LIQUID ) ) {
+    }
+
+    for( const item *gunmod : gunmods() ) {
+        if( gunmod->is_reloadable() ) {
             return true;
         }
     }
