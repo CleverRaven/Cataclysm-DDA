@@ -5,6 +5,7 @@ Generate sprites for mapgen IDs
 import argparse
 import json
 
+from collections import OrderedDict
 from pathlib import Path
 from typing import Optional, Union
 
@@ -15,16 +16,20 @@ from util import import_data
 
 SIZE = 24
 TERRAIN_COLOR_NAMES = {}
+PALETTES = {}
 SCHEME = None
 
 
 def get_first_valid(
-    value: Union[str, list],
+    value: Union[str, list, OrderedDict],
     default: Optional[str] = None,
 ) -> str:
     """
     Return first str value from a list [of lists] that is not empty
     """
+    if isinstance(value, OrderedDict):
+        return value.get('fallback')
+
     while isinstance(value, list):
         for item in value:
             if item:
@@ -66,6 +71,7 @@ def generate_image(
     for index_x, row in enumerate(rows):
         for index_y, char in enumerate(row):
             terrain_id = get_first_valid(terrain_dict.get(char), fill_ter)
+
             color = SCHEME['terrain'].get(terrain_id)
             if not color:
                 color = SCHEME['colors'].get(
@@ -130,12 +136,40 @@ def read_terrain_color_names() -> None:
             TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
 
 
+def read_mapgen_palettes() -> None:
+    """
+    Fill the PALETTES global
+    """
+    palette_entries, errors = import_data(
+        json_dir=Path('../../data/json/mapgen_palettes/'),
+        json_fmatch='*.json',
+    )
+    if errors:
+        print(errors)
+
+    global PALETTES
+    for entry in palette_entries:
+        palette_id = entry.get('id')
+        terrains = entry.get('terrain')
+        if entry.get('type') == 'palette' and palette_id and terrains:
+            if palette_id in PALETTES:
+                print(f'WARNING: duplicate palette id {palette_id}')
+            PALETTES[palette_id] = {
+                key: value
+                for key, value
+                in terrains.items()
+                if not isinstance(value, dict)
+                and not isinstance(value, OrderedDict)
+                # TODO: support whatever this is
+            }
+
+
 def get_mapgen_data() -> list:
     """
     Get all mapgen entries
     """
     mapgen_data, errors = import_data(
-        json_dir=Path('../../data/json/mapgen/'), 
+        json_dir=Path('../../data/json/mapgen/'),
         json_fmatch='*.json',
     )
     if errors:
@@ -157,7 +191,7 @@ def main():
         help='Output directory path',
     )
     arg_parser.add_argument(
-        'color_scheme', type=Path,
+        'color_scheme', type=Path,  # TODO: default
         help='path to a JSON color SCHEME',
     )
     args_dict = vars(arg_parser.parse_args())
@@ -167,6 +201,8 @@ def main():
     read_scheme(color_scheme_path)
 
     read_terrain_color_names()
+
+    read_mapgen_palettes()
 
     mapgen_data = get_mapgen_data()
 
@@ -187,11 +223,27 @@ def main():
         if not mapgen:
             continue
 
+        terrain_dict = {}
         palettes = mapgen.get('palettes')
         if palettes:
-            continue  # FIXME: mapgen palettes support
+            for palette_id in palettes:
+                if isinstance(palette_id, OrderedDict):
+                    palette_id = get_first_valid(palette_id.get('disribution'))
+                palette = PALETTES.get(palette_id)
+                if palette:
+                    terrain_dict.update(palette)
+                else:
+                    print(f'WARNING: unknown palette {palette_id}')
+                # TODO: support nested palettes, two cases found
 
-        terrain_dict = mapgen.get('terrain')
+        terrain_defs = mapgen.get('terrain')
+        if terrain_defs:
+            terrain_dict.update(terrain_defs)
+
+        if not terrain_dict:
+            print(f'skipping {om_id} because of empty terrain defs')
+            continue
+
         rows = mapgen.get('rows')
         if not rows:
             continue
