@@ -1,0 +1,165 @@
+[
+ {
+    "id": "pa_back_battery_compartment",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton swapable battery power supply" },
+    "description": "Designed to attach to an exoskeleton's back, this is a large battery compartment with an integrated UPS.",
+    "weight": "5 kg",
+    "volume": "25 L",
+    "material": [ "plastic", "steel" ],
+    "symbol": "=",
+    "looks_like": "it_battery_mount",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS" ],
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+		"//": "This is a storage compartment for a battery.",
+        "rigid": true,
+        "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery" ]
+      },
+	  {
+	  "pocket_type": "CONTAINER",
+		"//": "This is a mounting point for armor protecting the PSU.",
+	  "ablative": true,
+	  	  "rigid": true,
+	    "max_contains_volume": "10 L",
+        "max_contains_weight": "145 kg",
+        "item_restriction": [ "pa_psu_steel", "pa_psu_plastic" ],
+        "moves": 60
+		}
+    ]
+	},
+  {
+    "id": "pa_back_battery_rechargable",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton rechargable battery power supply" },
+    "description": "Designed to attach to an exoskeleton's back, this is a large rechargable battery with an integrated UPS.",
+    "weight": "5 kg",
+    "volume": "25 L",
+    "material": [ "plastic", "steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } },
+	  {
+	  "pocket_type": "CONTAINER",
+		"//": "This is a mounting point for armor protecting the PSU.",
+	  "rigid": true,
+	  "ablative": true,
+	    "max_contains_volume": "10 L",
+        "max_contains_weight": "145 kg",
+        "item_restriction": [ "pa_psu_steel", "pa_psu_plastic" ],
+        "moves": 60
+		}
+    ]
+	},
+  {
+    "id": "pa_back_gasoline",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton ICE (gasoline) power supply" },
+    "description": "Designed to attach to an exoskeleton's back, this is a gasoline generator with an integrated UPS.",
+    "weight": "20 kg",
+    "volume": "25 L",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "looks_like": "1cyl_combustion",
+    "color": "dark_gray",
+    "ammo": "gasoline",
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
+	"pocket_data": [
+	{
+	"pocket_type": "MAGAZINE",
+		"//": "This is a tank for gasoline Holds up to 10 liters.",
+	"rigid": true,
+	"watertight": true,
+	"ammo_restriction": { "gasoline": 10000 }},
+	  {
+	  "pocket_type": "CONTAINER",
+		"//": "This is a mounting point for armor protecting the PSU.",
+	  "ablative": true,
+	  	  "rigid": true,
+	    "max_contains_volume": "10 L",
+        "max_contains_weight": "145 kg",
+        "item_restriction": [ "pa_psu_steel", "pa_psu_plastic" ],
+        "moves": 60
+		}
+    ]
+	},
+	{
+    "id": "pa_medium_storage",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "name": { "str": "medium storage pouch" },
+    "description": "Provides a bit of extra storage, with minimal encumbrance.",
+    "weight": "272 g",
+    "volume": "1050 ml",
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "1 L",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+  },
+    {
+    "id": "legrig",
+    "type": "ARMOR",
+    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
+    "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
+    "weight": "205 g",
+    "volume": "1050 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  }
+  ]
