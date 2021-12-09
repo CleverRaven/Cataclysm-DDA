@@ -2312,13 +2312,24 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global,
+    cata::optional<mission_target_params> target_params;
+    if( jo.has_object( "target_params" ) ) {
+        JsonObject target_obj = jo.get_object( "target_params" );
+        target_params = mission_util::parse_mission_om_target( target_obj );
+    }
+
+    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global, target_params,
                     is_npc]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
         int max_radius = iov_max_radius.evaluate( target );
-        if( max_radius > 0 ) {
+        if( target_params.has_value() ) {
+            mission_target_params update_params = target_params.value();
+            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
+            target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
+                                   project_to<coords::ms>( omt_pos ).z() );
+        } else if( max_radius > 0 ) {
             bool found = false;
             int min_radius = iov_min_radius.evaluate( target );
             for( int attempts = 0; attempts < 25; attempts++ ) {
