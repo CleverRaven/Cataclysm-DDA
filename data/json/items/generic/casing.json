@@ -143,7 +143,8 @@
     "name": { "str": "10mm Auto casing" },
     "description": "An empty casing from a 10mm Auto round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5ml",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_m212_casing",
@@ -156,7 +157,8 @@
     "material": [ "steel" ],
     "stackable": true,
     "symbol": "=",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_m118_casing",
@@ -169,7 +171,8 @@
     "material": [ "steel" ],
     "stackable": true,
     "symbol": "=",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_m199_casing",
@@ -182,7 +185,8 @@
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_m195_casing",
@@ -195,7 +199,8 @@
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_hornets_nest_22lr_casing",
@@ -208,7 +213,8 @@
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x46mm_hornets_nest_410_casing",
@@ -221,7 +227,8 @@
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "40x53mm_m169_casing",
@@ -234,7 +241,8 @@
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "CASING" ]
   },
   {
     "id": "44_casing",
@@ -470,7 +478,8 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "color": "red",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [ 0, 0 ],
+    "flags": [ "CASING" ]
   },
   {
     "id": "410shot_hull",
@@ -485,7 +494,8 @@
     "symbol": "=",
     "looks_like": "shot_hull",
     "color": "red",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [ 0, 0 ],
+    "flags": [ "CASING" ]
   },
   {
     "id": "300blk_casing",
