@@ -587,7 +587,9 @@ void zone_data::set_is_vehicle( const bool is_vehicle_arg )
 
 tripoint zone_data::get_center_point() const
 {
-    return tripoint( ( start.x + end.x ) / 2, ( start.y + end.y ) / 2, ( start.z + end.z ) / 2 );
+    return tripoint( ( get_start_point().x + get_end_point().x ) / 2,
+                     ( get_start_point().y + get_end_point().y ) / 2,
+                     ( get_start_point().z + get_end_point().z ) / 2 );
 }
 
 std::string zone_manager::get_name_from_type( const zone_type_id &type ) const

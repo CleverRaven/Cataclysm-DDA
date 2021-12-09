@@ -345,6 +345,14 @@ class zone_data
             return *options;
         }
         bool has_inside( const tripoint &p ) const {
+            // if it is personal then the zone is local
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                const tripoint &shift = get_map().getabs( player_character.pos() );
+                return p.x >= start.x + shift.x && p.x <= end.x + shift.x &&
+                       p.y >= start.y + shift.y && p.y <= end.y + shift.y &&
+                       p.z >= start.z + shift.z && p.z <= end.z + shift.z;
+            }
             return p.x >= start.x && p.x <= end.x &&
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
