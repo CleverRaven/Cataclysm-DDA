@@ -511,7 +511,6 @@
     "copy-from": "mon_turtle_small",
     "proportional": { "hp": 4, "speed": 0.75, "morale": 1, "melee_dice_sides": 2 },
     "volume": "900 L",
-    "weight": "1000 kg",
-    "reproduction": { "baby_egg": "egg_tortoise", "baby_count": 6, "baby_timer": 10 }
+    "weight": "1000 kg"
   }
 ]
