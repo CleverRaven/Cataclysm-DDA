@@ -2385,13 +2385,25 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_ids.emplace_back( line );
         }
     }
-
-    function = [target_params, update_ids]( const dialogue & d ) {
-        mission_target_params update_params = target_params;
-        if( d.has_beta ) {
-            update_params.guy = d.actor( true )->get_npc();
+    bool global = false;
+    cata::optional<std::string> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
+    }
+    function = [target_params, update_ids, target_var, global]( const dialogue & d ) {
+        tripoint_abs_omt omt_pos;
+        if( target_var.has_value() ) {
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( true ), target_var, global ) );
+            omt_pos = project_to<coords::omt>( abs_ms );
+        } else {
+            mission_target_params update_params = target_params;
+            if( d.has_beta ) {
+                update_params.guy = d.actor( true )->get_npc();
+            }
+            omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
         for( const update_mapgen_id &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }
