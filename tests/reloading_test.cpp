@@ -22,8 +22,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const flag_id json_flag_SPEEDLOADER( "SPEEDLOADER" );
 static const flag_id json_flag_CASING( "CASING" );
+static const flag_id json_flag_SPEEDLOADER( "SPEEDLOADER" );
 
 static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockbigmag( "glockbigmag" );
