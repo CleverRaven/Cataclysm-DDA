@@ -313,5 +313,27 @@
     "name": { "str": "plugged 3-inch ordnance rifle" },
     "flags": [  ],
     "description": "Unfortunately, some responsible killjoy poured concrete in the barrel of this historic cannon to make it safe for display."
+  },
+  {
+    "id": "mounted_pamd68",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted PA md. 68" },
+    "item": "pamd68",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_pamd68rubik",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted PA md. 68" },
+    "item": "pamd68rubik",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]
