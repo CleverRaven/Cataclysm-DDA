@@ -13,6 +13,7 @@ from PIL import Image
 from util import import_data
 
 
+SIZE = 24
 TERRAIN_COLOR_NAMES = {}
 SCHEME = None
 
@@ -78,6 +79,20 @@ def generate_image(
                 raise
 
     return image
+
+
+def split_image(
+    image: Image,
+    om_ids: list,
+) -> tuple:
+    """
+    Split image into SIZExSIZE sprites, yield (id, image) pairs
+    """
+    width, height = image.size
+    for row in range(height // SIZE):
+        for col in range(width // SIZE):
+            box = (col * SIZE, row * SIZE, (col + 1) * SIZE, (row + 1) * SIZE)
+            yield om_ids[row][col], image.crop(box)
 
 
 def main():
@@ -158,12 +173,17 @@ def main():
 
         fill_ter = mapgen.get('fill_ter')
 
-        om_id = get_first_valid(om_id)
-
         image = generate_image(
             rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter)
 
-        image.save(output_dir / f'{om_id}.png')
+        if isinstance(om_id, list) and isinstance(om_id[0], list):
+            generator = split_image(image=image, om_ids=om_id)
+            for submap_id, submap_image in generator:
+                submap_image.save(output_dir / f'{submap_id}.png')
+
+        else:
+            om_id = get_first_valid(om_id)
+            image.save(output_dir / f'{om_id}.png')
 
 
 if __name__ == '__main__':
