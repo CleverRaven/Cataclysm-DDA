@@ -85,8 +85,8 @@
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
-	  ]
-	  },
+    ]
+  },
   {
     "id": "exo_torso_plastic",
     "type": "ARMOR",
@@ -105,7 +105,7 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
-    {
+  {
     "id": "destroyed_exo_torso_plastic_plate",
     "type": "ARMOR",
     "copy-from": "exo_torso_plastic",
@@ -135,7 +135,7 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
-    {
+  {
     "id": "destroyed_exo_psu_plastic_plate",
     "type": "ARMOR",
     "copy-from": "exo_psu_plastic",
@@ -175,7 +175,7 @@
       }
     ]
   },
-    {
+  {
     "id": "destroyed_exo_arm_plastic_plate",
     "type": "ARMOR",
     "copy-from": "exo_arm_plastic",
@@ -215,7 +215,7 @@
       }
     ]
   },
-    {
+  {
     "id": "destroyed_exo_leg_plastic_plate",
     "type": "ARMOR",
     "copy-from": "exo_leg_plastic",
@@ -245,7 +245,7 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
-    {
+  {
     "id": "destroyed_exo_torso_milcomp_plate",
     "type": "ARMOR",
     "copy-from": "exo_torso_milcomp",
@@ -275,7 +275,7 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
-    {
+  {
     "id": "destroyed_exo_psu_milcomp_plate",
     "type": "ARMOR",
     "copy-from": "exo_psu_milcomp",
@@ -315,7 +315,7 @@
       }
     ]
   },
-    {
+  {
     "id": "destroyed_exo_arm_milcomp_plate",
     "type": "ARMOR",
     "copy-from": "exo_arm_milcomp",
@@ -353,9 +353,9 @@
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
-	  ]
-	  },
-    {
+    ]
+  },
+  {
     "id": "destroyed_exo_leg_milcomp_plate",
     "type": "ARMOR",
     "copy-from": "exo_leg_milcomp",
