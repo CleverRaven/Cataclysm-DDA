@@ -280,6 +280,7 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
                 // not very efficient but should be rare enough not to matter
                 std::list<item> tmp = crafter->use_amount( it.comp.type, real_count,
                                       i == 0 ? empty_filter : filter );
+                real_count -= tmp.size();
                 bool cont_not_empty = false;
                 std::string iname;
                 for( item &tmp_i : tmp ) {
@@ -337,6 +338,7 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
             // not very efficient but should be rare enough not to matter
             std::list<item> tmp = crafter->use_amount( it.comp.type, real_count,
                                   i == 0 ? empty_filter : filter );
+            real_count -= tmp.size();
             ret.insert( ret.end(), tmp.begin(), tmp.end() );
         }
     }

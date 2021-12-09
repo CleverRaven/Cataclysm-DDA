@@ -250,11 +250,17 @@ class inventory : public visitable
         std::pair<int, int> kcal_range( const itype_id &id,
                                         const std::function<bool( const item & )> &filter, Character &player_character );
 
+        // specifically used to for displaying non-empty liquid container colour in crafting screen
+        bool must_use_liq_container( const itype_id &id, int to_use ) const;
+        void update_liq_container_count( const itype_id &id, int count );
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+
+        std::map<itype_id, int> liq_containers;
 
         // tracker for provide_pseudo_item to prevent duplicate tools/liquids
         std::set<itype_id> provisioned_pseudo_tools;

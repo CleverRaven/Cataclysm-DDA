@@ -233,6 +233,7 @@ static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rh
 void inventory::clear()
 {
     items.clear();
+    liq_containers.clear();
     binned = false;
 }
 
@@ -507,6 +508,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     continue;
                 }
                 if( !i.made_of( phase_id::LIQUID ) ) {
+                    if( !i.empty_container() && i.is_watertight_container() ) {
+                        const int count = i.count_by_charges() ? i.charges : 1;
+                        update_liq_container_count( i.typeId(), count );
+                    }
                     add_item( i, false, assign_invlet );
                 }
             }
@@ -1124,4 +1129,19 @@ void inventory::copy_invlet_of( const inventory &other )
 {
     assigned_invlet = other.assigned_invlet;
     invlet_cache = other.invlet_cache;
+}
+
+void inventory::update_liq_container_count( const itype_id &id, int count )
+{
+    liq_containers[id] += count;
+}
+
+bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
+{
+    auto iter = liq_containers.find( id );
+    if( iter == liq_containers.end() ) {
+        return false;
+    }
+    const int leftover = count_item( id ) - to_use;
+    return leftover >= 0 && leftover < iter->second;
 }

@@ -574,6 +574,10 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
             if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+                if( it->is_watertight_container() ) {
+                    const int count = it->count_by_charges() ? it->charges : 1;
+                    crafting_cache.crafting_inventory->update_liq_container_count( it->typeId(), count );
+                }
                 *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
             }
             continue;
