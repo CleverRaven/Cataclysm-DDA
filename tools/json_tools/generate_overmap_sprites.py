@@ -95,6 +95,55 @@ def split_image(
             yield om_ids[row][col], image.crop(box)
 
 
+def read_scheme(
+    color_scheme_path: Path,
+) -> None:
+    """
+    Parse color scheme JSON into the SCHEME global
+    """
+    with open(color_scheme_path) as filehandler:
+        global SCHEME
+        SCHEME = json.load(filehandler, cls=TupleJSONDecoder)
+
+    # TODO: support fallback_predecessor_mapgen
+    SCHEME['terrain'][None] = 0, 0, 0, 0
+
+
+def read_terrain_color_names() -> None:
+    """
+    Fill the TERRAIN_COLOR_NAMES global
+    """
+    terrain_data, errors = import_data(
+        json_dir=Path('../../data/json/furniture_and_terrain/'),
+        json_fmatch='terrain*.json',
+    )
+    if errors:
+        print(errors)
+
+    for terrain in terrain_data:
+        terrain_type = terrain.get('type')
+        terrain_id = terrain.get('id')
+        terrain_color = terrain.get('color')
+        if isinstance(terrain_color, list):
+            terrain_color = terrain_color[0]
+        if terrain_type == 'terrain' and terrain_id and terrain_color:
+            TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
+
+
+def get_mapgen_data() -> list:
+    """
+    Get all mapgen entries
+    """
+    mapgen_data, errors = import_data(
+        json_dir=Path('../../data/json/mapgen/'), 
+        json_fmatch='*.json',
+    )
+    if errors:
+        print(errors)
+
+    return mapgen_data
+
+
 def main():
     """
     main
@@ -114,36 +163,12 @@ def main():
     args_dict = vars(arg_parser.parse_args())
     output_dir = args_dict.get('output_dir')
     color_scheme_path = args_dict.get('color_scheme')
-    with open(color_scheme_path) as filehandler:
-        global SCHEME
-        SCHEME = json.load(filehandler, cls=TupleJSONDecoder)
 
-    # TODO: support fallback_predecessor_mapgen
-    SCHEME['terrain'][None] = (0, 0, 0, 0)
+    read_scheme(color_scheme_path)
 
-    terrain_data, errors = import_data(
-        json_dir=Path('../../data/json/furniture_and_terrain/'),
-        json_fmatch='terrain*.json'
-    )
-    if errors:
-        print(errors)
+    read_terrain_color_names()
 
-    for terrain in terrain_data:
-        terrain_type = terrain.get('type')
-        terrain_id = terrain.get('id')
-        terrain_color = terrain.get('color')
-        if isinstance(terrain_color, list):
-            terrain_color = terrain_color[0]
-
-        if terrain_type == 'terrain' and terrain_id and terrain_color:
-            TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
-
-    mapgen_data, errors = import_data(
-        json_dir=Path('../../data/json/mapgen/'),
-        json_fmatch='*.json'
-    )
-    if errors:
-        print(errors)
+    mapgen_data = get_mapgen_data()
 
     for entry in mapgen_data:
         entry_type = entry.get('type')
