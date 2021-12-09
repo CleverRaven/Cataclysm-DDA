@@ -453,7 +453,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Minor damage at range.
     // More serious damage at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_wolf_mutant_huge" );
-    // Grevious damage at point blank.
+    // as same as damage at close range
     shoot_monster( "shotgun_s", {}, "shot_bird", 1, 20, "mon_wolf_mutant_huge" );
 
     // Triviallly armored target (armor_bullet: 1)
