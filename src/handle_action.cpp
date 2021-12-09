@@ -2312,7 +2312,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CONTROL_VEHICLE:
-            vehicle *veh = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
@@ -2321,11 +2320,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else if( ( player_character.get_size() == creature_size::huge ) && veh && veh->has_part( player_character.pos(), "MUTANT_OK" ) ) {
-                add_msg( m_info, _( "You're too big to use these controls." ) );
-            } else if( ( player_character.get_size() != creature_size::huge ) && veh && veh->has_part( player_character.pos(), "HUMAN_UNUSABLE" ) ) {
-                add_msg( m_info, _( "You're too small to use these controls." ) );
-            } else { 
+            } else {
                 control_vehicle();
             }
             break;
