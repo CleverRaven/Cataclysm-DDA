@@ -18,6 +18,12 @@ SIZE = 24
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 SCHEME = None
+TILE_ENTRY_TEMPLATE = {
+    'id': '',
+    'fg': '',
+    'rotates': True,
+}
+CREATED_IDS = set()
 
 
 def get_first_valid(
@@ -26,6 +32,8 @@ def get_first_valid(
 ) -> str:
     """
     Return first str value from a list [of lists] that is not empty
+
+    TODO: support all quirks properly and get rid of this function
     """
     if isinstance(value, OrderedDict):
         return value.get('fallback')
@@ -99,12 +107,6 @@ def split_image(
         for col in range(width // SIZE):
             box = (col * SIZE, row * SIZE, (col + 1) * SIZE, (row + 1) * SIZE)
             output = image.crop(box)
-
-            if len(output.getcolors()) == 1:
-                print('WARNING: skipped single-color sprite for '
-                      f'{om_ids[row][col]}')
-                continue
-
             yield om_ids[row][col], output
 
 
@@ -114,9 +116,9 @@ def read_scheme(
     """
     Parse color scheme JSON into the SCHEME global
     """
-    with open(color_scheme_path) as filehandler:
+    with open(color_scheme_path) as file:
         global SCHEME
-        SCHEME = json.load(filehandler, cls=TupleJSONDecoder)
+        SCHEME = json.load(file, cls=TupleJSONDecoder)
 
     # TODO: support fallback_predecessor_mapgen
     SCHEME['terrain'][None] = 0, 0, 0, 0
@@ -185,6 +187,34 @@ def get_mapgen_data() -> list:
     return mapgen_data
 
 
+def output_image(
+    output_dir: Path,
+    name: str,
+    image: Image,
+    generate_json: bool,
+) -> None:
+    """
+    Save image to disk
+    """
+    if name in CREATED_IDS:
+        return
+
+    if len(image.getcolors()) < 2:
+        print(f'WARNING: skipped single-color sprite for {name}')
+        return
+
+    if generate_json:
+        tile_entry = TILE_ENTRY_TEMPLATE.copy()
+        tile_entry['id'] = name
+        tile_entry['fg'] = name
+        filepath = output_dir / f'{name}.json'
+        with open(filepath, 'x', encoding='utf-8') as file:
+            json.dump(tile_entry, file)
+
+    image.save(output_dir / f'{name}.png')
+    CREATED_IDS.add(name)
+
+
 def main():
     """
     main
@@ -194,16 +224,21 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     arg_parser.add_argument(
+        'color_scheme', type=Path,  # TODO: default
+        help='path to a JSON color SCHEME',
+    )
+    arg_parser.add_argument(
         'output_dir', type=Path,
         help='Output directory path',
     )
     arg_parser.add_argument(
-        'color_scheme', type=Path,  # TODO: default
-        help='path to a JSON color SCHEME',
+        '--json', dest='json', action='store_true',
+        help='Generate JSON files for correct rotations',
     )
     args_dict = vars(arg_parser.parse_args())
     output_dir = args_dict.get('output_dir')
     color_scheme_path = args_dict.get('color_scheme')
+    generate_json = args_dict.get('json')
 
     read_scheme(color_scheme_path)
 
@@ -263,14 +298,21 @@ def main():
         if isinstance(om_id, list) and isinstance(om_id[0], list):
             generator = split_image(image=image, om_ids=om_id)
             for submap_id, submap_image in generator:
-                submap_image.save(output_dir / f'{submap_id}.png')
+                output_image(
+                    output_dir=output_dir,
+                    name=submap_id,
+                    image=submap_image,
+                    generate_json=generate_json,
+                )
 
         else:
             om_id = get_first_valid(om_id)
-            if len(image.getcolors()) > 1:
-                image.save(output_dir / f'{om_id}.png')
-            else:
-                print(f'WARNING: skipped single-color sprite for {om_id}')
+            output_image(
+                output_dir=output_dir,
+                name=om_id,
+                image=image,
+                generate_json=generate_json,
+            )
 
 
 if __name__ == '__main__':
