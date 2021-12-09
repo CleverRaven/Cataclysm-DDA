@@ -1399,7 +1399,6 @@
     "//": "a monstrous horror, probably the most destructive entity you will ever see",
     "type": "harvest",
     "entries": [
-      { "drop": "human_sample", "type": "mutagen_group" },
       { "drop": "skull_human", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
