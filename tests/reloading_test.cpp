@@ -28,7 +28,7 @@ static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockbigmag( "glockbigmag" );
 static const itype_id itype_glockmag( "glockmag" );
 
-const flag_id flag_CASING( "CASING" );
+const flag_id json_flag_CASING( "CASING" );
 
 static void test_reloading( item &target, item &ammo, bool expect_success = true )
 {
@@ -163,7 +163,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
     SECTION( "gun with casings and ammo" ) {
         item gun( "sw_610" );
         gun.put_in( item( "40sw", calendar::turn, 3 ), item_pocket::pocket_type::MAGAZINE );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 3 ).set_flag( flag_CASING ),
+        gun.force_insert_item( item( "40_casing", calendar::turn, 3 ).set_flag( json_flag_CASING ),
                                item_pocket::pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
@@ -189,7 +189,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 
     SECTION( "full of casings" ) {
         item gun( "sw_610" );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( flag_CASING ),
+        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
                                item_pocket::pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
@@ -561,7 +561,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
     SECTION( "gun full of casings" ) {
         item gun( "sw_610" );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( flag_CASING ),
+        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
                                item_pocket::pocket_type::MAGAZINE );
 
         SECTION( "empty speedloader" ) {
@@ -701,7 +701,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
         item mod( "pipe_launcher40mm" );
         item mag1( "stanag30" );
         mag1.put_in( item( "556", calendar::turn, 10 ), item_pocket::pocket_type::MAGAZINE );
-        mod.force_insert_item( item( "40x46mm_m118_casing" ).set_flag( flag_CASING ),
+        mod.force_insert_item( item( "40x46mm_m118_casing" ).set_flag( json_flag_CASING ),
                                item_pocket::pocket_type::MAGAZINE );
 
         gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
