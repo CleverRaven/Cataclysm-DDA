@@ -1185,9 +1185,17 @@ static void butchery_quarter( item *corpse_item, const Character &you )
                            _( "You roughly slice the corpse of %s into four parts and set them aside." ),
                            corpse_item->get_mtype()->nname() );
     map &here = get_map();
+    tripoint pos = you.pos();
+
+    // Drop contents before creating copies so contents aren't duplicated
+    for( item *it : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        here.add_item_or_charges( pos, *it );
+        corpse_item->remove_item( *it );
+    }
+
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( you.pos(), *corpse_item, true );
+        here.add_item_or_charges( pos, *corpse_item, true );
     }
 }
 
