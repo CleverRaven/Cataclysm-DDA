@@ -508,7 +508,7 @@
     "type": "MONSTER",
     "name": { "str": "titanochelys" },
     "description": "This massive mutated reptile has evolved to a size that could compete with some of the ancient sauropod dinosaurs.  Its quite docile but will react if threatened.",
-    "copy-from": "mon_turtle_small",
+    "copy-from": "mon_tortoise_small",
     "proportional": { "hp": 4, "speed": 0.75, "morale": 1.5, "melee_dice_sides": 2 },
     "volume": "900 L",
     "weight": "1000 kg"
