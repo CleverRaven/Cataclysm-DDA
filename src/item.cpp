@@ -11609,8 +11609,10 @@ bool item::is_reloadable() const
             }
         } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
-            if( ( pocket->empty() || ( pocket->full( false ) &&
-                                       pocket->front().made_of( phase_id::LIQUID ) ) ) && pocket->watertight() ) {
+            if( pocket->full( false ) || !pocket->watertight() ) {
+                continue;
+            }
+            if( pocket->empty() || pocket->front().made_of( phase_id::LIQUID ) ) {
                 return true;
             }
         }
