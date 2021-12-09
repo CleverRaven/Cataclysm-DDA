@@ -98,7 +98,14 @@ def split_image(
     for row in range(height // SIZE):
         for col in range(width // SIZE):
             box = (col * SIZE, row * SIZE, (col + 1) * SIZE, (row + 1) * SIZE)
-            yield om_ids[row][col], image.crop(box)
+            output = image.crop(box)
+
+            if len(output.getcolors()) == 1:
+                print('WARNING: skipped single-color sprite for '
+                      f'{om_ids[row][col]}')
+                continue
+
+            yield om_ids[row][col], output
 
 
 def read_scheme(
@@ -158,8 +165,8 @@ def read_mapgen_palettes() -> None:
                 key: value
                 for key, value
                 in terrains.items()
-                if not isinstance(value, dict)
-                and not isinstance(value, OrderedDict)
+                if not isinstance(value, dict) and
+                not isinstance(value, OrderedDict)
                 # TODO: support whatever this is
             }
 
@@ -260,7 +267,9 @@ def main():
 
         else:
             om_id = get_first_valid(om_id)
-            image.save(output_dir / f'{om_id}.png')
+            if len(image.getcolors()) > 1:
+                print(f'WARNING: skipped single-color sprite for {om_id}')
+                image.save(output_dir / f'{om_id}.png')
 
 
 if __name__ == '__main__':
