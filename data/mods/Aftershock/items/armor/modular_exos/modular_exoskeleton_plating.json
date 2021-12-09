@@ -12,7 +12,7 @@
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 4,
+    "material_thickness": 6,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
@@ -29,7 +29,7 @@
     "looks_like": "backpack_tactical_large",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 4,
+    "material_thickness": 6,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
@@ -46,7 +46,7 @@
     "looks_like": "armguard_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 6,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [
       {
@@ -73,7 +73,7 @@
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 6,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [
       {
@@ -100,7 +100,7 @@
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "non_functional": "destroyed_exo_torso_plastic_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
@@ -113,7 +113,7 @@
     "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_torso_plastic",
     "material": [ "plastic" ],
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -130,7 +130,7 @@
     "looks_like": "backpack_tactical_large",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "non_functional": "destroyed_exo_psu_plastic_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
@@ -143,7 +143,7 @@
     "description": "The remains of a plastic PSU plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_psu_plastic",
     "material": [ "plastic" ],
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -183,7 +183,7 @@
     "description": "The remains of a plastic arm plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_arm_plastic",
     "material": [ "plastic" ],
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -200,7 +200,7 @@
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "non_functional": "destroyed_exo_leg_plastic_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [
@@ -223,7 +223,7 @@
     "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_leg_plastic",
     "material": [ "plastic" ],
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -235,12 +235,12 @@
     "description": "Designed to attach to an exoskeleton's torso, this is a sturdy plate of military composite.",
     "weight": "44000 g",
     "volume": "8 L",
-    "material": [ "steel", "ceramic" ],
+    "material": [ "hardsteel", "ceramic" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 4,
+    "material_thickness": 8,
     "non_functional": "destroyed_exo_torso_milcomp_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
@@ -252,8 +252,8 @@
     "name": { "str": "shattered military composite torso plate" },
     "description": "The remains of a military composite torso plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_torso_milcomp",
-    "material": [ "steel", "ceramic" ],
-    "material_thickness": 2,
+    "material": [ "hardsteel", "ceramic" ],
+    "material_thickness": 8,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -265,12 +265,12 @@
     "description": "Designed to attach to an exoskeleton's power supply unit, this is a sturdy plate of military composite.",
     "weight": "55000 g",
     "volume": "10 L",
-    "material": [ "steel", "ceramic" ],
+    "material": [ "hardsteel", "ceramic" ],
     "symbol": "[",
     "looks_like": "backpack_tactical_large",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 4,
+    "material_thickness": 8,
     "non_functional": "destroyed_exo_psu_milcomp_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
@@ -282,8 +282,8 @@
     "name": { "str": "shattered military composite PSU plate" },
     "description": "The remains of a military composite PSU plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_psu_milcomp",
-    "material": [ "steel", "ceramic" ],
-    "material_thickness": 2,
+    "material": [ "hardsteel", "ceramic" ],
+    "material_thickness": 8,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -295,12 +295,12 @@
     "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of military composite.",
     "weight": "33000 g",
     "volume": "5500 ml",
-    "material": [ "steel", "ceramic" ],
+    "material": [ "hardsteel", "ceramic" ],
     "symbol": "[",
     "looks_like": "armguard_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 8,
     "non_functional": "destroyed_exo_arm_milcomp_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [
@@ -322,8 +322,8 @@
     "name": { "str": "shattered military composite arm plate" },
     "description": "The remains of a military composite arm plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_arm_milcomp",
-    "material": [ "steel", "ceramic" ],
-    "material_thickness": 2,
+    "material": [ "hardsteel", "ceramic" ],
+    "material_thickness": 8,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
@@ -335,12 +335,12 @@
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of military composite.",
     "weight": "38500 g",
     "volume": "8 L",
-    "material": [ "steel", "ceramic" ],
+    "material": [ "hardsteel", "ceramic" ],
     "symbol": "L",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 8,
     "non_functional": "destroyed_exo_leg_milcomp_plate",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE" ],
     "armor": [
@@ -362,8 +362,8 @@
     "name": { "str": "shattered military composite leg plate" },
     "description": "The remains of a military composite leg plate after taking a strong impact.  No longer provides functional protection just weight.",
     "looks_like": "exo_leg_milcomp",
-    "material": [ "steel", "ceramic" ],
-    "material_thickness": 2,
+    "material": [ "hardsteel", "ceramic" ],
+    "material_thickness": 8,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "torso" ] } ]
   }
