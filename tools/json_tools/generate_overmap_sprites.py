@@ -248,7 +248,7 @@ def main():
             terrain_dict.update(terrain_defs)
 
         if not terrain_dict:
-            print(f'skipping {om_id} because of empty terrain defs')
+            print(f'WARNING: empty terrain defs, skipping {om_id}')
             continue
 
         rows = mapgen.get('rows')
@@ -268,8 +268,9 @@ def main():
         else:
             om_id = get_first_valid(om_id)
             if len(image.getcolors()) > 1:
-                print(f'WARNING: skipped single-color sprite for {om_id}')
                 image.save(output_dir / f'{om_id}.png')
+            else:
+                print(f'WARNING: skipped single-color sprite for {om_id}')
 
 
 if __name__ == '__main__':
