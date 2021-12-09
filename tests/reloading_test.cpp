@@ -23,12 +23,12 @@
 #include "value_ptr.h"
 
 static const flag_id json_flag_SPEEDLOADER( "SPEEDLOADER" );
+static const flag_id json_flag_CASING( "CASING" );
 
 static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockbigmag( "glockbigmag" );
 static const itype_id itype_glockmag( "glockmag" );
 
-const flag_id json_flag_CASING( "CASING" );
 
 static void test_reloading( item &target, item &ammo, bool expect_success = true )
 {
