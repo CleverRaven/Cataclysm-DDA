@@ -4154,7 +4154,7 @@
     "type": "profession",
     "id": "road_worker",
     "name": "Road Worker",
-    "description": "You have a road roller. Nothing can stop you. You are god.",
+    "description": "You have a road roller.  Nothing can stop you.  You are god.",
     "points": 10,
     "vehicle": "road_roller",
     "skills": [ { "level": 3, "name": "driving" } ],
