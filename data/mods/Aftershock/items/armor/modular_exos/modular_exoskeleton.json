@@ -40,7 +40,7 @@
         "rigid": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "45 kg",
-        "item_restriction": [ "exo_torso_steel", "exo_torso_plastic" ],
+        "item_restriction": [ "exo_torso_steel", "exo_torso_plastic", "exo_torso_milcomp" ],
         "moves": 60
       },
       {
@@ -63,7 +63,6 @@
       {
         "pocket_type": "CONTAINER",
         "//": "This is a mounting point for power supply units or large modules.",
-        "ablative": true,
         "rigid": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
@@ -89,7 +88,7 @@
         "max_contains_volume": "8 L",
         "max_contains_weight": "35 kg",
         "max_item_length": "200 mm",
-        "item_restriction": [ "exo_arm_steel", "exo_arm_plastic" ],
+        "item_restriction": [ "exo_arm_steel", "exo_arm_plastic", "exo_arm_milcomp" ],
         "moves": 60
       },
       {
@@ -109,7 +108,7 @@
         "max_contains_volume": "9 L",
         "max_contains_weight": "40 kg",
         "max_item_length": "200 mm",
-        "item_restriction": [ "exo_leg_steel", "exo_leg_plastic" ],
+        "item_restriction": [ "exo_leg_steel", "exo_leg_plastic", "exo_leg_milcomp" ],
         "moves": 60
       },
       {
