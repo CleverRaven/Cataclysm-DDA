@@ -939,7 +939,9 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
-        if( inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
+        if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
+        return d.type == item_pocket::pocket_type::CONTAINER && d.watertight;
+    } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
             return c_magenta;
         }
         return c_green;

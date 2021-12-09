@@ -253,6 +253,7 @@ class inventory : public visitable
         // specifically used to for displaying non-empty liquid container colour in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;
         void update_liq_container_count( const itype_id &id, int count );
+        void replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max = false );
 
     private:
         invlet_favorites invlet_cache;
@@ -260,7 +261,7 @@ class inventory : public visitable
 
         invstack items;
 
-        std::map<itype_id, int> liq_containers;
+        std::map<itype_id, int> max_empty_liq_cont;
 
         // tracker for provide_pseudo_item to prevent duplicate tools/liquids
         std::set<itype_id> provisioned_pseudo_tools;

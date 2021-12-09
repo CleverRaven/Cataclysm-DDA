@@ -2027,7 +2027,7 @@ void vpart_position::form_inventory( inventory &inv )
     if( vp_cargo ) {
         const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
         for( auto &it : items ) {
-            if( !it.empty_container() && it.is_watertight_container() ) {
+            if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
             }
