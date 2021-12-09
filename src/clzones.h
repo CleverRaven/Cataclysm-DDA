@@ -19,6 +19,8 @@
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
+#include "avatar.h"
+#include "map.h"
 
 class JsonObject;
 class JsonOut;
@@ -239,6 +241,8 @@ class zone_data
         bool invert;
         bool enabled;
         bool is_vehicle;
+        //centered on the player
+        bool is_personal;
         tripoint start;
         tripoint end;
         shared_ptr_fast<zone_options> options;
@@ -249,6 +253,7 @@ class zone_data
             invert = false;
             enabled = false;
             is_vehicle = false;
+            is_personal = false;
             start = tripoint_zero;
             end = tripoint_zero;
             options = nullptr;
@@ -257,13 +262,14 @@ class zone_data
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false ) {
             name = _name;
             type = _type;
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
+            is_personal = personal;
             start = _start;
             end = _end;
 
@@ -315,9 +321,17 @@ class zone_data
             return is_vehicle;
         }
         tripoint get_start_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return start + get_map().getabs( player_character.pos() );
+            }
             return start;
         }
         tripoint get_end_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return end + get_map().getabs( player_character.pos() );
+            }
             return end;
         }
         tripoint get_center_point() const;
@@ -384,7 +398,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr );
+                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );

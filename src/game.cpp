@@ -5859,6 +5859,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     int tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<P>ersonal" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
@@ -5973,6 +5974,7 @@ void game::zones_manager()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
+    ctxt.register_action( "ADD_PERSONAL_ZONE" );
     ctxt.register_action( "REMOVE_ZONE" );
     ctxt.register_action( "MOVE_ZONE_UP" );
     ctxt.register_action( "MOVE_ZONE_DOWN" );
@@ -6044,7 +6046,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     auto query_position =
-    [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
+    [&]( bool personal = false ) -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
         {
             ui.mark_resize();
@@ -6072,6 +6074,19 @@ void game::zones_manager()
             const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
+                if( personal ) {
+                    tripoint first_abs = tripoint( std::min( first.position->x - u.posx(),
+                                                   second.position->x - u.posx() ),
+                                                   std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                   std::min( first.position->z - u.posz(),
+                                                           second.position->z - u.posz() ) ) ;
+                    tripoint second_abs = tripoint( std::max( first.position->x - u.posx(),
+                                                    second.position->x - u.posx() ),
+                                                    std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                    std::max( first.position->z - u.posz(),
+                                                            second.position->z - u.posz() ) ) ;
+                    return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                }
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
                                                second.position->x ),
                                                std::min( first.position->y, second.position->y ),
@@ -6082,6 +6097,7 @@ void game::zones_manager()
                                                 std::max( first.position->y, second.position->y ),
                                                 std::max( first.position->z,
                                                         second.position->z ) ) );
+
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6188,8 +6204,47 @@ void game::zones_manager()
                 }
 
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
-                         position->first, position->second, options );
+                         position->first, position->second, options, false );
 
+                zones = get_zones();
+                active_index = zone_cnt - 1;
+
+                stuff_changed = true;
+            } while( false );
+
+            blink = false;
+        } else if( action == "ADD_PERSONAL_ZONE" ) {
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type();
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
+
+                const zone_type_id &id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const std::string &name = maybe_name.value();
+
+                const auto position = query_position( true );
+                if( !position ) {
+                    break;
+                }
+
+                //add a zone that is relative to the avatar position
+                mgr.add( name, id, get_player_character().get_faction()->id, false, true,
+                         position->first, position->second, options, true );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 

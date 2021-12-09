@@ -563,6 +563,11 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
+    if( is_personal ) {
+        avatar &player_character = get_avatar();
+        start = position.first - player_character.pos();
+        end = position.second - player_character.pos();
+    }
     start = position.first;
     end = position.second;
 
@@ -1008,11 +1013,21 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, const shared_ptr_fast<zone_options> &options )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal )
 {
-    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
-    //the start is a vehicle tile with cargo space
     map &here = get_map();
+    if( personal ) {
+        // location is relative to the player
+        avatar &player_character = get_avatar();
+        popup( string_format( "%d, %d \n %d, %d. \n %d, %d", here.getabs( player_character.pos() ).x,
+                              here.getabs( player_character.pos() ).y,
+                              start.x,
+                              start.y, here.getabs( player_character.pos() ).x - start.x,
+                              here.getabs( player_character.pos() ).y - start.y
+                            ) );
+    }
+    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
+    //the start is a vehicle tile with cargo space
     if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
@@ -1189,6 +1204,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "invert", invert );
     json.member( "enabled", enabled );
     json.member( "is_vehicle", is_vehicle );
+    json.member( "is_personal", is_personal );
     json.member( "start", start );
     json.member( "end", end );
     options->serialize( json );
@@ -1212,6 +1228,11 @@ void zone_data::deserialize( const JsonObject &data )
         data.read( "is_vehicle", is_vehicle );
     } else {
         is_vehicle = false;
+    }
+    if( data.has_member( "is_personal" ) ) {
+        data.read( "is_personal", is_personal );
+    } else {
+        is_personal = false;
     }
     //Legacy support
     if( data.has_member( "start_x" ) ) {
