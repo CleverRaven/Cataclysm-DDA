@@ -326,13 +326,10 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
-    if( lhs.cached_name == rhs.cached_name ) {
-        std::string const ltname = lhs.any_item()->tname();
-        std::string const rtname = rhs.any_item()->tname();
-        return localized_compare( ltname, rtname );
-    }
-
-    return localized_compare( lhs.cached_name, rhs.cached_name );
+    auto const sort_key = []( inventory_entry const & e ) {
+        return std::make_tuple( e.cached_name, e.any_item()->tname() );
+    };
+    return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
 
 bool inventory_selector_preset::cat_sort_compare( const inventory_entry &lhs,
