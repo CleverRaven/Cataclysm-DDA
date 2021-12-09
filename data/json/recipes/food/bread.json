@@ -204,8 +204,8 @@
     "result": "toad_in_a_hole",
     "copy-from": "toast",
     "time": "10m",
-	"qualities": [ { "id": "COOK", "level": 1 } ],
-	"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+	   "qualities": [ { "id": "COOK", "level": 1 } ],
+	   "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ] ]
   },
   {
@@ -214,8 +214,8 @@
     "result": "toad_in_a_hole_wheat_free",
     "copy-from": "toast_wheat_free",
     "time": "10m",
-	"qualities": [ { "id": "COOK", "level": 1 } ],
-	"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+	   "qualities": [ { "id": "COOK", "level": 1 } ],
+	   "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ] ]
   },
   {
