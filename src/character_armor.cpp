@@ -539,7 +539,6 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_avatar() ) {
-        // add damage description
         SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
                  damage_verb,
                  m_info );
