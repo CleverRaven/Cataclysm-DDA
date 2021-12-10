@@ -25,9 +25,10 @@ TILE_ENTRY_TEMPLATE = {
 }
 CREATED_IDS = set()
 SKIPPED = {
-    'no_terrain': list(),
-    'single_color': set(),
+    # 'single_color': set(),
     'duplicate': set(),
+    'predecessor_mapgen': list(),
+    'no_rows': list(),
 }
 
 
@@ -216,6 +217,7 @@ def output_image(
     image: Image,
     generate_json: bool,
     output_dir: Optional[Path] = None,
+    single_terrain: bool = False
 ) -> None:
     """
     Save image to disk
@@ -224,11 +226,12 @@ def output_image(
         SKIPPED['duplicate'].add(name)
         return
 
-    if len(image.getcolors()) < 2:
-        SKIPPED['single_color'].add(name)
-        return
+    # if len(image.getcolors()) < 2 and not single_terrain:
+    #    SKIPPED['single_color'].add(name)
+    #    return
 
     if output_dir is None:
+        CREATED_IDS.add(name)
         return
 
     if generate_json:
@@ -323,16 +326,23 @@ def main():
         if terrain_defs:
             terrain_dict.update(terrain_defs)
 
+        single_terrain = False
         if not terrain_dict:
-            SKIPPED['no_terrain'].append(om_id)
-            continue
+            single_terrain = True
 
         # verify "rows" is not empty
         rows = mapgen.get('rows')
-        if not rows:
-            continue
-
         fill_ter = mapgen.get('fill_ter')
+
+        if not rows:
+            if fill_ter:
+                rows = [' ' * SIZE] * SIZE
+            else:
+                if mapgen.get('predecessor_mapgen'):
+                    SKIPPED['predecessor_mapgen'].append(om_id)
+                else:
+                    SKIPPED['no_rows'].append(om_id)
+                continue
 
         # create the sprite
         image = generate_image(
@@ -347,6 +357,7 @@ def main():
                     image=submap_image,
                     generate_json=generate_json,
                     output_dir=output_dir,
+                    single_terrain=single_terrain,
                 )
 
         else:
@@ -356,13 +367,15 @@ def main():
                 image=image,
                 generate_json=generate_json,
                 output_dir=output_dir,
+                single_terrain=single_terrain,
             )
 
 
 if __name__ == '__main__':
     main()
 
+    print(f'generated {len(CREATED_IDS)} sprites')
     print('Skipped:')
-    for reason, values in SKIPPED.items():
-        print(reason)
-        print(values or '')
+    for reason, skipped_values in SKIPPED.items():
+        print(reason, len(skipped_values))
+        print(skipped_values or '')
