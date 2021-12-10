@@ -676,12 +676,12 @@
       },
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 40, "charges": [ 1, 10 ] },
-          { "item": "bandages", "prob": 20, "charges": [ 1, 3 ] },
+          { "item": "adhesive_bandages", "prob": 30, "charges": [ 1, 10 ] },
+          { "item": "bandages", "prob": 30, "charges": [ 1, 6 ] },
           { "item": "medical_gauze", "prob": 20 },
           { "group": "full_1st_aid", "prob": 10 }
         ],
-        "prob": 20
+        "prob": 50
       },
       {
         "distribution": [
