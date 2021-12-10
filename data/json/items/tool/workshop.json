@@ -1352,6 +1352,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
