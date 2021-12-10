@@ -24,6 +24,11 @@ TILE_ENTRY_TEMPLATE = {
     'rotates': True,
 }
 CREATED_IDS = set()
+SKIPPED = {
+    'no_terrain': list(),
+    'single_color': set(),
+    'duplicate': set(),
+}
 
 
 def get_first_valid(
@@ -216,11 +221,11 @@ def output_image(
     Save image to disk
     """
     if name in CREATED_IDS:
-        print(f'WARNING: skipped sprite for duplicate duplicate {name}')
+        SKIPPED['duplicate'].add(name)
         return
 
     if len(image.getcolors()) < 2:
-        print(f'WARNING: skipped single-color sprite for {name}')
+        SKIPPED['single_color'].add(name)
         return
 
     if output_dir is None:
@@ -319,7 +324,7 @@ def main():
             terrain_dict.update(terrain_defs)
 
         if not terrain_dict:
-            print(f'WARNING: empty terrain defs, skipping {om_id}')
+            SKIPPED['no_terrain'].append(om_id)
             continue
 
         # verify "rows" is not empty
@@ -356,3 +361,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    print('Skipped:')
+    for reason, values in SKIPPED.items():
+        print(reason)
+        print(values or '')
