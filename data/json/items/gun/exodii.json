@@ -49,7 +49,7 @@
     "barrel_volume": "250 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
-  }
+  },
   {
     "id": "pamd68mountable",
     "copy-from": "pamd68",
