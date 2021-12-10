@@ -1756,6 +1756,8 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
             water.charges = rng( 40, 240 );
             if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
                 water.poison = rng( 1, 6 );
+                water.get_comestible()->parasites = 5;
+                water.get_comestible()->contamination = { { diseasetype_id( "bad_food" ), 5 } };
             }
             add_item( p, water );
         }
@@ -4544,6 +4546,8 @@ item map::water_from( const tripoint &p )
         ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         ret.poison = rng( 1, 6 );
+        ret.get_comestible()->parasites = 5;
+        ret.get_comestible()->contamination = { { diseasetype_id( "bad_food" ), 5 } };
         return ret;
     }
 
