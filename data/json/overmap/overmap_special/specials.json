@@ -177,7 +177,7 @@
   {
     "type": "overmap_special",
     "id": "Cabin_prepper",
-    "overmaps": [ 
+    "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_prepper_north" },
       { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_1_north" },
       { "point": [ 0, 0, -1 ], "overmap": "cabin_prepper_shelter_north" }
