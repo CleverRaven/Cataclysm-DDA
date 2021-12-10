@@ -1466,6 +1466,11 @@ void inventory_selector::add_items( inventory_column &target_column,
         }
 
         add_entry( target_column, std::move( locations ), nat_category );
+        for( item *it_elem : elem ) {
+            item_location parent = locator( it_elem );
+            add_contained_items( parent, target_column, custom_category, get_topmost_parent( nullptr, parent,
+                                 preset ) );
+        }
     }
 }
 
@@ -1525,11 +1530,6 @@ void inventory_selector::add_character_items( Character &character )
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
         &item_category_ITEMS_WORN.obj() );
-        for( item &it_elem : *elem ) {
-            item_location parent( character, &it_elem );
-            add_contained_items( parent, own_inv_column, &item_category_ITEMS_WORN.obj(),
-                                 get_topmost_parent( nullptr, parent, preset ) );
-        }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
     // and this function iterates over all the entries after we added them to the inventory selector
@@ -1549,12 +1549,6 @@ void inventory_selector::add_map_items( const tripoint &target )
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( map_cursor( target ), it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), custom_cat );
-
-        for( item &it_elem : items ) {
-            item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
-                                 preset ) );
-        }
     }
 }
 
@@ -1577,12 +1571,6 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), custom_cat );
-
-    for( item &it_elem : items ) {
-        item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
-                             preset ) );
-    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
