@@ -157,7 +157,7 @@ def add_palette(
 
     terrains = entry.get('terrain')
     if terrains is None:
-        return
+        terrains = {}
 
     palette_id = entry.get('id')
     global PALETTES
@@ -279,6 +279,7 @@ def main():
         # check type
         entry_type = entry.get('type')
         if entry_type == 'palette':
+            print(f'found new palette {entry.get("id")}')
             add_palette(entry)
             continue
         if entry_type != 'mapgen':
@@ -306,7 +307,7 @@ def main():
                 if isinstance(palette_id, OrderedDict):
                     palette_id = get_first_valid(palette_id.get('disribution'))
                 palette = PALETTES.get(palette_id)
-                if palette:
+                if palette is not None:
                     terrain_dict.update(palette)
                 else:
                     print(f'WARNING: unknown palette {palette_id}')
