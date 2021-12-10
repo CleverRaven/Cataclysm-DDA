@@ -662,7 +662,7 @@
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },
-      { "item": "alcohol_wipes", "prob": 50, "charges": [ 1, 40 ] },
+      { "item": "alcohol_wipes", "prob": 60, "charges": [ 1, 40 ] },
       {
         "distribution": [
           { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
