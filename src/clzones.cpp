@@ -496,7 +496,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
     if( personal ) {
         for( auto &tmp : types ) {
             if( tmp.second.can_be_personal ) {
-                types_vec.push_back( tmp );
+                types_vec.emplace_back( tmp );
             }
         }
     } else {
