@@ -458,7 +458,6 @@
     "proportional": { "hp": 0.2, "speed": 0.9, "morale": 0.9, "melee_dice_sides": 0.5 },
     "melee_skill": 2,
     "melee_dice": 2,
-    "melee_dice_sides": 4,
     "melee_cut": 2,
     "armor_bash": 4,
     "armor_cut": 4,
