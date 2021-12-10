@@ -198,13 +198,16 @@ def read_mapgen_palettes() -> None:
         add_palette(entry)
 
 
-def get_mapgen_data() -> list:
+def get_mapgen_data(
+    mapgen_dir: Path,
+    pattern: str,
+) -> list:
     """
     Get all mapgen entries
     """
     mapgen_data, errors = import_data(
-        json_dir=Path('../../data/json/mapgen/'),
-        json_fmatch='*.json',
+        json_dir=mapgen_dir,
+        json_fmatch=pattern,
     )
     if errors:
         print(errors)
@@ -267,6 +270,17 @@ def main():
         '--json', dest='json', action='store_true',
         help='Generate JSON files for correct rotations',
     )
+    arg_parser.add_argument(
+        '--mapgen-dir', dest='mapgen_dir', type=Path,
+        default=Path('../../data/json/mapgen/'),
+        help='directory with mapgen entries',
+    )
+    arg_parser.add_argument(
+        '--mapgen-files-pattern', dest='mapgen_files_pattern', type=str,
+        default='*.json',
+        help='filename template for selecting a subset '
+        'of JSON files in the mapgen dir',
+    )
     args_dict = vars(arg_parser.parse_args())
 
     output_dir = args_dict.get('output_dir', None)
@@ -280,7 +294,10 @@ def main():
 
     read_mapgen_palettes()
 
-    mapgen_data = get_mapgen_data()
+    mapgen_data = get_mapgen_data(
+        mapgen_dir=args_dict.get('mapgen_dir'),
+        pattern=args_dict.get('mapgen_files_pattern'),
+    )
 
     # get palettes
     for entry in mapgen_data:
