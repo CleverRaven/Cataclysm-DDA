@@ -181,6 +181,7 @@ void zone_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "description", desc_, translation() );
+    optional( jo, was_loaded, "can_be_personal", can_be_personal );
 }
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
@@ -485,14 +486,23 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
     }
 }
 
-cata::optional<zone_type_id> zone_manager::query_type() const
+cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
 
     // Copy zone types into an array and sort by name
     std::vector<std::pair<zone_type_id, zone_type>> types_vec;
-    std::copy( types.begin(), types.end(),
-               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    // only add personal functioning zones for personal
+    if( personal ) {
+        for( const std::pair<zone_type_id, zone_type> &tmp : types ) {
+            if( tmp.second.can_be_personal ) {
+                types_vec.push_back( tmp );
+            }
+        }
+    } else {
+        std::copy( types.begin(), types.end(),
+                   std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    }
     std::sort( types_vec.begin(), types_vec.end(),
     []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
         return localized_compare( lhs.second.name(), rhs.second.name() );
@@ -540,7 +550,7 @@ bool zone_data::set_name()
 
 bool zone_data::set_type()
 {
-    const auto maybe_type = zone_manager::get_manager().query_type();
+    const auto maybe_type = zone_manager::get_manager().query_type( is_personal );
     if( maybe_type.has_value() && maybe_type.value() != type ) {
         shared_ptr_fast<zone_options> new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
@@ -562,11 +572,6 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
-    }
-    if( is_personal ) {
-        avatar &player_character = get_avatar();
-        start = position.first - player_character.pos();
-        end = position.second - player_character.pos();
     }
     start = position.first;
     end = position.second;
@@ -1018,35 +1023,31 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                         const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal )
 {
     map &here = get_map();
-    if( personal ) {
-        // location is relative to the player
-        avatar &player_character = get_avatar();
-        popup( string_format( "%d, %d \n %d, %d. \n %d, %d", here.getabs( player_character.pos() ).x,
-                              here.getabs( player_character.pos() ).y,
-                              start.x,
-                              start.y, here.getabs( player_character.pos() ).x - start.x,
-                              here.getabs( player_character.pos() ).y - start.y
-                            ) );
-    }
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
-    //the start is a vehicle tile with cargo space
-    if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
-                start ) ).part_with_feature( "CARGO", false ) ) {
-        // TODO:Allow for loot zones on vehicles to be larger than 1x1
-        if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
-            // TODO: refactor zone options for proper validation code
-            if( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) {
-                popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
+    // only non personal zones can be vehicle zones
+    if( !personal ) {
+        //the start is a vehicle tile with cargo space
+        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
+                    start ) ).part_with_feature( "CARGO", false ) ) {
+            // TODO:Allow for loot zones on vehicles to be larger than 1x1
+            if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
+                // TODO: refactor zone options for proper validation code
+                if( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+                    popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
+                    return;
+                }
+
+                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
                 return;
             }
-
-            create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
-            return;
         }
     }
 
     //Create a regular zone
     zones.push_back( new_zone );
+    if( personal ) {
+        num_personal_zones++;
+    }
     cache_data();
 }
 
@@ -1054,6 +1055,10 @@ bool zone_manager::remove( zone_data &zone )
 {
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
         if( &zone == &*it ) {
+            // if removing a personal zone reduce the number of counted personal zones
+            if( it->get_is_personal() ) {
+                num_personal_zones--;
+            }
             zones.erase( it );
             return true;
         }
@@ -1180,6 +1185,12 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
     return zones;
 }
 
+bool zone_manager::has_personal_zones() const
+{
+    // if there are more than 0 personal zones
+    return num_personal_zones > 0;
+}
+
 void zone_manager::serialize( JsonOut &json ) const
 {
     json.write( zones );
@@ -1189,6 +1200,10 @@ void zone_manager::deserialize( const JsonValue &jv )
 {
     jv.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
+        // need to keep track of number of personal zones on reload
+        if( it->get_is_personal() ) {
+            num_personal_zones++;
+        }
         const zone_type_id zone_type = it->get_type();
         if( !has_type( zone_type ) ) {
             zones.erase( it );

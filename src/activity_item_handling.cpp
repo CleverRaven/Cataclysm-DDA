@@ -2024,8 +2024,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     map &here = get_map();
     const tripoint abspos = here.getabs( you.pos() );
     auto &mgr = zone_manager::get_manager();
-    // this is not good need to be more elegant about updating the cache only if local zones exist or something
-    mgr.cache_data();
     if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }

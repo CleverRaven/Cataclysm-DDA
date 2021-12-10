@@ -54,6 +54,8 @@ class zone_type
         std::string name() const;
         std::string desc() const;
 
+        bool can_be_personal = false;
+
         static void load_zones( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
         /**
@@ -320,6 +322,9 @@ class zone_data
         bool get_is_vehicle() const {
             return is_vehicle;
         }
+        bool get_is_personal() const {
+            return is_personal;
+        }
         tripoint get_start_point() const {
             if( is_personal ) {
                 avatar &player_character = get_avatar();
@@ -379,6 +384,10 @@ class zone_manager
         std::vector<zone_data> removed_vzones; // NOLINT(cata-serialize)
 
         std::map<zone_type_id, zone_type> types; // NOLINT(cata-serialize)
+
+        // a count of the number of personal zones the character has
+        int num_personal_zones = 0; // NOLINT(cata-serialize)
+
         // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<std::string, std::unordered_set<tripoint>> area_cache;
         // NOLINTNEXTLINE(cata-serialize)
@@ -442,7 +451,7 @@ class zone_manager
         const zone_data *get_bottom_zone( const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type() const;
+        cata::optional<zone_type_id> query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
@@ -454,6 +463,8 @@ class zone_manager
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
+
+        bool has_personal_zones() const;
 
         bool save_zones();
         void load_zones();

@@ -6215,7 +6215,7 @@ void game::zones_manager()
             blink = false;
         } else if( action == "ADD_PERSONAL_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
-                const auto maybe_id = mgr.query_type();
+                const auto maybe_id = mgr.query_type( true );
                 if( !maybe_id.has_value() ) {
                     break;
                 }
@@ -6329,7 +6329,7 @@ void game::zones_manager()
                         }
                         break;
                     case 4: {
-                        const auto pos = query_position();
+                        const auto pos = query_position( zone.get_is_personal() );
                         if( pos && ( pos->first != zone.get_start_point() ||
                                      pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
