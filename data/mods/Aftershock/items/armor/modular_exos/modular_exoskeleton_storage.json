@@ -1,5 +1,5 @@
 [
-	{
+  {
     "id": "exo_rifle_storage",
     "type": "ARMOR",
     "name": { "str": "large storage pouch" },
@@ -32,7 +32,7 @@
     "material_thickness": 2,
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
-	{
+  {
     "id": "exo_melee_storage",
     "type": "ARMOR",
     "name": { "str": "large storage pouch" },
@@ -58,9 +58,9 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "material_thickness": 2,
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ]} ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
-	{
+  {
     "id": "exo_large_storage",
     "repairs_like": "backpack_tactical_large",
     "type": "ARMOR",
@@ -72,7 +72,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -107,7 +106,7 @@
         "moves": 120
       },
       {
-        "//": "carabiner pocket",
+        "description": "carabiner pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -120,7 +119,7 @@
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
-        "//": "carabiner pocket",
+        "description": "carabiner pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -133,7 +132,7 @@
         "activity_noise": { "volume": 8, "chance": 10 }
       },
       {
-        "//": "carabiner pocket",
+        "description": "carabiner pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "5 L",
@@ -148,7 +147,7 @@
     ],
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
-	{
+  {
     "id": "exo_medium_storage",
     "repairs_like": "fanny",
     "type": "ARMOR",
@@ -171,7 +170,7 @@
       }
     ]
   },
-	{
+  {
     "id": "exo_small_storage",
     "repairs_like": "fanny",
     "type": "ARMOR",
@@ -194,7 +193,7 @@
       }
     ]
   },
-    {
+  {
     "id": "exo_large_ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "exoskeleton large ammo pouches", "str_pl": "exoskeleton large ammo pouches" },
@@ -206,7 +205,7 @@
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
-     "pocket_data": [
+    "pocket_data": [
       {
         "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
@@ -275,7 +274,7 @@
       }
     ]
   },
-    {
+  {
     "id": "exo_small_ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "exoskeleton small ammo pouches", "str_pl": "exoskeleton small ammo pouches" },
@@ -295,7 +294,7 @@
         "max_item_length": "30 cm",
         "magazine_well": "500 ml",
         "moves": 200,
-		"flag_restriction": [ "MAG_COMPACT"]
+        "flag_restriction": [ "MAG_COMPACT" ]
       },
       {
         "pocket_type": "CONTAINER",
@@ -304,7 +303,7 @@
         "max_item_length": "30 cm",
         "magazine_well": "500 ml",
         "moves": 200,
-		"flag_restriction": [ "MAG_COMPACT"]
+        "flag_restriction": [ "MAG_COMPACT" ]
       }
     ],
     "material_thickness": 0.2,
@@ -318,4 +317,4 @@
       }
     ]
   }
-  ]
+]
