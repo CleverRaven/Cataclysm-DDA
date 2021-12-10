@@ -161,42 +161,54 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "buttered_toast",
     "copy-from": "toast",
-    "components": [ [ [ "toast", 1 ] ], [ [ "butter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "butter", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "buttered_toast_wheat_free",
     "copy-from": "toast_wheat_free",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "butter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "butter", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jam_toast",
     "copy-from": "toast",
-    "components": [ [ [ "toast", 1 ] ], [ [ "jam_fruit", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jam_toast_wheat_free",
     "copy-from": "toast_wheat_free",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "jam_fruit", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "peanut_butter_toast",
     "copy-from": "toast",
-    "components": [ [ [ "toast", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "peanutbutter", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "peanut_butter_toast_wheat_free",
     "copy-from": "toast_wheat_free",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "peanutbutter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -223,13 +235,17 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "PBJ_Toast",
     "copy-from": "toast",
-    "components": [ [ [ "toast", 1 ] ], [ [ "jam_fruit", 1 ] ], [ [ "butter", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "butter", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "PBJ_Toast_wheat_free",
     "copy-from": "toast_wheat_free",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "jam_fruit", 1 ] ], [ [ "butter", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+		"qualities": [ { "id": "COOK", "level": 1 } ],
+		"tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "butter", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
   }
 ]
