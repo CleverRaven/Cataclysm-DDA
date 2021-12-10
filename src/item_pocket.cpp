@@ -978,7 +978,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->ripoff > 0 ) {
         info.emplace_back( "DESCRIPTION",
-                           _( "Items may <bad>fall out</bad> if grabbed or hit." ) );
+                           _( "Items may <bad>fall out</bad> if grabbed." ) );
     }
 
     if( data->activity_noise.chance > 0 ) {
