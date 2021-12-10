@@ -19,6 +19,7 @@
   },
   "terrain": {
     "null": [0, 0, 0, 0],
+    "t_open_air": [189, 238, 255],
     "t_rock": [22, 22, 22],
     "t_soil": [55, 55, 0],
     "t_dirt_underground": [99, 99, 0],
