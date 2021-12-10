@@ -79,6 +79,7 @@ def generate_image(
     for index_x, row in enumerate(rows):
         for index_y, char in enumerate(row):
             terrain_id = get_first_valid(terrain_dict.get(char), fill_ter)
+            # TODO: skip on t_secretdoor_metal_c ?
 
             color = SCHEME['terrain'].get(terrain_id)
             if not color:
@@ -145,9 +146,40 @@ def read_terrain_color_names() -> None:
             TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
 
 
+def add_palette(
+    entry: dict,
+) -> None:
+    """
+    Add new palette to the PALETTES global
+    """
+    if entry.get('type') != 'palette':
+        return
+
+    terrains = entry.get('terrain')
+    if terrains is None:
+        return
+
+    palette_id = entry.get('id')
+    global PALETTES
+
+    if palette_id in PALETTES:
+        raise Exception(f'WARNING: duplicate palette id {palette_id}')
+
+    PALETTES[palette_id] = {
+        key: value for
+        key, value in
+        terrains.items() if
+        not isinstance(value, dict) and
+        not isinstance(value, OrderedDict)
+        # TODO: support whatever this is
+    }
+
+
 def read_mapgen_palettes() -> None:
     """
     Fill the PALETTES global
+
+    FIXME: read from mapgen folder too
     """
     palette_entries, errors = import_data(
         json_dir=Path('../../data/json/mapgen_palettes/'),
@@ -156,21 +188,8 @@ def read_mapgen_palettes() -> None:
     if errors:
         print(errors)
 
-    global PALETTES
     for entry in palette_entries:
-        palette_id = entry.get('id')
-        terrains = entry.get('terrain')
-        if entry.get('type') == 'palette' and palette_id and terrains:
-            if palette_id in PALETTES:
-                print(f'WARNING: duplicate palette id {palette_id}')
-            PALETTES[palette_id] = {
-                key: value
-                for key, value
-                in terrains.items()
-                if not isinstance(value, dict) and
-                not isinstance(value, OrderedDict)
-                # TODO: support whatever this is
-            }
+        add_palette(entry)
 
 
 def get_mapgen_data() -> list:
@@ -188,19 +207,23 @@ def get_mapgen_data() -> list:
 
 
 def output_image(
-    output_dir: Path,
     name: str,
     image: Image,
     generate_json: bool,
+    output_dir: Optional[Path] = None,
 ) -> None:
     """
     Save image to disk
     """
     if name in CREATED_IDS:
+        print(f'WARNING: skipped sprite for duplicate duplicate {name}')
         return
 
     if len(image.getcolors()) < 2:
         print(f'WARNING: skipped single-color sprite for {name}')
+        return
+
+    if output_dir is None:
         return
 
     if generate_json:
@@ -219,6 +242,7 @@ def main():
     """
     main
     """
+    # get arguments
     arg_parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -228,7 +252,7 @@ def main():
         help='path to a JSON color SCHEME',
     )
     arg_parser.add_argument(
-        'output_dir', type=Path,
+        'output_dir', nargs='?', type=Path,
         help='Output directory path',
     )
     arg_parser.add_argument(
@@ -236,10 +260,12 @@ def main():
         help='Generate JSON files for correct rotations',
     )
     args_dict = vars(arg_parser.parse_args())
-    output_dir = args_dict.get('output_dir')
+
+    output_dir = args_dict.get('output_dir', None)
     color_scheme_path = args_dict.get('color_scheme')
     generate_json = args_dict.get('json')
 
+    # read needed values from the data/json/ subdirectories
     read_scheme(color_scheme_path)
 
     read_terrain_color_names()
@@ -248,11 +274,17 @@ def main():
 
     mapgen_data = get_mapgen_data()
 
+    # main loop over mapgens
     for entry in mapgen_data:
+        # check type
         entry_type = entry.get('type')
+        if entry_type == 'palette':
+            add_palette(entry)
+            continue
         if entry_type != 'mapgen':
             continue
 
+        # check method, only json supported currently
         method = entry.get('method')
         if method != 'json':
             continue
@@ -261,10 +293,12 @@ def main():
         if not om_id:
             continue
 
+        # verify that "object" value is defined
         mapgen = entry.get('object')
         if not mapgen:
             continue
 
+        # combine "palettes" value with "terrain" to get all terrain values
         terrain_dict = {}
         palettes = mapgen.get('palettes')
         if palettes:
@@ -286,32 +320,35 @@ def main():
             print(f'WARNING: empty terrain defs, skipping {om_id}')
             continue
 
+        # verify "rows" is not empty
         rows = mapgen.get('rows')
         if not rows:
             continue
 
         fill_ter = mapgen.get('fill_ter')
 
+        # create the sprite
         image = generate_image(
             rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter)
 
+        # write sprite[s] to the output directory
         if isinstance(om_id, list) and isinstance(om_id[0], list):
             generator = split_image(image=image, om_ids=om_id)
             for submap_id, submap_image in generator:
                 output_image(
-                    output_dir=output_dir,
                     name=submap_id,
                     image=submap_image,
                     generate_json=generate_json,
+                    output_dir=output_dir,
                 )
 
         else:
             om_id = get_first_valid(om_id)
             output_image(
-                output_dir=output_dir,
                 name=om_id,
                 image=image,
                 generate_json=generate_json,
+                output_dir=output_dir,
             )
 
 
