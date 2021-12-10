@@ -18,7 +18,7 @@
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for armor protecting the PSU.",
+        "description": "This is a mounting point for armor protecting the PSU.",
         "rigid": true,
         "ablative": true,
         "max_contains_volume": "10 L",
@@ -46,14 +46,14 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "//": "This is a tank for gasoline. Holds up to 10 liters.",
+        "description": "This is a tank for gasoline. Holds up to 10 liters.",
         "rigid": true,
         "watertight": true,
         "ammo_restriction": { "gasoline": 10000 }
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for armor protecting the PSU.",
+        "description": "This is a mounting point for armor protecting the PSU.",
         "ablative": true,
         "rigid": true,
         "max_contains_volume": "10 L",
@@ -68,7 +68,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton large APU" },
-    "description": "This is a large rechargable auxiliary power unit that attaches to a hardpoint.",
+    "description": "This is a large rechargable auxiliary power unit that attaches to an exoskeleton hardpoint.",
     "weight": "5 kg",
     "volume": "5 L",
     "material": [ "plastic", "steel" ],
@@ -84,7 +84,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton small APU" },
-    "description": "This is a small rechargable auxiliary power unit that attaches to a hardpoint.",
+    "description": "This is a small rechargable auxiliary power unit that attaches to an exoskeleton hardpoint.",
     "weight": "2 kg",
     "volume": "1 L",
     "material": [ "plastic", "steel" ],
@@ -115,10 +115,10 @@
     "use_action": {
       "target": "exo_large_carry_on",
       "msg": "The %s engages.",
-	  "menu_text": "Turn on module",
+      "menu_text": "Turn on module",
       "active": true,
-        "need_charges": 5,
-        "need_charges_msg": "There is not enough charge to activate the module.",
+      "need_charges": 5,
+      "need_charges_msg": "There is not enough charge to activate the module.",
       "type": "transform"
     }
   },
@@ -137,7 +137,8 @@
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]},
+      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
+    },
     "power_draw": 1500,
     "revert_to": "exo_large_carry_off",
     "use_action": {
@@ -153,7 +154,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton small load support module (off)" },
-	"description": "This module increases the exoskeleton's weight bearing at the cost of increased power cosumption.",
+    "description": "This module increases the exoskeleton's weight bearing at the cost of increased power cosumption.",
     "weight": "2 kg",
     "volume": "1 L",
     "material": [ "plastic", "steel" ],
@@ -168,10 +169,10 @@
     "use_action": {
       "target": "exo_small_carry_on",
       "msg": "The %s engages.",
-	  "menu_text": "Turn on module",
+      "menu_text": "Turn on module",
       "active": true,
-        "need_charges": 5,
-        "need_charges_msg": "There is not enough charge to activate the module.",
+      "need_charges": 5,
+      "need_charges_msg": "There is not enough charge to activate the module.",
       "type": "transform"
     }
   },
@@ -201,5 +202,205 @@
       "menu_text": "Turn off module",
       "type": "transform"
     }
-	}
+  },
+  {
+    "id": "exo_flashlight_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
+    "description": "This is a light that can be secured to an exoskeleton hardpoint. It has two levels of brightness.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the lamp on low.",
+      "target": "exo_flashlight_low",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the module."
+    }
+  },
+  {
+    "id": "exo_flashlight_low",
+    "copy-from": "exo_flashlight_off",
+    "type": "TOOL",
+    "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
+    "power_draw": 1000,
+    "revert_to": "exo_flashlight_off",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn to high",
+      "type": "transform",
+      "msg": "You turn the heavy duty flashlight off.",
+      "target": "exo_flashlight_high"
+    },
+    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR" ]
+  },
+  {
+    "id": "exo_flashlight_high",
+    "copy-from": "exo_flashlight_off",
+    "type": "TOOL",
+    "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
+    "power_draw": 2000,
+    "revert_to": "exo_flashlight_off",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the heavy duty flashlight off.",
+      "target": "exo_flashlight_off"
+    },
+    "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR" ]
+  },
+  {
+    "id": "exo_hearing_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "enhanced audio sensor (off)", "str_pl": "enhanced audio sensors (off)" },
+    "description": "This is an audio detection array exoskeleton module. While active, it also protects your hearing from loud noises.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate the helmet's audio enhancers.",
+      "target": "exo_hearing_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the module."
+    }
+  },
+  {
+    "id": "exo_hearing_on",
+    "copy-from": "exo_hearing_off",
+    "type": "TOOL",
+    "name": { "str": "enhanced audio sensor (on)", "str_pl": "enhanced audio sensors (on)" },
+    "power_draw": 500,
+    "revert_to": "exo_hearing_off",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn off the helmet's audio enhancers.",
+      "target": "exo_hearing_off"
+    },
+    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR" ]
+  },
+  {
+    "id": "exo_recoil_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "recoil controller (off)", "str_pl": "recoil controller (off)" },
+    "description": "This module takes partial control of the exoskeleton while firing, damping recoil. Activate before firing.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate the helmet's audio enhancers.",
+      "target": "exo_recoil_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the module."
+    },
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
+    }
+  },
+  {
+    "id": "exo_recoil_on",
+    "copy-from": "exo_recoil_off",
+    "type": "TOOL",
+    "name": { "str": "recoil controller (on)", "str_pl": "recoil controllers (on)" },
+    "power_draw": 2000,
+    "revert_to": "exo_recoil_off",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn off the recoil controller.",
+      "target": "exo_recoil_off"
+    },
+    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
+    }
+  },
+  {
+    "id": "exo_optics_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "symbol": "8",
+    "color": "light_gray",
+    "name": { "str": "exoskeleton enhanced optics (off)", "str_pl": "exoskeleton enhanced optics (off)" },
+    "description": "A set of enhanced optics for an exoskeleton. Provides telescopic vision as well as protection from glare and bright flashes of light. Activate to enable infrared vision.",
+    "price": 30000,
+    "price_postapoc": 500,
+    "material": [ "plastic", "glass" ],
+    "flags": [ "ZOOM", "SUN_GLASSES", "FLASH_PROTECTION" ],
+    "weight": "500 g",
+    "volume": "500 ml",
+    "bashing": 4,
+    "to_hit": -1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate the helmet's optical enhancement.",
+      "target": "exo_hearing_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the module."
+    }
+  },
+  {
+    "id": "exo_optics_on",
+    "copy-from": "exo_optics_off",
+    "type": "TOOL",
+    "name": { "str": "exoskeleton enhanced optics (on)", "str_pl": "exoskeleton enhanced optics (on)" },
+    "power_draw": 500,
+    "revert_to": "exo_optics_off",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn off helmet's optical enhancement.",
+      "target": "exo_optics_off"
+    },
+    "flags": [ "USE_UPS", "CANT_WEAR", "IR_EFFECT" ]
+  },
+  {
+    "id": "exoskeleton_helmet_filter",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "exoskeleton filter module" },
+    "category": "clothing",
+    "description": "A gas filtration module for an exoskeleton helmet.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE" ],
+    "weight": "1000 g",
+    "volume": "1 L",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ]
+  }
 ]

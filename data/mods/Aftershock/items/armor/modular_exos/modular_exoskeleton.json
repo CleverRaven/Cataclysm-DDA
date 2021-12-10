@@ -7,6 +7,8 @@
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exoskeleton undersuit" },
     "description": "A form-fitting suit inlaid with meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "weight": "610 g",
+    "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "plastic" ],
     "armor": [
@@ -28,13 +30,14 @@
     "weight": "40 kg",
     "volume": "130 L",
     "material": [ "steel", "plastic" ],
-    "symbol": "[",
+    "material_thickness": 8,
+    "symbol": "T",
     "looks_like": "power_armor_basic",
     "color": "light_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for torso armor.",
+        "description": "This is a mounting point for torso armor.",
         "ablative": true,
         "rigid": true,
         "max_contains_volume": "10 L",
@@ -44,7 +47,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a hardpoint for storing items in the torso.",
+        "description": "This is a hardpoint for storing items in the torso.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
@@ -55,13 +58,18 @@
           "exo_small_ammo_pouch",
           "exo_small_aux_power",
           "exo_small_carry_off",
-          "exo_small_carry_on"
+          "exo_small_carry_on",
+          "exo_flashlight_off",
+          "exo_flashlight_low",
+          "exo_flashlight_high",
+          "exo_recoil_off",
+          "exo_recoil_on"
         ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for power supply units or large modules.",
+        "description": "This is a mounting point for power supply units or large modules.",
         "rigid": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
@@ -77,14 +85,14 @@
           "exo_large_carry_on",
           "exo_small_carry_off",
           "exo_small_carry_on",
-		  "exo_melee_storage",
-		  "exo_large_storage"
+          "exo_melee_storage",
+          "exo_rifle_storage"
         ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for arm armor.",
+        "description": "This is a mounting point for arm armor.",
         "ablative": true,
         "rigid": true,
         "max_contains_volume": "8 L",
@@ -95,7 +103,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a hardpoint for storing items on the arms.",
+        "description": "This is a hardpoint for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
@@ -104,7 +112,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a hardpoint for storing items on the arms.",
+        "description": "This is a hardpoint for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
@@ -113,7 +121,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a mounting point for leg armor.",
+        "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
         "max_contains_volume": "9 L",
@@ -124,7 +132,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a hardpoint for storing items on the legs.",
+        "description": "This is a hardpoint for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
@@ -133,7 +141,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "//": "This is a hardpoint for storing items on the legs.",
+        "description": "This is a hardpoint for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
@@ -167,5 +175,103 @@
     "power_draw": 7123,
     "revert_to": "modular_exoskeleton_off",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton_off" }
+  },
+  {
+    "id": "exoskeleton_helmet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton helmet" },
+    "description": "This is a helmet offering hardpoints for specialized equipment and protection.",
+    "weight": "2500 g",
+    "volume": "5 L",
+    "material": [ "steel", "plastic" ],
+    "symbol": "n",
+    "looks_like": "power_armor_helmet_basic",
+    "color": "dark_gray",
+    "power_armor": true,
+    "material_thickness": 8,
+    "environmental_protection": 16,
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for helmet plating.",
+        "ablative": true,
+        "item_restriction": [ "exo_helmet_steel", "exo_helmet_plastic", "exo_helmet_milcomp" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a series of mounts for helmet equipment.",
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
+        "item_restriction": [
+          "exo_flashlight_off",
+          "exo_flashlight_low",
+          "exo_flashlight_high",
+          "exo_hearing_on",
+          "exo_hearing_off",
+          "exo_optics_off",
+          "exo_optics_on",
+          "exoskeleton_helmet_filter"
+        ],
+        "moves": 60
+      }
+    ]
+  },
+  {
+    "id": "exoskeleton_boots",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton boots" },
+    "description": "This is a pair of exoskeleton boots. Has mounting points for protective plate.",
+    "weight": "2000 g",
+    "volume": "3250 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "b",
+    "looks_like": "boots_plate",
+    "color": "dark_gray",
+    "power_armor": true,
+    "material_thickness": 8,
+    "environmental_protection": 16,
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for boot plating.",
+        "ablative": true,
+        "item_restriction": [ "exo_boot_steel", "exo_boot_plastic", "exo_boot_milcomp" ],
+        "moves": 60
+      }
+    ]
+  },
+  {
+    "id": "exoskeleton_gloves",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "exoskeleton gloves" },
+    "description": "This is a pair of exoskeleton gloves. Has mounting points for protective plate.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "g",
+    "looks_like": "gloves_plate",
+    "color": "dark_gray",
+    "power_armor": true,
+    "material_thickness": 8,
+    "environmental_protection": 16,
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for glove plating.",
+        "ablative": true,
+        "item_restriction": [ "exo_glove_steel", "exo_glove_plastic", "exo_glove_milcomp" ],
+        "moves": 60
+      }
+    ]
   }
 ]
