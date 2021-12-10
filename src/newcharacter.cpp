@@ -359,8 +359,10 @@ static std::pair<float, int> get_diff_val_for( const std::set<const profession *
 
     for( const profession *hob : hobbies ) {
         std::pair<float, int> val = get_diff_val_for( hob, impact );
-        diff += val.first;
-        count += val.second;
+        if( val.first != 0 ) {
+            diff += val.first;
+            count += val.second;
+        }
     }
     diff = count > 0 ? ( diff / count ) : 0.0f;
 
@@ -375,8 +377,10 @@ static std::pair<float, int> get_diff_val_for( const std::unordered_set<trait_id
 
     for( const trait_id &mut : muts ) {
         std::pair<float, int> val = get_diff_val_for( mut, impact );
-        diff += val.first;
-        count += val.second;
+        if( val.first != 0 ) {
+            diff += val.first;
+            count += val.second;
+        }
     }
     diff = count > 0 ? ( diff / count ) : 0.0f;
 
