@@ -324,16 +324,5 @@
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_pamd68rubik",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted PA md. 68" },
-    "item": "pamd68rubikmountable",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]
