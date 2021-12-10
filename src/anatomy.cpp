@@ -95,17 +95,6 @@ void anatomy::check() const
         debugmsg( "Invalid size_sum calculation for anatomy %s", id.c_str() );
     }
 
-    for( size_t i = 0; i < 3; i++ ) {
-        const float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
-        const bodypart_id & bp ) {
-            return acc + bp->hit_size_relative[i];
-        } );
-        if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
-                      static_cast<int>( i ) - 1 );
-        }
-    }
-
     std::unordered_set<bodypart_str_id> all_parts( unloaded_bps.begin(), unloaded_bps.end() );
     std::unordered_set<bodypart_str_id> root_parts;
 
