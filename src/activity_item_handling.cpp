@@ -2201,6 +2201,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             const std::unordered_set<tripoint> &dest_set = mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE,
                     &thisitem );
+
+            // if this item isn't going anywhere then we should unload it and see what is inside
+            if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                drop_locations dropped;
+                for( item *contained_item : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    // no liquids
+                    if( !contained_item->made_of( phase_id::LIQUID ) ) {
+                        drop_on_map( you, item_drop_reason::deliberate, contained_item, src_loc );
+                        dropped.emplace_back( item_location( item_location( map_cursor( src ), it->first ),
+                                                             contained_item ), contained_item->count() );
+                    }
+                }
+                you.drop( dropped, src_loc );
+            }
+
             for( const tripoint &dest : dest_set ) {
                 const tripoint &dest_loc = here.getlocal( dest );
 
