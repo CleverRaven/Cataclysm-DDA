@@ -274,20 +274,19 @@ def main():
 
     mapgen_data = get_mapgen_data()
 
+    # get palettes
+    for entry in mapgen_data:
+        if entry.get('type') == 'palette':
+            add_palette(entry)
+
     # main loop over mapgens
     for entry in mapgen_data:
         # check type
-        entry_type = entry.get('type')
-        if entry_type == 'palette':
-            print(f'found new palette {entry.get("id")}')
-            add_palette(entry)
-            continue
-        if entry_type != 'mapgen':
+        if entry.get('type') != 'mapgen':
             continue
 
         # check method, only json supported currently
-        method = entry.get('method')
-        if method != 'json':
+        if entry.get('method') != 'json':
             continue
 
         om_id = entry.get('om_terrain')
@@ -305,7 +304,9 @@ def main():
         if palettes:
             for palette_id in palettes:
                 if isinstance(palette_id, OrderedDict):
-                    palette_id = get_first_valid(palette_id.get('disribution'))
+                    palette_id = get_first_valid(
+                        palette_id.get('distribution')
+                    )
                 palette = PALETTES.get(palette_id)
                 if palette is not None:
                     terrain_dict.update(palette)
