@@ -1752,7 +1752,11 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
         if( new_t.has_flag( "FRESH_WATER" ) ) {
             item water( "water", calendar::start_of_cataclysm );
+            // TODO: Move all numeric values to json
             water.charges = rng( 40, 240 );
+            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
+                water.poison = rng( 1, 6 );
+            }
             add_item( p, water );
         }
     }
