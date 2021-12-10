@@ -665,7 +665,6 @@ For information about tools with option to export ASCII art in format ready to b
   "connected_to": "torso",
   "opposite_part": "arm_r",
   "hit_size": 9,
-  "hit_size_relative": [ 15, 20, 22.86 ],
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
