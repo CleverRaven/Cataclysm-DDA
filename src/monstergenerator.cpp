@@ -211,6 +211,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
+        case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;

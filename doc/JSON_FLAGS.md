@@ -926,7 +926,8 @@ Other monster flags.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters.
-- ```ATTACK_UPPER``` Even though this monster is smam in size it can still attack upper limbs.
+- ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
+- ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.

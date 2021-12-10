@@ -2205,8 +2205,8 @@ float monster::dodge_roll() const
 
 bool monster::can_attack_high() const
 {
-    return !( type->size < creature_size::medium && !has_flag( MF_FLIES ) &&
-              !has_flag( MF_ATTACK_UPPER ) );
+    return  !( ( type->size < creature_size::medium && !has_flag( MF_FLIES ) &&
+                 !has_flag( MF_ATTACK_UPPER ) ) || has_flag( MF_ATTACK_LOWER ) )  ;
 }
 
 int monster::get_grab_strength() const
