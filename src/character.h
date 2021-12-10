@@ -45,6 +45,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -579,13 +580,18 @@ class Character : public Creature, public visitable
         bool has_mission_item( int mission_id ) const;
 
         /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
+        int effective_dispersion( int dispersion, bool zoom = false ) const;
+
+        int get_character_parallax( bool zoom = false ) const;
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
-        int get_most_accurate_sight( const item &gun ) const;
-        double aim_cap_from_volume( const item &gun ) const;
+        int point_shooting_limit( const item &gun ) const;
+        double fastest_aiming_method_speed( const item &gun, double recoil,
+                                            const Target_attributes target_attributes = Target_attributes() ) const;
+        int most_accurate_aiming_method_limit( const item &gun ) const;
+        double aim_factor_from_volume( const item &gun ) const;
+        double aim_factor_from_length( const item &gun ) const;
 
         // Get the value of the specified character modifier.
         // (some modifiers require a skill_id, ex: aim_speed_skill_mod)
@@ -600,7 +606,8 @@ class Character : public Creature, public visitable
         bool has_magazine_for_ammo( const ammotype &at ) const;
 
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
-        double aim_per_move( const item &gun, double recoil ) const;
+        double aim_per_move( const item &gun, double recoil,
+                             const Target_attributes target_attributes = Target_attributes() ) const;
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
@@ -2523,7 +2530,8 @@ class Character : public Creature, public visitable
         double recoil_total() const;
 
         /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL,
+                                  Target_attributes attributes = Target_attributes() ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)

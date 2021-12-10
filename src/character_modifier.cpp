@@ -11,8 +11,9 @@ character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 static const limb_score_id limb_score_manip( "manip" );
 static const limb_score_id limb_score_swim( "swim" );
 
-static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_archery( "archery" );
+// static const skill_id skill_pistol( "pistol" );
+// static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_swimming( "swimming" );
 
 namespace
@@ -168,23 +169,18 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
 
 static double aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
 {
-    double skill_mult = 1.0;
-    if( gun_skill == skill_pistol ) {
-        skill_mult = 2.0;
-    } else if( gun_skill == skill_rifle ) {
-        skill_mult = 0.9;
+    double skill_mult = 0.25;
+    double base_modifier = 0;
+    if( gun_skill == skill_archery ) {
+        skill_mult = 0.5;
+        base_modifier = -1.5;
     }
-    /** @EFFECT_PISTOL increases aiming speed for pistols */
-    /** @EFFECT_SMG increases aiming speed for SMGs */
-    /** @EFFECT_RIFLE increases aiming speed for rifles */
-    /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
-    /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) );
+    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
 static double aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
-    return c.get_dex() - 8;
+    return ( c.get_dex() - 8 ) * 0.5;
 }
 
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
