@@ -1,7 +1,7 @@
 [
   {
     "id": "pamd68",
-	"copy-from": "rifle_manual",
+    "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "PA md. 68 Battle Rifle" },
@@ -20,7 +20,7 @@
     "ammo": [ "123ln" ],
     "dispersion": 190,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "burst", 2 ], ["SEMI", "semi-auto", 1], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "burst", 2 ], [ "SEMI", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "barrel_volume": "1200 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ]
@@ -47,7 +47,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "auto", 5 ] ],
     "barrel_volume": "250 ml",
-	"faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
   }
 ]
