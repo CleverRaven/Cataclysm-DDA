@@ -1065,7 +1065,7 @@ static void clear_and_setup( Character &c, map &m, item &tool )
     m.i_clear( c.pos() );
 }
 
-TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
+TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[crafting]" )
 {
     map &m = get_map();
     item pocketknife( itype_pockknife );
@@ -1119,7 +1119,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
 
         WHEN( "3 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
-            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                   item_pocket::pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1146,7 +1147,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
 
         WHEN( "3 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
-            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                   item_pocket::pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1170,7 +1172,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "3 empty and 3 full plastic bottles on the ground" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1193,7 +1196,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "3 empty and 3 full plastic bottles in inventory" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1223,7 +1227,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "2 empty and 3 full plastic bottles on the ground" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1246,7 +1251,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "2 empty and 3 full plastic bottles in inventory" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1272,6 +1278,13 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
             }
         }
     }
+}
+
+TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", "[crafting]" )
+{
+    map &m = get_map();
+    item pocketknife( itype_pockknife );
+    const item backpack( "debug_backpack" );
 
     GIVEN( "crafting batch of 3 makeshift funnels" ) {
         WHEN( "10 empty plastic bottles on the ground" ) {
@@ -1321,7 +1334,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
 
         WHEN( "10 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
-            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                   item_pocket::pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1335,14 +1349,14 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
-                const map_stack &items = m.i_at( c.pos() );
                 CHECK( m.i_at( c.pos() ).size() == 10 );
             }
         }
 
         WHEN( "10 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
-            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                   item_pocket::pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1373,7 +1387,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "10 empty and 3 full plastic bottles on the ground" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1396,7 +1411,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "10 empty and 3 full plastic bottles in inventory" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1433,7 +1449,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "7 empty and 3 full plastic bottles on the ground" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1456,7 +1473,8 @@ TEST_CASE( "crafting: prompt for liquid containers", "[crafting]" )
         WHEN( "7 empty and 3 full plastic bottles in inventory" ) {
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
-            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
+                                        item_pocket::pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );

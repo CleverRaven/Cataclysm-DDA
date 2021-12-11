@@ -93,7 +93,8 @@ class craft_command
         }
         skill_id get_skill_id();
 
-        bool continue_prompt_liquids( const std::function<bool( const item & )> &filter, bool no_prompt = false );
+        bool continue_prompt_liquids( const std::function<bool( const item & )> &filter,
+                                      bool no_prompt = false );
 
     private:
         const recipe *rec = nullptr;

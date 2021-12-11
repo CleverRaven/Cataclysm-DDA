@@ -232,7 +232,8 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss );
 }
 
-bool craft_command::continue_prompt_liquids( const std::function<bool( const item & )> &filter, bool no_prompt )
+bool craft_command::continue_prompt_liquids( const std::function<bool( const item & )> &filter,
+        bool no_prompt )
 {
     map &m = get_map();
     for( const auto &it : item_selections ) {
@@ -316,7 +317,8 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
     return true;
 }
 
-static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter, int batch, const std::function<bool( const item & )> &filter )
+static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
+        int batch, const std::function<bool( const item & )> &filter )
 {
     map &m = get_map();
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
