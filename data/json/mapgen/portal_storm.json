@@ -1,0 +1,59 @@
+[
+  {
+    "type": "palette",
+    "id": "portal_storm_palette",
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "G": "t_grass", "@": "t_null" }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "portal_dungeon",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "portal_dungeon_chunk" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "portal_dungeon_chunk",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "10000001",
+        "10000001",
+        "10000001",
+        "10000001",
+        "10000001",
+        "10000001",
+        "10000001",
+        "10000001"
+      ],
+      "palettes": [ "portal_storm_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "portal_dungeon_undo",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "portal_dungeon_chunk_undo" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "portal_dungeon_chunk_undo",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG",
+        "GGGGGGGG"
+      ],
+      "palettes": [ "portal_storm_palette" ]
+    }
+  }
+]

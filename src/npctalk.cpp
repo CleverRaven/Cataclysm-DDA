@@ -2395,7 +2395,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     function = [target_params, update_ids, target_var, global]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
-            const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( true ), target_var, global ) );
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( false ), target_var, global ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
             mission_target_params update_params = target_params;

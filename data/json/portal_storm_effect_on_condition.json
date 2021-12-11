@@ -62,8 +62,37 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Touch the opening.",
-      "effect_on_conditions": [ "EOC_CAUSE_PORTAL_STORM" ]
+      "effect_on_conditions": [ "EOC_PORTAL_STORM_MAPGEN" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_MAPGEN",
+    "effect": [
+      {
+        "u_location_variable": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true },
+        "target_params": { "om_terrain": "field" }
+      },
+      {
+        "mapgen_update": "portal_dungeon",
+        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
+      },
+      {
+        "set_queue_effect_on_condition": [ "EOC_PORTAL_STORM_MAPGEN_UNDO" ],
+        "time_in_future_min": "3 seconds",
+        "time_in_future_max": "5 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
+    "effect": [
+      {
+        "mapgen_update": "portal_dungeon_undo",
+        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
+      }
+    ]
   },
   {
     "id": "test_portal_strengener",
@@ -77,12 +106,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Touch the opening.",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_TEST_STRENGTHEN",
-          "effect": { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] }
-        }
-      ]
+      "effect_on_conditions": [ "EOC_PORTAL_STORM_MAPGEN_UNDO" ]
     }
   },
   {
