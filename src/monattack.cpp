@@ -3316,15 +3316,16 @@ void mattack::taze( monster *z, Creature *target )
     z->moves -= 200;
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
-    }
+    };
+
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
     if( tazer_was_dodged ) {
-        target->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
-+                                       _( "<npcname> attempts to shock %s, but misses." ),
-+                                       target->disp_name() );
+        target->add_msg_if_player( m_bad, _( "The %s attempts to shock you but you dodge." ),
+                                   z->name() );
         return;
     }
+
     int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
                                    rng( 1,
                                         5 ) ) ).total_damage();
