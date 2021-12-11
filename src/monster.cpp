@@ -2633,15 +2633,18 @@ void monster::drop_items_on_death( item *corpse )
     std::vector<item> new_items = item_group::items_from( type->death_drops,
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
-    if( corpse ) {
-        for( item &it : new_items ) {
-            if( has_flag( MF_FILTHY ) ) {
-                if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
-                    // handle wearable guns as a special case
-                    it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
-                }
+
+    for( item &it : new_items ) {
+        if( has_flag( MF_FILTHY ) ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
+                // handle wearable guns as a special case
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
+        }
+        if( corpse ) {
             corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+        } else {
+            get_map().add_item_or_charges( pos(), it );
         }
     }
 }
