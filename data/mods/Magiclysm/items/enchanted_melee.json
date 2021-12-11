@@ -752,7 +752,7 @@
     "price": 5000,
     "bashing": 27,
     "cutting": 1,
-    "material": [ { "type": "steel", "portion": 199 }, { "type": "glass" } ],
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
