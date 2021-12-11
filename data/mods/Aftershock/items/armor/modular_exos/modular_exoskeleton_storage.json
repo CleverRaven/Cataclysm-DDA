@@ -147,8 +147,7 @@
         "ripoff": 2,
         "activity_noise": { "volume": 8, "chance": 10 }
       }
-    ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+    ]
   },
   {
     "id": "exo_medium_storage",
