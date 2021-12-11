@@ -26,6 +26,8 @@
 #include "uistate.h"
 #include "visitable.h"
 
+static const itype_id itype_money( "money" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template<typename CompType>
@@ -396,7 +398,9 @@ item craft_command::create_in_progress_craft()
     for( const auto &it : item_selections ) {
         std::list<item> tmp = sane_consume_items( it, crafter, batch_size, filter );
         for( item &tmp_it : tmp ) {
-            if( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) {
+            if( tmp_it.loaded_ammo().typeId() == itype_money ) {
+                continue;
+            } else if( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) {
                 item_location tmp_loc( *crafter, &tmp_it );
                 unload_activity_actor::unload( *crafter, tmp_loc );
             } else if( !tmp_it.is_container_empty() ) {
