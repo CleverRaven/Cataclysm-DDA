@@ -12,7 +12,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } },
@@ -23,7 +23,7 @@
         "ablative": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "145 kg",
-        "item_restriction": [ "exo_psu_steel", "exo_psu_plastic", "exo_psu_milcomp" ],
+        "item_restriction": [ "EXO_PSU_PLATE" ],
         "moves": 60
       }
     ]
@@ -41,7 +41,7 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": "gasoline",
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE"	],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
@@ -58,7 +58,7 @@
         "rigid": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "145 kg",
-        "item_restriction": [ "exo_psu_steel", "exo_psu_plastic", "exo_psu_milcomp" ],
+        "flag_restriction": [ "EXO_PSU_PLATE" ],
         "moves": 60
       }
     ]
@@ -76,7 +76,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
   },
   {
@@ -92,7 +92,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_SMALL_GADGET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
   },
   {
@@ -108,7 +108,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_LARGE_GADGET" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
     },
@@ -135,7 +135,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_LARGE_GADGET" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
     },
@@ -162,7 +162,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_SMALL_GADGET" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
@@ -189,7 +189,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_SMALL_GADGET" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
@@ -216,7 +216,7 @@
     "color": "white",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the lamp on low.",
@@ -240,7 +240,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "exo_flashlight_high"
     },
-    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR" ]
+    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET"]
   },
   {
     "id": "exo_flashlight_high",
@@ -256,14 +256,14 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "exo_flashlight_off"
     },
-    "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR" ]
+    "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_hearing_off",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "enhanced audio sensor (off)", "str_pl": "enhanced audio sensors (off)" },
-    "description": "This is an audio detection array exoskeleton module. While active, it also protects your hearing from loud noises.",
+    "name": { "str": "audio protection (off)", "str_pl": "audio protection (off)" },
+    "description": "This is an audio protection exoskeleton module. While active, it also protects your hearing from loud noises.",
     "weight": "500 g",
     "volume": "500 ml",
     "material": [ "steel", "plastic" ],
@@ -271,10 +271,10 @@
     "color": "white",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY ONE"],
     "use_action": {
       "type": "transform",
-      "msg": "You activate the helmet's audio enhancers.",
+      "msg": "You activate the helmet's audio protection.",
       "target": "exo_hearing_on",
       "active": true,
       "need_charges": 1,
@@ -285,17 +285,17 @@
     "id": "exo_hearing_on",
     "copy-from": "exo_hearing_off",
     "type": "TOOL",
-    "name": { "str": "enhanced audio sensor (on)", "str_pl": "enhanced audio sensors (on)" },
+    "name": { "str": "audio protection (on)", "str_pl": "audio protection (on)" },
     "power_draw": 500,
     "revert_to": "exo_hearing_off",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn off the helmet's audio enhancers.",
+      "msg": "You turn off the helmet's audio protection.",
       "target": "exo_hearing_off"
     },
-    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR" ]
+    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY ONE" ]
   },
   {
     "id": "exo_recoil_off",
@@ -310,7 +310,7 @@
     "color": "white",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY ONE" ],
     "use_action": {
       "type": "transform",
       "msg": "You activate the helmet's audio enhancers.",
@@ -337,7 +337,7 @@
       "msg": "You turn off the recoil controller.",
       "target": "exo_recoil_off"
     },
-    "flags": [ "USE_UPS", "CANT_WEAR" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY ONE" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
@@ -353,7 +353,7 @@
     "price": 30000,
     "price_postapoc": 500,
     "material": [ "plastic", "glass" ],
-    "flags": [ "ZOOM", "SUN_GLASSES", "FLASH_PROTECTION" ],
+    "flags": [ "ZOOM", "SUN_GLASSES", "FLASH_PROTECTION", "EXO_HELMET_GADGET", "ONLY ONE" ],
     "weight": "500 g",
     "volume": "500 ml",
     "bashing": 4,
@@ -381,7 +381,7 @@
       "msg": "You turn off helmet's optical enhancement.",
       "target": "exo_optics_off"
     },
-    "flags": [ "USE_UPS", "CANT_WEAR", "IR_EFFECT" ]
+    "flags": [ "USE_UPS", "CANT_WEAR", "IR_EFFECT", "EXO_HELMET_GADGET", "ONLY ONE" ]
   },
   {
     "id": "exoskeleton_helmet_filter",
@@ -389,7 +389,7 @@
     "name": { "str": "exoskeleton filter module" },
     "category": "clothing",
     "description": "A gas filtration module for an exoskeleton helmet.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
-    "flags": [ "SLEEP_IGNORE" ],
+    "flags": [ "SLEEP_IGNORE", "EXO_HELMET_GADGET", "ONLY ONE" ],
     "weight": "1000 g",
     "volume": "1 L",
     "material": [ "plastic" ],

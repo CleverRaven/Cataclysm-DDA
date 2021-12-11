@@ -40,53 +40,25 @@
         "description": "This is a mounting point for torso armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "45 kg",
-        "item_restriction": [ "exo_torso_steel", "exo_torso_plastic", "exo_torso_milcomp" ],
+        "flag_restriction": [ "EXO_TORSO_PLATE" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a hardpoint for storing items in the torso.",
+        "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [
-          "exo_small_storage",
-          "exo_medium_storage",
-          "exo_large_ammo_pouch",
-          "exo_small_ammo_pouch",
-          "exo_small_aux_power",
-          "exo_small_carry_off",
-          "exo_small_carry_on",
-          "exo_flashlight_off",
-          "exo_flashlight_low",
-          "exo_flashlight_high",
-          "exo_recoil_off",
-          "exo_recoil_on"
-        ],
+        "flag_restriction": ["EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET"],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for power supply units or large modules.",
+        "description": "This is a mounting point for power supply units and large modules.",
         "rigid": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
-        "item_restriction": [
-          "exo_back_battery_rechargable",
-          "exo_back_gasoline",
-          "exo_large_storage",
-          "exo_large_aux_power",
-          "exo_small_aux_power",
-          "exo_small_storage",
-          "exo_medium_storage",
-          "exo_large_carry_off",
-          "exo_large_carry_on",
-          "exo_small_carry_off",
-          "exo_small_carry_on",
-          "exo_melee_storage",
-          "exo_rifle_storage"
+        "flag_restriction": ["EXO_PSU", "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET"
         ],
         "moves": 60
       },
@@ -95,28 +67,25 @@
         "description": "This is a mounting point for arm armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "8 L",
-        "max_contains_weight": "35 kg",
-        "max_item_length": "200 mm",
-        "item_restriction": [ "exo_arm_steel", "exo_arm_plastic", "exo_arm_milcomp" ],
+        "flag_restriction": [ "EXO_ARM_PLATE" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a hardpoint for storing items on the arms.",
+        "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [ "exo_small_storage", "exo_small_ammo_pouch", "exo_small_aux_power", "exo_small_carry_off", "exo_small_carry_on" ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a hardpoint for storing items on the arms.",
+        "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [ "exo_small_storage", "exo_small_ammo_pouch", "exo_small_aux_power", "exo_small_carry_off", "exo_small_carry_on" ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
         "moves": 60
       },
       {
@@ -124,28 +93,25 @@
         "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "9 L",
-        "max_contains_weight": "40 kg",
-        "max_item_length": "200 mm",
-        "item_restriction": [ "exo_leg_steel", "exo_leg_plastic", "exo_leg_milcomp" ],
+        "flag_restriction": [ "EXO_LEG_PLATE" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a hardpoint for storing items on the legs.",
+        "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [ "exo_small_storage", "exo_small_ammo_pouch", "exo_small_aux_power", "exo_small_carry_off", "exo_small_carry_on" ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "This is a hardpoint for storing items on the legs.",
+        "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [ "exo_small_storage", "exo_small_ammo_pouch", "exo_small_aux_power", "exo_small_carry_off", "exo_small_carry_on" ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
         "moves": 60
       }
     ],
@@ -181,7 +147,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton helmet" },
-    "description": "This is a helmet offering hardpoints for specialized equipment and protection.",
+    "description": "This is a helmet offering mounts for specialized equipment and protection.",
     "weight": "2500 g",
     "volume": "5 L",
     "material": [ "steel", "plastic" ],
@@ -198,7 +164,7 @@
         "pocket_type": "CONTAINER",
         "description": "This is a mounting point for helmet plating.",
         "ablative": true,
-        "item_restriction": [ "exo_helmet_steel", "exo_helmet_plastic", "exo_helmet_milcomp" ]
+        "flag_restriction": [ "EXO_HELMET_PLATE" ]
       },
       {
         "pocket_type": "CONTAINER",
@@ -206,16 +172,7 @@
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "item_restriction": [
-          "exo_flashlight_off",
-          "exo_flashlight_low",
-          "exo_flashlight_high",
-          "exo_hearing_on",
-          "exo_hearing_off",
-          "exo_optics_off",
-          "exo_optics_on",
-          "exoskeleton_helmet_filter"
-        ],
+        "flag_restriction": ["EXO_HELMET_GADGET"],
         "moves": 60
       }
     ]
@@ -242,7 +199,7 @@
         "pocket_type": "CONTAINER",
         "description": "This is a mounting point for boot plating.",
         "ablative": true,
-        "item_restriction": [ "exo_boot_steel", "exo_boot_plastic", "exo_boot_milcomp" ],
+        "flag_restriction": ["EXO_BOOT_PLATE" ],
         "moves": 60
       }
     ]
@@ -269,7 +226,7 @@
         "pocket_type": "CONTAINER",
         "description": "This is a mounting point for glove plating.",
         "ablative": true,
-        "item_restriction": [ "exo_glove_steel", "exo_glove_plastic", "exo_glove_milcomp" ],
+        "flag_restriction": [ "EXO_GLOVE_PLATE" ],
         "moves": 60
       }
     ]
