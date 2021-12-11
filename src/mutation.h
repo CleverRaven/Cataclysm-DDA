@@ -318,6 +318,8 @@ struct mutation_branch {
         // Mutations may affect absorption rates of vitamins based on material (or "all")
         std::map<material_id, std::map<vitamin_id, double>> vitamin_absorb_multi;
 
+        std::map<std::string, int> colours; // Possible colours and their associated weight
+
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
         std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds

@@ -476,6 +476,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         encumbrance_always[bp] = enc;
     }
 
+    for( JsonArray col : jo.get_array( "colours" ) ) {
+        const std::string colour = col.next_string();
+        const int weight = col.next_int();
+        colours[colour] = weight;
+    }
+
     for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
         const bodypart_str_id bp = bodypart_str_id( ec.next_string() );
         int enc = ec.next_int();

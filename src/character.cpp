@@ -3055,6 +3055,9 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
             continue;
         }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        if( !mut.second.colour.empty() ) {
+            overlay_id += "_" + mut.second.colour;
+        }
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }

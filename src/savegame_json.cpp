@@ -523,6 +523,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "powered", powered );
     json.member( "show_sprite", show_sprite );
+    json.member( "colour", colour );
     json.end_object();
 }
 
@@ -533,6 +534,7 @@ void Character::trait_data::deserialize( const JsonObject &data )
     data.read( "charge", charge );
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
+    data.read( "colour", colour );
 }
 
 void consumption_event::serialize( JsonOut &json ) const
