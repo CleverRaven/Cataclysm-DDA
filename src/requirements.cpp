@@ -195,7 +195,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: required count
             return string_format( npgettext( "requirement", "%2$d %1$s (have infinite)",
-                                             "need %2$d %1$s of infinite",
+                                             "%2$d %1$s (have infinite)",
                                              c ),
                                   type_ptr->nname( c ), c );
         } else if( avail > 0 ) {
