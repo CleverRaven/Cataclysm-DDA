@@ -103,7 +103,7 @@ void craft_command::execute( const cata::optional<tripoint> &new_loc )
     execute();
 }
 
-void craft_command::execute()
+void craft_command::execute( bool only_cache_comps )
 {
     if( empty() ) {
         return;
@@ -120,7 +120,7 @@ void craft_command::execute()
         if( missing_items.empty() && missing_tools.empty() ) {
             // All items we used previously are still there, so we don't need to do selection.
             need_selections = false;
-        } else if( !query_continue( missing_items, missing_tools ) ) {
+        } else if( !only_cache_comps && !query_continue( missing_items, missing_tools ) ) {
             return;
         }
     }
@@ -181,6 +181,10 @@ void craft_command::execute()
         }
     }
 
+    if( only_cache_comps ) {
+        return;
+    }
+
     crafter->start_craft( *this, loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
@@ -228,11 +232,10 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss );
 }
 
-static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>> items,
-                                     Character *crafter, int batch, const std::function<bool( const item & )> &filter )
+bool craft_command::continue_prompt_liquids( const std::function<bool( const item & )> &filter, bool no_prompt )
 {
     map &m = get_map();
-    for( const auto &it : items ) {
+    for( const auto &it : item_selections ) {
         const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
         if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
         !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
@@ -247,8 +250,19 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
         };
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
+        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<item> inv_items;
 
-        int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch : std::abs( it.comp.count );
+        auto reset_items = [&]() {
+            for( auto &mit : map_items ) {
+                m.add_item_or_charges( mit.first, mit.second );
+            }
+            for( auto &iit : inv_items ) {
+                crafter->i_add_or_drop( iit );
+            }
+        };
+
+        int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch_size : std::abs( it.comp.count );
         for( int i = 0; i < 2 && real_count > 0; i++ ) {
             if( it.use_from & usage_from::map ) {
                 const tripoint &loc = crafter->pos();
@@ -266,9 +280,10 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                m.add_item_or_charges( p, tmp_i );
+                                map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
                             }
-                            if( cont_not_empty && !query_yn( liq_cont_msg, iname ) ) {
+                            if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {
+                                reset_items();
                                 return false;
                             }
                         }
@@ -288,19 +303,20 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
                         cont_not_empty = true;
                         iname = tmp_i.tname( 1U, true );
                     }
-                    crafter->i_add_or_drop( tmp_i );
+                    inv_items.emplace_back( tmp_i );
                 }
-                if( cont_not_empty && !query_yn( liq_cont_msg, iname ) ) {
+                if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {
+                    reset_items();
                     return false;
                 }
             }
         }
+        reset_items();
     }
     return true;
 }
 
-static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
-        int batch, const std::function<bool( const item & )> &filter )
+static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter, int batch, const std::function<bool( const item & )> &filter )
 {
     map &m = get_map();
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
@@ -370,7 +386,7 @@ item craft_command::create_in_progress_craft()
     const auto filter = rec->get_component_filter( flags );
 
     if( crafter->is_avatar() &&
-        !continue_prompt_liquids( item_selections, crafter, batch_size, filter ) ) {
+        !continue_prompt_liquids( filter ) ) {
         // player cancelled when prompted to unload liquid
         return item();
     }
