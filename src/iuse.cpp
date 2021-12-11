@@ -3948,7 +3948,7 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
                                   _( "You shock %s!" ),
                                   _( "<npcname> shocks %s!" ),
                                   target->disp_name() );
-        if( target.moves < -210 ) {
+        if( target->moves < -210 ) {
             target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
                                        rng( 2,
                                             10 ) ) ).total_damage();
