@@ -252,6 +252,8 @@ static const mtype_id mon_manhack( "mon_manhack" );
 static const overmap_special_id overmap_special_world( "world" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -1788,7 +1790,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() ) {
+        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
@@ -2281,6 +2283,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2464,6 +2467,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
+    u.get_avatar_diary()->death_entry();
     show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
@@ -2557,6 +2561,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
+    u.get_avatar_diary()->load();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
@@ -2769,8 +2774,8 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-
-    return saved_data && saved_map_memory && saved_log
+    const bool saved_diary = u.get_avatar_diary()->store();
+    return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif
@@ -5096,9 +5101,11 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
-
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
+        int prof_bonus = u.get_skill_level( skill_firstaid );
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
+        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
@@ -9139,13 +9146,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    int multiplier = 1;
-    if( u.is_on_ground() ) {
-        multiplier *= 3;
-    }
-
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
-                                           via_ramp ) * multiplier;
+                                           via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
         return true;

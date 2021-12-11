@@ -1102,6 +1102,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
+// this has been jsonified and isn't used by brutes any longer
 bool mattack::smash( monster *z )
 {
     if( !z->can_act() ) {
@@ -1137,6 +1138,7 @@ bool mattack::smash( monster *z )
 
     // Release the grabbed creature right before the fling
     z->remove_effect( effect_grabbing );
+
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );

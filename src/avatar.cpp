@@ -166,6 +166,7 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = object_type::NONE;
     calorie_diary.push_front( daily_calories{} );
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -374,6 +375,14 @@ void avatar::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
 }
 
 bool avatar::read( item_location &book, item_location ereader )
@@ -1405,6 +1414,37 @@ void avatar::advance_daily_calories()
     if( calorie_diary.size() > 30 ) {
         calorie_diary.pop_back();
     }
+}
+
+int avatar::get_daily_spent_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().spent;
+    }
+    return calorie_diary.front().spent;
+}
+
+int avatar::get_daily_ingested_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().ingested;
+    }
+    return calorie_diary.front().ingested;
+}
+
+void avatar::add_ingested_kcal( int kcal )
+{
+    calorie_diary.front().ingested += kcal;
 }
 
 void avatar::add_spent_calories( int cal )

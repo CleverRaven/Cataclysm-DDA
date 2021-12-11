@@ -123,6 +123,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
+    optional( jo, was_loaded, "description", description );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
     }
@@ -885,6 +886,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
+    if( !get_description().empty() ) {
+        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>", get_description() ) );
+    }
+
     // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string cont_type_str = string_format( "{%d}CONTAINER", pocket_number );
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -921,13 +926,23 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->max_item_length != 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
-        info.emplace_back( base_type_str, _( "Maximum item length: " ),
+        // if the item has no minimum length then keep it in the same units as max
+        if( data->min_item_length == 0_mm ) {
+            info.emplace_back( base_type_str, _( "Item length: " ),
+                               string_format( "<num> %s", length_units( data->max_item_length ) ),
+                               iteminfo::no_newline,
+                               0 );
+        } else {
+            info.emplace_back( base_type_str, _( "Item length: " ),
+                               string_format( "<num> %s", length_units( data->min_item_length ) ),
+                               iteminfo::no_newline,
+                               convert_length( data->min_item_length ), data->min_item_length.value() );
+        }
+        info.emplace_back( base_type_str, _( " to " ),
                            string_format( "<num> %s", length_units( data->max_item_length ) ),
                            iteminfo::no_flags,
                            convert_length( data->max_item_length ), data->max_item_length.value() );
-    }
-
-    if( data->min_item_length > 0_mm && !is_ablative() ) {
+    } else if( data->min_item_length > 0_mm && !is_ablative() ) {
         info.back().bNewLine = true;
         info.emplace_back( base_type_str, _( "Minimum item length: " ),
                            string_format( "<num> %s", length_units( data->min_item_length ) ),
@@ -963,7 +978,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->ripoff > 0 ) {
         info.emplace_back( "DESCRIPTION",
-                           _( "Items have a chance of <bad>falling out</bad> when you are grabbed." ) );
+                           _( "Items may <bad>fall out</bad> if grabbed." ) );
     }
 
     if( data->activity_noise.chance > 0 ) {
@@ -1573,6 +1588,16 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
+bool item_pocket::is_allowed() const
+{
+    return allowed;
+}
+
+void item_pocket::set_usability( bool show )
+{
+    allowed = show;
+}
+
 bool item_pocket::airtight() const
 {
     return data->airtight;
@@ -1646,6 +1671,11 @@ bool item_pocket::is_type( pocket_type ptype ) const
 bool item_pocket::is_ablative() const
 {
     return get_pocket_data()->ablative;
+}
+
+std::string item_pocket::get_description() const
+{
+    return get_pocket_data()->description;
 }
 
 bool item_pocket::holster_full() const
