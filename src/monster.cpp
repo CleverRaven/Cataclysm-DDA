@@ -2534,12 +2534,18 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
     }
-    if( death_drops && !is_hallucination() && corpse ) {
+    if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
-            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            if( corpse ) {
+                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            } else {
+                get_map().add_item_or_charges( pos(), it );
+            }
         }
-        for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
-            pocket->set_usability( false );
+        if( corpse ) {
+            for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+                pocket->set_usability( false );
+            }
         }
     }
     if( death_drops ) {
