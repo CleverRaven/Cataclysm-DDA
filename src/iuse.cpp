@@ -3930,8 +3930,8 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
         // TODO: Maybe - Execute an attack and maybe zap something other than torso
         // Maybe, because it's torso (heart) that fails when zapped with electricity
         int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 5,
-                                            25 ) ) ).total_damage();
+                                       rng( 3,
+                                            16 ) ) ).total_damage();
         if( dam > 0 ) {
             p->add_msg_player_or_npc( m_good,
                                       _( "You shock %s!" ),
