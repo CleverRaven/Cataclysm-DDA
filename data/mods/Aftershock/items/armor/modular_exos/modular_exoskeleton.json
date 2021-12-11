@@ -40,6 +40,8 @@
         "description": "This is a mounting point for torso armor.",
         "ablative": true,
         "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "45 kg",
         "flag_restriction": [ "EXO_TORSO_PLATE" ],
         "moves": 60
       },
@@ -67,6 +69,9 @@
         "description": "This is a mounting point for arm armor.",
         "ablative": true,
         "rigid": true,
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "35 kg",
+        "max_item_length": "200 mm",
         "flag_restriction": [ "EXO_ARM_PLATE" ],
         "moves": 60
       },
@@ -76,7 +81,7 @@
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "moves": 60
       },
       {
@@ -85,7 +90,7 @@
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "moves": 60
       },
       {
@@ -93,6 +98,9 @@
         "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
+        "max_contains_volume": "9 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "200 mm",
         "flag_restriction": [ "EXO_LEG_PLATE" ],
         "moves": 60
       },
@@ -102,7 +110,7 @@
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "moves": 60
       },
       {
@@ -111,7 +119,7 @@
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET", ],
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "moves": 60
       }
     ],
@@ -199,7 +207,7 @@
         "pocket_type": "CONTAINER",
         "description": "This is a mounting point for boot plating.",
         "ablative": true,
-        "flag_restriction": ["EXO_BOOT_PLATE" ],
+        "flag_restriction": [ "EXO_BOOT_PLATE" ],
         "moves": 60
       }
     ]

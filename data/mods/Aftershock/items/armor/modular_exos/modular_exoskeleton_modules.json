@@ -23,7 +23,7 @@
         "ablative": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "145 kg",
-        "item_restriction": [ "EXO_PSU_PLATE" ],
+        "flag_restriction": [ "EXO_PSU_PLATE" ],
         "moves": 60
       }
     ]
@@ -41,7 +41,7 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": "gasoline",
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE"	],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
@@ -240,7 +240,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "exo_flashlight_high"
     },
-    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET"]
+    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_flashlight_high",
@@ -271,7 +271,7 @@
     "color": "white",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY ONE"],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY_ONE" ],
     "use_action": {
       "type": "transform",
       "msg": "You activate the helmet's audio protection.",
@@ -295,7 +295,7 @@
       "msg": "You turn off the helmet's audio protection.",
       "target": "exo_hearing_off"
     },
-    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY ONE" ]
+    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY_ONE" ]
   },
   {
     "id": "exo_recoil_off",
@@ -310,7 +310,7 @@
     "color": "white",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY ONE" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
     "use_action": {
       "type": "transform",
       "msg": "You activate the helmet's audio enhancers.",
@@ -337,7 +337,7 @@
       "msg": "You turn off the recoil controller.",
       "target": "exo_recoil_off"
     },
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY ONE" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
@@ -353,7 +353,7 @@
     "price": 30000,
     "price_postapoc": 500,
     "material": [ "plastic", "glass" ],
-    "flags": [ "ZOOM", "SUN_GLASSES", "FLASH_PROTECTION", "EXO_HELMET_GADGET", "ONLY ONE" ],
+    "flags": [ "ZOOM", "SUN_GLASSES", "FLASH_PROTECTION", "EXO_HELMET_GADGET", "ONLY_ONE" ],
     "weight": "500 g",
     "volume": "500 ml",
     "bashing": 4,
@@ -381,7 +381,7 @@
       "msg": "You turn off helmet's optical enhancement.",
       "target": "exo_optics_off"
     },
-    "flags": [ "USE_UPS", "CANT_WEAR", "IR_EFFECT", "EXO_HELMET_GADGET", "ONLY ONE" ]
+    "flags": [ "USE_UPS", "CANT_WEAR", "IR_EFFECT", "EXO_HELMET_GADGET", "ONLY_ONE" ]
   },
   {
     "id": "exoskeleton_helmet_filter",
@@ -389,7 +389,7 @@
     "name": { "str": "exoskeleton filter module" },
     "category": "clothing",
     "description": "A gas filtration module for an exoskeleton helmet.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
-    "flags": [ "SLEEP_IGNORE", "EXO_HELMET_GADGET", "ONLY ONE" ],
+    "flags": [ "SLEEP_IGNORE", "EXO_HELMET_GADGET", "ONLY_ONE" ],
     "weight": "1000 g",
     "volume": "1 L",
     "material": [ "plastic" ],

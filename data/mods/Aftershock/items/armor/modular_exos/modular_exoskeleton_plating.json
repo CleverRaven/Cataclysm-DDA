@@ -30,7 +30,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 6,
-    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE","EXO_TORSO_PLATE" ],
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
@@ -183,7 +183,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "non_functional": "destroyed_exo_torso_plastic_plate",
-    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE","EXO_TORSO_PLATE" ],
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
@@ -195,7 +195,7 @@
     "looks_like": "exo_torso_plastic",
     "material": [ "plastic" ],
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR","EXO_TORSO_PLATE" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
@@ -413,7 +413,7 @@
     "warmth": 20,
     "material_thickness": 8,
     "non_functional": "destroyed_exo_torso_milcomp_plate",
-    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE","EXO_TORSO_PLATE" ],
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
@@ -425,7 +425,7 @@
     "looks_like": "exo_torso_milcomp",
     "material": [ "hardsteel", "ceramic" ],
     "material_thickness": 8,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR","EXO_TORSO_PLATE" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
