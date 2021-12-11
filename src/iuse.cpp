@@ -3922,8 +3922,8 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
-    const bool tazer_was_armored = dice( numdice,
-+                                         10 ) < dice( target->get_armor_bash( bodypart_id( "torso" ) ), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
