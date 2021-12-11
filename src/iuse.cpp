@@ -3932,14 +3932,14 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
                                   _( "<npcname> attempts to shock %s, but is blocked by armor." ),
                                   target->disp_name() );
     } else {
-        // Stun duration scales harhsly inversely with big creatures
-        if ( target.type->size == creature_size::tiny ) {
+        // Stun duration scales harshly inversely with big creatures
+        if ( target->get_size() == creature_size::tiny ) {
             target->moves -= rng( 150, 250 );
-        } else if ( target.type->size == creature_size::small ) {
+        } else if ( target->get_size() == creature_size::small ) {
             target->moves -= rng( 125, 200 );
-        } else if ( target.type->size == creature_size::large ) {
+        } else if ( target->get_size() == creature_size::large ) {
             target->moves -= rng( 95, 115 );
-        } else if ( target.type->size == creature_size::huge ) {
+        } else if ( target->get_size() == creature_size::huge ) {
             target->moves -= rng( 50, 80 );
         } else {
             target->moves -= rng( 110, 150 );
