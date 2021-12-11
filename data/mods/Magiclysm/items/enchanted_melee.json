@@ -883,7 +883,7 @@
     "type": "GENERIC",
     "name": { "str": "Stormshaper hammer-axe" },
     "//": "There isn't an equivalent, so the damage has been multiplied by 1.2 to cutting and bashing",
-    "description": "A forged copper hammer-axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye and a nordic rune reminescent of Thor, the thunder god, in the hammer side.",
+    "description": "A forged copper hammer-axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye and a Nordic rune reminiscent of Thor, the thunder god, in the hammer side.",
     "weight": "3755 g",
     "volume": "3500 ml",
     "longest_side": "90 cm",
@@ -897,13 +897,14 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
+    "charges_per_use": 1,
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
       "WEATHER_TOOL"
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
-    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
   },
   {
     "id": "rune_animist_weapon",
@@ -929,7 +930,7 @@
     "type": "GENERIC",
     "name": { "str": "Animist life-athame" },
     "//": "Tool qualities equivalent to combat knife with some saw capability, to represent sharpness, combat equiv.  to combat knife + 2 w/ RAPID and BLOCK1 with no to hit, size/weight off combat knife +1",
-    "description": "A steel ritual knife used by Animists to draw blood for summoning.  The knife has seen so much bloodshed that the rune at the crossguard seemingly is constantly drenched in blood and gives you prenatural resistance to pain.",
+    "description": "A steel ritual knife used by Animists to draw blood for summoning.  The knife has seen so much bloodshed that the rune at the crossguard seemingly is constantly drenched in blood and gives you preternatural resistance to pain.",
     "weight": "504 g",
     "volume": "500 ml",
     "longest_side": "25 cm",
@@ -941,7 +942,9 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ] },
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
+    },
     "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
   },
   {
