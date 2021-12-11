@@ -3933,13 +3933,13 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
                                   target->disp_name() );
     } else {
         // Stun duration scales harshly inversely with big creatures
-        if ( target->get_size() == creature_size::tiny ) {
+        if( target->get_size() == creature_size::tiny ) {
             target->moves -= rng( 150, 250 );
-        } else if ( target->get_size() == creature_size::small ) {
+        } else if( target->get_size() == creature_size::small ) {
             target->moves -= rng( 125, 200 );
-        } else if ( target->get_size() == creature_size::large ) {
+        } else if( target->get_size() == creature_size::large ) {
             target->moves -= rng( 95, 115 );
-        } else if ( target->get_size() == creature_size::huge ) {
+        } else if( target->get_size() == creature_size::huge ) {
             target->moves -= rng( 50, 80 );
         } else {
             target->moves -= rng( 110, 150 );
@@ -3948,10 +3948,10 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
                                   _( "You shock %s!" ),
                                   _( "<npcname> shocks %s!" ),
                                   target->disp_name() );
-        if( target->moves < -210 ) {
+        if( target->moves < -250 ) {
             target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 2,
-                                            10 ) ) ).total_damage();
+                                 rng( 2,
+                                      10 ) ) ).total_damage();
             p->add_msg_player_or_npc( m_good,
                                       _( "You harshly shock %s!" ),
                                       _( "<npcname> harshly shocks %s!" ),
