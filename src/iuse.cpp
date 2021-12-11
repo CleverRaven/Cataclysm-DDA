@@ -3927,7 +3927,7 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name() );
-    } else { if( tazer_was_armored ) {
+    } else if( tazer_was_armored ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but are blocked by armor." ),
                                   _( "<npcname> attempts to shock %s, but is blocked by armor." ),
                                   target->disp_name() );
