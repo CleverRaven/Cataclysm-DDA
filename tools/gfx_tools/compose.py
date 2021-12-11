@@ -121,8 +121,8 @@ def write_to_json(
     if format_json:
         kwargs['indent'] = 2
 
-    with open(pathname, 'w', encoding="utf-8") as file:
-        json.dump(data, file, **kwargs)
+    with open(pathname, 'w', encoding='utf-8') as file:
+        json.dump(data, file, cls=ComposeEncoder, **kwargs)
 
     if not format_json:
         return
@@ -140,6 +140,11 @@ def write_to_json(
 def list_or_first(iterable: list) -> Any:
     '''
     Strip unneeded container list if there is only one value
+
+    >>> list_or_first([1])
+    1
+    >>> list_or_first([1, 2])
+    [1, 2]
     '''
     return iterable[0] if len(iterable) == 1 else iterable
 
@@ -148,7 +153,7 @@ def read_properties(filepath: str) -> dict:
     '''
     tileset.txt reader
     '''
-    with open(filepath, 'r', encoding="utf-8") as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
         pairs = {}
         for line in file.readlines():
             line = line.strip()
@@ -195,7 +200,7 @@ class Tileset:
             'filler': [],
         }
 
-        self.pngname_to_pngnum = {'null_image': 0}
+        self.pngname_indexes = {'null_image': 0}
 
         if not self.source_dir.is_dir() or \
                 not os.access(self.source_dir, os.R_OK):
@@ -212,7 +217,7 @@ class Tileset:
         if not os.access(info_path, os.R_OK):
             raise ComposingException(f'Error: cannot open {info_path}')
 
-        with open(info_path, 'r', encoding="utf-8") as file:
+        with open(info_path, 'r', encoding='utf-8') as file:
             self.info = json.load(file)
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
@@ -313,7 +318,7 @@ class Tileset:
                             'in a non-filler sheet',
                             unused_png)
                     continue
-                unused_num = self.pngname_to_pngnum[unused_png]
+                unused_num = self.pngname_indexes[unused_png]
                 sheet_min_index = 0
                 for sheet_max_index, sheet_data in tiles_new_dict.items():
                     if sheet_min_index < unused_num <= sheet_max_index:
@@ -419,7 +424,7 @@ class Tilesheet:
     def __init__(
         self,
         tileset: Tileset,
-        config: dict,
+        config: dict,  # {'name': {'sprite_width': 32, 'sprite_height': 32}}
     ) -> None:
         self.tileset = tileset
 
@@ -501,7 +506,7 @@ class Tilesheet:
         '''
         Verify image root name is unique, load it and register
         '''
-        if filepath.stem in self.tileset.pngname_to_pngnum:
+        if filepath.stem in self.tileset.pngname_indexes:
             if not self.is_filler:
                 log.error(
                     'duplicate root name %s: %s',
@@ -521,7 +526,7 @@ class Tilesheet:
             self.sprites.append(None)
 
         self.tileset.pngnum += 1
-        self.tileset.pngname_to_pngnum[filepath.stem] = self.tileset.pngnum
+        self.tileset.pngname_indexes[filepath.stem] = self.tileset.pngnum
         self.tileset.unreferenced_pngnames[
             'filler' if self.is_filler else 'main'].append(filepath.stem)
 
@@ -571,7 +576,7 @@ class Tilesheet:
         '''
         Load and store tile entries from the file
         '''
-        with open(filepath, 'r', encoding="utf-8") as file:
+        with open(filepath, 'r', encoding='utf-8') as file:
             try:
                 tile_entries = json.load(file)
             except Exception:
@@ -729,10 +734,10 @@ class TileEntry:
                             else variations
                         output.append(layer_part)
                 else:
-                    self.append_sprite_index(layer_part, output)
+                    self.append_sprite(layer_part, output)
         else:
             # "bg": "t_grass"
-            self.append_sprite_index(entry_layer, output)
+            self.append_sprite(entry_layer, output)
 
         return output
 
@@ -750,26 +755,26 @@ class TileEntry:
             # list of rotations
             converted_variations = []
             for sprite_name in sprite_names:
-                valid |= self.append_sprite_index(
+                valid |= self.append_sprite(
                     sprite_name, converted_variations)
         else:
             # single sprite
-            valid = self.append_sprite_index(
+            valid = self.append_sprite(
                 sprite_names, converted_variations)
         return converted_variations, valid
 
-    def append_sprite_index(
+    def append_sprite(
         self,
         sprite_name: str,
-        entry: list,
+        indexes_list: list,
     ) -> bool:
         '''
-        Get sprite index by sprite name and append it to entry
+        Get sprite index by sprite name and append it
+        to the indexes_list in-place and return True or return False
         '''
         if sprite_name:
-            sprite_index = self.tilesheet.tileset\
-                .pngname_to_pngnum.get(sprite_name, 0)
-            if sprite_index:
+            sprite = Sprite(sprite_name, self.tilesheet.tileset)
+            if sprite.to_json() != 0:
                 sheet_type = 'filler' if self.tilesheet.is_filler else 'main'
                 try:
                     self.tilesheet.tileset\
@@ -777,7 +782,7 @@ class TileEntry:
                 except ValueError:
                     pass
 
-                entry.append(sprite_index)
+                indexes_list.append(sprite)
                 return True
 
             log.error(
@@ -787,9 +792,44 @@ class TileEntry:
                     'name': sprite_name,
                     'path': self.filepath,
                     'target': self.tilesheet.tileset.output_conf_file,
-                })
+                }
+            )
 
         return False
+
+
+class Sprite:
+    """
+    Convert sprite IDs into indexes on writing JSON
+
+    TODO: try moving the image into .image here
+    """
+    def __init__(
+        self,
+        name: str,
+        tileset: Tileset,
+    ):
+        self.name = name
+        self.tileset = tileset
+
+    def to_json(self) -> int:
+        """
+        todo
+        """
+        return self.tileset.pngname_indexes.get(self.name, 0)
+
+
+class ComposeEncoder(json.JSONEncoder):
+    """
+    todo
+    """
+    def default(self, o):
+        """
+        todo
+        """
+        if isinstance(o, Sprite):
+            return o.to_json()
+        return super().default(o)
 
 
 def main() -> Union[int, ComposingException]:
