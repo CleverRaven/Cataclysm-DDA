@@ -248,6 +248,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
+    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -263,6 +264,7 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
+    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {

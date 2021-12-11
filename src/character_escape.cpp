@@ -6,6 +6,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "output.h"
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
@@ -214,12 +215,16 @@ bool Character::try_remove_grab()
                 // choose an item to be ripped off
                 int index = rng( 0, pd.size() - 1 );
                 int chance = rng( 0, get_effect_int( effect_grabbed, body_part_torso ) );
+                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
                 // the item is ripped off your character
-                if( chance > pd[index]->get_pocket_data()->ripoff ) {
+                if( sturdiness < chance ) {
                     pd[index]->spill_contents( adjacent_tile() );
                     add_msg_player_or_npc( m_bad,
                                            _( "As you escape the grab something comes loose and falls to the ground!" ),
                                            _( "<npcname> escapes the grab something comes loose and falls to the ground!" ) );
+                    if( is_avatar() ) {
+                        popup( _( "As you escape the grab something comes loose and falls to the ground!" ) );
+                    }
                 }
             }
 

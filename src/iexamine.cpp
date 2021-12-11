@@ -226,6 +226,7 @@ static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
@@ -1273,7 +1274,8 @@ void iexamine::intercom( Character &you, const tripoint &examp )
 void iexamine::rubble( Character &you, const tripoint &examp )
 {
     int moves;
-    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ) {
+    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ||
+        you.has_trait( trait_BURROWLARGE ) ) {
         moves = to_moves<int>( 1_minutes );
     } else if( you.has_quality( qual_DIG, 2 ) ) {
         moves = to_moves<int>( 2_minutes );
@@ -2038,7 +2040,8 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW );
+    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW ) ||
+                        you.has_trait( trait_BURROWLARGE );
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
             none( you, examp );
@@ -4983,8 +4986,10 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
-                bio_list.emplace_back( bio.id );
-                bionic_names.emplace_back( bio.info().name.translated() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
+                }
             }
             int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {

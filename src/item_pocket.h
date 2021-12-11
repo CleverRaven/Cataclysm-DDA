@@ -143,6 +143,11 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
+        bool is_allowed() const;
+        void set_usability( bool show );
+
+        std::string get_description() const;
+
         const pocket_data *get_pocket_data() const;
 
         std::list<item *> all_items_top();
@@ -342,6 +347,8 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
+
+        bool allowed = true; // is it possible to put things in this pocket
 };
 
 /**
@@ -433,6 +440,9 @@ class pocket_data
         bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
+
+        // a description of the pocket
+        std::string description;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

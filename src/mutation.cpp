@@ -59,6 +59,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -673,7 +674,7 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_SNAIL_TRAIL ) {
         get_map().add_field( pos(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
-    } else if( mut == trait_BURROW ) {
+    } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
         item burrowing_item( itype_fake_burrowing );
         invoke_item( &burrowing_item );
@@ -1106,7 +1107,7 @@ bool Character::mutate_towards( const trait_id &mut )
         if( !has_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
             i--;
-        } else if( has_base_trait( cancel[i] ) ) {
+        } else if( has_base_trait( cancel[i] ) || !purifiable( cancel[i] ) ) {
             //If we have the trait, but it's a base trait, don't allow it to be removed normally
             canceltrait.push_back( cancel[i] );
             cancel.erase( cancel.begin() + i );
@@ -1123,6 +1124,13 @@ bool Character::mutate_towards( const trait_id &mut )
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
             return mutate_towards( mut );
+        }
+    }
+
+    for( size_t i = 0; i < canceltrait.size(); i++ ) {
+        if( !purifiable( canceltrait[i] ) ) {
+            // We can't cancel unpurifiable mutations
+            return false;
         }
     }
 

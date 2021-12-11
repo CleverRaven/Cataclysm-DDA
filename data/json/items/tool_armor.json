@@ -411,7 +411,7 @@
     "name": { "str": "fitness band" },
     "category": "clothing",
     "volume": "100 ml",
-    "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",
+    "description": "A fitness band that can track your heartbeat, exercise level, calories and also has a clock.  Activate to see your metrics.",
     "weight": "30 g",
     "to_hit": -1,
     "color": "light_gray",
