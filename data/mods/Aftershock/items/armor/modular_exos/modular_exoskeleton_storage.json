@@ -9,6 +9,7 @@
     "price": 18000,
     "price_postapoc": 800,
     "material": [ "steel" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "light_gray",
@@ -42,6 +43,7 @@
     "price": 18000,
     "price_postapoc": 800,
     "material": [ "steel" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "light_gray",
@@ -69,6 +71,7 @@
     "weight": "2291 g",
     "volume": "15 L",
     "material": [ "nylon", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_LARGE_GADGET" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -156,6 +159,7 @@
     "weight": "275 g",
     "volume": "2500 ml",
     "material": [ "nylon", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "green",
@@ -264,7 +268,7 @@
       { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
     ],
     "material_thickness": 0.2,
-    "flags": [ "WATER_FRIENDLY" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_LARGE_GADGET" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
@@ -307,7 +311,7 @@
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "WATER_FRIENDLY" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
