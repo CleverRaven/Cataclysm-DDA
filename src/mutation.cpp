@@ -479,6 +479,10 @@ void Character::mutation_loss_effect( const trait_id &mut )
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
+    if( !branch.enchantments.empty() ) {
+        recalculate_enchantment_cache();
+        recalculate_bodyparts();
+    }
 
     on_mutation_loss( mut );
 }
