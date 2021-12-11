@@ -1,0 +1,258 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_tunnel_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************"
+      ],
+      "palettes": [ { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature_large",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ",,,,,   ,,  ,,,,        ",
+        "  ,    ,,,,,,,,,,,      ",
+        "      ,,,,,,,wwww,,,,,, ",
+        "          ,,,,,www,, ,,,",
+        "      ,,,,,,wwwww,,,,,  ",
+        "      ,,,,www###,,  ,,,,",
+        "    ,,,wwwwwwwwww,,,,ww,",
+        "   ,,,,w0wwww,,,,, wwww,",
+        "  ,,,,wwww,,,wwws  ,,,,,",
+        "   ,,,,,s,,,,wwww ,, ,, ",
+        "   ,,,,,,,wwwwwwww  ,,  ",
+        "  ,,,,,s,,,,wwww,,,,,,  ",
+        " ,,,,wwwwww,,,,,,,ww,,  ",
+        " , www0ww,,,,,,,,ssww,, ",
+        ",,,wwww#I,,,s,,,s,s0www ",
+        " , ,,,,,,s, ww,s,wwwww  ",
+        "  ,,,,s,,,,wwwww,,ss,,  ",
+        "  ,,,,,,,wwww0w,,,,,,,  ",
+        "    ,,,ss,swww#,,,,,,,, ",
+        "  ,,, wwww##www#,,,,,   ",
+        "   ,,,,,wwwwww,,,,,,    ",
+        "  ,,,,,,,,,ww,, ,,,     ",
+        "   ,,   ,,, ,,,         ",
+        "         ,,,,           "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  ,, ,,,    ",
+        " ,,,,,,  ,, ",
+        "  ,,IssI,,, ",
+        "   ,s,ww,,, ",
+        "  ,,,sww ,  ",
+        "  ,,Iww,,,, ",
+        "  ,wwI,, ,  ",
+        "    ww,I    ",
+        "   , ,,,    ",
+        "   ,    ,,  ",
+        "            "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "  ,##  ##   ",
+        "  ##  ,###  ",
+        "    ,,ss,   ",
+        "  ##ss ,,,  ",
+        "  ###   s   ",
+        "   #  ww##  ",
+        "         ## ",
+        "    ######  ",
+        "      ##    "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        " ,,I    ,   ",
+        " ,,,   ,,,  ",
+        "s,,#,I ,,,, ",
+        "  #sss,,,#, ",
+        ",Iss,,ss,,, ",
+        ",,,,,sss,,, ",
+        " ,,,,  II,  ",
+        " ,,#,,,,##,,",
+        ",,,I ,,  ## ",
+        "     I#,,#, ",
+        "         ,, "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature_large",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ",,,,,   ,,  ,,,,        ",
+        "  ,    ,,,,,,,,,,,      ",
+        "      ,,,,,,,wwww,,,,,, ",
+        "          ,,,,,www,, ,,,",
+        "      ,,,,,,wwwww,,,,,  ",
+        "      ,,,,www###,,  ,,,,",
+        "    ,,,wwwwwwwwww,,,,ww,",
+        "   ,,,,w0wwww,,,,, wwww,",
+        "  ,,,,wwww,,,wwws  ,,,,,",
+        "   ,,,,,s,,,,wwww ,, ,, ",
+        "   ,,,,,,,wwwwwwww  ,,  ",
+        "  ,,,,,s,,,,wwww,,,,,,  ",
+        " ,,,,wwwwww,,,,,,,ww,,  ",
+        " , www0ww,,,,,,,,ssww,, ",
+        ",,,wwww#I,,,s,,,s,s0www ",
+        " , ,,,,,,s, ww,s,wwwww  ",
+        "  ,,,,s,,,,wwwww,,ss,,  ",
+        "  ,,,,,,,wwww0w,,,,,,,  ",
+        "    ,,,ss,swww#,,,,,,,, ",
+        "  ,,, wwww##www#,,,,,   ",
+        "   ,,,,,wwwwww,,,,,,    ",
+        "  ,,,,,,,,,ww,, ,,,     ",
+        "   ,,   ,,, ,,,         ",
+        "         ,,,,           "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature_large",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ",,,,,   ,,  ,,,,        ",
+        "  ,   s,,,,,,,,,,,      ",
+        "      ,,,,,,,,s,,,,,,,, ",
+        "   ,,,,,,,,,,,,,,,,, ,,,",
+        "  ,,ss,,,,,,,,,,,,,,s,  ",
+        "    ,,,,,,,,,,,,,,  ,,,,",
+        "   ,,s,,,,,,,,,,sss,,,,,",
+        "   ,,,,,,,,,,,,,,,,,,,,,",
+        "  ,,,,,,,,,,,,,,,,,,,,,,",
+        "   ,,,,,,s,,,,,,,,,, ,, ",
+        "   ,,,,,,ss,,,,,,,,,,,  ",
+        "  ,,,,,,,,,,,,,,,,ss,,  ",
+        " ,,,,,,,,,,s,,,,,,,,,,  ",
+        " , ,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,s,,,,,,,,,,ss,,,, ",
+        " , ,,,,,,,,,,,,,,,,,,,  ",
+        "  ,,,,,,,,,,,,,,,,,s,,  ",
+        "  ,,s,,,,,,,,,,,,,,,,,  ",
+        "    ,,,,,,,,sss,,,,,,,, ",
+        "  ,,, ,,,,sss,,,s,,,,   ",
+        "   ,,,,s,,,,,,ss,,,,    ",
+        "  ,,,,,,,,,,,,,,,,,     ",
+        "   s,   ,,, ,,, ,,      ",
+        " ,       ,,,,    ,,     "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature_large",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "            ,,,         ",
+        "        ,,,,,,,,,,      ",
+        "           ,,#,,#,,,    ",
+        "           ,,, ###,,    ",
+        "       ,,,,,,####,,     ",
+        "      ,,,,######,,      ",
+        "     ,,,#########,,     ",
+        "      ,,0####,,,,,      ",
+        "    ,,,,,,,,,,, s  ,    ",
+        "     ,,,s,,,,,s   ,,    ",
+        "     ,,,,,,,,,s,,       ",
+        "    s,,s,,,,I,, ,,,,    ",
+        "   ,,,###s,,,,,,,,,,    ",
+        "   , ####,,,,,,,,,,     ",
+        "   #####I,,,s,,,,,,     ",
+        "   ,# ,,,s, ##,s,       ",
+        "  , ,,s  ,,#####,,      ",
+        "  ,,  ,, s#####,,,      ",
+        "       ss,,####,,       ",
+        "          ##,,##        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_rocks",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "furniture", "id": "f_boulder_medium", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 8, 30 ] },
+        { "point": "furniture", "id": "f_boulder_large", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 8, 14 ] }
+      ]
+    }
+  }
+]
