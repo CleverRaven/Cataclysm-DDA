@@ -581,5 +581,17 @@
     "material": [ "paper" ],
     "volume": "250 ml",
     "price": 0
+  },
+  {
+    "type": "mutation",
+    "id": "INFRARED",
+    "//": "Rolled into Trog Eyes, valid false and no category to prevent newly mutating it",
+    "name": { "str": "Infrared Vision" },
+    "points": 5,
+    "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
+    "flags": [ "INFRARED" ],
+    "prereqs": [ "NIGHTVISION3" ],
+    "types": [ "VISION" ],
+    "valid": false
   }
 ]

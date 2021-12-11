@@ -421,7 +421,6 @@ static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
 static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
 static const trait_id trait_NOMAD( "NOMAD" );
@@ -2284,7 +2283,7 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3]) {
+    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] ) {
         range += 4.5;

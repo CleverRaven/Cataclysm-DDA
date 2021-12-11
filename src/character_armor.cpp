@@ -200,7 +200,7 @@ int Character::get_env_resist( bodypart_id bp ) const
             ret += EP->second;
         }
     }
-    
+
     return ret;
 }
 

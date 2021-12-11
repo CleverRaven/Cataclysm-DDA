@@ -2,8 +2,8 @@
   {
     "type": "enchantment",
     "id": "ENCH_DEBUG_TAIL",
-    "condition": "INACTIVE",
-    "modified_bodyparts": [ { "gain": "debug_tail" }, {"gain": "ceph_eyes"},{ "lose": "eyes"} ]
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "debug_tail" } ]
   },
   {
     "type": "enchantment",
