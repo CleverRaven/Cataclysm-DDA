@@ -30,9 +30,11 @@
 #include "colony.h"
 #include "crafting.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -92,19 +94,20 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_music( "music" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
@@ -118,24 +121,36 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+static const mutation_category_id mutation_category_ELFA( "ELFA" );
+
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
+
+static const quality_id qual_DIG( "DIG" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -199,6 +214,11 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
+    float scale = 1;
+    auto iter = it.type->ammo_scale.find( type );
+    if( iter != it.type->ammo_scale.end() ) {
+        scale = iter->second;
+    }
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
@@ -216,7 +236,21 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
+
+    if( p.is_worn( it ) ) {
+        item tmp = item( target );
+        for( const trait_id &mut : p.get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+            if( branch.conflicts_with_item( tmp ) ) {
+                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                     branch.name() );
+                return cata::nullopt;
+            }
+        }
+    }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -247,7 +281,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = it.type->charges_to_use();
+        result = int( it.type->charges_to_use() * double( scale ) );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -312,7 +346,8 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+    return ret_val<bool>::make_failure( n_gettext( "You need a tool with %s.",
+                                        "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
 
@@ -697,7 +732,7 @@ static effect_data load_effect_data( const JsonObject &e )
 {
     time_duration time;
     if( e.has_string( "duration" ) ) {
-        time = read_from_json_string<time_duration>( *e.get_raw( "duration" ), time_duration::units );
+        time = read_from_json_string<time_duration>( e.get_member( "duration" ), time_duration::units );
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
@@ -933,8 +968,8 @@ cata::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const
             ammo_item.charges = std::min( available, amdef.second );
             p.use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
-            p.add_msg_if_player( ngettext( "You load %1$d x %2$s round into the %3$s.",
-                                           "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
+            p.add_msg_if_player( n_gettext( "You load %1$d x %2$s round into the %3$s.",
+                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
                                  newmon.name() );
             amdef.second = ammo_item.charges;
@@ -988,7 +1023,8 @@ cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripo
 
     const cata::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
-        return here.passable( t ) && here.has_floor_or_support( t ) && !g->critter_at( t );
+        return here.passable( t ) && here.has_floor_or_support( t ) &&
+               !get_creature_tracker().creature_at( t );
     } );
 
     if( !target_pos.has_value() ) {
@@ -1016,21 +1052,21 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
-    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_BUTCHER_EQ ) ) {
         can_function_as.emplace_back(
             _( "a place to hang <info>corpses for butchering</info>" ) );
     }
-    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_FLAT_SURF ) ) {
         can_function_as.emplace_back(
             _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
     }
-    if( the_furn.has_flag( "CAN_SIT" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_CAN_SIT ) ) {
         can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
     }
-    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_HIDE_PLACE ) ) {
         can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
     }
-    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+    if( the_furn.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
     if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
@@ -1198,11 +1234,11 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
-    if( here.tr_at( pos ).id == trap_str_id( "tr_firewood_source" ) ) {
+    if( here.tr_at( pos ).id == tr_firewood_source ) {
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_id( "SOURCE_FIREWOOD" ), here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -1268,7 +1304,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
     const float light_level = g->natural_light_level( pos.z );
     if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( TFLAG_INDOORS, pos ) ) {
+        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }
 
@@ -1374,8 +1410,8 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
 // Helper to visit instances of all the sub-materials of an item.
 static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
 {
-    for( const material_id &material : it.made_of() ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+    for( const auto &material : it.made_of() ) {
+        if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );
         }
@@ -1462,7 +1498,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( &it == &p.get_wielded_item() ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -1480,7 +1516,7 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
-    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
+    const std::map<material_id, int> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     float remaining_weight = 1;
 
@@ -1539,15 +1575,20 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             continue;
         }
         // Discard invalid component
-        if( !temp.made_of_any( std::set<material_id>( cut_material_components.begin(),
-                               cut_material_components.end() ) ) ) {
+        std::set<material_id> mat_set;
+        for( std::pair<material_id, int> mat : cut_material_components ) {
+            mat_set.insert( mat.first );
+        }
+        if( !temp.made_of_any( mat_set ) ) {
             continue;
         }
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
             for( const auto &type : temp.made_of() ) {
-                mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                             ( static_cast<float>( type.second ) / mat_total );
             }
             continue;
         }
@@ -1579,11 +1620,13 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         // No crafting recipe available
         if( iter == recipe_dict.end() ) {
             // Check disassemble recipe too
+            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
                 // No recipes found, count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }
@@ -1595,7 +1638,8 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             if( weight > temp.weight() ) {
                 // Bad disassemble recipe.  Count weight and go next
                 for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
+                                                 ( static_cast<float>( type.second ) / mat_total );
                 }
                 continue;
             }
@@ -1655,7 +1699,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
                 result.charges = amount;
                 amount = 1;
             }
-            add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+            add_msg( m_good, n_gettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
                 result.set_flag( flag_FILTHY );
@@ -1853,7 +1897,7 @@ bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
     bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != bodypart_id( "bp_null" ) ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
+        if( !p.has_trait( trait_NOPAIN ) ) {
             p.mod_pain( 15 );
             p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
         } else {
@@ -2269,7 +2313,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         spell_text = sp_id.obj().name.translated();
-        if( pc.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
             if( pc.magic->knows_spell( sp_id ) ) {
@@ -2296,7 +2340,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return cata::nullopt;
     }
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         p.add_msg_if_player( _( "You can't read." ) );
         return cata::nullopt;
     }
@@ -2367,6 +2411,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             return cata::nullopt;
         }
         study_spell.moves_total = study_time;
+        spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
+        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+            p.handle_skill_warning( studying.skill(),
+                                    true ); // show the skill warning on start reading, since we don't show it during
+        }
     }
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
@@ -3042,7 +3091,7 @@ static bool damage_item( Character &pl, item_location &fix )
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &tool,
-        item_location &fix ) const
+        item_location &fix, bool refit_only ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
@@ -3052,7 +3101,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const repair_item_actor::repair_type action = default_action( *fix, current_skill_level );
+    repair_item_actor::repair_type action;
+    if( refit_only ) {
+        if( fix->has_flag( flag_FIT ) ) {
+            pl.add_msg_if_player( m_warning, _( "The %s already fits!" ), fix->tname() );
+            return AS_CANT;
+        } else if( !fix->has_flag( flag_VARSIZE ) ) {
+            pl.add_msg_if_player( m_bad, _( "This %s cannot be refitted!" ), fix->tname() );
+            return AS_CANT;
+        } else {
+            action = RT_REFIT;
+        }
+    } else {
+        action = default_action( *fix, current_skill_level );
+    }
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
@@ -3248,7 +3310,7 @@ static Character &get_patient( Character &healer, const tripoint &pos )
         return healer;
     }
 
-    Character *const person = g->critter_at<Character>( pos );
+    Character *const person = get_creature_tracker().creature_at<Character>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
@@ -3279,17 +3341,14 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
+    // each tier of proficiency cuts requred time by half
     int cost = move_cost;
-    if( long_action ) {
-        // A hack: long action healing on NPCs isn't done yet.
-        // So just heal at start and paralyze the player for 5 minutes.
-        cost /= std::min( 10, p.get_skill_level( skill_firstaid ) + 1 );
-    }
+    cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
+    cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
@@ -3333,8 +3392,13 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        return bandages_power + bandages_scaling * prof_bonus;
     }
 
     return bandages_power;
@@ -3344,7 +3408,12 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return disinfectant_power + disinfectant_scaling * prof_bonus;
     }
 
     return disinfectant_power;
@@ -3354,7 +3423,12 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bleed + healer.get_skill_level( skill_firstaid ) / 2;
+        int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return bleed + prof_bonus;
     }
 
     return bleed;
@@ -3487,6 +3561,10 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care,
+                                 time_duration::from_turns( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care_expert,
+                                 time_duration::from_turns( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3503,9 +3581,11 @@ static bodypart_id pick_part_to_heal(
     const bool precise = &healer == &patient ?
                          patient.has_trait( trait_SELFAWARE ) :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
-
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
+                         ( ( healer.get_skill_level( skill_firstaid ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
+                           healer.per_cur >= 20 );
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
@@ -3526,7 +3606,7 @@ static bodypart_id pick_part_to_heal(
             } else if( healed_part == bodypart_id( "leg_l" ) || healed_part == bodypart_id( "leg_r" ) ) {
                 add_msg( m_info, _( "That leg is broken.  It needs surgical attention or a splint." ) );
             } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+                debugmsg( "That body part is bugged.  It needs developer's attention." );
             }
 
             continue;
@@ -3818,8 +3898,8 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
         }
     }
 
-    const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool has_shovel = p.has_quality( qual_DIG, 3 );
+    const bool is_diggable = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( "%s", bury_question );
@@ -3987,18 +4067,19 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+        } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
+                   p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
 
-    if( p.has_bionic( bid ) ) {
+    if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                                            std::bind( &Character::has_bionic, &p, std::placeholders::_1 ) );
 
         if( downgrade ) {
             return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
@@ -4186,7 +4267,7 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_avatar" part, implement NPC screams
-    if( p.is_avatar() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
@@ -4209,9 +4290,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 
-    if( m_category.id == mutation_category_id( "CHIMERA" ) ) {
+    if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == mutation_category_id( "ELFA" ) ) {
+    } else if( m_category.id == mutation_category_ELFA ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
@@ -4265,16 +4346,17 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return cata::nullopt;
         }
-        if( const Creature *const c = g->critter_at( dest ) ) {
+        if( const Creature *const c = creatures.creature_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }
-        if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
+        if( here.impassable( dest ) || !here.has_flag( ter_furn_flag::TFLAG_FLAT, dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
             return cata::nullopt;
@@ -4465,7 +4547,13 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( !it.ammo_sufficient( &p, thread_needed ) ) {
+            if( obj.restricted &&
+                std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
+                                        mod.tname( 1, false ) );
+            } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt.translated() ), thread_needed );
@@ -4474,12 +4562,6 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
                                         tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
@@ -4612,7 +4694,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, false, scent_mod );
+    p.add_effect( effect_masked_scent, duration, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
@@ -4657,13 +4739,13 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
         char_ptr = n;
     }
 
-    item_location loc( *( p.as_character() ), &it );
+    item_location loc( *p.as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
-        if( eoc->activate_only ) {
+        if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Cannot use a recurring effect_on_condition in an item.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
     return it.type->charges_to_use();

@@ -192,7 +192,10 @@
     "price_postapoc": 2400,
     "material": [ "aluminum", "brass", "lead", "powder" ],
     "damage": { "damage_type": "bullet", "amount": 100 },
-    "casing": "40x46mm_m212_casing"
+    "shot_damage": { "damage_type": "bullet", "amount": 10 },
+    "projectile_count": 10,
+    "shot_spread": 1,
+    "casing": "40x46mm_hornets_nest_22lr_casing"
   },
   {
     "id": "40x46mm_hornets_nest_410",
@@ -206,6 +209,9 @@
     "price_postapoc": 3240,
     "material": [ "aluminum", "brass", "lead", "powder" ],
     "damage": { "damage_type": "bullet", "amount": 120 },
-    "casing": "40x46mm_m212_casing"
+    "shot_damage": { "damage_type": "bullet", "amount": 10 },
+    "projectile_count": 20,
+    "shot_spread": 15,
+    "casing": "40x46mm_hornets_nest_410_casing"
   }
 ]

@@ -3,6 +3,7 @@
 #define CATA_SRC_PROFICIENCY_H
 
 #include <iosfwd>
+#include <map>
 #include <set>
 #include <vector>
 #include <string>
@@ -15,7 +16,6 @@
 #include "type_id.h"
 
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 struct display_proficiency;
@@ -41,7 +41,7 @@ struct proficiency_bonus {
     proficiency_bonus_type type = proficiency_bonus_type::last;
     float value = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 class proficiency
@@ -59,6 +59,9 @@ class proficiency
 
         float _default_time_multiplier = 2.0f;
         float _default_fail_multiplier = 2.0f;
+
+        float _default_weakpoint_bonus = 0.0f;
+        float _default_weakpoint_penalty = 0.0f;
 
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
@@ -80,6 +83,9 @@ class proficiency
 
         float default_time_multiplier() const;
         float default_fail_multiplier() const;
+
+        float default_weakpoint_bonus() const;
+        float default_weakpoint_penalty() const;
 
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
@@ -124,7 +130,7 @@ class proficiency_set
                                      proficiency_bonus_type prof_bonus ) const;
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jsobj );
         void deserialize_legacy( const JsonArray &jo );
 };
 
@@ -139,7 +145,7 @@ struct learning_proficiency {
         practiced( practiced ) {}
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct display_proficiency {
@@ -167,7 +173,7 @@ struct book_proficiency_bonus {
         bool include_prereqs = default_include_prereqs;
 
         bool was_loaded = false;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
     private:
         static const float default_time_factor;

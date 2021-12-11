@@ -69,10 +69,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ]
   },
@@ -123,6 +122,38 @@
     "material": [ "wood" ],
     "symbol": "#",
     "color": "brown",
+    "looks_like": "pet_carrier"
+  },
+  {
+    "id": "terrarium",
+    "type": "TOOL",
+    "name": { "str": "glass terrarium" },
+    "description": "A glass container meant to hold plants and/or insects.  They come in a variety of sizes.",
+    "weight": "5 kg",
+    "volume": "37 L",
+    "price": 800,
+    "price_postapoc": 50,
+    "material": [ "glass" ],
+    "symbol": "#",
+    "color": "white_yellow",
+    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "looks_like": "pet_carrier",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "firefly_terrarium",
+    "type": "TOOL",
+    "name": { "str": "survivor giant firefly lamp" },
+    "description": "Some enterprising survivor has decided to turn this terrarium into a light source, using what appear to be a giant firefly and triffid vegetation.",
+    "weight": "30 kg",
+    "volume": "37 L",
+    "price": 800,
+    "price_postapoc": 1200,
+    "material": [ "glass" ],
+    "symbol": "#",
+    "color": "white_yellow",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_firefly_terrarium" },
     "looks_like": "pet_carrier"
   },
   {

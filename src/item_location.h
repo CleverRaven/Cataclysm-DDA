@@ -4,12 +4,13 @@
 
 #include <iosfwd>
 #include <memory>
+#include <string>
 
 #include "units_fwd.h"
 
 class Character;
 class character_id;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class item;
 class map_cursor;
@@ -44,7 +45,7 @@ class item_location
         item_location( const item_location &container, item *which );
 
         void serialize( JsonOut &js ) const;
-        void deserialize( JsonIn &js );
+        void deserialize( const JsonObject &obj );
 
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;

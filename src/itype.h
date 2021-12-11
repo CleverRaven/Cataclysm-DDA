@@ -32,7 +32,6 @@
 #include "value_ptr.h"
 
 class Item_factory;
-class JsonIn;
 class JsonObject;
 class item;
 struct tripoint;
@@ -91,8 +90,8 @@ class gunmod_location
             return _id < rhs._id;
         }
 
-        void deserialize( JsonIn &jsin ) {
-            _id = jsin.get_string();
+        void deserialize( std::string &&id ) {
+            _id = std::move( id );
         }
 };
 
@@ -167,6 +166,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /** pet food category */
+        std::set<std::string> petfood;
+
         /**effect on conditions to apply on consumption*/
         std::vector<effect_on_condition_id> consumption_eocs;
 
@@ -213,7 +215,22 @@ struct islot_brewable {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
+};
+
+/** Material data for individual armor body parts */
+struct part_material {
+    material_id id; //material type
+    int cover; //portion coverage % of this material
+    float thickness; //portion thickness of this material
+
+    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material( material_id id, int cover, float thickness ) :
+        id( id ), cover( cover ), thickness( thickness ) {}
+    part_material( const std::string &id, int cover, float thickness ) :
+        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct armor_portion_data {
@@ -227,27 +244,15 @@ struct armor_portion_data {
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
+    int cover_melee = 0;
+    int cover_ranged = 0;
+    int cover_vitals = 0;
 
-    // Where does this cover if any
-    cata::optional<body_part_set> covers;
-
-    // What layer does it cover if any
-    // TODO: Not currently supported, we still use flags for this
-    //cata::optional<layer_level> layer;
-
-    void deserialize( JsonIn &jsin );
-};
-
-struct islot_armor {
     /**
-    * Whether this item can be worn on either side of the body
-    */
-    bool sided = false;
-    /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
+     * Average material thickness for all materials from
+     * this armor portion
      */
-    float thickness = 0.0f;
+    float avg_thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -256,6 +261,44 @@ struct islot_armor {
      * Environmental protection of a gas mask with installed filter.
      */
     int env_resist_w_filter = 0;
+
+    /**
+     * What materials this portion is made of, for armor purposes.
+     * Includes material portion and thickness.
+     */
+    std::vector<part_material> materials;
+
+    // Where does this cover if any
+    cata::optional<body_part_set> covers;
+
+    std::vector<sub_bodypart_str_id> sub_coverage;
+
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //cata::optional<layer_level> layer;
+
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct islot_armor {
+    /**
+    * Whether this item can be worn on either side of the body
+    */
+    bool sided = false;
+    /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
     /**
      * How much warmth this item provides.
      */
@@ -273,18 +316,49 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
 
-    // Layer, encumbrance and coverage information.
+    /**
+     * If the item in question has any sub coverage when testing for encumberance
+     */
+    bool has_sub_coverage = false;
+
+    // Layer, encumbrance and coverage information for each body part.
+    // This isn't directly loaded in but is instead generated from the loaded in
+    // sub_data vector
     std::vector<armor_portion_data> data;
+
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
 
     bool was_loaded = false;
 
+    int avg_env_resist() const;
+    int avg_env_resist_w_filter() const;
+    float avg_thickness() const;
+
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_pet_armor {
@@ -320,7 +394,7 @@ struct islot_pet_armor {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_book {
@@ -392,7 +466,7 @@ struct islot_book {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_mod {
@@ -453,7 +527,7 @@ struct islot_engine {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct islot_wheel {
@@ -467,24 +541,34 @@ struct islot_wheel {
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
-struct gun_variant_data {
+enum class itype_variant_kind : int {
+    gun,
+    generic,
+    last
+};
+
+template<>
+struct enum_traits<itype_variant_kind> {
+    static constexpr itype_variant_kind last = itype_variant_kind::last;
+};
+
+struct itype_variant_data {
     std::string id;
-    translation brand_name;
+    translation alt_name;
     translation alt_description;
     ascii_art_id art;
 
     int weight = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
-    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -657,6 +741,9 @@ struct islot_gunmod : common_ranged_data {
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
 
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
+
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 
@@ -668,7 +755,6 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
-    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -695,7 +781,7 @@ struct islot_battery {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -722,6 +808,19 @@ struct islot_ammo : common_ranged_data {
      * Default charges.
      */
     int def_charges = 1;
+
+    /**
+     * Number of projectiles fired per round, e.g. shotgun shot.
+     */
+    int count = 1;
+    /**
+     * Spread/dispersion between projectiles fired from the same round.
+     */
+    int shot_spread = 0;
+    /**
+     * Damage for a single shot.
+     */
+    damage_instance shot_damage;
 
     /**
      * TODO: document me.
@@ -764,7 +863,7 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_bionic {
@@ -792,7 +891,7 @@ struct islot_seed {
     bool was_loaded = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
@@ -826,6 +925,7 @@ enum condition_type {
     FLAG,
     COMPONENT_ID,
     VAR,
+    SNIPPET_ID,
     num_condition_types
 };
 
@@ -840,6 +940,8 @@ struct conditional_name {
     condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
+    // Used for variables and snippets to identify the specific value
+    std::string value;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
@@ -854,7 +956,7 @@ class islot_milling
         bool was_loaded = false;
 
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -889,11 +991,16 @@ struct itype {
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
+        // Potential variant items that exist of this type (same stats, different name and desc)
+        std::vector<itype_variant_data> variants;
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
+
+        std::set<weapon_category_id> weapon_category;
 
         std::string snippet_category;
         translation description; // Flavor text
@@ -910,11 +1017,21 @@ struct itype {
         std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
+        // First -> the material
+        // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
-        std::vector<material_id> materials;
+        std::map<material_id, int> materials;
+        // Since the material list was converted to a map, keep track of the material insert order
+        // Do not use this for materials. Use the materials map above.
+        std::vector<material_id> mats_ordered;
+        // Total of item's material portions (materials->second)
+        int mat_portion_total = 0;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        /** The factor of ammo consumption indexed by action type*/
+        std::map<std::string, float> ammo_scale;
 
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
@@ -930,6 +1047,10 @@ struct itype {
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
+
+        // Needs to go so far away because padding!
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
 
         phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
@@ -1017,6 +1138,9 @@ struct itype {
 
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         layer_level layer = layer_level::NUM_LAYER_LEVELS;
 

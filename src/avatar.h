@@ -14,12 +14,12 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
 #include "magic_teleporter_list.h"
 #include "memory_fast.h"
-#include "player.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -67,7 +67,7 @@ struct monster_visible_info {
     bool dangerous[8] = {};
 };
 
-class avatar : public player
+class avatar : public Character
 {
     public:
         avatar();
@@ -82,7 +82,7 @@ class avatar : public player
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
 
@@ -104,6 +104,26 @@ class avatar : public player
             return this;
         }
 
+        mfaction_id get_monster_faction() const override;
+
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
+        /**
+         * Makes the avatar "take over" the given NPC, while the current avatar character
+         * becomes an NPC.
+         */
+        void control_npc( npc & );
+        /**
+         * Open a menu to choose the NPC to take over.
+         */
+        void control_npc_menu();
+        using Character::query_yn;
+        bool query_yn( const std::string &mes ) const override;
+
         void toggle_map_memory();
         bool should_show_map_memory();
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
@@ -123,12 +143,6 @@ class avatar : public player
 
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
-        /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
-        /** Uses calc_focus_change to update the player's current focus */
-        void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -160,9 +174,12 @@ class avatar : public player
          */
         void on_mission_finished( mission &cur_mission );
 
+        //return avatar diary
+        diary *get_avatar_diary();
+
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
-                      bool radio_contact = false );
+        void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
+                      bool is_computer = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -188,6 +205,14 @@ class avatar : public player
         void identify( const item &item ) override;
         void clear_identified();
 
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
+        /**
+         * Opens the targeting menu to pull a nearby creature towards the character.
+         * @param name Name of the implement used to pull the creature. */
+        void longpull( const std::string name );
+
         void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -206,16 +231,9 @@ class avatar : public player
 
         teleporter_list translocators;
 
-        int get_str_base() const override;
-        int get_dex_base() const override;
-        int get_int_base() const override;
-        int get_per_base() const override;
-
         void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
-        // how much "kill xp" you have
-        int kill_xp() const;
         void power_bionics() override;
         void power_mutations() override;
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
@@ -264,6 +282,7 @@ class avatar : public player
         struct daily_calories {
             int spent = 0;
             int gained = 0;
+            int ingested = 0;
             int total() const {
                 return gained - spent;
             }
@@ -274,15 +293,15 @@ class avatar : public player
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                json.member( "ingested", ingested );
                 save_activity( json );
 
                 json.end_object();
             }
-            void deserialize( JsonIn &jsin ) {
-                JsonObject data = jsin.get_object();
-
+            void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
+                data.read( "ingested", ingested );
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
@@ -298,27 +317,43 @@ class avatar : public player
             }
 
             void save_activity( JsonOut &json ) const;
-            void read_activity( JsonObject &data );
+            void read_activity( const JsonObject &data );
 
         };
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        int get_daily_spent_kcal( bool yesterday ) const;
+        int get_daily_ingested_kcal( bool yesterday ) const;
+        void add_ingested_kcal( int kcal );
+        void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 
+        // ammount of turns since last check for pocket noise
+        time_point last_pocket_noise = time_point( 0 );
+
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
+        std::set<character_id> follower_ids;
+
+        const mood_face_id &character_mood_face();
+        void clear_mood_face();
 
     private:
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
+
+        bool mood_face_horizontal = false;
+        cata::optional<mood_face_id> mood_face_cache;
+
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
 
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
@@ -342,6 +377,10 @@ class avatar : public player
          */
         mission *active_mission;
         /**
+        * diary to track player progression and to write the players stroy
+        */
+        std::unique_ptr <diary> a_diary;
+        /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
@@ -352,14 +391,13 @@ class avatar : public player
 
         object_type grab_type;
 
-        // these are the stat upgrades from stats through kills
-
-        int str_upgrade = 0;
-        int dex_upgrade = 0;
-        int int_upgrade = 0;
-        int per_upgrade = 0;
-
         monster_visible_info mon_visible;
+
+        /**
+         * The NPC that would control the avatar's character in the avatar's absence.
+         * The Character data in this object is not relevant/used.
+         */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 avatar &get_avatar();

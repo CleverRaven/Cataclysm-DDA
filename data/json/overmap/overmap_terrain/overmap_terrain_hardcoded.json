@@ -9,15 +9,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "crater",
-    "name": "crater",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "field",
     "copy-from": "generic_open_land",
     "name": "field",
@@ -65,15 +56,6 @@
     "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "temple",
-    "name": "strange temple",
-    "sym": "T",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -152,6 +134,7 @@
     "type": "overmap_terrain",
     "id": "cave_rat_underground",
     "name": "rat cave",
+    "looks_like": "cave_underground",
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
@@ -161,6 +144,7 @@
     "type": "overmap_terrain",
     "id": "cave_rat",
     "name": "rat cave",
+    "looks_like": "cave",
     "sym": "C",
     "color": "dark_gray",
     "see_cost": 2,
@@ -174,42 +158,6 @@
     "color": "yellow",
     "see_cost": 3,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit",
-    "name": "spider pit",
-    "sym": "S",
-    "color": "white",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit_under",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "anthill",
-    "name": "anthill",
-    "sym": "%",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_anthill",
-    "name": "sulfurous anthill",
-    "sym": "%",
-    "color": "green",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -231,18 +179,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cavern",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
     "//": "This is old rock type, new one (below) will replace it in new overmaps",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
@@ -264,7 +204,7 @@
     "sym": "^",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -273,42 +213,7 @@
     "sym": "^",
     "color": "light_red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants",
-    "name": "ant tunnel",
-    "color": "brown",
-    "see_cost": 5,
-    "flags": [ "LINEAR" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_food",
-    "name": "ant food storage",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "ants_larvae", "ants_larvae_acid" ],
-    "name": "ant larva chamber",
-    "sym": "O",
-    "color": "white",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "ants_queen", "ants_queen_acid" ],
-    "name": "ant queen chamber",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -317,6 +222,15 @@
     "sym": "O",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_underground",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   }
 ]

@@ -47,6 +47,7 @@ Widgets have the following "style" options:
 
 - `number`: Display value as a plain integer number
 - `graph`: Show a bar graph of the value with colored text characters
+- `text`: Show text from a `*_text` variable
 - `layout`: Special style; this widget will be a layout container for other widgets
 
 Non-layout widgets must define a "var" field, with the name of a predefined widget variable.
@@ -54,12 +55,15 @@ Non-layout widgets must define a "var" field, with the name of a predefined widg
 
 ## Widget variables
 
-The "var" field of a widget tells what variable data gives the widget its value.  Valid var names
+The "var" field of a widget tells what variable data gives the widget its value. Valid var names
 are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these var
 enums determine which avatar method(s) to get their values from.
 
 Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
 definitive list of vars.
+
+Many vars are numeric in nature. These may use style "number" or style "graph".
+Some examples:
 
 - `bp_hp`: hit points of given "bodypart", like "arm_l" or "torso", scale of 0-max HP
 - `bp_encumb`: encumbrance given "bodypart", scale of 0-??
@@ -68,6 +72,16 @@ definitive list of vars.
 - `stamina`: 0-10000, greater is fuller stamina reserves
 - `fatigue`: 0-1000, greater is more fatigued/tired
 - `move`, `pain`, `speed`, `mana`: other numeric avatar attributes
+
+Some vars refer to text descriptors. These must use style "text". Examples:
+
+- `pain_text`: "Mild pain", "Distracting pain", "Intense pain", etc.
+- `hunger_text`: "Engorged", "Full", "Hungry", "Famished", etc.
+- `thirst_text`: "Slaked", "Thirsty", "Dehydrated", etc.
+- `wielding_text`: Name of current weapon or wielded item
+- `style_text`: Name of current martial arts style
+- `weight_text`: "Emaciated", "Normal", "Overweight", etc.
+- `date_text`: Current day within season, like "Summer, day 15"
 
 For example, a widget to show the current STR stat would define this "var":
 

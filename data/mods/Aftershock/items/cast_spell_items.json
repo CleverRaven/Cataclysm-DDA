@@ -65,10 +65,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "heavy_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ]
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_atomic_battery_cell"
       }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_translocation_slow", "no_fail": true, "level": 1 }

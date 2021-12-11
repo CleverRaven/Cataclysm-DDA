@@ -25,6 +25,8 @@
 #include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -34,6 +36,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -46,6 +49,8 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
 class npc;
+
+class recipe_result_info_cache;
 
 enum TAB_MODE {
     NORMAL,
@@ -136,6 +141,19 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
+static bool cannot_gain_skill_or_prof( const Character &player, const recipe &recp )
+{
+    if( recp.skill_used && player.get_skill_level( recp.skill_used ) <= recp.get_skill_cap() ) {
+        return false;
+    }
+    for( const proficiency_id &prof : recp.used_proficiencies() ) {
+        if( !player.has_proficiency( prof ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 namespace
 {
 struct availability {
@@ -145,18 +163,19 @@ struct availability {
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
         const deduped_requirement_data &req = r->deduped_requirements();
+        has_all_skills = r->skill_used.is_null() ||
+                         player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
         has_proficiencies = r->character_has_required_proficiencies( player );
-        can_craft = req.can_make_with_inventory(
-                        inv, all_items_filter, batch_size, craft_flags::start_only ) && has_proficiencies;
-        can_craft_non_rotten = req.can_make_with_inventory(
-                                   inv, no_rotten_filter, batch_size, craft_flags::start_only );
+        can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                    req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+        would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
+                           craft_flags::start_only );
+        would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
         const requirement_data &simple_req = r->simple_requirements();
-        apparently_craftable = simple_req.can_make_with_inventory(
-                                   inv, all_items_filter, batch_size, craft_flags::start_only );
+        apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                               simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
         proficiency_time_maluses = r->proficiency_time_maluses( player );
         proficiency_failure_maluses = r->proficiency_failure_maluses( player );
-        has_all_skills = r->skill_used.is_null() ||
-                         player.get_skill_level( r->skill_used ) >= r->difficulty;
         for( const std::pair<const skill_id, int> &e : r->required_skills ) {
             if( player.get_skill_level( e.first ) < e.second ) {
                 has_all_skills = false;
@@ -165,7 +184,8 @@ struct availability {
         }
     }
     bool can_craft;
-    bool can_craft_non_rotten;
+    bool would_use_rotten;
+    bool would_not_benefit;
     bool apparently_craftable;
     bool has_proficiencies;
     bool has_all_skills;
@@ -175,7 +195,7 @@ struct availability {
     nc_color selected_color() const {
         if( !can_craft ) {
             return h_dark_gray;
-        } else if( !can_craft_non_rotten ) {
+        } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills ? h_brown : h_red;
         } else {
             return has_all_skills ? h_white : h_yellow;
@@ -185,7 +205,7 @@ struct availability {
     nc_color color( bool ignore_missing_skills = false ) const {
         if( !can_craft ) {
             return c_dark_gray;
-        } else if( !can_craft_non_rotten ) {
+        } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills || ignore_missing_skills ? c_brown : c_red;
         } else {
             return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
@@ -205,15 +225,16 @@ static std::vector<std::string> recipe_info(
 {
     std::ostringstream oss;
 
-    oss << string_format( _( "Primary skill: %s\n" ),
-                          recp.primary_skill_string( &guy, false ) );
+    oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
 
-    oss << string_format( _( "Other skills: %s\n" ),
-                          recp.required_skills_string( &guy, false, false ) );
+    if( !recp.required_skills.empty() ) {
+        oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
+    }
 
-    oss << string_format( _( "Proficiencies Required: %s\n" ),
-                          recp.required_proficiencies_string( &guy ) );
-
+    const std::string req_profs = recp.required_proficiencies_string( &guy );
+    if( !req_profs.empty() ) {
+        oss << string_format( _( "Proficiencies Required: %s\n" ), req_profs );
+    }
     const std::string used_profs = recp.used_proficiencies_string( &guy );
     if( !used_profs.empty() ) {
         oss << string_format( _( "Proficiencies Used: %s\n" ), used_profs );
@@ -228,11 +249,13 @@ static std::vector<std::string> recipe_info(
     oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
                           to_string( time_duration::from_turns( expected_turns ) ) );
 
-    oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ),
-                          recp.batch_savings_string() );
+    const std::string batch_savings = recp.batch_savings_string();
+    if( !batch_savings.empty() ) {
+        oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ), batch_savings );
+    }
 
     oss << string_format( _( "Activity level: <color_cyan>%s</color>\n" ),
-                          activity_level::activity_level_str( recp.exertion_level() ) );
+                          display::activity_level_str( recp.exertion_level() ) );
 
     const int makes = recp.makes_amount();
     if( makes > 1 ) {
@@ -244,21 +267,23 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    std::string nearby_string;
     const inventory &crafting_inv = guy.crafting_inventory();
-    const int nearby_amount = crafting_inv.count_item( recp.result() );
-    if( nearby_amount == 0 ) {
-        nearby_string = "<color_light_gray>0</color>";
-    } else if( nearby_amount > 9000 ) {
-        // at some point you get too many to count at a glance and just know you have a lot
-        nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
-    } else {
-        nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+    if( recp.result() ) {
+        const int nearby_amount = crafting_inv.count_item( recp.result() );
+        std::string nearby_string;
+        if( nearby_amount == 0 ) {
+            nearby_string = "<color_light_gray>0</color>";
+        } else if( nearby_amount > 9000 ) {
+            // at some point you get too many to count at a glance and just know you have a lot
+            nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+        } else {
+            nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+        }
+        oss << string_format( _( "Nearby: %s\n" ), nearby_string );
     }
-    oss << string_format( _( "Nearby: %s\n" ), nearby_string );
 
     const bool can_craft_this = avail.can_craft;
-    if( can_craft_this && !avail.can_craft_non_rotten ) {
+    if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
@@ -267,7 +292,7 @@ static std::vector<std::string> recipe_info(
                   "recipe <color_yellow>may appear to be craftable "
                   "when it is not</color>.\n" );
     }
-    if( !can_craft_this && avail.apparently_craftable && avail.has_proficiencies ) {
+    if( !can_craft_this && avail.apparently_craftable ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
     }
@@ -312,17 +337,64 @@ static std::vector<std::string> recipe_info(
     if( !guy.knows_recipe( &recp ) ) {
         oss << _( "Recipe not memorized yet\n" );
         const std::set<itype_id> books_with_recipe = guy.get_books_for_recipe( crafting_inv, &recp );
-        const std::string enumerated_books =
-            enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-        []( const itype_id & type_id ) {
-            return colorize( item::nname( type_id ), c_cyan );
-        } );
-        oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        if( !books_with_recipe.empty() ) {
+            const std::string enumerated_books = enumerate_as_string( books_with_recipe,
+            []( const itype_id & type_id ) {
+                return colorize( item::nname( type_id ), c_cyan );
+            } );
+            oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        } else {
+            std::vector<const npc *> knowing_helpers;
+            for( const npc *helper : guy.get_crafting_helpers() ) {
+                if( helper->knows_recipe( &recp ) ) {
+                    knowing_helpers.push_back( helper );
+                }
+            }
+            if( !knowing_helpers.empty() ) {
+                const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
+                []( const npc * helper ) {
+                    return colorize( helper->get_name(), c_cyan );
+                } );
+                oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
+            }
+        }
     }
     std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
     result.insert( result.end(), tmp.begin(), tmp.end() );
 
     return result;
+}
+
+static std::string practice_recipe_description( const recipe &recp,
+        const Character &player_character )
+{
+    std::ostringstream oss;
+    oss << recp.description.translated() << "\n\n";
+    if( recp.practice_data->min_difficulty != recp.practice_data->max_difficulty ) {
+        std::string txt = string_format( _( "Difficulty range: %d to %d" ),
+                                         recp.practice_data->min_difficulty, recp.practice_data->max_difficulty );
+        oss << txt << "\n";
+    }
+    if( recp.skill_used ) {
+        const int player_skill_level = player_character.get_all_skills().get_skill_level( recp.skill_used );
+        if( player_skill_level < recp.practice_data->min_difficulty ) {
+            std::string txt = string_format(
+                                  _( "You do not possess the minimum <color_cyan>%s</color> skill level required to practice this." ),
+                                  recp.skill_used->name() );
+            txt = string_format( "<color_red>%s</color>", txt );
+            oss << txt << "\n";
+        }
+        if( recp.practice_data->skill_limit != MAX_SKILL ) {
+            std::string txt = string_format(
+                                  _( "This practice action will not increase your <color_cyan>%s</color> skill above %d." ),
+                                  recp.skill_used->name(), recp.practice_data->skill_limit );
+            if( player_skill_level >= recp.practice_data->skill_limit ) {
+                txt = string_format( "<color_brown>%s</color>", txt );
+            }
+            oss << txt << "\n";
+        }
+    }
+    return oss.str();
 }
 
 static input_context make_crafting_context( bool highlight_unread_recipes )
@@ -355,65 +427,231 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     return ctxt;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out )
+class recipe_result_info_cache
 {
-    struct {
-        const recipe *recp = nullptr;
-        std::string qry_comps;
-        int batch_size;
-        int fold_width;
-        std::vector<std::string> text;
-    } recipe_info_cache;
-    int recipe_info_scroll = 0;
-
-    const auto cached_recipe_info =
-        [&](
-            const recipe & recp,
-            const availability & avail,
-            Character & guy,
-            const std::string qry_comps,
-            const int batch_size,
-            const int fold_width,
-            const nc_color & color
-    ) -> const std::vector<std::string> & { // *NOPAD*
-        if( recipe_info_cache.recp != &recp
-            || recipe_info_cache.qry_comps != qry_comps
-            || recipe_info_cache.batch_size != batch_size
-            || recipe_info_cache.fold_width != fold_width )
-        {
-            recipe_info_cache.recp = &recp;
-            recipe_info_cache.qry_comps = qry_comps;
-            recipe_info_cache.batch_size = batch_size;
-            recipe_info_cache.fold_width = fold_width;
-            recipe_info_cache.text = recipe_info(
-                recp, avail, guy, qry_comps, batch_size, fold_width, color );
-        }
-        return recipe_info_cache.text;
-    };
-
-    struct {
+        std::vector<iteminfo> info;
         const recipe *last_recipe = nullptr;
-        item dummy;
-    } item_info_cache;
+        int last_width = 0;
+        int cached_batch_size = 1;
+
+        void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
+                                  std::vector<iteminfo> &details_info );
+        void get_item_details( item &dummy_item, const int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
+        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, const bool uses_charges );
+        void insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec );
+        void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
+    public:
+        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos );
+};
+
+void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
+        std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
+{
+    for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+        //Add dividers between item details
+        insert_iteminfo_blank_line( details_info );
+        insert_iteminfo_separator_line( details_info );
+        item dummy_item = item( bp.first );
+        bool uses_charges = dummy_item.count_by_charges();
+        get_item_header( dummy_item, bp.second, summary_info, "With byproduct", uses_charges );
+        get_item_details( dummy_item, bp.second, details_info, "Byproduct", uses_charges );
+    }
+}
+
+void recipe_result_info_cache::get_item_details( item &dummy_item,
+        const int quantity_per_batch,
+        std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges )
+{
+    std::vector<iteminfo> temp_info;
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info, 1 );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
+    details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
+}
+
+void recipe_result_info_cache::get_item_header( item &dummy_item, const int quantity_per_batch,
+        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges )
+{
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    //Handle multiple charges and multiple discrete items separately
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name() ) );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        //Add summary line.  Don't need to indicate count if there's only 1
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
+                              ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) ) );
+    }
+}
+
+item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
+        int &scroll_pos )
+{
+    /* If the recipe has not changed, return the cached version in info.
+       Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
+       has changed, the info needs to be regenerated */
+    if( rec == last_recipe && rec != nullptr && TERMX == last_width &&
+        batch_size == cached_batch_size ) {
+        item_info_data data( "", "", info, {}, scroll_pos );
+        return data;
+    }
+
+    cached_batch_size = batch_size;
+    last_recipe = rec;
+    scroll_pos = 0;
+    last_width = TERMX;
+
+    info.clear(); //New recipe, new info
+
+    /*We need to do some calculations to put together the results summary and very similar calculations to
+      put together the details, so, have a separate vector specifically for the details, to be appended later */
+    std::vector<iteminfo> details_info;
+
+    //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
+    item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    bool result_uses_charges = dummy_result.count_by_charges();
+    item dummy_container;
+
+    //Set up summary at top so people know they can look further to learn about byproducts and such
+    //First, see if we need it at all:
+    if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
+        //We don't need a summary for a single item, just give us the details
+        get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+
+    } else { //We do need a summary
+        //If the primary result uses charges and is in a container, need to calculate number of charges
+        if( result_uses_charges ) {
+            dummy_result.charges *= rec->makes_amount();
+        }
+        //If it's in a container, focus on the contents
+        if( rec->container_id() != itype_id::NULL_ID() ) {
+            dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
+            //Put together the summary in info:
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            get_item_header( dummy_container, 1, info, "In container",
+                             false ); //Seems reasonable to assume a container won't use charges
+            //Put together the details in details_info:
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+            insert_iteminfo_blank_line( details_info );
+            insert_iteminfo_separator_line( details_info );
+            get_item_details( dummy_container, 1, details_info, "Container", false );
+        } else { //If it's not in a container, just tell us about the item
+            //Add a line to the summary:
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            //Get the item details:
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+        }
+        if( rec->has_byproducts() ) {
+            get_byproducts_data( rec, info, details_info );
+        }
+
+        //Add a separator between the summary and details
+        insert_iteminfo_separator_line( info );
+    }
+    //Merge summary and details
+    info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
+    item_info_data data( "", "", info, {}, scroll_pos );
+    return data;
+}
+
+void recipe_result_info_cache::insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec )
+{
+    info_vec.emplace_back( "DESCRIPTION", "--" );
+}
+
+void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec )
+{
+    /*Calculation is the current method for calculating the width of the iteminfo panel.  TODO: Link it back
+      to the previously calculated value so that this won't break if the calculation changes. */
+    info_vec.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
+                           FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
+}
+
+static std::pair<std::vector<const recipe *>, bool>
+recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
+                  const std::string &subcat )
+{
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return std::make_pair( available_recipes.favorite(), false );
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return std::make_pair( available_recipes.recent(), false );
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return std::make_pair( available_recipes.hidden(), true );
+    } else {
+        return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
+                               false );
+    }
+}
+
+struct recipe_info_cache {
+    const recipe *recp = nullptr;
+    std::string qry_comps;
+    int batch_size;
+    int fold_width;
+    std::vector<std::string> text;
+};
+
+static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
+        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const int batch_size, const int fold_width, const nc_color &color )
+{
+    if( info_cache.recp != &recp ||
+        info_cache.qry_comps != qry_comps ||
+        info_cache.batch_size != batch_size ||
+        info_cache.fold_width != fold_width ) {
+        info_cache.recp = &recp;
+        info_cache.qry_comps = qry_comps;
+        info_cache.batch_size = batch_size;
+        info_cache.fold_width = fold_width;
+        info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+    }
+    return info_cache.text;
+}
+
+struct item_info_cache {
+    const recipe *last_recipe = nullptr;
+    item dummy;
+};
+
+static item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
+        int *item_info_scroll, int *item_info_scroll_popup, const recipe *rec, const int count,
+        int &scroll_pos )
+{
+    if( info_cache.last_recipe != rec ) {
+        info_cache.last_recipe = rec;
+        info_cache.dummy = rec->create_result();
+        info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
+        ( *item_info_scroll ) = 0;
+        ( *item_info_scroll_popup ) = 0;
+    }
+    std::vector<iteminfo> info;
+    info_cache.dummy.info( true, info, count );
+    item_info_data data( info_cache.dummy.tname( count ),
+                         info_cache.dummy.type_name( count ),
+                         info, {}, scroll_pos );
+    return data;
+}
+
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+{
+    recipe_info_cache r_info_cache;
+    item_info_cache i_info_cache;
+    int recipe_info_scroll = 0;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
-
-    const auto item_info_data_from_recipe =
-    [&]( const recipe * rec, const int count, int &scroll_pos ) {
-        if( item_info_cache.last_recipe != rec ) {
-            item_info_cache.last_recipe = rec;
-            item_info_cache.dummy = rec->create_result();
-            item_info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
-            item_info_scroll = 0;
-            item_info_scroll_popup = 0;
-        }
-        std::vector<iteminfo> info;
-        item_info_cache.dummy.info( true, info, count );
-        item_info_data data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
-                             info, {}, scroll_pos );
-        return data;
-    };
 
     // always re-translate the category names in case the language has changed
     translate_all();
@@ -525,7 +763,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     const recipe *chosen = nullptr;
 
     Character &player_character = get_player_character();
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const inventory &crafting_inv = player_character.crafting_inventory( chosen );
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 
@@ -540,18 +778,28 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
 
-    const auto recipes_from_cat = [&]( const std::string & cat, const std::string & subcat ) {
-        if( subcat == "CSC_*_FAVORITE" ) {
-            return std::make_pair( available_recipes.favorite(), false );
-        } else if( subcat == "CSC_*_RECENT" ) {
-            return std::make_pair( available_recipes.recent(), false );
-        } else if( subcat == "CSC_*_HIDDEN" ) {
-            return std::make_pair( available_recipes.hidden(), true );
-        } else {
-            return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
-                                   false );
+    if( goto_recipe.is_valid() ) {
+        const std::vector<const recipe *> &gotocat = available_recipes.in_category( goto_recipe->category );
+        if( !gotocat.empty() ) {
+            const auto gotorec = std::find_if( gotocat.begin(),
+            gotocat.end(), [&goto_recipe]( const recipe * r ) {
+                return r && r->ident() == goto_recipe;
+            } );
+            if( gotorec != gotocat.end() &&
+                std::find( craft_cat_list.begin(), craft_cat_list.end(),
+                           goto_recipe->category ) != craft_cat_list.end() ) {
+                while( tab.cur() != goto_recipe->category ) {
+                    tab.next();
+                }
+                subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
+                chosen = *gotorec;
+                show_hidden = true;
+                keepline = true;
+                current = gotocat;
+                line = gotorec - gotocat.begin();
+            }
         }
-    };
+    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( highlight_unread_recipes && recalc_unread ) {
@@ -560,7 +808,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     is_cat_unread[cat] = false;
                     for( const std::string &subcat : craft_subcat_list[cat] ) {
                         is_subcat_unread[cat][subcat] = false;
-                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( cat, subcat );
+                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                                cat, subcat );
                         const std::vector<const recipe *> &recipes = result.first;
                         const bool include_hidden = result.second;
                         for( const recipe *const rcp : recipes ) {
@@ -594,7 +843,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc_unread = false;
         }
 
-        const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
+        const TAB_MODE m = batch ? BATCH : filterstring.empty() ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m, is_filtered_unread, is_cat_unread );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m,
                              is_subcat_unread[tab.cur()] );
@@ -684,8 +933,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 qry_comps = qry.substr( 2 );
             }
 
-            const std::vector<std::string> &info = cached_recipe_info(
-                    recp, avail, player_character, qry_comps, batch_size, fold_width, color );
+            const std::vector<std::string> &info = cached_recipe_info( r_info_cache,
+                                                   recp, avail, player_character, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
             if( recipe_info_scroll < 0 ) {
@@ -712,12 +961,24 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
-            item_info_data data = item_info_data_from_recipe( current[line], batch_size, item_info_scroll );
-            data.without_getch = true;
-            data.without_border = true;
-            data.scrollbar_left = false;
-            data.use_full_win = true;
-            draw_item_info( w_iteminfo, data );
+            const recipe *cur_recipe = current[line];
+            werase( w_iteminfo );
+            if( cur_recipe->is_practice() ) {
+                const std::string desc = practice_recipe_description( *cur_recipe, player_character );
+                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
+                            w_iteminfo ) ).apply( w_iteminfo );
+                wnoutrefresh( w_iteminfo );
+            } else {
+                item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                      &item_info_scroll_popup, cur_recipe, batch_size, item_info_scroll );
+                data.without_getch = true;
+                data.without_border = true;
+                data.scrollbar_left = false;
+                data.use_full_win = true;
+                data.padding = 0;
+                draw_item_info( w_iteminfo, data );
+            }
         }
 
         if( cursor_pos ) {
@@ -850,8 +1111,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     } while( qry_end != std::string::npos );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else {
-                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( tab.cur(),
-                            subtab.cur() );
+                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                            tab.cur(), subtab.cur() );
                     show_hidden = result.second;
                     if( show_hidden ) {
                         current = result.first;
@@ -1008,11 +1269,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
-                       ( batch ) ? line + 1 : 1 ) ) {
+                       batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {
                 chosen = current[line];
-                batch_size_out = ( batch ) ? line + 1 : 1;
+                batch_size_out = batch ? line + 1 : 1;
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }
@@ -1025,7 +1286,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = item_info_data_from_recipe( current[line], 1, item_info_scroll_popup );
+            item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                  &item_info_scroll_popup, current[line], 1, item_info_scroll_popup );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
                 const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
@@ -1044,7 +1306,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "plank" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
-                { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
+                { 's', _( "food handling" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
@@ -1284,6 +1546,10 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     }
     std::stable_sort( related_results.begin(), related_results.end(), compare_second );
 
+    if( related_components.empty() && related_results.empty() ) {
+        return "";
+    }
+
     uilist rel_menu;
     int np_last = -1;
     if( !related_components.empty() ) {
@@ -1493,19 +1759,6 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     }
 
     wnoutrefresh( w );
-}
-
-template<typename T>
-bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )
-{
-    for( auto &list : list_of_list ) {
-        for( auto &comp : list ) {
-            if( lcmatch( item::nname( comp.type ), filter ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 const std::vector<std::string> *subcategories_for_category( const std::string &category )

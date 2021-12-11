@@ -11,10 +11,10 @@
 #include <vector>
 
 #include "calendar.h"
+#include "game_constants.h"
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
@@ -133,22 +133,22 @@ class SkillLevel
         }
 
         int level() const {
-            return _level;
+            return std::min( _level, MAX_SKILL );
         }
         int level( int plevel ) {
             _level = plevel;
             if( _level > _knowledgeLevel ) {
                 _knowledgeLevel = _level;
             }
-            return plevel;
+            return level();
         }
 
         int knowledgeLevel() const {
-            return _knowledgeLevel;
+            return std::min( _knowledgeLevel, MAX_SKILL );
         }
         int knowledgeLevel( int plevel ) {
             _knowledgeLevel = plevel;
-            return plevel;
+            return knowledgeLevel();
         }
 
         int knowledgeExperience( bool raw = false ) const {
@@ -160,7 +160,7 @@ class SkillLevel
             return _rustAccumulator;
         }
         int exercise( bool raw = false ) const {
-            return raw ? _exercise : _exercise / ( 100 * ( _level + 1 ) * ( _level + 1 ) );
+            return raw ? _exercise : _exercise / ( 100 * ( level() + 1 ) * ( level() + 1 ) );
         }
 
         int exercised_level() const {
@@ -178,23 +178,23 @@ class SkillLevel
         void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
 
         bool operator==( const SkillLevel &b ) const {
-            return this->_level == b._level && this->_exercise == b._exercise;
+            return this->level() == b.level() && this->_exercise == b._exercise;
         }
         bool operator< ( const SkillLevel &b ) const {
-            return this->_level < b._level || ( this->_level == b._level && this->_exercise < b._exercise );
+            return this->level() < b.level() || ( this->level() == b.level() && this->_exercise < b._exercise );
         }
         bool operator> ( const SkillLevel &b ) const {
-            return this->_level > b._level || ( this->_level == b._level && this->_exercise > b._exercise );
+            return this->level() > b.level() || ( this->level() == b.level() && this->_exercise > b._exercise );
         }
 
         bool operator==( const int &b ) const {
-            return this->_level == b;
+            return this->level() == b;
         }
         bool operator< ( const int &b ) const {
-            return this->_level < b;
+            return this->level() < b;
         }
         bool operator> ( const int &b ) const {
-            return this->_level > b;
+            return this->level() > b;
         }
 
         bool operator!=( const SkillLevel &b ) const {
@@ -218,7 +218,16 @@ class SkillLevel
         }
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
+    private:
+        // Can be used to counter skill rust when enabled over MAX_SKILL
+        int unadjustedLevel() {
+            return _level;
+        }
+
+        int unadjustedKnowledgeLevel() {
+            return _knowledgeLevel;
+        }
 };
 
 class SkillLevelMap : public std::map<skill_id, SkillLevel>

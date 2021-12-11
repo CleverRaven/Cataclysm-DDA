@@ -228,7 +228,7 @@
     "armor_bash": 18,
     "bleed_rate": 10,
     "harvest": "triffid_small",
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fungal_fighter",
@@ -268,7 +268,7 @@
     "id": "mon_triffid_flower",
     "type": "MONSTER",
     "name": { "str": "triffid flower" },
-    "description": "A giant plant with a thick stalk adorned by a purple flower.  Its petals are open with ominous shine in center.",
+    "description": "A giant plant with a thick stalk adorned by a purple flower.  Its petals are open with an ominous shine in the center.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
     "diff": 4,

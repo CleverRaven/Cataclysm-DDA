@@ -10,6 +10,7 @@
     "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
     "bash": {
       "str_min": 5,
       "str_max": 16,
@@ -184,7 +185,7 @@
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 6 },

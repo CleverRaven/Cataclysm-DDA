@@ -183,7 +183,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "kiernans_notes" },
+        { "u_spawn_item": "kiernans_notes" },
         { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
       ]
     },

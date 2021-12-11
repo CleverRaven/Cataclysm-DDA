@@ -100,7 +100,8 @@
       [ "cauldron_demon_chitin", 3 ],
       [ "manatouched_serum", 3 ],
       [ "wolfsbane", 2 ],
-      [ "wolfshead_cufflinks", 3 ]
+      [ "wolfshead_cufflinks", 3 ],
+      [ "magic_knife_bag", 3 ]
     ]
   },
   {
@@ -433,6 +434,7 @@
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
       { "item": "mring_protection_4", "prob": 10 },
+      { "item": "storage_ring_lesser", "prob": 10 },
       { "item": "mring_wizardry_lesser", "prob": 5 }
     ]
   },
@@ -449,6 +451,7 @@
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
       { "item": "mring_protection_6", "prob": 10 },
+      { "item": "storage_ring_greater", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -703,7 +706,8 @@
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
       [ "crystallized_mana", 50 ],
-      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
+      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
+      { "item": "magic_knife_bag", "prob": 25 }
     ]
   },
   {
@@ -717,7 +721,8 @@
       { "group": "enchanted_belts", "prob": 7 },
       { "item": "wolfshead_cufflinks", "prob": 1 },
       { "item": "parabolan_breeches", "prob": 30 },
-      { "item": "parabolan_blouse", "prob": 30 }
+      { "item": "parabolan_blouse", "prob": 30 },
+      { "item": "magic_knife_bag", "prob": 10 }
     ]
   },
   {

@@ -30,6 +30,7 @@
     "revert_to_itype": "broken_mech_recon",
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "MECH_RECON_VISION",
@@ -42,7 +43,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
     ]
   },
@@ -77,6 +78,7 @@
     "revert_to_itype": "broken_mech_combat",
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -88,7 +90,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ]
@@ -125,6 +127,7 @@
     "death_function": { "corpse_type": "BROKEN" },
     "special_attacks": [ { "id": "smash", "throw_strength": 96, "cooldown": 40 } ],
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -137,7 +140,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ]

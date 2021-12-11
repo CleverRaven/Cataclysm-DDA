@@ -20,6 +20,12 @@ struct projectile {
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
         int speed = 0;
         int range = 0;
+        // Number of projectiles fired at a time, one except in cases like shotgun rounds.
+        int count = 1;
+        // The potential dispersion between different projectiles fired from one round.
+        int shot_spread = 0;
+        // Damage dealt by a single shot.
+        damage_instance shot_impact;
         float critical_multiplier = 0.0f;
 
         std::set<std::string> proj_effects;
@@ -68,5 +74,8 @@ struct dealt_projectile_attack {
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
 int max_aoe_size( const std::set<std::string> &tags );
+
+void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
+                                   std::string projectile_name );
 
 #endif // CATA_SRC_PROJECTILE_H

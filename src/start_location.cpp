@@ -244,7 +244,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         m.impassable( p ) ||
         m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ||
-        m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
         return 0;
     }
 
@@ -277,7 +277,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         checked[cur.x][cur.y] = attempt;
         if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
             cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
-            m.has_flag( "GOES_UP", cur ) ) {
+            m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) {
             return INT_MAX;
         }
 
@@ -294,14 +294,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
     return area;
 }
 
-void start_location::place_player( avatar &you ) const
+void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.setx( HALF_MAPSIZE_X );
-    you.sety( HALF_MAPSIZE_Y );
-    you.setz( here.get_abs_sub().z );
+    you.move_to( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -313,21 +311,22 @@ void start_location::place_player( avatar &you ) const
     // Sometimes it may be impossible to automatically found an ideal location
     // but the player may be more creative than this algorithm and do away with just "good"
     int best_rate = 0;
+    tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[MAPSIZE_X][MAPSIZE_Y];
-    std::fill_n( &checked[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
+    int checked[MAPSIZE_X][MAPSIZE_Y] = {};
 
     bool found_good_spot = false;
+
     // Try some random points at start
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
-        tries++;
+        ++tries;
         const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
-            you.setpos( pt );
+            best_spot = pt;
             if( rate == INT_MAX ) {
                 found_good_spot = true;
             }
@@ -347,11 +346,13 @@ void start_location::place_player( avatar &you ) const
         int &x = tmp.x;
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
-            for( y = 0; y < MAPSIZE_Y; y++ ) {
+            for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
                 check_spot( tmp );
             }
         }
     }
+
+    you.setpos( best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -369,11 +370,12 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
-        if( !( m.has_flag_ter( "DOOR", p ) ||
-               m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
+        if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
+               m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
                ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
-            if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
+            if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
+                m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );
             }
         }

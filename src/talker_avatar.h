@@ -26,6 +26,9 @@ class talker_avatar: public talker_character
         int parse_mod( const std::string &attribute, int factor ) const override;
         int trial_chance_mod( const std::string &trial_type ) const override;
 
+        // for training NPCs (reverse of talker_npc)
+        std::vector<skill_id> skills_offered_to( const talker &student ) const override;
+
         // inventory and such
         void buy_monster( talker &seller, const mtype_id &mtype, int cost,
                           int count, bool pacified, const translation &name ) override;

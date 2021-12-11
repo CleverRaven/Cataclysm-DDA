@@ -25,6 +25,7 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -73,10 +74,25 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
+
+static const bionic_id bio_railgun( "bio_railgun" );
+
+static const character_modifier_id
+character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+static const character_modifier_id
+character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
+static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
 static const itype_id itype_12mm( "12mm" );
 static const itype_id itype_40x46mm( "40x46mm" );
@@ -89,30 +105,26 @@ static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
 
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_driving( "driving" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_launcher( "launcher" );
-static const skill_id skill_throw( "throw" );
-static const skill_id skill_archery( "archery" );
-
-static const bionic_id bio_railgun( "bio_railgun" );
+static const material_id material_glass( "glass" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
-static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const std::set<material_id> ferric = { material_iron, material_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -718,13 +730,17 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, get_wielded_item() );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
+        debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
+        return 0;
+    }
+    if( gun.has_flag( flag_CHOKE ) && !gun.ammo_effects().count( "SHOT" ) ) {
+        add_msg_if_player( _( "A shotgun equipped with choke cannot fire slugs." ) );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -747,8 +763,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     map &here = get_map();
-    // usage of any attached bipod is dependent upon terrain
-    bool bipod = here.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    // usage of any attached bipod is dependent upon terrain or on being prone
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() ) || is_prone();
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -780,32 +796,63 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
-        dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
-                                       dispersion, this, in_veh );
-        curshot++;
-        if( shot.hit_critter ) {
-            hits++;
+        weakpoint_attack wp_attack;
+        wp_attack.weapon = &gun;
+        projectile proj = make_gun_projectile( gun );
+        dispersion_sources dispersion = get_weapon_dispersion( gun );
+        dispersion.add_range( recoil_total() );
+        dispersion.add_spread( proj.shot_spread );
 
-            if( monster *m = shot.hit_critter->as_monster() ) {
+        bool first = true;
+        bool headshot = false;
+        bool multishot = proj.count > 1;
+        std::map< Creature *, std::pair < int, int >> targets_hit;
+        for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
+                                           dispersion, this, in_veh, wp_attack, first );
+            first = false;
+            if( shot.hit_critter ) {
+                int damage = shot.dealt_dam.total_damage();
+                if( damage > 0 ) {
+                    targets_hit[ shot.hit_critter ].second += damage;
+                }
+                targets_hit[ shot.hit_critter ].first++;
+            }
+            if( shot.missed_by <= .1 ) {
+                headshot = true;
+            }
+            if( proj.count > 1 && rl_dist( pos(), shot.end_point ) == 1 ) {
+                // Point-blank shots don't act like shot, everything hits the same target.
+                multishot = false;
+                break;
+            }
+        }
+        if( !targets_hit.empty() ) {
+            hits++;
+        }
+        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
+            if( monster *const m = hit_entry.first->as_monster() ) {
                 get_event_bus().send<event_type::character_ranged_attacks_monster>(
                     getID(), gun_id, m->type->id );
-            } else if( Character *c = shot.hit_critter->as_character() ) {
+            } else if( Character *const c = hit_entry.first->as_character() ) {
                 get_event_bus().send<event_type::character_ranged_attacks_character>(
                     getID(), gun_id, c->getID(), c->get_name() );
             }
-
+            if( multishot ) {
+                // TODO: Pull projectile name from the ammo entry.
+                multi_projectile_hit_message( hit_entry.first, hit_entry.second.first, hit_entry.second.second,
+                                              n_gettext( "projectile", "projectiles", hit_entry.second.first ) );
+            }
         }
-        if( shot.missed_by <= .1 ) {
+        if( headshot ) {
             // TODO: check head existence for headshot
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
+        curshot++;
 
         if( !gun.is_gun() ) {
             // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
@@ -903,8 +950,8 @@ int throw_cost( const Character &c, const item &to_throw )
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
-    move_cost *= c.melee_thrown_move_modifier_hands();
-    move_cost *= c.melee_thrown_move_modifier_torso();
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_balance_mod );
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
@@ -921,7 +968,7 @@ int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
     float effective_dex = 2 + get_dex() / 4.0f;
-    effective_dex *= thrown_dex_modifier();
+    effective_dex *= get_modifier( character_modifier_thrown_dex_mod );
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1027,11 +1074,13 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
 int Character::thrown_item_total_damage_raw( const item &thrown ) const
 {
     projectile proj = thrown_item_projectile( thrown );
-    const units::volume volume = thrown.volume();
     proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
+    const int glass_portion = thrown.made_of( material_glass );
+    const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
+    const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    if( !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
+    if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
     }
@@ -1085,9 +1134,12 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    const int glass_portion = thrown.made_of( material_glass );
+    const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
+    const units::volume glass_vol = volume * glass_fraction;
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
+    const bool shatter = !thrown.active && glass_portion &&
+                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1137,7 +1189,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         proj_effects.insert( "TANGLE" );
     }
 
-    Creature *critter = g->critter_at( target, true );
+    Creature *critter = get_creature_tracker().creature_at( target, true );
     const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
@@ -1162,8 +1214,11 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    weakpoint_attack wp_attack;
+    wp_attack.weapon = &to_throw;
+    wp_attack.is_thrown = true;
     dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this );
+                                           this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
@@ -1436,7 +1491,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
         }
 
         const input_event hotkey = front_or( type.action.empty() ? "FIRE" : type.action, input_event() );
-        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+        if( panel_type == "compact" || panel_type == "labels-narrow" ) {
             if( display_type == "numbers" ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
                 t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
@@ -1481,7 +1536,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
-                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                confidence_s.append( string_format( _( ", Miss: <color_light_gray>%3d%%</color>" ),
                                                     ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
@@ -1526,7 +1581,7 @@ static bool pl_sees( const Creature &cr )
 static double calculate_aim_cap( const Character &you, const tripoint &target )
 {
     double min_recoil = 0.0;
-    const Creature *victim = g->critter_at( target, true );
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
     // No p.sees_with_specials() here because special senses are not precise enough
     // to give creature's exact size & position, only which tile it occupies
     if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
@@ -1552,7 +1607,8 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     dispersion.add_range( you.recoil_vehicle() );
 
     const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.effective_dispersion( you.weapon.sight_dispersion() );
+    const double effective_recoil = you.effective_dispersion(
+                                        you.get_wielded_item().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1581,7 +1637,7 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
                             input_context &ctxt,
                             const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
-    Creature *target = g->critter_at( target_pos, true );
+    Creature *target = get_creature_tracker().creature_at( target_pos, true );
     if( target != nullptr && !you.sees( *target ) ) {
         target = nullptr;
     }
@@ -1656,6 +1712,7 @@ static projectile make_gun_projectile( const item &gun )
     projectile proj;
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
+    proj.shot_impact = gun.gun_damage( true, true );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1688,6 +1745,8 @@ static projectile make_gun_projectile( const item &gun )
 
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
+        proj.count = ammo->count;
+        proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
@@ -1880,7 +1939,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ranged_dispersion_modifier_hands() );
+    dispersion.add_range( get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -2004,7 +2063,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
@@ -2050,7 +2109,7 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
-    allow_zlevel_shift = here.has_zlevels() && get_option<bool>( "FOV_3D" );
+    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -2204,7 +2263,7 @@ target_handler::trajectory target_ui::run()
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = ( mode == TargetMode::Spell && casting->damage() <= 0 );
+            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage() <= 0;
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -2511,7 +2570,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Cache creature under cursor
     if( src != dst ) {
-        Creature *cr = g->critter_at( dst, true );
+        Creature *cr = get_creature_tracker().creature_at( dst, true );
         if( cr && pl_sees( *cr ) ) {
             dst_critter = cr;
         } else {
@@ -2622,7 +2681,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
-        return !critter && !g->critter_at( local_lt, true );
+        return !critter && !get_creature_tracker().creature_at( local_lt, true );
     }
 
     // We moved out of range
@@ -2678,7 +2737,7 @@ bool target_ui::confirm_non_enemy_target()
 {
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
-        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+        return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
     }
     return true;
 }
@@ -2726,9 +2785,10 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
         debugmsg( "Not implemented" );
         return ret;
     }
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
-            Creature *cr = g->critter_at( p, true );
+            Creature *cr = creatures.creature_at( p, true );
             if( cr && you->sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
@@ -3007,7 +3067,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
     bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !g->critter_at( dst ) && you->recoil == min_recoil );
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
     return done_aiming;
 }
 
@@ -3126,7 +3186,7 @@ void target_ui::draw_ui_window()
         if( mode == TargetMode::Fire ) {
             panel_fire_mode_aim( text_y );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
-            bool blind = ( mode == TargetMode::ThrowBlind );
+            bool blind = mode == TargetMode::ThrowBlind;
             draw_throw_aim( *you, w_target, text_y, ctxt, *relevant, dst, blind );
         }
     }
@@ -3295,9 +3355,9 @@ void target_ui::panel_cursor_info( int &text_y )
 {
     std::string label_range;
     if( src == dst ) {
-        label_range = string_format( "Range: %d", range );
+        label_range = string_format( _( "Range: %d" ), range );
     } else {
-        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+        label_range = string_format( _( "Range: %d/%d" ), dist_fn( dst ), range );
     }
     if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor
@@ -3609,7 +3669,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
+        bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),

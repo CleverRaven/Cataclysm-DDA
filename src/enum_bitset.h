@@ -44,10 +44,6 @@ class enum_bitset
             return bits[ get_pos( e ) ];
         }
 
-        enum_bitset &operator[]( E e ) {
-            return bits[ get_pos( e ) ];
-        }
-
         enum_bitset &set( E e, bool val = true ) {
             bits.set( get_pos( e ), val );
             return *this;

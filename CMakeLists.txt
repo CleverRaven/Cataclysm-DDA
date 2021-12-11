@@ -15,6 +15,7 @@ option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "ON")
+option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
 option(LANGUAGES "Compile localization files for specified languages." "")
 option(DYNAMIC_LINKING
@@ -137,9 +138,7 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    set(LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -184,7 +183,7 @@ else ()
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
     add_definitions(-DRELEASE)
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (CMAKE_INSTALL_PREFIX AND NOT WIN32)
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
         add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
@@ -207,7 +206,7 @@ if (MSVC)
     else ()
         add_definitions(-D_X86_)
     endif ()
-else (MSVC)
+else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -246,6 +245,8 @@ endif ()
 #set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
+
+find_package(ZLIB REQUIRED)
 
 # Check for build types and libraries
 if (TILES)
@@ -331,27 +332,11 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
-    endif (LIBBACKTRACE)
-endif (BACKTRACE)
+    endif ()
+endif ()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (NOT _OS_LINUX_) # on Linux with glibc, libintl is not required
-        find_package(Libintl)
-        if (NOT LIBINTL_FOUND)
-            message(FATAL_ERROR
-                    "You need the libintl development library \
-                         to be able to compile with LOCALIZE support. \
-                         See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-    endif()
-    find_package(Iconv)
-    if (NOT ICONV_FOUND)
-        message(FATAL_ERROR
-                "You need the iconv development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)
 endif ()

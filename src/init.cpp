@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include <cstddef>
-#include <fstream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -20,6 +19,7 @@
 #include "butchery_requirements.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "character_modifier.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -61,6 +61,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
+#include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
@@ -86,6 +87,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -259,6 +261,8 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "speed_description", &speed_description::load_speed_descriptions );
+    add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -378,10 +382,12 @@ void DynamicDataLoader::initialize()
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
+    add( "practice", &recipe_dictionary::load_practice );
     add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
+    add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
@@ -429,13 +435,17 @@ void DynamicDataLoader::initialize()
         mission_type::load_mission_type( jo, src );
     } );
     add( "butchery_requirement", &butchery_requirements::load_butchery_req );
+    add( "harvest_drop_type", &harvest_drop_type::load_harvest_drop_types );
     add( "harvest", &harvest_list::load_harvest_list );
     add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster_attack( jo, src );
     } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
+    add( "limb_score", &limb_score::load_limb_scores );
+    add( "character_mod", &character_modifier::load_character_modifiers );
     add( "body_part", &body_part_type::load_bp );
+    add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -469,7 +479,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -529,7 +539,10 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
     behavior::reset();
     body_part_type::reset();
+    sub_body_part_type::reset();
+    weapon_category::reset();
     clear_techniques_and_martial_arts();
+    character_modifier::reset();
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
@@ -543,9 +556,11 @@ void DynamicDataLoader::unload_data()
     fault::reset();
     field_types::reset();
     gates::reset();
+    harvest_drop_type::reset();
     harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
+    limb_score::reset();
     mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
@@ -566,6 +581,8 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
+    mood_face::reset();
+    speed_description::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
@@ -627,6 +644,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },

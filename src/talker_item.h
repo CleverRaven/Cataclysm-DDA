@@ -17,9 +17,7 @@ class item;
 struct tripoint;
 
 /*
- * Talker wrapper class for Character.  well, ideally, but since Character is such a mess,
- * it's the wrapper class for player
- * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
+ * Talker wrapper class for item.
  */
 class talker_item: public talker
 {
@@ -46,6 +44,9 @@ class talker_item: public talker
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
+
+        std::vector<std::string> get_topics( bool radio_contact ) override;
+        bool will_talk_to_u( const Character &you, bool force ) override;
 
     protected:
         talker_item() = default;

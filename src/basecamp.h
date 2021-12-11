@@ -21,8 +21,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
+class JsonObject;
 class character_id;
 class npc;
 class time_duration;
@@ -82,7 +82,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir{};
+constexpr point base_dir;
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
@@ -337,7 +337,7 @@ class basecamp
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
 
         static constexpr int inv_range = 20;

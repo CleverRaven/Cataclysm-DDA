@@ -25,6 +25,10 @@
 #include "value_ptr.h"
 
 
+static const flag_id json_flag_COLD( "COLD" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_HOT( "HOT" );
+
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
 static const itype_id itype_test_mp3( "test_mp3" );
@@ -57,7 +61,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
     CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
     CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
     CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
-    CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
+    CHECK( item( "legrig" ).get_layer() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -190,13 +194,13 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_hot.heat_up(); // 60 C (333.15 K)
     liquid_cold.cold_up(); // 3 C (276.15 K)
     liquid_filthy.cold_up(); // 3 C (276.15 K)
-    liquid_filthy.set_flag( flag_id( "FILTHY" ) );
+    liquid_filthy.set_flag( json_flag_FILTHY );
 
     // Temperature is in terms of 0.000001 K
     REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
     REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
-    REQUIRE( liquid_hot.has_flag( flag_id( "HOT" ) ) );
-    REQUIRE( liquid_cold.has_flag( flag_id( "COLD" ) ) );
+    REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
+    REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
     SECTION( "liquids at the same temperature can stack together" ) {
         CHECK( liquid_cold.stacks_with( liquid_cold ) );
@@ -512,7 +516,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.weapon.wetness > 0 );
+                CHECK( guy.get_wielded_item().wetness > 0 );
             }
         }
 
@@ -529,7 +533,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -548,7 +552,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -569,7 +573,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -590,7 +594,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -606,7 +610,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should be wet for around 8664 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.weapon.wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item().wetness == Approx( 8664 ).margin( 20 ) );
             }
         }
 
@@ -625,7 +629,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.weapon.wetness == Approx( 43320 ).margin( 100 ) );
+                    CHECK( guy.get_wielded_item().wetness == Approx( 43320 ).margin( 100 ) );
                 }
             }
         }

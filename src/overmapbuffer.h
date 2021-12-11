@@ -22,6 +22,7 @@
 
 class basecamp;
 class character_id;
+enum class cube_direction : int;
 class map_extra;
 class monster;
 class npc;
@@ -166,6 +167,8 @@ class overmapbuffer
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
+        std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
+        std::vector<oter_id> predecessors( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -245,7 +248,7 @@ class overmapbuffer
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
-         * Only npcs on the given z-level are considered.
+         * All z-levels are considered.
          * Uses square_dist for distance calculation.
          * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
@@ -262,9 +265,9 @@ class overmapbuffer
         std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
-         * in overmap terrain.
+         * in overmap terrain. All z-levels are considered.
          * A radius of 0 returns all npcs that are on that specific
-         * overmap terrain tile.
+         * overmap terrain tile or above/below.
          */
         std::vector<shared_ptr_fast<npc>> get_npcs_near_omt( const tripoint_abs_omt &p, int radius );
         /**
@@ -494,11 +497,11 @@ class overmapbuffer
          * @param must_be_unexplored If true, will require that all of the terrains where the special would be
          * placed are unexplored.
          * @param force If true, placement will bypass the checks for valid placement.
-         * @returns True if the special was placed, else false.
+         * @returns If the special was placed, a vector of the points used, else nullopt.
          */
-        bool place_special( const overmap_special &special, const tripoint_abs_omt &p,
-                            om_direction::type dir,
-                            bool must_be_unexplored, bool force );
+        cata::optional<std::vector<tripoint_abs_omt>> place_special(
+                    const overmap_special &special, const tripoint_abs_omt &origin,
+                    om_direction::type dir, bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were

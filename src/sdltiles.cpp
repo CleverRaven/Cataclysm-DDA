@@ -54,6 +54,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "map_extras.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
@@ -96,11 +97,17 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+
 //***********************************
 //Globals                           *
 //***********************************
 
+static tileset_cache ts_cache;
 std::unique_ptr<cata_tiles> tilecontext;
+std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -227,6 +234,7 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Common flags used for fulscreen and for windowed
@@ -545,11 +553,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -767,7 +774,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         const oter_id &cur_ter = overmap_buffer.ter( p );
 
         if( !uistate.overmap_show_forest_trails &&
-            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
             return oter_id( "forest" );
         }
 
@@ -874,7 +881,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
-    const bool has_debug_vision = you.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
@@ -898,6 +905,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
+            string_id<map_extra> mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
@@ -911,12 +919,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 id = "unknown_terrain";
             } else {
                 id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                mx = overmap_buffer.extra( omp );
             }
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
+            draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
                                  subtile, rotation, ll, false, height_3d );
+            if( !mx.is_empty() && mx->autonote ) {
+                draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp.raw(),
+                                     0, 0, ll, false );
+            }
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
@@ -932,6 +945,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
+                        // NOLINTNEXTLINE(cata-translate-string-literal)
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
@@ -974,11 +988,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE, "" ) ) {
-                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
-                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
@@ -992,7 +1006,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
+                draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
                                      omp.raw(), 0, 0, lit_level::LIT, false );
             }
         }
@@ -1009,7 +1023,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              lit_level::LOW, true );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1020,8 +1034,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 int subtile;
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
-                draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain",
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0,
+                                     rotation, lit_level::LOW, true );
             }
         }
     }
@@ -1128,7 +1143,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
-                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -1524,7 +1539,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // Special font for the terrain window
         update = draw_window( map_font, w );
     } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
-        tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center, overmap_ui::redraw_info.blink );
+        overmap_tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center,
+                                      overmap_ui::redraw_info.blink );
         update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
@@ -1674,27 +1690,27 @@ static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
         return KEY_NUM( 9 );
     }
-    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+    if( mod == SDLK_UP    && key == SDLK_UP ) {
         return KEY_NUM( 8 );
     }
     if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
         ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
         return KEY_NUM( 7 );
     }
-    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+    if( mod == SDLK_RIGHT && key == SDLK_RIGHT ) {
         return KEY_NUM( 6 );
     }
     if( mod == sdl_keycode_opposite_arrow( key ) ) {
         return KEY_NUM( 5 );
     }
-    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+    if( mod == SDLK_LEFT  && key == SDLK_LEFT ) {
         return KEY_NUM( 4 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
         return KEY_NUM( 3 );
     }
-    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+    if( mod == SDLK_DOWN  && key == SDLK_DOWN ) {
         return KEY_NUM( 2 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||
@@ -1786,6 +1802,52 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
                     return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
                 case SDLK_RIGHT:
                     return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+
+    if( diag_mode == "mode4" ) {
+        if( ( keysym.mod & KMOD_SHIFT ) || ( keysym.mod & KMOD_CTRL ) ) {
+            const Uint8 *s = SDL_GetKeyboardState( nullptr );
+            const int count = s[SDL_SCANCODE_LEFT] + s[SDL_SCANCODE_RIGHT] + s[SDL_SCANCODE_UP] +
+                              s[SDL_SCANCODE_DOWN];
+            if( count == 2 ) {
+                switch( keysym.sym ) {
+                    case SDLK_LEFT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_RIGHT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_UP:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        return 0;
+                    case SDLK_DOWN:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                }
+            } else if( count > 0 ) {
+                return 0;
             }
         }
     }
@@ -2261,7 +2323,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.weapon.invlet == key ) {
+                    if( player_character.get_wielded_item().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2396,8 +2458,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.weapon.invlet == key ) {
-                        hint_text = player_character.weapon.display_name();
+                    if( player_character.get_wielded_item().invlet == key ) {
+                        hint_text = player_character.get_wielded_item().display_name();
                     }
                 }
             } else {
@@ -2685,6 +2747,37 @@ void android_vibrate()
 }
 #endif
 
+#if !defined(__ANDROID__)
+static bool window_focus = false;
+static bool text_input_active_when_regaining_focus = false;
+#endif
+
+void StartTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StartTextInput();
+#else
+    if( window_focus ) {
+        SDL_StartTextInput();
+    } else {
+        text_input_active_when_regaining_focus = true;
+    }
+#endif
+}
+
+void StopTextInput()
+{
+#if defined(__ANDROID__)
+    SDL_StopTextInput();
+#else
+    if( window_focus ) {
+        SDL_StopTextInput();
+    } else {
+        text_input_active_when_regaining_focus = false;
+    }
+#endif
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 static void CheckMessages()
 {
@@ -2706,7 +2799,7 @@ static void CheckMessages()
 
     // Force text input mode if hardware keyboard is available.
     if( android_is_hardware_keyboard_available() && !SDL_IsTextInputActive() ) {
-        SDL_StartTextInput();
+        StartTextInput();
     }
 
     // Make sure the SDL surface view is visible, otherwise the "Z" loading screen is visible.
@@ -2734,7 +2827,7 @@ static void CheckMessages()
                 !is_string_input( *new_input_context ) &&
                 SDL_IsTextInputActive() &&
                 get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
+                StopTextInput();
             }
 
             touch_input_context = *new_input_context;
@@ -2770,7 +2863,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+                    if( player_character.get_wielded_item().is_gun() ||
+                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -3023,10 +3117,33 @@ static void CheckMessages()
                         refresh_display();
                         needupdate = true;
                         break;
+#else
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        window_focus = false;
+                        if( SDL_IsTextInputActive() ) {
+                            text_input_active_when_regaining_focus = true;
+                            // Stop text input to not intefere with other programs
+                            SDL_StopTextInput();
+                            // Clear uncommited IME text. TODO: commit IME text instead.
+                            last_input = input_event();
+                            last_input.type = input_event_t::keyboard_char;
+                            last_input.edit.clear();
+                            last_input.edit_refresh = true;
+                            text_refresh = true;
+                        } else {
+                            text_input_active_when_regaining_focus = false;
+                        }
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        window_focus = true;
+                        // Restore text input status
+                        if( text_input_active_when_regaining_focus ) {
+                            SDL_StartTextInput();
+                        }
+                        break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
                     case SDL_WINDOWEVENT_MINIMIZED:
-                    case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
                         need_redraw = true;
@@ -3036,8 +3153,8 @@ static void CheckMessages()
 #if defined(__ANDROID__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
-                            SDL_StopTextInput();
-                            SDL_StartTextInput();
+                            StopTextInput();
+                            StartTextInput();
                         }
 #endif
                         break;
@@ -3086,7 +3203,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 // add a quick shortcut
@@ -3098,7 +3215,7 @@ static void CheckMessages()
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3116,9 +3233,9 @@ static void CheckMessages()
                     if( ticks - ac_back_down_time <= static_cast<uint32_t>
                         ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                         if( SDL_IsTextInputActive() ) {
-                            SDL_StopTextInput();
+                            StopTextInput();
                         } else {
-                            SDL_StartTextInput();
+                            StartTextInput();
                         }
                     }
                     ac_back_down_time = 0;
@@ -3153,7 +3270,7 @@ static void CheckMessages()
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
 
                                 quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
@@ -3163,7 +3280,7 @@ static void CheckMessages()
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                    SDL_StopTextInput();
+                                    StopTextInput();
                                 }
                             }
                         }
@@ -3565,7 +3682,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
@@ -3574,6 +3691,20 @@ void catacurses::init_interface()
                                    /*pump_events=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/true, /*force=*/false,
+                                           /*pump_events=*/true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
@@ -3614,12 +3745,20 @@ void load_tileset()
                                /*precheck=*/false, /*force=*/false,
                                /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
+
+    if( overmap_tilecontext ) {
+        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                           /*precheck=*/false, /*force=*/false,
+                                           /*pump_events=*/true );
+        overmap_tilecontext->do_tile_loading_report();
+    }
 }
 
 //Ends the terminal, destroy everything
 void catacurses::endwin()
 {
     tilecontext.reset();
+    overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
     overmap_font.reset();
@@ -3667,9 +3806,9 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 #if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
-        SDL_StartTextInput();
+        StartTextInput();
     } else {
-        SDL_StopTextInput();
+        StopTextInput();
     }
 #else
     // TODO: support keycode mode if hardware keyboard is connected?

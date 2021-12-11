@@ -50,6 +50,7 @@
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "ELECTRONIC",
@@ -61,7 +62,7 @@
       "PACIFIST",
       "PAY_BOT",
       "PET_HARNESSABLE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
     ]
   },

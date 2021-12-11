@@ -1,3 +1,4 @@
 # Disable FIXME query, in DDA it is as likely to be a future feature as a bug.
 queries:
     - exclude: cpp/fixme-comment
+    - exclude: cpp/non-constant-format

@@ -4,7 +4,9 @@
 #include <set>
 #include <string>
 
+#include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -29,8 +31,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -38,14 +39,12 @@ namespace io
     {
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
-        case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
-        case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::INACTIVE: return "INACTIVE";
+        case enchantment::condition::DIALOG_CONDITION: return "DIALOG_CONDITION";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -102,6 +101,15 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::EXTRA_BASH: return "EXTRA_BASH";
+            case enchant_vals::mod::EXTRA_CUT: return "EXTRA_CUT";
+            case enchant_vals::mod::EXTRA_STAB: return "EXTRA_STAB";
+            case enchant_vals::mod::EXTRA_BULLET: return "EXTRA_BULLET";
+            case enchant_vals::mod::EXTRA_HEAT: return "EXTRA_HEAT";
+            case enchant_vals::mod::EXTRA_COLD: return "EXTRA_COLD";
+            case enchant_vals::mod::EXTRA_ELEC: return "EXTRA_ELEC";
+            case enchant_vals::mod::EXTRA_ACID: return "EXTRA_ACID";
+            case enchant_vals::mod::EXTRA_BIO: return "EXTRA_BIO";
             case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
@@ -130,8 +138,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io
@@ -220,12 +227,9 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return true;
     }
 
-    if( active_conditions.second == condition::UNDERGROUND ) {
-        return guy.pos().z < 0;
-    }
-
-    if( active_conditions.second == condition::UNDERWATER ) {
-        return get_map().is_divable( guy.pos() );
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        dialogue d( get_talker_for( guy ), nullptr );
+        return dialog_condition( d );
     }
     return false;
 }
@@ -246,9 +250,8 @@ void enchantment::bodypart_changes::load( const JsonObject &jo )
     optional( jo, was_loaded, "lose", lose );
 }
 
-void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -272,7 +275,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
@@ -290,9 +293,22 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     }
 
     active_conditions.first = io::string_to_enum<has>( jo.get_string( "has", "HELD" ) );
-    active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
-                               "ALWAYS" ) );
-
+    if( jo.has_string( "condition" ) ) {
+        std::string condit;
+        optional( jo, was_loaded, "condition", condit );
+        cata::optional<enchantment::condition> con = io::string_to_enum_optional<condition>( condit );
+        if( con.has_value() ) {
+            active_conditions.second = con.value();
+        } else {
+            active_conditions.second = condition::DIALOG_CONDITION;
+            read_condition<dialogue>( jo, "condition", dialog_condition, false );
+        }
+    } else if( jo.has_member( "condition" ) ) {
+        active_conditions.second = condition::DIALOG_CONDITION;
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    } else {
+        active_conditions.second = condition::ALWAYS;
+    }
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
@@ -594,7 +610,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name );
+                                      caster.get_name() );
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
@@ -607,7 +623,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name, trg_crtr.disp_name() );
+                                      caster.get_name(), trg_crtr.disp_name() );
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }

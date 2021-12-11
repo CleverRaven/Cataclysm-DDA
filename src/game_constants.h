@@ -103,6 +103,9 @@ constexpr int freezer = 23; // -5 Celsius
 
 // Temperature in which water freezes in Fahrenheit.
 constexpr int freezing = 32; // 0 Celsius
+
+// Temperature in which water boils in Fahrenheit.
+constexpr int boiling = 212; // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
@@ -169,6 +172,7 @@ constexpr float MAX_MOVECOST_MODIFIER = 100.0f;
  * in the json, think about what it would be if you
  * did this activity for a longer period of time.
 */
+constexpr float SLEEP_EXERCISE = 0.85f;
 constexpr float NO_EXERCISE = 1.0f;
 constexpr float LIGHT_EXERCISE = 2.0f;
 constexpr float MODERATE_EXERCISE = 4.0f;
@@ -177,6 +181,7 @@ constexpr float ACTIVE_EXERCISE = 8.0f;
 constexpr float EXTRA_EXERCISE = 10.0f;
 
 const std::map<std::string, float> activity_levels_map = {
+    { "SLEEP_EXERCISE", SLEEP_EXERCISE },
     { "NO_EXERCISE", NO_EXERCISE },
     { "LIGHT_EXERCISE", LIGHT_EXERCISE },
     { "MODERATE_EXERCISE", MODERATE_EXERCISE },
@@ -186,6 +191,7 @@ const std::map<std::string, float> activity_levels_map = {
 };
 
 const std::map<float, std::string> activity_levels_str_map = {
+    { SLEEP_EXERCISE, "SLEEP_EXERCISE" },
     { NO_EXERCISE, "NO_EXERCISE" },
     { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
     { MODERATE_EXERCISE, "MODERATE_EXERCISE" },

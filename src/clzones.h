@@ -20,9 +20,9 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class faction;
 class item;
 class map;
@@ -336,7 +336,7 @@ class zone_data
                    p.z >= start.z && p.z <= end.z;
         }
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 class zone_manager
@@ -438,7 +438,7 @@ class zone_manager
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 };
 
 #endif // CATA_SRC_CLZONES_H

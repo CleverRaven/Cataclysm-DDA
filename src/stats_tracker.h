@@ -16,7 +16,7 @@
 #include "optional.h"
 #include "string_id.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class event_statistic;
 class event_transformation;
@@ -50,7 +50,7 @@ struct event_summary {
     void add( const event_summary & );
 
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonObject &jo );
 };
 
 class event_multiset
@@ -97,7 +97,7 @@ class event_multiset
         void add( const summaries_type::value_type & );
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
     private:
         event_type type_; // NOLINT(cata-serialize)
         summaries_type summaries_;
@@ -214,7 +214,7 @@ class stats_tracker : public event_subscriber
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
     private:
         void unwatch_all();
 

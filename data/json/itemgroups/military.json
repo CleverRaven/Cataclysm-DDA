@@ -17,6 +17,48 @@
     ]
   },
   {
+    "id": "military_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
+  },
+  {
+    "id": "military_ballistic_vest_light",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "container-item": "ballistic_vest_light",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "container-item": "ballistic_vest_heavy",
+    "subtype": "collection",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
@@ -143,6 +185,7 @@
       { "item": "kukri", "prob": 2 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
       { "item": "gloves_fingerless", "prob": 20 },
       { "item": "glasses_safety", "prob": 40 },
       { "item": "hat_boonie", "prob": 10 },
@@ -261,6 +304,8 @@
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
       { "item": "helmet_lobster", "prob": 5 },
+      { "item": "flight_helmet", "prob": 5 },
+      { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
       { "item": "caff_gum", "prob": 10 },
       { "item": "nic_gum", "prob": 1 },
@@ -290,6 +335,7 @@
       { "item": "survnote", "prob": 1 },
       { "item": "rm11b_sniper_rifle", "prob": 1 },
       { "item": "shoulder_strap", "prob": 16 },
+      { "item": "single_sling", "prob": 16 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "l-stick", "prob": 1 },
@@ -311,8 +357,13 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jumpsuit", "prob": 40 },
+      { "item": "officer_uniform", "prob": 20 },
+      { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
+      { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
-      { "item": "jacket_army", "prob": 70 },
+      { "item": "combat_shirt", "prob": 35 },
+      { "item": "jacket_army_modern", "prob": 35 },
       { "item": "socks", "prob": 40 },
       { "item": "winter_pants_army", "prob": 20 },
       { "item": "winter_jacket_army", "prob": 20 },
@@ -439,6 +490,7 @@
     "entries": [
       { "item": "mil_mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
+      { "item": "multimeter", "prob": 10, "count": 32 },
       { "item": "drivebelt", "prob": 10, "count": 64 },
       { "item": "grapnel", "prob": 10, "count": 32 },
       { "item": "string_floss", "prob": 5, "count": 128 },
@@ -526,7 +578,10 @@
       { "item": "motor_small", "prob": 1 },
       { "item": "hose", "prob": 15 },
       { "item": "pants_army", "prob": 30 },
-      { "item": "jacket_army", "prob": 30 },
+      { "item": "flight_helmet", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
+      { "item": "combat_shirt", "prob": 15 },
+      { "item": "jacket_army_modern", "prob": 15 },
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
       { "item": "winter_gloves_army", "prob": 10 },
@@ -535,7 +590,9 @@
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
-      { "item": "ballistic_vest_esapi", "prob": 40 },
+      { "item": "officer_uniform", "prob": 5 },
+      { "item": "combo_cover", "prob": 5 },
+      { "group": "military_ballistic_vest", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "helmet_army", "prob": 40 },
@@ -577,7 +634,9 @@
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "solarpack", "prob": 1 },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 20 }
     ]
   }
 ]

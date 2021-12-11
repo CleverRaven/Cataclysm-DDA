@@ -120,6 +120,18 @@
     "description": "Destination for other miscellaneous items."
   },
   {
+    "id": "LOOT_MAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
+  },
+  {
+    "id": "LOOT_CURRENCY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Currency",
+    "description": "Destination for currency."
+  },
+  {
     "id": "LOOT_FUEL",
     "type": "LOOT_ZONE",
     "name": "Loot: Fuel",

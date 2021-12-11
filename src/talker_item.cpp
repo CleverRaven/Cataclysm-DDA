@@ -2,10 +2,10 @@
 
 #include "character_id.h"
 #include "item.h"
+#include "itype.h"
 #include "magic.h"
 #include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "talker_item.h"
 #include "vehicle.h"
@@ -53,4 +53,14 @@ void talker_item::set_value( const std::string &var_name, const std::string &val
 void talker_item::remove_value( const std::string &var_name )
 {
     me_it->get_item()->erase_var( var_name );
+}
+
+std::vector<std::string> talker_item::get_topics( bool )
+{
+    return me_it->get_item()->typeId()->chat_topics;
+}
+
+bool talker_item::will_talk_to_u( const Character &you, bool )
+{
+    return !you.is_dead_state();
 }

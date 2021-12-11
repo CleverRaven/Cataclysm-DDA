@@ -16,7 +16,8 @@
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "bow_saw",
@@ -97,11 +98,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "200 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -138,7 +137,8 @@
     "color": "brown",
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "type": "GENERIC",
@@ -184,11 +184,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "200 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -273,7 +271,8 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "saw",

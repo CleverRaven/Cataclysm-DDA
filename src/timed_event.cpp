@@ -47,6 +47,8 @@ static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
+static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
+
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
                           int s )
     : type( e_t )
@@ -86,12 +88,14 @@ void timed_event::actualize()
             get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
-            int num_wyrms = rng( 1, 4 );
-            for( int i = 0; i < num_wyrms; i++ ) {
-                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, player_character.pos(), 2 ) ) {
-                    here.ter_set( mon->pos(), t_rock_floor );
+
+            // 50% chance to spawn a dark wyrm near every orifice on the level.
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
+
             // You could drop the flag, you know.
             if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( player_character.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false,
@@ -102,11 +106,7 @@ void timed_event::actualize()
                     player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
-            // They just keep coming!
-            if( !one_in( 25 ) ) {
-                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
-                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
-            }
+
         }
         break;
 
@@ -254,7 +254,7 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
-                fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
+                fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
@@ -322,7 +322,7 @@ void timed_event::per_turn()
             }
 
             if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
-                add_msg( m_info, "You hear someone whispering \"%s\"",
+                add_msg( m_info, _( "You hear someone whispering \"%s\"" ),
                          SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
             }
         }

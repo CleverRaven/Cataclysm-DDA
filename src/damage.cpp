@@ -41,8 +41,7 @@ std::string enum_to_string<damage_type>( damage_type data )
         case damage_type::NUM:
             break;
     }
-    debugmsg( "Invalid damage_type" );
-    abort();
+    cata_fatal( "Invalid damage_type" );
 }
 
 } // namespace io
@@ -179,7 +178,7 @@ bool damage_instance::operator==( const damage_instance &other ) const
     return damage_units == other.damage_units;
 }
 
-void damage_instance::deserialize( JsonIn &jsin )
+void damage_instance::deserialize( const JsonValue &jsin )
 {
     // TODO: Clean up
     if( jsin.test_object() ) {
@@ -188,7 +187,7 @@ void damage_instance::deserialize( JsonIn &jsin )
     } else if( jsin.test_array() ) {
         damage_units = load_damage_instance( jsin.get_array() ).damage_units;
     } else {
-        jsin.error( "Expected object or array for damage_instance" );
+        jsin.throw_error( "Expected object or array for damage_instance" );
     }
 }
 
@@ -430,10 +429,11 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
     return di;
 }
 
-std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo )
+std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo,
+        float default_value )
 {
     std::array<float, static_cast<int>( damage_type::NUM )> ret;
-    float init_val = jo.get_float( "all", 0.0f );
+    float init_val = jo.get_float( "all", default_value );
 
     float phys = jo.get_float( "physical", init_val );
     ret[ static_cast<int>( damage_type::BASH ) ] = jo.get_float( "bash", phys );
@@ -469,7 +469,8 @@ void damage_over_time_data::load( const JsonObject &obj )
     mandatory( obj, was_loaded, "bodyparts", bps );
 
     if( obj.has_string( "duration" ) ) {
-        duration = read_from_json_string<time_duration>( *obj.get_raw( "duration" ), time_duration::units );
+        duration = read_from_json_string<time_duration>( obj.get_member( "duration" ),
+                   time_duration::units );
     } else {
         duration = time_duration::from_turns( obj.get_int( "duration", 0 ) );
     }
@@ -485,9 +486,8 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void damage_over_time_data::deserialize( JsonIn &jsin )
+void damage_over_time_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     std::string tmp_string = jo.get_string( "damage_type" );
     // Remove after 0.F, migrating DT_TRUE to DT_PURE
     if( tmp_string == "true" ) {

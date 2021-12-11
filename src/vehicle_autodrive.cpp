@@ -17,10 +17,11 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
+#include "hash_utils.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
@@ -197,10 +198,10 @@ struct node_address {
 
 struct node_address_hasher {
     std::size_t operator()( const node_address &addr ) const {
-        std::int64_t val = addr.x;
+        std::uint64_t val = addr.x;
         val = ( val << 16 ) + addr.y;
         val = ( val << 16 ) + static_cast<int>( addr.facing_dir );
-        return std::hash<int64_t> {}( val );
+        return cata::hash64( val );
     }
 };
 
@@ -672,7 +673,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
 
     // check for creatures
     // TODO: padding around monsters
-    Creature *critter = g->critter_at( pt, true );
+    Creature *critter = get_creature_tracker().creature_at( pt, true );
     if( critter && driver.sees( *critter ) ) {
         return false;
     }
@@ -700,7 +701,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     }
     const ter_t &terrain_type = terrain.obj();
     // watercraft can drive on water
-    if( data.water_ok && terrain_type.has_flag( TFLAG_SWIMMABLE ) ) {
+    if( data.water_ok && terrain_type.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
         return true;
     }
     // remaining checks are for land-based navigation
@@ -711,14 +712,14 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     if( terrain_type.movecost <= 0 ) {
         // walls and other impassable terrain
         return false;
-    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( "NOCOLLIDE" ) ) {
+    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( ter_furn_flag::TFLAG_NOCOLLIDE ) ) {
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
     } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
-    } else if( terrain_type.has_flag( TFLAG_LIQUID ) ) {
+    } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
         // water and lava
         return false;
     }

@@ -34,7 +34,7 @@ class mapgen_parameter
         mapgen_parameter( const mapgen_value<std::string> &def, cata_variant_type,
                           mapgen_parameter_scope );
 
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
 
         mapgen_parameter_scope scope() const {
             return scope_;

@@ -49,9 +49,6 @@ class options_manager
 
         std::map<std::string, std::string> post_json_verify; // NOLINT(cata-serialize)
 
-        // NOLINTNEXTLINE(cata-serialize)
-        std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
-
         friend options_manager &get_options();
         options_manager();
 

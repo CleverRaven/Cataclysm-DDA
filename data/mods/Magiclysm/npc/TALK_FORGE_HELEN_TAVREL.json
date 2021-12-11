@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "forge_lord_reagents",
-    "//": "The Lord of the Forge of Wonders.",
+    "//": "The Pirate of the Forge of Wonders.",
     "name_unique": "Helen Tavrel, Former Pirate",
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD_REAGENT",
@@ -33,8 +33,7 @@
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "computer", "bonus": { "one_in": 2 } },
       { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {
@@ -77,8 +76,7 @@
     "items": [
       { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
       { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
-      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 },
-      { "group": "spellbook_loot_1", "prob": 75, "count": [ 1, 3 ] }
+      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 }
     ]
   },
   {

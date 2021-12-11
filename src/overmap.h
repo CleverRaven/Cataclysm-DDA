@@ -17,6 +17,7 @@
 
 #include "basecamp.h"
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "mapgendata.h"
@@ -164,44 +165,36 @@ class overmap_special_batch
         point_abs_om origin_overmap;
 };
 
-static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN", oter_flags::known_down },
-    { "KNOWN_UP", oter_flags::known_up },
-    { "RIVER", oter_flags::river_tile },
-    { "SIDEWALK", oter_flags::has_sidewalk },
-    { "NO_ROTATE", oter_flags::no_rotate },
-    { "LINEAR", oter_flags::line_drawing },
-    { "SUBWAY", oter_flags::subway_connection },
-    { "LAKE", oter_flags::lake },
-    { "LAKE_SHORE", oter_flags::lake_shore },
-    { "RAVINE", oter_flags::ravine },
-    { "RAVINE_EDGE", oter_flags::ravine_edge },
-    { "GENERIC_LOOT", oter_flags::generic_loot },
-    { "RISK_HIGH", oter_flags::risk_high },
-    { "RISK_LOW", oter_flags::risk_low },
-    { "SOURCE_AMMO", oter_flags::source_ammo },
-    { "SOURCE_ANIMALS", oter_flags::source_animals },
-    { "SOURCE_BOOKS", oter_flags::source_books },
-    { "SOURCE_CHEMISTRY", oter_flags::source_chemistry },
-    { "SOURCE_CLOTHING", oter_flags::source_clothing },
-    { "SOURCE_CONSTRUCTION", oter_flags::source_construction },
-    { "SOURCE_COOKING", oter_flags::source_cooking },
-    { "SOURCE_DRINK", oter_flags::source_drink },
-    { "SOURCE_ELECTRONICS", oter_flags::source_electronics },
-    { "SOURCE_FABRICATION", oter_flags::source_fabrication },
-    { "SOURCE_FARMING", oter_flags::source_farming },
-    { "SOURCE_FOOD", oter_flags::source_food },
-    { "SOURCE_FORAGE", oter_flags::source_forage },
-    { "SOURCE_FUEL", oter_flags::source_fuel },
-    { "SOURCE_GUN", oter_flags::source_gun },
-    { "SOURCE_LUXURY", oter_flags::source_luxury },
-    { "SOURCE_MEDICINE", oter_flags::source_medicine },
-    { "SOURCE_PEOPLE", oter_flags::source_people },
-    { "SOURCE_SAFETY", oter_flags::source_safety },
-    { "SOURCE_TAILORING", oter_flags::source_tailoring },
-    { "SOURCE_VEHICLES", oter_flags::source_vehicles },
-    { "SOURCE_WEAPON", oter_flags::source_weapon }
+template<typename Tripoint>
+struct pos_dir {
+    Tripoint p;
+    cube_direction dir;
+
+    pos_dir opposite() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+
+    bool operator==( const pos_dir &r ) const;
+    bool operator<( const pos_dir &r ) const;
 };
+
+extern template struct pos_dir<tripoint_om_omt>;
+extern template struct pos_dir<tripoint_rel_omt>;
+
+using om_pos_dir = pos_dir<tripoint_om_omt>;
+using rel_pos_dir = pos_dir<tripoint_rel_omt>;
+
+namespace std
+{
+template<typename Tripoint>
+struct hash<pos_dir<Tripoint>> {
+    size_t operator()( const pos_dir<Tripoint> &p ) const {
+        cata::tuple_hash h;
+        return h( std::make_tuple( p.p, p.dir ) );
+    }
+};
+} // namespace std
 
 class overmap
 {
@@ -244,8 +237,13 @@ class overmap
         std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
+        // ter has bounds checking, and returns ot_null when out of bounds.
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        // ter_unsafe is UB when out of bounds.
+        const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        std::string *join_used_at( const om_pos_dir & );
+        std::vector<oter_id> predecessors( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -373,11 +371,19 @@ class overmap
         // Reconstructed on load, so need not be serialized.
         std::unordered_set<tripoint_om_omt> safe_at_worldgen; // NOLINT(cata-serialize)
 
+        // For oter_ts with the requires_predecessor flag, we need to store the
+        // predecessor terrains so they can be used for mapgen later
+        std::unordered_map<tripoint_om_omt, std::vector<oter_id>> predecessors_;
+
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet
         // to be evaluated.
         cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
         std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+
+        // Records the joins that were chosen during placement of a mutable
+        // special, so that it can be queried later by mapgen
+        std::unordered_map<om_pos_dir, std::string> joins_used;
 
         pimpl<regional_settings> settings;
 
@@ -456,9 +462,6 @@ class overmap
                                 om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
-                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
@@ -470,7 +473,7 @@ class overmap
         pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
-
+    public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
@@ -496,9 +499,10 @@ class overmap
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;
 
-        void place_special(
+        std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+    private:
         /**
          * Iterate over the overmap and place the quota of specials.
          * If the stated minimums are not reached, it will spawn a new nearby overmap

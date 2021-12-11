@@ -33,6 +33,19 @@
         "|||......|.@@|Yt|;;;;;;|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "parameters": {
+        "spawn_location": { "type": "string", "default": { "distribution": [ [ "lab_security_z0N", 1 ], [ "lab_security_z0S", 2 ] ] } }
+      },
+      "item": {
+        "s": [
+          {
+            "item": {
+              "switch": { "param": "spawn_location", "fallback": "lab_security_z0N" },
+              "cases": { "lab_security_z0N": "id_science_maintenance_green", "lab_security_z0S": "null" }
+            }
+          }
+        ]
+      },
       "place_traps": [
         { "trap": "tr_light_on_lab_security_z0N_A", "x": [ 4, 22 ], "y": [ 2, 16 ], "repeat": [ 2, 4 ] },
         { "trap": "tr_light_on_lab_security_z0N_B", "x": [ 4, 22 ], "y": [ 2, 16 ], "repeat": [ 2, 4 ] }
@@ -60,35 +73,34 @@
     "method": "json",
     "om_terrain": [ "lab_security_z0" ],
     "type": "mapgen",
-    "//": "TODO: trap the security hallway, fill out security area",
     "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "|||+||+||||||||||||==|||",
+        "|||+||+||||||||||||==ƶ||",
         "|34.|P.P..+..h.|;;;;;;;;",
         "X...|....h|III6:;;;;;;è;",
-        "XH..:J..II|::::|;;||||||",
-        "XH..:Jh...=;;;;;;;=;|PPT",
+        "XH..:J..II|::::|;;|#||||",
+        "XH..:Jh...=;;;;;;;|;|PPT",
         "-...:J..II|;è;;;;ɜ|;:.h.",
         "XH..|Y..h.|;;;|||||;:.rr",
         "XH..||:||||;;;|;;;|è|h.h",
         "XH..=..ɛ|.|;;;|;è;+;||+|",
         "|y..¥...|.|;è;|;;;|;;;;;",
         "|||||..||||;;;|||||||;;;",
-        "|>ë.|..122|;;;+;Z|>;ƶ;;i",
-        "|...-..-22|;;;|WW|>;=;èi",
+        "|>ë.:..122|;;;+;Z|>;ƶ;;i",
+        "|...#..-22|;;;|WW|>;=;èi",
         "|||||..||||;;;|||||||;;;",
         "|y..¥...|.|;è;|;;;|;;;;;",
         "XH..=..ɛ|.|;;;|;è;+;||+|",
         "XH..||:||||;;;|;;;|è|h.h",
         "XH..|Y...h|;;;|||||;:.rr",
         "-...:J..II|;è;;;;ɜ|;:.h.",
-        "XH..:Jh...=;;;;;;;=;|yPP;",
-        "XH..:J..II|::::|;;||||||",
+        "XH..:Jh...=;;;;;;;|;|yPP",
+        "XH..:J..II|::::|;;|#||||",
         "X...|...h.|III6:;;;;;;è;",
         "|34.|P.P..+..h.|;;;;;;;;",
-        "|||+||+||||||||||||==|||"
+        "|||+||+||||||||||||==ƶ||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
       "terrain": {
@@ -117,8 +129,8 @@
       "computers": {
         "6": {
           "name": "Security Public Relations Zone",
-          "security": 3,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 3 } ],
+          "security": 5,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
           "failures": [ { "action": "damage" }, { "action": "manhacks" } ]
         }
       }
@@ -158,6 +170,19 @@
         "__||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "parameters": {
+        "spawn_location": { "type": "string", "default": { "distribution": [ [ "lab_security_z0N", 1 ], [ "lab_security_z0S", 2 ] ] } }
+      },
+      "item": {
+        "s": [
+          {
+            "item": {
+              "switch": { "param": "spawn_location", "fallback": "lab_security_z0N" },
+              "cases": { "lab_security_z0S": "id_science_maintenance_green", "lab_security_z0N": "null" }
+            }
+          }
+        ]
+      },
       "terrain": {
         "J": "t_thconc_floor",
         "P": "t_thconc_floor",
@@ -213,12 +238,10 @@
       "place_monsters": [ { "monster": "GROUP_LAB_BASIC_SECURITY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "terrain": { "¥": "t_card_science_security_yellow", "ƶ": "t_card_science_security_magenta" },
       "place_loot": [
-        { "item": "id_science_maintenance_yellow", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_mutagen_green", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_medical_red", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_maintenance_yellow", "x": 11, "y": 12, "chance": 30 },
-        { "item": "id_science_mutagen_green", "x": 11, "y": 12, "chance": 30 },
-        { "item": "id_science_medical_red", "x": 11, "y": 12, "chance": 30 }
+        { "item": "id_science_maintenance_yellow", "x": 11, "y": 11, "chance": 20 },
+        { "item": "id_science_medical_red", "x": 11, "y": 11, "chance": 10 },
+        { "item": "id_science_maintenance_yellow", "x": 11, "y": 12, "chance": 20 },
+        { "item": "id_science_medical_red", "x": 11, "y": 12, "chance": 10 }
       ],
       "place_signs": [
         { "snippet": "lab_security_signage", "x": [ 10, 13 ], "y": 7 },
@@ -246,14 +269,14 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "|,,,,,,,,,ƶ`````|⁴⁴⁴⁴⁴⁴⁴",
+        "|,,,,,,,,,ƶ`````|⁴⁴⁴⁴⁴⁴é",
         "|,,,,,,,,,=``î`<|⁴⁴⁴⁴⁴⁴⁴",
-        "|,,,,,,,,,|`````|⁴⁴⁴%%%%",
+        "|,,,,,,,,,|`````|é⁴⁴%%%%",
         "|,,,,,,,,,|``|#||⁴⁴%%~~~",
         "|,,,,,,,,,|``|>|⁴⁴%%~~~~",
         "|,,,,ê,,,,|ƶ=|||⁴%%~~~~~",
         "|,,,,,,,,,|⁴⁴⁴⁴⁴%%~~~~~~",
-        "|,,,,,,,,,|⁴⁴⁴⁴%%~~~~~~~",
+        "|,,,,,,,,,|⁴é⁴⁴%%~~~~~~~",
         "|,,,,,,,,,|⁴⁴⁴%%~~~~~~~~",
         "|,,,ê,,,,,|⁴⁴⁴%~~~~~~~~~",
         "|||||,,||||⁴⁴⁴%~~~~~~~~~",
@@ -262,14 +285,14 @@
         "|||||,,||||⁴⁴⁴%~~~~~~~~~",
         "|,,,ê,,,,,|⁴⁴⁴%~~~~~~~~~",
         "|,,,,,,,,,|⁴⁴⁴%%~~~~~~~~",
-        "|,,,,,,,,,|⁴⁴⁴⁴%%~~~~~~~",
+        "|,,,,,,,,,|⁴é⁴⁴%%~~~~~~~",
         "|,,,,,,,,,|⁴⁴⁴⁴⁴%%~~~~~~",
         "|,,,,ê,,,,|ƶ=|||⁴%%~~~~~",
         "|,,,,,,,,,|``|>|⁴⁴%%~~~~",
         "|,,,,,,,,,|``|#||⁴⁴%%~~~",
-        "|,,,,,,,,,|`````|⁴⁴⁴%%%%",
+        "|,,,,,,,,,|`````|é⁴⁴%%%%",
         "|,,,,,,,,,=``î`<|⁴⁴⁴⁴⁴⁴⁴",
-        "|,,,,,,,,,ƶ`````|⁴⁴⁴⁴⁴⁴⁴"
+        "|,,,,,,,,,ƶ`````|⁴⁴⁴⁴⁴⁴é"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
       "place_monsters": [ { "monster": "GROUP_LAB_BASIC_SECURITY", "x": [ 1, 8 ], "y": [ 1, 22 ], "density": 0.1 } ],
@@ -314,7 +337,10 @@
         "|,,,,,,,|;|``````````|;|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "place_loot": [ { "item": "id_science_maintenance_green", "x": 1, "y": 8, "chance": 100 } ],
+      "place_loot": [
+        { "item": "id_science_maintenance_green", "x": 1, "y": 8, "chance": 25 },
+        { "item": "hacksaw", "x": 1, "y": [ 14, 15 ], "chance": 100 }
+      ],
       "terrain": { "¥": "t_card_science_security_yellow", "ƶ": "t_card_science_security_magenta" },
       "place_signs": [
         { "signage": "<color_white_red>Badges Mandatory Beyond This Point.</color>", "x": 10, "y": 10 },
@@ -412,9 +438,9 @@
         "|,,,,,,,,,,,,|||||||||||",
         "|,,,,,,,,,,,,||≠LLLL≠|||",
         "|,,,ê,,,,ê,,,||`î````|||",
-        "|,,,,,,,,,,,,```j``j````",
-        "|,,,,,,,,,,,,```j``j````",
-        "|,,,ê,,,,ê,,,||````î`|||",
+        "|,,,,,,,,,,,,#``j``j```=",
+        "|,,,,,,,,,,,,#``j``j```¥",
+        "|,,,ê,,,,ê,,,||````î`||ƶ",
         "|,,,,,,,,,,,,||≠LLLL≠|||",
         "|,,,,,,,,,,,,|||||||||||",
         "|,,,,,,,,,,,,|||||||||||",
@@ -427,7 +453,10 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "terrain": { "ƶ": "t_card_reader_broken", "¥": "t_door_metal_o" },
+      "set": [ { "point": "bash", "x": [ 10, 22 ], "y": [ 10, 16 ], "repeat": [ 5, 30 ] } ],
       "place_monsters": [ { "monster": "GROUP_LAB_MILITARY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_items": [ { "item": "ammo_casings_milspec", "x": [ 13, 22 ], "y": [ 11, 14 ], "chance": 100, "repeat": [ 10, 20 ] } ],
       "items": {
         "L": { "item": "guns_milspec", "chance": 50 },
         "≠": [
@@ -443,7 +472,8 @@
         { "monster": "mon_gasbomb_hack", "x": 17, "y": 19, "chance": 100 },
         { "monster": "mon_manhack", "x": 18, "y": 19, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 21, "y": 19, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 }
+        { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 },
+        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": [ 1, 22 ], "chance": 100 }
       ],
       "place_nested": [
         { "chunks": [ [ "12x12_obstacle_course_N", 100 ] ], "x": 1, "y": 1 },
@@ -461,10 +491,10 @@
       "fill_ter": "t_linoleum_gray",
       "rows": [
         "||||||||||||||||||||||||",
-        "|@@∞|,|∞@@|`````¥```````",
-        "|r,,+,+,hr|`````=```````",
+        "|@@∞|,|∞@@|`````|```````",
+        "|r,,+,+,hr|`````#```````",
         "|rh,|,|,,r|``|##|```î```",
-        "|||||ê|||||``|><|``````|",
+        "|||||ê|||||``|`<|``````|",
         "|@@∞|,|∞@@|``|||||||||||",
         "|r,,+,+,hr|``|||||||||||",
         "|rh,|,|,,r|``||qqqqqqq||",
@@ -472,17 +502,17 @@
         "|9,S|ê,,,,|``||,,≠≠≠≠≠||",
         "|9,,|,hfh,|``||,,,ê,,,||",
         "|||+|,hfh,#``=,,,≠≠≠≠≠||",
-        "|t+,#,hfh,#``=,,,,,,,,||",
+        "|t+,#,hfh,#``=,,,,,ɜ,,||",
         "|||,|,hfh,|`6||qqq,,qq||",
         "|t+,|ê,,,,|``|||||=¥||||",
         "|||||,|||||``||,$,êA,Q||",
         "|@@∞|,|∞@@|``||,$,NN,Q||",
         "|r,,+,+,,r|``|||||||||||",
         "|rh,|,|,hr|``|||||||||||",
-        "|||||ê|||||``|><|``````|",
+        "|||||ê|||||``|`<|``````|",
         "|@@∞|,|∞@@|``|##|``î````",
-        "|r,,+,+,,r|`````=```````",
-        "|rh,|,|,hr|`````¥```````",
+        "|r,,+,+,,r|`````#```````",
+        "|rh,|,|,hr|`````|```````",
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],

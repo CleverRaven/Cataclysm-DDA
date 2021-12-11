@@ -43,7 +43,16 @@ class item_action_generator
         // Prefers items with smaller charge_per_use
         // "pseudos" are extra items not in player's inventory that should still be mapped
         item_action_map map_actions_to_items( Character &you ) const;
-        item_action_map map_actions_to_items( Character &you, const std::vector<item *> &pseudos ) const;
+
+        /**
+        * Assigns items to actions they perform on use.
+        * Prefers items with smaller charge_per_use.
+        * "pseudos" are extra items not in player's inventory that should still be mapped.
+        * @param use_player_inventory If true then include all of player inventory.
+        * @return actions mapped to items
+        */
+        item_action_map map_actions_to_items( Character &you, const std::vector<item *> &pseudos,
+                                              const bool use_player_inventory = true ) const;
 
         // Returns (translated) name of action
         std::string get_action_name( const item_action_id &id ) const;

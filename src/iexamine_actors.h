@@ -22,7 +22,7 @@ class cardreader_examine_actor : public iexamine_actor
         std::map<ter_str_id, ter_str_id> terrain_changes;
         std::map<furn_str_id, furn_str_id> furn_changes;
         // Option 2: Regenerate entire current overmap tile
-        std::string mapgen_id;
+        update_mapgen_id mapgen_id;
 
         cata::optional<int> omt_allowed_radius;
 
@@ -49,4 +49,18 @@ class cardreader_examine_actor : public iexamine_actor
         std::unique_ptr<iexamine_actor> clone() const override;
 };
 
+class eoc_examine_actor : public iexamine_actor
+{
+    private:
+        std::vector<effect_on_condition_id> eocs;
+    public:
+        explicit eoc_examine_actor( const std::string &type = "effect_on_condition" )
+            : iexamine_actor( type ) {}
+
+        void load( const JsonObject &jo ) override;
+        void call( Character &you, const tripoint &examp ) const override;
+        void finalize() const override;
+
+        std::unique_ptr<iexamine_actor> clone() const override;
+};
 #endif // CATA_SRC_IEXAMINE_ACTORS_H
