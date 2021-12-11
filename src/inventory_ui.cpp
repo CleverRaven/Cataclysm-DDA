@@ -327,7 +327,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( e.cached_name, e.any_item()->tname() );
+        return std::make_tuple( e.cached_name, e.any_item()->tname(), e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
@@ -881,6 +881,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             inventory_entry nentry( locations, entry.get_category_ptr() );
             nentry.topmost_parent = entry_with_loc->topmost_parent;
+            nentry.generation = entry_with_loc->generation;
             entries.erase( entry_with_loc );
             add_entry( nentry );
         }
@@ -987,8 +988,8 @@ void inventory_column::prepare_paging( const std::string &filter )
                     }
                     // otherwise sort the entries at their common level
                     common_depth_t const common_level = common_depth( lhs, rhs );
-                    inventory_entry const ep_lhs( { common_level.first } );
-                    inventory_entry const ep_rhs( { common_level.second } );
+                    inventory_entry const ep_lhs( { common_level.first }, nullptr, true, 0, lhs.generation );
+                    inventory_entry const ep_rhs( { common_level.second }, nullptr, true, 0, rhs.generation );
                     return sort_compare( ep_lhs, ep_rhs );
                 }
 
@@ -1425,6 +1426,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
 
     entry.collapsed = locations.front()->is_collapsed();
     entry.topmost_parent = topmost_parent;
+    entry.generation = entry_generation_number++;
     target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
