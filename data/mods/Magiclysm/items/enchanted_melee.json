@@ -875,6 +875,11 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
   },
   {
+    "id": "rune_stormshaper_weapon_adept",
+    "type": "GENERIC",
+    "name": { "str": "Stormshaper hammer-axe" },
+  },
+  {
     "id": "rune_animist_weapon",
     "type": "GENERIC",
     "name": { "str": "Animist athame" },
