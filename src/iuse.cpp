@@ -3954,11 +3954,11 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
 cata::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 100 ) {
+    if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
-        fake.charges = 100;
+        fake.charges = 2;
         return tazer( p, &fake, b, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
