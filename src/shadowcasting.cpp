@@ -36,6 +36,14 @@ static bool operator>( const slope &lhs, const slope &rhs )
 {
     return rhs < lhs;
 }
+static bool operator<=( const slope &lhs, const slope &rhs )
+{
+    return !( lhs > rhs );
+}
+static bool operator>=( const slope &lhs, const slope &rhs )
+{
+    return !( lhs < rhs );
+}
 static bool operator==( const slope &lhs, const slope &rhs )
 {
     // a/b == c/d <=> a*d == c*b
@@ -67,7 +75,8 @@ static void split_span( cata::list<span<T>> &spans,
                         T &current_transparency, const T &new_transparency, const T &last_intensity,
                         const int distance, slope &new_start_minor,
                         const slope &trailing_edge_major, const slope &leading_edge_major,
-                        const slope &trailing_edge_minor, const slope &leading_edge_minor )
+                        const slope &trailing_edge_minor, const slope &leading_edge_minor,
+                        const slope &previous_ceiling_slope )
 {
     const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
                                            current_transparency, distance );
@@ -96,6 +105,7 @@ static void split_span( cata::list<span<T>> &spans,
     // If this is the first row processed in the current span, there is no A span.
     // If this is the last row processed, there is no D span.
     // If check returns false, A and B are opaque and have no spans.
+    // B can be set to a lower height than C with the previous_ceiling_slope parameter
     if( is_transparent( current_transparency, last_intensity ) ) {
         // Emit the A span if present, placing it before the current span in the list
         if( trailing_edge_major > this_span->start_major ) {
@@ -109,7 +119,7 @@ static void split_span( cata::list<span<T>> &spans,
         if( trailing_edge_minor > this_span->start_minor ) {
             spans.emplace( this_span,
                            std::max( this_span->start_major, trailing_edge_major ),
-                           std::min( this_span->end_major, leading_edge_major ),
+                           std::min( this_span->end_major, previous_ceiling_slope ),
                            this_span->start_minor, trailing_edge_minor,
                            next_cumulative_transparency );
         }
@@ -202,12 +212,15 @@ void cast_horizontal_zlight_segment(
                 // leading and trailing edges being considered.
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
+                const slope center_major( delta.z * 2, delta.y * 2 );
+                const slope ceiling_major( delta.z * 2 + 1, delta.y * 2 + 1 );
+
                 current.z = offset.z + delta.z * z_transform;
                 if( current.z > max_z || current.z < min_z ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
                 }
-                if( this_span->start_major > leading_edge_major ) {
+                if( this_span->start_major >= leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
                     continue;
@@ -222,7 +235,7 @@ void cast_horizontal_zlight_segment(
                     // of the D span but that causes artifacts.
                     continue;
                 }
-                if( this_span->end_major < trailing_edge_major ) {
+                if( this_span->end_major <= trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
                     // So continue to the next span.
                     break;
@@ -230,6 +243,7 @@ void cast_horizontal_zlight_segment(
 
                 bool started_span = false;
                 const int z_index = current.z + OVERMAP_DEPTH;
+                bool last_has_ceiling = false;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
                     current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
@@ -251,33 +265,41 @@ void cast_horizontal_zlight_segment(
                     }
 
                     T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
-
-                    // If we're looking at a tile with floor or roof from the floor/roof side,
-                    // that tile is actually invisible to us.
-                    // TODO: Revisit this logic and differentiate between "can see bottom of tile"
-                    // and "can see majority of tile".
-                    bool floor_block = false;
-                    if( current.z < offset.z ) {
-                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
-                            floor_block = true;
-                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                        }
-                    } else if( current.z > offset.z ) {
-                        if( ( *floor_caches[z_index] )[current.x][current.y] ) {
-                            floor_block = true;
-                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                        }
-                    }
+                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !started_block ) {
                         started_block = true;
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
-                    last_intensity = calc( numerator, this_span->cumulative_value, dist );
+                    // If we're looking at a tile with floor or roof from the floor/roof side,
+                    // we need to adjust the end_major to the trailing edge of the roof.
+                    bool has_ceiling = false;
 
-                    if( !floor_block ) {
+                    // Non-transparent tiles will fully block visibility more than the ceiling would
+                    // so no point checking. We will need to start a new span anyway, so we take it as
+                    // if the tile has no roof to make the logic simpler.
+                    const bool current_block_transparent = is_transparent( new_transparency, last_intensity );
+                    if( current_block_transparent && ( z_transform < 0 || current.z < max_z ) ) {
+                        const int floor_index = z_index + ( z_transform > 0 ? 1 : 0 );
+                        if( ( *floor_caches[floor_index] )[current.x][current.y] ) {
+                            has_ceiling = ceiling_major < this_span->end_major;
+                        }
+                    }
+
+                    bool has_ceiling_changed = has_ceiling != last_has_ceiling;
+                    // If we get to the end of the roof/floor, we need to adjust the height
+                    // of the span that will be created under the roof
+                    bool adjust_previous_height = has_ceiling_changed && last_has_ceiling;
+                    last_has_ceiling = has_ceiling;
+
+                    bool visible = this_span->start_major <= center_major;
+                    visible &= this_span->end_major >= center_major;
+
+                    // Test visibility using the center of the current block. Combined with the
+                    // culling tests it will only let the player see tiles with >50% visible area
+                    if( visible ) {
                         ( *output_caches[z_index] )[current.x][current.y] =
                             std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
                     }
@@ -289,9 +311,18 @@ void cast_horizontal_zlight_segment(
                     }
 
                     if( new_transparency == current_transparency ) {
-                        // All in order, no need to split the span.
                         new_start_minor = leading_edge_minor;
-                        continue;
+
+                        if( !has_ceiling_changed ) {
+                            // All in order, no need to split the span.
+                            continue;
+                        }
+
+                        if( has_ceiling ) {
+                            // Hacky way to adjust the point where the current span will be divided
+                            // to create a span under the roof.
+                            new_start_minor = std::max( this_span->start_minor, trailing_edge_minor );
+                        }
                     }
 
                     // Handle splitting the span into up to 4 separate spans
@@ -299,7 +330,14 @@ void cast_horizontal_zlight_segment(
                             new_transparency, last_intensity,
                             distance, new_start_minor,
                             trailing_edge_major, leading_edge_major,
-                            trailing_edge_minor, leading_edge_minor );
+                            std::max( this_span->start_minor, trailing_edge_minor ), leading_edge_minor,
+                            adjust_previous_height ? std::min( leading_edge_major, ceiling_major ) : leading_edge_major );
+                }
+
+                // If we end a row with ceiling on top of the tile, we restrict the major slope
+                // permanently for the next depth passes
+                if( last_has_ceiling ) {
+                    this_span->end_major = std::min( this_span->end_major, ceiling_major );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
@@ -374,6 +412,7 @@ void cast_vertical_zlight_segment(
                 // See comment above trailing_edge_major and leading_edge_major in above function.
                 const slope trailing_edge_major( delta.y * 2 - 1, delta.z * 2 + 1 );
                 const slope leading_edge_major( delta.y * 2 + 1, delta.z * 2 - 1 );
+                const slope center_major( delta.y * 2, delta.z * 2 );
                 current.y = offset.y + delta.y * y_transform;
                 if( current.y < 0 || current.y >= MAPSIZE_Y ) {
                     // Current tile is out of bounds, advance to the next tile.
@@ -449,7 +488,12 @@ void cast_vertical_zlight_segment(
                     const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
-                    if( !floor_block ) {
+                    // Test visibility using the center of the current block. Combined with the
+                    // culling tests it will only let the player see tiles with >50% visible area
+                    bool visible = !( this_span->start_major > center_major );
+                    visible &= !( this_span->end_major < center_major );
+
+                    if( !floor_block && visible ) {
                         ( *output_caches[z_index] )[current.x][current.y] =
                             std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
                     }
@@ -471,7 +515,8 @@ void cast_vertical_zlight_segment(
                             new_transparency, last_intensity,
                             distance, new_start_minor,
                             trailing_edge_major, leading_edge_major,
-                            trailing_edge_minor, leading_edge_minor );
+                            trailing_edge_minor, leading_edge_minor,
+                            leading_edge_major /*No adjustment because roofs are treated as opaque tiles*/ );
                 }
 
                 // If we end the row with an opaque tile, set the span to start at the next row
