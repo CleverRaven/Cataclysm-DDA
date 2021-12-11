@@ -12,6 +12,15 @@
     "longest_side": "1000 mm",
     "price": 350000,
     "price_postapoc": 4000,
+	"variant_type": "gun",
+    "variants": [
+      {
+        "id": "pamd68",
+        "name": { "str": "PA md. 68" },
+        "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.",
+        "weight": 1
+      }
+    ],
     "to_hit": -3,
     "bashing": 12,
     "material": [ "steel", "aluminum" ],
@@ -38,6 +47,15 @@
     "longest_side": "1100 mm",
     "price": 80000,
     "price_postapoc": 3250,
+	"variant_type": "gun",
+	"variants": [
+      {
+        "id": "pamd71z",
+        "name": { "str": "PA md. 71z" },
+        "description": "This extremely popular Romanian assault rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  This modified design fires an extremely rapid 5-shot burst, with the goal of shredding the target and preventing revivification.",
+        "weight": 1
+      }
+    ],
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "aluminum" ],
@@ -57,6 +75,15 @@
     "name": { "str": "Mountable PA md. 68 Battle Rifle" },
     "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth.",
     "weight": "9630 g",
-    "volume": "2865 ml"
+    "volume": "2865 ml",
+	"variant_type": "gun",
+	"variants": [
+      {
+        "id": "pamd68mountable",
+        "name": { "str": "Mountable PA md. 68" },
+        "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth.",
+        "weight": 1
+      }
+    ]
   }
 ]
