@@ -880,7 +880,7 @@
   },
   {
     "id": "rune_stormshaper_weapon_adept",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "Stormshaper hammer-axe" },
     "//": "There isn't an equivalent, so the damage has been multiplied by 1.2 to cutting and bashing",
     "description": "A forged copper hammer-axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye and a Nordic rune reminiscent of Thor, the thunder god, in the hammer side.",
@@ -897,14 +897,14 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
-    "charges_per_use": 1,
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
       "WEATHER_TOOL"
     ],
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
+    "charges_per_use": 1
   },
   {
     "id": "rune_animist_weapon",
