@@ -1756,7 +1756,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, nullint, empty_string );
+                                            rota, ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1766,7 +1766,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, nullint, empty_string );
+                                            ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
@@ -1775,16 +1775,16 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                       int &height_3d )
 {
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, height_3d, empty_string );
+                                            rota, ll, apply_night_vision_goggles, height_3d, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles, int &height_3d, const std::string &suffix )
+                                      bool apply_night_vision_goggles, int &height_3d, int intensity )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, suffix, empty_string );
+                                            ll, apply_night_vision_goggles, height_3d, intensity, "" );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1793,7 +1793,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, empty_string, empty_string );
+                                            ll, apply_night_vision_goggles, height_3d, 0, "" );
 }
 
 cata::optional<tile_lookup_res>
@@ -1986,7 +1986,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d,
-                                      const std::string &suffix, const std::string &variant )
+                                      int intensity_level, const std::string &variant )
 {
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
@@ -2009,8 +2009,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
-    if( !suffix.empty() ) {
-        res = find_tile_looks_like( id + suffix, category, variant );
+    if( intensity_level > 0 ) {
+        res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
         if( res ) {
             tt = &res -> tile();
         }
@@ -3058,7 +3058,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
                 //get field intensity
-                std::string intensity = "_int" + std::to_string( fd_it->second.get_field_intensity() );
+                int intensity = fd_it->second.get_field_intensity();
                 int nullint = 0;
 
                 bool has_drawn = false;
@@ -3156,8 +3156,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
             //get field intensity
-            std::string intensity = fld_overridden ? "" : "_int" + std::to_string( here.field_at(
-                                        p ).displayed_intensity() );
+            int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
             int nullint = 0;
             ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
                                                   p, subtile, rotation, lit, nv, nullint, intensity );
@@ -3206,7 +3205,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                             // if we have found info on the item go through and draw its stuff
                             draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
-                                                 0, layer_lit, layer_nv, height_3d, empty_string, empty_string );
+                                                 0, layer_lit, layer_nv, height_3d, 0, "" );
 
 
                             // if the top item is already being layered don't draw it later
@@ -3249,7 +3248,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                                 // if we have found info on the item go through and draw its stuff
                                 draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
-                                                     0, layer_lit, layer_nv, height_3d, empty_string, empty_string );
+                                                     0, layer_lit, layer_nv, height_3d, 0, "" );
 
 
                                 // if the top item is already being layered don't draw it later
@@ -3299,7 +3298,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
 
                 ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
-                                                      0, lit, nv, height_3d, empty_string, variant );
+                                                      0, lit, nv, height_3d, 0, variant );
                 if( ret_draw_items && hilite ) {
                     draw_item_highlight( p );
                 }
