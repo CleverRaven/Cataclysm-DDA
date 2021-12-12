@@ -270,7 +270,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ] [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
