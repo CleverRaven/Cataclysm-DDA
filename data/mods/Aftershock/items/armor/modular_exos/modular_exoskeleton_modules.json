@@ -320,7 +320,7 @@
       "need_charges_msg": "There is not enough charge to activate the module."
     },
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
   },
   {
@@ -339,7 +339,7 @@
     },
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
   },
   {
