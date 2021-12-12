@@ -6556,22 +6556,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pond_forest",
-    "copy-from": "pond_forest",
-    "name": "basin",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "copy-from": "pond_swamp",
-    "name": "bog",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "hunter_shack",
     "copy-from": "hunter_shack",
     "name": "swamp shack",
