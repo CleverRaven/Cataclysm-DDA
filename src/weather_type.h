@@ -59,6 +59,9 @@ enum weather_sound_category : int {
     snowstorm,
     snow,
     portal_storm,
+    clear,
+    sunny,
+    cloudy,
     last
 };
 

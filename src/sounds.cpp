@@ -1151,6 +1151,18 @@ void sfx::do_ambient()
                 play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str, heard_volume,
                                             channel::outdoors_portal_storm_env, 1000 );
                 break;
+            case weather_sound_category::clear:
+                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str, heard_volume,
+                                            channel::outdoors_clear_env, 1000 );
+                break;
+            case weather_sound_category::sunny:
+                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str, heard_volume,
+                                            channel::outdoors_sunny_env, 1000 );
+                break;
+            case weather_sound_category::cloudy:
+                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str, heard_volume,
+                                            channel::outdoors_cloudy_env, 1000 );
+                break;
             case weather_sound_category::last:
                 debugmsg( "Invalid weather sound category." );
                 break;
