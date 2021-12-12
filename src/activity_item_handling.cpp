@@ -509,7 +509,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
                !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
                !crafting_inv.has_charges( itype_liquid_soap, required.cleanser,
-                                         is_liquid_crafting_component ) ) {
+                                          is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
         act->set_to_null();
@@ -530,11 +530,15 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     std::vector<item_comp> comps1;
     comps1.emplace_back( itype_soap, required.cleanser );
     comps1.emplace_back( itype_detergent, required.cleanser );
-    you->consume_items( comps1 );
+    if( !comps1.empty() ) {
+        you->consume_items( comps1 );
+    }
 
     std::vector<item_comp> comps2;
     comps2.emplace_back( itype_liquid_soap, required.cleanser );
-    you->consume_items(comps2, 1, is_liquid_crafting_component);
+    if( !comps2.empty() ) {
+        you->consume_items( comps2, 1, is_liquid_crafting_component );
+    }
 
     you->add_msg_if_player( m_good, _( "You washed your items." ) );
 
@@ -1242,7 +1246,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return itm.typeId() == itype_mop;
         } ) ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
-        } else {
+        }
+        else {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
         }
     }
@@ -2747,7 +2752,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                         return requirement_check_result::SKIP_LOCATION;
                     }
                     act_prev.coords.push_back( here.getabs( candidates[std::max( 0,
-                                                                      static_cast<int>( candidates.size() / 2 ) )] ) );
+                                                            static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
                 act_prev.placement = src;
             }
