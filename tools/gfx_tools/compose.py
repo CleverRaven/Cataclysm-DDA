@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''
+"""
 Merge all tile entries and PNGs in a compositing tileset directory into
 a tile_config.json and tilesheet .png file(s) ready for use in CDDA.
 
@@ -11,7 +11,7 @@ Examples:
 By default, output is written back to the source directory. Pass an output
 directory as the last argument to place output files there instead. The
 output directory will be created if it does not already exist.
-'''
+"""
 
 import argparse
 import json
@@ -112,9 +112,9 @@ def write_to_json(
     data: Union[dict, list],
     format_json: bool = False,
 ) -> None:
-    '''
+    """
     Write data to a JSON file
-    '''
+    """
     kwargs = {
         'ensure_ascii': False,
     }
@@ -138,21 +138,21 @@ def write_to_json(
 
 
 def list_or_first(iterable: list) -> Any:
-    '''
+    """
     Strip unneeded container list if there is only one value
 
     >>> list_or_first([1])
     1
     >>> list_or_first([1, 2])
     [1, 2]
-    '''
+    """
     return iterable[0] if len(iterable) == 1 else iterable
 
 
 def read_properties(filepath: str) -> dict:
-    '''
+    """
     tileset.txt reader
-    '''
+    """
     with open(filepath, 'r', encoding='utf-8') as file:
         pairs = {}
         for line in file.readlines():
@@ -164,15 +164,15 @@ def read_properties(filepath: str) -> dict:
 
 
 class ComposingException(Exception):
-    '''
+    """
     Base class for all composing exceptions
-    '''
+    """
 
 
 class Tileset:
-    '''
+    """
     Referenced sprites memory and handling, tile entries conversion
-    '''
+    """
     def __init__(
         self,
         source_dir: Path,
@@ -224,9 +224,9 @@ class Tileset:
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
 
     def determine_conffile(self) -> str:
-        '''
+        """
         Read JSON value from tileset.txt
-        '''
+        """
         properties = {}
 
         for candidate_path in (self.source_dir, self.output_dir):
@@ -249,9 +249,9 @@ class Tileset:
         return self.output_conf_file
 
     def compose(self) -> None:
-        '''
+        """
         Convert a composing tileset into a package readable by the game
-        '''
+        """
         self.output_dir.mkdir(parents=True, exist_ok=True)
         tileset_confpath = self.output_dir / self.determine_conffile()
         typed_sheets = {
@@ -268,7 +268,9 @@ class Tileset:
             sheet = Tilesheet(self, config)
 
             if not added_first_null:
+                # TODO: create a separate single-sprite 1x1 null first sheet
                 sheet.sprites.append(sheet.null_image)
+                sheet.first_index = 0
                 added_first_null = True
 
             if sheet.is_filler:
@@ -289,9 +291,12 @@ class Tileset:
                 if not sheet.write_composite_png():
                     continue
 
-                sheet.max_index = self.pngnum
-
             typed_sheets[sheet_type].append(sheet)
+
+        # FIXME: drop unused fillers here
+        '''
+        drop_unused_fillers()
+        '''
 
         # combine config data in the correct order
         sheet_configs = typed_sheets['main'] + typed_sheets['filler'] \
@@ -397,9 +402,9 @@ class Tileset:
         self,
         sheet_type: str,
     ) -> list:
-        '''
+        """
         Either warn about unused sprites or return the list
-        '''
+        """
         if self.use_all:
             return self.unreferenced_pngnames[sheet_type]
 
@@ -418,9 +423,9 @@ class Tileset:
 
 
 class Tilesheet:
-    '''
+    """
     Tilesheet reading and compositing
-    '''
+    """
     def __init__(
         self,
         tileset: Tileset,
@@ -458,12 +463,27 @@ class Tilesheet:
         self.sprites = []
 
         self.first_index = self.tileset.pngnum + 1
-        self.max_index = self.tileset.pngnum
+
+    @property
+    def empty_spaces(self) -> int:
+        """
+        Number of unused slots in the end
+        """
+        value = self.sprites_across - \
+            ((len(self.sprites) % self.sprites_across) or self.sprites_across)
+        return value
+
+    @property
+    def max_index(self) -> int:
+        """
+        The index of the last sprite
+        """
+        return self.first_index + len(self.sprites) - 1 + self.empty_spaces
 
     def is_standard(self) -> bool:
-        '''
+        """
         Check whether output object needs a non-standard size or offset config
-        '''
+        """
         if self.offset_x or self.offset_y:
             return False
         if self.sprite_width != self.tileset.sprite_width:
@@ -473,9 +493,9 @@ class Tilesheet:
         return True
 
     def walk_dirs(self) -> None:
-        '''
+        """
         Find and process all JSON and PNG files within sheet directory
-        '''
+        """
         all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
         excluded_paths = [  # TODO: dict by parent dirs
             self.subdir_path / ignored_path for ignored_path in self.exclude
@@ -503,9 +523,9 @@ class Tilesheet:
         self,
         filepath: Path,
     ) -> None:
-        '''
+        """
         Verify image root name is unique, load it and register
-        '''
+        """
         if filepath.stem in self.tileset.pngname_indexes:
             if not self.is_filler:
                 log.error(
@@ -534,9 +554,9 @@ class Tilesheet:
         self,
         png_path: Union[str, Path],
     ) -> pyvips.Image:
-        '''
+        """
         Load and verify an image using pyvips
-        '''
+        """
         try:
             image = Vips.Image.pngload(str(png_path))
         except pyvips.error.Error as pyvips_error:
@@ -573,9 +593,9 @@ class Tilesheet:
         self,
         filepath: Path,
     ) -> None:
-        '''
+        """
         Load and store tile entries from the file
-        '''
+        """
         with open(filepath, 'r', encoding='utf-8') as file:
             try:
                 tile_entries = json.load(file)
@@ -592,15 +612,14 @@ class Tilesheet:
                     TileEntry(self, input_entry, filepath))
 
     def write_composite_png(self) -> bool:
-        '''
+        """
         Compose and save tilesheet PNG if there are sprites to work with
-        '''
+        """
         if not self.sprites:
             return False
 
         # count empty spaces in the last row
-        self.tileset.pngnum += self.sprites_across - \
-            ((len(self.sprites) % self.sprites_across) or self.sprites_across)
+        self.tileset.pngnum += self.empty_spaces
 
         if self.tileset.only_json:
             return True
@@ -623,9 +642,9 @@ class Tilesheet:
 
 
 class TileEntry:
-    '''
+    """
     Tile entry handling
-    '''
+    """
     def __init__(
         self,
         tilesheet: Tilesheet,
@@ -641,9 +660,9 @@ class TileEntry:
         entry: Union[dict, None] = None,
         prefix: str = '',
     ) -> Optional[dict]:
-        '''
+        """
         Recursively compile input into game-compatible objects in-place
-        '''
+        """
         if entry is None:
             entry = self.data
 
@@ -716,9 +735,9 @@ class TileEntry:
         self,
         entry_layer: Union[list, str],
     ) -> list:
-        '''
+        """
         Convert sprite names to sprite indexes in one fg or bg tile entry part
-        '''
+        """
         output = []
 
         if isinstance(entry_layer, list):
@@ -745,9 +764,9 @@ class TileEntry:
         self,
         sprite_names: Union[list, str],
     ) -> Tuple[list, bool]:
-        '''
+        """
         Convert list of random weighted variation objects
-        '''
+        """
         valid = False
         converted_variations = []
 
@@ -768,10 +787,10 @@ class TileEntry:
         sprite_name: str,
         indexes_list: list,
     ) -> bool:
-        '''
+        """
         Get sprite index by sprite name and append it
         to the indexes_list in-place and return True or return False
-        '''
+        """
         if sprite_name:
             sprite = Sprite(sprite_name, self.tilesheet.tileset)
             if sprite.to_json() != 0:
@@ -814,18 +833,18 @@ class Sprite:
 
     def to_json(self) -> int:
         """
-        todo
+        Convert sprite name into index
         """
         return self.tileset.pngname_indexes.get(self.name, 0)
 
 
 class ComposeEncoder(json.JSONEncoder):
     """
-    todo
+    Custom encoder that calls to_json method
     """
     def default(self, o):
         """
-        todo
+        Call to_json method for all Sprite objects
         """
         if isinstance(o, Sprite):
             return o.to_json()
