@@ -202,6 +202,7 @@ class Tileset:
 
         self.sheets = {}
         self.sheet_by_pngname = {'null_image': 0}
+        self.sprite_index_cache = {}
 
         if not self.source_dir.is_dir() or \
                 not os.access(self.source_dir, os.R_OK):
@@ -248,6 +249,17 @@ class Tileset:
 
         self.output_conf_file = conf_filename
         return self.output_conf_file
+
+    def cache_sprite_indexes(self) -> None:
+        """
+        todo
+        """
+        counter = 0
+        for sheet in self.sheets.values():
+            for sprite_name in sheet.sprites:
+                self.sprite_index_cache[sprite_name] = counter
+                counter += 1
+            counter += sheet.empty_spaces
 
     def compose(self) -> None:
         """
@@ -299,6 +311,7 @@ class Tileset:
         '''
         drop_unused_fillers()
         '''
+        self.cache_sprite_indexes()
 
         # combine config data in the correct order
         sheet_configs = typed_sheets['main'] + typed_sheets['filler'] \
@@ -472,8 +485,8 @@ class Tilesheet:
         """
         value = self.sprites_across - \
             (
-                len(self.sprites.keys()) % self.sprites_across
-                or self.sprites_across
+                len(self.sprites.keys()) % self.sprites_across or
+                self.sprites_across
             )
         return value
 
@@ -842,27 +855,11 @@ class Sprite:
         """
         return self.tileset.sheet_by_pngname[self.name]
 
-    @property
-    def relative_index(self):
-        """
-        todo
-        """
-        sprites = self.tileset.sheets[self.sheet_name].sprites
-        return list(sprites.keys()).index(self.name)
-
-    @property
-    def absolute_index(self):
-        """
-        todo
-        """
-        # FIXME: implement dynamic first_index
-        return self.tileset.sheets[self.sheet_name].first_index
-
     def to_json(self) -> int:
         """
         Convert sprite name into index
         """
-        return self.absolute_index + self.relative_index
+        return self.tileset.sprite_index_cache.get(self.name)
 
 
 class ComposeEncoder(json.JSONEncoder):
