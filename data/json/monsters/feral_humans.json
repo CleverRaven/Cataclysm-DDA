@@ -101,37 +101,67 @@
     "fungalize_into": "mon_feral_human_axe_fungal"
   },
   {
-    "id": "mon_feral_human_pipe_fungal",
+    "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
     "speed": 0,
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "age_grow": 4, "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
   {
-    "id": "mon_feral_human_crowbar_fungal",
+    "id": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
     "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
     "speed": 0,
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "age_grow": 4, "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
   {
-    "id": "mon_feral_human_axe_fungal",
+    "id": "mon_feral_human_axe_fungal_infected",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_axe",
+    "upgrades": { "age_grow": 4, "into": "mon_feral_human_axe_fungal_corpse" },
+    "burn_into": "mon_starer_axe",
+    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal_corpse",
+    "type": "MONSTER",
+    "description": "Delicate fungal stalks sprout in rows from sores covering the body, and the facial expression is pure joy.  Coos softly.",
+    "copy-from": "mon_feral_human_pipe",
+    "default_faction": "fungus",
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "special_attacks": [ [ "FUNGUS", 40 ] ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal_corpse",
+    "type": "MONSTER",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "copy-from": "mon_feral_human_crowbar",
+    "default_faction": "fungus",
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "special_attacks": [ [ "FUNGUS", 40 ] ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+  },
+  {
+    "id": "mon_feral_human_axe_fungal_corpse",
     "type": "MONSTER",
     "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
-    "speed": 0,
     "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
-    "burn_into": "mon_starer_axe",
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "special_attacks": [ [ "FUNGUS", 40 ] ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
   },
   {
     "id": "mon_feral_scientist_scalpel",
