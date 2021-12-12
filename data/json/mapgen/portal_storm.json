@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "portal_storm_palette",
-    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "G": "t_grass", "@": "t_null" }
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass", "@": "t_null" }
   },
   {
     "type": "mapgen",
@@ -15,17 +15,33 @@
     "method": "json",
     "nested_mapgen_id": "portal_dungeon_chunk",
     "object": {
-      "mapgensize": [ 8, 8 ],
+      "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "10000001",
-        "10000001",
-        "10000001",
-        "10000001",
-        "10000001",
-        "10000001",
-        "10000001",
-        "10000001"
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
       ],
       "palettes": [ "portal_storm_palette" ]
     }
@@ -41,17 +57,33 @@
     "method": "json",
     "nested_mapgen_id": "portal_dungeon_chunk_undo",
     "object": {
-      "mapgensize": [ 8, 8 ],
+      "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG",
-        "GGGGGGGG"
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGG"
       ],
       "palettes": [ "portal_storm_palette" ]
     }

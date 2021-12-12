@@ -15,12 +15,12 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "=", { "const": 15 } ]
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 15 } ]
       },
+      { "set_queue_effect_on_condition": [ "EOC_CAUSE_PORTAL_STORM" ] },
       {
-        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
-      },
-      "next_weather"
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
+      }
     ]
   },
   {
@@ -51,10 +51,10 @@
     ]
   },
   {
-    "id": "test_portal_cause",
+    "id": "test_EOC",
     "type": "TOOL",
-    "name": { "str_sp": "Test Portal Causer" },
-    "description": "Causes portal storms.",
+    "name": { "str_sp": "Test EOC" },
+    "description": "Tests.",
     "weight": "1 g",
     "volume": "250 ml",
     "symbol": "!",
@@ -66,39 +66,10 @@
     }
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_MAPGEN",
-    "effect": [
-      {
-        "u_location_variable": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true },
-        "target_params": { "om_terrain": "field" }
-      },
-      {
-        "mapgen_update": "portal_dungeon",
-        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
-      },
-      {
-        "set_queue_effect_on_condition": [ "EOC_PORTAL_STORM_MAPGEN_UNDO" ],
-        "time_in_future_min": "3 seconds",
-        "time_in_future_max": "5 seconds"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
-    "effect": [
-      {
-        "mapgen_update": "portal_dungeon_undo",
-        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
-      }
-    ]
-  },
-  {
-    "id": "test_portal_strengener",
+    "id": "test_EOC2",
     "type": "TOOL",
-    "name": { "str_sp": "Test Portal Strengthener" },
-    "description": "Strengthens portal storms.",
+    "name": { "str_sp": "Test EOC2" },
+    "description": "Tests2.",
     "weight": "1 g",
     "volume": "250 ml",
     "symbol": "!",
@@ -267,6 +238,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CAUSE_PORTAL_STORM",
+    "global": true,
     "//": "This sets up all the variables for the start of a portal storm.",
     "condition": {
       "not": {
@@ -305,7 +277,33 @@
             "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "++" ] } ]
           }
         ]
+      },
+      {
+        "set_queue_effect_on_condition": [ "EOC_CANCEL_PORTAL_STORM" ],
+        "time_in_future_min": "4 hours",
+        "time_in_future_max": "6 hours"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANCEL_PORTAL_STORM",
+    "global": true,
+    "//": "This sets up all the variables for the end of a portal storm.",
+    "condition": {
+      "or": [
+        { "is_weather": "portal_storm" },
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
+          "op": "="
+        }
+      ]
+    },
+    "effect": [
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 0 } ]
+      },
+      "next_weather"
     ]
   },
   {
@@ -317,12 +315,7 @@
     "global": true,
     "condition": { "is_weather": "portal_storm" },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 0 } ]
-      }
-    ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -884,5 +877,29 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_MAPGEN",
+    "effect": [
+      {
+        "u_location_variable": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true },
+        "target_params": { "om_terrain": "field" }
+      },
+      {
+        "mapgen_update": "portal_dungeon",
+        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
+    "effect": [
+      {
+        "mapgen_update": "portal_dungeon_undo",
+        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
+      }
+    ]
   }
 ]
