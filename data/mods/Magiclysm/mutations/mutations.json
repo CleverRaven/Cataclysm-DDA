@@ -556,6 +556,7 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -576,6 +577,7 @@
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You smash %s with your tail",
