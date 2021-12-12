@@ -7472,7 +7472,7 @@
     "skill_used": "cooking",
     "time": "20 s",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
   },
   {
