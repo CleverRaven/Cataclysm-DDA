@@ -1958,7 +1958,20 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         draw_id.clear();
         str_append( draw_id,
+                    ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_", variant );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        draw_id.clear();
+        str_append( draw_id,
                     ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        draw_id.clear();
+        str_append( draw_id, "overlay_", over_type, looks_like, "_", variant );
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
