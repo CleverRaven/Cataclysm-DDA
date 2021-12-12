@@ -200,7 +200,8 @@ class Tileset:
             'filler': [],
         }
 
-        self.pngname_indexes = {'null_image': 0}
+        self.sheets = {}
+        self.sheet_by_pngname = {'null_image': 0}
 
         if not self.source_dir.is_dir() or \
                 not os.access(self.source_dir, os.R_OK):
@@ -266,10 +267,11 @@ class Tileset:
         added_first_null = False
         for config in self.info[1:]:
             sheet = Tilesheet(self, config)
+            self.sheets[sheet.name] = sheet
 
             if not added_first_null:
                 # TODO: create a separate single-sprite 1x1 null first sheet
-                sheet.sprites.append(sheet.null_image)
+                sheet.sprites['null_image'] = sheet.null_image
                 sheet.first_index = 0
                 added_first_null = True
 
@@ -323,17 +325,16 @@ class Tileset:
                             'in a non-filler sheet',
                             unused_png)
                     continue
-                unused_num = self.pngname_indexes[unused_png]
-                sheet_min_index = 0
-                for sheet_max_index, sheet_data in tiles_new_dict.items():
-                    if sheet_min_index < unused_num <= sheet_max_index:
-                        sheet_data['tiles'].append({
-                            'id': unused_png,
-                            'fg': unused_num,
-                        })
-                        self.processed_ids.append(unused_png)
-                        break
-                    sheet_min_index = sheet_max_index
+
+                sheet_data = tiles_new_dict[self.sheet_by_pngname[unused_png]]
+                sheet_data['tiles'].append({
+                    'id': unused_png,
+                    'fg': Sprite(
+                        name=unused_png,
+                        tileset=self,
+                    ),
+                })
+                self.processed_ids.append(unused_png)
 
         main_finished = False
 
@@ -368,7 +369,7 @@ class Tileset:
 
             sheet_conf['tiles'] = sheet_entries
 
-            tiles_new_dict[sheet.max_index] = sheet_conf
+            tiles_new_dict[sheet.name] = sheet_conf
 
         if not main_finished:
             create_tile_entries_for_unused(
@@ -450,7 +451,7 @@ class Tilesheet:
         self.is_filler = not self.is_fallback \
             and specs.get('filler', False)
 
-        output_root = self.name.split('.png')[0]
+        output_root = self.name.split('.png')[0]  # FIXME: move to name
         dir_name = \
             f'pngs_{output_root}_{self.sprite_width}x{self.sprite_height}'
         self.subdir_path = tileset.source_dir / dir_name
@@ -460,7 +461,7 @@ class Tilesheet:
         self.tile_entries = []
         self.null_image = \
             Vips.Image.grey(self.sprite_width, self.sprite_height)
-        self.sprites = []
+        self.sprites = {}
 
         self.first_index = self.tileset.pngnum + 1
 
@@ -470,7 +471,10 @@ class Tilesheet:
         Number of unused slots in the end
         """
         value = self.sprites_across - \
-            ((len(self.sprites) % self.sprites_across) or self.sprites_across)
+            (
+                len(self.sprites.keys()) % self.sprites_across
+                or self.sprites_across
+            )
         return value
 
     @property
@@ -478,7 +482,9 @@ class Tilesheet:
         """
         The index of the last sprite
         """
-        return self.first_index + len(self.sprites) - 1 + self.empty_spaces
+        return (
+            self.first_index + len(self.sprites.keys()) - 1 + self.empty_spaces
+        )
 
     def is_standard(self) -> bool:
         """
@@ -526,7 +532,7 @@ class Tilesheet:
         """
         Verify image root name is unique, load it and register
         """
-        if filepath.stem in self.tileset.pngname_indexes:
+        if filepath.stem in self.tileset.sheet_by_pngname:
             if not self.is_filler:
                 log.error(
                     'duplicate root name %s: %s',
@@ -540,13 +546,11 @@ class Tilesheet:
 
             return
 
-        if not self.tileset.only_json:
-            self.sprites.append(self.load_image(filepath))
-        else:
-            self.sprites.append(None)
+        self.sprites[filepath.stem] = None if self.tileset.only_json else \
+            self.load_image(filepath)
 
         self.tileset.pngnum += 1
-        self.tileset.pngname_indexes[filepath.stem] = self.tileset.pngnum
+        self.tileset.sheet_by_pngname[filepath.stem] = self.name
         self.tileset.unreferenced_pngnames[
             'filler' if self.is_filler else 'main'].append(filepath.stem)
 
@@ -625,7 +629,7 @@ class Tilesheet:
             return True
 
         sheet_image = Vips.Image.arrayjoin(
-            self.sprites, across=self.sprites_across)
+            self.sprites.values(), across=self.sprites_across)
 
         pngsave_args = PNGSAVE_ARGS.copy()
 
@@ -831,11 +835,34 @@ class Sprite:
         self.name = name
         self.tileset = tileset
 
+    @property
+    def sheet_name(self):
+        """
+        todo
+        """
+        return self.tileset.sheet_by_pngname[self.name]
+
+    @property
+    def relative_index(self):
+        """
+        todo
+        """
+        sprites = self.tileset.sheets[self.sheet_name].sprites
+        return list(sprites.keys()).index(self.name)
+
+    @property
+    def absolute_index(self):
+        """
+        todo
+        """
+        # FIXME: implement dynamic first_index
+        return self.tileset.sheets[self.sheet_name].first_index
+
     def to_json(self) -> int:
         """
         Convert sprite name into index
         """
-        return self.tileset.pngname_indexes.get(self.name, 0)
+        return self.absolute_index + self.relative_index
 
 
 class ComposeEncoder(json.JSONEncoder):
