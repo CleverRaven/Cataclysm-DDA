@@ -529,13 +529,14 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int Character::gun_engagement_moves( const item &gun, int target, int start ) const
+int Character::gun_engagement_moves( const item &gun, int target, int start,
+                                     Target_attributes attributes ) const
 {
     int mv = 0;
     double penalty = start;
 
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty );
+        double adj = aim_per_move( gun, penalty, attributes );
         if( adj <= 0 ) {
             break;
         }
@@ -1401,6 +1402,20 @@ static std::string get_colored_bar( const double val, const int width, const std
     return result;
 }
 
+double target_size_in_moa( int range, double size )
+{
+    return atan2( size, range ) * 60 * 180 / M_PI;
+}
+
+double target_size_in_moa( tripoint src, tripoint target )
+{
+    Creature *target_critter = get_creature_tracker().creature_at( target );
+    double target_size = target_critter != nullptr ?
+                         target_critter->ranged_target_size() :
+                         get_map().ranged_target_size( target );
+    return target_size_in_moa( rl_dist( src, target ), target_size );
+}
+
 static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
@@ -1486,8 +1501,9 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             moves_to_fire = throw_cost( you, ranged_weapon );
         } else {
-            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( you,
-                            *ranged_weapon.type );
+            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil,
+                            Target_attributes( target_size_in_moa( range, target_size ) ) ) + time_to_attack( you,
+                                    *ranged_weapon.type );
         }
 
         const input_event hotkey = front_or( type.action.empty() ? "FIRE" : type.action, input_event() );
@@ -1607,8 +1623,7 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     dispersion.add_range( you.recoil_vehicle() );
 
     const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.effective_dispersion(
-                                        you.get_wielded_item().sight_dispersion() );
+    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1674,7 +1689,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     if( !gun.is_gun() ) {
         return aim_types;
     }
-    int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
+    int sight_dispersion = most_accurate_aiming_method_limit( gun );
     // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
@@ -1954,8 +1969,18 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     double avgSkill = static_cast<double>( get_skill_level( skill_gun ) +
                                            get_skill_level( obj.gun_skill() ) ) / 2.0;
     avgSkill = std::min( avgSkill, static_cast<double>( MAX_SKILL ) );
+    // If the value is affected by the accuracy of the firearm itself,
+    // then beginners will rely heavily on high-precision weapons, while experts are not.
+    // Obviously this is not true.
+    // So use a constant instead.
+    if( obj.gun_skill() == skill_archery ) {
+        dispersion.add_range( dispersion_from_skill( avgSkill,
+                              600 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+    } else {
+        dispersion.add_range( dispersion_from_skill( avgSkill,
+                              300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+    }
 
-    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
@@ -2005,8 +2030,7 @@ double Character::gun_value( const item &weap, int ammo ) const
     if( tmp.is_magazine() || tmp.magazine_current() || tmp.magazine_default() ) {
         tmp.ammo_set( ammo_type );
     }
-    int total_dispersion = get_weapon_dispersion( tmp ).max() +
-                           effective_dispersion( tmp.sight_dispersion() );
+    int total_dispersion = get_weapon_dispersion( tmp ).max() + tmp.sight_dispersion( *this ).second;
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
@@ -2104,7 +2128,7 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     } else if( mode == TargetMode::Fire ) {
-        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
+        sight_dispersion = relevant->sight_dispersion( *you ).second;
     }
 
     map &here = get_map();
@@ -3419,7 +3443,7 @@ void target_ui::panel_gun_info( int &text_y )
 void target_ui::panel_recoil( int &text_y )
 {
     const int val = you->recoil_total();
-    const int min_recoil = you->effective_dispersion( relevant->sight_dispersion() );
+    const int min_recoil = relevant->sight_dispersion( *you ).second;
     const int recoil_range = MAX_RECOIL - min_recoil;
     std::string str;
     if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
@@ -3525,6 +3549,7 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
     }
 }
 
+
 void target_ui::panel_fire_mode_aim( int &text_y )
 {
     // TODO: saving & restoring pc.recoil may actually be unnecessary
@@ -3535,7 +3560,8 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     int predicted_delay = 0;
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
         do {
-            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil );
+            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil,
+                                      Target_attributes( target_size_in_moa( src, dst ) ) );
             if( aim_amount > 0 ) {
                 predicted_delay++;
                 predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );

@@ -2662,8 +2662,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     info.back().bNewLine = true;
 
     // if effective sight dispersion differs from actual sight dispersion display both
-    int act_disp = mod->sight_dispersion();
-    int eff_disp = player_character.effective_dispersion( act_disp );
+    std::pair<int, int> disp = mod->sight_dispersion( player_character );
+    int act_disp = disp.first;
+    int eff_disp = disp.second;
     int adj_disp = eff_disp - act_disp;
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
@@ -2928,9 +2929,13 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Sight dispersion: " ), "",
                            iteminfo::lower_is_better, mod.sight_dispersion );
     }
-    if( mod.aim_speed >= 0 && parts->test( iteminfo_parts::GUNMOD_AIMSPEED ) ) {
-        info.emplace_back( "GUNMOD", _( "Aim speed: " ), "",
-                           iteminfo::lower_is_better, mod.aim_speed );
+    if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_FIELD_OF_VIEW ) ) {
+        info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
+                           iteminfo::lower_is_better, mod.field_of_view );
+    }
+    if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Aim speed modifier: " ), "",
+                           iteminfo::no_flags, mod.aim_speed_modifier );
     }
     int total_damage = static_cast<int>( mod.damage.total_damage() );
     if( total_damage != 0 && parts->test( iteminfo_parts::GUNMOD_DAMAGE ) ) {
@@ -8751,23 +8756,28 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     return dispersion_sum;
 }
 
-int item::sight_dispersion() const
+std::pair<int, int> item::sight_dispersion( const Character &character ) const
 {
     if( !is_gun() ) {
-        return 0;
+        return std::make_pair( 0, 0 );
     }
-
-    int res = has_flag( flag_DISABLE_SIGHTS ) ? 90 : type->gun->sight_dispersion;
+    int act_disp = has_flag( flag_DISABLE_SIGHTS ) ? 300 : type->gun->sight_dispersion;
+    int eff_disp = character.effective_dispersion( act_disp );
 
     for( const item *e : gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
-        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
-            continue; // skip gunmods which don't provide a sight
+        int e_act_disp = mod.sight_dispersion;
+        if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
+            continue;
         }
-        res = std::min( res, mod.sight_dispersion );
-    }
+        int e_eff_disp = character.effective_dispersion( e_act_disp, e->has_flag( flag_ZOOM ) );
+        if( eff_disp > e_eff_disp ) {
+            eff_disp = e_eff_disp;
+            act_disp = e_act_disp;
 
-    return res;
+        }
+    }
+    return std::make_pair( act_disp, eff_disp );
 }
 
 damage_instance item::gun_damage( bool with_ammo, bool shot ) const
@@ -10356,7 +10366,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flag
 {
 }
 
-iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal )
+iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value,
+                    double UnitVal )
     : iteminfo( Type, Name, "", no_flags, Value, UnitVal )
 {
 }

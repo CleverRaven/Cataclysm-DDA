@@ -2133,8 +2133,9 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /** Get lowest dispersion of either integral or any attached sights */
-        int sight_dispersion() const;
+
+        /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
+        std::pair<int, int> sight_dispersion( const Character &character ) const;
 
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
