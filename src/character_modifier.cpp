@@ -12,8 +12,6 @@ static const limb_score_id limb_score_manip( "manip" );
 static const limb_score_id limb_score_swim( "swim" );
 
 static const skill_id skill_archery( "archery" );
-// static const skill_id skill_pistol( "pistol" );
-// static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_swimming( "swimming" );
 
 namespace
