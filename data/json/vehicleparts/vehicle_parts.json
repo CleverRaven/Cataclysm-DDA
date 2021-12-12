@@ -1029,7 +1029,7 @@
     "location": "under",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
-      "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 2 } ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "FLOATS" ],
@@ -2464,7 +2464,7 @@
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
