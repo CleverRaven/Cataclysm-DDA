@@ -247,13 +247,15 @@ void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
     const mutation_branch &mdata = tr.obj();
-    if( !has_trait( tr ) && !mdata.category.empty() ) {
+    if( mdata.category.empty() || mdata.startingtrait ) {
+        toggle_trait( tr );
+    } else if( !has_trait( tr ) ) {
         int rc = 0;
         while( !has_trait( tr ) && rc < depth_max ) {
             mutate_towards( tr );
             rc++;
         }
-    } else if( has_trait( tr ) && !mdata.category.empty() ) {
+    } else if( has_trait( tr ) ) {
         int rc = 0;
         std::unordered_map<trait_id, int> deps;
         build_mut_dependency_map( tr, deps, 0 );
@@ -271,8 +273,6 @@ void Character::toggle_trait_deps( const trait_id &tr )
             }
             rc++;
         }
-    } else {
-        toggle_trait( tr );
     }
 }
 
