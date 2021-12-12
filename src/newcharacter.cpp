@@ -856,7 +856,7 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
-        _( "HOBBIES" ),
+        _( "BACKGROUND" ),
         _( "STATS" ),
         _( "TRAITS" ),
         _( "SKILLS" ),
