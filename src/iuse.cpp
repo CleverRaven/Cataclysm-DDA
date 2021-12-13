@@ -3017,12 +3017,12 @@ cata::optional<int> iuse::chainsaw_off( Character *p, item *it, bool, const trip
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
+                           20, _( "With a roar, the electric chainsaw screams to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
 
