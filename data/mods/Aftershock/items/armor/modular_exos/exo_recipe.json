@@ -1,0 +1,40 @@
+[
+  {
+    "result": "exo_helmet_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "9 h",
+    "book_learn": [ [ "exosuit_maintenance", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 56 ], [ "steel_standard", 14 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "exo_torso_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "9 h",
+    "book_learn": [ [ "exosuit_maintenance", 7 ] ],
+    "using": [  [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "exosuit_maintenance",
+    "type": "BOOK",
+    "name": { "str": "Exoskeleton maintenance and repair manual", "str_pl": "copies of Exoskeleton maintenance and repair manual" },
+    "description": "TM 7-4350 TECHNICAL MANUAL OPERATOR’S MANUAL FOR TYPE G EXOSKELETON (MODULAR). This is an operator's manual that covers general maintenance and basic repairs to modular exoskeleton systems.",
+    "weight": "50 g",
+    "volume": "500 ml",
+    "price": "5000 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "adv_chemistry",
+    "color": "light_green",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 8,
+    "intelligence": 9,
+    "fun": -3,
+    "time": "50 m"
+  }
+]
