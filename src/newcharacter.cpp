@@ -2743,10 +2743,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
             int skill_level = 0;
 
             // Grab skills from profession
-            for( auto &prof_skill : u.prof->skills() ) {
-                if( prof_skill.first == thisSkill->ident() ) {
-                    skill_level += prof_skill.second;
-                    break;
+            if( !!thisSkill ) {
+                for( auto &prof_skill : u.prof->skills() ) {
+                    if( prof_skill.first == thisSkill->ident() ) {
+                        skill_level += prof_skill.second;
+                        break;
+                    }
                 }
             }
 
