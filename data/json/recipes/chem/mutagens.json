@@ -759,7 +759,12 @@
     "book_learn": [ [ "record_patient", 7 ], [ "recipe_maiar", 6 ], [ "recipe_labchem", 5 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "//": "requires more human samples than comparable mutagen as you are trying to identify specific differences from your mutated anatomy than from baseline humans.",
-    "components": [ [ [ "mutagen", 2 ] ], [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ], [ [ "human_sample", 2 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ] ],
+    "components": [
+      [ [ "mutagen", 2 ] ],
+      [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
+      [ [ "human_sample", 2 ] ],
+      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
