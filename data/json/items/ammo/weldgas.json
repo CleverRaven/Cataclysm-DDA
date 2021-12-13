@@ -37,7 +37,8 @@
     "count": 10,
     "stack_size": 10,
     "longest_side": "350 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_rod_alloy",
@@ -56,7 +57,8 @@
     "count": 10,
     "stack_size": 10,
     "longest_side": "350 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_wire_steel",
@@ -75,7 +77,8 @@
     "count": 180,
     "stack_size": 180,
     "longest_side": "102 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_wire_alloy",
@@ -94,7 +97,8 @@
     "count": 180,
     "stack_size": 180,
     "longest_side": "102 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "brazing_rod_bronze",
@@ -113,7 +117,8 @@
     "count": 10,
     "stack_size": 10,
     "longest_side": "460 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "brazing_rod_alloy",
@@ -132,6 +137,7 @@
     "count": 10,
     "stack_size": 10,
     "longest_side": "460 mm",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]
