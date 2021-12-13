@@ -89,7 +89,7 @@
         "topic": "TALK_EXODII_MERCHANT_Exodize",
         "condition": {
           "and": [
-            { "u_has_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" },
+            { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" },
             {
               "not": {
                 "or": [
@@ -259,7 +259,7 @@
         "topic": "TALK_EXODII_MERCHANT_Exodize",
         "condition": {
           "and": [
-            { "u_has_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" },
+            { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" },
             {
               "not": {
                 "or": [
@@ -629,7 +629,7 @@
             ]
           }
         },
-        "effect": { "u_add_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" }
+        "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" }
       },
       { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -641,7 +641,7 @@
     "type": "talk_topic",
     "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.",
     "//~": "Robot?  What does that word mean?  Hang on. … Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
-    "speaker_effect": { "effect": { "u_add_var": "rubik_is_cyborg", "type": "knowledge", "context": "exodiilore", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_is_cyborg", "value": "yes" } },
     "responses": [
       {
         "text": "[int 9] So you're a cyborg of some kind?  That's awesome.  How do I become a cyborg?",
@@ -660,7 +660,7 @@
             }
           ]
         },
-        "effect": { "u_add_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" }
+        "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" }
       },
       {
         "text": "I don't have any idea what you mean.  You're kind of a robot, but you're also flesh and blood?",
@@ -738,6 +738,11 @@
     "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead.",
     "//~": "Same as you, I'd guess.  The enemy.  The dead.",
     "responses": [
+      {
+        "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" },
+        "text": "Wait, am I following this right?  You're from a place where this happened before, and you escaped to our world?",
+        "topic": "TALK_EXODII_MERCHANT_Exodus3"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -833,9 +838,9 @@
   {
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
-    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much flesh an' bone.",
+    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone.",
     "//~": "English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
-    "speaker_effect": { "effect": { "u_add_var": "u_knows_about_exodization", "type": "knowledge", "context": "exodiilore", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" } },
     "responses": [
       {
         "text": "Well… could you help me fix that?",
@@ -853,7 +858,7 @@
       {
         "text": "Wait.  I thought you were still flesh and bone, under that metal.",
         "topic": "TALK_EXODII_MERCHANT_Survival2",
-        "condition": { "u_has_var": "rubik_is_cyborg", "type": "knowledge", "context": "exodiilore", "value": "yes" }
+        "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_is_cyborg", "value": "yes" }
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -865,6 +870,24 @@
     "dynamic_line": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.",
     "//~": "Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid.",
     "responses": [
+      {
+        "text": "What?  I mean, really, it seems like you're being hard to understand on purpose.  What are the 'willies'?",
+        "topic": "TALK_EXODII_MERCHANT_Survival3"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Survival3",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.  What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
+    "//~": "Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh out of the look on your face sometimes.  What I'm saying is, if my body were flesh and bone, the device we use to travel around dimensions would rip up the meat and leave me quite a mess.  We can take a bit, but too much… once time, I felt a bit of that, and I'm not in any rush to try it again.",
+    "responses": [
+      {
+        "text": "What?  I mean, really, it seems like you're being hard to understand on purpose.",
+        "topic": "TALK_EXODII_MERCHANT_Survival3"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]

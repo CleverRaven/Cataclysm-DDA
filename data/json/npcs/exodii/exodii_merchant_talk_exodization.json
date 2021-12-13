@@ -251,8 +251,6 @@
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_add_effect": "blind", "duration": "2 hours" },
-          { "u_add_effect": "deaf", "duration": "2 hours" },
           { "u_add_trait": "CBM_Interface" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
