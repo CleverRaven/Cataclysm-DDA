@@ -2163,7 +2163,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     int iheight = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "HOBBIES" ) );
+        draw_character_tabs( w, _( "BACKGROUND" ) );
 
         // Draw filter indicator
         for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
