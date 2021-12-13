@@ -908,7 +908,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK" ]
   },
   {
     "id": "kirpan",
