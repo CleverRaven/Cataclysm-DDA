@@ -355,12 +355,19 @@ class Tileset:
             if sheet.is_fallback:
                 fallback_name = sheet.name
                 continue
-            if sheet.is_filler and not main_finished:
+
+            if sheet.is_filler:
+                if main_finished:
+                    raise ComposingException(
+                        'All filler sheets must be placed after main sheets'
+                    )
+
                 create_tile_entries_for_unused(
                     self.handle_unreferenced_sprites('main'),
                     fillers=False
                 )
                 main_finished = True
+
             sheet_entries = []
 
             for tile_entry in sheet.tile_entries:
