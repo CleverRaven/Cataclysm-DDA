@@ -70,14 +70,6 @@ item *get_topmost_parent( item *topmost, item_location loc,
     return preset.is_shown( loc ) ? topmost != nullptr ? topmost : loc.get_item() : nullptr;
 }
 
-bool is_child( inventory_entry const &parent, inventory_entry const &child )
-{
-    return std::any_of( parent.locations.begin(), parent.locations.end(),
-    [&child]( item_location const & loc ) {
-        return loc.eventually_contains( child.any_item() );
-    } );
-}
-
 using parent_path_t = std::vector<item_location>;
 parent_path_t path_to_top( inventory_entry const &e )
 {
@@ -88,23 +80,6 @@ parent_path_t path_to_top( inventory_entry const &e )
         path.emplace_back( it );
     }
     return path;
-}
-
-using common_depth_t = std::pair<item_location, item_location>;
-common_depth_t common_depth( inventory_entry const &lhs, inventory_entry const &rhs )
-{
-    parent_path_t const path_lhs = path_to_top( lhs );
-    parent_path_t const path_rhs = path_to_top( rhs );
-    parent_path_t::size_type const common_depth = std::min( path_lhs.size(), path_rhs.size() );
-    item_location p_lhs = path_lhs[path_lhs.size() - common_depth];
-    item_location p_rhs = path_rhs[path_rhs.size() - common_depth];
-    // parent of both entries must be lowest common ancestor
-    while( p_lhs.has_parent() and p_lhs.parent_item() != p_rhs.parent_item() ) {
-        p_lhs = p_lhs.parent_item();
-        p_rhs = p_rhs.parent_item();
-    }
-
-    return std::make_pair( p_lhs, p_rhs );
 }
 
 } // namespace
@@ -984,6 +959,29 @@ bool inventory_column::sort_compare( inventory_entry const &lhs, inventory_entry
     return preset.sort_compare( lhs, rhs );
 }
 
+bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
+        inventory_entry const &rhs )
+{
+    // place children below all parents
+    parent_path_t const path_lhs = path_to_top( lhs );
+    parent_path_t const path_rhs = path_to_top( rhs );
+    parent_path_t::size_type const common_depth = std::min( path_lhs.size(), path_rhs.size() );
+    item_location p_lhs = path_lhs[path_lhs.size() - common_depth];
+    item_location p_rhs = path_rhs[path_rhs.size() - common_depth];
+    if( p_lhs == p_rhs ) {
+        return path_lhs.size() < path_rhs.size();
+    }
+    // otherwise sort the entries below their lowest common ancestor
+    while( p_lhs.has_parent() and p_lhs.parent_item() != p_rhs.parent_item() ) {
+        p_lhs = p_lhs.parent_item();
+        p_rhs = p_rhs.parent_item();
+    }
+
+    inventory_entry const ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
+    inventory_entry const ep_rhs( { p_rhs }, nullptr, true, 0, rhs.generation );
+    return sort_compare( ep_lhs, ep_rhs );
+}
+
 void inventory_column::prepare_paging( const std::string &filter )
 {
     if( paging_is_valid ) {
@@ -1034,20 +1032,7 @@ void inventory_column::prepare_paging( const std::string &filter )
         if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
             std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                 if( indent_entries() ) {
-                    // place children below all parents
-                    bool const rhs_is_child = is_child( lhs, rhs );
-                    if( rhs_is_child ) {
-                        return true;
-                    }
-                    bool const lhs_is_child = is_child( rhs, lhs );
-                    if( lhs_is_child ) {
-                        return false;
-                    }
-                    // otherwise sort the entries at their common level
-                    common_depth_t const common_level = common_depth( lhs, rhs );
-                    inventory_entry const ep_lhs( { common_level.first }, nullptr, true, 0, lhs.generation );
-                    inventory_entry const ep_rhs( { common_level.second }, nullptr, true, 0, rhs.generation );
-                    return sort_compare( ep_lhs, ep_rhs );
+                    return indented_sort_compare( lhs, rhs );
                 }
 
                 return sort_compare( lhs, rhs );

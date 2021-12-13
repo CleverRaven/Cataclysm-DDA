@@ -445,6 +445,7 @@ class inventory_column
         size_t page_of( const inventory_entry &entry ) const;
 
         bool sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
+        bool indented_sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
 
         /**
          * Indentation of the entry.
