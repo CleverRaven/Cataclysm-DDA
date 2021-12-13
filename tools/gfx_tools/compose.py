@@ -250,9 +250,15 @@ class Tileset:
         self.output_conf_file = conf_filename
         return self.output_conf_file
 
+    def drop_unused_fillers(self) -> None:
+        """
+        Remove fillers that weren't used
+        """
+        # FIXME: implement
+
     def cache_sprite_indexes(self) -> None:
         """
-        todo
+        Fill the sprite_index_cache
         """
         counter = 0
         for sheet in self.sheets.values():
@@ -307,12 +313,6 @@ class Tileset:
 
             typed_sheets[sheet_type].append(sheet)
 
-        # FIXME: drop unused fillers here
-        '''
-        drop_unused_fillers()
-        '''
-        self.cache_sprite_indexes()
-
         # combine config data in the correct order
         sheet_configs = typed_sheets['main'] + typed_sheets['filler'] \
             + typed_sheets['fallback']
@@ -356,17 +356,17 @@ class Tileset:
                 fallback_name = sheet.name
                 continue
 
-            if sheet.is_filler:
-                if main_finished:
-                    raise ComposingException(
-                        'All filler sheets must be placed after main sheets'
-                    )
-
+            if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
                     self.handle_unreferenced_sprites('main'),
                     fillers=False
                 )
                 main_finished = True
+
+            if not sheet.is_filler and main_finished:
+                raise ComposingException(
+                    'All filler sheets must be placed after main sheets'
+                )
 
             sheet_entries = []
 
@@ -401,6 +401,10 @@ class Tileset:
             self.handle_unreferenced_sprites('filler'),
             fillers=True,
         )
+
+        # FIXME: self.drop_unused_fillers()
+
+        self.cache_sprite_indexes()
 
         # finalize "tiles-new" config
         tiles_new = list(tiles_new_dict.values())
