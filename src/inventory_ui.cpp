@@ -273,6 +273,7 @@ nc_color inventory_entry::get_invlet_color() const
 void inventory_entry::update_cache()
 {
     cached_name = any_item()->tname( 1, false );
+    cached_name_full = any_item()->tname();
 }
 
 const item_category *inventory_entry::get_category_ptr() const
@@ -330,7 +331,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( e.cached_name, e.any_item()->tname(), e.generation );
+        return std::make_tuple( e.cached_name, e.cached_name_full, e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
@@ -1023,10 +1024,8 @@ void inventory_column::prepare_paging( const std::string &filter )
     // Then sort them with respect to categories
     auto from = entries.begin();
     while( from != entries.end() ) {
-        from->update_cache();
         auto to = std::next( from );
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-            to->update_cache();
             std::advance( to, 1 );
         }
         if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
