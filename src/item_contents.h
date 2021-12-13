@@ -64,6 +64,14 @@ class item_contents
         ret_val<bool> can_contain( const item &it ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+
+        /**
+         * returns whether any of the pockets can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, const bool now ) const;
+
         // does not ignore mods
         bool empty_real() const;
         bool empty() const;
@@ -71,6 +79,8 @@ class item_contents
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
+        // Checks if MAGAZINE pockets are all full
+        bool is_magazine_full() const;
         // are any CONTAINER pockets bigger on the inside than the container's volume?
         bool bigger_on_the_inside( const units::volume &container_volume ) const;
         // number of pockets

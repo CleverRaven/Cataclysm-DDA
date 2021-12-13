@@ -335,6 +335,13 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 
 
+## Bodyparts
+
+-```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+-```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
+
+
 ## Books
 
 - ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
@@ -919,6 +926,8 @@ Other monster flags.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters.
+- ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
+- ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.

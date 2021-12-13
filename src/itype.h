@@ -697,11 +697,22 @@ struct islot_gunmod : common_ranged_data {
     int sight_dispersion = -1;
 
     /**
-     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming.
-     *  Higher is better. In case of multiple usable sights,
-     *  the one with highest aim speed is used.
+    * If the target has not appeared in the scope, the aiming speed is relatively low.
+    * When the target appears in the scope, the aiming speed will be greatly accelerated.
+    * FoV uses a more realistic method to reflect the aiming speed of the sight to insteadthe original abstract aim_speed
+    */
+    int field_of_view = -1;
+
+    /**
+     *  Its position has been replaced by FoV.
+     *  But it is still retained due to compatibility considerations.
      */
     int aim_speed = -1;
+
+    /**
+    * This value is used to reflect other factors affecting aiming speed except Fov
+    */
+    double aim_speed_modifier = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;

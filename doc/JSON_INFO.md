@@ -631,8 +631,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | `base_hp`              | (_mandatory_) The amount of hp this part has before any modification.
 | `opposite_part`        | (_mandatory_) What is the opposite part of this one in case of a pair.
-| `hit_size`             | (_mandatory_) Size of the body part when doing an unweighted selection.
-| `hit_size_relative`    | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| `hit_size`             | (_mandatory_) Size of the body part for (melee) attack targeting.  Monster special attacks are capable of targeting set bodypart hitsizes (see `hitsize_min/max` in `MONSTERS.md`)
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched.
 | `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
@@ -666,7 +665,6 @@ For information about tools with option to export ASCII art in format ready to b
   "connected_to": "torso",
   "opposite_part": "arm_r",
   "hit_size": 9,
-  "hit_size_relative": [ 15, 20, 22.86 ],
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
@@ -712,12 +710,12 @@ Here are the currently defined limb scores:
 | `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
 | `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion.
+| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance and block effectivity.
-| `balance_score`        | Modifies thrown attack speed, melee attack rolls.
+| `reaction_score`       | Modifies dodge chance, block effectivity, melee weakpoint hit chances.
+| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost, twice as strongly as `footing_score`.
+| `movement_speed_score` | Modifies movement cost.
 | `swim_score`           | Modifies swim speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
@@ -1075,6 +1073,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
+| `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
 ```C++
 // Example of a monstergroup containing only "monster" entries:
@@ -1086,7 +1085,8 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
     { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
     { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
     { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
-    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] },
+    { "monster" : "mon_santa", "weight" : 500, "event" : "christmas" }
   ]
 },
 // Example of a monstergroup containing subgroups:

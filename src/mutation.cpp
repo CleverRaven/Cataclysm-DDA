@@ -479,6 +479,10 @@ void Character::mutation_loss_effect( const trait_id &mut )
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
+    if( !branch.enchantments.empty() ) {
+        recalculate_enchantment_cache();
+        recalculate_bodyparts();
+    }
 
     on_mutation_loss( mut );
 }
@@ -754,7 +758,7 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        mod_max_power_level( 100_kJ );
+        mod_max_power_level_modifier( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;

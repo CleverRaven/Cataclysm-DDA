@@ -304,6 +304,17 @@ bool item_contents::full( bool allow_bucket ) const
     return true;
 }
 
+bool item_contents::is_magazine_full() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE )
+            && pocket.full( false ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item_contents::bigger_on_the_inside( const units::volume &container_volume ) const
 {
     units::volume min_logical_volume = 0_ml;
@@ -707,6 +718,17 @@ bool item_contents::can_contain_liquid( bool held_or_ground ) const
         }
     }
     return false;
+}
+
+bool item_contents::can_reload_with( const item &ammo, const bool now ) const
+{
+    for( const item_pocket *pocket : get_all_reloadable_pockets() ) {
+        if( pocket->can_reload_with( ammo, now ) ) {
+            return true;
+        }
+    }
+    return false;
+
 }
 
 bool item_contents::can_unload_liquid() const
@@ -1413,7 +1435,7 @@ std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() co
     std::vector<const item_pocket *> pockets;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+        if( ( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.watertight() ) ||
             pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
             pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             pockets.push_back( &pocket );

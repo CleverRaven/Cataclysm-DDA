@@ -12,7 +12,6 @@
     "opposite_part": "bp_null",
     "limb_type": "other",
     "hit_size": 0,
-    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0,
     "side": "both",
     "base_hp": 60,
