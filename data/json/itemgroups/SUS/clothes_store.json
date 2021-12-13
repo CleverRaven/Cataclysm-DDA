@@ -70,7 +70,7 @@
               { "item": "scissors", "prob": 90 },
               { "item": "knitting_needles", "prob": 20 },
               { "item": "sewing_kit", "prob": 85, "charges-min": 0 },
-              { "item": "kevlar_shears", "prob": 75 }
+              { "item": "kevlar_shears", "prob": 5 }
             ],
             "prob": 25
           },
