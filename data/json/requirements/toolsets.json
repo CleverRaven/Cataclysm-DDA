@@ -69,9 +69,34 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting or repair of steel items or installation of vehicle parts",
+    "//": "Crafting of steel/iron items or installation of vehicle parts",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ]
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+	"components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "//": "Crafting items made of aluminium alloy or installation of vehicle parts",
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+	"components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ] ]
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "//": "Repair of steel/iron items",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+	"components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ], [ [ "steel_tiny", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "//": "Repair items made of aluminium alloy",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+	"components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
   },
   {
     "id": "chainmail_standard",
