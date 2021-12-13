@@ -81,12 +81,15 @@ class inventory_entry
         explicit inventory_entry( const std::vector<item_location> &locations,
                                   const item_category *custom_category = nullptr,
                                   bool enabled = true,
-                                  const size_t chosen_count = 0 ) :
+                                  const size_t chosen_count = 0,
+                                  size_t generation_number = 0 ) :
             locations( locations ),
             chosen_count( chosen_count ),
+            generation( generation_number ),
             custom_category( custom_category ),
-            enabled( enabled )
-        {}
+            enabled( enabled ) {
+            update_cache();
+        }
 
         bool operator==( const inventory_entry &other ) const;
         bool operator!=( const inventory_entry &other ) const {
@@ -151,6 +154,7 @@ class inventory_entry
         bool collapsed = false;
         // topmost visible parent, used for visibility checks
         item *topmost_parent = nullptr;
+        size_t generation = 0;
 
     private:
         const item_category *custom_category = nullptr;
@@ -437,6 +441,8 @@ class inventory_column
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
+
+        bool sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
 
         /**
          * Indentation of the entry.
@@ -800,6 +806,7 @@ class inventory_selector
         bool display_stats = true;
         bool use_invlet = true;
         selector_invlet_type invlet_type_ = SELECTOR_INVLET_DEFAULT;
+        size_t entry_generation_number = 0;
 
         static bool skip_unselectable;
 

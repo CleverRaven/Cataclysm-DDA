@@ -28,6 +28,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "sdltiles.h"
+#include "localized_comparator.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "trade_ui.h"
@@ -69,6 +70,43 @@ item *get_topmost_parent( item *topmost, item_location loc,
     return preset.is_shown( loc ) ? topmost != nullptr ? topmost : loc.get_item() : nullptr;
 }
 
+bool is_child( inventory_entry const &parent, inventory_entry const &child )
+{
+    return std::any_of( parent.locations.begin(), parent.locations.end(),
+    [&child]( item_location const & loc ) {
+        return loc.eventually_contains( child.any_item() );
+    } );
+}
+
+using parent_path_t = std::vector<item_location>;
+parent_path_t path_to_top( inventory_entry const &e )
+{
+    item_location it = e.any_item();
+    parent_path_t path{ it };
+    while( it.has_parent() ) {
+        it = it.parent_item();
+        path.emplace_back( it );
+    }
+    return path;
+}
+
+using common_depth_t = std::pair<item_location, item_location>;
+common_depth_t common_depth( inventory_entry const &lhs, inventory_entry const &rhs )
+{
+    parent_path_t const path_lhs = path_to_top( lhs );
+    parent_path_t const path_rhs = path_to_top( rhs );
+    parent_path_t::size_type const common_depth = std::min( path_lhs.size(), path_rhs.size() );
+    item_location p_lhs = path_lhs[path_lhs.size() - common_depth];
+    item_location p_rhs = path_rhs[path_rhs.size() - common_depth];
+    // parent of both entries must be lowest common ancestor
+    while( p_lhs.has_parent() and p_lhs.parent_item() != p_rhs.parent_item() ) {
+        p_lhs = p_lhs.parent_item();
+        p_rhs = p_rhs.parent_item();
+    }
+
+    return std::make_pair( p_lhs, p_rhs );
+}
+
 } // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -90,7 +128,7 @@ static const int normal_column_gap = 8;
 static const double min_ratio_to_center = 0.85;
 
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
-static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
+static const std::set<std::string> ordered_categories = {};
 
 bool inventory_selector::skip_unselectable = false;
 
@@ -238,7 +276,7 @@ nc_color inventory_entry::get_invlet_color() const
 
 void inventory_entry::update_cache()
 {
-    cached_name = any_item()->tname( 1 );
+    cached_name = any_item()->tname( 1, false );
 }
 
 const item_category *inventory_entry::get_category_ptr() const
@@ -295,7 +333,10 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
-    return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
+    auto const sort_key = []( inventory_entry const & e ) {
+        return std::make_tuple( e.cached_name, e.any_item()->tname(), e.generation );
+    };
+    return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
 
 bool inventory_selector_preset::cat_sort_compare( const inventory_entry &lhs,
@@ -812,72 +853,6 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
     // stub
 }
 
-void inventory_column::order_by_parent()
-{
-    std::unordered_map<std::uintptr_t, size_t> original_order;
-    original_order.reserve( entries.size() );
-    for( size_t idx = 0; idx < entries.size(); ++idx ) {
-        if( entries[idx].is_item() ) {
-            for( const item_location &loc : entries[idx].locations ) {
-                original_order.emplace( reinterpret_cast<std::uintptr_t>( &*loc ), idx );
-            }
-        } else {
-            original_order.emplace( reinterpret_cast<std::uintptr_t>( &entries[idx] ), idx );
-        }
-    }
-
-    struct entry_info {
-        inventory_entry entry;
-        std::vector<size_t> recursive_order;
-
-        entry_info( inventory_entry &&moved_entry,
-                    const std::unordered_map<std::uintptr_t, size_t> &original_order )
-            : entry( std::move( moved_entry ) ) {
-            if( entry.is_item() ) {
-                item_location loc = entry.any_item();
-                while( true ) {
-                    const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &*loc );
-                    const auto it = original_order.find( uintptr );
-                    if( it != original_order.end() ) {
-                        recursive_order.emplace_back( it->second );
-                    }
-                    if( loc.has_parent() ) {
-                        loc = loc.parent_item();
-                    } else {
-                        break;
-                    }
-                }
-                std::reverse( recursive_order.begin(), recursive_order.end() );
-            } else {
-                const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &moved_entry );
-                const auto it = original_order.find( uintptr );
-                if( it != original_order.end() ) {
-                    recursive_order.emplace_back( it->second );
-                }
-            }
-        }
-
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator inventory_entry &&() && { // *NOPAD*
-            return std::move( entry );
-        }
-
-        bool operator<( const entry_info &rhs ) const {
-            return recursive_order < rhs.recursive_order;
-        }
-    };
-
-    std::vector<entry_info> sorted_entries;
-    sorted_entries.reserve( entries.size() );
-    for( inventory_entry &entry : entries ) {
-        sorted_entries.emplace_back( std::move( entry ), original_order );
-    }
-    std::stable_sort( sorted_entries.begin(), sorted_entries.end() );
-
-    entries.assign( std::make_move_iterator( sorted_entries.begin() ),
-                    std::make_move_iterator( sorted_entries.end() ) );
-}
-
 void inventory_column::add_entry( const inventory_entry &entry )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
@@ -914,6 +889,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             inventory_entry nentry( locations, entry.get_category_ptr() );
             nentry.topmost_parent = entry_with_loc->topmost_parent;
+            nentry.generation = entry_with_loc->generation;
             entries.erase( entry_with_loc );
             add_entry( nentry );
         }
@@ -937,6 +913,30 @@ void inventory_column::move_entries_to( inventory_column &dest )
     }
     dest.prepare_paging();
     clear();
+}
+
+bool inventory_column::sort_compare( inventory_entry const &lhs, inventory_entry const &rhs )
+{
+    if( lhs.is_selectable() != rhs.is_selectable() ) {
+        return lhs.is_selectable(); // Disabled items always go last
+    }
+    Character &player_character = get_player_character();
+    // Place favorite items and items with an assigned inventory letter first,
+    // since the player cared enough to assign them
+    const bool left_has_invlet =
+        player_character.inv->assigned_invlet.count( lhs.any_item()->invlet ) != 0;
+    const bool right_has_invlet =
+        player_character.inv->assigned_invlet.count( rhs.any_item()->invlet ) != 0;
+    if( left_has_invlet != right_has_invlet ) {
+        return left_has_invlet;
+    }
+    const bool left_fav = lhs.any_item()->is_favorite;
+    const bool right_fav = rhs.any_item()->is_favorite;
+    if( left_fav != right_fav ) {
+        return left_fav;
+    }
+
+    return preset.sort_compare( lhs, rhs );
 }
 
 void inventory_column::prepare_paging( const std::string &filter )
@@ -984,23 +984,24 @@ void inventory_column::prepare_paging( const std::string &filter )
         }
         if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
             std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
-                if( lhs.is_selectable() != rhs.is_selectable() ) {
-                    return lhs.is_selectable(); // Disabled items always go last
+                if( indent_entries() ) {
+                    // place children below all parents
+                    bool const rhs_is_child = is_child( lhs, rhs );
+                    if( rhs_is_child ) {
+                        return true;
+                    }
+                    bool const lhs_is_child = is_child( rhs, lhs );
+                    if( lhs_is_child ) {
+                        return false;
+                    }
+                    // otherwise sort the entries at their common level
+                    common_depth_t const common_level = common_depth( lhs, rhs );
+                    inventory_entry const ep_lhs( { common_level.first }, nullptr, true, 0, lhs.generation );
+                    inventory_entry const ep_rhs( { common_level.second }, nullptr, true, 0, rhs.generation );
+                    return sort_compare( ep_lhs, ep_rhs );
                 }
-                Character &player_character = get_player_character();
-                // Place favorite items and items with an assigned inventory letter first,
-                // since the player cared enough to assign them
-                const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
-                const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
-                if( left_has_invlet != right_has_invlet ) {
-                    return left_has_invlet;
-                }
-                const bool left_fav = lhs.any_item()->is_favorite;
-                const bool right_fav = rhs.any_item()->is_favorite;
-                if( left_fav != right_fav ) {
-                    return left_fav;
-                }
-                return preset.sort_compare( lhs, rhs );
+
+                return sort_compare( lhs, rhs );
             } );
         }
         from = to;
@@ -1433,6 +1434,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
 
     entry.collapsed = locations.front()->is_collapsed();
     entry.topmost_parent = topmost_parent;
+    entry.generation = entry_generation_number++;
     target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -1474,6 +1476,11 @@ void inventory_selector::add_items( inventory_column &target_column,
         }
 
         add_entry( target_column, std::move( locations ), nat_category );
+        for( item *it_elem : elem ) {
+            item_location parent = locator( it_elem );
+            add_contained_items( parent, target_column, custom_category, get_topmost_parent( nullptr, parent,
+                                 preset ) );
+        }
     }
 }
 
@@ -1533,11 +1540,6 @@ void inventory_selector::add_character_items( Character &character )
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
         &item_category_ITEMS_WORN.obj() );
-        for( item &it_elem : *elem ) {
-            item_location parent( character, &it_elem );
-            add_contained_items( parent, own_inv_column, &item_category_ITEMS_WORN.obj(),
-                                 get_topmost_parent( nullptr, parent, preset ) );
-        }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
     // and this function iterates over all the entries after we added them to the inventory selector
@@ -1557,12 +1559,6 @@ void inventory_selector::add_map_items( const tripoint &target )
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( map_cursor( target ), it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), custom_cat );
-
-        for( item &it_elem : items ) {
-            item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
-                                 preset ) );
-        }
     }
 }
 
@@ -1585,12 +1581,6 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), custom_cat );
-
-    for( item &it_elem : items ) {
-        item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column, custom_cat, get_topmost_parent( nullptr, parent,
-                             preset ) );
-    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
@@ -2417,7 +2407,6 @@ void inventory_selector::toggle_categorize_contained()
                        /*custom_category=*/custom_category,
                        /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
         }
-        own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
     if( !highlighted.empty() ) {
