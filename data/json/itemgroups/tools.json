@@ -549,7 +549,7 @@
       [ "scissors", 1000 ],
       { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 120, "charges-min": 0 },
-      [ "kevlar_shears", 500 ]
+      [ "kevlar_shears", 40 ]
     ]
   },
   {
