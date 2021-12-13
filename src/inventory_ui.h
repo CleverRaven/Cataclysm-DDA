@@ -120,6 +120,10 @@ class inventory_entry
             return is_item() && enabled;
         }
 
+        bool is_highlightable( bool skip_unselectable ) const {
+            return is_item() && ( enabled || !skip_unselectable );
+        }
+
         const item_location &any_item() const {
             if( locations.empty() ) {
                 debugmsg( "inventory_entry::any_item called on a non-item entry.  "
@@ -307,8 +311,8 @@ class inventory_column
          */
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
-        const inventory_entry &get_selected() const;
-        inventory_entry &get_selected();
+        const inventory_entry &get_highlighted() const;
+        inventory_entry &get_highlighted();
         std::vector<inventory_entry *> get_all_selected() const;
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
@@ -328,18 +332,18 @@ class inventory_column
 
         void set_collapsed( inventory_entry &entry, const bool collapse );
 
-        /** Selects the specified location. */
-        bool select( const item_location &loc );
+        /** Highlights the specified location. */
+        bool highlight( const item_location &loc );
 
         /**
-         * Change the selection.
-         * @param new_index Index of the entry to select.
-         * @param dir If the entry is not selectable, move in the specified direction
+         * Change the highlight.
+         * @param new_index Index of the entry to highlight.
+         * @param dir If the entry is not highlightable, move in the specified direction
          */
-        void select( size_t new_index, scroll_direction dir );
+        void highlight( size_t new_index, scroll_direction dir );
 
-        size_t get_selected_index() {
-            return selected_index;
+        size_t get_highlighted_index() {
+            return highlighted_index;
         }
 
         void set_multiselect( bool multiselect ) {
@@ -412,6 +416,9 @@ class inventory_column
             parent_indentation = new_indentation;
         }
 
+        /** Toggle being able to highlight unselectable entries*/
+        void toggle_skip_unselectable( bool skip );
+
     protected:
         struct entry_cell_cache_t {
             bool assigned = false;
@@ -426,7 +433,7 @@ class inventory_column
         void move_selection( scroll_direction dir );
         void move_selection_page( scroll_direction dir );
 
-        size_t next_selectable_index( size_t index, scroll_direction dir ) const;
+        size_t next_highlightable_index( size_t index, scroll_direction dir ) const;
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
@@ -460,7 +467,7 @@ class inventory_column
         bool paging_is_valid = false;
         bool visibility = true;
 
-        size_t selected_index = std::numeric_limits<size_t>::max();
+        size_t highlighted_index = std::numeric_limits<size_t>::max();
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
@@ -487,6 +494,8 @@ class inventory_column
         size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
+
+        bool skip_unselectable = false;
 };
 
 class selection_column : public inventory_column
@@ -667,7 +676,7 @@ class inventory_selector
         std::vector<inventory_column *> get_visible_columns() const;
 
         std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
-        /** Highlight parent and contents of selected item.
+        /** Highlight parent and contents of highlighted item.
         */
         void highlight();
 
@@ -703,28 +712,28 @@ class inventory_selector
 
     public:
         /**
-         * Select a location
-         * @param loc Location to select
+         * Highlight a location
+         * @param loc Location to highlight
          * @return true on success.
          */
-        bool select( const item_location &loc );
+        bool highlight( const item_location &loc );
 
-        const inventory_entry &get_selected() {
-            return get_active_column().get_selected();
+        const inventory_entry &get_highlighted() {
+            return get_active_column().get_highlighted();
         }
 
-        void select_position( std::pair<size_t, size_t> position ) {
+        void highlight_position( std::pair<size_t, size_t> position ) {
             prepare_layout();
             set_active_column( position.first );
-            get_active_column().select( position.second, scroll_direction::BACKWARD );
+            get_active_column().highlight( position.second, scroll_direction::BACKWARD );
         }
 
-        bool select_one_of( const std::vector<item_location> &locations );
+        bool highlight_one_of( const std::vector<item_location> &locations );
 
-        std::pair<size_t, size_t> get_selection_position() {
+        std::pair<size_t, size_t> get_highlighted_position() {
             std::pair<size_t, size_t> position;
             position.first = active_column_index;
-            position.second = get_active_column().get_selected_index();
+            position.second = get_active_column().get_highlighted_index();
             return position;
         }
 
@@ -735,6 +744,7 @@ class inventory_selector
 
         void toggle_categorize_contained();
         void set_active_column( size_t index );
+        void toggle_skip_unselectable();
 
     protected:
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
@@ -790,6 +800,8 @@ class inventory_selector
         bool display_stats = true;
         bool use_invlet = true;
         selector_invlet_type invlet_type_ = SELECTOR_INVLET_DEFAULT;
+
+        static bool skip_unselectable;
 
     public:
         std::string action_bound_to_key( char key ) const;
