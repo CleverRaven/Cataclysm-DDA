@@ -859,6 +859,8 @@
     "type": "talk_topic",
     "dynamic_line": "Spread, aye, through the wibbles, but we ain't ken on how.  After the green an' brown be to grey and black, so t'speak, Rubik be long gone.  On a moment, we folk've sent back a lover's robe or so t'the deadlands what left, but narry have returned.  An I'm ken, there be only one course from here.",
     "//~": "Spread, yes, through the portals, but we don't know how.  After the world is down to dust, I'm long gone.  Once or twice we've send back a probe to the deadlands we left behind, but none have returned.  As far as I know, there's only one way it goes from here.",
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "probes_dont_return", "value": "yes" } },
+    "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
     "responses": [
       {
         "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
@@ -881,6 +883,10 @@
       {
         "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough"
+        "//": "While many people face the possibility of destruction with planning and hope, and the exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
+        "effect": [
+          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 2 }
+        ],
       },
       {
         "text": "So what do you do, then?  How do you get out, and how do I do that?",
