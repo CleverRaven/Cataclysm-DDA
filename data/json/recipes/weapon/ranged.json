@@ -695,7 +695,7 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_bowyery" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
