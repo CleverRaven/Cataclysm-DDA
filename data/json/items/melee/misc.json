@@ -60,7 +60,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "stun gun" },
-    "description": "This is a high-powered stun gun.  Carrying nearly a hundred times the shocking power of traditional models, this was made to \"nonlethally subdue\" rioters in the early days of the Cataclysm and it induces paralysis, extreme pain and even cardiac arrest in short order.  Use this item to attempt to electrocute an adjacent enemy, damaging and temporarily paralyzing them.  Because the shock can actually jump through the air, it is difficult to miss.",
+    "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, temporarily paralyzing them.",
     "weight": "151 g",
     "volume": "250 ml",
     "price": 14000,
