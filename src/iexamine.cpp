@@ -1607,26 +1607,41 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
-
     map &here = get_map();
-    if( best_prying.is_null() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-            locked_object_pickable( you, examp );
-        } else {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
+    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK );
+    const bool has_prying = !best_prying.is_null();
+    const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
+                          ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
+    int action = -1;
+
+    if( has_prying && can_pick ) {
+        uilist amenu;
+        amenu.text = string_format( _( "What to do with the %s?" ),
+                                    here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        amenu.addentry( 0, true, 'p', _( "Pry open" ) );
+        amenu.addentry( 1, true, 'l', _( "Pick the lock" ) );
+        amenu.query();
+        if( amenu.ret < 0 || amenu.ret > 1 ) {
+            return;
         }
-        return;
+        action = amenu.ret;
+    } else {
+        action = has_prying ? 0 : can_pick ? 1 : -1;
     }
 
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
-
-    iuse::crowbar( &you, &best_prying, false, examp );
+    if( action == -1 ) {
+        add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
+                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        return;
+    } else if( action == 0 ) {
+        //~ %1$s: terrain/furniture name, %2$s: prying tool name
+        you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                               here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
+        iuse::crowbar( &you, &best_prying, false, examp );
+    } else if( action == 1 ) {
+        locked_object_pickable( you, examp );
+    }
 }
 
 /**
