@@ -250,12 +250,6 @@ class Tileset:
         self.output_conf_file = conf_filename
         return self.output_conf_file
 
-    def drop_unused_fillers(self) -> None:
-        """
-        Remove fillers that weren't used
-        """
-        # FIXME: implement
-
     def cache_sprite_indexes(self) -> None:
         """
         Fill the sprite_index_cache
@@ -402,8 +396,6 @@ class Tileset:
             fillers=True,
         )
 
-        # FIXME: self.drop_unused_fillers()
-
         self.cache_sprite_indexes()
 
         # finalize "tiles-new" config
@@ -444,6 +436,7 @@ class Tileset:
                 log.warning(
                     'sprite filename %s was not used in any %s %s entries',
                     pngname, sheet_type, self.output_conf_file)
+
         return []
 
 
