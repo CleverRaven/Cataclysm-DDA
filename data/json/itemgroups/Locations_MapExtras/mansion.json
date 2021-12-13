@@ -1303,7 +1303,7 @@
       [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
       { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] },
-      [ "kevlar_shears", 30 ]
+      [ "kevlar_shears", 5 ]
     ]
   },
   {
