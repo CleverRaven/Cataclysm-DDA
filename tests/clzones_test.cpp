@@ -13,8 +13,6 @@
 
 static const faction_id faction_your_followers( "your_followers" );
 
-static const item_category_id item_category_food( "food" );
-
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
