@@ -1340,7 +1340,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 2 ], [ "rifles", 3 ] ],
+    "skills_required": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "difficulty": 3,
     "time": "25 m",
     "using": [ [ "welding_standard", 10 ] ],
