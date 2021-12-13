@@ -166,6 +166,19 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
     // TEMPORARY until 0.G: Remove "ident" support
