@@ -3797,7 +3797,8 @@ int Character::get_speed() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() + int( Character::has_proficiency( proficiency_prof_spotting ) ) *
+    return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
+                proficiency_prof_spotting ) ) *
            Character::get_per_base();
 }
 

@@ -710,12 +710,12 @@ Here are the currently defined limb scores:
 | `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
 | `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion.
+| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance and block effectivity.
-| `balance_score`        | Modifies thrown attack speed, melee attack rolls.
+| `reaction_score`       | Modifies dodge chance, block effectivity, melee weakpoint hit chances.
+| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost, twice as strongly as `footing_score`.
+| `movement_speed_score` | Modifies movement cost.
 | `swim_score`           | Modifies swim speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
