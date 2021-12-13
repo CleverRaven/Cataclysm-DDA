@@ -1366,7 +1366,7 @@ void selection_column::on_change( const inventory_entry &entry )
             return; // Not interested.
         }
         add_entry( my_entry );
-        prepare_paging();
+        paging_is_valid = false;
         last_changed = my_entry;
     } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
@@ -1376,7 +1376,6 @@ void selection_column::on_change( const inventory_entry &entry )
             iter = entries.erase( iter );
         }
         paging_is_valid = false;
-        prepare_paging();
         if( iter != entries.end() ) {
             last_changed = *iter;
         }
@@ -2760,6 +2759,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         deselect_contained_items();
     }
 
+    selection_col->prepare_paging();
     count = 0;
 }
 
