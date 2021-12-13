@@ -169,7 +169,7 @@
                 "distribution": [
                   {
                     "collection": [
-                      { "item": "maid_dress", "prob": 100, "damage": [ 1, 4 ] },
+                      { "group": "mansion_maid_dress", "prob": 100, "damage": [ 1, 4 ] },
                       { "item": "maid_hat", "prob": 80, "damage": [ 1, 4 ] },
                       { "item": "long_glove_white", "prob": 60, "damage": [ 1, 4 ] },
                       {

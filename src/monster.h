@@ -391,6 +391,7 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
+        bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
         monster_horde_attraction get_horde_attraction();

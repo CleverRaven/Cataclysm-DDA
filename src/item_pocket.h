@@ -179,6 +179,13 @@ class item_pocket
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
+        /**
+         * returns whether this pocket can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, const bool now ) const;
+
         units::length max_containable_length() const;
         units::length min_containable_length() const;
 

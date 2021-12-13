@@ -77,7 +77,7 @@
         "distribution": [ { "item": "dress_shoes", "prob": 10 }, { "group": "shoes_womens", "prob": 90 } ],
         "prob": 90
       },
-      { "item": "maid_dress" },
+      { "group": "private_resort_maid_dress", "prob": 100 },
       { "item": "maid_hat", "prob": 66 }
     ]
   },
@@ -181,5 +181,11 @@
       { "item": "PR24-retracted", "prob": 50 },
       { "item": "shot_beanbag", "prob": 50 }
     ]
+  },
+  {
+    "id": "private_resort_maid_dress",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "maid_dress", 20 ], [ "maid_dress_short", 80 ] ]
   }
 ]

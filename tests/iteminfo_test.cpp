@@ -1503,16 +1503,16 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
         CHECK( item_info_str( glock, aim_stats ) ==
                "--\n"
-               "<color_c_white>Base aim speed</color>: <color_c_yellow>104</color>\n"
+               "<color_c_white>Base aim speed</color>: <color_c_yellow>48</color>\n"
                "<color_c_cyan>Regular</color>\n"
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
-               "Time to reach aim level: <color_c_yellow>115</color> moves\n"
+               "Time to reach aim level: <color_c_yellow>99</color> moves\n"
                "<color_c_cyan>Careful</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>4</color>\n"
-               "Time to reach aim level: <color_c_yellow>145</color> moves\n"
+               "Even chance of good hit at range: <color_c_yellow>5</color>\n"
+               "Time to reach aim level: <color_c_yellow>135</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>6</color>\n"
-               "Time to reach aim level: <color_c_yellow>174</color> moves\n" );
+               "Even chance of good hit at range: <color_c_yellow>8</color>\n"
+               "Time to reach aim level: <color_c_yellow>263</color> moves\n" );
     }
 
     SECTION( "compatible magazines" ) {
@@ -1650,7 +1650,8 @@ TEST_CASE( "gunmod info", "[iteminfo][gunmod]" )
     std::vector<iteminfo_parts> no_sights = { iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS };
     std::vector<iteminfo_parts> consumable = { iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE };
     std::vector<iteminfo_parts> disp_sight = { iteminfo_parts::GUNMOD_DISPERSION_SIGHT };
-    std::vector<iteminfo_parts> aim_speed = { iteminfo_parts::GUNMOD_AIMSPEED };
+    std::vector<iteminfo_parts> field_of_view = { iteminfo_parts::GUNMOD_FIELD_OF_VIEW};
+    std::vector<iteminfo_parts> aim_speed_modifier = { iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER };
     std::vector<iteminfo_parts> damage = { iteminfo_parts::GUNMOD_DAMAGE };
     std::vector<iteminfo_parts> handling = { iteminfo_parts::GUNMOD_HANDLING };
     std::vector<iteminfo_parts> usedon = { iteminfo_parts::GUNMOD_USEDON };
@@ -1696,9 +1697,13 @@ TEST_CASE( "gunmod info", "[iteminfo][gunmod]" )
            "--\n"
            "Sight dispersion: <color_c_yellow>11</color>\n" );
 
-    CHECK( item_info_str( supp, aim_speed ) ==
+    CHECK( item_info_str( supp, field_of_view ) ==
            "--\n"
-           "Aim speed: <color_c_yellow>4</color>\n" );
+           "Field of view: <color_c_yellow>300</color>\n" );
+
+    CHECK( item_info_str( supp, aim_speed_modifier ) ==
+           "--\n"
+           "Aim speed modifier: <color_c_yellow>0</color>\n" );
 
     CHECK( item_info_str( supp, damage ) ==
            "--\n"
@@ -2352,14 +2357,14 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
            "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
            " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
            " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
-           " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
-           " wire (5).\n" );
+           " yield</color>: 2 electronic scraps, 1 copper, 1 scrap metal, and 5 copper"
+           " wire.\n" );
 
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"
            "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
            " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
-           " yield</color>: TEST small metal sheet (24).\n" );
+           " yield</color>: 24 TEST small metal sheet.\n" );
 }
 
 // Related JSON fields:

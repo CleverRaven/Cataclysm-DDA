@@ -166,10 +166,10 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
         if( !u.activity.targets.empty() ) {
-            position_set = inv_s.select_one_of( u.activity.targets );
+            position_set = inv_s.highlight_one_of( u.activity.targets );
         }
         if( !position_set && u.activity.values.size() >= 2 ) {
-            inv_s.select_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
+            inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
         }
     }
 
@@ -185,12 +185,12 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     if( u.has_activity( consuming ) ) {
         u.activity.values.clear();
-        const auto init_pair = inv_s.get_selection_position();
+        const auto init_pair = inv_s.get_highlighted_position();
         u.activity.values.push_back( init_pair.first );
         u.activity.values.push_back( init_pair.second );
         u.activity.str_values.clear();
         u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = inv_s.get_selected().locations;
+        u.activity.targets = inv_s.get_highlighted().locations;
     }
 
     return location;
@@ -218,7 +218,7 @@ void game_menus::inv::common( avatar &you )
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.select( location );
+            inv_s.highlight( location );
         }
 
         location = inv_s.execute();
@@ -253,7 +253,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
         inv_s.add_contained_items( loc );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.select( location );
+            inv_s.highlight( location );
         }
 
         location = inv_s.execute();

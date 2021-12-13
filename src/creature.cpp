@@ -725,7 +725,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = bp == nullptr ? select_body_part( source, hit_spread ) : *bp;
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -2640,16 +2641,17 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
-bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
+
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
-
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
+    if( !is_monster() && !can_attack_high ) {
+        can_attack_high = as_character()->is_on_ground();
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

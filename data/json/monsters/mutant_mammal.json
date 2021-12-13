@@ -124,7 +124,7 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
@@ -167,7 +167,7 @@
     "looks_like": "mon_cat_kitten",
     "melee_cut": 2,
     "dodge": 14,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
@@ -208,6 +208,7 @@
     "special_attacks": [
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 10 } ]
       }

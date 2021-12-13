@@ -228,7 +228,8 @@ bool item_pocket::same_contents( const item_pocket &rhs ) const
                        rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
         return a.typeId() == b.typeId() &&
-               a.charges == b.charges;
+               a.charges == b.charges &&
+               a.same_contents( b );
     } );
 }
 
@@ -658,12 +659,13 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
     }
     int ammo_count = 0;
     if( !contents.empty() ) {
-        if( ammo != contents.front().ammo_type() ) {
-            return 0;
-        } else {
-            for( const item &it : contents ) {
-                ammo_count += it.count();
+        for( const item &it : contents ) {
+            if( it.has_flag( flag_CASING ) ) {
+                continue;
+            } else if( ammo != it.ammo_type() ) {
+                return 0;
             }
+            ammo_count += it.count();
         }
     }
     return total_capacity - ammo_count;
@@ -1196,11 +1198,9 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
                        contain_code::ERR_AMMO, _( "item is not an ammo" ) );
         }
 
-        const ammotype it_ammo = it.ammo_type();
         const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
 
-        if( ammo_restriction_iter == data->ammo_restriction.end() || ( !contents.empty() &&
-                it_ammo != contents.front().ammo_type() ) ) {
+        if( ammo_restriction_iter == data->ammo_restriction.end() ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }
@@ -1264,6 +1264,17 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
 
     if( !compatible.success() ) {
         return compatible;
+    }
+
+    if( data->type == item_pocket::pocket_type::MAGAZINE && !empty() ) {
+        for( const item &contained : contents ) {
+            if( contained.has_flag( flag_CASING ) ) {
+                continue;
+            } else if( contained.ammo_type() != it.ammo_type() ) {
+                return ret_val<item_pocket::contain_code>::make_failure(
+                           contain_code::ERR_NO_SPACE, _( "can't mix different ammo" ) );
+            }
+        }
     }
 
     if( data->ablative && !contents.empty() ) {
@@ -1350,6 +1361,82 @@ bool item_pocket::can_contain_liquid( bool held_or_ground ) const
 bool item_pocket::contains_phase( phase_id phase ) const
 {
     return !empty() && contents.front().made_of( phase );
+}
+
+bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
+{
+    if( is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        // Only watertight container pockets are reloadable
+        if( !watertight() ) {
+            return false;
+        }
+
+        // CONTAINER pockets can reload liquids only
+        if( !ammo.made_of( phase_id::LIQUID ) ) {
+            return false;
+        }
+    }
+
+    if( ammo.has_flag( flag_SPEEDLOADER ) ) {
+        // The speedloader needs to be compatible,
+        // The ammo in it needs to be compatible,
+        // and the pocket needs to be empty (except casings)
+        return allows_speedloader( ammo.typeId() ) &&
+               is_compatible( ammo.loaded_ammo() ).success() &&
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) == ammo_capacity(
+                     ammo.loaded_ammo().ammo_type() ) );
+    }
+
+    if( !is_compatible( ammo ).success() ) {
+        return false;
+    }
+
+    if( !now ) {
+        return true;
+    } else {
+        // Require that the new ammo can fit in with the old ammo.
+
+        // No need to combine if empty.
+        if( empty() ) {
+            return true;
+        }
+
+        if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            // Reloading is refused if
+            // Pocket contains ammo that can't combine (empty casings ignored)
+            // Pocket is full of ammo
+
+            if( full( false ) ) {
+                return false;
+            }
+
+            for( const item *loaded : all_items_top() ) {
+                if( loaded->has_flag( flag_CASING ) ) {
+                    continue;
+                }
+                if( !loaded->can_combine( ammo ) ) {
+                    return false;
+                }
+            }
+
+            return true;
+
+        } else if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            // Reloading is refused if there already is full magazine here
+            // Pocket can't know what ammo are compatible with the item so that is checked elsewhere
+
+            if( !front().is_magazine_full() ) {
+                return true;
+            }
+        } else if( is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // Reloading is possible if liquid combines with old liquid
+
+            if( front().can_combine( ammo ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 cata::optional<item> item_pocket::remove_item( const item &it )
@@ -1568,6 +1655,19 @@ bool item_pocket::full( bool allow_bucket ) const
     if( !allow_bucket && will_spill() ) {
         return true;
     }
+
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) && !data->ammo_restriction.empty() ) {
+        // Fullness from remaining ammo capacity instead of volume
+        for( const item &it : contents ) {
+            if( it.has_flag( flag_CASING ) ) {
+                continue;
+            } else {
+                return remaining_ammo_capacity( it.ammo_type() ) == 0;
+            }
+        }
+        return false;
+    }
+
     return remaining_volume() == 0_ml;
 }
 
