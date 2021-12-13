@@ -2128,7 +2128,7 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     } else if( mode == TargetMode::Fire ) {
-        sight_dispersion = relevant->sight_dispersion( *you ).second;
+        sight_dispersion = you->most_accurate_aiming_method_limit( *relevant );
     }
 
     map &here = get_map();
