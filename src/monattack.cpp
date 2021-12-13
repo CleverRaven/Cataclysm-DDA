@@ -3330,7 +3330,7 @@ void mattack::taze( monster *z, Creature *target )
     }
 
     if( tazer_was_armored ) {
-        target->add_msg_if_player( m_bad, _( "The %s attempts to shock you but your thick armor stops it." ),
+        target->add_msg_if_player( m_bad, _( "The %s unsuccessfully attempts to shock you." ),
                                    z->name() );
         return;
     }   
