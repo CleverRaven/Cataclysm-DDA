@@ -3322,7 +3322,7 @@ void mattack::taze( monster *z, Creature *target )
     const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
     const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
     const bool tazer_was_armored = dice( 15, 10 ) < dice( tazer_resistance, 10 );
-    
+
     if( tazer_was_dodged || target->uncanny_dodge() ) {
         target->add_msg_if_player( m_bad, _( "The %s attempts to shock you but you dodge." ),
                                    z->name() );
@@ -3333,7 +3333,7 @@ void mattack::taze( monster *z, Creature *target )
         target->add_msg_if_player( m_bad, _( "The %s unsuccessfully attempts to shock you." ),
                                    z->name() );
         return;
-    }   
+    }
 
     int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
                                    rng( 1,
