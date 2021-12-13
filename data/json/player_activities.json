@@ -221,7 +221,7 @@
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "disassembly",
+    "verb": "disassembling",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
@@ -323,6 +323,14 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "training",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_SOCIALIZE",
@@ -573,6 +581,15 @@
     "verb": "aiming",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_PULL_CREATURE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "pulling a creature",
+    "suspendable": false,
+    "based_on": "time",
     "no_resume": true
   },
   {
@@ -879,6 +896,16 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_VIEW_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "viewing recipe",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",

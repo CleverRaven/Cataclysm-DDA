@@ -5,6 +5,7 @@
     "categories": [ "warfare" ],
     "location": "structure",
     "symbol": "X",
+    "symbols": { "rear": "X", "left": "X", "right": "X" },
     "broken_symbol": "*",
     "damage_modifier": 150,
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",

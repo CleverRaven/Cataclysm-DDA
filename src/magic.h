@@ -74,6 +74,7 @@ enum class spell_flag : int {
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     LAST
 };
 
@@ -690,6 +691,8 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+// intended to be a spell version of Character::longpull
+void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
@@ -737,6 +740,7 @@ effect_map{
     { "ter_transform", spell_effect::transform_blast },
     { "noise", spell_effect::noise },
     { "vomit", spell_effect::vomit },
+    { "pull_target", spell_effect::pull_to_caster },
     { "explosion", spell_effect::explosion },
     { "flashbang", spell_effect::flashbang },
     { "mod_moves", spell_effect::mod_moves },

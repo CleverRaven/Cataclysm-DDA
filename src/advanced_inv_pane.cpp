@@ -230,6 +230,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
+        map_cursor loc_cursor( square.pos );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::vector<item_location> locs;
             locs.reserve( stacks[x].size() );
@@ -237,7 +238,18 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 if( is_in_vehicle ) {
                     locs.emplace_back( vehicle_cursor( *square.veh, square.vstor ), it );
                 } else {
-                    locs.emplace_back( map_cursor( square.pos ), it );
+                    locs.emplace_back( loc_cursor, it );
+                    if( it->is_corpse() ) {
+                        for( item *loot : it->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                            if( !is_filtered( *loot ) ) {
+                                advanced_inv_listitem aim_item( item_location( loc_cursor, loot ), 0, loot->count(), square.id,
+                                                                is_in_vehicle );
+                                square.volume += aim_item.volume;
+                                square.weight += aim_item.weight;
+                                items.push_back( aim_item );
+                            }
+                        }
+                    }
                 }
             }
             advanced_inv_listitem it( locs, x, square.id, is_in_vehicle );

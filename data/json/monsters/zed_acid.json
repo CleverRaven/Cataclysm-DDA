@@ -236,7 +236,7 @@
     "dodge": 1,
     "harvest": "zombie",
     "melee_damage": [ { "damage_type": "acid", "amount": 4 } ],
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "upgrades": { "half_life": 12, "into": "mon_zombie_dog_brute_acidic" },
     "flags": [

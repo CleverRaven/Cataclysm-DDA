@@ -72,9 +72,15 @@
     "components": [ [ [ "chem_compositionb", 8 ] ] ]
   },
   {
+    "id": "small_gas_canister_case",
+    "type": "requirement",
+    "//": " Gas canisters, which can be recycled to get empty canisters. containers with an internal volume of 250 ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
     "id": "small_grenade_case",
     "type": "requirement",
     "//": "Hard containers with an internal volume of 250 ml, which can be used in all explosive recipes that call for them.",
-    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ] ]
+    "components": [ [ [ "clay_canister", 1 ], [ "small_gas_canister_case", 1, "LIST" ] ] ]
   }
 ]

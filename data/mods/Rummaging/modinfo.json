@@ -6,6 +6,7 @@
     "authors": [ "Aunt_Su | 苏大妈#7831" ],
     "description": "Some furniture containers need to open the door to scavenge, to enhance the thrill of scavenging.",
     "category": "misc_additions",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   },
   {

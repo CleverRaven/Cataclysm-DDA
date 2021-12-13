@@ -2,11 +2,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
-    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie_cop", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_survivor", "freq": 150, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_cop", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier", "weight": 150 },
+      { "monster": "mon_zombie_survivor", "weight": 150 }
     ]
   },
   {
@@ -165,7 +164,7 @@
         { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 3, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
       ]
     }
   },
@@ -262,7 +261,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },
@@ -316,7 +315,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },

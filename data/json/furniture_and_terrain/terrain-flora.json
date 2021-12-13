@@ -1980,6 +1980,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_grass_alien",
+    "name": "alien grass",
+    "description": "An area of something that almost looks like grass.  The blades are serrated and move on their own.",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH", "PAINFUL" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_golf_hole",
     "name": "golf hole",
     "looks_like": "t_grass_golf",

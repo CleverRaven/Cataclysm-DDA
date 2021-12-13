@@ -1143,10 +1143,10 @@ void map::apply_light_source( const tripoint &p, float luminance )
            sy
     */
     const int peer_inbounds = LIGHTMAP_CACHE_X - 1;
-    bool north = ( p2.y != 0 && light_source_buffer[p2.x][p2.y - 1] < luminance );
-    bool south = ( p2.y != peer_inbounds && light_source_buffer[p2.x][p2.y + 1] < luminance );
-    bool east = ( p2.x != peer_inbounds && light_source_buffer[p2.x + 1][p2.y] < luminance );
-    bool west = ( p2.x != 0 && light_source_buffer[p2.x - 1][p2.y] < luminance );
+    bool north = p2.y != 0 && light_source_buffer[p2.x][p2.y - 1] < luminance;
+    bool south = p2.y != peer_inbounds && light_source_buffer[p2.x][p2.y + 1] < luminance;
+    bool east = p2.x != peer_inbounds && light_source_buffer[p2.x + 1][p2.y] < luminance;
+    bool west = p2.x != 0 && light_source_buffer[p2.x - 1][p2.y] < luminance;
 
     if( north ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
@@ -1425,7 +1425,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             // TODO: clamp coordinates to map bounds before this method is called.
             if( lightmap_boundaries.contains( p ) ) {
                 float current_transparency = transparency_cache[p.x][p.y];
-                bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
+                bool is_opaque = current_transparency == LIGHT_TRANSPARENCY_SOLID;
                 if( !lit[p.x][p.y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[p.x][p.y] = true;
@@ -1457,7 +1457,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
             if( lightmap_boundaries.contains( p ) ) {
                 float current_transparency = transparency_cache[p.x][p.y];
-                bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
+                bool is_opaque = current_transparency == LIGHT_TRANSPARENCY_SOLID;
                 if( !lit[p.x][p.y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[p.x][p.y] = true;

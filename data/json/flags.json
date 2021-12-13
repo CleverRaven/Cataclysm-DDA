@@ -1,5 +1,17 @@
 [
   {
+    "id": "ABLATIVE_LARGE",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>large</info> armor pockets",
+    "restriction": "Item must be a large ablative plate"
+  },
+  {
+    "id": "ABLATIVE_MEDIUM",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>medium</info> armor pockets",
+    "restriction": "Item must be a medium ablative plate"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -160,6 +172,11 @@
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "info": "This med can't be used by everyone, it requires a special mutation."
+  },
+  {
+    "id": "CANT_WEAR",
+    "type": "json_flag",
+    "info": "This armor can't be worn directly."
   },
   {
     "id": "DIRTY",
@@ -905,6 +922,11 @@
     "//": "items spawned by spells are put in their containers."
   },
   {
+    "id": "SPAWN_WITH_DEATH_DROPS",
+    "type": "json_flag",
+    "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
@@ -983,6 +1005,10 @@
   },
   {
     "id": "ALWAYS_TWOHAND",
+    "type": "json_flag"
+  },
+  {
+    "id": "APPLIANCE",
     "type": "json_flag"
   },
   {
@@ -1359,6 +1385,10 @@
     "type": "json_flag"
   },
   {
+    "id": "POWER_CORD",
+    "type": "json_flag"
+  },
+  {
     "id": "PROCESSING",
     "type": "json_flag"
   },
@@ -1681,12 +1711,12 @@
   {
     "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured maintence area."
+    "info": "You could probably use this to get into a secured maintenance area."
   },
   {
     "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured maintence area."
+    "info": "You could probably use this to get into a secured maintenance area."
   },
   {
     "id": "SCIENCE_CARD_TRANSPORT_1",
@@ -1751,5 +1781,14 @@
     "type": "json_flag",
     "info": "This item fits in items that use heavy batteries.",
     "name": "heavy battery"
+  },
+  {
+    "id": "COMBAT_TOGGLEABLE",
+    "type": "json_flag",
+    "info": "This item is meant to be toggled during combat."
+  },
+  {
+    "id": "CHOKE",
+    "type": "json_flag"
   }
 ]

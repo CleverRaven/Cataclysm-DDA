@@ -1,7 +1,7 @@
 [
   {
     "type": "mutation",
-    "id": "THRESH_WENDIGO",
+    "id": "THRESH_SYLVAN",
     "name": "Forest Guardian",
     "points": 1,
     "description": "The forests have longed for your help, and this last cry shook the world.",
@@ -18,39 +18,39 @@
     "valid": false,
     "purifiable": false,
     "prereqs": [ "WEAKSCENT" ],
-    "threshreq": [ "THRESH_WENDIGO" ],
-    "category": [ "WENDIGO" ],
+    "threshreq": [ "THRESH_SYLVAN" ],
+    "category": [ "SYLVAN" ],
     "stealth_modifier": 15
   },
   {
     "type": "mutation",
     "id": "ANIMALEMPATH",
     "copy-from": "ANIMALEMPATH",
-    "extend": { "category": [ "VAMP", "WENDIGO" ] }
+    "extend": { "category": [ "VAMP", "SYLVAN" ] }
   },
   {
     "type": "mutation",
     "id": "ANIMALEMPATH2",
     "copy-from": "ANIMALEMPATH2",
-    "extend": { "category": [ "VAMP", "WENDIGO" ] }
+    "extend": { "category": [ "VAMP", "SYLVAN" ] }
   },
   {
     "type": "mutation",
     "id": "SMELLY",
     "copy-from": "SMELLY",
-    "extend": { "category": [ "WENDIGO" ] }
+    "extend": { "category": [ "SYLVAN" ] }
   },
   {
     "type": "mutation",
     "id": "PHEROMONE_MAMMAL",
     "copy-from": "PHEROMONE_MAMMAL",
-    "extend": { "category": [ "WENDIGO" ] }
+    "extend": { "category": [ "SYLVAN" ] }
   },
   {
     "type": "mutation",
     "id": "REGEN",
     "copy-from": "REGEN",
-    "extend": { "category": [ "WENDIGO" ] }
+    "extend": { "category": [ "SYLVAN" ] }
   },
   {
     "type": "mutation",
@@ -62,8 +62,8 @@
     "description": "Your torso has an extra set of appendages that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage with the thick acid that they secrete.",
     "valid": false,
     "purifiable": false,
-    "threshreq": [ "THRESH_WENDIGO" ],
-    "category": [ "WENDIGO" ],
+    "threshreq": [ "THRESH_SYLVAN" ],
+    "category": [ "SYLVAN" ],
     "social_modifiers": { "intimidate": 30 },
     "attacks": [
       {
@@ -86,8 +86,8 @@
     "description": "Spurs of bone have erupted all across your arms.  A thick, biological secretion oozes out of them promising extra harm to enemies.",
     "valid": false,
     "purifiable": false,
-    "threshreq": [ "THRESH_WENDIGO" ],
-    "category": [ "WENDIGO" ],
+    "threshreq": [ "THRESH_SYLVAN" ],
+    "category": [ "SYLVAN" ],
     "social_modifiers": { "intimidate": 5 },
     "attacks": [
       {
@@ -105,13 +105,13 @@
     "id": "MONSTROUSCARDIO",
     "name": "Persistent Body",
     "points": 2,
-    "description": "As you move, the world seems to breath life and energy into your limbs.  You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
+    "description": "As you move, the world seems to breath life and energy into your limbs.  You simply tire much less readily than others.  Your maximum stamina is 50% higher than usual.",
     "valid": false,
     "purifiable": false,
-    "threshreq": [ "THRESH_WENDIGO" ],
-    "category": [ "WENDIGO" ],
+    "threshreq": [ "THRESH_SYLVAN" ],
+    "category": [ "SYLVAN" ],
     "cancels": [ "BADCARDIO" ],
-    "max_stamina_modifier": 1.75,
+    "max_stamina_modifier": 1.5,
     "stamina_regen_modifier": 0.25
   }
 ]

@@ -294,6 +294,13 @@
     "chance": 75
   },
   {
+    "id": "emit_plasma_continuously",
+    "type": "emit",
+    "field": "fd_plasma",
+    "qty": 4,
+    "chance": 100
+  },
+  {
     "id": "emit_fungicidal_stream",
     "type": "emit",
     "field": "fd_fungicidal_gas",

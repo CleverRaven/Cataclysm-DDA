@@ -127,19 +127,45 @@
 struct mutation_branch;
 struct oter_type_t;
 
+static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
+static const bionic_id bio_blindfold( "bio_blindfold" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
+
+static const efftype_id effect_hypocalcemia( "hypocalcemia" );
+static const efftype_id effect_hypovitA( "hypovitA" );
+static const efftype_id effect_hypovitB( "hypovitB" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_scurvy( "scurvy" );
 
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
+static const matype_id style_none( "style_none" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+
+static const relic_procgen_id relic_procgen_data_cult( "cult" );
+
+static const skill_id skill_chemistry( "chemistry" );
+
 static const ter_str_id ter_t_ash( "t_ash" );
-static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
+
+static const trait_id trait_PARKOUR( "PARKOUR" );
+
+static const vpart_id vpart_turret_mount( "turret_mount" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -222,6 +248,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
+    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -237,6 +264,7 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
+    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -276,6 +304,12 @@ void pocket_data::deserialize( const JsonObject &data )
 }
 
 void sealable_data::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+    load( data );
+}
+
+void pocket_noise::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     load( data );
@@ -341,7 +375,7 @@ void player_activity::deserialize( const JsonObject &data )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
-        type = activity_id( "ACT_MIGRATION_CANCEL" );
+        type = ACT_MIGRATION_CANCEL;
         actor = std::make_unique<migration_cancel_activity_actor>();
     } else {
         data.read( "actor", actor );
@@ -529,7 +563,6 @@ void activity_tracker::serialize( JsonOut &json ) const
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
-    json.member( "tick_counter", tick_counter );
     json.end_object();
 }
 
@@ -547,7 +580,10 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    jo.read( "tick_counter", tick_counter );
+    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
+        tracker *= 1000;
+        intake *= 1000;
+    }
 }
 
 // migration handling of items that used to have charges instead of real items.
@@ -599,6 +635,7 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
+    data.read( "cardio_acc", cardio_acc );
     // Legacy read, remove after 0.F
     data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
@@ -613,6 +650,7 @@ void Character::load( const JsonObject &data )
     data.read( "pkill", pkill );
 
     data.read( "type_of_scent", type_of_scent );
+    data.read( "focus_pool", focus_pool );
 
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
@@ -622,7 +660,7 @@ void Character::load( const JsonObject &data )
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
         if( !temp_selected_style.is_valid() ) {
-            temp_selected_style = matype_id( "style_none" );
+            temp_selected_style = style_none;
         }
         *martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
                              temp_keep_hands_free );
@@ -648,8 +686,8 @@ void Character::load( const JsonObject &data )
         data.read( "backlog", backlog );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
         const requirement_id req_id( backlog.front().str_values.back() );
@@ -702,9 +740,9 @@ void Character::load( const JsonObject &data )
         if( tid.is_valid() ) {
             ++it;
             // Remove after 0.G
-        } else if( tid == trait_id( "PARKOUR" ) ) {
+        } else if( tid == trait_PARKOUR ) {
             it = my_traits.erase( it );
-            add_proficiency( proficiency_id( "prof_parkour" ) );
+            add_proficiency( proficiency_prof_parkour );
         } else {
             debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.c_str() );
             my_traits.erase( it++ );
@@ -720,9 +758,9 @@ void Character::load( const JsonObject &data )
             cached_mutations.push_back( &mid.obj() );
             ++it;
             // Remove after 0.G
-        } else if( mid == trait_id( "PARKOUR" ) ) {
+        } else if( mid == trait_PARKOUR ) {
             it = my_mutations.erase( it );
-            add_proficiency( proficiency_id( "prof_parkour" ) );
+            add_proficiency( proficiency_prof_parkour );
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.c_str() );
             it = my_mutations.erase( it );
@@ -732,6 +770,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
+    update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -744,7 +783,7 @@ void Character::load( const JsonObject &data )
 
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 6> hp_cur;
         data.read( "hp_cur", hp_cur );
@@ -764,7 +803,7 @@ void Character::load( const JsonObject &data )
         set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
     }
     if( data.has_array( "damage_bandaged" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 6> damage_bandaged;
         data.read( "damage_bandaged", damage_bandaged );
@@ -776,7 +815,7 @@ void Character::load( const JsonObject &data )
         set_part_damage_bandaged( bodypart_id( "leg_r" ), damage_bandaged[5] );
     }
     if( data.has_array( "damage_disinfected" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 6> damage_disinfected;
         data.read( "damage_disinfected", damage_disinfected );
@@ -788,7 +827,7 @@ void Character::load( const JsonObject &data )
         set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
     }
     if( data.has_array( "healed_24h" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 6> healed_total;
         data.read( "healed_24h", healed_total );
@@ -800,7 +839,7 @@ void Character::load( const JsonObject &data )
         set_part_healed_total( bodypart_id( "leg_r" ), healed_total[5] );
     }
     if( data.has_array( "body_wetness" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 12> body_wetness;
         body_wetness.fill( 0 );
@@ -819,7 +858,7 @@ void Character::load( const JsonObject &data )
         set_part_wetness( bodypart_id( "foot_r" ), body_wetness[11] );
     }
     if( data.has_array( "temp_cur" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 12> temp_cur;
         temp_cur.fill( BODYTEMP_NORM );
@@ -838,7 +877,7 @@ void Character::load( const JsonObject &data )
         set_part_temp_cur( bodypart_id( "foot_r" ), temp_cur[11] );
     }
     if( data.has_array( "temp_conv" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 12> temp_conv;
         temp_conv.fill( BODYTEMP_NORM );
@@ -857,7 +896,7 @@ void Character::load( const JsonObject &data )
         set_part_temp_conv( bodypart_id( "foot_r" ), temp_conv[11] );
     }
     if( data.has_array( "frostbite_timer" ) ) {
-        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_anatomy( anatomy_human_anatomy );
         set_body();
         std::array<int, 12> frostbite_timer;
         frostbite_timer.fill( 0 );
@@ -915,7 +954,7 @@ void Character::load( const JsonObject &data )
     }
     if( savegame_loading_version <= 28 ) {
         if( !skill_data.has_member( "chemistry" ) && skill_data.has_member( "cooking" ) ) {
-            skill_data.get_member( "cooking" ).read( ( *_skills )[skill_id( "chemistry" )] );
+            skill_data.get_member( "cooking" ).read( ( *_skills )[skill_chemistry] );
         }
     }
 
@@ -929,7 +968,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level", max_power_level, false, 0_kJ );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -986,13 +1025,13 @@ void Character::load( const JsonObject &data )
     data.read( "addictions", addictions );
 
     // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
+    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
+        add_bionic( bio_earplugs );
     }
 
     // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
+    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
+        add_bionic( bio_blindfold );
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
@@ -1095,6 +1134,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
+    json.member( "cardio_acc", cardio_acc );
     json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
@@ -1115,14 +1155,15 @@ void Character::store( JsonOut &json ) const
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
 
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
+    json.member( "focus_pool", focus_pool );
 
     // stats through kills
     json.member( "kill_xp", kill_xp );
@@ -1167,7 +1208,7 @@ void Character::store( JsonOut &json ) const
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
-    json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
+    json.member( "max_power_level_modifier", units::to_kilojoule( max_power_level_modifier ) );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
@@ -1316,9 +1357,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "grab_point", grab_point );
     json.member( "grab_type", obj_type_name[static_cast<int>( grab_type ) ] );
 
-    // misc player specific stuff
-    json.member( "focus_pool", focus_pool );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1419,8 +1457,6 @@ void avatar::load( const JsonObject &data )
     grab( iter == obj_type_name.end() ?
           object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
-
-    data.read( "focus_pool", focus_pool );
 
     data.read( "magic", magic );
 
@@ -1621,6 +1657,78 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
     json.member( "talk_friend_guard", talk_friend_guard );
+    json.member( "snip_acknowledged", snip_acknowledged );
+    json.member( "snip_camp_food_thanks", snip_camp_food_thanks );
+    json.member( "snip_camp_larder_empty", snip_camp_larder_empty );
+    json.member( "snip_camp_water_thanks", snip_camp_water_thanks );
+    json.member( "snip_cant_flee", snip_cant_flee );
+    json.member( "snip_close_distance", snip_close_distance );
+    json.member( "snip_combat_noise_warning", snip_combat_noise_warning );
+    json.member( "snip_danger_close_distance", snip_danger_close_distance );
+    json.member( "snip_done_mugging", snip_done_mugging );
+    json.member( "snip_far_distance", snip_far_distance );
+    json.member( "snip_fire_bad", snip_fire_bad );
+    json.member( "snip_fire_in_the_hole_h", snip_fire_in_the_hole_h );
+    json.member( "snip_fire_in_the_hole", snip_fire_in_the_hole );
+    json.member( "snip_general_danger_h", snip_general_danger_h );
+    json.member( "snip_general_danger", snip_general_danger );
+    json.member( "snip_heal_self", snip_heal_self );
+    json.member( "snip_hungry", snip_hungry );
+    json.member( "snip_im_leaving_you", snip_im_leaving_you );
+    json.member( "snip_its_safe_h", snip_its_safe_h );
+    json.member( "snip_its_safe", snip_its_safe );
+    json.member( "snip_keep_up", snip_keep_up );
+    json.member( "snip_kill_npc_h", snip_kill_npc_h );
+    json.member( "snip_kill_npc", snip_kill_npc );
+    json.member( "snip_kill_player_h", snip_kill_player_h );
+    json.member( "snip_let_me_pass", snip_let_me_pass );
+    json.member( "snip_lets_talk", snip_lets_talk );
+    json.member( "snip_medium_distance", snip_medium_distance );
+    json.member( "snip_monster_warning_h", snip_monster_warning_h );
+    json.member( "snip_monster_warning", snip_monster_warning );
+    json.member( "snip_movement_noise_warning", snip_movement_noise_warning );
+    json.member( "snip_need_batteries", snip_need_batteries );
+    json.member( "snip_need_booze", snip_need_booze );
+    json.member( "snip_need_fuel", snip_need_fuel );
+    json.member( "snip_no_to_thorazine", snip_no_to_thorazine );
+    json.member( "snip_run_away", snip_run_away );
+    json.member( "snip_speech_warning", snip_speech_warning );
+    json.member( "snip_thirsty", snip_thirsty );
+    json.member( "snip_wait", snip_wait );
+    json.member( "snip_warn_sleep", snip_warn_sleep );
+    json.member( "snip_yawn", snip_yawn );
+    json.member( "snip_yes_to_lsd", snip_yes_to_lsd );
+    json.member( "snip_pulp_zombie", snip_pulp_zombie );
+    json.member( "snip_heal_player", snip_heal_player );
+    json.member( "snip_mug_dontmove", snip_mug_dontmove );
+    json.member( "snip_wound_infected", snip_wound_infected );
+    json.member( "snip_wound_bite", snip_wound_bite );
+    json.member( "snip_radiation_sickness", snip_radiation_sickness );
+    json.member( "snip_bleeding", snip_bleeding );
+    json.member( "snip_bleeding_badly", snip_bleeding_badly );
+    json.member( "snip_lost_blood", snip_lost_blood );
+    json.member( "snip_bye", snip_bye );
+    json.member( "snip_consume_cant_accept", snip_consume_cant_accept );
+    json.member( "snip_consume_cant_consume", snip_consume_cant_consume );
+    json.member( "snip_consume_rotten", snip_consume_rotten );
+    json.member( "snip_consume_eat", snip_consume_eat );
+    json.member( "snip_consume_need_item", snip_consume_need_item );
+    json.member( "snip_consume_med", snip_consume_med );
+    json.member( "snip_consume_nocharge", snip_consume_nocharge );
+    json.member( "snip_consume_use_med", snip_consume_use_med );
+    json.member( "snip_give_nope", snip_give_nope );
+    json.member( "snip_give_to_hallucination", snip_give_to_hallucination );
+    json.member( "snip_give_cancel", snip_give_cancel );
+    json.member( "snip_give_dangerous", snip_give_dangerous );
+    json.member( "snip_give_wield", snip_give_wield );
+    json.member( "snip_give_weapon_weak", snip_give_weapon_weak );
+    json.member( "snip_give_carry", snip_give_carry );
+    json.member( "snip_give_carry_cant", snip_give_carry_cant );
+    json.member( "snip_give_carry_cant_few_space", snip_give_carry_cant_few_space );
+    json.member( "snip_give_carry_cant_no_space", snip_give_carry_cant_no_space );
+    json.member( "snip_give_carry_too_heavy", snip_give_carry_too_heavy );
+    json.member( "snip_wear", snip_wear );
+
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -1660,6 +1768,77 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
     data.read( "proficiency", proficiency );
+    data.read( "snip_acknowledged", snip_acknowledged );
+    data.read( "snip_camp_food_thanks", snip_camp_food_thanks );
+    data.read( "snip_camp_larder_empty", snip_camp_larder_empty );
+    data.read( "snip_camp_water_thanks", snip_camp_water_thanks );
+    data.read( "snip_cant_flee", snip_cant_flee );
+    data.read( "snip_close_distance", snip_close_distance );
+    data.read( "snip_combat_noise_warning", snip_combat_noise_warning );
+    data.read( "snip_danger_close_distance", snip_danger_close_distance );
+    data.read( "snip_done_mugging", snip_done_mugging );
+    data.read( "snip_far_distance", snip_far_distance );
+    data.read( "snip_fire_bad", snip_fire_bad );
+    data.read( "snip_fire_in_the_hole_h", snip_fire_in_the_hole_h );
+    data.read( "snip_fire_in_the_hole", snip_fire_in_the_hole );
+    data.read( "snip_general_danger_h", snip_general_danger_h );
+    data.read( "snip_general_danger", snip_general_danger );
+    data.read( "snip_heal_self", snip_heal_self );
+    data.read( "snip_hungry", snip_hungry );
+    data.read( "snip_im_leaving_you", snip_im_leaving_you );
+    data.read( "snip_its_safe_h", snip_its_safe_h );
+    data.read( "snip_its_safe", snip_its_safe );
+    data.read( "snip_keep_up", snip_keep_up );
+    data.read( "snip_kill_npc_h", snip_kill_npc_h );
+    data.read( "snip_kill_npc", snip_kill_npc );
+    data.read( "snip_kill_player_h", snip_kill_player_h );
+    data.read( "snip_let_me_pass", snip_let_me_pass );
+    data.read( "snip_lets_talk", snip_lets_talk );
+    data.read( "snip_medium_distance", snip_medium_distance );
+    data.read( "snip_monster_warning_h", snip_monster_warning_h );
+    data.read( "snip_monster_warning", snip_monster_warning );
+    data.read( "snip_movement_noise_warning", snip_movement_noise_warning );
+    data.read( "snip_need_batteries", snip_need_batteries );
+    data.read( "snip_need_booze", snip_need_booze );
+    data.read( "snip_need_fuel", snip_need_fuel );
+    data.read( "snip_no_to_thorazine", snip_no_to_thorazine );
+    data.read( "snip_run_away", snip_run_away );
+    data.read( "snip_speech_warning", snip_speech_warning );
+    data.read( "snip_thirsty", snip_thirsty );
+    data.read( "snip_wait", snip_wait );
+    data.read( "snip_warn_sleep", snip_warn_sleep );
+    data.read( "snip_yawn", snip_yawn );
+    data.read( "snip_yes_to_lsd", snip_yes_to_lsd );
+    data.read( "snip_pulp_zombie", snip_pulp_zombie );
+    data.read( "snip_heal_player", snip_heal_player );
+    data.read( "snip_mug_dontmove", snip_mug_dontmove );
+    data.read( "snip_wound_infected", snip_wound_infected );
+    data.read( "snip_wound_bite", snip_wound_bite );
+    data.read( "snip_radiation_sickness", snip_radiation_sickness );
+    data.read( "snip_bleeding", snip_bleeding );
+    data.read( "snip_bleeding_badly", snip_bleeding_badly );
+    data.read( "snip_lost_blood", snip_lost_blood );
+    data.read( "snip_bye", snip_bye );
+    data.read( "snip_consume_cant_accept", snip_consume_cant_accept );
+    data.read( "snip_consume_cant_consume", snip_consume_cant_consume );
+    data.read( "snip_consume_rotten", snip_consume_rotten );
+    data.read( "snip_consume_eat", snip_consume_eat );
+    data.read( "snip_consume_need_item", snip_consume_need_item );
+    data.read( "snip_consume_med", snip_consume_med );
+    data.read( "snip_consume_nocharge", snip_consume_nocharge );
+    data.read( "snip_consume_use_med", snip_consume_use_med );
+    data.read( "snip_give_nope", snip_give_nope );
+    data.read( "snip_give_to_hallucination", snip_give_to_hallucination );
+    data.read( "snip_give_cancel", snip_give_cancel );
+    data.read( "snip_give_dangerous", snip_give_dangerous );
+    data.read( "snip_give_wield", snip_give_wield );
+    data.read( "snip_give_weapon_weak", snip_give_weapon_weak );
+    data.read( "snip_give_carry", snip_give_carry );
+    data.read( "snip_give_carry_cant", snip_give_carry_cant );
+    data.read( "snip_give_carry_cant_few_space", snip_give_carry_cant_few_space );
+    data.read( "snip_give_carry_cant_no_space", snip_give_carry_cant_no_space );
+    data.read( "snip_give_carry_too_heavy", snip_give_carry_too_heavy );
+    data.read( "snip_wear", snip_wear );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -2732,7 +2911,6 @@ void item::deserialize( const JsonObject &data )
 
     // Remove after 0.F: artifact migration code
     if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        static const relic_procgen_id proc_cult( "cult" );
         relic_procgen_data::generation_rules rules;
         rules.max_attributes = 5;
         rules.max_negative_power = -1000;
@@ -2740,7 +2918,7 @@ void item::deserialize( const JsonObject &data )
 
         item_contents temp_migrate( contents );
 
-        *this = proc_cult->create_item( rules );
+        *this = relic_procgen_data_cult->create_item( rules );
 
         if( !temp_migrate.empty() ) {
             for( const item *it : temp_migrate.all_items_top() ) {
@@ -2762,13 +2940,12 @@ void item::serialize( JsonOut &json ) const
 {
     // Remove after 0.F: artifact migration code
     if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        static const relic_procgen_id proc_cult( "cult" );
         relic_procgen_data::generation_rules rules;
         rules.max_attributes = 5;
         rules.max_negative_power = -1000;
         rules.power_level = 2000;
 
-        proc_cult->create_item( rules ).serialize( json );
+        relic_procgen_data_cult->create_item( rules ).serialize( json );
         return;
     }
 
@@ -3108,7 +3285,7 @@ void vehicle::deserialize( const JsonObject &data )
     }
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
-        install_part( vp.mount(), vpart_id( "turret_mount" ) );
+        install_part( vp.mount(), vpart_turret_mount );
 
         //Forcibly set turrets' targeting mode to manual if no turret control unit is
         //present on turret's tile on loading save
@@ -3367,6 +3544,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
+    jo.read( "trusts_u", trusts_u );
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
@@ -3390,6 +3568,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
+    json.member( "trusts_u", trusts_u );
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
@@ -3500,10 +3679,10 @@ void Creature::load( const JsonObject &jsin )
     // Remove legacy vitamin effects - they don't do anything, and can't be removed
     // Remove this code whenever they actually do anything (0.F or later)
     std::set<efftype_id> blacklisted = {
-        efftype_id( "hypocalcemia" ),
-        efftype_id( "hypovitA" ),
-        efftype_id( "hypovitB" ),
-        efftype_id( "scurvy" )
+        effect_hypocalcemia,
+        effect_hypovitA,
+        effect_hypovitB,
+        effect_scurvy
     };
     for( const efftype_id &remove : blacklisted ) {
         remove_effect( remove );
@@ -4575,13 +4754,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
+                                                      tripoint_zero ) ).first;
                 jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
             jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {
