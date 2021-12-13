@@ -513,7 +513,7 @@
     "id": "santa_hat",
     "type": "ARMOR",
     "name": { "str": "santa hat" },
-    "description": "A white faux fur trimmed red hat commonly used by bearded men on Christmas.",
+    "description": "A red hat with white faux fur trim, commonly used by bearded men on Christmas.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": 5000,

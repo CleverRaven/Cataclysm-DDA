@@ -948,7 +948,7 @@
     "id": "santa_pants",
     "type": "ARMOR",
     "name": { "str_sp": "santa pants" },
-    "description": "A pair of white faux fur trimmed red pants commonly used by bearded men on Christmas.  Somewhat warm and with two deep pockets.",
+    "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
     "weight": "800 g",
     "volume": "3 L",
     "price": 20000,

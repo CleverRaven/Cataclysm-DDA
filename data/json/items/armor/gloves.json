@@ -717,7 +717,7 @@
     "id": "santa_gloves",
     "type": "ARMOR",
     "name": { "str": "pair of santa gloves", "str_pl": "pairs of santa gloves" },
-    "description": "A pair of white faux fur trimmed red gloves.  Warm and for use on Christmas.",
+    "description": "A pair of  red gloves with white faux fur trim.  Keeps your hands warm and your holiday spirit bright.",
     "weight": "400 g",
     "volume": "1 L",
     "price": 4000,
