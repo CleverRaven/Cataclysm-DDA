@@ -125,7 +125,7 @@
     "difficulty": 1,
     "time": "40 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
   },
@@ -168,7 +168,7 @@
     "time": "10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 1 ] ] ]
   },
   {
