@@ -3,12 +3,12 @@
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "requirements.h"
 #include "type_id.h"
 
-static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_ash( "ash" );
+static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_lye( "lye" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_soap( "soap" );

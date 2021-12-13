@@ -1,0 +1,173 @@
+[
+  {
+    "abstract": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "name": { "str": "ultralight frame" },
+    "item": "afs_titanium_frame",
+    "location": "structure",
+    "categories": [ "hull" ],
+    "color": "light_gray",
+    "symbol": "c",
+    "durability": 100,
+    "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "id": "afs_lightweight_frame_cover",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "afs_lightweight_frame_cross",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "afs_lightweight_frame_horizontal",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "afs_lightweight_frame_horizontal_2",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "afs_lightweight_frame_ne",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "afs_lightweight_frame_nw",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "afs_lightweight_frame_se",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "afs_lightweight_frame_sw",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "afs_lightweight_frame_vertical",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "afs_lightweight_frame_vertical_2",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "abstract": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "name": { "str": "ultralight foldable frame" },
+    "item": "afs_titanium_foldable_frame",
+    "location": "structure",
+    "categories": [ "hull" ],
+    "color": "light_gray",
+    "durability": 75,
+    "symbol": "H",
+    "folded_volume": "10 L",
+    "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_cover",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_cover",
+    "symbol": "^"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_cross",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_cross",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_horizontal",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_horizontal_2",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_horizontal_2",
+    "symbol": "="
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_ne",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_nw",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_se",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_se",
+    "symbol": "n"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_sw",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_sw",
+    "symbol": "b"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_vertical",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_vertical",
+    "symbol": "j"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_vertical_2",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_vertical_2",
+    "symbol": "H"
+  }
+]

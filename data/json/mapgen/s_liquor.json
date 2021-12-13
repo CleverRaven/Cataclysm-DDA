@@ -174,8 +174,8 @@
         "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "-": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         ".": { "chunks": [ [ "bile_field", 10 ], [ "null", 90 ] ] },
-        "#": { "chunks": [ [ "bile_field", 20 ], [ "destroyed_rack", 10 ], [ "null", 70 ] ] },
-        "&": { "chunks": [ [ "bile_field", 20 ], [ "destroyed_glass_fridge", 30 ], [ "null", 50 ] ] }
+        "#": { "chunks": [ [ "bile_field", 20 ], [ "destroyed_furniture", 10 ], [ "null", 70 ] ] },
+        "&": { "chunks": [ [ "bile_field", 20 ], [ "destroyed_furniture", 30 ], [ "null", 50 ] ] }
       }
     }
   },

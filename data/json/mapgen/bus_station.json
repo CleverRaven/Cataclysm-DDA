@@ -7,9 +7,9 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...........ss________sssssssssssssssPyyyyy___sss",
-        "....,,,....ss________s,;,,,;,,;,,,;,syyyyy___s,s",
-        "||||www||||ss________ssssssssssssssss________s;s",
+        "...........''________'ssssssssPyyyyyyyyyyy___sss",
+        "....,,,....''________',;,,;,,,;yyyyyyyyyyy___s,s",
+        "||||www||||ss________'sssssssss______________s;s",
         "|p       p|ss________________________________s,s",
         "| BBB BBB |ss________________________________s,s",
         "|         wss________________________________s,s",
@@ -17,9 +17,9 @@
         "|         wss______________________yy________s,s",
         "| BBB BBB |ss______________________yy________s,s",
         "|         |Gs______________________yy________s;s",
-        "| BBB BBB |Gs______________________yy________s,s",
-        "|         +ss________'''''''''''''''P________s,s",
-        "|8        +ss________'I''bbb''bbb''I'________s;s",
+        "| BBB BBB |Gs______________________yy________P,s",
+        "|         +ss________''''''''''______________s,s",
+        "|8        +ss________'I'bbbb'I'______________s;s",
         "|9  r    Y|ss________________________________s,s",
         "||+|||ddd||ss________________________________s,s",
         "|S:S|x h r|ss________________________________s;s",
@@ -27,9 +27,9 @@
         "|+|+|||| cwss______________________yy________s,s",
         "|:|:|FF| cwss______________________yy________s,s",
         "|T|T|l:|  |ss______________________yy________s;s",
-        "|||||i:+  +ss______________________yy________s,s",
-        "...4|||||||ssssssssss'''''''''''''''Psssssssssss",
-        "..........fssssssssss'I''bbb''bbb''I'sssssssssss",
+        "|||||i:+  +ss______________________yy________P,s",
+        "...4|||||||ssssssssss''''''''''sssssssssssssssss",
+        "..........fssssssssss'I'bbbb'I'sssssssssssssssss",
         "..........ffffffffffffffffffffffffffffffffffffff"
       ],
       "terrain": {
@@ -42,7 +42,7 @@
           [ "t_region_shrub_decorative", 20 ],
           [ "t_region_shrub_fruit", 10 ]
         ],
-        ";": "t_region_tree_shade",
+        ";": "t_region_shrub_decorative",
         "w": "t_window",
         "_": "t_pavement",
         "y": "t_pavement_y",
@@ -60,6 +60,7 @@
         "x": "t_linoleum_white",
         "i": "t_ladder_up",
         "I": "t_column",
+        "P": "t_concrete",
         "f": "t_chainfence"
       },
       "furniture": {
@@ -91,7 +92,7 @@
         { "vehicle": "buses", "x": 35, "y": [ 6, 7 ], "chance": 35, "status": 0, "rotation": 360 },
         { "vehicle": "buses", "x": 35, "y": [ 16, 17 ], "chance": 35, "status": 0, "rotation": 360 }
       ],
-      "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+      "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "T": {  } }
     }
   },

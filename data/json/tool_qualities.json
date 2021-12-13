@@ -173,8 +173,18 @@
   },
   {
     "type": "tool_quality",
+    "id": "PRYING_NAIL",
+    "name": { "str": "nail prying" }
+  },
+  {
+    "type": "tool_quality",
     "id": "PUNCH",
     "name": { "str": "punch" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRITE",
+    "name": { "str": "pencil" }
   },
   {
     "type": "tool_quality",
@@ -291,7 +301,8 @@
   {
     "type": "tool_quality",
     "id": "LOCKPICK",
-    "name": { "str": "lockpicking" }
+    "name": { "str": "lockpicking" },
+    "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
   },
   {
     "type": "tool_quality",

@@ -93,7 +93,7 @@
       "terrain": {
         " ": "t_floor",
         "r": "t_floor",
-        "#": "t_rock",
+        "#": "t_soil",
         "+": "t_door_metal_locked",
         "6": "t_card_military",
         "<": "t_stairs_up",
@@ -112,7 +112,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement" ],
+    "om_terrain": [ "bunker_basement_1" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -211,7 +211,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement" ],
+    "om_terrain": [ "bunker_basement_1" ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",

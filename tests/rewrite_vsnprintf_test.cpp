@@ -3,7 +3,7 @@
 #include <string>
 
 // the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "output.h"
 
 TEST_CASE( "Test vsnprintf_rewrite" )

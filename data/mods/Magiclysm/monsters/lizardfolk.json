@@ -18,6 +18,7 @@
     "morale": 80,
     "vision_day": 10,
     "vision_night": 20,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -27,7 +28,6 @@
     "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
-    "death_function": [ "NORMAL" ],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },
@@ -40,7 +40,7 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "CLIMBS",
       "GROUP_MORALE",
       "LEATHER",
@@ -134,6 +134,7 @@
     "species": [ "LIZARDFOLK" ],
     "symbol": "C",
     "harvest": "lizardfolk",
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "GROUP_MORALE", "LEATHER", "NO_BREATHE" ]
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "LEATHER", "NO_BREATHE" ]
   }
 ]

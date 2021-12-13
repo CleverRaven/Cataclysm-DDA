@@ -39,6 +39,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_forest( "forest" );
+
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -219,7 +221,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
@@ -388,7 +390,7 @@ item_group_id basecamp::get_gatherlist() const
             return gatherlist;
         }
     }
-    return item_group_id( "forest" );
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )

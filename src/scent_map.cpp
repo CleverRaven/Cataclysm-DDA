@@ -179,7 +179,7 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> squares_used_y;
 
     // these are for caching flag lookups
-    scent_array<bool> blocks_scent; // currently only TFLAG_NO_SCENT blocks scent
+    scent_array<bool> blocks_scent; // currently only ter_furn_flag::TFLAG_NO_SCENT blocks scent
     scent_array<bool> reduces_scent;
 
     // for loop constants

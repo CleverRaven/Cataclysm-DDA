@@ -3,7 +3,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -12,17 +12,19 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const flag_id json_flag_RELOAD_ONE( "RELOAD_ONE" );
+
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &gun = dummy.i_add( item( "sw_619", calendar::turn_zero, 0 ) );
     const ammotype &gun_ammo_type = item::find_type( gun.ammo_default() )->ammo->type;
     item &ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
                                     gun.ammo_capacity( gun_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
-    REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
+    REQUIRE( gun.has_flag( json_flag_RELOAD_ONE ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );
@@ -46,7 +48,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &magazine = dummy.i_add( item( "glockmag", calendar::turn_zero, 0 ) );
     const ammotype &mag_ammo_type = item::find_type( magazine.ammo_default() )->ammo->type;
@@ -69,7 +71,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &belt = dummy.i_add( item( "belt308", calendar::turn_zero, 0 ) );
     const ammotype &belt_ammo_type = item::find_type( belt.ammo_default() )->ammo->type;
@@ -96,7 +98,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
     item water( "water_clean", calendar::turn_zero, 2 );

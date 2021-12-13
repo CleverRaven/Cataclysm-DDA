@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
@@ -23,6 +23,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+static const mtype_id debug_mon( "debug_mon" );
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
@@ -275,7 +277,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     }
     REQUIRE( z_span.size() > 1 );
 
-    monster *dmon_p = g->place_critter_at( mtype_id( "debug_mon" ), map_starting_point );
+    monster *dmon_p = g->place_critter_at( debug_mon, map_starting_point );
     REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 

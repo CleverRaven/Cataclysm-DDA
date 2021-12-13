@@ -12,7 +12,7 @@ In short, Dark Skies is a science fiction/science fantasy story focused around a
 
 # Contributing
 
-Since Dark Skies is distributed with the base game, contributions are welcome. If you have any questions, you can contact me on Discord via `@ephemeral_storyteller` through the official developer or official community severs.
+Since Dark Skies is distributed with the base game, contributions are welcome. If you have any questions, you can contact us on Discord via `@ephemeral_storyteller` or `@mlangsdorf` through the official developer or official community severs.
 
 
 # Content

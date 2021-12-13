@@ -1,0 +1,23 @@
+[
+  {
+    "id": "afs_25mm_shot",
+    "type": "AMMO",
+    "name": { "str_sp": "25mm canister shot" },
+    "description": "A 25mm grenade with a canister shot load, deals devastating damage against moderately armored foes within mid to close range.  Relatively low tech and affordable when compared to other 25mm grenades, these are often fielded by frontier outfits due to their adequate performance in anti-drone and close quarters combat.",
+    "weight": "130 g",
+    "volume": "230 ml",
+    "price": 8000,
+    "material": [ "superalloy", "powder", "lead" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 6,
+    "stack_size": 1,
+    "ammo_type": "afs_25mm",
+    "casing": "afs_25_casing",
+    "range": 24,
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 15 },
+    "dispersion": 75,
+    "recoil": 2200,
+    "effects": [ "NEVER_MISFIRES" ]
+  }
+]

@@ -4,24 +4,28 @@
 #include <vector>
 
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_test_case.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "options_helpers.h"
 #include "point.h"
 
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-auto static const ter_set_flat_roof_above = ter_set( ter_str_id( "t_flat_roof" ), tripoint_above );
+static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
+static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
+
+static const auto ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static const tile_predicate set_up_tiles_common =
     ifchar( '.', noop ) ||
     ifchar( 'X', noop ) ||
-    ifchar( '#', ter_set( ter_str_id( "t_brick_wall" ) ) + ter_set_flat_roof_above ) ||
+    ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
     ifchar( '^', ter_set_flat_roof_above ) ||
     fail;
 
@@ -90,6 +94,8 @@ TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" 
 TEST_CASE( "reachability_vertical", "[map][cache][vision][los][reachability]" )
 {
     // vertical cache makes sense only for 3d vision
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    override_option opt( "FOV_3D", "true" );
     fov_3d = true;
 
     test_reachability( {{

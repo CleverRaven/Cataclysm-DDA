@@ -16,7 +16,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "welding_standard", 4 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE" ],
-    "damage_reduction": { "all": 58 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "id": "folding_orichalcum_frame",
@@ -55,7 +55,7 @@
     },
     "flags": [ "MOUNTABLE" ],
     "categories": [ "hull" ],
-    "damage_reduction": { "all": 78 }
+    "damage_reduction": { "all": 50 }
   },
   {
     "id": "frame_orichalcum_cover",

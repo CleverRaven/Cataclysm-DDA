@@ -1,0 +1,63 @@
+[
+  {
+    "type": "npc",
+    "id": "thug",
+    "name_suffix": "Thug",
+    "class": "NC_THUG",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit",
+    "name_suffix": "Bandit",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "raider",
+    "name_suffix": "Raider",
+    "class": "NC_SOLDIER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "wandering_thug",
+    "//": "Mission set to null, so they walk around.",
+    "name_suffix": "Thug",
+    "class": "NC_THUG",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "wandering_bandit",
+    "name_suffix": "Bandit",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "wandering_raider",
+    "name_suffix": "Raider",
+    "class": "NC_SOLDIER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  }
+]

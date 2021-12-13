@@ -3,6 +3,7 @@
 #include <map>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
@@ -32,8 +33,8 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         case 'm':
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                [&filter]( const material_id & mat ) {
-                    return lcmatch( mat->name(), filter );
+                [&filter]( const std::pair<material_id, int> &mat ) {
+                    return lcmatch( mat.first->name(), filter );
                 } );
             };
         // qualities
@@ -67,6 +68,14 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
             return [filter]( const item & i ) {
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
+            };
+        // by book skill
+        case 's':
+            return [filter]( const item & i ) {
+                if( get_avatar().has_identified( i.typeId() ) ) {
+                    return lcmatch( i.get_book_skill(), filter );
+                }
+                return false;
             };
         // by name
         default:

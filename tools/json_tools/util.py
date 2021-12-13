@@ -31,7 +31,7 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
         for f in d_descriptor[2]:
             if fnmatch(f, json_fmatch):
                 json_file = os.path.join(d, f)
-                with open(json_file, "r") as file:
+                with open(json_file, "r", encoding="utf-8") as file:
                     try:
                         candidates = json.load(
                             file, object_pairs_hook=OrderedDict)
@@ -362,10 +362,7 @@ class CDDAJSONWriter(object):
                 self.indent_multiplier -= 1
             self.buf.write("\n")
             self.indented_write("]")
-            if lol:
-                self.buf.write(",\n")
-            else:
-                self.buf.write("\n")
+            self.buf.write(",\n" if lol else "\n")
             self.indent_multiplier -= 1
         self.indented_write("]")
 

@@ -328,6 +328,13 @@
         "switch": true
       },
       {
+        "text": "<BGSS_intro_question>",
+        "//": "This is a unique background story that should not be given out randomly.",
+        "topic": "BGSS_METEOROLOGIST_1",
+        "condition": { "npc_has_trait": "BGSS_METEOROLOGIST" },
+        "switch": true
+      },
+      {
         "text": "How did you come to be a merc working for the Free Merchants, anyway?",
         "//": "This is a unique background story that should not be given out randomly.",
         "topic": "BGSS_SCAVENGER_MERC_1_STORY1",

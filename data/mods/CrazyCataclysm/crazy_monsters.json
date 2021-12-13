@@ -15,6 +15,20 @@
     "special_attacks": [ [ "SHOCKING_REVEAL", 25 ] ]
   },
   {
+    "id": "halloween_dragon",
+    "type": "MONSTER",
+    "name": { "str": "inflatable dragon" },
+    "copy-from": "mon_dragon_dummy",
+    "delete": { "flags": [ "NOT_HALLUCINATION" ] }
+  },
+  {
+    "id": "halloween_ghost",
+    "type": "MONSTER",
+    "name": { "str": "inflatable ghost" },
+    "copy-from": "mon_halloween_ghost",
+    "delete": { "flags": [ "NOT_HALLUCINATION" ] }
+  },
+  {
     "id": "mon_zombie_skeltal",
     "type": "MONSTER",
     "name": { "str": "mr skeltal" },
@@ -41,7 +55,6 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_drops": "skeltal_drops",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
     "harvest": "mr_bones",
     "special_attacks": [ [ "DOOT", 50 ] ]
@@ -69,7 +82,7 @@
     "dodge": 0,
     "vision_day": 30,
     "vision_night": 3,
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "harvest": "mr_bones",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
   },
@@ -102,7 +115,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "SMOKEBURST" ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
     "harvest": "zombie_fur",
     "flags": [
       "SEES",

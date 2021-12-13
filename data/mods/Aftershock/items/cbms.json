@@ -9,15 +9,6 @@
     "difficulty": 4
   },
   {
-    "id": "afs_bio_wind_turbine",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Wind Turbine CBM" },
-    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "price": 350000,
-    "difficulty": 4
-  },
-  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -97,6 +88,15 @@
     "difficulty": 16
   },
   {
+    "id": "afs_bio_translocator",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Implanted translocator CBM" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and coiled alongside the skeletal system.  It allows its user to safely and readily teleport towards a previously activated telepad.",
+    "price": "30 kUSD",
+    "difficulty": 16
+  },
+  {
     "id": "bio_cold_absorber",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -104,6 +104,66 @@
     "description": "A system designed to prevent instantaneous frostbite in workers exposed to things like hard vacuum and liquid nitrogen.",
     "price": 100000,
     "price_postapoc": 1500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Weak Energy Field CBM" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of energy fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps EnergyField Mark I.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 5 points.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Combat Rated Energy Field CBM" },
+    "description": "The HawkingCorps EnergyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven cabaple of protecting against most improvised weapons.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 15 points.",
+    "price": 100000,
+    "price_postapoc": 3500,
+    "difficulty": 8
+  },
+  {
+    "id": "bio_forcefield_bash_cut_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Debt Collection Agent Personal EnergyField CBM" },
+    "description": "This class of personal energy field often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 25 points.",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Kinetic Attenuation Field CBM" },
+    "description": "A personal kinetic attenuation field that slows incoming projectiles by converting their kinetic energy into bursts of visible light.  Although this version is not powerful enough to defeat most pistol or rifle cartridges by itself, it greatly increases survival odds when combined with traditional ballistic armor.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 10 points.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_ballistic_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Pattern-U15 Attenuation Field CBM" },
+    "description": "A military grade kinetic attenuation system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse engineered from.  A side effect modern engineering seems unable to address is the tendency for this unit to release electrical fields when hit.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 20 points",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Kinetic annulment system CBM" },
+    "description": "A kinetic attenuation system salvaged from a pre-discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 40 points",
+    "price": 100000,
+    "price_postapoc": 12500,
     "difficulty": 16
   }
 ]

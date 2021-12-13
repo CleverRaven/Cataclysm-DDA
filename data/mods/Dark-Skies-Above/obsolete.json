@@ -5,7 +5,7 @@
     "category": "weapons",
     "looks_like": "zweihander",
     "name": { "str": "salvaged consecrator's sword" },
-    "description": "A well built and decorated sword forged from dense alien metal.  Its ability to conjure fireballs does not seem to respond to your will, but the cutting edge is perfectly servicable.",
+    "description": "A well built and decorated sword forged from dense alien metal.  Its ability to conjure fireballs does not seem to respond to your will, but the cutting edge is perfectly serviceable.",
     "weight": "5400 g",
     "volume": "3750 ml",
     "price": 310000,
@@ -27,7 +27,7 @@
     "color": "light_gray",
     "looks_like": "arming_sword",
     "name": { "str": "salvaged knight's sword" },
-    "description": "A well built sword made from dense alien metal, in service of the knights of the New Order.  The runes that adorn it no longer glow, but its cutting edge is perfectly servicable.",
+    "description": "A well built sword made from dense alien metal, in service of the knights of the New Order.  The runes that adorn it no longer glow, but its cutting edge is perfectly serviceable.",
     "price": 100000,
     "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2" ],
@@ -57,10 +57,6 @@
     "symbol": "[",
     "looks_like": "power_armor",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ],
-    "coverage": 95,
-    "encumbrance": 24,
-    "max_encumbrance": 40,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 }
@@ -68,7 +64,14 @@
     "warmth": 50,
     "material_thickness": 4,
     "environmental_protection": 6,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": [ 24, 40 ],
+        "coverage": 95,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ]
+      }
+    ]
   },
   {
     "id": "dks_riotshield",
@@ -83,20 +86,18 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 85,
-    "encumbrance": 16,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 16, "coverage": 85, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "dks_battleshield",
     "type": "ARMOR",
     "name": "new order battle shield",
     "category": "armor",
-    "description": "A well forged shield made of steel, emblazed with what appears to be a highly stylized depiction of a sword piercing a star.",
+    "description": "A well forged shield made of steel, emblazoned with what appears to be a highly stylized depiction of a sword piercing a star.",
     "weight": "3300 g",
     "volume": "5 L",
     "price": 110000,
@@ -104,12 +105,10 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 90,
-    "encumbrance": 20,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   }
 ]

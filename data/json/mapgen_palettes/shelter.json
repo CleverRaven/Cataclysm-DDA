@@ -7,7 +7,7 @@
       "!": "t_pavement",
       "`": "t_pavement_y",
       "&": "t_sidewalk",
-      "#": "t_rock",
+      "#": "t_soil",
       "+": "t_door_c",
       "-": "t_wall_w",
       "_": "t_linoleum_white",

@@ -12,7 +12,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <fstream>
 #include <iomanip>
 #include <iterator>
 #include <map>
@@ -61,21 +60,17 @@
 #       if defined(LIBBACKTRACE)
 #           include <backtrace.h>
 #       endif
+#   elif defined(__ANDROID__)
+#       include <unwind.h>
+#       include <dlfcn.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
-#   if defined(__GNUC__) || defined(__clang__)
-#       include <cxxabi.h>
-#   endif
 #endif
 
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif // TILES
 
 #if defined(__ANDROID__)
@@ -151,11 +146,64 @@ bool debug_has_error_been_observed()
 
 bool debug_mode = false;
 
+namespace debugmode
+{
+std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value )
+{
+    // see debug.h for commentary
+    switch( value ) {
+        // *INDENT-OFF*
+        case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
+        case DF_ACT_EBOOK: return "DF_ACT_EBOOK";
+        case DF_ACT_HARVEST: return "DF_ACT_HARVEST";
+        case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
+        case DF_ACT_READ: return "DF_ACT_READ";
+        case DF_ACT_SAFECRACKING: return "DF_ACT_SAFECRACKING";
+        case DF_ACT_SHEARING: return "DF_ACT_SHEARING";
+        case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
+        case DF_ACTIVITY: return "DF_ACTIVITY";
+        case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
+        case DF_AVATAR: return "DF_AVATAR";
+        case DF_BALLISTIC: return "DF_BALLISTIC";
+        case DF_CHARACTER: return "DF_CHARACTER";
+        case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
+        case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CREATURE: return "DF_CREATURE";
+        case DF_EFFECT: return "DF_EFFECT";
+        case DF_EXPLOSION: return "DF_EXPLOSION";
+        case DF_FOOD: return "DF_FOOD";
+        case DF_GAME: return "DF_GAME";
+        case DF_IEXAMINE: return "DF_IEXAMINE";
+        case DF_IUSE: return "DF_IUSE";
+        case DF_MAP: return "DF_MAP";
+        case DF_MATTACK: return "DF_MATTACK";
+        case DF_MELEE: return "DF_MELEE";
+        case DF_MONSTER: return "DF_MONSTER";
+        case DF_NPC: return "DF_NPC";
+        case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RANGED: return "DF_RANGED";
+        case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
+        case DF_SOUND: return "DF_SOUND";
+        case DF_TALKER: return "DF_TALKER";
+        case DF_VEHICLE: return "DF_VEHICLE";
+        case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
+        case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        // *INDENT-ON*
+        case DF_LAST:
+        default:
+            debugmsg( "Invalid DF_FILTER : %d", value );
+            return "DF_INVALID";
+    }
+}
+} // namespace debugmode
+
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
     std::string funcname;
     std::string text;
+    bool forced;
 };
 
 namespace
@@ -177,7 +225,8 @@ static void debug_error_prompt(
     const char *filename,
     const char *line,
     const char *funcname,
-    const char *text )
+    const char *text,
+    bool force )
 {
     cata_assert( catacurses::stdscr );
     cata_assert( filename != nullptr );
@@ -188,7 +237,7 @@ static void debug_error_prompt(
     std::string msg_key( filename );
     msg_key += line;
 
-    if( ignored_messages.count( msg_key ) > 0 ) {
+    if( !force && ignored_messages.count( msg_key ) > 0 ) {
         return;
     }
 
@@ -197,8 +246,9 @@ static void debug_error_prompt(
             " DEBUG    : %s\n\n"
             " FUNCTION : %s\n"
             " FILE     : %s\n"
-            " LINE     : %s\n",
-            text, funcname, filename, line
+            " LINE     : %s\n"
+            " VERSION  : %s\n",
+            text, funcname, filename, line, getVersionString()
         );
 
 #if defined(BACKTRACE)
@@ -285,11 +335,98 @@ void replay_buffered_debugmsg_prompts()
             prompt.filename.c_str(),
             prompt.line.c_str(),
             prompt.funcname.c_str(),
-            prompt.text.c_str()
+            prompt.text.c_str(),
+            prompt.forced
         );
     }
     buffered_prompts().clear();
 }
+
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream &operator<<( Stream &out, const time_info &t ) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert( std::is_base_of<base, Stream>::value, "" );
+
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
+
+        return out;
+    }
+};
+
+static time_info get_time() noexcept;
+
+struct repetition_folder {
+    const char *m_filename = nullptr;
+    const char *m_line = nullptr;
+    const char *m_funcname = nullptr;
+    std::string m_text;
+    time_info m_time;
+
+    static constexpr time_info timeout = { 0, 0, 0, 100 }; // 100ms timeout
+    static constexpr int repetition_threshold = 10000;
+
+    int repeat_count = 0;
+
+    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+        return m_filename == filename &&
+               m_line == line &&
+               m_funcname == funcname &&
+               m_text == text &&
+               !timed_out();
+    }
+    void set_time() {
+        m_time = get_time();
+    }
+    void set( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+        m_filename = filename;
+        m_line = line;
+        m_funcname = funcname;
+        m_text = text;
+
+        set_time();
+
+        repeat_count = 0;
+    }
+    void increment_count() {
+        ++repeat_count;
+        set_time();
+    }
+    void reset() {
+        m_filename = nullptr;
+        m_line = nullptr;
+        m_funcname = nullptr;
+
+        m_time = time_info{0, 0, 0, 0};
+
+        repeat_count = 0;
+    }
+
+    bool timed_out() {
+        const time_info now = get_time();
+
+        const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
+        const int old_raw = m_time.mseconds + 1000 * m_time.seconds + 60000 * m_time.minutes + 3600000 *
+                            m_time.hours;
+
+        const int timeout_raw = timeout.mseconds + 1000 * timeout.seconds + 60000 * timeout.minutes +
+                                3600000 * timeout.hours;
+
+        return ( now_raw - old_raw ) > timeout_raw;
+    }
+};
+
+static repetition_folder rep_folder;
+static void output_repetitions( std::ostream &out );
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -301,20 +438,48 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     if( capturing ) {
         captured += text;
     } else {
-        DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
-                                    std::flush;
+
+        if( !rep_folder.test( filename, line, funcname, text ) ) {
+            DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
+                                        std::flush;
+            rep_folder.set( filename, line, funcname, text );
+        } else {
+            rep_folder.increment_count();
+        }
     }
 
     if( test_mode ) {
         return;
     }
 
+    // Show excessive repetition prompt once per excessive set
+    bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
+
     if( !catacurses::stdscr ) {
-        buffered_prompts().push_back( {filename, line, funcname, text } );
+        buffered_prompts().push_back( {filename, line, funcname, text, false } );
+        if( excess_repetition ) {
+            // prepend excessive error repetition to original text then prompt
+            std::string rep_err =
+                "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues\n            "
+                + text;
+            buffered_prompts().push_back( {filename, line, funcname, rep_err, true } );
+        }
         return;
     }
 
-    debug_error_prompt( filename, line, funcname, text.c_str() );
+    debug_error_prompt( filename, line, funcname, text.c_str(), false );
+
+    if( excess_repetition ) {
+        // prepend excessive error repetition to original text then prompt
+        std::string rep_err =
+            "Excessive error repetition detected.  Please file a bug report at https://github.com/CleverRaven/Cataclysm-DDA/issues\n            "
+            + text;
+        debug_error_prompt( filename, line, funcname, rep_err.c_str(), true );
+        // Do not count this prompt when considering repetition folding
+        // Might look weird in the log if the repetitions end exactly after this prompt is displayed.
+        rep_folder.set_time();
+
+    }
 }
 
 // Normal functions                                                 {{{1
@@ -351,28 +516,7 @@ struct NullBuf : public std::streambuf {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-struct time_info {
-    int hours;
-    int minutes;
-    int seconds;
-    int mseconds;
-
-    template <typename Stream>
-    friend Stream &operator<<( Stream &out, const time_info &t ) {
-        using char_t = typename Stream::char_type;
-        using base   = std::basic_ostream<char_t>;
-
-        static_assert( std::is_base_of<base, Stream>::value, "" );
-
-        out << std::setfill( '0' );
-        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
-            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
-
-        return out;
-    }
-};
-
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
@@ -390,9 +534,10 @@ static time_info get_time() noexcept
     gettimeofday( &tv, nullptr );
 
     const time_t tt      = time_t {tv.tv_sec};
-    struct tm *const current = localtime( &tt );
+    tm current;
+    localtime_r( &tt, &current );
 
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+    return time_info { current.tm_hour, current.tm_min, current.tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
@@ -435,6 +580,7 @@ DebugFile::~DebugFile()
 void DebugFile::deinit()
 {
     if( file && file.get() != &std::cerr ) {
+        output_repetitions( *file );
         *file << "\n";
         *file << get_time() << " : Log shutdown.\n";
         *file << "-----------------------------------------\n\n";
@@ -470,8 +616,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                     rename_failed = !rename_file( filename, oldfile );
                 }
             }
-            file = std::make_shared<std::ofstream>(
-                       filename.c_str(), std::ios::out | std::ios::app );
+            file = std::make_shared<cata::ofstream>(
+                       fs::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
             DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
@@ -592,12 +738,15 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
         if( cl & D_SDL ) {
             out << "SDL ";
         }
+        if( cl & D_MMAP ) {
+            out << "MMAP ";
+        }
     }
     return out;
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -635,11 +784,12 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
         return binary;
     }
 
+    std::string suffix = "/" + binary;
     for( const std::string &path_elem : string_split( path, ':' ) ) {
         if( path_elem.empty() ) {
             continue;
         }
-        std::string candidate = path_elem + "/" + binary;
+        std::string candidate = path_elem + suffix;
         if( 0 == access( candidate.c_str(), X_OK ) ) {
             return candidate;
         }
@@ -790,35 +940,15 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 #if defined(LIBBACKTRACE)
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
-#else
+#elif !defined(__ANDROID__)
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-#if defined(__GNUC__) || defined(__clang__)
-#define MAYBE_UNUSED __attribute__((unused))
-#else
-#define MAYBE_UNUSED
-#endif
-static const char *demangle( const char *symbol ) MAYBE_UNUSED;
-static const char *demangle( const char *symbol )
-{
-#if defined(_MSC_VER)
-    // TODO: implement demangling on MSVC
-#elif defined(__GNUC__) || defined(__clang__)
-    int status = -1;
-    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
-    if( status == 0 ) {
-        return demangled;
-    }
-#endif // defined(_WIN32)
-    return symbol;
-}
-
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__ANDROID__)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
-#if defined(__linux__) && !defined(__ANDROID__)
+#if defined(__linux__)
     // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
     static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
     std::cmatch match_result;
@@ -846,12 +976,26 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     } else {
         out << "\n    " << frame;
     }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
 #else
     out << "\n    " << frame;
 #endif
 }
-#endif // !defined(_WIN32)
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
 
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
@@ -1090,6 +1234,70 @@ void debug_write_backtrace( std::ostream &out )
 #endif
 }
 #endif
+#endif
+
+// Probably because there are too many nested #if..#else..#endif in this file
+// NDK compiler doesn't understand #if defined(__ANDROID__)..#else..#endif
+// So write as two separate #if blocks
+#if defined(__ANDROID__)
+
+// The following Android backtrace code was originally written by Eugene Shapovalov
+// on https://stackoverflow.com/questions/8115192/android-ndk-getting-the-backtrace
+struct android_backtrace_state {
+    void **current;
+    void **end;
+};
+
+static _Unwind_Reason_Code unwindCallback( struct _Unwind_Context *context, void *arg )
+{
+    android_backtrace_state *state = static_cast<android_backtrace_state *>( arg );
+    uintptr_t pc = _Unwind_GetIP( context );
+    if( pc ) {
+        if( state->current == state->end ) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void *>( pc );
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+    const size_t max = 50;
+    void *buffer[max];
+    android_backtrace_state state = {buffer, buffer + max};
+    _Unwind_Backtrace( unwindCallback, &state );
+    const std::size_t count = state.current - buffer;
+    // Start from 1: skip debug_write_backtrace ourselves
+    for( size_t idx = 1; idx < count && idx < max; ++idx ) {
+        const void *addr = buffer[idx];
+        Dl_info info;
+        if( dladdr( addr, &info ) && info.dli_sname ) {
+            out << "#" << std::setw( 2 ) << idx << ": " << addr << " " << demangle( info.dli_sname ) << "\n";
+        }
+    }
+}
+#endif
+
+void output_repetitions( std::ostream &out )
+{
+    // Need to complete the folding
+    if( rep_folder.repeat_count > 0 ) {
+        if( rep_folder.repeat_count > 1 ) {
+            out << std::endl;
+            out << "[ Previous repeated " << ( rep_folder.repeat_count - 1 ) << " times ]";
+        }
+        out << std::endl;
+        out << rep_folder.m_time << " ";
+        // repetition folding is only done through DebugLog( D_ERROR, D_MAIN )
+        out << D_ERROR;
+        out << ": ";
+        out << rep_folder.m_filename << ":" << rep_folder.m_line << " [" << rep_folder.m_funcname << "] " <<
+            rep_folder.m_text << std::flush;
+        rep_folder.reset();
+    }
+}
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
@@ -1101,6 +1309,9 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = debugFile().get_file();
+
+        output_repetitions( out );
+
         out << std::endl;
         out << get_time() << " ";
         out << lev;

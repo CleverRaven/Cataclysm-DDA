@@ -2,10 +2,11 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -13,9 +14,17 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const efftype_id effect_blind( "blind" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
-static const efftype_id effect_blind( "blind" );
+
+static const vproto_id vehicle_prototype_reactor_test( "reactor_test" );
+static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electric_test" );
+static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
+static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
+
+static const weather_type_id weather_sunny( "sunny" );
 
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
@@ -30,14 +39,14 @@ static void reset_player()
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
+    clear_vehicles();
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
     map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "reactor_test" ), reactor_origin,
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_reactor_test, reactor_origin,
                                              0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
@@ -66,7 +75,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin,
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
                                              0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
@@ -74,7 +83,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
             const time_point start_time = sunrise( calendar::turn ) + 3_hours;
             veh_ptr->update_time( start_time );
-            get_weather().weather_override = weather_type_id( "sunny" );
+            scoped_weather_override sunny_weather( weather_sunny );
 
             AND_GIVEN( "the battery has no charge" ) {
                 veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
@@ -104,7 +113,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         GIVEN( "it is 3 hours after sunset, with clear weather" ) {
             const time_point at_night = sunset( calendar::turn ) + 3_hours;
-            get_weather().weather_override = WEATHER_CLEAR;
+            scoped_weather_override clear_weather( WEATHER_CLEAR );
             veh_ptr->update_time( at_night );
 
             AND_GIVEN( "the battery has no charge" ) {
@@ -132,7 +141,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_test, origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 500 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
@@ -157,7 +166,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint origin = tripoint( 15, 0, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_electric_test" ), origin,
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_electric_test, origin,
                                              0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 5000 );

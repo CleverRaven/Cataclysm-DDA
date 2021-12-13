@@ -29,8 +29,8 @@ namespace cata
 class TestFilenameCallbacks : public PPCallbacks
 {
     public:
-        TestFilenameCallbacks( TestFilenameCheck *Check, CompilerInstance *Compiler ) :
-            Check( Check ), Compiler( Compiler ) {}
+        TestFilenameCallbacks( TestFilenameCheck *Check, const SourceManager *SrcM ) :
+            Check( Check ), SM( SrcM ) {}
 
         void MacroExpands( const Token &MacroNameTok,
                            const MacroDefinition &,
@@ -39,8 +39,7 @@ class TestFilenameCallbacks : public PPCallbacks
             StringRef MacroName = MacroNameTok.getIdentifierInfo()->getName();
 
             if( MacroName == "TEST_CASE" ) {
-                SourceManager &SM = Compiler->getSourceManager();
-                StringRef Filename = SM.getBufferName( Range.getBegin() );
+                StringRef Filename = SM->getBufferName( Range.getBegin() );
                 bool IsTestFilename = Filename.endswith( "_test.cpp" );
 
                 if( !IsTestFilename ) {
@@ -52,13 +51,13 @@ class TestFilenameCallbacks : public PPCallbacks
         }
     private:
         TestFilenameCheck *Check;
-        CompilerInstance *Compiler;
+        const SourceManager *SM;
 };
 
-void TestFilenameCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void TestFilenameCheck::registerPPCallbacks( const SourceManager &SM, Preprocessor *PP,
+        Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<TestFilenameCallbacks>( this, &Compiler ) );
+    PP->addPPCallbacks( std::make_unique<TestFilenameCallbacks>( this, &SM ) );
 }
 
 } // namespace cata

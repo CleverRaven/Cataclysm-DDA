@@ -216,7 +216,7 @@
       [ "refctr_NW1e_z-1", "refctr_NW2e_z-1", "refctr_NW3e_z-1", "refctr_NW4e_z-1", "refctr_NW5e_z-1" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   },
   {
     "type": "mapgen",
@@ -229,7 +229,7 @@
       [ "refctr_NW1e_z-2", "refctr_NW2e_z-2", "refctr_NW3e_z-2", "refctr_NW4e_z-2", "refctr_NW5e_z-2" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   },
   {
     "type": "mapgen",
@@ -242,7 +242,7 @@
       [ "refctr_NW1e_z-3", "refctr_NW2e_z-3", "refctr_NW3e_z-3", "refctr_NW4e_z-3", "refctr_NW5e_z-3" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   },
   {
     "type": "mapgen",
@@ -255,6 +255,6 @@
       [ "refctr_NW1e_z-4", "refctr_NW2e_z-4", "refctr_NW3e_z-4", "refctr_NW4e_z-4", "refctr_NW5e_z-4" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   }
 ]

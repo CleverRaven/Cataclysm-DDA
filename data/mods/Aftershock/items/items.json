@@ -60,6 +60,15 @@
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {
+    "type": "AMMO",
+    "id": "clearcrete_chunk",
+    "copy-from": "rock",
+    "name": { "str": "clearcrete chunk" },
+    "category": "other",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
+    "material": [ "clearcrete" ]
+  },
+  {
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
     "type": "GENERIC",
@@ -159,7 +168,7 @@
     "id": "afs_titanium_tooth",
     "type": "GENERIC",
     "name": { "str": "titanium tooth" },
-    "description": "A dental implant made of pure titanium, used to replace teeth due to its bio-compatibility and durability.",
+    "description": "A dental implant made of pure titanium, used to replace teeth due to its biocompatibility and durability.",
     "price": 5000,
     "price_postapoc": 50,
     "weight": "10 g",
@@ -182,10 +191,9 @@
     "material": [ "titanium" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "flags": [ "WATCH", "STURDY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "STURDY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "afs_titanium_ring",

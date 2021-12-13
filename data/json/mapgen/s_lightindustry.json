@@ -213,6 +213,12 @@
         { "group": "elecsto_diy", "chance": 60, "repeat": 4, "x": [ 34, 39 ], "y": [ 12, 14 ] },
         { "group": "elecsto_diy", "chance": 60, "repeat": 4, "x": [ 34, 37 ], "y": [ 4, 5 ] }
       ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 2, 22 ], "y": [ 7, 14 ], "density": 0.2 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 42 ], "y": [ 7, 14 ], "repeat": [ 1, 2 ], "density": 0.2 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 2, 22 ], "y": [ 60, 71 ], "density": 0.2 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 42 ], "y": [ 60, 71 ], "repeat": [ 1, 2 ], "density": 0.2 }
+      ],
       "place_vehicles": [ { "vehicle": "cube_van", "x": 31, "y": 50, "chance": 70, "rotation": 270 } ]
     }
   },

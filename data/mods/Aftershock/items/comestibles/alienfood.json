@@ -3,7 +3,7 @@
     "id": "yum_lichen",
     "type": "COMESTIBLE",
     "name": { "str": "clump of lichen", "str_pl": "clumps of lichen" },
-    "weight": "10 g",
+    "weight": "120 g",
     "color": "red",
     "use_action": [ "BLECH" ],
     "comestible_type": "FOOD",
@@ -13,16 +13,17 @@
     "quench": 15,
     "description": "A clump of moist squishy lichen.  You get the impression that it might not be the safest thing to eat considering how it makes your hand tingle.",
     "price": "20 cent",
-    "volume": "5 ml",
+    "volume": "80 ml",
     "charges": 3,
     "fun": -8,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "id": "yum_lichen_extra",
     "type": "COMESTIBLE",
     "name": { "str": "clump of processed lichen", "str_pl": "clumps of processed lichen" },
-    "weight": "10 g",
+    "weight": "115 g",
     "color": "red",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -31,10 +32,11 @@
     "quench": 10,
     "description": "A clump of squishy lichen, while it isn't as wet as it used to be, your hands no longer tingle holding it.",
     "price": "20 cent",
-    "volume": "5 ml",
+    "volume": "75 ml",
     "charges": 3,
     "fun": -3,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "frost_human_flesh",
@@ -236,7 +238,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "alien stomach",
-    "description": "A balloon like organ you can only guess is a stomach.  It is surprisingly durable.",
+    "description": "A balloon-like organ you can only guess is a stomach.  It is surprisingly durable.",
     "weight": "72 g",
     "volume": "250 ml",
     "price_postapoc": 25,
@@ -254,7 +256,7 @@
     "copy-from": "alien_stomach",
     "type": "COMESTIBLE",
     "name": "large alien stomach",
-    "description": "A balloon like organ of a large alien.  It is surprisingly durable.",
+    "description": "A balloon-like organ of a large alien you can only guess is a stomach.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {

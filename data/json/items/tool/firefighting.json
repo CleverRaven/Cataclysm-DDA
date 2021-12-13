@@ -19,6 +19,7 @@
     "cutting": 28,
     "to_hit": -2,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "use_action": [ "CROWBAR" ],
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
   },
   {
@@ -36,7 +37,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -46,7 +46,6 @@
         "ammo_restriction": { "extinguishing_agent": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "EXTINGUISHER" ]
@@ -69,12 +68,13 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "use_action": [ "CROWBAR" ],
     "pocket_data": [
       {
-        "max_contains_volume": "1250 ml",
+        "max_contains_volume": "550 ml",
         "max_contains_weight": "5500 g",
-        "max_item_length": "61 cm",
+        "max_item_length": "76 cm",
         "moves": 150,
         "item_restriction": [ "halligan" ],
         "holster": true
@@ -87,8 +87,8 @@
     "name": { "str": "Halligan bar" },
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "5443 g",
-    "volume": "1250 ml",
-    "longest_side": "60 cm",
+    "volume": "550 ml",
+    "longest_side": "76 cm",
     "price": 7500,
     "price_postapoc": 1500,
     "bashing": 45,
@@ -97,7 +97,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
   },
@@ -125,8 +125,6 @@
         "ammo_restriction": { "extinguishing_agent": 10 }
       }
     ],
-    "initial_charges": 10,
-    "max_charges": 10,
     "ammo": "extinguishing_agent",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -213,7 +211,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_AXE" ],
     "weight": "2900 g",
-    "volume": "1900 ml",
+    "volume": "400 ml",
     "longest_side": "90 cm",
     "bashing": 15,
     "cutting": 13,

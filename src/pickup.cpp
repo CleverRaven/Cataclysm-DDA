@@ -60,6 +60,8 @@ using PickupMap = std::map<std::string, ItemCount>;
 
 static const itype_id itype_water( "water" );
 
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
+
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -148,10 +150,11 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     amenu.text = explain;
 
     offered_swap = true;
+    const item &weapon = u.get_wielded_item();
     // TODO: Gray out if not enough hands
     if( u.has_wield_conflicts( it ) ) {
-        amenu.addentry( WIELD, u.can_unwield( u.weapon ).success(), 'w',
-                        _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
+        amenu.addentry( WIELD, u.can_unwield( weapon ).success(), 'w',
+                        _( "Dispose of %s and wield %s" ), weapon.display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
@@ -259,7 +262,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !( player_character.crush_frozen_liquid( newloc ) ) ) ) {
+        if( !( got_water = !player_character.crush_frozen_liquid( newloc ) ) ) {
             option = STASH;
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
@@ -309,11 +312,12 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             const auto wield_check = player_character.can_wield( newit );
             if( wield_check.success() ) {
                 picked_up = player_character.wield( newit );
-                if( player_character.weapon.invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), player_character.weapon.invlet,
-                             player_character.weapon.display_name() );
+                const item &weapon = player_character.get_wielded_item();
+                if( weapon.invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), weapon.invlet,
+                             weapon.display_name() );
                 } else {
-                    add_msg( m_info, _( "Wielding - %s" ), player_character.weapon.display_name() );
+                    add_msg( m_info, _( "Wielding - %s" ), player_character.get_wielded_item().display_name() );
                 }
             } else {
                 add_msg( m_neutral, wield_check.c_str() );
@@ -336,14 +340,15 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
                              !newit.count_by_charges() );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    if( player_character.weapon.can_contain_partial( newit ) ) {
-                        int used_charges = player_character.weapon.fill_with( newit, remaining_charges );
+                    item &weapon = player_character.get_wielded_item();
+                    if( weapon.can_contain_partial( newit ) ) {
+                        int used_charges = weapon.fill_with( newit, remaining_charges );
                         remaining_charges -= used_charges;
                     }
                     for( item &i : player_character.worn ) {
@@ -471,14 +476,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( local.has_flag( "SEALED", p ) ) {
+            if( local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 return;
             }
         }
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( local.i_at( p ).empty() );
+        bool isEmpty = local.i_at( p ).empty();
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but non-frozen water.
@@ -519,7 +524,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
-                tripoint apos = tripoint( direction_XY( elem ), 0 );
+                tripoint apos = tripoint( displace_XY( elem ), 0 );
                 apos += p;
 
                 pick_up( apos, min );
@@ -527,9 +532,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
+        if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
             return;
         }
     }
@@ -711,7 +717,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     const item &this_item = *stacked_here[true_it].front();
-                    nc_color icolor = this_item.color_in_inventory();
+
+                    nc_color icolor;
+                    if( this_item.is_food_container() && !this_item.is_craft() &&
+                        this_item.num_item_stacks() == 1 ) {
+                        icolor = this_item.all_items_top().front()->color_in_inventory();
+                    } else {
+                        icolor = this_item.color_in_inventory();
+                    }
+
                     if( cur_it == selected ) {
                         icolor = hilite( c_white );
                     }

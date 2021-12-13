@@ -6,7 +6,7 @@
 
 #include "behavior.h"
 #include "behavior_strategy.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"
@@ -21,6 +21,14 @@
 #include "point.h"
 #include "type_id.h"
 #include "weather.h"
+
+static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
+static const itype_id itype_sweater( "sweater" );
+static const itype_id itype_water( "water" );
+
+static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 namespace behavior
 {
@@ -147,7 +155,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     clear_map();
     behavior::tree npc_needs;
-    npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
+    npc_needs.add( &behavior__node_t_npc_needs.obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( test_npc );
     behavior::character_oracle_t oracle( &test_npc );
@@ -160,15 +168,15 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.worn.push_back( item( "backpack" ) );
-        item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
+        test_npc.worn.emplace_back( "backpack" );
+        item &sweater = test_npc.i_add( item( itype_sweater ) );
         CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
         item sweater_copy = test_npc.i_rem( &sweater );
         test_npc.wear_item( sweater_copy );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.i_add( item( itype_id( "lighter" ) ) );
-        test_npc.i_add( item( itype_id( "2x4" ) ) );
+        test_npc.i_add( item( itype_lighter ) );
+        test_npc.i_add( item( itype_2x4 ) );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
@@ -177,7 +185,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_stored_kcal( 1000 );
         REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
+        item &food = test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
         item_location loc = item_location( test_npc, &food );
         REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
@@ -188,7 +196,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &water = test_npc.i_add( item( itype_id( "water" ) ) );
+        item &water = test_npc.i_add( item( itype_water ) );
         item_location loc = item_location( test_npc, &water );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );

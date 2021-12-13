@@ -120,6 +120,10 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 
+# Accelerating Linux builds with llama
+
+[llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
+
 # Debian
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
@@ -205,12 +209,21 @@ Installation
     sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
     mkdir -p ~/src/Cataclysm-DDA
     mkdir -p ~/src/mxe
+    mkdir -p ~/src/libbacktrace
     cd ~/src
     git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
     git clone https://github.com/mxe/mxe.git ./mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+    cd mxe
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+    cd ../libbacktrace/
+    wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
+    wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
+    tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/x86_64-w64-mingw32.static
+    tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/i686-w64-mingw32.static
 
-Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.  Additionally if not building for a particular target you can skip the curl and tar commands for the targets NOT being built.
+
+An additional note: With C:DDA switching to gcc 11.2 with MXE (MingW), if you've previously built MXE you'll need to "make clean" and rebuild it to get gcc11.
 
 Edit your `~/.profile` as follows:
 
@@ -229,8 +242,8 @@ The first time you set up your build environment, you must `touch VERSION.txt` t
 
 Run one of the following commands based on your targeted environment:
 
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
 
 
 <!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
@@ -312,7 +325,6 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_ttf (tested with 2.0.14)
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
-  * libintl-lite (tested with a custom fork of libintl-lite 0.5)
 
 The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
@@ -486,15 +498,15 @@ The Cataclysm source is compiled using `make`.
 
 ### Make options
 
-* `NATIVE=osx` build for OS X. Required for all Mac builds.
-* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below).
+* `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
+* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below). The default value is current system version.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
-* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
+* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++. This is enabled by default.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 * `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
@@ -507,15 +519,15 @@ For more info, see the comments in the `Makefile`.
 
 Build a release SDL version using Clang without gettext:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
+    make RELEASE=1 TILES=1 LOCALIZE=0
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
 
-    make app NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
+    make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
 
 Build a release curses version with gettext supplied by Macports:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 LOCALIZE=1 MACPORTS=1 CLANG=1
+    make RELEASE=1 LOCALIZE=1 MACPORTS=1
 
 ### Running
 
@@ -551,12 +563,6 @@ Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like 
 You should see a `Cataclysm.dmg` file.
 
 ## Mac OS X Troubleshooting
-
-### ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier
-
-For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
-
-If you're on a newer version of OS X, please use an appropriate value for the `OSX_MIN=` option, i.e. `OSX_MIN=10.14` if you are on Mojave.
 
 ### ISSUE: crash on startup due to libint.8.dylib aborting
 
@@ -599,39 +605,24 @@ Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Si
 
 There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
 
-### Building on FreeBSD/amd64 10.1 with the system compiler
+### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box. You will however need gmake (examples for binary packages):
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
 
-`pkg install gmake`
+Install the following with pkg (or from Ports):
+
+`pkg install gmake libiconv`
 
 Tiles builds will also require SDL2:
 
-`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+`pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf`
 
-Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+Then you should be able to build with something like this:
 
 ```
-export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
-gmake # ncurses builds
-gmake TILES=1 # tiles builds
+gmake RELEASE=1 # ncurses builds
+gmake RELEASE=1 TILES=1 # tiles builds
 ```
-
-The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
-
-### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
-
-For ncurses build add to `Makefile`, before `VERSION`:
-
-```Makefile
-OTHERS += -D_GLIBCXX_USE_C99
-CXX = g++48
-CXXFLAGS += -I/usr/local/lib/gcc48/include
-LDFLAGS += -rpath=/usr/local/lib/gcc48
-```
-Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
-
-And then build with `gmake LOCALIZE=0 RELEASE=1`.
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

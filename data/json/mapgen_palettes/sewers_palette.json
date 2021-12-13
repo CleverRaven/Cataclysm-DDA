@@ -12,7 +12,7 @@
       "_": [ [ "t_moss", 2 ], [ "t_dirt", 3 ], [ "t_dirtmound", 1 ], [ "t_sewage", 10 ] ],
       "|": [ "t_concrete_wall" ],
       "I": [ "t_wall_metal" ],
-      "W": [ "t_rock" ],
+      "W": [ "t_soil" ],
       "r": [ "t_metal_floor" ],
       "L": [ [ "t_door_bar_o", 1 ], [ "t_door_bar_locked", 5 ] ],
       "D": [ "t_door_metal_c" ],

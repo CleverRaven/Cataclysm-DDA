@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
+    "looks_like": "tomato_juice",
     "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
@@ -10,7 +11,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 21,
+    "calories": 28,
+    "sealed": true,
     "description": "A minimally seasoned sauce of cooked tomatoes.",
     "price": 4,
     "price_postapoc": 50,
@@ -45,10 +47,11 @@
     "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
-    "freezing_point": 30
+    "freezing_point": -1
   },
   {
     "id": "mayonnaise",
+    "looks_like": "milk",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
@@ -68,11 +71,12 @@
     "fun": -1,
     "flags": [ "FREEZERBURN" ],
     "phase": "liquid",
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "id": "ketchup",
     "type": "COMESTIBLE",
+    "looks_like": "tomato_juice",
     "symbol": "~",
     "color": "red",
     "name": { "str": "ketchup" },
@@ -85,7 +89,7 @@
     "comestible_type": "DRINK",
     "container": "condiment_bottle_sealed",
     "sealed": false,
-    "calories": 21,
+    "calories": 28,
     "spoils_in": 600,
     "charges": 16,
     "fun": -1,
@@ -94,6 +98,7 @@
   {
     "id": "mustard",
     "type": "COMESTIBLE",
+    "looks_like": "mayonnaise",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "mustard" },
@@ -139,6 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
+    "looks_like": "water",
     "name": { "str_sp": "vinegar" },
     "weight": "15 g",
     "color": "white",
@@ -154,7 +160,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
-    "freezing_point": 28
+    "freezing_point": -2
   },
   {
     "type": "COMESTIBLE",
@@ -167,6 +173,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": -1,
+    "healthy": -2,
     "calories": 127,
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,
@@ -176,9 +183,10 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
+    "use_action": [ "BLECH" ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "freezing_point": 14
+    "freezing_point": -26
   },
   {
     "type": "COMESTIBLE",
@@ -201,7 +209,7 @@
     "symbol": "~",
     "quench": -2,
     "healthy": 1,
-    "calories": 258,
+    "calories": 205,
     "description": "An extremely sugary tar-like syrup, produced by repeatedly boiling the juice of sugarcane or sugar beets.  It has a slightly bitter aftertaste.",
     "price": 200,
     "price_postapoc": 500,
@@ -212,7 +220,7 @@
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
-    "freezing_point": -20
+    "freezing_point": -29
   },
   {
     "id": "horseradish",
@@ -239,6 +247,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_syrup",
+    "looks_like": "coffee",
     "name": { "str_sp": "coffee syrup" },
     "weight": "32 g",
     "color": "brown",
@@ -252,13 +261,14 @@
     "quench": 1,
     "healthy": -1,
     "addiction_potential": 1,
+    "calories": 116,
     "description": "A thick syrup made of water and sugar strained through coffee grounds.  Can be used to flavor many foods and beverages.",
     "price": 800,
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 8,
+    "charges": 3,
     "fun": 6
   }
 ]

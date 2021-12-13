@@ -6,7 +6,7 @@
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
     "weight": "2 kg",
     "volume": "750 ml",
-    "price": 0,
+    "price": 3100,
     "bashing": 9,
     "to_hit": -1,
     "material": [ "stone" ],
@@ -61,13 +61,11 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 5,
-    "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
-    "qualities": [ [ "MANA_FOCUS", 1 ] ]
+    "qualities": [ [ "MANA_FOCUS", 1 ] ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {
     "id": "potion_starter",
@@ -99,6 +97,7 @@
     "color": "yellow",
     "name": "glow dust",
     "description": "The powdered remains of a will-o-wisps's physical form.  It seems to still possess an otherworldly glow.",
+    "price": 3800,
     "material": [ "powder" ],
     "weight": "5 g",
     "volume": "250 ml"
@@ -145,6 +144,7 @@
     "color": "light_gray",
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
+    "price": 48000,
     "material": [ "arcane_skin" ],
     "weight": "30 kg",
     "volume": "3 L"
@@ -156,6 +156,7 @@
     "color": "red",
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
+    "price": 10000,
     "material": [ "gemstone" ],
     "weight": "120 g",
     "volume": "250 ml"
@@ -173,7 +174,7 @@
     "container": "flask_glass",
     "charges": 1,
     "phase": "liquid",
-    "freezing_point": -100
+    "freezing_point": -73
   },
   {
     "id": "stirge_proboscis",
@@ -198,13 +199,22 @@
     "color": "red",
     "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": 0,
+    "price": 1000,
     "material": [ "demon_chitin" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
     "flags": [ "TRADER_AVOID" ],
     "to_hit": -2
+  },
+  {
+    "id": "bundle_demon_chitin_piece",
+    "type": "GENERIC",
+    "copy-from": "demon_chitin_piece",
+    "symbol": "=",
+    "name": { "str": "bundle of demon chitin chunks", "str_pl": "bundles of demon chitin chunks" },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
+    "description": "Pieces of demon spider exoskeleton, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
     "type": "GENERIC",
@@ -291,5 +301,125 @@
     "bashing": 10,
     "to_hit": 1,
     "category": "spare_parts"
+  },
+  {
+    "id": "alchemist_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "mana bomb" },
+    "description": "Mana bombs are powerful explosive devices developed by a little-known alchemist group for use against enemy spellcasters.  These bombs are fueled by pure arcane energy and can kill instantly.  The exact workings are unclear, but they appear to use some kind of massive mana burn.",
+    "weight": "430 g",
+    "volume": "200 ml",
+    "price": 2000,
+    "price_postapoc": 550,
+    "to_hit": -1,
+    "bashing": 14,
+    "material": [ "crystallized_mana", "concentrated_mana" ],
+    "symbol": "*",
+    "color": "green",
+    "use_action": {
+      "need_wielding": true,
+      "target": "alchemist_bomb_act",
+      "msg": "You mix the contents of the bottle, and it starts to sizzle.",
+      "target_charges": 8,
+      "active": true,
+      "menu_text": "Mix liquid",
+      "type": "transform"
+    },
+    "flags": [ "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "alchemist_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "mana bomb (lit)", "str_pl": "mana bombs (lit)" },
+    "description": "The liquid in the bottle is sizzling.  Throwing it away from you, preferably at an enemy, would be a very good idea.",
+    "weight": "430 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -3,
+    "bashing": 14,
+    "material": [ "concentrated_mana", "crystallized_mana" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 200 },
+    "initial_charges": 8,
+    "max_charges": 8,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss…",
+      "no_deactivate_msg": "The reaction has already started - all you can do is get it away from you!",
+      "explosion": { "power": 200 }
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "alchemist_mine",
+    "type": "TOOL",
+    "name": { "str": "alchemical mine" },
+    "description": "A pair of stabilized alchemist bombs with concentrated mana linking them.  Any movement in the mana linkage zone provokes an extremely powerful explosion in a small area.",
+    "weight": "860 g",
+    "volume": "400 ml",
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "crystallized_mana", "concentrated_mana" ],
+    "symbol": ";",
+    "flags": [ "TRADER_AVOID" ],
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "bury_question": "Bury the alchemic mine?",
+      "bury": { "trap": "tr_alchemist_mine_buried", "moves": 275, "practice": 7, "done_message": "You bury the alchemic mine." },
+      "trap": "tr_alchemist_mine",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the alchemic mine."
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_alchemist_mine_buried",
+    "trigger_weight": "200 g",
+    "name": "buried alchemical mine",
+    "color": "red",
+    "symbol": "_",
+    "visibility": 10,
+    "avoidance": 14,
+    "difficulty": 10,
+    "action": "landmine",
+    "drops": [ "alchemist_mine" ],
+    "vehicle_data": {
+      "do_explosion": true,
+      "damage": 1000,
+      "sound_volume": 10,
+      "sound": "Boom!",
+      "sound_type": "explosion",
+      "sound_variant": "default"
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_alchemist_mine",
+    "trigger_weight": "200 g",
+    "name": "alchemical mine",
+    "color": "red",
+    "symbol": "^",
+    "visibility": 1,
+    "avoidance": 14,
+    "difficulty": 10,
+    "action": "landmine",
+    "drops": [ "alchemist_mine" ],
+    "vehicle_data": {
+      "do_explosion": true,
+      "damage": 1000,
+      "sound_volume": 10,
+      "sound": "Boom!",
+      "sound_type": "explosion",
+      "sound_variant": "default"
+    }
   }
 ]

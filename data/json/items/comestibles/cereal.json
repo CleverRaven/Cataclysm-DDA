@@ -132,13 +132,13 @@
     "id": "cereal2",
     "name": { "str_sp": "wheat cereal" },
     "weight": "52 g",
-    "volume": "1 L",
+    "volume": "250 ml",
     "calories": 180,
     "description": "Whole-grain wheat cereal.  It's surprisingly good, and allegedly good for your heart.",
     "price_postapoc": 600,
-    "charges": 12,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ] ],
+    "charges": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "vitC", 2 ], [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 9 ] ],
     "copy-from": "cereal_tpl"
   },
   {

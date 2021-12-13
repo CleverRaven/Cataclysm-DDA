@@ -25,9 +25,11 @@
 #endif
 #include "cached_options.h"
 #include "color.h"
+#include "compatibility.h"
 #include "crash.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
@@ -40,8 +42,10 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
+#include "system_language.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class ui_adaptor;
 
@@ -121,9 +125,17 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
+#if defined(__ANDROID__)
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
+#endif
+
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
@@ -512,6 +524,7 @@ int main( int argc, const char *argv[] )
 {
 #endif
     init_crash_handlers();
+    reset_floating_point_mode();
 
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
@@ -673,21 +686,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
         select_language();
         set_language();
     }
@@ -709,7 +708,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-        while( !g->do_turn() );
+        while( !do_turn() );
     }
 
     exit_handler( -999 );

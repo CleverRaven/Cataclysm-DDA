@@ -2,38 +2,60 @@
   {
     "type": "MONSTER_FACTION",
     "name": "invader_alien",
-    "neutral": [ "small_animal", "fish", "animal", "lizard" ]
+    "base_faction": "nether",
+    "neutral": [ "alien_carnivore", "alien_herbivore", "stray" ],
+    "by_mood": "animal"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "alien_herbivore",
-    "base_faction": "small_animal"
+    "base_faction": "herbivore",
+    "neutral": [ "invader_alien", "stray" ],
+    "by_mood": [ "alien_carnivore" ]
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "lizard",
-    "neutral": [ "small_animal", "invader_alien" ],
-    "by_mood": "lizard"
+    "name": "alien_carnivore",
+    "base_faction": "mutant",
+    "neutral": [ "invader_alien", "stray" ],
+    "by_mood": "alien_carnivore",
+    "hate": [ "alien_herbivore" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "alien_packliz",
+    "base_faction": "alien_carnivore"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "stray",
-    "//": "largely neutral to animals and things that don't live",
-    "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog", "invader_alien" ]
+    "//": "largely neutral to animals, but will retaliate.  strictly neutral to their creators.",
+    "base_faction": "bot",
+    "neutral": [ "invader_alien", "alien_herbivore", "alien_carnivore" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "lurker",
-    "//": "TODO assign base faction and/or attitude"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "packliz",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "gator",
+    "hate": [ "fish", "aquatic_predator" ],
+    "by_mood": "gator"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "bileworm",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "dog",
+    "by_mood": [ "small_animal", "dog" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dog",
+    "copy-from": "dog",
+    "by_mood": "bileworm"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "copy-from": "gator",
+    "by_mood": "lurker"
   }
 ]

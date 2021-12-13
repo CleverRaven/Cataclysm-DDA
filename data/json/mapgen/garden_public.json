@@ -122,7 +122,7 @@
         { "signage": "<city> Public Garden", "x": 15, "y": 21 }
       ]
     },
-    "om_terrain": "publicgarden",
+    "om_terrain": "publicgarden_2",
     "type": "mapgen",
     "weight": 100
   }

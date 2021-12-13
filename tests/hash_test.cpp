@@ -4,7 +4,7 @@
 #include <iterator>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "point.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.
@@ -19,7 +19,7 @@ static constexpr int MAX_COORDINATE = 300;
 #endif
 static constexpr int NUM_ENTRIES_2D = ( ( MAX_COORDINATE * 2 ) + 1 ) * ( (
         MAX_COORDINATE * 2 ) + 1 );
-static constexpr int NUM_ENTRIES_3D = NUM_ENTRIES_2D * ( 21 );
+static constexpr int NUM_ENTRIES_3D = NUM_ENTRIES_2D * 21;
 
 static size_t count_unique_elements( std::vector<size_t> &found_elements )
 {

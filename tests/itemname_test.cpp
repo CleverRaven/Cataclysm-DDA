@@ -3,7 +3,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
 #include "item.h"
@@ -11,6 +11,9 @@
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
+
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
@@ -52,7 +55,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
     GIVEN( "player is a huge size" ) {
         player_character.clear_mutations();
-        player_character.toggle_trait( trait_id( "HUGE_OK" ) );
+        player_character.toggle_trait( trait_HUGE_OK );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -88,7 +91,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
     GIVEN( "player is a small size" ) {
         player_character.clear_mutations();
-        player_character.toggle_trait( trait_id( "SMALL_OK" ) );
+        player_character.toggle_trait( trait_SMALL_OK );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -137,7 +140,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     REQUIRE_FALSE( quiver.magazine_current() );
     // But they do have ammo types and can contain ammo
     REQUIRE_FALSE( quiver.ammo_types().empty() );
-    REQUIRE( quiver.can_contain( arrow ) );
+    REQUIRE( quiver.can_contain( arrow ).success() );
 
     // Check empty quiver display
     CHECK( quiver.display_name() ==

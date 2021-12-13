@@ -127,7 +127,7 @@
         "bullet": 6
       }
     ],
-    "speed_modifier": 0.95
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -210,12 +210,6 @@
     "type": "mutation",
     "id": "SKIN_ROUGH",
     "copy-from": "SKIN_ROUGH",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "LIZ_EYE",
-    "copy-from": "LIZ_EYE",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {

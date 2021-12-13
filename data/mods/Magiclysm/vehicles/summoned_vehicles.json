@@ -71,6 +71,10 @@
     "damage_reduction": { "all": 12 }
   },
   {
+    "id": "MAGIC_FOLLOW",
+    "type": "json_flag"
+  },
+  {
     "id": "mana",
     "name": "mana energy",
     "default": "mana",

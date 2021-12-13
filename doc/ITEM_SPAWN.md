@@ -93,7 +93,9 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "ammo-group": "<group-id>",
 "container-group": "<group-id>",
 "sealed": <boolean>
+"variant": <string>
 "artifact": <object>
+"event": <string>
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -103,6 +105,19 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
+
+`variant`: A valid itype variant id for this item.
+
+`event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
+
+Current possible values are:
+- "none" (Not event-based. Same as omitting the "event" field.)
+- "new_year"
+- "easter"
+- "independence_day"
+- "halloween"
+- "thanksgiving"
+- "christmas"
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```json
@@ -191,6 +206,10 @@ Another example: The group "milk" spawns a container (taken from milk_containers
     ]
 },
 ```
+
+## Adding to item groups
+
+Mods can add entries to item groups simply by specifying an item group with the same id; any entries will be added to the item group.
 
 ## Inlined item groups
 

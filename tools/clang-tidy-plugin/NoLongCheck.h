@@ -5,6 +5,7 @@
 #include <llvm/ADT/StringRef.h>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {
@@ -22,7 +23,7 @@ class NoLongCheck : public ClangTidyCheck
     public:
         NoLongCheck( StringRef Name, ClangTidyContext *Context )
             : ClangTidyCheck( Name, Context ) {}
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
 };

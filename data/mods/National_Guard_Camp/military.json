@@ -36,8 +36,9 @@
       }
     ],
     "death_drops": { "groups": [ [ "wraitheon_infantry", 30 ] ] },
-    "death_function": [ "DISINTEGRATE" ],
-    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_w11b20b4",
@@ -84,13 +85,13 @@
     "type": "MONSTER",
     "name": "W11H10",
     "description": "Wraitheon (11H) Anti-Tank Infantry 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
-    "starting_ammo": { "40mm_incendiary": 8 },
+    "starting_ammo": { "40x46mm_m433": 8 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 3,
         "gun_type": "m320",
-        "ammo_type": "40mm_incendiary",
+        "ammo_type": "40x46mm_m433",
         "fake_skills": [ [ "gun", 1 ], [ "launcher", 1 ] ],
         "fake_dex": 8,
         "ranges": [ [ 5, 20, "DEFAULT" ] ]

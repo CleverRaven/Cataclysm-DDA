@@ -396,7 +396,7 @@
   {
     "id": "bowl_plastic",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
     "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
@@ -632,6 +632,7 @@
     "price_postapoc": 0,
     "weight": "28 g",
     "volume": "15 ml",
+    "longest_side": "23 cm",
     "material": [ "wood" ],
     "bashing": 1,
     "cutting": 1,
@@ -971,7 +972,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -999,7 +1001,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",

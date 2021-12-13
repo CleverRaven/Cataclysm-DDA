@@ -86,6 +86,34 @@ struct range_hash {
     }
 };
 
+namespace hash64_detail
+{
+
+template<typename T>
+std::enable_if_t < sizeof( T ) < 8, T > maybe_mix_bits( std::uint64_t val )
+{
+    std::uint32_t hi = val >> 32;
+    std::uint32_t lo = val;
+    T ret = hi;
+    hash_combine( ret, lo );
+    return ret;
+}
+
+template<typename T>
+std::enable_if_t < sizeof( T ) >= 8, T > maybe_mix_bits( std::uint64_t val )
+{
+    return val;
+}
+
+} // namespace hash64_detail
+
+// hash64 hashes a 64-bit integer, either using the identity function (on 64-bit systems)
+// or using hash_combine on the two 32-bit halves (on 32-bit systems)
+inline std::size_t hash64( std::uint64_t val )
+{
+    return hash64_detail::maybe_mix_bits<std::size_t>( val );
+}
+
 } // namespace cata
 
 #endif // CATA_SRC_HASH_UTILS_H

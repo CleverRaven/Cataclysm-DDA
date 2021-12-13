@@ -91,6 +91,12 @@
         [ "rope_makeshift_6", 1 ],
         [ "towel", 1 ],
         [ "blanket", 1 ],
+        [ "down_blanket", 1 ],
+        [ "fur_blanket", 1 ],
+        [ "electric_blanket", 1 ],
+        [ "quilt", 1 ],
+        [ "quilt_patchwork", 1 ],
+        [ "sheet", 1 ],
         [ "bandana", 1 ],
         [ "cable", 1 ],
         [ "wire", 1 ],
@@ -220,7 +226,7 @@
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "chitin_piece", 6 ], [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -317,7 +323,7 @@
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ], [ "mop", 2 ] ]
     ]
   },
   {
@@ -334,7 +340,7 @@
     "components": [
       [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
     ]
   },
   {
@@ -351,7 +357,7 @@
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ], [ "mop", 2 ] ]
     ]
   },
   {
@@ -368,7 +374,7 @@
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
-      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ] ]
+      [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
     ]
   }
 ]

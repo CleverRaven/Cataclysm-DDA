@@ -3,7 +3,7 @@
 #define CATA_TESTS_STRINGMAKER_H
 
 #include "cuboid_rectangle.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "cata_variant.h"
 #include "dialogue.h"
 #include "item.h"
@@ -41,6 +41,13 @@ struct StringMaker<point> {
     }
 };
 
+template<>
+struct StringMaker<rl_vec2d> {
+    static std::string convert( const rl_vec2d &p ) {
+        return string_format( "rl_vec2d( %f, %f )", p.x, p.y );
+    }
+};
+
 template<typename Point>
 struct StringMaker<rectangle<Point>> {
     static std::string convert( const rectangle<Point> &r ) {
@@ -67,6 +74,14 @@ template<>
 struct StringMaker<time_duration> {
     static std::string convert( const time_duration &d ) {
         return string_format( "time_duration( %d ) [%s]", to_turns<int>( d ), to_string( d ) );
+    }
+};
+
+template<>
+struct StringMaker<time_point> {
+    static std::string convert( const time_point &d ) {
+        return string_format(
+                   "time_point( %d ) [%s]", to_turns<int>( d - calendar::turn_zero ), to_string( d ) );
     }
 };
 

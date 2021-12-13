@@ -24,11 +24,37 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "dragon_essence",
+    "id_suffix": "with_blood",
+    "charges": 2,
+    "batch_time_factors": [ 40, 3 ],
+    "qualities": [
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "dragon_scale", 6, "LIST" ], [ "meat_dragon", 60 ] ], [ [ "dragon_blood", 500 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": true } ],
+    "time": "2 h",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "skills_required": [ "spellcraft", 6 ],
+    "book_learn": [ [ "black_dragons", 5 ] ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "spell_scroll_acid_resistance",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [ [ [ "paint_brush", -1 ] ] ],
     "components": [
-      [ [ "tainted_blood", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
+      [ [ "blood_tainted", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
       [ [ "any_strong_acid", 4, "LIST" ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
@@ -97,5 +123,17 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
     "autolearn": true
+  },
+  {
+    "result": "bundle_demon_chitin_piece",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "demon_chitin_piece", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ]
   }
 ]

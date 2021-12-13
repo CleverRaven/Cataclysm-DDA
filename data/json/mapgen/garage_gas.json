@@ -72,7 +72,10 @@
       },
       "gaspumps": { "&": {  } },
       "toilets": { "t": {  } },
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 31, "y": 6 }, { "item_group": "vending_drink", "x": 32, "y": 6 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 31, "y": 6, "lootable": true },
+        { "item_group": "vending_drink", "x": 32, "y": 6, "lootable": true }
+      ],
       "place_loot": [
         { "group": "magazines", "x": 26, "y": 10, "chance": 80, "repeat": [ 4, 12 ] },
         { "group": "magazines", "x": 26, "y": 13, "chance": 80, "repeat": [ 4, 12 ] },

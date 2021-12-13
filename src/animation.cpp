@@ -4,6 +4,7 @@
 #include "cached_options.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "explosion.h"
 #include "game.h"
@@ -50,7 +51,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1'000'000L ) {
         }
 
         void draw() const {
@@ -67,13 +68,21 @@ class basic_animation
         void progress() const {
             draw();
 
-            if( delay.tv_nsec > 0 ) {
-                nanosleep( &delay, nullptr );
+            // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+            long int remain = delay;
+            while( remain > 0 ) {
+                // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+                long int do_sleep = std::min( remain, 100'000'000L );
+                timespec to_sleep = timespec { 0, do_sleep };
+                nanosleep( &to_sleep, nullptr );
+                inp_mngr.pump_events();
+                remain -= do_sleep;
             }
         }
 
     private:
-        timespec delay;
+        // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+        long int delay;
 };
 
 class explosion_animation : public basic_animation
@@ -459,7 +468,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 
     shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
-            m.drawsq( g->w_terrain, player_character, *p, false, true, vp );
+            m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
         mvwputch( g->w_terrain, t.xy() - vp.xy() + point( POSX, POSY ), c_red, bullet );
     } );
@@ -475,6 +484,10 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 void game::draw_bullet( const tripoint &t, const int /*i*/,
                         const std::vector<tripoint> &/*trajectory*/, const char bullet )
 {
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
         return;
@@ -601,7 +614,7 @@ void game::draw_hit_player( const Character &p, const int dam )
     static const std::string npc_male      {"npc_male"};
     static const std::string npc_female    {"npc_female"};
 
-    const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
+    const std::string &type = p.is_avatar() ? ( p.male ? player_male : player_female )
                               : p.male ? npc_male : npc_female;
 
     shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
@@ -624,9 +637,13 @@ namespace
 void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
                        bool noreveal )
 {
+
     avatar &player_character = get_avatar();
+    map &here = get_map();
+    drawsq_params params = drawsq_params().highlight( true ).center( center );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : ret ) {
-        const Creature *critter = g.critter_at( p, true );
+        const Creature *critter = creatures.creature_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && player_character.sees( *critter ) ) {
@@ -641,7 +658,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
-            get_map().drawsq( g.w_terrain, player_character, p, true, true, center );
+            here.drawsq( g.w_terrain, p, params );
         }
     }
 }
@@ -681,7 +698,7 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
     avatar &player_character = get_avatar();
     map &here = get_map();
     for( const tripoint &p : points ) {
-        here.drawsq( g.w_terrain, player_character, p, true, true );
+        here.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :

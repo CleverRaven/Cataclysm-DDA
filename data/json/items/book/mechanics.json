@@ -74,25 +74,6 @@
     "required_level": 6
   },
   {
-    "id": "textbook_biodiesel",
-    "type": "BOOK",
-    "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
-    "description": "A large textbook for college students about biodiesel.",
-    "weight": "1200 g",
-    "volume": "2 L",
-    "price": 1500,
-    "price_postapoc": 2500,
-    "bashing": 4,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "skill": "mechanics",
-    "required_level": 3,
-    "max_level": 6,
-    "intelligence": 9,
-    "time": "30 m"
-  },
-  {
     "id": "book_nonf_soft_mechnic_hotrod",
     "type": "BOOK",
     "name": { "str": "Hot Rod Chassis & Suspension Handbook", "str_pl": "copies of Hot Rod Handbook" },

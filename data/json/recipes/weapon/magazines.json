@@ -121,15 +121,12 @@
     "autolearn": true,
     "tools": [
       [
-        [ "acr", -1 ],
+        [ "m27_assault_rifle", -1 ],
+        [ "m16_auto_rifle", -1 ],
+        [ "m4_carbine", -1 ],
         [ "ar15", -1 ],
-        [ "h&k416a5", -1 ],
         [ "m249", -1 ],
-        [ "m27iar", -1 ],
-        [ "m4a1", -1 ],
         [ "m16a4", -1 ],
-        [ "scar_l", -1 ],
-        [ "sig552", -1 ],
         [ "surv_carbine_223", -1 ]
       ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]

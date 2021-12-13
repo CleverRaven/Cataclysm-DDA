@@ -1,12 +1,9 @@
 {
   "id": "org.cataclysmdda.CataclysmDDA",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "18.08",
+  "runtime-version": "20.08",
   "sdk": "org.freedesktop.Sdk",
   "command": "cataclysm-tiles",
-  "rename-desktop-file": "cataclysm-dda.desktop",
-  "rename-appdata-file": "cataclysm-dda.appdata.xml",
-  "rename-icon": "cataclysm-dda",
   "finish-args": [
     "--socket=pulseaudio",
     "--socket=wayland",
@@ -26,16 +23,13 @@
       "build-commands": [
         "make -j $FLATPAK_BUILDER_N_JOBS $MAKE_ARGS",
         "make $MAKE_ARGS localization",
-        "make $MAKE_ARGS install",
-        "install -Dm755 data/xdg/cataclysm-dda.desktop /app/share/applications/cataclysm-dda.desktop",
-        "install -Dm644 data/xdg/cataclysm-dda.appdata.xml /app/share/metainfo/cataclysm-dda.appdata.xml",
-        "install -Dm644 data/xdg/cataclysm-dda.svg /app/share/icons/hicolor/scalable/apps/cataclysm-dda.svg"
+        "make $MAKE_ARGS install"
       ],
       "sources": [
         {
           "type": "git",
           "url": "https://github.com/CleverRaven/Cataclysm-DDA",
-          "tag": "0.E"
+          "branch": "0.F"
         }
       ]
     }

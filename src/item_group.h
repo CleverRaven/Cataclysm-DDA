@@ -135,8 +135,8 @@ class Item_spawn_data
             last
         };
 
-        Item_spawn_data( int _probability, const std::string &context ) :
-            probability( _probability ), context_( context ) { }
+        Item_spawn_data( int _probability, const std::string &context, holiday _event = holiday::none ) :
+            probability( _probability ), context_( context ), event( _event ) { }
         virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
@@ -174,8 +174,14 @@ class Item_spawn_data
             return context_;
         }
 
-        /** probability, used by the parent object. */
-        int probability;
+        int get_probability( bool skip_event_check ) const;
+        void set_probablility( int prob ) {
+            probability = prob;
+        }
+        bool is_event_based() const {
+            return event != holiday::none;
+        }
+
         /**
          * The group spawns contained in this item
          */
@@ -196,9 +202,13 @@ class Item_spawn_data
         cata::value_ptr<relic_generator> artifact;
 
     protected:
+        /** probability, used by the parent object. */
+        int probability;
         // A description of where this group was defined, for use in error
         // messages
         std::string context_;
+        // If defined, only spawn this item during the specified event
+        holiday event = holiday::none;
 };
 
 template<>
@@ -251,6 +261,11 @@ class Item_modifier
         std::vector<flag_id> custom_flags;
 
         /**
+         * gun variant id, for guns with variants
+         */
+        std::string variant;
+
+        /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
          */
         std::vector<snippet_id> snippets;
@@ -294,7 +309,7 @@ class Single_item_creator : public Item_spawn_data
         };
 
         Single_item_creator( const std::string &id, Type type, int probability,
-                             const std::string &context );
+                             const std::string &context, holiday event = holiday::none );
         ~Single_item_creator() override = default;
 
         /**
@@ -330,7 +345,7 @@ class Item_group : public Item_spawn_data
         };
 
         Item_group( Type type, int probability, int ammo_chance, int magazine_chance,
-                    const std::string &context );
+                    const std::string &context, holiday event = holiday::none );
         ~Item_group() override = default;
 
         const Type type;
@@ -344,7 +359,8 @@ class Item_group : public Item_spawn_data
          */
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
-        void add_item_entry( const itype_id &itemid, int probability );
+        void add_item_entry( const itype_id &itemid, int probability,
+                             const std::string &variant = "" );
         void add_group_entry( const item_group_id &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from

@@ -64,11 +64,15 @@
           "LIGHT_FUR",
           "LUPINE_FUR",
           "LYNX_FUR",
+          "PATCHSKIN1",
+          "PATCHSKIN2",
           "PLANTSKIN",
+          "RABBIT_FUR",
           "SCALES",
           "SKIN_ROUGH",
           "SLEEK_SCALES",
           "SORES",
+          "THICK_SCALES",
           "THORNS",
           "TROGLO2",
           "TROGLO3",
@@ -167,6 +171,7 @@
           "TAIL_CLUB",
           "TAIL_FIN",
           "TAIL_LONG",
+          "TAIL_RABBIT",
           "TAIL_RAPTOR",
           "TAIL_RAT",
           "TAIL_STING",
@@ -178,7 +183,7 @@
       { "id": [ "LEG_TENTACLES" ], "order": 4000 },
       { "id": [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ], "order": 4500 },
       { "id": [ "FLOWERS" ], "order": 5000 },
-      { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "URSINE_EARS" ], "order": 5500 },
+      { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "RABBIT_EARS", "URSINE_EARS" ], "order": 5500 },
       { "id": [ "ANTENNAE", "ANTLERS", "CURVED_HORNS", "HORNS", "POINTED_HORNS" ], "order": 6000 },
       { "id": [ "COMPOUND_EYES", "ELFAEYES", "FEL_EYE", "LIZ_EYE" ], "order": 6500 },
       {
@@ -191,6 +196,7 @@
           "MUZZLE_LONG",
           "MUZZLE_RAT",
           "MINOTAUR",
+          "RABBIT_NOSE",
           "SLIT_NOSTRILS",
           "SNOUT",
           "WHISKERS",
@@ -203,7 +209,8 @@
       {
         "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
         "order": 8500
-      }
+      },
+      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
     ]
   }
 ]

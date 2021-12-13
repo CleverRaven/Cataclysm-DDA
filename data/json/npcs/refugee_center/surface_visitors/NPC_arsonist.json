@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "id": "NC_ARSONIST_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "golf_bag", "prob": 100 } ]
+  },
+  {
     "type": "npc",
     "id": "arsonist",
     "//": "Appears in the refugee center as a unique trader and potential mission provider.",
@@ -139,7 +145,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "molotov", "count": 10 },
+        { "u_spawn_item": "molotov", "count": 10 },
         { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
       ]
     }

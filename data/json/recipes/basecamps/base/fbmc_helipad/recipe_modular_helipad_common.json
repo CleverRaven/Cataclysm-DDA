@@ -1,0 +1,151 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_helipad_0",
+    "blueprint_provides": [
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "foraging" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "fbmc_helipad_0" }
+    ],
+    "blueprint_resources": [ "fake_oven", "fake_water_purifier" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_barricade_wood",
+    "description": "We need to barricade front windows, let's build wooden walls over them.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_barricade_wood",
+    "blueprint_name": "wooden barricades",
+    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" }, { "id": "bed", "amount": 4 } ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_barricade" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_migo_resin",
+    "description": "We need to barricade front windows, let's build mi-go resin walls over them.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_barricade_migo_resin",
+    "blueprint_name": "mi-go resin barricades",
+    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" }, { "id": "bed", "amount": 4 } ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_barricade" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_root_cellar",
+    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_root_cellar",
+    "blueprint_name": "root cellar",
+    "blueprint_provides": [ { "id": "fbmc_helipad_root_cellar" }, { "id": "pantry" }, { "id": "trapping" } ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_barricade" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_root_cellar" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_butchery_rack",
+    "description": "We could build butchery rack to start hunting larger animals.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_butchery_rack",
+    "blueprint_name": "butchery rack",
+    "blueprint_provides": [ { "id": "fbmc_helipad_butchery_rack" }, { "id": "hunting" } ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_root_cellar" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_butchery_rack" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_reinforce_doors",
+    "description": "We should reinforce front doors to make this base safer.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_reinforce_doors",
+    "blueprint_name": "reinforce doors",
+    "blueprint_provides": [ { "id": "fbmc_helipad_reinforce_doors" }, { "id": "bed", "amount": 4 }, { "id": "relaying" }, { "id": "walls" } ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_barricade" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_reinforce_doors" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_radio",
+    "description": "Let's set up a radio tower to improve our recruitment efforts.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_helipad_radio",
+    "blueprint_name": "radio tower",
+    "blueprint_provides": [
+      { "id": "fbmc_helipad_radio" },
+      { "id": "radio" },
+      { "id": "recruiting" },
+      { "id": "scouting" },
+      { "id": "patroling" }
+    ],
+    "blueprint_requires": [ { "id": "fbmc_helipad_reinforce_doors" }, { "id": "fbmc_helipad_root_cellar" } ],
+    "blueprint_excludes": [ { "id": "fbmc_helipad_radio" } ],
+    "blueprint_needs": {
+      "time": "2 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [
+            [ "wind_turbine", 4 ],
+            [ "xl_wind_turbine", 1 ],
+            [ "solar_panel", 4 ],
+            [ "reinforced_solar_panel", 4 ],
+            [ "solar_panel_v2", 2 ],
+            [ "reinforced_solar_panel_v2", 2 ]
+          ],
+          [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+          [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "processor", 2 ] ],
+          [ [ "RAM", 2 ] ],
+          [ [ "large_lcd_screen", 1 ] ],
+          [ [ "e_scrap", 8 ] ],
+          [ [ "frame", 1 ] ],
+          [ [ "circuit", 4 ] ],
+          [ [ "power_supply", 2 ] ],
+          [ [ "amplifier", 2 ] ],
+          [ [ "cable", 80 ] ],
+          [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+        ]
+      }
+    }
+  }
+]

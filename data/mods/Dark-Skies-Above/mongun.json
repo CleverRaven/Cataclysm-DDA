@@ -18,7 +18,7 @@
     "color": "red",
     "name": { "str": "fake firecannon" },
     "ranged_damage": { "damage_type": "heat", "amount": 20, "armor_penetration": 30 },
-    "description": "Fires an explosive bolt of firey energy.  If you're seeing this, it's a bug.",
+    "description": "Fires an explosive bolt of fiery energy.  If you're seeing this, it's a bug.",
     "skill": "launcher",
     "range": 15,
     "flags": [ "NEVER_JAMS" ],
