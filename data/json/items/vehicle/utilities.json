@@ -16,24 +16,6 @@
     "color": "light_gray"
   },
   {
-    "type": "TOOL",
-    "id": "minireactor",
-    "name": { "str": "minireactor" },
-    "description": "A small portable plutonium reactor.  Handle with great care!",
-    "weight": "27215 g",
-    "to_hit": -4,
-    "color": "light_cyan",
-    "symbol": ":",
-    "material": [ "superalloy", "ceramic" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
-    "volume": "100 L",
-    "bashing": 7,
-    "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 5000,
-    "ammo": [ "plutonium" ]
-  },
-  {
     "type": "GENERIC",
     "id": "mountable_cooler",
     "name": { "str": "vehicle cooler" },
