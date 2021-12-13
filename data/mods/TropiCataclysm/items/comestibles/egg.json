@@ -107,7 +107,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_turtle",
-    "name": "turtle egg egg",
+    "name": "turtle egg",
     "copy-from": "egg_reptile",
     "description": "The round egg of a turtle.  Its covered in leaves",
     "rot_spawn": "GROUP_EGG_TURTLE"
