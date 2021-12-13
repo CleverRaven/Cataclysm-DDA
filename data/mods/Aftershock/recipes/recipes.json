@@ -84,7 +84,7 @@
     "difficulty": 4,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "afs_power_cutter", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ] ],
     "byproducts": [ [ "plastic_chunk" ], [ "plastic_chunk" ] ]
   },
