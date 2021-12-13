@@ -565,6 +565,13 @@ class item : public visitable
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool combine_liquid = false ) const;
+
+        /**
+         * Whether the two items have same contents.
+         * Checks the contents and the contents of the contents.
+         */
+        bool same_contents( const item &rhs ) const;
+
         /**
          * Whether item is the same as `rhs` for RLE compression purposes.
          * Essentially a stricter version of `stacks_with`.
@@ -785,6 +792,12 @@ class item : public visitable
          * @param allow_bucket Allow filling non-sealable containers
          */
         bool is_container_full( bool allow_bucket = false ) const;
+
+        /**
+         * Whether the magazine pockets of this item have room for additional items
+         */
+        bool is_magazine_full() const;
+
         /**
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
@@ -1373,10 +1386,14 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
-        bool can_reload_with( const itype_id &ammo ) const;
-        /** Returns true if this item can be reloaded with specified ammo type at this moment. */
-        bool is_reloadable_with( const itype_id &ammo ) const;
+
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, bool now ) const;
+
         /**
           * Returns true if any of the contents are not frozen or not empty if it's liquid
           */
@@ -2496,9 +2513,6 @@ class item : public visitable
 
         /** Update flags associated with temperature */
         void set_temp_flags( float new_temperature, float freeze_percentage );
-
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;

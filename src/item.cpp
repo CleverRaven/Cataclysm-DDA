@@ -1348,6 +1348,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     return contents.stacks_with( rhs.contents );
 }
 
+bool item::same_contents( const item &rhs ) const
+{
+    return get_contents().same_contents( rhs.get_contents() );
+}
+
 bool item::merge_charges( const item &rhs )
 {
     if( !count_by_charges() || !stacks_with( rhs ) ) {
@@ -8247,6 +8252,11 @@ bool item::is_container_full( bool allow_bucket ) const
     return contents.full( allow_bucket );
 }
 
+bool item::is_magazine_full() const
+{
+    return contents.is_magazine_full();
+}
+
 bool item::can_unload_liquid() const
 {
     return contents.can_unload_liquid();
@@ -8257,63 +8267,27 @@ bool item::allows_speedloader( const itype_id &speedloader_id ) const
     return contents.allows_speedloader( speedloader_id );
 }
 
-bool item::can_reload_with( const itype_id &ammo ) const
+bool item::can_reload_with( const item &ammo, bool now ) const
 {
-    return is_reloadable_helper( ammo, false );
-}
-
-bool item::is_reloadable_with( const itype_id &ammo ) const
-{
-    return is_reloadable_helper( ammo, true );
-}
-
-bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
-{
-    if( !is_reloadable() ) {
-        return false;
+    if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
+        return false; // turrets ignore NO_RELOAD flag
     }
 
-    // empty ammo is passed for listing possible ammo, so it needs to return true.
-    if( ammo.is_empty() ) {
-        return true;
-    }
-
-    if( is_watertight_container() ) {
-        if( ammo.obj().phase == phase_id::LIQUID && contents.num_item_stacks() == 1 &&
-            contents.only_item().made_of_from_type( phase_id::LIQUID ) &&
-            contents.only_item().typeId() == ammo ) {
-            return true;
-        }
-        if( ammo.obj().phase == phase_id::LIQUID && contents.empty_container() ) {
-            return true;
-        }
-        if( !magazine_integral() && !uses_magazine() ) {
-            return false;
-        }
-    }
-
-    if( magazine_integral() ) {
-        if( ammo_data() ) {
-            if( ammo_current() != ammo ) {
+    if( now && ammo.is_magazine() && !ammo.empty() ) {
+        if( is_tool() ) {
+            // Dirty hack because "ammo" on tools is actually completely separate thing from "ammo" on guns and "ammo_types()" works only for guns
+            if( !type->tool->ammo_id.count( ammo.contents.first_ammo().ammo_type() ) ) {
                 return false;
             }
         } else {
-            if( ( !ammo->ammo || !ammo_types().count( ammo->ammo->type ) ) &&
-                !can_contain( *ammo ) ) {
+            if( !ammo_types().count( ammo.contents.first_ammo().ammo_type() ) ) {
                 return false;
             }
         }
-        //Now single shoted gun also has magazine_well slot for speedloader
-        //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
-        //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
-        if( now && !ammo->ammo ) {
-            return can_contain( *ammo );
-        }
-
-        return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
 
-    return is_compatible( item( ammo ) ).success();
+    // Check if the item is in general compatible with any reloadable pocket.
+    return contents.can_reload_with( ammo, now );
 }
 
 bool item::is_salvageable() const
@@ -9639,16 +9613,16 @@ bool item::reload( Character &u, item_location ammo, int qty )
         return false;
     }
 
+    if( !can_reload_with( *ammo.get_item(), true ) ) {
+        return false;
+    }
+
     bool ammo_from_map = !ammo.held_by( u );
     item_location container;
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
         ammo = item_location( ammo, &ammo->first_ammo() );
-    }
-
-    if( !can_reload_with( ammo->typeId() ) ) {
-        return false;
     }
 
     // limit quantity of ammo loaded to remaining capacity
@@ -11636,15 +11610,30 @@ bool item::is_reloadable() const
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-        return true;
+    }
 
-    } else if( !is_container_full() && is_watertight_container() ) {
-        if( is_container_empty() ) {
-            return true;
+    for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
+        if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            if( pocket->empty() || !pocket->front().is_magazine_full() ) {
+                return true;
+            }
+        } else if( pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( remaining_ammo_capacity() > 0 ) {
+                return true;
+            }
+        } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
+            if( pocket->full( false ) || !pocket->watertight() ) {
+                continue;
+            }
+            if( pocket->empty() || pocket->front().made_of( phase_id::LIQUID ) ) {
+                return true;
+            }
         }
-        if( contents.num_item_stacks() == 1 &&
-            contents.only_item().made_of_from_type( phase_id::LIQUID ) ) {
+    }
+
+    for( const item *gunmod : gunmods() ) {
+        if( gunmod->is_reloadable() ) {
             return true;
         }
     }

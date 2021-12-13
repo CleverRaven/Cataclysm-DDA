@@ -1826,7 +1826,7 @@ class Character : public Creature, public visitable
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+        bool can_reload( const item &it, const item *ammo = nullptr ) const;
 
         /** Same as `Character::can_reload`, but checks for attached gunmods as well. */
         hint_rating rate_action_reload( const item &it ) const;
