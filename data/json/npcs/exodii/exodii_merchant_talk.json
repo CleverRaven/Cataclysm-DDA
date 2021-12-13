@@ -484,6 +484,9 @@
     "type": "talk_topic",
     "dynamic_line": "That be a part an' switch, but this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
     "//~": "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
+    },
     "responses": [
       { "text": "I don't know what fusillies and mobbings are.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro5" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -500,6 +503,10 @@
         "text": "I don't know what fusillies and mobbings are.",
         "condition": { "not": { "u_has_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" } },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro5"
+      },
+      {
+        "text": "Wait, am I following this right?  You're from a place where this happened before, and you escaped to our world?",
+        "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
@@ -533,6 +540,10 @@
       ]
     },
     "responses": [
+      {
+        "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
+        "topic": "TALK_EXODII_MERCHANT_Exodus3"
+      },
       { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
@@ -580,6 +591,9 @@
     "type": "talk_topic",
     "dynamic_line": "Yeah, you could call us as it.  Us're from otherlands mostlike.  Not otherworlds though.  Too risky bringin' them squelchies into the fold.",
     "//~": "Yeah, you could say that.  We're from otherlands, most of the time.  Not otherworlds though.  Too risky bringing those monsters into our safe haven.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
+    },
     "responses": [
       { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -701,6 +715,9 @@
     "type": "talk_topic",
     "dynamic_line": "For an' how, ye be needin' to think wi' them elevens o' directions, kennit?  Us'll open a gate an' wibble-an-wobble.  Same as us came.",
     "//~": "To understand how, you've gotta think eleven-dimensionally.  We'll open up a gate and teleport out, the same as we came.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
+    },
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -745,6 +762,174 @@
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Exodus3",
+    "type": "talk_topic",
+    "dynamic_line": "Just so, aye.  Again an' again, this'n has seen it.  Too many times.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "Do you know what's going on?  What caused all this?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
+      },
+      {
+        "text": "Is it always like this?  What's going to happen to us?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause",
+    "type": "talk_topic",
+    "dynamic_line": "F'r to wax religious, eh?\n\n*Rubik pauses for a while.  When they start talking again, their voice is slow and more serious than usual.*\n\nThis'n can't tell ye, rightly, but those what have a bottle an' a cork what fits it, they yark about the Enemy.  Most folks got a story like that in their ol' hearth-tales, an I'm ken.  A bad way, from times old, come back.  Ol' Rubik don't know much about that, but something makes them bodies walk and moan, and it don't seem to be somethin' of the way o' our kin.  How it gets in, well, that be anyone's for a guess.  It can come the way we came, wibbling and wobbling, but it don't always.  How it be'd the end for your deadland, Rubik can't say for ye.",
+    "//~": "You want to get religious, eh?  I can't tell you for sure, but the people who claim to know, they talk about the Enemy.  Most folks have a fairy tale like that, I think.  A monster from ancient memory, returned.  I don't know much about that, but something makes those bodies walk and moan, and it doesn't seem to be anything human.  How it gets in, well, that's anyone's guess.  It can come the way we came, through a portal, but it doesn't always.  How it was for your world, I can't tell you.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "Wait, it can come like you did?  Did you bring this here?!",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2"
+      },
+      {
+        "text": "Is it always like this?  What's going to happen to us?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2",
+    "type": "talk_topic",
+    "dynamic_line": "No!  Bluster an' clouds, no!*  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "Is it always like this?  What's going to happen to us?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline",
+    "type": "talk_topic",
+    "dynamic_line": "This be a deadland, kennit.  Spend a farthing at the pastor's house, d'ye razz?  What be left for ye?  The dead'll be in the fields, the forests, all around the green and brown.  Anything what walks, they'll salt 'n fallow, and most'll rise up and rejoin.  Those what don't, the Enemy twists and turns as well.  Every deadland be the same.  Ye've turns and twain, but come as it may, this land be dead.  Though, an I'm ken, ye've quite a few turns and twain to go yet.",
+    "//~": "This is a deadland, you see.  Take a moment and look around, know what I mean?  What's left for you?  The dead will be in the fields, the forests, all over the world.  Anything that walks, they'll make it so it doesn't, and most will come back as undead.  Those that don't, the Enemy will change them as well.  Every deadland is the same.  You've years and more to go, but one way or another, this place is dead.  Though, as far as I can see, you've got quite a few years to go yet.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "What then?  What happens after the whole planet dies?  Could it spread to other worlds from here?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2"
+      },
+      {
+        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough"
+      },
+      {
+        "text": "Do you know what's going on?  What caused all this?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2",
+    "type": "talk_topic",
+    "dynamic_line": "Spread, aye, through the wibbles, but we ain't ken on how.  After the green an' brown be to grey and black, so t'speak, Rubik be long gone.  On a moment, we folk've sent back a lover's robe or so t'the deadlands what left, but narry have returned.  An I'm ken, there be only one course from here.",
+    "//~": "Spread, yes, through the portals, but we don't know how.  After the world is down to dust, I'm long gone.  Once or twice we've send back a probe to the deadlands we left behind, but none have returned.  As far as I know, there's only one way it goes from here.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      { "text": ".", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2" },
+      {
+        "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
+      },
+      {
+        "text": "It sounds like a secure base with a safe perimeter could last a long time.  Maybe forever.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
+      },
+      {
+        "text": "I haven't seen many zombies underground.  Seems like it might be possible to make a safe base down there.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
+      },
+      {
+        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough"
+      },
+      {
+        "text": "So what do you do, then?  How do you get out, and how do I do that?",
+        "topic": "TALK_EXODII_MERCHANT_Survival"
+      },
+      {
+        "text": "Do you know what's going on?  What caused all this?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3",
+    "type": "talk_topic",
+    "dynamic_line": "If ye be champed t'try, this'n won't stop ye.  Right so, Rubik'll sell ye the pieces ye might use t'do.",
+    "//~": "If you want to try it, I won't stop you.  In fact, I'll sell you equipment that might help.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "Do you know what's going on?  What caused all this?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself.",
+    "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "text": "Who is benzete?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
+      },
+      {
+        "text": "Do you know what's going on?  What caused all this?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -881,7 +1066,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Survival3",
     "type": "talk_topic",
-    "dynamic_line": "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.  What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
+    "dynamic_line": "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.*  You're pretty sure you hear a faint chuckle in the metallic voice.  *What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
     "//~": "Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh out of the look on your face sometimes.  What I'm saying is, if my body were flesh and bone, the device we use to travel around dimensions would rip up the meat and leave me quite a mess.  We can take a bit, but too much… once time, I felt a bit of that, and I'm not in any rush to try it again.",
     "responses": [
       {
