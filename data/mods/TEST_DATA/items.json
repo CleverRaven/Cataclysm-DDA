@@ -1770,7 +1770,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "sight_dispersion": 11,
-    "aim_speed": 4,
+    "field_of_view": 300,
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]

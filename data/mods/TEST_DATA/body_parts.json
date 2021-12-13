@@ -15,7 +15,6 @@
     "heading_multiple": "Tails",
     "encumbrance_text": "Your testing tail feels heavy",
     "hit_size": 1,
-    "hit_size_relative": [ 0, 0, 0 ],
     "drench_capacity": 4,
     "main_part": "test_tail",
     "hit_difficulty": 0.8,

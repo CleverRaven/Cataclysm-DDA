@@ -57,8 +57,8 @@
         { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 2, "x": [ 9, 13 ], "y": [ 16, 20 ], "density": 0.15 },
         { "monster": "GROUP_DINOSAUR_DANGEROUS", "chance": 4, "x": [ 9, 13 ], "y": [ 16, 20 ], "density": 0.15 },
         { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 3, "x": [ 9, 13 ], "y": [ 16, 20 ], "density": 0.15 },
-        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 2, "x": [ 1, 22 ], "y": [ 1, 6 ], "density": 0.15 },
-        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 2, "x": [ 16, 22 ], "y": [ 8, 21 ], "density": 0.15 }
+        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 1, "x": [ 1, 22 ], "y": [ 1, 6 ], "density": 0.15 },
+        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 1, "x": [ 16, 22 ], "y": [ 8, 21 ], "density": 0.15 }
       ]
     }
   },
@@ -204,8 +204,8 @@
           "y": [ 16, 20 ],
           "density": 0.15
         },
-        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 2, "x": [ 1, 22 ], "y": [ 1, 6 ], "density": 0.15 },
-        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 2, "x": [ 16, 22 ], "y": [ 8, 21 ], "density": 0.15 }
+        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 1, "x": [ 1, 22 ], "y": [ 1, 6 ], "density": 0.15 },
+        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 1, "x": [ 16, 22 ], "y": [ 8, 21 ], "density": 0.15 }
       ]
     }
   },

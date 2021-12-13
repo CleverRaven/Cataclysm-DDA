@@ -66,7 +66,7 @@
     "dodge": 1,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -99,7 +99,7 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
@@ -131,7 +131,7 @@
     "vision_day": 30,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -226,7 +226,7 @@
     "vision_day": 50,
     "harvest": "zombie_leather",
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },

@@ -15,6 +15,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 80 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
