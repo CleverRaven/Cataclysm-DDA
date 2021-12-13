@@ -9,9 +9,8 @@
     "heading_multiple": "Blg Eyes",
     "copy-from": "eyes",
     "opposite_part": "eyes_bulging",
-    "hit_size": 1.2,
-    "hit_size_relative": [ 0, 0.5, 0.8 ],
-    "hit_difficulty": 1.2
+    "hit_size": 0.9,
+    "hit_difficulty": 1.25
   },
   {
     "type": "body_part",
@@ -23,7 +22,7 @@
     "heading_multiple": "Ceph Eyes",
     "copy-from": "eyes_bulging",
     "opposite_part": "eyes_ceph",
-    "flags": [ "IGNORE_TEMP", "EYE_MEMBRANE" ]
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "EYE_MEMBRANE" ]
   },
   {
     "type": "body_part",
@@ -32,7 +31,7 @@
     "copy-from": "eyes_ceph",
     "opposite_part": "eyes_ceph_good",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
-    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "EYE_MEMBRANE" ]
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "EYE_MEMBRANE", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -48,8 +47,9 @@
     "main_part": "eyes_compound",
     "connected_to": "eyes_compound",
     "opposite_part": "eyes_compound",
+    "hit_size": 7,
     "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ],
-    "flags": [ "IGNORE_TEMP", "SEESLEEP" ]
+    "flags": [ "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -93,10 +93,9 @@
     "heading_multiple": "Fel.  Eyes",
     "copy-from": "eyes",
     "opposite_part": "eyes_feline",
-    "hit_size": 1.2,
-    "hit_size_relative": [ 0, 0.4, 0.7 ],
+    "hit_size": 0.7,
     "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
-    "flags": [ "IGNORE_TEMP", "HIGH_GLARE" ]
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -105,7 +104,7 @@
     "copy-from": "eyes_feline",
     "opposite_part": "eyes_feline_good",
     "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 3.0 ], [ "reaction", 1.25 ] ],
-    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "HYPEROPIC" ]
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "HYPEROPIC", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -114,7 +113,7 @@
     "copy-from": "eyes",
     "opposite_part": "eyes_ursine",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 3.0 ], [ "reaction", 0.7 ] ],
-    "flags": [ "IGNORE_TEMP", "MYOPIC_IN_LIGHT" ]
+    "flags": [ "IGNORE_TEMP", "MYOPIC_IN_LIGHT", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -133,7 +132,7 @@
     "heading_multiple": "Fish Eyes",
     "opposite_part": "eyes_fish",
     "env_protection": 8,
-    "flags": [ "EYE_MEMBRANE", "IGNORE_TEMP", "SEESLEEP" ]
+    "flags": [ "EYE_MEMBRANE", "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -145,7 +144,6 @@
     "heading_multiple": "Eyestalks",
     "opposite_part": "eyes_snail",
     "hit_size": 1.5,
-    "hit_size_relative": [ 0.5, 1.2, 1.5 ],
     "hit_difficulty": 1.5,
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
   },
@@ -171,7 +169,7 @@
     "id": "eyes_lizard_good",
     "copy-from": "eyes_lizard",
     "opposite_part": "eyes_lizard_good",
-    "flags": [ "IGNORE_TEMP", "INFRARED" ]
+    "flags": [ "IGNORE_TEMP", "INFRARED", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -183,7 +181,7 @@
     "heading": "Frg Eyes",
     "heading_multiple": "Frg Eyes",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.1 ], [ "reaction", 1.0 ] ],
-    "flags": [ "IGNORE_TEMP", "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT" ]
+    "flags": [ "IGNORE_TEMP", "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -195,6 +193,6 @@
     "heading": "Trog Eyes",
     "heading_multiple": "Trog Eyes",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
-    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "INFRARED" ]
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "INFRARED", "LIMB_UPPER" ]
   }
 ]
