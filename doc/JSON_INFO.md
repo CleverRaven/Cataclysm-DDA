@@ -1073,6 +1073,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
+| `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
 ```C++
 // Example of a monstergroup containing only "monster" entries:
@@ -1084,7 +1085,8 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
     { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
     { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
     { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
-    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] },
+    { "monster" : "mon_santa", "weight" : 500, "event" : "christmas" }
   ]
 },
 // Example of a monstergroup containing subgroups:
