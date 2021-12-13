@@ -1423,11 +1423,14 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
 
         } else if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             // Reloading is refused if there already is full magazine here
+            // Reloading with another identical mag with identical contents is also pointless so it is not allowed
             // Pocket can't know what ammo are compatible with the item so that is checked elsewhere
 
-            if( !front().is_magazine_full() ) {
-                return true;
+            if( front().is_magazine_full() || ( front().typeId() == ammo.typeId() &&
+                                                front().same_contents( ammo ) ) ) {
+                return false;
             }
+            return true;
         } else if( is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // Reloading is possible if liquid combines with old liquid
 
