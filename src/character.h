@@ -936,6 +936,8 @@ class Character : public Creature, public visitable
         int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
+        /** Check if we can attack upper limbs **/
+        bool can_attack_high() const override;
 
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon

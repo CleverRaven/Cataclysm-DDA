@@ -10,7 +10,7 @@
     "armor_cut": 5,
     "armor_bullet": 5,
     "bleed_rate": 50,
-    "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 3 } ],
     "regenerates": 10,
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
