@@ -1498,8 +1498,7 @@ class Character : public Creature, public visitable
         bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Success or failure of removal happens here*/
-        void perform_uninstall( const bionic_id &bid, int difficulty, int success,
-                                const units::energy &power_lvl, int pl_skill );
+        void perform_uninstall( const bionic_id &bid, int difficulty, int success, int pl_skill );
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
@@ -1565,9 +1564,11 @@ class Character : public Creature, public visitable
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
         void mod_power_level( const units::energy &npower );
-        void mod_max_power_level( const units::energy &npower_max );
+        void mod_max_power_level_modifier( const units::energy &npower_max );
         void set_power_level( const units::energy &npower );
-        void set_max_power_level( const units::energy &npower_max );
+        void set_max_power_level( const units::energy &capacity );
+        void set_max_power_level_modifier( const units::energy &capacity );
+        void update_bionic_power_capacity();
         bool is_max_power() const;
         bool has_power() const;
         bool has_max_power() const;
@@ -3320,7 +3321,8 @@ class Character : public Creature, public visitable
         character_id id;
 
         units::energy power_level;
-        units::energy max_power_level;
+        units::energy max_power_level_cached;
+        units::energy max_power_level_modifier;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
