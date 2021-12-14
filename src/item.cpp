@@ -3338,17 +3338,23 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::string layering = _( "Layer:" );
         if( has_flag( flag_PERSONAL ) ) {
             layering += _( " <stat>Personal aura</stat>." );
-        } else if( has_flag( flag_SKINTIGHT ) ) {
+        }
+        if( has_flag( flag_SKINTIGHT ) ) {
             layering += _( " <stat>Close to skin</stat>." );
-        } else if( has_flag( flag_BELTED ) ) {
+        }
+        if( has_flag( flag_BELTED ) ) {
             layering += _( " <stat>Strapped</stat>." );
-        } else if( has_flag( flag_OUTER ) ) {
+        }
+        if( has_flag( flag_OUTER ) ) {
             layering += _( " <stat>Outer</stat>." );
-        } else if( has_flag( flag_WAIST ) ) {
+        }
+        if( has_flag( flag_WAIST ) ) {
             layering += _( " <stat>Waist</stat>." );
-        } else if( has_flag( flag_AURA ) ) {
+        }
+        if( has_flag( flag_AURA ) ) {
             layering += _( " <stat>Outer aura</stat>." );
-        } else {
+        }
+        if( layering == "Layer:" ) {
             layering += _( " <stat>Normal</stat>." );
         }
 
@@ -6875,28 +6881,131 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     return encumber;
 }
 
-layer_level item::get_layer() const
+std::vector<layer_level> item::get_layer() const
 {
-    if( type->armor ) {
-        // We assume that an item will never have per-item flags defining its
-        // layer, so we can defer to the itype.
-        return type->layer;
-    }
+    std::vector<layer_level> layers;
 
     if( has_flag( flag_PERSONAL ) ) {
-        return layer_level::PERSONAL;
-    } else if( has_flag( flag_SKINTIGHT ) ) {
-        return layer_level::UNDERWEAR;
-    } else if( has_flag( flag_WAIST ) ) {
-        return layer_level::WAIST;
-    } else if( has_flag( flag_OUTER ) ) {
-        return layer_level::OUTER;
+        layers.push_back( layer_level::PERSONAL );
+    }
+    if( has_flag( flag_SKINTIGHT ) ) {
+        layers.push_back( layer_level::UNDERWEAR );
+    }
+    if( has_flag( flag_WAIST ) ) {
+        layers.push_back( layer_level::WAIST );
+    }
+    if( has_flag( flag_OUTER ) ) {
+        layers.push_back( layer_level::OUTER );
+    }
+    if( has_flag( flag_BELTED ) ) {
+        layers.push_back( layer_level::BELTED );
+    }
+    if( has_flag( flag_AURA ) ) {
+        layers.push_back( layer_level::AURA );
+    }
+    if( layers.empty() ) {
+        layers.push_back( layer_level::REGULAR );
+    }
+    return layers;
+}
+
+layer_level item::get_max_layer() const
+{
+    if( has_flag( flag_AURA ) ) {
+        return layer_level::AURA;
     } else if( has_flag( flag_BELTED ) ) {
         return layer_level::BELTED;
-    } else if( has_flag( flag_AURA ) ) {
-        return layer_level::AURA;
+    } else if( has_flag( flag_OUTER ) ) {
+        return layer_level::OUTER;
+    } else if( has_flag( flag_WAIST ) ) {
+        return layer_level::WAIST;
+    } else if( has_flag( flag_SKINTIGHT ) ) {
+        return layer_level::UNDERWEAR;
+    } else if( has_flag( flag_PERSONAL ) ) {
+        return layer_level::PERSONAL;
     } else {
         return layer_level::REGULAR;
+    }
+}
+bool item::has_layer( layer_level ll ) const
+{
+    switch( ll ) {
+        case layer_level::PERSONAL:
+            return has_flag( flag_PERSONAL );
+        case layer_level::UNDERWEAR:
+            return has_flag( flag_SKINTIGHT );
+        case layer_level::WAIST:
+            return has_flag( flag_WAIST );
+        case layer_level::OUTER:
+            return has_flag( flag_OUTER );
+        case layer_level::BELTED:
+            return has_flag( flag_BELTED );
+        case layer_level::AURA:
+            return has_flag( flag_AURA );
+        case layer_level::REGULAR:
+            std::vector<layer_level> layers;
+            if( has_flag( flag_PERSONAL ) ) {
+                layers.push_back( layer_level::PERSONAL );
+            }
+            if( has_flag( flag_SKINTIGHT ) ) {
+                layers.push_back( layer_level::UNDERWEAR );
+            }
+            if( has_flag( flag_WAIST ) ) {
+                layers.push_back( layer_level::WAIST );
+            }
+            if( has_flag( flag_OUTER ) ) {
+                layers.push_back( layer_level::OUTER );
+            }
+            if( has_flag( flag_BELTED ) ) {
+                layers.push_back( layer_level::BELTED );
+            }
+            if( has_flag( flag_AURA ) ) {
+                layers.push_back( layer_level::AURA );
+            }
+            // for regular layer it's the absence of a flag
+            return layers.empty();
+    }
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll ) const
+{
+    for( layer_level layer : ll ) {
+        switch( layer ) {
+            case layer_level::PERSONAL:
+                return has_flag( flag_PERSONAL );
+            case layer_level::UNDERWEAR:
+                return has_flag( flag_SKINTIGHT );
+            case layer_level::WAIST:
+                return has_flag( flag_WAIST );
+            case layer_level::OUTER:
+                return has_flag( flag_OUTER );
+            case layer_level::BELTED:
+                return has_flag( flag_BELTED );
+            case layer_level::AURA:
+                return has_flag( flag_AURA );
+            case layer_level::REGULAR:
+                std::vector<layer_level> layers;
+                if( has_flag( flag_PERSONAL ) ) {
+                    layers.push_back( layer_level::PERSONAL );
+                }
+                if( has_flag( flag_SKINTIGHT ) ) {
+                    layers.push_back( layer_level::UNDERWEAR );
+                }
+                if( has_flag( flag_WAIST ) ) {
+                    layers.push_back( layer_level::WAIST );
+                }
+                if( has_flag( flag_OUTER ) ) {
+                    layers.push_back( layer_level::OUTER );
+                }
+                if( has_flag( flag_BELTED ) ) {
+                    layers.push_back( layer_level::BELTED );
+                }
+                if( has_flag( flag_AURA ) ) {
+                    layers.push_back( layer_level::AURA );
+                }
+                // for regular layer it's the absence of a flag
+                return layers.empty();
+        }
     }
 }
 

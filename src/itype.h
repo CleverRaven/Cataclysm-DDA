@@ -1153,7 +1153,7 @@ struct itype {
         // What it has to say.
         std::vector<std::string> chat_topics;
 
-        layer_level layer = layer_level::NUM_LAYER_LEVELS;
+        std::vector<layer_level> layer;
 
         /**
          * How much insulation this item provides, either as a container, or as

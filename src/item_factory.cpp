@@ -565,19 +565,25 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.has_flag( flag_PERSONAL ) ) {
-        obj.layer = layer_level::PERSONAL;
-    } else if( obj.has_flag( flag_SKINTIGHT ) ) {
-        obj.layer = layer_level::UNDERWEAR;
-    } else if( obj.has_flag( flag_WAIST ) ) {
-        obj.layer = layer_level::WAIST;
-    } else if( obj.has_flag( flag_OUTER ) ) {
-        obj.layer = layer_level::OUTER;
-    } else if( obj.has_flag( flag_BELTED ) ) {
-        obj.layer = layer_level::BELTED;
-    } else if( obj.has_flag( flag_AURA ) ) {
-        obj.layer = layer_level::AURA;
-    } else {
-        obj.layer = layer_level::REGULAR;
+        obj.layer.push_back( layer_level::PERSONAL );
+    }
+    if( obj.has_flag( flag_SKINTIGHT ) ) {
+        obj.layer.push_back( layer_level::UNDERWEAR );
+    }
+    if( obj.has_flag( flag_WAIST ) ) {
+        obj.layer.push_back( layer_level::WAIST );
+    }
+    if( obj.has_flag( flag_OUTER ) ) {
+        obj.layer.push_back( layer_level::OUTER );
+    }
+    if( obj.has_flag( flag_BELTED ) ) {
+        obj.layer.push_back( layer_level::BELTED );
+    }
+    if( obj.has_flag( flag_AURA ) ) {
+        obj.layer.push_back( layer_level::AURA );
+    }
+    if( obj.layer.empty() ) {
+        obj.layer.push_back( layer_level::REGULAR );
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
