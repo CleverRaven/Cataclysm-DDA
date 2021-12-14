@@ -318,8 +318,10 @@ class inventory_column
         const inventory_entry &get_highlighted() const;
         inventory_entry &get_highlighted();
         std::vector<inventory_entry *> get_all_selected() const;
-        std::vector<inventory_entry *> get_entries(
-            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
+        using get_entries_t = std::vector<inventory_entry *>;
+        using ffilter_t = std::function<bool( const inventory_entry &entry )>;
+        get_entries_t get_entries( const ffilter_t &filter_func,
+                                   bool include_hidden = false ) const;
 
         // orders the child entries in this column to be under their parent
         void order_by_parent();
@@ -501,6 +503,8 @@ class inventory_column
         size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
+        void _get_entries( get_entries_t *res, entries_t const &ent,
+                           const ffilter_t &filter_func ) const;
         static void _move_entries_to( entries_t const &ent, inventory_column &dest );
 
         bool skip_unselectable = false;
