@@ -245,7 +245,7 @@
     "messages": [
       "You dream of foraging in the woods… mouth-first?",
       "Your dream-reflection is rather bearish.",
-      "You dream of brushing the fur on your back against a tree. Wait, fur?"
+      "You dream of brushing the fur on your back against a tree."
     ],
     "category": "URSINE",
     "strength": 2
@@ -283,7 +283,7 @@
     "messages": [
       "You have a dream of working in a hive.",
       "While dreaming you look into a mirror and see a frighteningly insectoid reflection.",
-      "You dream of a feast and excitedly chitter with your pincers... Wait, what?"
+      "You dream of a feast and excitedly chitter with your pincers… wait, what?"
     ],
     "category": "INSECT",
     "strength": 2
@@ -293,7 +293,7 @@
     "messages": [
       "You have a confusing dream of growing in a garden.",
       "You are confused by a plantlike image of yourself in a dream.",
-      "You dream of standing still in the rain, drinking in the falling drops... with your feet?"
+      "You dream of standing still in the rain, drinking in the falling drops… with your feet?"
     ],
     "category": "PLANT",
     "strength": 2
@@ -328,7 +328,7 @@
     "messages": [
       "You have a strange dream of spinning webs",
       "In your dream you see a very spiderlike version of yourself.",
-      "You dream of the buzzing of a fly, that you cannot see. It makes you hungry."
+      "You dream of the buzzing of a fly that you cannot see.  It makes you hungry."
     ],
     "category": "SPIDER",
     "strength": 2
@@ -347,7 +347,7 @@
     "messages": [
       "You dream of having that success you knew you deserved, back before all this.",
       "Your dream-self looks competent and in control.",
-      "You dream of a fortress, sheltering humanity from the zombies. Built by you, of course."
+      "You dream of a fortress, sheltering humanity from the zombies.  You're in charge, of course."
     ],
     "category": "ALPHA",
     "strength": 2
@@ -760,7 +760,7 @@
     "messages": [
       "You dream of the peaceful world you'll give humankind.  Because no one else can.",
       "You crush those who would disagree with the leadership.  Humanity must be united; independence will get you all killed!",
-      "There are underground Faults in the world. Faults you should remedy."
+      "There are underground Faults in the world.  Faults you should remedy."
     ],
     "category": "ALPHA",
     "strength": 4
