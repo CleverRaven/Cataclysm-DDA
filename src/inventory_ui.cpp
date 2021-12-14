@@ -102,9 +102,6 @@ static const int normal_column_gap = 8;
  */
 static const double min_ratio_to_center = 0.85;
 
-/** These categories should keep their original order and can't be re-sorted by inventory presets */
-static const std::set<std::string> ordered_categories = {};
-
 bool inventory_selector::skip_unselectable = false;
 
 struct navigation_mode_data {
@@ -880,15 +877,6 @@ void inventory_column::add_entry( const inventory_entry &entry )
         debugmsg( "Tried to add a duplicate entry." );
         return;
     }
-    const auto iter = std::find_if( entries.rbegin(), entries.rend(),
-    [ this, &entry ]( const inventory_entry & cur ) {
-        const item_category *cur_cat = cur.get_category_ptr();
-        const item_category *new_cat = entry.get_category_ptr();
-
-        return cur_cat == new_cat ||
-               ( cur_cat != nullptr && new_cat != nullptr &&
-                 ( *cur_cat == *new_cat || preset.cat_sort_compare( cur, entry ) ) );
-    } );
     bool has_loc = false;
     if( entry.is_item() && entry.locations.front().where() == item_location::type::container ) {
         item_location entry_item = entry.locations.front();
@@ -916,7 +904,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         }
     }
     if( !has_loc ) {
-        entries.insert( iter.base(), entry );
+        entries.emplace_back( entry );
     }
     entries_cell_cache.clear();
     expand_to_fit( entry );
@@ -1022,23 +1010,18 @@ void inventory_column::prepare_paging( const std::string &filter )
     }
 
     // Then sort them with respect to categories
-    auto from = entries.begin();
-    while( from != entries.end() ) {
-        auto to = std::next( from );
-        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-            std::advance( to, 1 );
-        }
-        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-            std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
-                if( indent_entries() ) {
-                    return indented_sort_compare( lhs, rhs );
-                }
+    std::stable_sort( entries.begin(), entries.end(),
+    [this]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+        if( *lhs.get_category_ptr() == *rhs.get_category_ptr() ) {
+            if( indent_entries() ) {
+                return indented_sort_compare( lhs, rhs );
+            }
 
-                return sort_compare( lhs, rhs );
-            } );
+            return sort_compare( lhs, rhs );
         }
-        from = to;
-    }
+        return preset.cat_sort_compare( lhs, rhs );
+    } );
+
     // Recover categories
     const item_category *current_category = nullptr;
     for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {
