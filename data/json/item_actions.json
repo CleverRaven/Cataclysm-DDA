@@ -231,6 +231,16 @@
   },
   {
     "type": "item_action",
+    "id": "attach_molle",
+    "name": { "str": "Attach pockets" }
+  },
+  {
+    "type": "item_action",
+    "id": "detach_molle",
+    "name": { "str": "Remove pockets" }
+  },
+  {
+    "type": "item_action",
     "id": "saw_barrel",
     "name": { "str": "Saw down barrel" }
   },
