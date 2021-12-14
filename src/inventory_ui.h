@@ -465,8 +465,9 @@ class inventory_column
 
         const inventory_selector_preset &preset;
 
-        std::vector<inventory_entry> entries;
-        std::vector<inventory_entry> entries_hidden;
+        using entries_t = std::vector<inventory_entry>;
+        entries_t entries;
+        entries_t entries_hidden;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
@@ -500,6 +501,7 @@ class inventory_column
         size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
+        static void _move_entries_to( entries_t const &ent, inventory_column &dest );
 
         bool skip_unselectable = false;
 };

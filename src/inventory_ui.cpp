@@ -902,15 +902,21 @@ void inventory_column::add_entry( const inventory_entry &entry )
     paging_is_valid = false;
 }
 
-void inventory_column::move_entries_to( inventory_column &dest )
+void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : entries ) {
+    for( const auto &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
+}
+
+void inventory_column::move_entries_to( inventory_column &dest )
+{
+    _move_entries_to( entries, dest );
+    _move_entries_to( entries_hidden, dest );
     dest.prepare_paging();
     clear();
 }
