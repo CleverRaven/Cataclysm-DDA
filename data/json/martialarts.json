@@ -857,32 +857,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapons": [
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_metal",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "cutlass",
-      "cutlass_fake",
-      "cutlass_inferior",
-      "cavalry_sabre",
-      "cavalry_sabre_fake"
-    ]
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
