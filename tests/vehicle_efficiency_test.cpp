@@ -127,7 +127,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
     for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
-        if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
+        if( ( pt.is_battery() || pt.is_tank() ) &&
             !pt.ammo_current().is_null() ) {
             fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
         }
