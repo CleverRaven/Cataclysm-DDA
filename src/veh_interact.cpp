@@ -1348,7 +1348,7 @@ void veh_interact::do_refill()
                     return false;
                 }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
-                if( pt.get_base().is_reloadable_with( obj.typeId() ) ) {
+                if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
                 }
                 return can_reload;

@@ -327,7 +327,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "cant_remove_reason", cant_remove_reason );
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
-    assign( jsobj, "capacity", capacity, false, 0_kJ );
+    assign( jsobj, "capacity", capacity, false );
     assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
@@ -1584,7 +1584,7 @@ material_id Character::find_remote_fuel( bool look_only )
                             remote_battery = i->ammo_remaining();
                         }
                     }
-                    remote_battery = std::min( remote_battery, units::to_kilojoule( max_power_level ) );
+                    remote_battery = std::min( remote_battery, units::to_kilojoule( get_max_power_level() ) );
                     set_value( "rem_battery", std::to_string( remote_battery ) );
                 }
                 remote_fuel = fuel_type_battery;
@@ -2277,7 +2277,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, b
 
     int success = chance_of_success - rng( 1, 100 );
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
-        perform_uninstall( b_id, difficulty, success, b_id->capacity, pl_skill );
+        perform_uninstall( b_id, difficulty, success, pl_skill );
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
@@ -2301,8 +2301,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, b
     return true;
 }
 
-void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success,
-                                   const units::energy &power_lvl, int pl_skill )
+void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success, int pl_skill )
 {
     map &here = get_map();
     if( success > 0 ) {
@@ -2313,9 +2312,6 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bid.obj().name );
         remove_bionic( bid );
-
-        // remove power bank provided by bionic
-        mod_max_power_level( -power_lvl );
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid->itype() ) ) {
@@ -2393,8 +2389,6 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
         }
 
-        // remove power bank provided by bionic
-        patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.info().itype() ) ) {
@@ -2453,9 +2447,6 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
-    } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
-               get_max_power_level() < bid->capacity ) {
-        return ret_val<bool>::make_failure( _( "Max power capacity already reached." ) );
     }
 
     return ret_val<bool>::make_success( std::string() );
@@ -2682,24 +2673,20 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                 std::vector<bionic_id> valid;
                 std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
                 [&]( const bionic_id & id ) {
-                    return !has_bionic( id );
+                    return !has_bionic( id ) && !id->dupes_allowed;
                 } );
 
-                // We've got all the bad bionics!
                 if( valid.empty() ) {
-                    if( has_max_power() ) {
-                        units::energy old_power = get_max_power_level();
-                        add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
-                        set_max_power_level( units::from_kilojoule( rng( 0,
-                                             units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
-                        if( is_avatar() ) {
-                            get_memorial().add(
-                                pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                units::to_kilojoule( old_power - get_max_power_level() ) );
-                        }
-                    }
-                    // TODO: What if we can't lose power capacity?  No penalty?
+                    // No unique faulty bionics left. Pick one that allows dupes
+                    std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+                    [&]( const bionic_id & id ) {
+                        return id->dupes_allowed;
+                    } );
+                }
+
+                if( valid.empty() ) {
+                    // Shouldn't happen unless no faulty bionic has allow_dupes=true
+                    debugmsg( "Couldn't find any faulty bionics to install!" );
                 } else {
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
@@ -2840,7 +2827,6 @@ void Character::add_bionic( const bionic_id &b )
     }
 
     const units::energy pow_up = b->capacity;
-    mod_max_power_level( pow_up );
     if( pow_up > 0_J ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
@@ -2881,6 +2867,7 @@ void Character::add_bionic( const bionic_id &b )
         add_proficiency( learned );
     }
 
+    update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
     if( is_avatar() && has_flag( json_flag_ENHANCED_VISION ) ) {
@@ -2932,6 +2919,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
+    update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -3498,3 +3486,13 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
     return result;
 }
 
+void Character::update_bionic_power_capacity()
+{
+    max_power_level_cached = 0_kJ;
+    for( const bionic_id &bid : get_bionics() ) {
+        max_power_level_cached += bid->capacity;
+    }
+    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy_max );
+
+    set_power_level( get_power_level() );
+}

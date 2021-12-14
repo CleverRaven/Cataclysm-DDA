@@ -448,7 +448,7 @@
     "id": "bottle_plastic_pill_supplement",
     "type": "GENERIC",
     "copy-from": "bottle_plastic_pill_prescription",
-    "name": { "str": "plastic suppliment bottle" },
+    "name": { "str": "plastic supplement bottle" },
     "looks_like": "vitamins",
     "description": "A small green pill bottle with a screw top.",
     "color": "green"
@@ -1968,7 +1968,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

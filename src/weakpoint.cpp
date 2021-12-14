@@ -20,6 +20,10 @@
 #include "rng.h"
 #include "translations.h"
 
+
+static const limb_score_id limb_score_reaction( "reaction" );
+static const limb_score_id limb_score_vision( "vision" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throw( "throw" );
@@ -38,21 +42,22 @@ float Character::melee_weakpoint_skill( const item &weapon ) const
     skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    float mul = ( get_limb_score( limb_score_vision ) + get_limb_score( limb_score_reaction ) ) / 2;
+    return ( skill + stat ) * mul;
 }
 
 float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
     float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * get_limb_score( limb_score_vision );
 }
 
 float Character::throw_weakpoint_skill() const
 {
     float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * get_limb_score( limb_score_vision );
 }
 
 float weakpoint_family::modifier( const Character &attacker ) const

@@ -806,7 +806,7 @@
       {
         "encumbrance": 37,
         "coverage": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -834,7 +834,7 @@
         "cover_melee": 100,
         "cover_ranged": 0,
         "cover_vitals": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -862,7 +862,7 @@
         "cover_melee": 0,
         "cover_ranged": 100,
         "cover_vitals": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -1770,7 +1770,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "sight_dispersion": 11,
-    "aim_speed": 4,
+    "field_of_view": 300,
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]

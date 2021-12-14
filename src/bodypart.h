@@ -183,10 +183,8 @@ struct body_part_type {
         std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
-        /** Size of the body part when doing an unweighted selection. */
+        /** Size of the body part for melee targeting. */
         float hit_size = 0.0f;
-        /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
-        std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
 
         /** Sub-location of the body part used for encumberance, coverage and determining protection
          */

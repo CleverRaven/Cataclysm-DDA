@@ -731,7 +731,8 @@ int Item_spawn_data::get_probability( bool skip_event_check ) const
     }
 
     // Item spawn is event-based, but option is disabled
-    if( get_option<std::string>( "EVENT_SPAWNS" ) != "items" ) {
+    std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
+    if( opt != "items" && opt != "both" ) {
         return 0;
     }
 

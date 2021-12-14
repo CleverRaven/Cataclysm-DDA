@@ -28,7 +28,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
@@ -53,8 +53,8 @@
     "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
+      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
@@ -97,8 +97,12 @@
     "armor_acid": 1,
     "bleed_rate": 0,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 66, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      { "id": "smash", "attack_upper": false, "throw_strength": 66, "cooldown": 45 },
+      {
+        "id": "scratch",
+        "attack_upper": false,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
+      }
     ]
   },
   {
