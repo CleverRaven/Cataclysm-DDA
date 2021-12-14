@@ -4462,6 +4462,14 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "dish_towel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "usb_drive",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
