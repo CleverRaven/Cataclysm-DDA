@@ -1,0 +1,61 @@
+[
+  {
+    "id": "exo_mounted_drill",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "exoskeleton mounted drill" },
+    "category": "tool",
+    "description": "A powerful header drill with synthetic diamond covers most of the exoskeleton's arm, leaving the hand free. While turned off, it still makes a powerful mace.",
+    "flags": [ "USE_UPS", "DURABLE_MELEE", "POWERARMOR_COMPATIBLE" ],
+    "weight": "40000 g",
+    "volume": "5 L",
+    "longest_side": "5 cm",
+    "bashing": 60,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "hardsteel", "diamond" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "sided": true,
+    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "arm_l", "hand_l", "arm_r", "hand_r" ] } ],
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn on",
+      "type": "transform",
+      "active": true,
+      "need_charges": 1,
+      "msg": "You turn on the drill.",
+      "target": "exo_mounted_drill_on"
+    }
+  },
+  {
+    "id": "exo_mounted_drill_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "exo_mounted_drill",
+    "name": { "str": "exoskeleton mounted drill (on)" },
+    "description": "The drill is now rotating and making a low growling noise. Meant to make short work of the toughest rock, it should work on more mobile surfaces as well. Use it to turn it off.",
+    "flags": [ "USE_UPS", "MESSY", "POWERED", "DURABLE_MELEE", "DIG_TOOL", "POWERARMOR_COMPATIBLE" ],
+    "bashing": 60,
+    "cutting": 20,
+    "power_draw": 2000,
+    "revert_to": "exo_mounted_drill",
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn off the drill.", "target": "exo_mounted_drill" }
+  },
+  {
+    "id": "exo_hydraulic_gauntlet",
+    "copy-from": "afs_hydraulic_gauntlet",
+    "type": "ARMOR",
+    "name": { "str": "exoskeleton hydraulic gauntlet" },
+    "description": "A huge, heavy metal gauntlet lined with tubing and gauges, worn in place of standard exoskeleton gauntlets.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively. ",
+    "looks_like": "gauntlets_chitin",
+    "color": "light_gray",
+    "bashing": 50,
+    "to_hit": -2,
+    "sided": true,
+    "warmth": 20,
+    "material": "hardsteel",
+    "material_thickness": 2,
+    "flags": [ "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON", "CANT_WEAR", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
+    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  }
+]
