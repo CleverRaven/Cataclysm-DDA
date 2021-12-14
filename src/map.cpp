@@ -135,6 +135,8 @@ static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" )
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+static const diseasetype_id disease_bad_food( "bad_food" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -1757,7 +1759,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
             if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
                 water.poison = rng( 1, 6 );
                 water.get_comestible()->parasites = 5;
-                water.get_comestible()->contamination = { { diseasetype_id( "bad_food" ), 5 } };
+                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
             }
             add_item( p, water );
         }
@@ -4547,7 +4549,7 @@ item map::water_from( const tripoint &p )
                                   temperatures::cold ) ) );
         ret.poison = rng( 1, 6 );
         ret.get_comestible()->parasites = 5;
-        ret.get_comestible()->contamination = { { diseasetype_id( "bad_food" ), 5 } };
+        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
         return ret;
     }
 
