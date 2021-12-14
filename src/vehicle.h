@@ -1237,9 +1237,6 @@ class vehicle
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
         int net_battery_charge_rate_w() const;
-        // Maximum available power available from all reactors. Power from
-        // reactors is only drawn when batteries are empty.
-        int max_reactor_epower_w() const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
@@ -1865,7 +1862,6 @@ class vehicle
 
         std::vector<int> alternators;      // List of alternator indices NOLINT(cata-serialize)
         std::vector<int> engines;          // List of engine indices NOLINT(cata-serialize)
-        std::vector<int> reactors;         // List of reactor indices NOLINT(cata-serialize)
         std::vector<int> solar_panels;     // List of solar panel indices NOLINT(cata-serialize)
         std::vector<int> wind_turbines;    // List of wind turbine indices NOLINT(cata-serialize)
         std::vector<int> water_wheels;     // List of water wheel indices NOLINT(cata-serialize)

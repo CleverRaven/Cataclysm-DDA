@@ -283,8 +283,6 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
-    add_toggle( pgettext( "electronics menu option", "reactor" ),
-                keybind( "TOGGLE_REACTOR" ), "REACTOR" );
     add_toggle( pgettext( "electronics menu option", "headlights" ),
                 keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
     add_toggle( pgettext( "electronics menu option", "wide angle headlights" ),

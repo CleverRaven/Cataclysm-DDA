@@ -473,10 +473,6 @@
     "type": "json_flag"
   },
   {
-    "id": "REACTOR",
-    "type": "json_flag"
-  },
-  {
     "id": "REAPER",
     "type": "json_flag"
   },

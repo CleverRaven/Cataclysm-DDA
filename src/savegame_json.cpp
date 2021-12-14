@@ -3346,7 +3346,6 @@ void vehicle::deserialize( const JsonObject &data )
     set_legacy_state( "recharger_on", "RECHARGE" );
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
-    set_legacy_state( "reactor_on", "REACTOR" );
 }
 
 void vehicle::serialize( JsonOut &json ) const

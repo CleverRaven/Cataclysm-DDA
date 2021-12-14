@@ -1154,8 +1154,8 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
     return static_cast<int>( pwr * effective_percent );
 }
 
-// alternators, solar panels, reactors, and accessories all have epower.
-// alternators, solar panels, and reactors provide, whilst accessories consume.
+// alternators, solar panel, and accessories all have epower.
+// alternators and solar panels provide, whilst accessories consume.
 // for motor consumption see @ref vpart_info::energy_consumption instead
 int vehicle::part_epower_w( const int index ) const
 {
@@ -4790,15 +4790,6 @@ int vehicle::net_battery_charge_rate_w() const
            total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w();
 }
 
-int vehicle::max_reactor_epower_w() const
-{
-    int epower_w = 0;
-    for( int elem : reactors ) {
-        epower_w += is_part_on( elem ) ? part_epower_w( elem ) : 0;
-    }
-    return epower_w;
-}
-
 void vehicle::update_alternator_load()
 {
     // Update alternator load
@@ -4837,55 +4828,6 @@ void vehicle::power_parts()
     std::tie( battery_left, battery_capacity ) = battery_power_level();
     int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
     Character &player_character = get_player_character();
-    // Reactors trigger only on demand. If we'd otherwise run out of power, see
-    // if we can spin up the reactors.
-    if( !reactors.empty() && storage_deficit_bat > 0 ) {
-        // Still not enough surplus epower to fully charge battery
-        // Produce additional epower from any reactors
-        bool reactor_working = false;
-        bool reactor_online = false;
-        for( int elem : reactors ) {
-            // Check whether the reactor is on. If not, move on.
-            if( !is_part_on( elem ) ) {
-                continue;
-            }
-            // Keep track whether or not the vehicle has any reactors activated
-            reactor_online = true;
-            // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
-            if( parts[ elem ].is_unavailable() ) {
-                continue;
-            } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
-                reactor_working = true;
-                delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
-            } else if( parts[elem].ammo_remaining() > 0 ) {
-                // Efficiency: one unit of fuel is this many units of battery
-                // Note: One battery is 1 kJ
-                const int efficiency = part_info( elem ).power;
-                const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
-                const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
-                // Cap output at what we can achieve and utilize
-                const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
-                // Fuel consumed in actual units of the resource
-                int fuel_consumed = reactors_output_bat / efficiency;
-                // Remainder has a chance of resulting in more fuel consumption
-                fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
-                parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
-                reactor_working = true;
-                delta_energy_bat += reactors_output_bat;
-            }
-        }
-
-        if( !reactor_working && reactor_online ) {
-            // All reactors out of fuel or destroyed
-            for( int elem : reactors ) {
-                parts[ elem ].enabled = false;
-            }
-            if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's reactor dies!" ), name );
-            }
-        }
-    }
 
     int battery_deficit = 0;
     if( delta_energy_bat > 0 ) {
@@ -5573,7 +5515,6 @@ void vehicle::refresh()
 
     alternators.clear();
     engines.clear();
-    reactors.clear();
     solar_panels.clear();
     wind_turbines.clear();
     sails.clear();
@@ -5657,9 +5598,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_ENGINE ) ) {
             engines.push_back( p );
-        }
-        if( vpi.has_flag( VPFLAG_REACTOR ) ) {
-            reactors.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );

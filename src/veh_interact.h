@@ -43,7 +43,7 @@ class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
-// For marking 'leaking' tanks/reactors/batteries
+// For marking 'leaking' tanks/batteries
 const std::string leak_marker = "<color_red>*</color>";
 
 class veh_interact
