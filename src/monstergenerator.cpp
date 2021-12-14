@@ -726,11 +726,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    bool clear_wplist = true;
     if( !was_loaded || jo.has_array( "weakpoints" ) ) {
         default_weakpoint_set.clear();
         default_weakpoint_set.load( jo.get_array( "weakpoints" ) );
-        clear_wplist = false;
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );

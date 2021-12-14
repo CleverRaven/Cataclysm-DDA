@@ -155,6 +155,8 @@ struct weakpoints {
     std::vector<weakpoint> weakpoint_list;
     // Default weakpoint to return.
     weakpoint default_weakpoint;
+    // TODO: make private
+    bool was_loaded = false;
 
     // Selects a weakpoint to hit.
     const weakpoint *select_weakpoint( const weakpoint_attack &attack ) const;

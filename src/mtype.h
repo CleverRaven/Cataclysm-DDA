@@ -343,7 +343,6 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
-        //::weakpoints weakpoints;
         ::weakpoints default_weakpoint_set;
         std::vector<weakpoints_id> weakpoint_sets;
         weakpoint_families families;
@@ -466,6 +465,7 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
+        const weakpoint *select_weakpoint( const weakpoint_attack &attack ) const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
