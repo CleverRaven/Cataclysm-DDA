@@ -6969,20 +6969,27 @@ bool item::has_layer( layer_level ll ) const
 
 bool item::has_layer( const std::vector<layer_level> &ll ) const
 {
+    bool found = false;
     for( layer_level layer : ll ) {
         switch( layer ) {
             case layer_level::PERSONAL:
-                return has_flag( flag_PERSONAL );
+                found = found || has_flag( flag_PERSONAL );
+                break;
             case layer_level::UNDERWEAR:
-                return has_flag( flag_SKINTIGHT );
+                found = found || has_flag( flag_SKINTIGHT );
+                break;
             case layer_level::WAIST:
-                return has_flag( flag_WAIST );
+                found = found || has_flag( flag_WAIST );
+                break;
             case layer_level::OUTER:
-                return has_flag( flag_OUTER );
+                found = found || has_flag( flag_OUTER );
+                break;
             case layer_level::BELTED:
-                return has_flag( flag_BELTED );
+                found = found || has_flag( flag_BELTED );
+                break;
             case layer_level::AURA:
-                return has_flag( flag_AURA );
+                found = found || has_flag( flag_AURA );
+                break;
             case layer_level::REGULAR:
                 std::vector<layer_level> layers;
                 if( has_flag( flag_PERSONAL ) ) {
@@ -7004,9 +7011,15 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
                     layers.push_back( layer_level::AURA );
                 }
                 // for regular layer it's the absence of a flag
-                return layers.empty();
+                found = found || layers.empty();
+                break;
+        }
+        //if they have any matching layers we don't need to keep looking
+        if( found ) {
+            break;
         }
     }
+    return found;
 }
 
 int item::get_avg_coverage( const cover_type &type ) const
