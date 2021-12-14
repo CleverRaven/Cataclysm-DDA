@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "messages.h"
 #include "monster.h"
@@ -31,6 +32,42 @@ static const skill_id skill_unarmed( "unarmed" );
 
 class JsonArray;
 class JsonObject;
+
+namespace
+{
+
+generic_factory<weakpoints> weakpoints_factory( "weakpoint sets" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const weakpoints &string_id<weakpoints>::obj() const
+{
+    return weakpoints_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<weakpoints>::is_valid() const
+{
+    return weakpoints_factory.is_valid( *this );
+}
+
+void weakpoints::load_weakpoint_sets( const JsonObject &jo, const std::string &src )
+{
+    weakpoints_factory.load( jo, src );
+}
+
+void weakpoints::reset()
+{
+    weakpoints_factory.reset();
+}
+
+const std::vector<weakpoints> &weakpoints::get_all()
+{
+    return weakpoints_factory.get_all();
+}
 
 float monster::weakpoint_skill() const
 {
@@ -539,4 +576,18 @@ void weakpoints::remove( const JsonArray &ja )
             weakpoint_list.erase( it );
         }
     }
+}
+
+void weakpoints::load( const JsonObject &jo, const std::string & )
+{
+    load( jo.get_array( "weakpoints" ) );
+}
+
+void weakpoints::add_from_set( const weakpoints_id &set_id )
+{
+    if( !set_id.is_valid() ) {
+        debugmsg( "invalid weakpoint_set id \"%s\"", set_id.c_str() );
+        return;
+    }
+    weakpoint_list.insert( weakpoint_list.end(), set_id->weakpoint_list.begin(), set_id->weakpoint_list.end() );
 }
