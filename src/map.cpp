@@ -103,6 +103,8 @@
 
 static const ammotype ammo_battery( "battery" );
 
+static const diseasetype_id disease_bad_food( "bad_food" );
+
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
@@ -134,8 +136,6 @@ static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-
-static const diseasetype_id disease_bad_food( "bad_food" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
