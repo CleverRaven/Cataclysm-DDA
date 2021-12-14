@@ -3109,9 +3109,9 @@ void act_vehicle_unload_fuel( vehicle *veh )
 
     Character &player_character = get_player_character();
     int qty = veh->fuel_left( fuel );
-        item solid_fuel( fuel, calendar::turn, qty );
-        player_character.i_add( solid_fuel );
-        veh->drain( fuel, qty );
+    item solid_fuel( fuel, calendar::turn, qty );
+    player_character.i_add( solid_fuel );
+    veh->drain( fuel, qty );
 
 }
 

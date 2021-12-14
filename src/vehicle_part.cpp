@@ -360,7 +360,7 @@ bool vehicle_part::can_reload( const item &obj ) const
 
     if( !obj.is_null() ) {
         const itype_id obj_type = obj.typeId();
-		
+
         // forbid filling tanks with solids or non-material things
         if( is_tank() && ( obj.made_of( phase_id::SOLID ) || obj.made_of( phase_id::PNULL ) ) ) {
             return false;
