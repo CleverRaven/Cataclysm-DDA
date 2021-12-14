@@ -17,7 +17,6 @@
 static const efftype_id effect_blind( "blind" );
 
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_plut_cell( "plut_cell" );
 
 static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electric_test" );
 static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
