@@ -3,60 +3,123 @@
     "id": "snail_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "snail_sample", "prob": 30 } ]
+    "entries": [ { "item": "snail_sample" } ]
   },
   {
     "id": "rabbit_foot",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rabbit_foot", "prob": 30 } ]
+    "entries": [ { "item": "rabbit_foot" } ]
   },
   {
     "id": "frog_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "frog_sample", "prob": 30 } ]
+    "entries": [ { "item": "frog_sample", "count-min": 1, "count-max": 3 } ]
   },
   {
     "id": "insect_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "insect_sample", "prob": 30 } ]
+    "entries": [ { "item": "insect_sample" } ]
   },
   {
     "id": "bovine_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bovine_sample", "prob": 30 } ]
+    "entries": [ { "item": "bovine_sample", "count-min": 2, "count-max": 5 } ]
   },
   {
     "id": "spider_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "spider_sample", "prob": 30 } ]
+    "entries": [ { "item": "spider_sample" } ]
   },
   {
     "id": "molerat_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "molerat_sample", "prob": 30 } ]
+    "entries": [ { "item": "molerat_sample", "count-min": 2, "count-max": 6 } ]
   },
   {
     "id": "reptile_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "reptile_sample", "prob": 30 } ]
+    "entries": [ { "item": "reptile_sample", "count-min": 1, "count-max": 4 } ]
+  },
+  {
+    "id": "ursine_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample", "count-min": 2, "count-max": 6 } ]
+  },
+  {
+    "id": "ungulate_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "beast_sample", "count-min": 1, "count-max": 2 },
+      { "item": "bovine_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "mollusk_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "snail_sample", "count-min": 1, "count-max": 2 },
+      { "item": "cephalopod_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "camouflaged_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "feline_sample", "count-min": 1, "count-max": 2 },
+      { "item": "reptile_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "camouflaged_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "snail_sample", "count-min": 1, "count-max": 2 },
+      { "item": "reptile_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "arthropod_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "insect_sample", "count-min": 1, "count-max": 2 },
+      { "item": "spider_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "beast_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample", "count-min": 1, "count-max": 4 } ]
   },
   {
     "id": "lupine_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lupine_sample", "prob": 30 } ]
+    "entries": [ { "item": "lupine_sample" } ]
   },
   {
     "id": "feline_sample",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "feline_sample", "prob": 30 } ]
+    "entries": [ { "item": "feline_sample" } ]
+  },
+  {
+    "id": "human_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample" } ]
   }
 ]
