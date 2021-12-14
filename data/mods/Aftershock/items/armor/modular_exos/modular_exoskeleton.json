@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "afs_exo_undersuit",
@@ -29,8 +34,8 @@
     "description": "This is a standard exoskeleton frame. Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools. Slots exist for the torso, back, arms, and legs.",
     "weight": "40 kg",
     "volume": "130 L",
-    "material": [ "steel", "plastic" ],
-    "material_thickness": 8,
+    "material": [ "titanium" ],
+    "material_thickness": 2,
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",
@@ -158,7 +163,7 @@
     "description": "This is a helmet offering mounts for specialized equipment and protection.",
     "weight": "2500 g",
     "volume": "5 L",
-    "material": [ "steel", "plastic" ],
+    "material": [ "titanium", "plastic" ],
     "symbol": "n",
     "looks_like": "power_armor_helmet_basic",
     "color": "dark_gray",
@@ -193,7 +198,7 @@
     "description": "This is a pair of exoskeleton boots. Has mounting points for protective plate.",
     "weight": "2000 g",
     "volume": "3250 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "titanium", "plastic" ],
     "symbol": "b",
     "looks_like": "boots_plate",
     "color": "dark_gray",
@@ -218,15 +223,16 @@
     "category": "armor",
     "name": { "str": "exoskeleton gloves", "str_pl": "exoskeleton gloves" },
     "description": "This is a pair of exoskeleton gloves. Has mounting points for protective plate.",
-    "weight": "1000 g",
-    "volume": "1500 ml",
-    "material": [ "steel", "plastic" ],
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "titanium", "plastic" ],
     "symbol": "g",
     "looks_like": "gloves_plate",
     "color": "dark_gray",
     "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
+    "sided": true,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
     "flags": [ "WATERPROOF", "STURDY" ],
     "pocket_data": [
@@ -240,3 +246,4 @@
     ]
   }
 ]
+

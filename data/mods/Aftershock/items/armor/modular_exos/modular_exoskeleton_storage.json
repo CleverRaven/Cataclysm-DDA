@@ -1,7 +1,7 @@
 [
   {
     "id": "exo_rifle_storage",
-	"copy-from": "back_holster",
+    "copy-from": "back_holster",
     "type": "ARMOR",
     "name": { "str": "large storage pouch" },
     "description": "A hardpoint for storing a rifle. Activate to holster/draw a gun.",
@@ -16,7 +16,7 @@
   },
   {
     "id": "exo_melee_storage",
-	"copy-from": "bscabbard",
+    "copy-from": "bscabbard",
     "type": "ARMOR",
     "name": { "str": "large storage pouch" },
     "description": "A hardpoint for storing a sword. Activate to sheath/draw a sword .",
@@ -33,7 +33,7 @@
   },
   {
     "id": "exo_large_storage",
-	"copy-from": "backpack_tactical_large",
+    "copy-from": "backpack_tactical_large",
     "repairs_like": "backpack_tactical_large",
     "type": "ARMOR",
     "name": { "str": "exoskeleton large storage pack" },
@@ -44,12 +44,11 @@
     "flags": [ "WATER_FRIENDLY", "EXO_LARGE_GADGET" ],
     "symbol": "[",
     "looks_like": "backpack",
-    "armor": [
-      { "encumbrance": [ 10, 55 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 10, 55 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "exo_medium_storage",
-	"copy-from": "fanny",
+    "copy-from": "fanny",
     "repairs_like": "fanny",
     "type": "ARMOR",
     "name": { "str": "exoskeleton medium pouch", "str_pl": "exoskeleton medium pouches" },
@@ -64,7 +63,7 @@
   },
   {
     "id": "exo_small_storage",
-	"copy-from": "leather_pouch",
+    "copy-from": "leather_pouch",
     "repairs_like": "fanny",
     "type": "ARMOR",
     "name": { "str": "exoskeleton small pouch", "str_pl": "exoskeleton small pouches" },
@@ -78,8 +77,8 @@
   },
   {
     "id": "exo_large_ammo_pouch",
-	"copy-from": "tacvest",
-	"looks_like": "tacvest",
+    "copy-from": "tacvest",
+    "looks_like": "tacvest",
     "type": "ARMOR",
     "name": { "str": "exoskeleton large ammo pouches", "str_pl": "exoskeleton large ammo pouches" },
     "description": "A set of pouches that attach to a hardpoint.",
@@ -91,28 +90,17 @@
     "symbol": "[",
     "color": "dark_gray",
     "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
-    "armor": [
-      {
-        "encumbrance": [ 2, 5 ],
-        "coverage": 0
-      }
-    ]
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 0 } ]
   },
   {
     "id": "exo_small_ammo_pouch",
-	"copy-from": "legrig",
+    "copy-from": "legrig",
     "type": "ARMOR",
     "name": { "str": "exoskeleton small ammo pouches", "str_pl": "exoskeleton small ammo pouches" },
     "description": "A set of pouches that attach to a hardpoint.",
     "symbol": "[",
     "color": "dark_gray",
     "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ],
-    "armor": [
-      {
-        "encumbrance": [ 2, 5 ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance": [ 2, 5 ], "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_r", "leg_upper_l" ] } ]
   }
 ]
