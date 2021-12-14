@@ -964,7 +964,7 @@
         "........................"
       ],
       "palettes": [ "cabin_palette" ],
-      "set": [ { "point": "trap", "id": "tr_beartrap", "x": 6, "y": 9 } ],
+      "set": [ { "point": "trap", "id": "tr_beartrap", "x": 9, "y": 6 } ],
       "terrain": { ">": "t_stairs_down", "$": "t_window_boarded", "=": "t_door_locked" },
       "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 100, "ammo": 90, "magazine": 100 } ],
       "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 12, "density": 0.1 } ]
@@ -985,7 +985,7 @@
         "#########^^#############",
         "########^..^############",
         "########..^^############",
-        "##|||###Y..^^###########",
+        "########Y..^^###########",
         "##G.R###<.|||####||||||#",
         "##a.l###A.|UUVVvv|{{{{|#",
         "##=*=###..|U.....:....|#",
