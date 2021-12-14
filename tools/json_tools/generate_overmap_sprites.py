@@ -15,6 +15,9 @@ from util import import_data
 
 
 SIZE = 24
+SKIP_IDS = {
+    'FEMA_entrance',
+}
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 SCHEME = None
@@ -315,7 +318,7 @@ def main():
             continue
 
         om_id = entry.get('om_terrain')
-        if not om_id:
+        if not om_id or om_id in SKIP_IDS:
             continue
 
         # verify that "object" value is defined
