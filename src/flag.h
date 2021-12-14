@@ -154,6 +154,7 @@ extern const flag_id flag_IS_ARMOR;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;
 extern const flag_id flag_ITEM_BROKEN;
+extern const flag_id flag_LASER_SIGHT;
 extern const flag_id flag_LEAK_ALWAYS;
 extern const flag_id flag_LEAK_DAM;
 extern const flag_id flag_LITCIG;

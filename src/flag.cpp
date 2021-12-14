@@ -144,6 +144,7 @@ const flag_id flag_IS_ARMOR( "IS_ARMOR" );
 const flag_id flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 const flag_id flag_IS_UPS( "IS_UPS" );
 const flag_id flag_ITEM_BROKEN( "ITEM_BROKEN" );
+const flag_id flag_LASER_SIGHT( "LASER_SIGHT" );
 const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LITCIG( "LITCIG" );

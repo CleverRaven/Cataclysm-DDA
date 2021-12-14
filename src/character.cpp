@@ -880,11 +880,20 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
         }
     }
 
-    // aim with other sighs
+    // aim with other sights
+
+    // to check whether laser sights are available
+    const int base_distance = 10;
+    const float light_limit = 120.0f;
+    bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
+                                     1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
             continue; // skip gunmods which don't provide a sight
+        }
+        if( e->has_flag( flag_LASER_SIGHT ) && !laser_light_available ) {
+            continue;
         }
         bool zoom = e->has_flag( flag_ZOOM );
         double e_effective_dispersion = effective_dispersion( mod.sight_dispersion,
