@@ -4789,6 +4789,7 @@
     "prereqs": [ "STR_UP_2" ],
     "changes_to": [ "STR_UP_4" ],
     "leads_to": [ "MUT_TOUGH" ],
+    "threshreq": [ "THRESH_BEAST", "THRESH_URSINE", "THRESH_BOVINE", "THRESH_INSECT", "THRESH_FELINE", "THRESH_RAPTOR", "THRESH_TROGLOBYTE", "THRESH_LUPINE", "THRESH_PLANT" ],
     "category": [ "CHIMERA", "LUPINE", "TROGLOBITE" ],
     "passive_mods": { "str_mod": 4 }
   },
@@ -4847,6 +4848,7 @@
     "description": "You are nimble and quick.  +4 Dexterity.",
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
+    "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_RAPTOR", "THRESH_MOUSE", "THRESH_RABBIT", "THRESH_LIZARD", "THRESH_SPIDER" ],
     "category": [ "BIRD", "ELFA", "FELINE" ],
     "passive_mods": { "dex_mod": 4 }
   },
@@ -4903,6 +4905,7 @@
     "description": "You are much smarter, and your skull bulges slightly.  +4 Intelligence.",
     "prereqs": [ "INT_UP_2" ],
     "changes_to": [ "INT_UP_4" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "ELFA" ],
     "passive_mods": { "int_mod": 4 }
   },
@@ -4982,6 +4985,7 @@
     "description": "Your senses are much keener.  +4 Perception.",
     "prereqs": [ "PER_UP_2" ],
     "changes_to": [ "PER_UP_4" ],
+    "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_RAPTOR", "THRESH_MOUSE", "THRESH_RABBIT", "THRESH_LIZARD", "THRESH_RAT" ],
     "category": [ "ELFA", "RAPTOR" ],
     "passive_mods": { "per_mod": 4 }
   },
