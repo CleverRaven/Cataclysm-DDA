@@ -533,7 +533,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     you->consume_items( comps1 );
     comps1.clear();
     comps1.emplace_back( itype_liquid_soap, required.cleanser );
-    you->consume_items( comps2, 1, is_liquid_crafting_component );
+    you->consume_items( comps1, 1, is_liquid_crafting_component );
 
     you->add_msg_if_player( m_good, _( "You washed your items." ) );
 
