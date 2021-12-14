@@ -80,7 +80,6 @@ static const faction_id faction_no_faction( "no_faction" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_plut_cell( "plut_cell" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 

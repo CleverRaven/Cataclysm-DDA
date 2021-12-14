@@ -87,7 +87,6 @@ static const std::string part_location_onroof( "on_roof" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
@@ -103,10 +102,8 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_mana( "mana" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_null( "null" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
@@ -5157,7 +5154,7 @@ void vehicle::slow_leak()
         const tripoint dest = global_pos3() + tripoint( q, 0 );
 
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
-        if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
+        if( fuel != fuel_type_battery ) {
             item leak( fuel, calendar::turn, qty );
             here.add_item_or_charges( dest, leak );
             p.ammo_consume( qty, global_part_pos3( p ) );

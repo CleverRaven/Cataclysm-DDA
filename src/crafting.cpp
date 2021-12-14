@@ -85,7 +85,6 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const efftype_id effect_contacts( "contacts" );
 
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_plut_cell( "plut_cell" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
