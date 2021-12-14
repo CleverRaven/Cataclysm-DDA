@@ -6942,6 +6942,9 @@ bool item::has_layer( layer_level ll ) const
             return has_flag( flag_BELTED );
         case layer_level::AURA:
             return has_flag( flag_AURA );
+        case layer_level::NUM_LAYER_LEVELS:
+            // should never be seen
+            return false;
         case layer_level::REGULAR:
             std::vector<layer_level> layers;
             if( has_flag( flag_PERSONAL ) ) {
@@ -6965,6 +6968,7 @@ bool item::has_layer( layer_level ll ) const
             // for regular layer it's the absence of a flag
             return layers.empty();
     }
+    return false;
 }
 
 bool item::has_layer( const std::vector<layer_level> &ll ) const
@@ -6989,6 +6993,9 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
                 break;
             case layer_level::AURA:
                 found = found || has_flag( flag_AURA );
+                break;
+            case layer_level::NUM_LAYER_LEVELS:
+                // should never happen
                 break;
             case layer_level::REGULAR:
                 std::vector<layer_level> layers;
