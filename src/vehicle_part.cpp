@@ -360,10 +360,7 @@ bool vehicle_part::can_reload( const item &obj ) const
 
     if( !obj.is_null() ) {
         const itype_id obj_type = obj.typeId();
-        if( is_reactor() ) {
-            return base.can_reload_with( obj, true );
-        }
-
+		
         // forbid filling tanks with solids or non-material things
         if( is_tank() && ( obj.made_of( phase_id::SOLID ) || obj.made_of( phase_id::PNULL ) ) ) {
             return false;
@@ -387,10 +384,6 @@ bool vehicle_part::can_reload( const item &obj ) const
     }
     if( base.is_gun() ) {
         return false;
-    }
-
-    if( is_reactor() ) {
-        return true;
     }
 
     if( ammo_current().is_null() ) {
@@ -537,7 +530,7 @@ bool vehicle_part::is_fuel_store( bool skip_broke ) const
     if( skip_broke && is_broken() ) {
         return false;
     }
-    return is_tank() || base.is_magazine() || is_reactor();
+    return is_tank() || base.is_magazine();
 }
 
 bool vehicle_part::is_tank() const
@@ -556,14 +549,9 @@ bool vehicle_part::is_battery() const
     return base.is_magazine() && base.ammo_types().count( ammo_battery );
 }
 
-bool vehicle_part::is_reactor() const
-{
-    return info().has_flag( VPFLAG_REACTOR );
-}
-
 bool vehicle_part::is_leaking() const
 {
-    return  health_percent() <= 0.5 && ( is_tank() || is_battery() || is_reactor() );
+    return  health_percent() <= 0.5 && ( is_tank() || is_battery() );
 }
 
 bool vehicle_part::is_turret() const

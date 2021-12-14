@@ -1407,29 +1407,11 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
-        int reactor_epower_w = veh->max_reactor_epower_w();
-        if( reactor_epower_w > 0 && epower_w < 0 ) {
-            reactor_epower_w += epower_w;
-        }
-        std::string reactor;
-        if( reactor_epower_w == 0 ) {
-            reactor = _( "Reactors" );
-        } else if( reactor_epower_w < 10000 ) {
-            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
-                                     health_color( reactor_epower_w ), reactor_epower_w );
-        } else {
-            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
-                                     health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
-        }
-        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, reactor );
-        right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
-    };
-    overview_headers["5_TURRET"] = []( const catacurses::window & w, int y ) {
+    overview_headers["4_TURRET"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Turrets" ) );
         right_print( w, y, 1, c_light_gray, _( "Ammo     Qty" ) );
     };
-    overview_headers["6_SEAT"] = []( const catacurses::window & w, int y ) {
+    overview_headers["5_SEAT"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
@@ -1470,7 +1452,7 @@ void veh_interact::calc_overview()
         }
 
         if( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
-                                      !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) {
+                                      !( vpr.part().is_turret() || vpr.part().is_battery() ) ) ) {
             auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     std::string specials;
@@ -1526,7 +1508,7 @@ void veh_interact::calc_overview()
                                                 hotkey ) : input_event(),
                                             tank_details );
             } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
-                       vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
+                       vpr.part().is_battery() ) ) {
                 overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey(
                                                 hotkey ) : input_event(),
                                             no_tank_details );
@@ -1552,7 +1534,7 @@ void veh_interact::calc_overview()
                                         selectable ? next_hotkey( hotkey ) : input_event(), details );
         }
 
-        if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
+        if( vpr.part().is_turret() ) {
             auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_remaining() ) {
                     int offset = 1;
@@ -1566,13 +1548,8 @@ void veh_interact::calc_overview()
                 }
             };
             selectable = is_selectable( vpr.part() );
-            if( vpr.part().is_reactor() ) {
-                overview_opts.emplace_back( "4_REACTOR", &vpr.part(), selectable,
-                                            selectable ? next_hotkey( hotkey ) : input_event(),
-                                            details_ammo );
-            }
             if( vpr.part().is_turret() ) {
-                overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                overview_opts.emplace_back( "4_TURRET", &vpr.part(), selectable,
                                             selectable ? next_hotkey( hotkey ) : input_event(),
                                             details_ammo );
             }
@@ -1586,7 +1563,7 @@ void veh_interact::calc_overview()
                 }
             };
             selectable = is_selectable( vpr.part() );
-            overview_opts.emplace_back( "6_SEAT", &vpr.part(), selectable, selectable ? next_hotkey(
+            overview_opts.emplace_back( "5_SEAT", &vpr.part(), selectable, selectable ? next_hotkey(
                                             hotkey ) : input_event(), details );
         }
     }
@@ -3118,9 +3095,6 @@ void act_vehicle_unload_fuel( vehicle *veh )
         uilist smenu;
         smenu.text = _( "Remove what?" );
         for( auto &fuel : fuels ) {
-            if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
-                continue;
-            }
             smenu.addentry( item::nname( fuel ) );
         }
         smenu.query();
@@ -3135,19 +3109,9 @@ void act_vehicle_unload_fuel( vehicle *veh )
 
     Character &player_character = get_player_character();
     int qty = veh->fuel_left( fuel );
-    if( fuel == itype_plut_cell ) {
-        if( qty / PLUTONIUM_CHARGES == 0 ) {
-            add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
-            return;
-        }
-        item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
-        player_character.i_add( plutonium );
-        veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
-    } else {
         item solid_fuel( fuel, calendar::turn, qty );
         player_character.i_add( solid_fuel );
         veh->drain( fuel, qty );
-    }
 
 }
 

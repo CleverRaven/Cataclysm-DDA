@@ -80,9 +80,6 @@ static constexpr int MAP_HANDLING_PENALTY = 80;
 // Move cost of accessing an item lying on a vehicle.
 static constexpr int VEHICLE_HANDLING_PENALTY = 80;
 
-// Amount by which to charge an item for each unit of plutonium cell.
-static constexpr int PLUTONIUM_CHARGES = 500;
-
 // Temperature constants.
 namespace temperatures
 {

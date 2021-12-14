@@ -467,25 +467,6 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( VPFLAG_REACTOR ) ) {
-            // De-hardcoded reactors. Should always start active
-            pt.enabled = true;
-        }
-
-        if( pt.is_reactor() ) {
-            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
-                pt.ammo_set( itype_plut_cell );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult + rng( 0,
-                             10 ) ) / 100 );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult - rng( 0,
-                             10 ) ) / 100 );
-            } else {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * veh_fuel_mult / 100 );
-            }
-        }
-
         if( pt.is_battery() ) {
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_battery );
@@ -5238,14 +5219,6 @@ void vehicle::slow_leak()
             item leak( fuel, calendar::turn, qty );
             here.add_item_or_charges( dest, leak );
             p.ammo_consume( qty, global_part_pos3( p ) );
-        } else if( fuel == fuel_type_plutonium_cell ) {
-            if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
-                item leak( "plut_slurry_dense", calendar::turn, qty );
-                here.add_item_or_charges( dest, leak );
-                p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
-            } else {
-                p.ammo_consume( p.ammo_remaining(), global_part_pos3( p ) );
-            }
         } else {
             p.ammo_consume( qty, global_part_pos3( p ) );
         }

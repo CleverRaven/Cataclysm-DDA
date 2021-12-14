@@ -368,9 +368,6 @@ struct vehicle_part {
         /** Can this part store electrical charge? */
         bool is_battery() const;
 
-        /** Is this part a reactor? */
-        bool is_reactor() const;
-
         /** is this part currently unable to retain to fluid/charge?
          *  this doesn't take into account whether or not the part has any contents
          *  remaining to leak

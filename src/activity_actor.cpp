@@ -128,8 +128,6 @@ static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
@@ -2922,9 +2920,6 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.all_items_top() ) {
-        if( contained->ammo_type() == ammo_plutonium ) {
-            contained->charges /= PLUTONIUM_CHARGES;
-        }
         if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
