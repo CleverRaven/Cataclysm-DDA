@@ -1536,8 +1536,6 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 - ```battery``` Electrifying.
 - ```diesel``` Refined dino.
 - ```gasoline``` Refined dino.
-- ```plasma``` Superheated.
-- ```plutonium``` 1.21 Gigawatts!
 - ```water``` Clean.
 - ```wind``` Wind powered.
 
