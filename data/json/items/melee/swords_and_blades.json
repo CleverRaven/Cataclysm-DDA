@@ -576,6 +576,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "LONG_SWORDS" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
@@ -899,7 +900,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "LONG_SWORDS" ]
+    "weapon_category": [ "LONG_SWORDS" ],
     "category": "weapons"
   },
   {
