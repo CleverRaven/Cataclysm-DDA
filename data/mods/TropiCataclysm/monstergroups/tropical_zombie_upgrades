@@ -1,0 +1,13 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_THORNY_BOOMER_UPGRADE",
+    "default": "mon_boomer_thorny",
+    "//": "Upgrades for the Thorny Boomer",
+    "monsters": [
+      { "monster": "mon_boomer_thorny" },
+      { "monster": "mon_boomer_sap", "weight": 245 },
+      { "monster": "mon_boomer_pollen", "weight": 310 }
+    ]
+  }
+]
