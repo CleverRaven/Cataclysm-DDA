@@ -838,7 +838,7 @@
     "species": [ "MAMMAL" ],
     "volume": "30000 ml",
     "weight": "30 kg",
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_lupine",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],

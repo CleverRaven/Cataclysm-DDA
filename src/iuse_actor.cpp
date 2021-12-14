@@ -4033,6 +4033,82 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
+void molle_attach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "size", size );
+    assign( jo, "moves", moves );
+}
+
+cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+
+
+    item_location loc = game_menus::inv::molle_attach( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.get_item();
+    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+
+    it.get_contents().add_pocket( obj );
+
+    // the item has been added to the vest it should no longer exist in the world
+    loc.remove_item();
+
+
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
+{
+    return std::make_unique<molle_attach_actor>( *this );
+}
+
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
+        const tripoint & ) const
+{
+
+    std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
+    uilist prompt;
+    prompt.text = _( "Remove which accessory?" );
+
+    for( size_t i = 0; i != items_attached.size(); ++i ) {
+        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+    }
+
+    prompt.query();
+
+
+    if( prompt.ret >= 0 ) {
+        p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
+        p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
+        return 0;
+    }
+
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
+{
+    return std::make_unique<molle_detach_actor>( *this );
+}
+
+void molle_detach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "moves", moves );
+}
+
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
