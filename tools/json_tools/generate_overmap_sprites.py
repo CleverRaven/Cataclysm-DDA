@@ -220,7 +220,7 @@ def output_image(
     image: Image,
     generate_json: bool,
     output_dir: Optional[Path] = None,
-    single_terrain: bool = False
+    # single_terrain: bool = False
 ) -> None:
     """
     Save image to disk
@@ -242,7 +242,7 @@ def output_image(
         tile_entry['id'] = name
         tile_entry['fg'] = name
         filepath = output_dir / f'{name}.json'
-        with open(filepath, 'x', encoding='utf-8') as file:
+        with open(filepath, 'x') as file:
             json.dump(tile_entry, file)
 
     image.save(output_dir / f'{name}.png')
@@ -343,9 +343,9 @@ def main():
         if terrain_defs:
             terrain_dict.update(terrain_defs)
 
-        single_terrain = False
-        if not terrain_dict:
-            single_terrain = True
+        # single_terrain = False
+        # if not terrain_dict:
+        #    single_terrain = True
 
         # verify "rows" is not empty
         rows = mapgen.get('rows')
@@ -374,7 +374,7 @@ def main():
                     image=submap_image,
                     generate_json=generate_json,
                     output_dir=output_dir,
-                    single_terrain=single_terrain,
+                    # single_terrain=single_terrain,
                 )
 
         else:
@@ -384,7 +384,7 @@ def main():
                 image=image,
                 generate_json=generate_json,
                 output_dir=output_dir,
-                single_terrain=single_terrain,
+                # single_terrain=single_terrain,
             )
 
 
