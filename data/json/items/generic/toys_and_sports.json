@@ -99,7 +99,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -109,10 +109,17 @@
     "price": 3000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 8,
-    "to_hit": -3
+    "damage": { "damage_type": "bash", "amount": 8 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
     "type": "GENERIC",
@@ -132,7 +139,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -142,10 +149,17 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "leather" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "150 g",
     "volume": "250 ml",
     "bashing": 6,
-    "to_hit": 3
+    "damage": { "damage_type": "bash", "amount": 6 },
+    "range": 12,
+    "dispersion": 12,
+    "loudness": 0,
+    "to_hit": 3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
   },
   {
     "type": "GENERIC",

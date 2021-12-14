@@ -25,7 +25,7 @@
     "category": "weapons",
     "name": { "str": "dive knife", "str_pl": "dive knives" },
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
-    "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
+    "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, this knife has been fitted with cork to slow its descent if dropped underwater, so it takes up more space than usual.",
     "weight": "226 g",
     "volume": "250 ml",
     "price": 14000,

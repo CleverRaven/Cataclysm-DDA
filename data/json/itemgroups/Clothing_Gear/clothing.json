@@ -177,7 +177,34 @@
       { "item": "knee_pads", "prob": 85 },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "item": "ballistic_vest_esapi", "prob": 90 },
+      { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "loaded_lbv", "prob": 40 },
+      { "item": "molle_pack", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_soldier_heavy_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Set of clothes and combat gear worn by heavier soldiers and paramilitary forces including IOTV armor.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest_heavy", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -203,7 +230,8 @@
       { "item": "knee_pads", "prob": 85 },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
-      { "item": "ballistic_vest_esapi", "prob": 90 },
+      { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "loaded_lbv", "prob": 40 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -1077,9 +1105,11 @@
       [ "nanoskirt", 30 ],
       [ "camisole", 60 ],
       [ "corset", 20 ],
+      [ "corset_waist", 20 ],
       [ "unitard", 5 ],
       [ "leotard", 10 ],
       [ "stockings", 50 ],
+      [ "garter_belt", 25 ],
       [ "leggings", 20 ],
       [ "tights", 50 ]
     ]
@@ -1239,6 +1269,7 @@
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
       [ "bholster", 5 ],
+      [ "bbholster", 4 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "kasaya", 1 ],
@@ -1248,6 +1279,7 @@
       [ "clogs", 2 ],
       [ "wristwatch", 15 ],
       [ "maid_dress", 3 ],
+      [ "maid_dress_short", 3 ],
       [ "maid_hat", 3 ],
       [ "knitting_needles", 1 ],
       [ "survnote", 1 ],
@@ -1416,6 +1448,7 @@
       [ "gloves_winter", 40 ],
       [ "gloves_liner", 25 ],
       [ "gloves_leather", 45 ],
+      [ "bellyband", 10 ],
       [ "scarf", 45 ],
       [ "knit_scarf", 35 ],
       [ "long_knit_scarf", 15 ],
@@ -1626,7 +1659,8 @@
       [ "bikini_top", 10 ],
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
-      [ "corset", 5 ]
+      [ "corset", 5 ],
+      [ "corset_waist", 5 ]
     ]
   },
   {
@@ -1730,6 +1764,7 @@
       { "item": "under_armor_shorts", "prob": 20 },
       { "item": "tights", "prob": 20 },
       { "item": "leggings", "prob": 20 },
+      { "item": "garter_belt", "prob": 10 },
       { "item": "stockings", "prob": 20 },
       { "item": "balclava", "prob": 15 },
       { "item": "pants_ski", "prob": 60 },
@@ -1778,7 +1813,10 @@
       { "item": "uttarasanga", "prob": 1 },
       { "item": "samghati", "prob": 1 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "chestwrap", "prob": 5 },
+      { "item": "bellywrap", "prob": 2 },
+      { "item": "bellyband", "prob": 2 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
       { "item": "jacket_army", "prob": 10 },
@@ -1805,6 +1843,7 @@
       { "item": "postman_shirt", "prob": 5 },
       { "item": "postman_hat", "prob": 5 },
       { "item": "maid_dress", "prob": 3 },
+      { "item": "maid_dress_short", "prob": 3 },
       { "item": "maid_hat", "prob": 3 },
       { "item": "halter_top", "prob": 50 },
       { "item": "linuxtshirt", "prob": 20 },
@@ -1955,7 +1994,7 @@
       [ "winter_gloves_army", 30 ],
       [ "army_top", 30 ],
       [ "kevlar", 10 ],
-      [ "ballistic_vest_esapi", 30 ],
+      { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
       { "item": "mask_gas", "prob": 10, "charges-min": 0 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
@@ -2033,7 +2072,7 @@
     "id": "mil_armor_torso",
     "items": [
       [ "kevlar", 10 ],
-      [ "ballistic_vest_esapi", 30 ],
+      { "group": "military_ballistic_vest", "prob": 30 },
       [ "winter_jacket_army", 30 ],
       [ "vest", 15 ],
       [ "tacvest", 10 ],
@@ -2093,7 +2132,7 @@
       [ "sleeveless_duster", 2 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "kevlar", 30 ],
-      [ "ballistic_vest_esapi", 8 ],
+      { "group": "military_ballistic_vest", "prob": 8 },
       [ "dump_pouch", 20 ],
       [ "mask_bal", 5 ],
       [ "vest", 15 ],
@@ -2325,10 +2364,11 @@
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
       [ "tireplate", 10 ],
-      [ "ballistic_vest_empty", 2 ],
-      [ "ballistic_vest_esapi", 4 ],
+      [ "ballistic_vest_esapi", 2 ],
+      { "group": "military_ballistic_vest", "prob": 4 },
       [ "dragonskin", 1 ],
       [ "corset", 1 ],
+      [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
@@ -2676,12 +2716,14 @@
       [ "tights", 20 ],
       [ "leggings", 20 ],
       [ "stockings", 20 ],
+      [ "garter_belt", 10 ],
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
       [ "corset", 10 ],
+      [ "corset_waist", 10 ],
       [ "pants_army", 10 ],
       [ "army_top", 20 ],
       [ "tux", 1 ],
@@ -2692,6 +2734,7 @@
       [ "samghati", 1 ],
       [ "jersey", 40 ],
       [ "maid_dress", 3 ],
+      [ "maid_dress_short", 3 ],
       [ "halter_top", 50 ],
       [ "linuxtshirt", 20 ],
       [ "kilt", 2 ],
@@ -2919,8 +2962,10 @@
       { "item": "bikini_top_leather", "prob": 10 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
       { "item": "sports_bra", "prob": 50 },
       { "item": "stockings", "prob": 20 },
+      { "item": "garter_belt", "prob": 10 },
       { "item": "tights", "prob": 20 }
     ]
   },
@@ -3406,7 +3451,8 @@
       { "item": "back_holster", "prob": 10 },
       { "item": "holster", "prob": 30 },
       { "item": "sholster", "prob": 10 },
-      { "item": "bholster", "prob": 10 }
+      { "item": "bholster", "prob": 10 },
+      { "item": "bbholster", "prob": 8 }
     ]
   },
   {

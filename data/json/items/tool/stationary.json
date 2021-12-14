@@ -6,7 +6,7 @@
     "name": { "str": "stapler" },
     "description": "A stapler for fastening sheets of paper together.",
     "weight": "300 g",
-    "volume": "250 ml",
+    "volume": "150 ml",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel" ],

@@ -169,11 +169,16 @@
                 "distribution": [
                   {
                     "collection": [
-                      { "item": "maid_dress", "prob": 100, "damage": [ 1, 4 ] },
+                      { "group": "mansion_maid_dress", "prob": 100, "damage": [ 1, 4 ] },
                       { "item": "maid_hat", "prob": 80, "damage": [ 1, 4 ] },
                       { "item": "long_glove_white", "prob": 60, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       }
                     ]
                   }
@@ -240,7 +245,12 @@
                       {
                         "distribution": [
                           {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                            "collection": [
+                              {
+                                "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                              },
+                              { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                            ]
                           },
                           { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
                         ]
@@ -262,7 +272,12 @@
                         ]
                       },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 50, "damage": [ 1, 4 ] }
                     ],

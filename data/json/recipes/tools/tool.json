@@ -379,23 +379,6 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "fishing_rod_professional",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "survival", 4 ],
-    "time": "5 h",
-    "reversible": true,
-    "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
-    "using": [ [ "plastic_molding", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "wire", 1 ] ], [ [ "scrap", 1 ] ], [ [ "weights", 40, "LIST" ] ] ]
-  },
-  {
     "type": "recipe",
     "result": "hoboreel",
     "category": "CC_OTHER",
@@ -1070,7 +1053,6 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "90 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],

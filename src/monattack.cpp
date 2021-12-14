@@ -89,6 +89,8 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -129,6 +131,12 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const gun_mode_id gun_mode_AUTO( "AUTO" );
+
+static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
+static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
+static const itype_id itype_556( "556" );
+static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_ant_egg( "ant_egg" );
 static const itype_id itype_badge_cybercop( "badge_cybercop" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
@@ -149,15 +157,63 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke( "mininuke" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 
+static const matec_id tec_none( "tec_none" );
+
+static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
+static const material_id material_veggy( "veggy" );
+
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_biollante( "mon_biollante" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
+static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
+static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
+static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
+static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
+static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
+static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
+static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
+static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_triffid( "mon_triffid" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
+static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_SLIME( "SLIME" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
+static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_plut_generator( "t_plut_generator" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
@@ -172,45 +228,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_biollante( "mon_biollante" );
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_blob_brain( "mon_blob_brain" );
-static const mtype_id mon_blob_large( "mon_blob_large" );
-static const mtype_id mon_blob_small( "mon_blob_small" );
-static const mtype_id mon_breather( "mon_breather" );
-static const mtype_id mon_breather_hub( "mon_breather_hub" );
-static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
-static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
-static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
-static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
-static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
-static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
-static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
-static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
-static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
-static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
-static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
-static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
-
-static const matec_id tec_none( "tec_none" );
-
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -797,10 +814,10 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
-        const int metal_portion = weapon.made_of( material_id( "iron" ) ) +
-                                  weapon.made_of( material_id( "hardsteel" ) ) +
-                                  weapon.made_of( material_id( "steel" ) ) +
-                                  weapon.made_of( material_id( "budget_steel" ) );
+        const int metal_portion = weapon.made_of( material_iron ) +
+                                  weapon.made_of( material_hardsteel ) +
+                                  weapon.made_of( material_steel ) +
+                                  weapon.made_of( material_budget_steel );
         // Take the total portion of metal in the item into account
         const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
         if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
@@ -1085,6 +1102,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
+// this has been jsonified and isn't used by brutes any longer
 bool mattack::smash( monster *z )
 {
     if( !z->can_act() ) {
@@ -1120,6 +1138,7 @@ bool mattack::smash( monster *z )
 
     // Release the grabbed creature right before the fling
     z->remove_effect( effect_grabbing );
+
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
@@ -2367,9 +2386,9 @@ bool mattack::formblob( monster *z )
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( ( othermon.made_of( material_id( "flesh" ) ) ||
-                     othermon.made_of( material_id( "veggy" ) ) ||
-                     othermon.made_of( material_id( "iflesh" ) ) ) &&
+        } else if( ( othermon.made_of( material_flesh ) ||
+                     othermon.made_of( material_veggy ) ||
+                     othermon.made_of( material_iflesh ) ) &&
                    rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }
@@ -2674,9 +2693,9 @@ bool mattack::ranged_pull( monster *z )
         }
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2734,9 +2753,9 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
@@ -2795,7 +2814,7 @@ bool mattack::grab_drag( monster *z )
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
-    int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
@@ -3007,8 +3026,6 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
-    const itype_id ammo_type( "anesthetic" );
-
     if( z->has_effect( effect_dragging ) || z->has_effect( effect_operating ) ) {
         return false;
     }
@@ -3025,7 +3042,7 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
-    if( z->ammo[ammo_type] == 0 && u_see ) {
+    if( z->ammo[itype_anesthetic] == 0 && u_see ) {
         if( one_in( 100 ) ) {
             add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
         }
@@ -3323,7 +3340,7 @@ void mattack::taze( monster *z, Creature *target )
 
 void mattack::rifle( monster *z, Creature *target )
 {
-    const itype_id ammo_type( "556" );
+    const itype_id ammo_type = itype_556;
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 3000 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
@@ -3361,7 +3378,7 @@ void mattack::rifle( monster *z, Creature *target )
     tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
 
     item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 
@@ -3372,7 +3389,7 @@ void mattack::rifle( monster *z, Creature *target )
 
 void mattack::frag( monster *z, Creature *target ) // This is for the bots, not a standalone turret
 {
-    const itype_id ammo_type( "40x46mm_m433" );
+    const itype_id ammo_type = itype_40x46mm_m433;
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
@@ -3421,7 +3438,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
     tmp.set_wielded_item( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     const item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 
@@ -3432,7 +3449,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
 void mattack::tankgun( monster *z, Creature *target )
 {
-    const itype_id ammo_type( "120mm_HEAT" );
+    const itype_id ammo_type = itype_120mm_HEAT;
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 40 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::tankgun", z->ammo[ammo_type],
@@ -3479,7 +3496,7 @@ void mattack::tankgun( monster *z, Creature *target )
     add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     tmp.set_wielded_item( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     const item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
 }
@@ -3544,7 +3561,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
             for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( here.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
+                if( here.ter( dest ) == ter_t_plut_generator ) {
                     generator_ok = true;
                 }
             }
@@ -4278,8 +4295,8 @@ bool mattack::absorb_meat( monster *z )
         map_stack items = here.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
-            if( current_item_material == material_id( "flesh" ) ||
-                current_item_material == material_id( "hflesh" ) ) {
+            if( current_item_material == material_flesh ||
+                current_item_material == material_hflesh ) {
                 //We have something meaty! Calculate how much it will heal the monster
                 const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
                 const int total_charges = current_item.count();

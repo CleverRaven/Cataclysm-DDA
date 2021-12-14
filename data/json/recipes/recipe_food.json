@@ -3837,7 +3837,7 @@
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "veggy_green", 1, "LIST" ] ],
-      [ [ "salt_preservation", 2, "LIST" ] ],
+      [ [ "salt", 2 ], [ "soysauce", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ],
       [ [ "condiment", 2, "LIST" ] ]
     ]
   },
@@ -3899,7 +3899,7 @@
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "veggy_green", 1, "LIST" ] ],
-      [ [ "salt_preservation", 2, "LIST" ] ],
+      [ [ "salt", 2 ], [ "soysauce", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ],
       [ [ "condiment", 2, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ]
     ]
@@ -3922,7 +3922,7 @@
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "veggy_green", 1, "LIST" ] ],
-      [ [ "salt_preservation", 2, "LIST" ] ],
+      [ [ "salt", 2 ], [ "soysauce", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ],
       [ [ "condiment", 2, "LIST" ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ]
     ]
@@ -5064,8 +5064,10 @@
         [ "beer", 1 ],
         [ "belgian_ale", 1 ],
         [ "drink_beeknees", 1 ],
+        [ "drink_hard_seltzer", 1 ],
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
+        [ "hb_seltzer", 1 ],
         [ "india_pale_ale", 1 ],
         [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],

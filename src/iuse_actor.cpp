@@ -94,19 +94,20 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_music( "music" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
@@ -120,24 +121,36 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+static const mutation_category_id mutation_category_ELFA( "ELFA" );
+
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
+
+static const quality_id qual_DIG( "DIG" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const proficiency_id proficiency_prof_traps( "prof_traps" );
-static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -1221,11 +1234,11 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
-    if( here.tr_at( pos ).id == trap_str_id( "tr_firewood_source" ) ) {
+    if( here.tr_at( pos ).id == tr_firewood_source ) {
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_id( "SOURCE_FIREWOOD" ), here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -2300,7 +2313,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         spell_text = sp_id.obj().name.translated();
-        if( pc.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
             if( pc.magic->knows_spell( sp_id ) ) {
@@ -2327,7 +2340,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return cata::nullopt;
     }
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         p.add_msg_if_player( _( "You can't read." ) );
         return cata::nullopt;
     }
@@ -3328,17 +3341,14 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
+    // each tier of proficiency cuts requred time by half
     int cost = move_cost;
-    if( long_action ) {
-        // A hack: long action healing on NPCs isn't done yet.
-        // So just heal at start and paralyze the player for 5 minutes.
-        cost /= std::min( 10, p.get_skill_level( skill_firstaid ) + 1 );
-    }
+    cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
+    cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
@@ -3382,8 +3392,13 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        return bandages_power + bandages_scaling * prof_bonus;
     }
 
     return bandages_power;
@@ -3393,7 +3408,12 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return disinfectant_power + disinfectant_scaling * prof_bonus;
     }
 
     return disinfectant_power;
@@ -3403,7 +3423,12 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bleed + healer.get_skill_level( skill_firstaid ) / 2;
+        int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return bleed + prof_bonus;
     }
 
     return bleed;
@@ -3536,6 +3561,10 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care,
+                                 time_duration::from_turns( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care_expert,
+                                 time_duration::from_turns( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3552,9 +3581,11 @@ static bodypart_id pick_part_to_heal(
     const bool precise = &healer == &patient ?
                          patient.has_trait( trait_SELFAWARE ) :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
-
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
+                         ( ( healer.get_skill_level( skill_firstaid ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
+                           healer.per_cur >= 20 );
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
@@ -3867,7 +3898,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
         }
     }
 
-    const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
+    const bool has_shovel = p.has_quality( qual_DIG, 3 );
     const bool is_diggable = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
@@ -4000,6 +4031,82 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void molle_attach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "size", size );
+    assign( jo, "moves", moves );
+}
+
+cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+
+
+    item_location loc = game_menus::inv::molle_attach( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.get_item();
+    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+
+    it.get_contents().add_pocket( obj );
+
+    // the item has been added to the vest it should no longer exist in the world
+    loc.remove_item();
+
+
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
+{
+    return std::make_unique<molle_attach_actor>( *this );
+}
+
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
+        const tripoint & ) const
+{
+
+    std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
+    uilist prompt;
+    prompt.text = _( "Remove which accessory?" );
+
+    for( size_t i = 0; i != items_attached.size(); ++i ) {
+        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+    }
+
+    prompt.query();
+
+
+    if( prompt.ret >= 0 ) {
+        p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
+        p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
+        return 0;
+    }
+
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
+{
+    return std::make_unique<molle_detach_actor>( *this );
+}
+
+void molle_detach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "moves", moves );
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
@@ -4259,9 +4366,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 
-    if( m_category.id == mutation_category_id( "CHIMERA" ) ) {
+    if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == mutation_category_id( "ELFA" ) ) {
+    } else if( m_category.id == mutation_category_ELFA ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
@@ -4663,7 +4770,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, false, scent_mod );
+    p.add_effect( effect_masked_scent, duration, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );

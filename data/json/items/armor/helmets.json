@@ -502,12 +502,34 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor_data": {
-      "material_thickness": 6,
-      "material": [ "plastic", "nomex" ],
       "armor": [
-        { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
-        { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-        { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+        {
+          "material": [
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          ],
+          "covers": [ "head" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          ],
+          "covers": [ "eyes" ],
+          "coverage": 100,
+          "encumbrance": 5
+        },
+        {
+          "material": [
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          ],
+          "covers": [ "mouth" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
       ]
     },
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
@@ -535,9 +557,17 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor_data": {
-      "material": [ "plastic", "nomex" ],
-      "material_thickness": 6,
-      "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
+            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          ],
+          "encumbrance": 25,
+          "coverage": 100,
+          "covers": [ "head" ]
+        }
+      ]
     },
     "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,

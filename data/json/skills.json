@@ -123,7 +123,7 @@
     "name": { "str": "archery" },
     "description": "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 20, "base_time": 80, "time_reduction_per_level": 6 },
+    "time_to_attack": { "min_time": 20, "base_time": 50, "time_reduction_per_level": 3 },
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_ranged",
@@ -150,7 +150,7 @@
     "name": { "str": "launchers" },
     "description": "Your skill in using heavy weapons like rocket, grenade or missile launchers.  These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 7 },
+    "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 5 },
     "display_category": "display_ranged"
   },
   {
@@ -159,7 +159,7 @@
     "name": { "str": "handguns" },
     "description": "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns.  They are very effective at close quarters, though unsuited for long range engagement.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 10, "base_time": 80, "time_reduction_per_level": 7 },
+    "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
@@ -167,9 +167,9 @@
     "type": "skill",
     "id": "rifle",
     "name": { "str": "rifles" },
-    "description": "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters.  Fully automatic rifles can fire rapidly, but are harder to handle properly.",
+    "description": "Classic rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in in close combat.  Short-barreled rifles and carbines are more like SMGs and performs well in close combat.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 15, "base_time": 75, "time_reduction_per_level": 6 },
+    "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 45 } ]
   },
@@ -179,7 +179,7 @@
     "name": { "str": "shotguns" },
     "description": "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range.  Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 15, "base_time": 75, "time_reduction_per_level": 6 },
+    "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
@@ -189,7 +189,7 @@
     "name": { "str": "submachine guns" },
     "description": "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
     "tags": [ "combat_skill" ],
-    "time_to_attack": { "min_time": 20, "base_time": 80, "time_reduction_per_level": 6 },
+    "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },

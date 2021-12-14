@@ -52,15 +52,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ]
   },
   {
     "id": "hk_ump45",
@@ -112,15 +104,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ] } ]
   },
   {
     "id": "m1911",
@@ -161,16 +145,7 @@
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911mag", "m1911bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
   },
   {
     "id": "mac_10",
@@ -220,15 +195,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mac10mag", "smg_45_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ]
   },
   {
     "id": "rifle_45",
@@ -311,15 +278,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "smg_45_mag", "mac10mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ]
   },
   {
     "id": "surv_hand_cannon",
@@ -400,9 +359,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
       }
     ]
@@ -436,16 +392,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "usp45mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
   },
   {
     "id": "walther_ppq_45",
@@ -476,16 +423,7 @@
     "durability": 9,
     "min_cycle_recoil": 540,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "240 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ppq45mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ]
   },
   {
     "id": "hptjhp",
@@ -517,16 +455,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "353 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "hptjhpmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ]
   },
   {
     "id": "glock_21",
@@ -561,14 +490,7 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
     "pocket_data": [
-      {
-        "magazine_well": "107 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_21mag", "glock_21mag26" ]
-      }
+      { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag", "glock_21mag26" ] }
     ]
   }
 ]

@@ -154,7 +154,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "makeshift_glaive",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
+    "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "45 m",

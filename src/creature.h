@@ -324,6 +324,7 @@ class Creature : public viewer
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
+        virtual bool can_attack_high() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -1208,6 +1209,7 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
+
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;
         bool melee_quiet = false;
@@ -1233,7 +1235,8 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
-        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        // Select a bodypart depending on the attack's hitsize/limb restrictions
+        bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );

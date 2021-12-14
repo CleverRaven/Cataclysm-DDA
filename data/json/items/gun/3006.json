@@ -38,15 +38,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "blrmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "blrmag" ] } ]
   },
   {
     "id": "garand",
@@ -86,15 +78,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "garandclip" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "garandclip" ] } ]
   },
   {
     "id": "m1903",
@@ -175,15 +159,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1918mag", "m1918bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1918mag", "m1918bigmag" ] } ]
   },
   {
     "id": "remington_700",

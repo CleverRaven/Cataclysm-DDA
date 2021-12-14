@@ -46,6 +46,11 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const faction_id faction_no_faction( "no_faction" );
+
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -185,8 +190,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
-        !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||
-           me_npc->is_wearing( itype_id( "foodperson_mask" ) ) ) ) {
+        !( me_npc->is_wearing( itype_foodperson_mask_on ) ||
+           me_npc->is_wearing( itype_foodperson_mask ) ) ) {
         add_topics.emplace_back( "TALK_NPC_NOFACE" );
     }
     me_npc->decide_needs();
@@ -655,9 +660,10 @@ void talker_npc::set_fac( const faction_id &new_fac_name )
 
 void talker_npc::add_faction_rep( const int rep_change )
 {
-    if( me_npc->get_faction()-> id != faction_id( "no_faction" ) ) {
+    if( me_npc->get_faction()-> id != faction_no_faction ) {
         me_npc->get_faction()->likes_u += rep_change;
         me_npc->get_faction()->respects_u += rep_change;
+        me_npc->get_faction()->trusts_u += rep_change;
     }
 }
 

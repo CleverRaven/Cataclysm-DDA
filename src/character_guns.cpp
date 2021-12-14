@@ -6,161 +6,76 @@
 #include "map_selector.h"
 #include "vehicle_selector.h"
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const itype_id itype_small_repairkit( "small_repairkit" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+
 static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
-    if( obj.is_watertight_container() ) {
-        if( !obj.is_container_empty() ) {
+    src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
 
-            // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
-                if( node == &obj ) {
-                    // This stops containers and magazines counting *themselves* as ammo sources
-                    return VisitResponse::SKIP;
-                }
-                // Prevents reloading with items frozen in watertight containers.
-                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                // Liquids not in a watertight container are skipped.
-                if( parent != nullptr && !parent->is_watertight_container() &&
-                    node->made_of( phase_id::LIQUID ) ) {
-                    return VisitResponse::SKIP;
-                }
-
-                // Spills have no parent.
-                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
-                    return VisitResponse::SKIP;
-                }
-
-                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                if( node->made_of_from_type( phase_id::LIQUID ) ) {
-                    out = item_location( item_location( src, parent ), node );
-                }
-
-                return VisitResponse::NEXT;
-            } );
-        } else {
-            // Look for containers with any liquid and loose frozen liquids
-            src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
-                // Prevents reloading with items frozen in watertight containers.
-                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                // Liquids not in a watertight container are skipped.
-                if( parent != nullptr && !parent->is_watertight_container() &&
-                    node->made_of( phase_id::LIQUID ) ) {
-                    return VisitResponse::SKIP;
-                }
-
-                // Spills have no parent.
-                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
-                    return VisitResponse::SKIP;
-                }
-
-                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                if( node->made_of_from_type( phase_id::LIQUID ) ) {
-                    out = item_location( item_location( src, parent ), node );
-                }
-
-                return VisitResponse::NEXT;
-            } );
+        // This stops containers and magazines counting *themselves* as ammo sources
+        if( node == &obj ) {
+            return VisitResponse::SKIP;
         }
-    }
-    if( obj.magazine_integral() ) {
-        // find suitable ammo excluding that already loaded in magazines
-        std::set<ammotype> ammo = obj.ammo_types();
 
-        src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
-            if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
-                // some liquids are ammo but we can't reload with them unless within a container or frozen
-                return VisitResponse::SKIP;
-            }
-            if( !node->made_of( phase_id::SOLID ) && parent != nullptr ) {
-                for( const ammotype &at : ammo ) {
-                    if( node->ammo_type() == at ) {
-                        out = item_location( src, node );
-                    }
-                }
-                return VisitResponse::SKIP;
-            }
+        // Spills are not valid. spilled liquids have no parent.
+        if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+            return VisitResponse::SKIP;
+        }
 
-            // Solid ammo gets skipped earlier than non-solid because it does not need a container.
-            if( !nested && parent != nullptr && parent->is_container() &&
-                !node->made_of_from_type( phase_id::LIQUID ) && !node->made_of( phase_id::GAS ) ) {
-                return VisitResponse::SKIP;
-            }
+        // Frozen liquids can't be loaded
+        if( node->is_frozen_liquid() ) {
+            return VisitResponse::SKIP;
+        }
 
-            if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
-                return VisitResponse::SKIP;
-            }
+        // Do not steal ammo from magazines
+        if( parent != nullptr && parent->is_magazine() ) {
+            return VisitResponse::SKIP;
+        }
 
-            // ammo is inside some sort of a container
-            if( parent != nullptr && parent->is_container() ) {
-                for( const ammotype &at : ammo ) {
-                    if( node->ammo_type() == at ) {
-                        out = item_location( item_location( src, parent ), node );
-                    }
-                }
-                if( node->is_magazine() &&
-                    ( parent == nullptr || node != parent->magazine_current() ) &&
-                    node->has_flag( flag_SPEEDLOADER ) ) {
-                    if( node->ammo_remaining() ) {
-                        out = item_location( item_location( src, parent ), node );
-                    }
-                }
-                return VisitResponse::NEXT;
-            }
+        // Do not steal magazines from other items
+        if( parent != nullptr && node == parent->magazine_current() ) {
+            return VisitResponse::SKIP;
+        }
 
-            // everything else, probably?
-            for( const ammotype &at : ammo ) {
-                if( node->ammo_type() == at ) {
-                    out = item_location( src, node );
-                }
-            }
-            if( node->is_magazine() &&
-                ( parent == nullptr || node != parent->magazine_current() ) &&
-                node->has_flag( flag_SPEEDLOADER ) ) {
-                if( node->ammo_remaining() ) {
-                    out = item_location( src, node );
-                }
-            }
-            return VisitResponse::NEXT;
-        } );
-    } else {
-        // find compatible magazines excluding those already loaded in tools/guns
-        src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
-            // magazine is inside some sort of a container
-            if( node->is_magazine() && ( parent != nullptr && node != parent->magazine_current() &&
-                                         parent->is_container() ) ) {
-                if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( item_location( src, parent ), node );
-                }
+        // Do not consider empty mags unless specified
+        if( node->is_magazine() && !node->ammo_remaining() && !empty ) {
+            return VisitResponse::SKIP;
+        }
+
+        if( node->has_flag( flag_SPEEDLOADER ) && obj.magazine_integral() ) {
+            // Can't reload with empty speedloaders
+            if( !node->ammo_remaining() ) {
                 return VisitResponse::SKIP;
             }
-            //everything else, probably?
-            if( node->is_magazine() &&
-                ( parent == nullptr || node != parent->magazine_current() ) ) {
-                if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( src, node );
-                }
-                return VisitResponse::SKIP;
+            // All speedloaders are accepted.
+            // Ammo check is done somewhere else
+            // Ammo check should probably happen here...
+            if( parent != nullptr ) {
+                out = item_location( item_location( src, parent ), node );
+            } else {
+                out = item_location( src, node );
             }
-            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
-        } );
-    }
+            return VisitResponse::SKIP;
+        }
+
+        if( obj.can_reload_with( *node, true ) ) {
+            if( parent != nullptr ) {
+                out = item_location( item_location( src, parent ), node );
+            } else {
+                out = item_location( src, node );
+            }
+        }
+
+        // Not-nested checks only top level containers and their immediate contents.
+        return parent == nullptr || nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+
+    } );
 }
 
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
@@ -297,7 +212,7 @@ void Character::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
+    assign_activity( ACT_GUNMOD_ADD, moves, -1, 0, tool );
     activity.targets.emplace_back( *this, &gun );
     activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value
