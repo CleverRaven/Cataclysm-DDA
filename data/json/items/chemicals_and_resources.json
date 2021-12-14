@@ -90,6 +90,23 @@
   },
   {
     "type": "AMMO",
+    "id": "shredded_rubber",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "shredded rubber" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A handful of shredded rubber, usable as a mulch now.",
+    "material": [ "rubber" ],
+    "volume": "250 ml",
+    "weight": "6 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "count": 50
+  },
+  {
+    "type": "AMMO",
     "id": "material_limestone",
     "category": "spare_parts",
     "price": 50,
