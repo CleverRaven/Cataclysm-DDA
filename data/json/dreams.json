@@ -1,10 +1,7 @@
 [
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about lizards.",
-      "Your dreams give you a strange scaly feeling."
-    ],
+    "messages": [ "You have a strange dream about lizards.", "Your dreams give you a strange scaly feeling." ],
     "category": "LIZARD",
     "strength": 1
   },
@@ -19,19 +16,13 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about rabbits.",
-      "Your dreams give you a strange furry feeling."
-    ],
+    "messages": [ "You have a strange dream about rabbits.", "Your dreams give you a strange furry feeling." ],
     "category": "RABBIT",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about birds.",
-      "Your dreams give you a strange feathered feeling."
-    ],
+    "messages": [ "You have a strange dream about birds.", "Your dreams give you a strange feathered feeling." ],
     "category": "BIRD",
     "strength": 1
   },
@@ -55,124 +46,85 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about fish.",
-      "Your dreams give you a strange wet, scaly feeling."
-    ],
+    "messages": [ "You have a strange dream about fish.", "Your dreams give you a strange wet, scaly feeling." ],
     "category": "FISH",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about animals.",
-      "Your dreams give you a strange furry feeling."
-    ],
+    "messages": [ "You have a strange dream about animals.", "Your dreams give you a strange furry feeling." ],
     "category": "BEAST",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about bears.",
-      "Your dreams give you a rough furry feeling."
-    ],
+    "messages": [ "You have a strange dream about bears.", "Your dreams give you a rough furry feeling." ],
     "category": "URSINE",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about cats.",
-      "Your dreams give you a sleek furry feeling."
-    ],
+    "messages": [ "You have a strange dream about cats.", "Your dreams give you a sleek furry feeling." ],
     "category": "FELINE",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about wolves.",
-      "Your dreams give you a thick furry feeling."
-    ],
+    "messages": [ "You have a strange dream about wolves.", "Your dreams give you a thick furry feeling." ],
     "category": "LUPINE",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about cattle.",
-      "Your dreams give you a strange content, furry feeling."
-    ],
+    "messages": [ "You have a strange dream about cattle.", "Your dreams give you a strange content, furry feeling." ],
     "category": "CATTLE",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about insects.",
-      "Your dreams give you a strange chitinous feeling."
-    ],
+    "messages": [ "You have a strange dream about insects.", "Your dreams give you a strange chitinous feeling." ],
     "category": "INSECT",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about plants.",
-      "Your dreams give you a strange plantlike feeling."
-    ],
+    "messages": [ "You have a strange dream about plants.", "Your dreams give you a strange plantlike feeling." ],
     "category": "PLANT",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about slime.",
-      "Your dreams give you a strange slimy feeling."
-    ],
+    "messages": [ "You have a strange dream about slime.", "Your dreams give you a strange slimy feeling." ],
     "category": "SLIME",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about living in a cave.",
-      "Your dreams give you a strange reclusive feeling."
-    ],
+    "messages": [ "You have a strange dream about living in a cave.", "Your dreams give you a strange reclusive feeling." ],
     "category": "TROGLOBITE",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about sea creatures.",
-      "Your dreams give you a strange wet feeling."
-    ],
+    "messages": [ "You have a strange dream about sea creatures.", "Your dreams give you a strange wet feeling." ],
     "category": "CEPHALOPOD",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about spiders.",
-      "Your dreams give you a strange webbed feeling."
-    ],
+    "messages": [ "You have a strange dream about spiders.", "Your dreams give you a strange webbed feeling." ],
     "category": "SPIDER",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about rats.",
-      "Your dreams give you a strange fuzzy feeling."
-    ],
+    "messages": [ "You have a strange dream about rats.", "Your dreams give you a strange fuzzy feeling." ],
     "category": "RAT",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": ["You have a strange dream.", "You feel… OK."],
+    "messages": [ "You have a strange dream.", "You feel… OK." ],
     "category": "ALPHA",
     "strength": 1
   },
@@ -189,25 +141,19 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You dream about the zoo, for some reason.",
-      "Your dreams… are complex and multifaceted."
-    ],
+    "messages": [ "You dream about the zoo, for some reason.", "Your dreams… are complex and multifaceted." ],
     "category": "CHIMERA",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": ["You dream of the tropics.", "You feel warm."],
+    "messages": [ "You dream of the tropics.", "You feel warm." ],
     "category": "RAPTOR",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [
-      "You dream of a massive block of cheese bigger than you.",
-      "You dream of being cozy in a dark place."
-    ],
+    "messages": [ "You dream of a massive block of cheese bigger than you.", "You dream of being cozy in a dark place." ],
     "category": "MOUSE",
     "strength": 1
   },
@@ -280,10 +226,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You dream of swimming in the open ocean",
-      "In your dream, you see a strangely fishlike image of yourself."
-    ],
+    "messages": [ "You dream of swimming in the open ocean", "In your dream, you see a strangely fishlike image of yourself." ],
     "category": "FISH",
     "strength": 2
   },
@@ -357,10 +300,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream of living in sludge.",
-      "In your dream you see an odd, slimy reflection of yourself."
-    ],
+    "messages": [ "You have a strange dream of living in sludge.", "In your dream you see an odd, slimy reflection of yourself." ],
     "category": "SLIME",
     "strength": 2
   },
@@ -442,10 +382,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You dream of… sneaking.",
-      "You dream of a cold winter night.  Your jacket is too big to put on."
-    ],
+    "messages": [ "You dream of… sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
     "category": "MOUSE",
     "strength": 2
   },
@@ -542,10 +479,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You dream of tearing into a fresh kill.",
-      "You dream of finally finding the perfect place to make your den."
-    ],
+    "messages": [ "You dream of tearing into a fresh kill.", "You dream of finally finding the perfect place to make your den." ],
     "category": "LUPINE",
     "strength": 3
   },
@@ -671,10 +605,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You are terrified by a dream of becoming an ape hybrid.",
-      "You blissfully recall days spent lounging in the sun."
-    ],
+    "messages": [ "You are terrified by a dream of becoming an ape hybrid.", "You blissfully recall days spent lounging in the sun." ],
     "category": "LIZARD",
     "strength": 4
   },
@@ -698,10 +629,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "Will your burrow be warm enough for the family in winter?",
-      "You dream of outrunning the apocalypse."
-    ],
+    "messages": [ "Will your burrow be warm enough for the family in winter?", "You dream of outrunning the apocalypse." ],
     "category": "RABBIT",
     "strength": 4
   },
@@ -716,10 +644,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "You vividly dream of sharing a kill with your pack.",
-      "A fond memory of throating some prey animal bubbles up."
-    ],
+    "messages": [ "You vividly dream of sharing a kill with your pack.", "A fond memory of throating some prey animal bubbles up." ],
     "category": "BEAST",
     "strength": 4
   },
@@ -807,10 +732,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "Mmm.  The shellfish dream again.  Yum!",
-      "You dream of recruiting a cult of fishfolk to serve your needs."
-    ],
+    "messages": [ "Mmm.  The shellfish dream again.  Yum!", "You dream of recruiting a cult of fishfolk to serve your needs." ],
     "category": "CEPHALOPOD",
     "strength": 4
   },
@@ -872,19 +794,13 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "Your body flows slightly faster than you expected… oh, just a dream.",
-      "FIGHT.  FEED.  FORWARD."
-    ],
+    "messages": [ "Your body flows slightly faster than you expected… oh, just a dream.", "FIGHT.  FEED.  FORWARD." ],
     "category": "CHIMERA",
     "strength": 4
   },
   {
     "type": "dream",
-    "messages": [
-      "Oh.  No, that 'rex' thing was only a myth.",
-      "You stir, saddened that your beautiful hatchlings were only a dream."
-    ],
+    "messages": [ "Oh.  No, that 'rex' thing was only a myth.", "You stir, saddened that your beautiful hatchlings were only a dream." ],
     "category": "RAPTOR",
     "strength": 4
   },
