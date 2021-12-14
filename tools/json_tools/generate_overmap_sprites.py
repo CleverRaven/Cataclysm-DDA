@@ -15,9 +15,6 @@ from util import import_data
 
 
 SIZE = 24
-SKIP_IDS = {
-    'FEMA_entrance',
-}
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 SCHEME = None
@@ -223,14 +220,23 @@ def output_image(
     image: Image,
     generate_json: bool,
     output_dir: Optional[Path] = None,
+    duplicates_dir: Optional[Path] = None,
     # single_terrain: bool = False
 ) -> None:
     """
     Save image to disk
     """
+    is_duplicate = False
+
     if name in CREATED_IDS:
-        SKIPPED['duplicate'].add(name)
-        return
+        if not duplicates_dir:
+            SKIPPED['duplicate'].add(name)
+            return
+
+        is_duplicate = True
+        output_dir = duplicates_dir
+        while name in CREATED_IDS:
+            name += '_'
 
     # if len(image.getcolors()) < 2 and not single_terrain:
     #    SKIPPED['single_color'].add(name)
@@ -240,12 +246,12 @@ def output_image(
         CREATED_IDS.add(name)
         return
 
-    if generate_json:
+    if generate_json and not is_duplicate:
         tile_entry = TILE_ENTRY_TEMPLATE.copy()
         tile_entry['id'] = name
         tile_entry['fg'] = name
         filepath = output_dir / f'{name}.json'
-        with open(filepath, 'x') as file:
+        with open(filepath, 'w') as file:
             json.dump(tile_entry, file)
 
     image.save(output_dir / f'{name}.png')
@@ -284,9 +290,15 @@ def main():
         help='filename template for selecting a subset '
         'of JSON files in the mapgen dir',
     )
+    arg_parser.add_argument(
+        '--duplicates-dir', dest='duplicates_dir', type=Path,
+        help='directory for putting duplicate ID sprites into. '
+        'Should not be in the output_dir when using compose.py --use-all',
+    )
     args_dict = vars(arg_parser.parse_args())
 
     output_dir = args_dict.get('output_dir', None)
+    duplicates_dir = args_dict.get('duplicates_dir', None)
     color_scheme_path = args_dict.get('color_scheme')
     generate_json = args_dict.get('json')
 
@@ -318,7 +330,7 @@ def main():
             continue
 
         om_id = entry.get('om_terrain')
-        if not om_id or om_id in SKIP_IDS:
+        if not om_id or om_id == 'FEMA_entrance':
             continue
 
         # verify that "object" value is defined
@@ -377,6 +389,7 @@ def main():
                     image=submap_image,
                     generate_json=generate_json,
                     output_dir=output_dir,
+                    duplicates_dir=duplicates_dir,
                     # single_terrain=single_terrain,
                 )
 
@@ -387,6 +400,7 @@ def main():
                 image=image,
                 generate_json=generate_json,
                 output_dir=output_dir,
+                duplicates_dir=duplicates_dir,
                 # single_terrain=single_terrain,
             )
 
