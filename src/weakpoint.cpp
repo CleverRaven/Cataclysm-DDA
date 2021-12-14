@@ -583,11 +583,48 @@ void weakpoints::load( const JsonObject &jo, const std::string & )
     load( jo.get_array( "weakpoints" ) );
 }
 
-void weakpoints::add_from_set( const weakpoints_id &set_id )
+void weakpoints::add_from_set( const weakpoints_id &set_id, bool replace_id )
 {
     if( !set_id.is_valid() ) {
         debugmsg( "invalid weakpoint_set id \"%s\"", set_id.c_str() );
         return;
     }
-    weakpoint_list.insert( weakpoint_list.end(), set_id->weakpoint_list.begin(), set_id->weakpoint_list.end() );
+    add_from_set( set_id.obj(), replace_id );
+}
+
+void weakpoints::add_from_set( const weakpoints &set, bool replace_id )
+{
+    for( const weakpoint &wp : set.weakpoint_list ) {
+        auto iter = std::find_if( weakpoint_list.begin(),
+        weakpoint_list.end(), [&wp]( const weakpoint & w ) {
+            return w.id == wp.id && !w.id.empty();
+        } );
+        if( replace_id && iter != weakpoint_list.end() ) {
+            weakpoint_list[iter - weakpoint_list.begin()] = wp;
+        } else {
+            weakpoint_list.emplace_back( wp );
+        }
+    }
+}
+
+void weakpoints::del_from_set( const weakpoints_id &set_id )
+{
+    if( !set_id.is_valid() ) {
+        debugmsg( "invalid weakpoint_set id \"%s\"", set_id.c_str() );
+        return;
+    }
+    del_from_set( set_id.obj() );
+}
+
+void weakpoints::del_from_set( const weakpoints &set )
+{
+    for( const weakpoint &wp : set.weakpoint_list ) {
+        auto iter = std::find_if( weakpoint_list.begin(),
+        weakpoint_list.end(), [&wp]( const weakpoint & w ) {
+            return w.id == wp.id && !w.id.empty();
+        } );
+        if( iter != weakpoint_list.end() ) {
+            weakpoint_list.erase( iter );
+        }
+    }
 }

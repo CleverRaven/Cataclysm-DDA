@@ -726,22 +726,64 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
-        default_weakpoint_set.clear();
-        default_weakpoint_set.load( jo.get_array( "weakpoints" ) );
+    if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
+        weakpoints.clear();
+    }
+
+    // Load each set of weakpoints.
+    // Each subsequent weakpoint set overwrites
+    // matching weakpoints from the previous set.
+    if( jo.has_array( "weakpoint_sets" ) ) {
+        for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
+            weakpoints_id set_id( jval.get_string() );
+            weakpoints.add_from_set( set_id, true );
+        }
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.add_from_set( set_id, true );
+                }
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.del_from_set( set_id );
+                }
+            }
+        }
+    }
+
+    // Finally, inline weakpoints overwrite
+    // any matching weakpoints from the previous sets.
+    if( jo.has_array( "weakpoints" ) ) {
+        ::weakpoints tmp_wp;
+        tmp_wp.load( jo.get_array( "weakpoints" ) );
+        weakpoints.add_from_set( tmp_wp, true );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                default_weakpoint_set.load( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.add_from_set( tmp_wp, true );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                default_weakpoint_set.remove( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.del_from_set( tmp_wp );
             }
         }
     }
@@ -754,52 +796,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.load( jo.get_array( "families" ) );
+                families.load( tmp.get_array( "families" ) );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.remove( jo.get_array( "families" ) );
-            }
-        }
-    }
-
-    auto add_wp_set = [this]( const JsonObject & jo, bool removing ) {
-        for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_id set_id( jval.get_string() );
-            if( !set_id.is_valid() ) {
-                jo.throw_error( "invalid weakpoint_set id" );
-            } else if( removing ) {
-                auto iter = std::find( weakpoint_sets.begin(), weakpoint_sets.end(), set_id );
-                if( iter == weakpoint_sets.end() ) {
-                    jo.throw_error( "delete: this object does not have that weakpoint_set" );
-                } else {
-                    weakpoint_sets.erase( iter );
-                }
-            } else {
-                weakpoint_sets.emplace_back( set_id );
-            }
-        }
-    };
-
-    if( !was_loaded || jo.has_array( "weakpoint_sets" ) ) {
-        weakpoint_sets.clear();
-        add_wp_set( jo, false );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                add_wp_set( jo, false );
-            }
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                add_wp_set( jo, true );
+                families.remove( tmp.get_array( "families" ) );
             }
         }
     }

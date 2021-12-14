@@ -279,18 +279,3 @@ const behavior::node_t *mtype::get_goals() const
 {
     return &goals;
 }
-
-const weakpoint *mtype::select_weakpoint( const weakpoint_attack &attack ) const
-{
-    const bool has_def_wp = !default_weakpoint_set.weakpoint_list.empty();
-    const bool has_wp_sets = !weakpoint_sets.empty();
-    if( !has_wp_sets ) {
-        return default_weakpoint_set.select_weakpoint( attack );
-    }
-
-    int idx = rng( has_def_wp ? 0 : 1, weakpoint_sets.size() );
-    if( idx == 0 ) {
-        return default_weakpoint_set.select_weakpoint( attack );
-    }
-    return weakpoint_sets[idx - 1]->select_weakpoint( attack );
-}
