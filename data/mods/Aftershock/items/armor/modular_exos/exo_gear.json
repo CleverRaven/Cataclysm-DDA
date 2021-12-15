@@ -5,7 +5,7 @@
     "name": { "str": "exoskeleton mounted drill" },
     "category": "tool",
     "description": "A powerful header drill with tough carbide bits, this tool mounts to the exoskeleton's arm and extends past the hand. While turned off, it still makes a powerful mace.",
-    "flags": [ "USE_UPS", "DURABLE_MELEE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "USE_UPS", "DURABLE_MELEE", "POWERARMOR_COMPATIBLE", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
     "weight": "40000 g",
     "volume": "5 L",
     "longest_side": "5 cm",
@@ -16,7 +16,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "sided": true,
-    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "arm_l", "hand_l", "arm_r", "hand_r" ] } ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "arm_l", "hand_l" ] } ],
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn on",
@@ -50,12 +50,11 @@
     "color": "light_gray",
     "bashing": 50,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
-    "sided": true,
     "warmth": 20,
     "material": "hardsteel",
     "material_thickness": 2,
     "flags": [ "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON", "CANT_WEAR", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
     "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_r" ] } ]
   }
 ]
