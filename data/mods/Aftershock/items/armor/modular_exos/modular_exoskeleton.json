@@ -6,7 +6,7 @@
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exoskeleton undersuit" },
-    "description": "A form-fitting suit inlaid with meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
