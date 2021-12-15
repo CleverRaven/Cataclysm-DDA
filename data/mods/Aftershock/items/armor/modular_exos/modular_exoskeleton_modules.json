@@ -301,7 +301,7 @@
     "id": "exo_recoil",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "recoil controller (off)", "str_pl": "recoil controller (off)" },
+    "name": { "str": "recoil mitigation system (off)", "str_pl": "recoil mitigation systems (off)" },
     "description": "This module takes partial control of the exoskeleton while firing, damping recoil. Activate before firing.",
     "weight": "500 g",
     "volume": "500 ml",
