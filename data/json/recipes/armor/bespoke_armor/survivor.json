@@ -239,17 +239,8 @@
     "components": [
       [ [ "nylon", 10 ] ],
       [ [ "duct_tape", 200 ] ],
-      [
-        [ "legrig", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 2 ]
-      ],
-      [
-        [ "purse", 2 ],
-        [ "fanny", 2 ],
-        [ "mbag" , 2 ]
-      ]
+      [ [ "legrig", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 2 ] ],
+      [ [ "purse", 2 ], [ "fanny", 2 ], [ "mbag", 2 ] ]
     ]
   }
 ]
