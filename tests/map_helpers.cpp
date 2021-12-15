@@ -25,6 +25,8 @@
 #include "submap.h"
 #include "type_id.h"
 
+static const faction_id faction_your_followers( "your_followers" );
+
 // Remove all vehicles from the map
 void clear_vehicles()
 {
@@ -112,7 +114,7 @@ void clear_items( const int zlevel )
 void clear_zones()
 {
     zone_manager &zm = zone_manager::get_manager();
-    for( auto zone_ref : zm.get_zones( faction_id( "your_followers" ) ) ) {
+    for( auto zone_ref : zm.get_zones( faction_your_followers ) ) {
         if( !zone_ref.get().get_is_vehicle() ) {
             // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
             // Don't need it right now and the errors spam up the test output, so skip.

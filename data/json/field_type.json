@@ -740,13 +740,20 @@
     "legacy_enum_id": 19,
     "intensity_levels": [
       { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
+      { "//": "repeat last entry", "light_emitted": 1 },
+      { "//": "repeat last entry", "light_emitted": 2.5 },
       { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
-      { "name": "electric cloud", "color": "blue", "light_emitted": 20 }
+      { "//": "repeat last entry", "light_emitted": 7.5 },
+      { "//": "repeat last entry", "light_emitted": 11 },
+      { "name": "electric cloud", "color": "blue", "light_emitted": 14.5 },
+      { "//": "repeat last entry", "light_emitted": 18 },
+      { "//": "repeat last entry", "light_emitted": 21.5 },
+      { "//": "repeat last entry", "light_emitted": 25 }
     ],
     "description_affix": "illuminated_by",
     "has_elec": true,
     "priority": 4,
-    "half_life": "2 turns",
+    "half_life": "4 turns",
     "phase": "plasma",
     "display_items": false,
     "display_field": true
@@ -1560,5 +1567,29 @@
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_electricity_unlit",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "sparks", "sym": "9", "dangerous": true },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "name": "electric crackle", "color": "cyan" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "name": "electric cloud", "color": "blue", "light_emitted": 5 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "description_affix": "illuminated_by",
+    "has_elec": true,
+    "priority": 4,
+    "half_life": "4 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": false,
+    "looks_like": "fd_electricity"
   }
 ]

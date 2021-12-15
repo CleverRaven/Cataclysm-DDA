@@ -93,7 +93,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "STAB" ],
     "weapon_category": [ "KNIVES" ]
@@ -114,7 +114,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "BELT_CLIP" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -143,7 +143,7 @@
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
     "weapon_category": [ "KNIVES" ]
@@ -179,7 +179,7 @@
     "material": [ "steel", "leather" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -202,7 +202,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "STAB", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -231,7 +231,7 @@
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ],
     "weapon_category": [ "KNIVES" ]
@@ -252,7 +252,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -273,7 +273,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -293,7 +293,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -314,7 +314,7 @@
     "cutting": 12,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "bone" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -333,7 +333,7 @@
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -354,7 +354,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
@@ -377,7 +377,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -397,7 +397,7 @@
     "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -418,9 +418,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
@@ -440,7 +440,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
     "category": "weapons"
@@ -576,6 +576,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
@@ -795,7 +796,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -1032,7 +1033,8 @@
     "cutting": 2,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_epee",
@@ -1051,7 +1053,8 @@
     "cutting": 7,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_sabre",
@@ -1070,7 +1073,8 @@
     "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_foil_sharpened",
@@ -1191,7 +1195,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ]
+    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "sword_cane",
@@ -1211,7 +1216,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "broadsword",
@@ -1232,7 +1238,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
@@ -1292,6 +1298,7 @@
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "category": "weapons"
   },
   {
@@ -1622,7 +1629,7 @@
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
     "price": 10000,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ]
   },
   {
     "type": "GENERIC",

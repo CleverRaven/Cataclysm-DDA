@@ -1429,48 +1429,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hdwr_large_entrance",
-    "copy-from": "hdwr_large_entrance",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_SW",
-    "copy-from": "hdwr_large_SW",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_NW",
-    "copy-from": "hdwr_large_NW",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_NE",
-    "copy-from": "hdwr_large_NE",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_backroom",
-    "copy-from": "hdwr_large_backroom",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_loadingbay",
-    "copy-from": "hdwr_large_loadingbay",
-    "sym": "\u00D6",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "hdwr_large_0_0_0",
     "copy-from": "hdwr_large_0_0_0",
     "sym": "\u00C1",

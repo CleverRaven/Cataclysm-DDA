@@ -1,10 +1,10 @@
 [
   {
     "id": "acidbomb",
-    "type": "TOOL",
+    "type": "AMMO",
     "category": "weapons",
     "name": { "str": "acid bomb" },
-    "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid.",
+    "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid, it could also be used in a staff sling with a modified cradle.",
     "weight": "650 g",
     "volume": "680 ml",
     "longest_side": "132 mm",
@@ -16,7 +16,12 @@
     "symbol": "*",
     "color": "yellow",
     "use_action": [ "ACIDBOMB_ACT" ],
-    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ],
+    "ammo_type": "sling-ready_grenade",
+    "damage": { "damage_type": "bash", "amount": 4 },
+    "range": 11,
+    "dispersion": 14,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ACIDBOMB" ]
   },
   {
     "id": "c4",
@@ -549,9 +554,9 @@
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
-      "fields_radius": 2,
-      "fields_min_intensity": 3,
-      "fields_max_intensity": 3,
+      "fields_radius": 1,
+      "fields_min_intensity": 2,
+      "fields_max_intensity": 10,
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
@@ -693,7 +698,7 @@
   },
   {
     "id": "insecticidalbomb_makeshift_act",
-    "copy-from": "gasbomb",
+    "copy-from": "gasbomb_act",
     "type": "GENERIC",
     "name": { "str": "armed makeshift insecticidal gas canister" },
     "description": "This makeshift insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
