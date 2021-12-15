@@ -782,13 +782,6 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
-    // Assing a UID to old bionics when migrating
-    for( bionic &bio : *my_bionics ) {
-        if( !bio.get_uid() ) {
-            bio.set_uid( generate_bionic_uid() );
-        }
-    }
-
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
@@ -1044,14 +1037,69 @@ void Character::load( const JsonObject &data )
 
     data.read( "addictions", addictions );
 
-    // Add the earplugs.
-    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
-        add_bionic( bio_earplugs );
+    for( bionic &bio : *my_bionics ) {
+        // Assign UID if missing before applying other migrations
+        if( !bio.get_uid() ) {
+            bio.set_uid( generate_bionic_uid() );
+            // Migrated bionics might not have their initial weapon yet
+            if( !bio.has_weapon() && bio.id->fake_weapon.is_valid() ) {
+                const item new_weapon = item( bio.id->fake_weapon );
+                bio.set_weapon( new_weapon );
+            }
+        }
     }
 
-    // Add the blindfold.
-    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
-        add_bionic( bio_blindfold );
+    bool has_old_bionic_weapon = !weapon_bionic_uid && get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
+                                 !get_wielded_item().ethereal;
+
+    const auto find_parent = [this]( bionic_id & bio_id ) {
+        for( const bionic &bio : *this->my_bionics ) {
+            if( std::find( bio.id->included_bionics.begin(), bio.id->included_bionics.end(),
+                           bio_id ) != bio.id->included_bionics.end() ) {
+                return bio.get_uid();
+            }
+        }
+        return bionic_uid( 0 );
+    };
+
+    // Migrations that depend on UIDs
+    for( bionic &bio : *my_bionics ) {
+        if( has_old_bionic_weapon && bio.powered && bio.has_weapon() &&
+            bio.get_weapon().typeId() == get_wielded_item().typeId() ) {
+            weapon_bionic_uid = bio.get_uid();
+            has_old_bionic_weapon = false;
+        }
+        // Assign parent if missing
+        if( bio.id->included ) {
+            if( !bio.get_parent_uid() ) {
+                if( bionic_uid parent_uid = find_parent( bio.id ) ) {
+                    bio.set_parent_uid( parent_uid );
+                } else {
+                    debugmsg( "Migration failed when trying to find a candidate parent bionic for \"%s\"",
+                              bio.id.str() );
+                }
+            }
+        } else {
+            if( bio.get_parent_uid() ) {
+                // Previously integrated CBM is now standalone
+                bio.set_parent_uid( 0 );
+            }
+        }
+    }
+
+    if( has_old_bionic_weapon ) {
+        debugmsg( "Couldn't find the bionic UID for the current bionic weapon. You will need to reactivate it." );
+        set_wielded_item( item() );
+    }
+
+    // Add included bionics that somehow hadn't been added on install
+    // or are missing after a save migration
+    for( const bionic &bio : *my_bionics ) {
+        for( const bionic_id &bid : bio.id->included_bionics ) {
+            if( !has_bionic( bid ) ) {
+                add_bionic( bid, bio.get_uid() );
+            }
+        }
     }
 
     // Fixes bugged characters for CBM's preventing mutations.

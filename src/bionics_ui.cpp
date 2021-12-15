@@ -896,13 +896,14 @@ void avatar::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();
                     if( tmp->powered ) {
-                        deactivate_bionic( b );
+                        deactivate_bionic( bio );
                     } else {
                         bool close_ui = false;
-                        activate_bionic( b, false, &close_ui );
+                        activate_bionic( bio, false, &close_ui );
                         // Exit this ui if we are firing a complex bionic
                         if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
                             break;

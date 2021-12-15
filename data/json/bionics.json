@@ -741,7 +741,8 @@
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
     "active_flags": [ "SUPER_HEARING" ],
     "auto_deactivates": [ "bio_earplugs" ],
-    "included_bionics": [ "bio_earplugs" ]
+    "included_bionics": [ "bio_earplugs" ],
+    "activated_on_install": true
   },
   {
     "id": "bio_emp",
@@ -1534,7 +1535,8 @@
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ],
+    "activated_on_install": true
   },
   {
     "id": "bio_tools_extend",
