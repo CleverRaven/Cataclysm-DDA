@@ -3,9 +3,6 @@
     "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_feral_prepper", "weight": 14, "cost_multiplier": 2 },
-      { "monster": "mon_feral_survivalist", "weight": 8, "cost_multiplier": 2, "starts": "29 days" },
-      { "monster": "mon_feral_militia", "weight": 5, "cost_multiplier": 2, "starts": "60 days" },
       { "monster": "mon_zombie", "weight": 100 },
       { "monster": "mon_zombie_child", "weight": 100 },
       { "monster": "mon_zombie_tough", "weight": 75, "cost_multiplier": 2 },
@@ -56,9 +53,6 @@
     "name": "GROUP_PARK_DOG",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_feral_prepper", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_feral_survivalist", "weight": 5, "cost_multiplier": 2, "starts": "29 days" },
-      { "monster": "mon_feral_militia", "weight": 5, "cost_multiplier": 2, "starts": "60 days" },
       { "monster": "mon_zombie", "weight": 125 },
       { "monster": "mon_zombie_dog", "weight": 125, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dog_zombie_cop", "weight": 25 },
