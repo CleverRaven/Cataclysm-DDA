@@ -220,6 +220,7 @@
     "id": "LOOT_CUSTOM",
     "type": "LOOT_ZONE",
     "name": "Loot: Custom",
+    "can_be_personal": true,
     "description": "Destination for loot with a custom filter that you can modify"
   },
   {
