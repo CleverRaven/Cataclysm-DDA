@@ -2521,16 +2521,13 @@ class Character : public Creature, public visitable
         float get_heartrate_index() const;
         void update_heartrate_index();
 
-        float get_bloodpress_index() const;
-        void update_bloodpress_index();
+        float get_bloodvol_index() const;
+        void update_bloodvol_index();
 
-        float get_resprate_index() const;
-        void set_resprate_index( float nresp_rate_index );
+        float get_circulation_resistance() const;
+        void set_circulation_resistance( float ncirculation_resistance );
 
-        float get_cardiac_output_mod() const;
-        void set_cardiac_output_mod( float ncardiac_output_mod );
-
-        void update_cardiac_output();
+        void update_circulation();
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -3361,12 +3358,12 @@ class Character : public Creature, public visitable
         // All indices represent the percentage compared to normal.
         // i.e. a value of 1.1 means 110% of normal.
         float heart_rate_index = 1.0f;
-        float blood_press_index = 1.0f;
+        float blood_vol_index = 1.0f;
         float resp_rate_index = 1.0f;
 
-        float cardiac_output;
+        float circulation;
         // Should remain fixed at 1.0 for now.
-        float cardiac_output_mod = 1.0f;
+        float circulation_resistance = 1.0f;
 
         int fatigue;
         int sleep_deprivation;
