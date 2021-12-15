@@ -1216,8 +1216,7 @@ void Character::update_heartrate_index()
 
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_health_mod
-                       + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
+                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
     // update_circulation();
 }
 

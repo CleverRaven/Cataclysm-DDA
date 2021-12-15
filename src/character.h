@@ -3359,7 +3359,6 @@ class Character : public Creature, public visitable
         // i.e. a value of 1.1 means 110% of normal.
         float heart_rate_index = 1.0f;
         float blood_vol_index = 1.0f;
-        float resp_rate_index = 1.0f;
 
         float circulation;
         // Should remain fixed at 1.0 for now.
