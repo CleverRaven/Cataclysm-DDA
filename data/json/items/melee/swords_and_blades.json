@@ -878,7 +878,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -986,7 +986,7 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "LONG_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1322,7 +1322,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
     "category": "weapons"
   },
   {
