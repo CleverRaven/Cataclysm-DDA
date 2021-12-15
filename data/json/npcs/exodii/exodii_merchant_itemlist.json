@@ -203,7 +203,7 @@
   },
   {
     "type": "item_group",
-    "id": "EXODII_CBM_tier1_tool",
+    "id": "EXODII_CBM_tier1_tools",
     "items": [
       [ "bio_syringe", 10 ],
       [ "bio_flashlight", 10 ],
