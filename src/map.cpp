@@ -3508,15 +3508,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
+    if( smash_ter && ter( p ) == t_open_air && zlevels ) {
+        tripoint below( p.xy(), p.z - 1 );
+        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        ter_set( p, roof );
     }
 
     if( bash->explosive > 0 ) {
