@@ -648,6 +648,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 | `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json
 {
@@ -669,6 +670,7 @@ For information about tools with option to export ASCII art in format ready to b
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
+  "armor": { "electric": 2, "stab": 1 },
   "side": "left",
   "legacy_id": "ARM_L",
   "hot_morale_mod": 0.5,
@@ -2131,14 +2133,16 @@ The `id` must be exact as it is hardcoded to look for that.
   "arm_r": 0.75
 },
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
-    [
-        [ "head" ],
-        { "bash" : 2 } // The resistance provided to the body part(s) selected above
-    ],
-    [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
-        { "bash" : 1 }        // ...and gives them those resistances instead
-    ]
+  {
+    "part_types": [ "arm", "leg" ],
+    "bash": 2,
+    "electric": 5                  // The resistance provided to the body part type(s) selected above
+  },
+  {
+    "parts": [ "arm_l", "arm_r" ], // Overrides the above settings for those specific body parts
+    "bash": 1,                     // ...and gives them those resistances instead
+    "cut": 2
+  }
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)

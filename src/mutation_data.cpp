@@ -553,7 +553,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         // Set damage resistances for all body parts of the specified type(s)
         for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
             for( const body_part_type &bp : body_part_type::get_all() ) {
-                if( type_string == "ALL" || bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ) {
+                if( type_string == "ALL" ||
+                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ) {
                     armor[bp.id] = res;
                 }
             }
