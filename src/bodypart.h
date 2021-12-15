@@ -291,14 +291,14 @@ struct body_part_type {
             return bionic_slots_;
         }
 
-        int damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
         // limb score values
         std::vector<bp_limb_score> limb_scores;
         // Protection from various damage types
-        std::map<damage_type, int> dmg_protection;
+        resistances armor;
 };
 
 

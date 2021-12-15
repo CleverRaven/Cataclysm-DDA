@@ -354,24 +354,9 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    if( jo.has_array( "protection" ) ) {
-        dmg_protection.clear();
-        for( JsonValue jval : jo.get_array( "protection" ) ) {
-            JsonObject jobj = jval.get_object();
-            damage_type dmg_type;
-            int dmg_val;
-            mandatory( jobj, false, "type", dmg_type );
-            mandatory( jobj, false, "armor", dmg_val );
-            dmg_protection[dmg_type] = dmg_val;
-        }
-    } else if( jo.has_object( "protection" ) ) {
-        dmg_protection.clear();
-        JsonObject jobj = jo.get_object( "protection" );
-        damage_type dmg_type;
-        int dmg_val;
-        mandatory( jobj, false, "type", dmg_type );
-        mandatory( jobj, false, "armor", dmg_val );
-        dmg_protection[dmg_type] = dmg_val;
+    if( jo.has_object( "armor" ) ) {
+        armor = resistances();
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
 
     mandatory( jo, was_loaded, "side", part_side );
@@ -458,16 +443,14 @@ void body_part_type::check() const
     }
 }
 
-int body_part_type::damage_resistance( const damage_type &dt ) const
+float body_part_type::damage_resistance( const damage_type &dt ) const
 {
-    auto iter = dmg_protection.find( dt );
-    return iter == dmg_protection.end() ? 0 : iter->second;
+    return armor.type_resist( dt );
 }
 
 float body_part_type::damage_resistance( const damage_unit &du ) const
 {
-    return std::max( damage_resistance( du.type ) - du.res_pen,
-                     0.0f ) * du.res_mult * du.unconditional_res_mult;
+    return armor.get_effective_resist( du );
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
