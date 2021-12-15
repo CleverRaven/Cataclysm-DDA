@@ -275,7 +275,7 @@
     "id": "survivor_rig",
     "type": "ARMOR",
     "name": { "str": "survivor distributed rigging" },
-    "description": "A custom-built lightweight set of weight distributing pouches on the thighs and stomach.  This configuration is designed with wearing a traditional harness or tactical vest.",
+    "description": "A custom-built lightweight set of weight distributing pouches on the thighs and stomach.  This configuration is designed to wear with a military harness or tactical vest.",
     "weight": "440 g",
     "volume": "3000 ml",
     "price": 24000,
