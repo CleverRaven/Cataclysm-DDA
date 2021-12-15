@@ -18,7 +18,7 @@
     "white": [ 255, 255, 255 ]
   },
   "terrain": {
-    "null": [ 0, 0, 0, 0 ],
+    "null": [ 235, 235, 221 ],
     "t_open_air": [ 188, 238, 255 ],
     "t_open_air_rooved_outside": [ 188, 238, 255 ],
     "t_open_air_rooved": [ 188, 238, 255 ],
