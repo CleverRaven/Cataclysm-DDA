@@ -41,7 +41,11 @@
       "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W" } ]
+        ],
         "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ], [ [ "rock", 80 ] ] ]
       }
     },
@@ -74,7 +78,11 @@
       "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M" } ],
+          [ { "id": "SAW_W" } ]
+        ],
         "components": [
           [ [ "2x4", 2 ] ],
           [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
@@ -105,7 +113,11 @@
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
         "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
       }
     }
@@ -155,7 +167,12 @@
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [
+          [ { "id": "CUT", "level": 2 } ],
+          [ { "id": "DIG" } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W" } ]
+        ],
         "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "rock", 64 ] ] ]
       }
     }
@@ -179,7 +196,11 @@
       "skills": [ [ "survival", 4 ], [ "fabrication", 4 ], [ "cooking", 3 ] ],
       "inline": {
         "tools": [ [ [ "elec_jackhammer", 14000 ], [ "jackhammer", 280 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W" } ]
+        ],
         "components": [
           [ [ "2x4", 112 ] ],
           [ [ "brick", 80 ], [ "rock", 80 ] ],
@@ -212,7 +233,11 @@
       "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [
+          [ { "id": "CUT", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W" } ]
+        ],
         "components": [
           [ [ "2x4", 4 ] ],
           [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
