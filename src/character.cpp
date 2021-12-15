@@ -6979,8 +6979,10 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
             damage_unit du_copy = du;
             du_copy.type = damage_type::CUT;
             du.amount -= mutation_armor( bp, du_copy );
+            du.amount -= bp->damage_resistance( du_copy );
         } else {
             du.amount -= mutation_armor( bp, du );
+            du.amount -= bp->damage_resistance( du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics

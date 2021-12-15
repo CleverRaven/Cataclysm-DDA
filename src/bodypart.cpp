@@ -458,6 +458,18 @@ void body_part_type::check() const
     }
 }
 
+int body_part_type::damage_resistance( const damage_type &dt ) const
+{
+    auto iter = dmg_protection.find( dt );
+    return iter == dmg_protection.end() ? 0 : iter->second;
+}
+
+float body_part_type::damage_resistance( const damage_unit &du ) const
+{
+    return std::max( damage_resistance( du.type ) - du.res_pen,
+                     0.0f ) * du.res_mult * du.unconditional_res_mult;
+}
+
 std::string body_part_name( const bodypart_id &bp, int number )
 {
     // See comments in `body_part_type::load` about why these two strings are

@@ -290,6 +290,9 @@ struct body_part_type {
         int bionic_slots() const {
             return bionic_slots_;
         }
+
+        int damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
         // limb score values
