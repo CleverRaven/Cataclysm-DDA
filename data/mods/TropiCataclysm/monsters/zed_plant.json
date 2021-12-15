@@ -212,7 +212,6 @@
     "armor_bullet": 5,
     "vision_night": 4,
     "harvest": "zombie_thorny",
-    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_fiend",
@@ -260,6 +259,7 @@
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie_thorny",
+    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "flags": [
@@ -352,6 +352,7 @@
     "vision_day": 50,
     "vision_night": 8,
     "harvest": "zombie_thorny",
+    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "special_attacks": [ [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched",
