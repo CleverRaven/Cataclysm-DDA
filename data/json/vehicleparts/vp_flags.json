@@ -150,7 +150,7 @@
   {
     "id": "TURRET_CONTROLS",
     "type": "json_flag",
-    "requires_flag": "TURRET"
+    "requires_flag": "TURRET_MOUNT"
   },
   {
     "id": "WHEEL",
