@@ -7,19 +7,28 @@
 #include "point.h"
 #include "type_id.h"
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
+
+static const itype_id itype_milk( "milk" );
+static const itype_id itype_sausage( "sausage" );
+
 // Set up our scenarios ahead of time
 static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
 static const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0,
         "" );
 static const activity_schedule task_dig( dig_actor, 5_minutes );
-static const activity_schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
-static const activity_schedule task_firstaid( activity_id( "ACT_FIRSTAID" ), 5_minutes );
-static const activity_schedule task_plant( activity_id( "ACT_PLANT_SEED" ), 5_minutes );
-static const activity_schedule task_weld( activity_id( "ACT_VEHICLE" ), 5_minutes );
-static const activity_schedule task_read( activity_id( "ACT_READ" ), 5_minutes );
+static const activity_schedule task_wait( ACT_WAIT, 5_minutes );
+static const activity_schedule task_firstaid( ACT_FIRSTAID, 5_minutes );
+static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
+static const activity_schedule task_weld( ACT_VEHICLE, 5_minutes );
+static const activity_schedule task_read( ACT_READ, 5_minutes );
 
-static const meal_schedule sausage( itype_id( "sausage" ) );
-static const meal_schedule milk( itype_id( "milk" ) );
+static const meal_schedule sausage( itype_sausage );
+static const meal_schedule milk( itype_milk );
 
 static const sleep_schedule sched_sleep{};
 

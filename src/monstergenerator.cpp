@@ -36,6 +36,10 @@
 #include "units.h"
 #include "weakpoint.h"
 
+static const material_id material_flesh( "flesh" );
+
+static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
+
 namespace behavior
 {
 class node_t;
@@ -206,6 +210,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
+        case MF_ATTACK_UPPER: return "ATTACK_UPPER";
+        case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -665,7 +671,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
-        mat.emplace( material_id( "flesh" ), 1 );
+        mat.emplace( material_flesh, 1 );
         mat_portion_total += 1;
     }
     optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
@@ -845,7 +851,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
-    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
     optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 

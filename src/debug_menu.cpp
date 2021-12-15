@@ -61,6 +61,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -113,12 +114,22 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
+
 static const efftype_id effect_asthma( "asthma" );
+
+static const faction_id faction_no_faction( "no_faction" );
+
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const trait_id trait_NONE( "NONE" );
+static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
+
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_NONE( "NONE" );
+
+static const vproto_id vehicle_prototype_custom( "custom" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -1333,7 +1344,7 @@ static void character_edit_hp_menu( Character &you )
     smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
     smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
     smenu.query();
-    bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
+    bodypart_str_id bp = body_part_no_a_real_part;
     int bp_ptr = -1;
     bool all_select = false;
 
@@ -2171,7 +2182,7 @@ static void debug_menu_spawn_vehicle()
         // Vector of name, id so that we can sort by name
         std::vector<std::pair<std::string, vproto_id>> veh_strings;
         for( auto &elem : vehicle_prototype::get_all() ) {
-            if( elem == vproto_id( "custom" ) ) {
+            if( elem == vehicle_prototype_custom ) {
                 continue;
             }
             veh_strings.emplace_back( elem->name.translated(), elem );
@@ -2352,8 +2363,8 @@ void debug()
             new_fac_id += temp->name;
             // create a new "lone wolf" faction for this one NPC
             faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
-                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
-            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                                    faction_id( new_fac_id ), faction_no_faction );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
             g->load_npcs();
         }
         break;
@@ -2432,7 +2443,7 @@ void debug()
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
-                if( style != matype_id( "style_none" ) ) {
+                if( style != style_none ) {
                     player_character.martial_arts_data->add_martialart( style );
                 }
             }
@@ -2462,7 +2473,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
+                here.spawn_artifact( *center, relic_procgen_data_alien_reality );
             }
             break;
 

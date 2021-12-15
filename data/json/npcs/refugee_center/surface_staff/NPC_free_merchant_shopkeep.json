@@ -688,6 +688,24 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
+      ],
+      "update_mapgen": [
+        {
+          "om_terrain": "evac_center_8_z1",
+          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 12, "x2": 12, "y2": 12 } ]
+        },
+        {
+          "om_terrain": "evac_center_12_z1",
+          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 21, "y": 12, "x2": 21, "y2": 14 } ]
+        },
+        {
+          "om_terrain": "evac_center_14_z1",
+          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 1, "y": 12, "x2": 1, "y2": 14 } ]
+        },
+        {
+          "om_terrain": "evac_center_18_z1",
+          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 3, "x2": 12, "y2": 3 } ]
+        }
       ]
     },
     "dialogue": {

@@ -42,6 +42,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -71,23 +72,28 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const itype_id fuel_type_battery( "battery" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
+static const ammotype ammo_battery( "battery" );
+
+static const faction_id faction_no_faction( "no_faction" );
+
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
-static const skill_id skill_mechanics( "mechanics" );
-
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const skill_id skill_mechanics( "mechanics" );
 
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static inline std::string status_color( bool status )
 {
@@ -453,7 +459,7 @@ void veh_interact::do_main_loop()
     if( veh->has_owner() ) {
         owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
     } else {
-        owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+        owner_fac = g->faction_manager_ptr->get( faction_no_faction );
     }
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
@@ -1342,7 +1348,7 @@ void veh_interact::do_refill()
                     return false;
                 }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
-                if( pt.get_base().is_reloadable_with( obj.typeId() ) ) {
+                if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
                 }
                 return can_reload;
@@ -1531,7 +1537,7 @@ void veh_interact::calc_overview()
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
-                                ammotype( "battery" ) ) ) * 100;
+                                ammo_battery ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.is_leaking() ) {
@@ -1539,7 +1545,7 @@ void veh_interact::calc_overview()
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                             string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
+                             string_format( fmtstring, pt.ammo_capacity( ammo_battery ), pct ) );
             };
             selectable = is_selectable( vpr.part() );
             overview_opts.emplace_back( "3_BATTERY", &vpr.part(), selectable,
@@ -2188,11 +2194,11 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     int total_lift_strength = lift_strength + player_character.get_lift_assist();
     int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
 
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+    if( player_character.has_trait( trait_STRONGBACK ) && total_lift_strength >= str &&
         total_base_strength < str ) {
         str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
                                     lift_strength - player_character.get_str() );
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+    } else if( player_character.has_trait( trait_BADBACK ) && total_base_strength >= str &&
                total_lift_strength < str ) {
         str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
                                     lift_strength - player_character.get_str() );

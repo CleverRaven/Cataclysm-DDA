@@ -28,6 +28,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const ammotype ammo_battery( "battery" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
@@ -359,7 +361,7 @@ bool vehicle_part::can_reload( const item &obj ) const
     if( !obj.is_null() ) {
         const itype_id obj_type = obj.typeId();
         if( is_reactor() ) {
-            return base.is_reloadable_with( obj_type );
+            return base.can_reload_with( obj, true );
         }
 
         // forbid filling tanks with solids or non-material things
@@ -379,7 +381,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // don't fill magazines with inappropriate fuel
-        if( !is_tank() && !base.is_reloadable_with( obj_type ) ) {
+        if( !is_tank() && !base.can_reload_with( obj, true ) ) {
             return false;
         }
     }
@@ -551,7 +553,7 @@ bool vehicle_part::contains_liquid() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
+    return base.is_magazine() && base.ammo_types().count( ammo_battery );
 }
 
 bool vehicle_part::is_reactor() const

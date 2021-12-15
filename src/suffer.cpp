@@ -93,13 +93,31 @@ static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weary_0( "weary_0" );
+static const efftype_id effect_weary_1( "weary_1" );
+static const efftype_id effect_weary_2( "weary_2" );
+static const efftype_id effect_weary_3( "weary_3" );
+static const efftype_id effect_weary_4( "weary_4" );
+static const efftype_id effect_weary_5( "weary_5" );
+static const efftype_id effect_weary_6( "weary_6" );
+static const efftype_id effect_weary_7( "weary_7" );
+static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
-static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+
+static const json_character_flag json_flag_GILLS( "GILLS" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -115,10 +133,10 @@ static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
-static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -135,8 +153,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
-static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
+static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -147,14 +165,8 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
-static const json_character_flag json_flag_GILLS( "GILLS" );
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const vitamin_id vitamin_vitA( "vitA" );
+static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
@@ -764,8 +776,8 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        you.vitamin_mod( vitamin_id( "vitC" ), 1, true );
+        you.vitamin_mod( vitamin_vitA, 1, true );
+        you.vitamin_mod( vitamin_vitC, 1, true );
     }
 
     if( !g->is_in_sunlight( position ) ) {
@@ -1344,15 +1356,15 @@ static void apply_weariness( Character &you, int level, int old )
     }
     // A mapping of weariness level to the effect to be applied
     static const std::array<efftype_id, 9> weary_effects { {
-            efftype_id( "weary_0" ),
-            efftype_id( "weary_1" ),
-            efftype_id( "weary_2" ),
-            efftype_id( "weary_3" ),
-            efftype_id( "weary_4" ),
-            efftype_id( "weary_5" ),
-            efftype_id( "weary_6" ),
-            efftype_id( "weary_7" ),
-            efftype_id( "weary_8" ),
+            effect_weary_0,
+            effect_weary_1,
+            effect_weary_2,
+            effect_weary_3,
+            effect_weary_4,
+            effect_weary_5,
+            effect_weary_6,
+            effect_weary_7,
+            effect_weary_8,
         }};
 
     // If we're going above level 8, we're seriously messed up

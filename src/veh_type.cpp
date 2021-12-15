@@ -39,6 +39,11 @@
 
 class npc;
 
+static const itype_id itype_null( "null" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+
 static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
@@ -271,7 +276,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.emplace_back( line );
         }
-    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_null ) {
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
@@ -892,12 +897,10 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     // borrowed from item.cpp and adjusted
-    const quality_id quality_jack( "JACK" );
-    const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg += string_format(
                    _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
-        if( qual.first == quality_jack || qual.first == quality_lift ) {
+        if( qual.first == qual_JACK || qual.first == qual_LIFT ) {
             msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( lifting_quality_to_mass( qual.second ) ) ),
                                   weight_units() );

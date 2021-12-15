@@ -9,7 +9,7 @@
     "see_cost": 2,
     "extras": "road",
     "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -21,7 +21,7 @@
     "see_cost": 2,
     "extras": "road",
     "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -50,15 +50,6 @@
     "extras": "road_nesw_manhole",
     "mapgen": [ { "method": "builtin", "name": "road_four_way" } ],
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "4way_road",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "road",
-    "sym": "┼",
-    "color": "light_gray",
-    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -126,14 +117,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtroad",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "dirt road",
-    "sym": "#",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "railroad",
     "name": "railroad",
     "color": "light_green",
@@ -143,7 +126,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "railroad_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "railroad_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "railroad_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -153,7 +136,7 @@
     "color": "light_cyan",
     "see_cost": 2,
     "mapgen": [ { "method": "builtin", "name": "railroad_bridge" } ],
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -162,7 +145,8 @@
     "sym": "┼",
     "color": "red",
     "see_cost": 2,
-    "extras": "road"
+    "extras": "road",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "abstract": "generic_railroad_station",

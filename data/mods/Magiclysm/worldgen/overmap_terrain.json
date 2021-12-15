@@ -102,8 +102,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "house_detatched5_basement" ],
+    "//": "overriden by the magic basement, so suppress warnings about it not spawning",
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NW",
-    "name": "Swamp",
+    "name": "swamp",
     "sym": "F",
     "color": "cyan",
     "looks_like": "forest_water",
@@ -503,7 +510,9 @@
       "mine_balrog_finale_ne",
       "mine_balrog_finale_sw",
       "mine_balrog_finale_s",
-      "mine_balrog_finale_se"
+      "mine_balrog_finale_se",
+      "mine_balrog_bottomless_pit",
+      "mine_balrog_lava"
     ],
     "name": "mine tunnels",
     "sym": "O",
