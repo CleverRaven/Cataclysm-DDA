@@ -218,8 +218,8 @@
     "category": "armor",
     "name": { "str": "exoskeleton gloves", "str_pl": "exoskeleton gloves" },
     "description": "This is a pair of exoskeleton gloves. Has mounting points for protective plate.",
-    "weight": "500 g",
-    "volume": "750 ml",
+    "weight": "1000 g",
+    "volume": "1500 ml",
     "material": [ "titanium", "plastic" ],
     "symbol": "g",
     "looks_like": "gloves_plate",
@@ -227,7 +227,6 @@
     "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
-    "sided": true,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
     "flags": [ "WATERPROOF", "STURDY" ],
     "pocket_data": [
