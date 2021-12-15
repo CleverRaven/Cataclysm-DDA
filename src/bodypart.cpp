@@ -354,6 +354,26 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    if( jo.has_array( "protection" ) ) {
+        dmg_protection.clear();
+        for( JsonValue jval : jo.get_array( "protection" ) ) {
+            JsonObject jobj = jval.get_object();
+            damage_type dmg_type;
+            int dmg_val;
+            mandatory( jobj, false, "type", dmg_type );
+            mandatory( jobj, false, "armor", dmg_val );
+            dmg_protection[dmg_type] = dmg_val;
+        }
+    } else if( jo.has_object( "protection" ) ) {
+        dmg_protection.clear();
+        JsonObject jobj = jo.get_object( "protection" );
+        damage_type dmg_type;
+        int dmg_val;
+        mandatory( jobj, false, "type", dmg_type );
+        mandatory( jobj, false, "armor", dmg_val );
+        dmg_protection[dmg_type] = dmg_val;
+    }
+
     mandatory( jo, was_loaded, "side", part_side );
 
     optional( jo, was_loaded, "sub_parts", sub_parts );

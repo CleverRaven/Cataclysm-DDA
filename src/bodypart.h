@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
@@ -293,6 +294,8 @@ struct body_part_type {
         int bionic_slots_ = 0;
         // limb score values
         std::vector<bp_limb_score> limb_scores;
+        // Protection from various damage types
+        std::map<damage_type, int> dmg_protection;
 };
 
 
