@@ -661,3 +661,22 @@ holiday get_holiday_from_time( std::time_t time, bool force_refresh )
     cached_holiday = holiday::none;
     return cached_holiday;
 }
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
+}

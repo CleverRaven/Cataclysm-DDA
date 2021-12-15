@@ -197,8 +197,12 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                if( r->is_practice() ) {
+                    return lcmatch( r->description.translated(), txt );
+                } else {
+                    const item result = r->create_result();
+                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                }
             }
 
             case search_type::proficiency:

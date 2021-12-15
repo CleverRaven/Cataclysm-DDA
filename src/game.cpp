@@ -252,6 +252,8 @@ static const mtype_id mon_manhack( "mon_manhack" );
 static const overmap_special_id overmap_special_world( "world" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -1788,7 +1790,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() ) {
+        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
@@ -2281,6 +2283,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2464,6 +2467,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
+    u.get_avatar_diary()->death_entry();
     show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
@@ -2557,6 +2561,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
+    u.get_avatar_diary()->load();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
@@ -2769,8 +2774,8 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-
-    return saved_data && saved_map_memory && saved_log
+    const bool saved_diary = u.get_avatar_diary()->store();
+    return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif
@@ -5096,9 +5101,11 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
-
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
+        int prof_bonus = u.get_skill_level( skill_firstaid );
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
+        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
@@ -5852,6 +5859,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     int tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<P>ersonal" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
@@ -5966,6 +5974,7 @@ void game::zones_manager()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
+    ctxt.register_action( "ADD_PERSONAL_ZONE" );
     ctxt.register_action( "REMOVE_ZONE" );
     ctxt.register_action( "MOVE_ZONE_UP" );
     ctxt.register_action( "MOVE_ZONE_DOWN" );
@@ -6037,7 +6046,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     auto query_position =
-    [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
+    [&]( bool personal = false ) -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
         {
             ui.mark_resize();
@@ -6065,6 +6074,19 @@ void game::zones_manager()
             const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
+                if( personal ) {
+                    tripoint first_abs = tripoint( std::min( first.position->x - u.posx(),
+                                                   second.position->x - u.posx() ),
+                                                   std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                   std::min( first.position->z - u.posz(),
+                                                           second.position->z - u.posz() ) ) ;
+                    tripoint second_abs = tripoint( std::max( first.position->x - u.posx(),
+                                                    second.position->x - u.posx() ),
+                                                    std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                    std::max( first.position->z - u.posz(),
+                                                            second.position->z - u.posz() ) ) ;
+                    return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                }
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
                                                second.position->x ),
                                                std::min( first.position->y, second.position->y ),
@@ -6075,6 +6097,7 @@ void game::zones_manager()
                                                 std::max( first.position->y, second.position->y ),
                                                 std::max( first.position->z,
                                                         second.position->z ) ) );
+
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6181,8 +6204,47 @@ void game::zones_manager()
                 }
 
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
-                         position->first, position->second, options );
+                         position->first, position->second, options, false );
 
+                zones = get_zones();
+                active_index = zone_cnt - 1;
+
+                stuff_changed = true;
+            } while( false );
+
+            blink = false;
+        } else if( action == "ADD_PERSONAL_ZONE" ) {
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type( true );
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
+
+                const zone_type_id &id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const std::string &name = maybe_name.value();
+
+                const auto position = query_position( true );
+                if( !position ) {
+                    break;
+                }
+
+                //add a zone that is relative to the avatar position
+                mgr.add( name, id, get_player_character().get_faction()->id, false, true,
+                         position->first, position->second, options, true );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 
@@ -6267,7 +6329,7 @@ void game::zones_manager()
                         }
                         break;
                     case 4: {
-                        const auto pos = query_position();
+                        const auto pos = query_position( zone.get_is_personal() );
                         if( pos && ( pos->first != zone.get_start_point() ||
                                      pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
@@ -8551,7 +8613,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         it = &it->only_item();
     }
 
-    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
+    item::reload_option opt = u.ammo_location &&
+                              it->can_reload_with( *u.ammo_location.get_item(), false ) ?
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
@@ -9139,13 +9202,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    int multiplier = 1;
-    if( u.is_on_ground() ) {
-        multiplier *= 3;
-    }
-
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
-                                           via_ramp ) * multiplier;
+                                           via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
         return true;

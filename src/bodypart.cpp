@@ -291,7 +291,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
-    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );

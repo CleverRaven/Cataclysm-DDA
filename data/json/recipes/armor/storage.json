@@ -341,7 +341,7 @@
     "time": "20 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
@@ -743,7 +743,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -778,7 +778,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "birchbark", 3 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
@@ -815,7 +815,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "birchbark", 10 ] ], [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -883,7 +883,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
@@ -1236,7 +1236,7 @@
     "time": "16 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plant_cordage", 16, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
@@ -1412,5 +1412,17 @@
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "rope_loop",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
   }
 ]

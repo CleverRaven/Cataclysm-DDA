@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broth",
+    "looks_like": "water",
     "name": { "str": "broth" },
     "weight": "253 g",
     "color": "yellow",
@@ -25,6 +26,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broth_bone",
+    "looks_like": "broth",
     "name": { "str": "bone broth" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
@@ -53,6 +55,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_veggy",
+    "looks_like": "water",
     "name": { "str": "vegetable soup" },
     "weight": "254 g",
     "color": "red",
@@ -77,6 +80,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_meat",
+    "looks_like": "water",
     "name": { "str": "meat soup" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "sap soup" } },
@@ -106,6 +110,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_fish",
+    "looks_like": "soup_meat",
     "name": { "str": "fish soup" },
     "weight": "265 g",
     "color": "light_gray",
@@ -130,6 +135,7 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_veggy",
+    "looks_like": "soup_veggy",
     "name": { "str": "curry", "str_pl": "curries" },
     "weight": "263 g",
     "color": "red",
@@ -154,6 +160,7 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_meat",
+    "looks_like": "soup_meat",
     "name": { "str": "curry with meat", "str_pl": "curries with meat" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "creature curry", "str_pl": "creature curries" } } ],
     "weight": "289 g",
@@ -179,6 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_woods",
+    "looks_like": "soup_veggy",
     "name": { "str": "woods meat soup" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
@@ -204,6 +212,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_woods_egg",
+    "looks_like": "soup_woods",
     "name": { "str": "woods egg soup" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
@@ -229,6 +238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_chicken",
+    "looks_like": "soup_meat",
     "name": { "str": "chicken noodle soup" },
     "weight": "261 g",
     "color": "light_gray",
@@ -254,6 +264,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_mushroom",
+    "looks_like": "soup_veggy",
     "name": { "str": "mushroom soup" },
     "weight": "266 g",
     "color": "light_gray",
@@ -278,6 +289,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_blood",
+    "looks_like": "tomato_juice",
     "name": { "str_sp": "blood soup" },
     "weight": "266 g",
     "color": "brown",
@@ -302,6 +314,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_tomato",
+    "looks_like": "tomato_juice",
     "name": { "str": "tomato soup" },
     "weight": "257 g",
     "color": "red",
@@ -326,6 +339,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_dumplings",
+    "looks_like": "soup_meat",
     "name": { "str_sp": "chicken and dumplings" },
     "weight": "263 g",
     "color": "light_gray",
@@ -351,6 +365,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_cullenskink",
+    "looks_like": "soup_fish",
     "name": { "str": "cullen skink" },
     "weight": "261 g",
     "color": "white",
@@ -375,8 +390,8 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_instant_chicken_noodle_prepared",
-    "name": { "str": "instant chicken noodle soup" },
     "looks_like": "soup_chicken",
+    "name": { "str": "instant chicken noodle soup" },
     "weight": "170 g",
     "color": "white",
     "spoils_in": "12 hours",
@@ -420,8 +435,8 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_instant_vegetable_prepared",
-    "name": { "str": "instant spring vegetable soup" },
     "looks_like": "soup_veggy",
+    "name": { "str": "instant spring vegetable soup" },
     "weight": "170 g",
     "color": "red",
     "spoils_in": "12 hours",

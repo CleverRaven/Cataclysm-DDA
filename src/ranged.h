@@ -65,4 +65,17 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
 int throw_cost( const Character &c, const item &to_throw );
 
+double target_size_in_moa( int range, double size );
+double target_size_in_moa( tripoint src, tripoint target );
+
+struct Target_attributes {
+    double size_in_moa;
+    explicit Target_attributes( double d ) {
+        size_in_moa = d;
+    }
+    explicit Target_attributes() {
+        size_in_moa = 10800;
+    }
+};
+
 #endif // CATA_SRC_RANGED_H

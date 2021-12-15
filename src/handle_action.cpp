@@ -1172,6 +1172,11 @@ static void loot()
     auto &mgr = zone_manager::get_manager();
     const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
 
+    // cache should only happen if we have personal zones defined
+    if( mgr.has_personal_zones() ) {
+        mgr.cache_data();
+    }
+
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
     // but with a stale cache we never get that far.
@@ -2438,6 +2443,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_MISSIONS:
             list_missions();
+            break;
+
+        case ACTION_DIARY:
+            diary::show_diary_ui( u.get_avatar_diary() );
             break;
 
         case ACTION_SCORES:

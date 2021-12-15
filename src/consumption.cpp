@@ -1511,6 +1511,7 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
     return true;
 }
 

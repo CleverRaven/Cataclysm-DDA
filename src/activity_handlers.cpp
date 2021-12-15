@@ -1185,9 +1185,11 @@ static void butchery_quarter( item *corpse_item, const Character &you )
                            _( "You roughly slice the corpse of %s into four parts and set them aside." ),
                            corpse_item->get_mtype()->nname() );
     map &here = get_map();
+    tripoint pos = you.pos();
+
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( you.pos(), *corpse_item, true );
+        here.add_item_or_charges( pos, *corpse_item, true );
     }
 }
 
@@ -1238,6 +1240,10 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     const mtype *corpse = corpse_item.get_mtype();
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
+
+    // Dump items from the "container" before destroying it.
+    // Presumably, the character would be doing this while setting up for butchering.
+    corpse_item.spill_contents( target.position() );
 
     if( action == butcher_type::QUARTER ) {
         butchery_quarter( &corpse_item, *you );
@@ -3188,8 +3194,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             }
 
             if( you->has_bionic( bid ) ) {
-                you->perform_uninstall( bid, act->values[0], act->values[1],
-                                        units::from_millijoule( act->values[2] ), act->values[3] );
+                you->perform_uninstall( bid, act->values[0], act->values[1], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
                 you->remove_effect( effect_under_operation );

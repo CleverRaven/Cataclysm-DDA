@@ -7,13 +7,7 @@
   {
     "id": "parkinglot",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "afs_electric_semi", 300 ],
-      [ "car_atomic", 1000 ],
-      [ "car_sports_atomic", 100 ],
-      [ "suv_atomic", 1000 ],
-      [ "compact_atomic", 300 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "car_sports_atomic", 100 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
   },
   {
     "id": "parkinglotbasic",
@@ -35,11 +29,6 @@
     "id": "oa_vg_cs_vehicles",
     "//": "For cs_car_showroom",
     "vehicles": [ [ "bubble_car", 60 ] ]
-  },
-  {
-    "id": "highway",
-    "type": "vehicle_group",
-    "vehicles": [ [ "afs_electric_semi", 300 ] ]
   },
   {
     "id": "afs_lab_cars",

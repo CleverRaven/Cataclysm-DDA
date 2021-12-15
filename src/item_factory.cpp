@@ -1200,10 +1200,6 @@ void Item_factory::init()
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
-    add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
-    add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
-    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
-    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
@@ -1348,6 +1344,7 @@ void Item_factory::init()
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
+    add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
@@ -1375,6 +1372,8 @@ void Item_factory::init()
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<molle_attach_actor>() );
+    add_actor( std::make_unique<molle_detach_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<mutagen_actor>() );
@@ -1743,8 +1742,14 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                 msg += "gunmod does not specify location\n";
             }
-            if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
-                msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
+            if( type->gunmod->sight_dispersion >= 0 ) {
+                if( type->gunmod->field_of_view <= 0 && type->gunmod->aim_speed < 0 ) {
+                    msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
+                } else if( type->gunmod->aim_speed > 0 ) {
+                    msg += "Aim speed will be converted to FoV and aim_speed_modifier automatically, if FoV is not set.\n";
+                }
+            } else if( type->gunmod->sight_dispersion < 0 && type->gunmod->field_of_view > 0 ) {
+                msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
             }
             if( type->gunmod->usable.empty() ) {
                 msg += "gunmod does not specify mod targets\n";
@@ -2715,7 +2720,9 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
+    assign( jo, "field_of_view", slot.field_of_view );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
+    assign( jo, "aim_speed_modifier", slot.aim_speed_modifier );
     assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
@@ -2729,6 +2736,15 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
+    // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
+    if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
+        if( slot.aim_speed > 6 ) {
+            slot.aim_speed_modifier = 5 * ( slot.aim_speed - 6 );
+            slot.field_of_view = 480;
+        } else {
+            slot.field_of_view = 480 - 30 * ( 6 - slot.aim_speed );
+        }
+    }
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {

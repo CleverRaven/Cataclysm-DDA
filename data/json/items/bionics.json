@@ -1208,5 +1208,14 @@
     "description": "Part of the autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
     "weight": "100 g",
     "difficulty": 5
+  },
+  {
+    "id": "bio_faulty_electromagnetic_leak",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Electromagnetic Leak" },
+    "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
+    "weight": "100 g",
+    "difficulty": 3
   }
 ]

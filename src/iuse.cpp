@@ -3026,24 +3026,6 @@ cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-cata::optional<int> iuse::cs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws scream to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 cata::optional<int> iuse::carver_off( Character *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3120,26 +3102,6 @@ cata::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, cons
     return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
                           false,
                           15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-cata::optional<int> iuse::ecs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
 }
 
 cata::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
@@ -4438,33 +4400,46 @@ cata::optional<int> iuse::fitness_check( Character *p, item *it, bool, const tri
         return cata::nullopt;
     } else {
         //What else should block using f-band?
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your health metrics on your %s." ), it->tname( 1,
+                                   false ) ) );
+        msg.append( "  ***\n\n" );
         const int bpm = p->heartrate_bpm();
-        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
-        //Maybe should pick better words
-        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        msg.append( "-> " );
+        msg.append( string_format( _( "Your heart rate is %i bpm." ), bpm ) );
         if( bpm > 179 ) {
-            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
-                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+            msg.append( "\n" );
+            msg.append( "-> " );
+            msg.append( _( "WARNING!  Slow down!  Your pulse is getting too high, champion!" ) );
         }
         const std::string exercise = p->activity_level_str();
+        msg.append( "\n" );
+        msg.append( "-> " );
         if( exercise == "NO_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You haven't really been active today.  Try going for a walk!'." ), it->tname() );
+            msg.append( _( "You haven't really been active today.  Try going for a walk!" ) );
         } else if( exercise == "LIGHT_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+            msg.append( _( "Good start!  Keep it up and move more." ) );
         } else if( exercise == "MODERATE_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+            msg.append( _( "Doing good!  Don't stop, push the limit!" ) );
         } else if( exercise == "ACTIVE_EXERCISE" ) {
-            //Ad will most likely need to go
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
-                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+            msg.append( _( "Great job!  Take a break and don't forget about hydration!" ) );
         } else {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+            msg.append( _( "You are too active!  Avoid overexertion for your safety and health." ) );
         }
-        //TODO add whatever else makes sense (sleep quality, health level approximation?)
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_spent_kcal( false ),
+                                   p->as_avatar()->get_daily_spent_kcal( true ) ) );
+        //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
     }
     return it->type->charges_to_use();
 }
@@ -9021,6 +8996,27 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     }
 
     return 0;
+}
+
+cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return cata::nullopt;
+    } else {
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your registered calories intake on your %s." ),
+                                   it->tname( 1, false ) ) );
+        msg.append( "  ***\n\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
+    }
+    return it->type->charges_to_use();
 }
 
 cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )

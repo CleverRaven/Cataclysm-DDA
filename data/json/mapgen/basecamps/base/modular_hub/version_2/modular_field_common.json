@@ -2,8 +2,24 @@
   {
     "type": "palette",
     "id": "fbmh_2_palette_common",
-    "terrain": { ",": "t_dirt", ";": "t_dirt" },
-    "furniture": { ",": "f_clear", ";": "f_bulletin" }
+    "terrain": {
+      ",": "t_dirt",
+      ";": "t_dirt",
+      ".": "t_rubber_mulch",
+      "x": "t_concrete_wall_rope",
+      "#": "t_rubber_mulch",
+      "c": "t_rubber_mulch",
+      "e": "t_rubber_mulch",
+      "E": "t_rubber_mulch"
+    },
+    "furniture": {
+      ",": "f_clear",
+      "#": "f_parkour_bars",
+      ";": "f_bulletin",
+      "c": "f_counter",
+      "e": "f_earthbag_half",
+      "E": "f_earthbag_wall"
+    }
   },
   {
     "type": "mapgen",
@@ -12,12 +28,12 @@
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,              ,,,,,",
-        ",,,,,              ,,,,,",
-        ",,,,,              ,,,,,",
-        ",,,,,              ,,,,,",
-        ",,,,,              ,,,,,",
-        ",,,,,              ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
+        ",,,,,,,,,,,        ,,,,,",
         ",,,,,              ,,,,,",
         ",,,,,    ,;  , ,,  ,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -342,5 +358,28 @@
     "update_mapgen_id": "fbmh_2_radio_console",
     "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_radio_controls", "x": 16, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_parkour",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_parkour" ], "x": 5, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_parkour",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ".cc...",
+        "....#.",
+        "..x.#.",
+        "...x..",
+        "......",
+        ".eEe.."
+      ],
+      "palettes": [ "fbmh_2_palette_common" ]
+    }
   }
 ]

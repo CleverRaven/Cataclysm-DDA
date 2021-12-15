@@ -985,6 +985,7 @@
       { "item": "smoxygen_tank", "prob": 2, "charges": [ 0, 12 ] },
       { "item": "alarmclock", "prob": 30 },
       { "item": "maid_dress", "prob": 3 },
+      { "item": "maid_dress_short", "prob": 3 },
       { "item": "maid_hat", "prob": 3 },
       { "group": "religious_books", "prob": 38 },
       { "item": "mouthpiece", "prob": 1 },

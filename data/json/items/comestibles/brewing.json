@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_mycus_wine",
+    "looks_like": "wine_mycus",
     "name": { "str": "mycus wine must" },
     "description": "Unfermented mycus wine.  A goopy white mess, made from fruit of mycus.  It smells sweetly of mushrooms.",
     "weight": "33 g",
@@ -23,6 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_marloss_wine",
+    "looks_like": "wine_marloss",
     "name": { "str": "marloss wine must" },
     "description": "Unfermented marloss wine.  A soft pinkish mess, made from marloss berries.  It has a strong aroma, but you're not quite sure if it's a good or bad one.",
     "weight": "33 g",
@@ -44,6 +46,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_whiskey",
+    "looks_like": "wash_whiskey",
     "name": { "str": "whiskey wort" },
     "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.",
     "weight": "33 g",
@@ -65,6 +68,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_whiskey",
+    "looks_like": "whiskey",
     "name": { "str": "whiskey wash", "str_pl": "whiskey washes" },
     "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.",
     "weight": "33 g",
@@ -91,6 +95,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_gin",
+    "looks_like": "gin_mash",
     "name": { "str": "gin mash", "str_pl": "gin mashes" },
     "description": "Unfermented gin mash.  Fermenting it will produce gin.",
     "weight": "33 g",
@@ -112,6 +117,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gin_mash",
+    "looks_like": "gin",
     "name": { "str": "gin wash", "str_pl": "gin washes" },
     "description": "Gin wash, after the junipers have had time to add flavor, ready to be distilled or drunk as is.",
     "weight": "33 g",
@@ -138,6 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_vodka",
+    "looks_like": "vodka",
     "name": { "str": "vodka wort" },
     "description": "Unfermented vodka.  Water with sugar from enzymatic breakdown of malted grains or just added in pure form.",
     "weight": "50 g",
@@ -159,6 +166,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_vodka",
+    "looks_like": "vodka",
     "name": { "str": "vodka wash", "str_pl": "vodka washes" },
     "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
     "weight": "33 g",
@@ -185,6 +193,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_rum",
+    "looks_like": "rum",
     "name": { "str": "rum wort" },
     "description": "Unfermented rum.  Sugar caramel or molasses brewed into sweet water.  Basically a saccharine soup.",
     "weight": "33 g",
@@ -206,6 +215,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_rum",
+    "looks_like": "rum",
     "name": { "str": "rum wash", "str_pl": "rum washes" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
     "weight": "50 g",
@@ -232,6 +242,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_fruit_wine",
+    "looks_like": "fruit_wine",
     "name": { "str": "fruit wine must" },
     "description": "Unfermented fruit wine.  A sweet, boiled juice made from berries or fruit.",
     "weight": "46 g",
@@ -254,6 +265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_mead",
+    "looks_like": "mead",
     "name": { "str": "spiced mead must" },
     "description": "Unfermented spiced mead.  Diluted honey and yeast.",
     "weight": "38 g",
@@ -277,6 +289,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_dandelion_wine",
+    "looks_like": "dandelion_wine",
     "name": { "str": "dandelion wine must" },
     "description": "Unfermented dandelion wine.  A sticky mixture of water, sugar, yeast, and dandelion petals.",
     "weight": "38 g",
@@ -298,6 +311,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_burdock_wine",
+    "looks_like": "burdock_wine",
     "name": { "str": "burdock wine must" },
     "description": "Unfermented burdock wine.  A sticky mixture of water, sugar, yeast, and burdock roots.",
     "weight": "250 g",
@@ -319,6 +333,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_pine_wine",
+    "looks_like": "pine_wine",
     "name": { "str": "pine wine must" },
     "description": "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resins.",
     "weight": "38 g",
@@ -340,6 +355,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_hb_beer",
+    "looks_like": "beer",
     "name": { "str": "beer wort" },
     "description": "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.",
     "weight": "249 g",
@@ -361,6 +377,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_hb_seltzer",
+    "looks_like": "hb_seltzer",
     "name": { "str": "seltzer wort" },
     "description": "Unfermented seltzer.  A boiled and chilled mash of refined sugar and fruit.",
     "weight": "249 g",
@@ -382,6 +399,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_moonshine",
+    "looks_like": "moonshine",
     "name": { "str": "moonshine mash", "str_pl": "moonshine mashes" },
     "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' aunt's recipe.",
     "weight": "50 g",
@@ -404,6 +422,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_moonshine",
+    "looks_like": "moonshine",
     "name": { "str": "moonshine wash", "str_pl": "moonshine washes" },
     "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
     "weight": "50 g",
@@ -430,6 +449,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_milk_curdled",
+    "looks_like": "milk",
     "name": { "str": "curdling milk" },
     "weight": "236 g",
     "color": "white",
@@ -452,6 +472,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_vinegar",
+    "looks_like": "vinegar",
     "name": { "str": "unfermented vinegar" },
     "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar when fermented in a vat.",
     "weight": "15 g",
@@ -474,6 +495,7 @@
   {
     "type": "COMESTIBLE",
     "id": "young_yeast",
+    "looks_like": "yeast",
     "name": { "str": "growing wild yeast" },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizeable yeast culture.",
     "weight": "16 g",
@@ -496,6 +518,7 @@
   {
     "type": "COMESTIBLE",
     "id": "malting_grain",
+    "looks_like": "malted_grain",
     "name": { "str_sp": "malting grain" },
     "weight": "211 g",
     "color": "brown",
@@ -545,6 +568,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soaking_dandelion",
+    "looks_like": "dandelion",
     "name": { "str_sp": "soaking dandelion" },
     "weight": "308 g",
     "color": "brown",
@@ -573,6 +597,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soaked_dandelion",
+    "looks_like": "dandelion",
     "name": { "str_sp": "soaked dandelion" },
     "weight": "308 g",
     "color": "yellow",
