@@ -21,7 +21,8 @@
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
     "sym": "%",
     "color": "white",
-    "mondensity": 1
+    "mondensity": 1,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "ter_furn_transform",

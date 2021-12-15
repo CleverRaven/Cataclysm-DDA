@@ -765,10 +765,11 @@ bool mattack::shockstorm( monster *z )
             here.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
-    // 5x5 cloud of electricity at the square hit
-    for( const auto &dest : here.points_in_radius( tarp, 2 ) ) {
-        if( !one_in( 4 ) ) {
-            here.add_field( dest, fd_electricity, rng( 1, 3 ) );
+
+    // 3x3 cloud of electricity at the square hit
+    for( const auto &dest : here.points_in_radius( tarp, 1 ) ) {
+        if( one_in( 3 ) ) {
+            here.add_field( dest, fd_electricity, rng( 4, 10 ) );
         }
     }
 
@@ -1102,6 +1103,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
+// this has been jsonified and isn't used by brutes any longer
 bool mattack::smash( monster *z )
 {
     if( !z->can_act() ) {
@@ -1137,6 +1139,7 @@ bool mattack::smash( monster *z )
 
     // Release the grabbed creature right before the fling
     z->remove_effect( effect_grabbing );
+
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
@@ -2691,9 +2694,9 @@ bool mattack::ranged_pull( monster *z )
         }
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2751,9 +2754,9 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
@@ -2812,7 +2815,7 @@ bool mattack::grab_drag( monster *z )
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
-    int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 

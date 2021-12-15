@@ -124,6 +124,9 @@
 | prof_spotting | Spotting and Awareness | You are skilled at spotting things out of the ordinary, like traps or ambushes. | None
 | |
 | prof_parkour | Parkour Expert | You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground. | None
+| |
+| prof_wound_care | Wound Care | You know how to bandage wounds and understand basic principles of wound care. | None
+| prof_wound_care_expert | Wound Care Expert | Your extensive field experience in bandaging and wound care is on par with that of a paramedic. | prof_wound_care
 
 ## Magiclysm proficiencies
 

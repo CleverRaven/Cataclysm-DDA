@@ -89,6 +89,9 @@ static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REAC
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
 
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
@@ -634,7 +637,7 @@ void computer_session::action_map_sewer()
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( is_ot_match( "sewer", oter, ot_match_type::type ) ||
+            if( ( oter->get_type_id() == oter_type_sewer ) ||
                 is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
                 overmap_buffer.set_seen( center + offset, true );
             }
@@ -653,7 +656,7 @@ void computer_session::action_map_subway()
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( is_ot_match( "subway", oter, ot_match_type::type ) ||
+            if( ( oter->get_type_id() == oter_type_subway ) ||
                 is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
                 overmap_buffer.set_seen( center + offset, true );
             }

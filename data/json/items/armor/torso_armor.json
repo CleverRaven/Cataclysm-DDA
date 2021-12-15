@@ -15,6 +15,7 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "yellow",
+    "longest_side": "60 cm",
     "warmth": 15,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
@@ -42,6 +43,7 @@
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
+    "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 8,
     "flags": [ "VARSIZE", "STURDY" ],
@@ -68,16 +70,17 @@
     "bashing": 6,
     "material": [ "iron", "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] },
+      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },
       {
         "encumbrance": 3,
-        "coverage": 18,
+        "coverage": 90,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
       }
@@ -104,44 +107,27 @@
     "bashing": 6,
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "armor_lorica",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
+      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
       {
         "encumbrance": 17,
         "coverage": 93,
         "cover_melee": 95,
         "cover_ranged": 90,
         "cover_vitals": 100,
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
-      {
-        "encumbrance": 17,
-        "coverage": 93,
-        "cover_melee": 95,
-        "cover_ranged": 90,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [
-          "arm_elbow_l",
-          "arm_elbow_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_lower_r",
-          "arm_lower_l"
-        ]
+        "covers": [ "arm_l", "arm_r" ]
       },
       {
         "encumbrance": 4,
-        "coverage": 19,
-        "cover_melee": 19,
-        "cover_ranged": 18,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
@@ -164,6 +150,7 @@
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 12,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
@@ -184,6 +171,7 @@
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "40 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
@@ -232,6 +220,7 @@
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
     "warmth": 20,
+    "longest_side": "20 cm",
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ],
@@ -253,19 +242,20 @@
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
-      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] },
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
       {
         "encumbrance": 4,
-        "coverage": 19,
+        "coverage": 95,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
       {
         "encumbrance": 4,
-        "coverage": 19,
+        "coverage": 95,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
@@ -296,6 +286,7 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
+    "longest_side": "40 cm",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OUTER" ],
@@ -324,6 +315,7 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
+    "longest_side": "40 cm",
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "OUTER", "NONCONDUCTIVE" ],
@@ -479,10 +471,10 @@
     "material_thickness": 6,
     "flags": [ "OUTER" ],
     "armor": [
-      { "encumbrance": 35, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      { "encumbrance": 35, "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
         "encumbrance": 16,
-        "coverage": 20,
+        "coverage": 100,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }

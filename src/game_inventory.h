@@ -128,6 +128,8 @@ void insert_items( avatar &you, item_location &holster );
 drop_locations unload_container( avatar &you );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
+/** Choosing an item to attach to a load bearing vest. */
+item_location molle_attach( Character &you, item &tool );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */

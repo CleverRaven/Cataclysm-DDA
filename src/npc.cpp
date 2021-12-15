@@ -113,6 +113,8 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
@@ -140,7 +142,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -1246,7 +1247,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) &&
                !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
@@ -1470,7 +1471,8 @@ void npc::invalidate_range_cache()
 {
     const item &weapon = get_wielded_item();
     if( weapon.is_gun() ) {
-        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+        confident_range_cache = confident_shoot_range( weapon,
+                                most_accurate_aiming_method_limit( weapon ) );
     } else {
         confident_range_cache = weapon.reach_range( *this );
     }

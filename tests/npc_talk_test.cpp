@@ -314,7 +314,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    change_om_type( "pond_swamp_north" );
+    change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 1 );

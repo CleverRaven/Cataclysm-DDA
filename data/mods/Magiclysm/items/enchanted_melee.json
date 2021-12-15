@@ -758,7 +758,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
     "use_action": [ { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true } ]
@@ -850,7 +850,7 @@
       "WEATHER_TOOL"
     ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": {
       "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]

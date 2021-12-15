@@ -69,7 +69,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "thread", 10 ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
@@ -86,7 +86,7 @@
     "time": "3 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {

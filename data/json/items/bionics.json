@@ -913,9 +913,9 @@
     "id": "bio_tools",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Integrated Toolset CBM" },
+    "name": { "str": "Integrated Multitool CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A surgically implanted set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder and heating elements.  These can be used in place of many tools when crafting.",
+    "description": "A surgically implanted set of compact tools and a welder which runs off the user's power banks.  Includes screwdriving heads, a multi-purpose knife, a low-power impact wrench and a nail prying tool.",
     "price": 800000,
     "difficulty": 6
   },
@@ -1208,5 +1208,14 @@
     "description": "Part of the autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
     "weight": "100 g",
     "difficulty": 5
+  },
+  {
+    "id": "bio_faulty_electromagnetic_leak",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Electromagnetic Leak" },
+    "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
+    "weight": "100 g",
+    "difficulty": 3
   }
 ]

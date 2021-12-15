@@ -14,7 +14,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "paper", 1 ] ] ]
   },
@@ -33,7 +33,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "paper", 1 ] ] ]
   },
@@ -778,7 +778,7 @@
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1133 mg gunpowder rounded to 11 100 mg 'pieces'",
-    "components": [ [ [ "gunpowder", 11 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "gunpowder", 11 ], [ "gunpowder_rifle", 11 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_300blk",

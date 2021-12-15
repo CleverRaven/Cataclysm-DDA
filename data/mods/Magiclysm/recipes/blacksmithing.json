@@ -15,7 +15,7 @@
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "book_learn": [ [ "welding_book", 4 ] ],
+    "book_learn": [ [ "metal_legends", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ], [ [ "mercury", 100 ] ] ]
   },
@@ -35,7 +35,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "batch_time_factors": [ 50, 2 ],
-    "book_learn": [ [ "welding_book", 4 ] ],
+    "book_learn": [ [ "metal_legends", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 9 ] ], [ [ "mercury", 400 ] ] ]
   },

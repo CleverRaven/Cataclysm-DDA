@@ -1,10 +1,12 @@
 #include "ammo.h"
 #include "character.h"
+#include "character_modifier.h"
 #include "flag.h"
 #include "game.h"
 #include "itype.h"
 #include "output.h"
 
+static const character_modifier_id character_modifier_reloading_move_mod( "reloading_move_mod" );
 static const itype_id itype_battery( "battery" );
 static const skill_id skill_gun( "gun" );
 
@@ -49,9 +51,9 @@ int Character::ammo_count_for( const item &gun )
     return ret;
 }
 
-bool Character::can_reload( const item &it, const itype_id &ammo ) const
+bool Character::can_reload( const item &it, const item *ammo ) const
 {
-    if( !it.can_reload_with( ammo ) ) {
+    if( ammo && !it.can_reload_with( *ammo, false ) ) {
         return false;
     }
 
@@ -89,25 +91,16 @@ bool Character::list_ammo( const item &base, std::vector<item::reload_option> &a
     for( auto  p : opts ) {
         for( item_location &ammo : find_ammo( *p.first, empty, ammo_search_range ) ) {
 
-            itype_id id = ammo->typeId();
-            bool speedloader = false;
-            if( p.first->can_reload_with( id ) ) {
+            if( p.first->can_reload_with( *ammo.get_item(), false ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
-            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( id ) &&
+            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( ammo->typeId() ) &&
                        ammo->ammo_remaining() > 1 && p.first->ammo_remaining() < 1 ) {
-                id = ammo->ammo_current();
                 // Again, this is "are they compatible", later check handles "can we do it now".
-                ammo_match_found = p.first->can_reload_with( id );
-                speedloader = true;
+                ammo_match_found = p.first->can_reload_with( *ammo.get_item(), false );
             }
-            if( can_reload( *p.first, id ) &&
-                ( speedloader || p.first->ammo_remaining() == 0 ||
-                  p.first->ammo_remaining() < ammo->ammo_remaining() ||
-                  p.first->loaded_ammo().stacks_with( *ammo ) ||
-                  ( ammo->made_of_from_type( phase_id::LIQUID ) &&
-                    p.first->get_remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
+            if( can_reload( *p.first, ammo.get_item() ) ) {
                 ammo_list.emplace_back( this, p.first, p.second, std::move( ammo ) );
             }
         }
@@ -358,7 +351,7 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {
-            if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+            if( !base.magazine_integral() && !base.magazine_current() ) {
                 add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
                                    base.tname() );
 
@@ -377,8 +370,13 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
                         return at->name();
                     }, enumeration_conjunction::none );
                 }
-                add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
-                                   name, base.tname() );
+                if( base.is_magazine_full() ) {
+                    add_msg_if_player( m_info, _( "The %s is already full!" ),
+                                       base.tname() );
+                } else {
+                    add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
+                                       name, base.tname() );
+                }
             }
         }
         return item::reload_option();
@@ -473,7 +471,8 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( static_cast<int>( std::round( mv * reloading_move_modifier() ) ), 25 );
+    return std::max( static_cast<int>( std::round( mv * get_modifier(
+                                           character_modifier_reloading_move_mod ) ) ), 25 );
 }
 
 std::vector<item_location> Character::find_reloadables()
@@ -481,19 +480,7 @@ std::vector<item_location> Character::find_reloadables()
     std::vector<item_location> reloadables;
 
     visit_items( [this, &reloadables]( item * node, item * ) {
-        if( !node->is_gun() && !node->is_magazine() ) {
-            return VisitResponse::NEXT;
-        }
-        bool reloadable = false;
-        if( node->is_gun() && node->uses_magazine() ) {
-            reloadable = node->magazine_current() == nullptr ||
-                         node->remaining_ammo_capacity() > 0;
-        } else {
-            reloadable = ( node->is_magazine() ||
-                           ( node->is_gun() && node->magazine_integral() ) ) &&
-                         node->remaining_ammo_capacity() > 0;
-        }
-        if( reloadable ) {
+        if( node->is_reloadable() ) {
             reloadables.emplace_back( *this, node );
         }
         return VisitResponse::NEXT;

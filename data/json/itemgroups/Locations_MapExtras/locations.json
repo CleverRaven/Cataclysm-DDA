@@ -254,6 +254,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 50 ],
       [ "down_pillow", 15 ],
+      [ "teddy_bear", 2 ],
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       [ "antiparasitic", 3 ],
       { "item": "diazepam", "prob": 3, "charges": [ 1, 10 ] },
@@ -1809,6 +1810,7 @@
       [ "bondage_mask", 5 ],
       [ "flask_hip", 5 ],
       [ "corset", 15 ],
+      [ "corset_waist", 15 ],
       [ "tieclip", 3 ],
       { "group": "religious_books", "prob": 18 },
       [ "collarpin", 3 ],
@@ -2328,6 +2330,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 20 ],
       [ "down_pillow", 15 ],
+      [ "teddy_bear", 1 ],
       [ "emer_blanket", 20 ],
       [ "flyer", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -2414,7 +2417,7 @@
       { "item": "boots_combat", "prob": 50 },
       { "item": "helmet_army", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
-      { "item": "ballistic_vest_esapi", "prob": 10 },
+      { "group": "military_ballistic_vest", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 5 },
       {
         "distribution": [

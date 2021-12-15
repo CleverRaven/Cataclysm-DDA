@@ -10,6 +10,8 @@
 #include "flag.h"
 #include "item.h"
 #include "item_group.h"
+#include "options.h"
+#include "options_helpers.h"
 #include "type_id.h"
 
 static const itype_id itype_match( "match" );
@@ -236,5 +238,26 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
                 }
             }
         }
+    }
+}
+
+TEST_CASE( "Event-based item spawns do not spawn outside event", "[item_group]" )
+{
+    override_option ev_spawn_opt( "EVENT_SPAWNS", "items" );
+    REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "items" );
+
+    item_group_id event_test_id( "test_event_item_spawn" );
+    itype_id test_rock( "test_rock" );
+    const item_group::ItemList items = item_group::items_from( event_test_id );
+    REQUIRE( item_group::every_possible_item_from( event_test_id ).size() == 6 );
+    holiday cur_event = get_holiday_from_time();
+
+    if( cur_event == holiday::christmas ) {
+        CHECK( items.size() == 4 );
+    } else if( cur_event == holiday::halloween ) {
+        CHECK( items.size() == 3 );
+    } else {
+        CHECK( items.size() == 1 );
+        CHECK( items[0].typeId() == test_rock );
     }
 }

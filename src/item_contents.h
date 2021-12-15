@@ -42,6 +42,7 @@ class item_contents
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
+        units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
         std::set<flag_id> magazine_flag_restrictions() const;
@@ -63,6 +64,14 @@ class item_contents
         ret_val<bool> can_contain( const item &it ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+
+        /**
+         * returns whether any of the pockets can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, const bool now ) const;
+
         // does not ignore mods
         bool empty_real() const;
         bool empty() const;
@@ -70,6 +79,8 @@ class item_contents
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
+        // Checks if MAGAZINE pockets are all full
+        bool is_magazine_full() const;
         // are any CONTAINER pockets bigger on the inside than the container's volume?
         bool bigger_on_the_inside( const units::volume &container_volume ) const;
         // number of pockets
@@ -147,6 +158,25 @@ class item_contents
         // gets all CONTAINER pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+
+        // called when adding an item as pockets
+        // to a molle item
+        void add_pocket( const item &pocket );
+
+        // called when removing a molle pocket
+        // needs the index of the pocket in both
+        // related vectors
+        // returns the item that was attached
+        item remove_pocket( int index );
+
+        std::vector<const item *> get_added_pockets() const;
+
+        bool has_additional_pockets() const;
+
+        int get_additional_pocket_encumbrance( ) const;
+        int get_additional_space_used() const;
+        units::mass get_additional_weight() const;
+        units::volume get_additional_volume() const;
 
         // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
         std::vector<const item_pocket *> get_all_reloadable_pockets() const;
@@ -292,6 +322,13 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        // pockets that have been custom added
+        std::vector<item> additional_pockets;
+        int additional_pockets_encumbrance = 0; // NOLINT(cata-serialize)
+
+        // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
+        int additional_pockets_space_used = 0; // NOLINT(cata-serialize)
 
         struct item_contents_helper;
 

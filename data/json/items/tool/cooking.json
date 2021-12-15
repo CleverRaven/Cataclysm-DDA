@@ -16,7 +16,7 @@
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -32,7 +32,7 @@
     "//": "butcher knives and carving knives are between 30-40cm.",
     "price": 8000,
     "price_postapoc": 150,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
     "id": "butter_churn",
@@ -107,7 +107,7 @@
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },

@@ -68,5 +68,10 @@
     "type": "weapon_category",
     "id": "FENCING_WEAPONRY",
     "name": "FENCING WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BIONIC_WEAPONRY",
+    "name": "BIONIC WEAPONRY"
   }
 ]

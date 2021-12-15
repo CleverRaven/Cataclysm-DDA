@@ -48,6 +48,7 @@
     "volume": "11 L",
     "price": 9500000,
     "price_postapoc": 8000,
+    "longest_side": "1086 mm",
     "to_hit": -4,
     "bashing": 8,
     "material": [ "superalloy", "plastic" ],
@@ -75,6 +76,7 @@
     "volume": "5500 ml",
     "price": 9500000,
     "price_postapoc": 8000,
+    "longest_side": "1228 mm",
     "to_hit": -2,
     "bashing": 6,
     "material": [ "superalloy", "plastic" ],
@@ -190,5 +192,27 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "gatling_mech_laser_single",
+    "copy-from": "gatling_mech_laser",
+    "looks_like": "m134",
+    "type": "GUN",
+    "name": { "str": "salvaged CMES laser cannon" },
+    "description": "This gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
+  },
+  {
+    "id": "recon_mech_laser_single",
+    "copy-from": "recon_mech_laser",
+    "looks_like": "m107a1",
+    "type": "GUN",
+    "name": { "str": "salvaged RMES marksman laser" },
+    "description": "Formerly belonging to the RMES mech-suit, this powerful long-range laser rifle was never designed for human hands.  You might be able to make it work if you deployed it or mounted it to a vehicle, though, and its long range and potency could be pretty handy if you can keep it powered.",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   }
 ]

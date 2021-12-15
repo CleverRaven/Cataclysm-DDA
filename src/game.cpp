@@ -224,6 +224,10 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+static const harvest_drop_type_id harvest_drop_offal( "offal" );
+static const harvest_drop_type_id harvest_drop_skin( "skin" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -234,6 +238,8 @@ static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
+
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const material_id material_glass( "glass" );
 
@@ -246,6 +252,8 @@ static const mtype_id mon_manhack( "mon_manhack" );
 static const overmap_special_id overmap_special_world( "world" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -261,7 +269,6 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -1679,6 +1686,9 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         if( it.is_medication() && !you.can_use_heal_item( it ) ) {
             return hint_rating::cant;
         }
+        if( it.is_comestible() && it.is_frozen_liquid() ) {
+            return hint_rating::cant;
+        }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
         return hint_rating::iffy;
     } else if( it.type->has_use() ) {
@@ -1780,7 +1790,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() ) {
+        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
@@ -1881,11 +1891,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     if( locThisItem.get_item()->type->has_use() &&
-                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) {
+                        !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
                         avatar_action::use_item( u, locThisItem );
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
+                    } else if( locThisItem.get_item()->has_relic_activation() ) {
+                        avatar_action::use_item( u, locThisItem );
                     } else {
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
                         break;
@@ -2172,6 +2184,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "smash" );
     ctxt.register_action( "loot" );
     ctxt.register_action( "examine" );
+    ctxt.register_action( "examine_and_pickup" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "pickup_all" );
@@ -2270,6 +2283,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2453,6 +2467,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
+    u.get_avatar_diary()->death_entry();
     show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
@@ -2546,6 +2561,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
+    u.get_avatar_diary()->load();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
@@ -2758,8 +2774,8 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-
-    return saved_data && saved_map_memory && saved_log
+    const bool saved_diary = u.get_avatar_diary()->store();
+    return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif
@@ -3902,7 +3918,8 @@ void game::mon_info_update( )
                 need_processing = get_safemode().check_monster(
                                       critter.name(),
                                       critter.attitude_to( u ),
-                                      mon_dist ) == rule_state::BLACKLISTED;
+                                      mon_dist,
+                                      u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
                 need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
             }
@@ -3950,7 +3967,8 @@ void game::mon_info_update( )
                 need_processing = get_safemode().check_monster(
                                       get_safemode().npc_type_name(),
                                       p->attitude_to( u ),
-                                      npc_dist ) == rule_state::BLACKLISTED ;
+                                      npc_dist,
+                                      u.controlling_vehicle ) == rule_state::BLACKLISTED ;
             } else {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
@@ -4292,7 +4310,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -5083,9 +5101,11 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
-
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
+        int prof_bonus = u.get_skill_level( skill_firstaid );
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
+        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
@@ -5144,24 +5164,34 @@ bool game::npc_menu( npc &who )
     return true;
 }
 
-void game::examine()
+void game::examine( bool with_pickup )
 {
     // if we are driving a vehicle, examine the
     // current tile without asking.
     const optional_vpart_position vp = m.veh_at( u.pos() );
     if( vp && vp->vehicle().player_in_control( u ) ) {
-        examine( u.pos() );
+        examine( u.pos(), with_pickup );
         return;
     }
 
-    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Examine where?" ),
-                                            _( "There is nothing that can be examined nearby." ),
-                                            ACTION_EXAMINE, false );
-    if( !examp_ ) {
+    cata::optional<tripoint> examp;
+    if( with_pickup ) {
+        // Examine and/or pick up items
+        examp = choose_adjacent_highlight( _( "Examine terrain, furniture, or items where?" ),
+                                           _( "There is nothing that can be examined nearby." ),
+                                           ACTION_EXAMINE_AND_PICKUP, false );
+    } else {
+        // Examine but do not pick up items
+        examp = choose_adjacent_highlight( _( "Examine terrain or furniture where?" ),
+                                           _( "There is nothing that can be examined nearby." ),
+                                           ACTION_EXAMINE, false );
+    }
+
+    if( !examp ) {
         return;
     }
     u.manual_examine = true;
-    examine( *examp_ );
+    examine( *examp, with_pickup );
     u.manual_examine = false;
 }
 
@@ -5232,7 +5262,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
     return {};
 }
 
-void game::examine( const tripoint &examp )
+void game::examine( const tripoint &examp, bool with_pickup )
 {
     if( disable_robot( examp ) ) {
         return;
@@ -5352,6 +5382,11 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
+            // Pick up items, if there are any, unless there is reason to not to
+            if( with_pickup && m.has_items( examp ) && !u.is_mounted() &&
+                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
+                pickup( examp );
+            }
         }
     }
 }
@@ -5373,6 +5408,18 @@ void game::pickup_all()
 {
     // Pick up items from current and all adjacent tiles
     u.pick_up( game_menus::inv::pickup( u ) );
+}
+
+void game::pickup( const tripoint &p )
+{
+    // Highlight target
+    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
+    } );
+    add_draw_callback( hilite_cb );
+
+    // Pick up items only from the selected tile
+    u.pick_up( game_menus::inv::pickup( u, p ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -5812,6 +5859,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     int tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<P>ersonal" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
@@ -5926,6 +5974,7 @@ void game::zones_manager()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
+    ctxt.register_action( "ADD_PERSONAL_ZONE" );
     ctxt.register_action( "REMOVE_ZONE" );
     ctxt.register_action( "MOVE_ZONE_UP" );
     ctxt.register_action( "MOVE_ZONE_DOWN" );
@@ -5997,7 +6046,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     auto query_position =
-    [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
+    [&]( bool personal = false ) -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
         {
             ui.mark_resize();
@@ -6025,6 +6074,19 @@ void game::zones_manager()
             const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
+                if( personal ) {
+                    tripoint first_abs = tripoint( std::min( first.position->x - u.posx(),
+                                                   second.position->x - u.posx() ),
+                                                   std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                   std::min( first.position->z - u.posz(),
+                                                           second.position->z - u.posz() ) ) ;
+                    tripoint second_abs = tripoint( std::max( first.position->x - u.posx(),
+                                                    second.position->x - u.posx() ),
+                                                    std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
+                                                    std::max( first.position->z - u.posz(),
+                                                            second.position->z - u.posz() ) ) ;
+                    return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                }
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
                                                second.position->x ),
                                                std::min( first.position->y, second.position->y ),
@@ -6035,6 +6097,7 @@ void game::zones_manager()
                                                 std::max( first.position->y, second.position->y ),
                                                 std::max( first.position->z,
                                                         second.position->z ) ) );
+
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6141,8 +6204,47 @@ void game::zones_manager()
                 }
 
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
-                         position->first, position->second, options );
+                         position->first, position->second, options, false );
 
+                zones = get_zones();
+                active_index = zone_cnt - 1;
+
+                stuff_changed = true;
+            } while( false );
+
+            blink = false;
+        } else if( action == "ADD_PERSONAL_ZONE" ) {
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type( true );
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
+
+                const zone_type_id &id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const std::string &name = maybe_name.value();
+
+                const auto position = query_position( true );
+                if( !position ) {
+                    break;
+                }
+
+                //add a zone that is relative to the avatar position
+                mgr.add( name, id, get_player_character().get_faction()->id, false, true,
+                         position->first, position->second, options, true );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 
@@ -6227,7 +6329,7 @@ void game::zones_manager()
                         }
                         break;
                     case 4: {
-                        const auto pos = query_position();
+                        const auto pos = query_position( zone.get_is_personal() );
                         if( pos && ( pos->first != zone.get_start_point() ||
                                      pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
@@ -7931,8 +8033,7 @@ static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_d
             // Also push new entry string
             result_strings.push_back( tname );
         }
-        // Increase count result pair at index s
-        ++result[s].second;
+        result[s].second += it->count_by_charges() ? it->charges : 1;
     }
 
     return result;
@@ -8042,17 +8143,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
+                if( entry.type == harvest_drop_skin && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
+                if( entry.type == harvest_drop_offal && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                if( entry.type == harvest_drop_blood && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }
@@ -8321,7 +8422,9 @@ void game::butcher()
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
-        if( disassembles.size() > 1 ) {
+
+        if( disassembly_stacks.size() > 1 || ( disassembly_stacks.size() == 1 &&
+                                               disassembly_stacks.front().second > 1 ) ) {
             int time_to_disassemble_once = 0;
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
@@ -8510,7 +8613,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         it = &it->only_item();
     }
 
-    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
+    item::reload_option opt = u.ammo_location &&
+                              it->can_reload_with( *u.ammo_location.get_item(), false ) ?
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
@@ -9098,13 +9202,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    int multiplier = 1;
-    if( u.is_on_ground() ) {
-        multiplier *= 3;
-    }
-
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
-                                           via_ramp ) * multiplier;
+                                           via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
         return true;
@@ -9197,6 +9296,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     u.make_footstep_noise();
+
+    //only clatter items every so often based on activity level
+    if( to_turns<int>( calendar::turn - u.last_pocket_noise ) > std::max( static_cast<int>
+            ( 10 - u.activity_level() ), 1 ) )  {
+        u.make_clatter_sound();
+        u.last_pocket_noise = calendar::turn;
+    }
 
     if( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, dest_loc ) ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );

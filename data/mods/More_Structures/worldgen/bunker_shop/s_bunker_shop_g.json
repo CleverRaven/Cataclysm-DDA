@@ -78,11 +78,11 @@
       },
       "place_loot": [
         { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 9, 12 ], "y": [ 13, 19 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 13, 17 ], "y": [ 19, 17 ] },
+        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 13, 17 ], "y": [ 17, 19 ] },
         { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 14, 17 ], "y": [ 13, 15 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 14, 9 ], "y": [ 11, 9 ] },
+        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 9, 14 ], "y": [ 9, 11 ] },
         { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 19, 21 ], "y": [ 13, 17 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 15, 10 ], "y": [ 22, 21 ] },
+        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 10, 15 ], "y": [ 21, 22 ] },
         { "group": "floor_trash", "chance": 90, "repeat": [ 3 ], "x": [ 16, 17 ], "y": [ 9, 11 ] }
       ]
     }

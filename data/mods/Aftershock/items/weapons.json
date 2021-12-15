@@ -239,7 +239,7 @@
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   },
   {
@@ -286,9 +286,9 @@
       "armor": [
         {
           "material": [
-            { "type": "superalloy", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "hardsteel", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "wood", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
           "coverage": 5,
@@ -337,9 +337,9 @@
       "armor": [
         {
           "material": [
-            { "type": "superalloy", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "hardsteel", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "wood", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
           "coverage": 5,
@@ -403,8 +403,8 @@
       "armor": [
         {
           "material": [
-            { "type": "steel", "portion_cover": 100, "thickness": 1.0 },
-            { "type": "plastic", "portion_cover": 100, "thickness": 1.0 }
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
           ],
           "encumbrance": 20,
           "coverage": 5,

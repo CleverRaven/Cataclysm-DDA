@@ -1382,17 +1382,18 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
+    const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
-    if( old_id == new_furniture ) {
+    if( old_id == new_target_furniture ) {
         // Nothing changed
         return;
     }
 
-    current_submap->set_furn( l, new_furniture );
+    current_submap->set_furn( l, new_target_furniture );
 
     // Set the dirty flags
     const furn_t &old_t = old_id.obj();
-    const furn_t &new_t = new_furniture.obj();
+    const furn_t &new_t = new_target_furniture.obj();
 
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
@@ -1403,7 +1404,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         player_character.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
-    if( old_id == f_rubble && new_furniture == f_null ) {
+    if( old_id == f_rubble && new_target_furniture == f_null ) {
         Creature *c = get_creature_tracker().creature_at( p );
         if( c ) {
             c->remove_effect( effect_crushed );
@@ -5465,7 +5466,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
-    const field_type &fd_type = *type_id;
+    // Hacky way to force electricity fields to become unlit electricity fields
+    const field_type_id &converted_type_id = ( type_id == fd_electricity ||
+            type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
+    const field_type &fd_type = *converted_type_id;
+
     intensity = std::min( intensity, fd_type.get_max_intensity() );
     if( intensity <= 0 ) {
         return false;
@@ -5480,7 +5485,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
-    if( current_submap->get_field( l ).add_field( type_id, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
