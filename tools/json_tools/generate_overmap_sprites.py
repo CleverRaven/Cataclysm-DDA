@@ -24,6 +24,7 @@ TILE_ENTRY_TEMPLATE = {
     'rotates': True,
 }
 CREATED_IDS = set()
+VARIANTS = dict()
 SKIPPED = {
     # 'single_color': set(),
     'duplicate': set(),
@@ -226,36 +227,50 @@ def output_image(
     """
     Save image to disk
     """
-    is_duplicate = False
+    if name not in CREATED_IDS:
+        # new ID
 
-    if name in CREATED_IDS:
-        if not duplicates_dir:
-            SKIPPED['duplicate'].add(name)
+        # if len(image.getcolors()) < 2 and not single_terrain:
+        #    SKIPPED['single_color'].add(name)
+        #    return
+
+        if output_dir is None:
+            CREATED_IDS.add(name)
             return
 
-        is_duplicate = True
-        output_dir = duplicates_dir
-        while name in CREATED_IDS:
-            name += '_'
+        if generate_json:
+            tile_entry = TILE_ENTRY_TEMPLATE.copy()
+            tile_entry['id'] = name
+            tile_entry['fg'] = name
+            filepath = output_dir / f'{name}.json'
+            with open(filepath, 'w') as file:
+                json.dump(tile_entry, file)
 
-    # if len(image.getcolors()) < 2 and not single_terrain:
-    #    SKIPPED['single_color'].add(name)
-    #    return
-
-    if output_dir is None:
+        image.save(output_dir / f'{name}.png')
         CREATED_IDS.add(name)
         return
 
-    if generate_json and not is_duplicate:
-        tile_entry = TILE_ENTRY_TEMPLATE.copy()
-        tile_entry['id'] = name
-        tile_entry['fg'] = name
-        filepath = output_dir / f'{name}.json'
-        with open(filepath, 'w') as file:
-            json.dump(tile_entry, file)
+    if not duplicates_dir:
+        # skipping as duplicate
+        SKIPPED['duplicate'].add(name)
+        return
 
-    image.save(output_dir / f'{name}.png')
-    CREATED_IDS.add(name)
+    duplicates_subdir = duplicates_dir / name
+
+    if name not in VARIANTS:
+        # newly discovered ID with variants, move the previously generated one
+        # into a duplicates subdirectory
+        first = output_dir / f'{name}.png'
+
+        duplicates_subdir.mkdir(parents=True, exist_ok=True)
+        first.rename(duplicates_subdir / f'{name}.png')
+        VARIANTS[name] = 2
+
+    else:
+        # ID is known to have variants, just increment the counter
+        VARIANTS[name] += 1
+
+    image.save(duplicates_subdir / f'{name}_{VARIANTS[name]}.png')
 
 
 def main():
