@@ -386,7 +386,7 @@
   {
     "id": "exoskeleton_helmet_filter",
     "type": "TOOL_ARMOR",
-    "name": { "str": "exoskeleton filter module" },
+    "name": { "str": "exoskeleton filter mask" },
     "category": "clothing",
     "description": "A gas filtration module for an exoskeleton helmet.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
     "flags": [ "SLEEP_IGNORE", "EXO_HELMET_GADGET", "ONLY_ONE" ],
