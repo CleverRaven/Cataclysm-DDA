@@ -39,28 +39,6 @@
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
-    "id": "exo_helmet_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_helmet_steel",
-    "name": { "str": "exoskeleton military composite helmet plate" },
-    "description": "Designed to attach to an exoskeleton's helmet, this is a sturdy plate of military composite.",
-    "weight": "16500 g",
-    "volume": "5 L",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_helmet_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_helmet_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_helmet_milcomp",
-    "name": { "str": "shattered military composite helmet plate" },
-    "description": "The remains of a military composite helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_helmet_milcomp",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "head", "eyes", "mouth" ] } ]
-  },
-  {
     "id": "exo_helmet_vcc",
     "type": "ARMOR",
     "category": "armor",
@@ -116,32 +94,11 @@
     "id": "destroyed_exo_torso_plastic_plate",
     "type": "ARMOR",
     "copy-from": "exo_torso_plastic",
-    "name": { "str": "shattered plastic leg plate" },
-    "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "name": { "str": "shattered plastic torso plate" },
+    "description": "The remains of a plastic torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_torso_plastic",
     "material_thickness": 3,
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "exo_torso_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_torso_steel",
-    "name": { "str": "exoskeleton military composite torso plate" },
-    "description": "Designed to attach to an exoskeleton's torso, this is a sturdy plate of military composite.",
-    "weight": "44000 g",
-    "volume": "8 L",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_torso_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_torso_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_torso_milcomp",
-    "name": { "str": "shattered military composite torso plate" },
-    "description": "The remains of a military composite torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_torso_milcomp"
   },
   {
     "id": "exo_torso_vcc",
@@ -160,7 +117,7 @@
     "id": "destroyed_exo_torso_vcc_plate",
     "type": "ARMOR",
     "copy-from": "exo_torso_vcc",
-    "name": { "str": "shattered vacuum carbide plate" },
+    "name": { "str": "shattered vacuum carbide torso plate" },
     "description": "The remains of a vacuum-cast carbide torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_torso_vcc"
   },
@@ -202,28 +159,6 @@
     "description": "The remains of a plastic PSU plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_psu_plastic",
     "material_thickness": 3
-  },
-  {
-    "id": "exo_psu_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_psu_steel",
-    "name": { "str": "exoskeleton military composite PSU plate" },
-    "description": "Designed to attach to an exoskeleton's power supply unit, this is a sturdy plate of military composite.",
-    "weight": "55000 g",
-    "volume": "10 L",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_psu_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_psu_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_psu_milcomp",
-    "name": { "str": "shattered military composite PSU plate" },
-    "description": "The remains of a military composite PSU plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_psu_milcomp",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "exo_psu_vcc",
@@ -298,28 +233,6 @@
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
-    "id": "exo_arm_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_arm_steel",
-    "name": { "str": "exoskeleton military composite arm plate" },
-    "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of military composite.",
-    "weight": "33000 g",
-    "volume": "5500 ml",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_arm_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_arm_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_arm_milcomp",
-    "name": { "str": "shattered military composite arm plate" },
-    "description": "The remains of a military composite arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_arm_milcomp",
-    "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "exo_arm_vcc",
     "type": "ARMOR",
     "category": "armor",
@@ -382,28 +295,6 @@
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "exo_glove_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_arm_steel",
-    "name": { "str": "exoskeleton military composite glove plate" },
-    "description": "Designed to attach to an exoskeleton's glove, this is a sturdy plate of military composite.",
-    "weight": "5500 g",
-    "volume": "1 ml",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_glove_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_glove_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_glove_milcomp",
-    "name": { "str": "shattered military composite glove plate" },
-    "description": "The remains of a military composite glove plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_glove_milcomp",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
     "id": "exo_glove_vcc",
     "type": "ARMOR",
     "category": "armor",
@@ -412,7 +303,7 @@
     "description": "Designed to attach to an exoskeleton's glove, this is a sturdy plate of vacuum-cast composite.",
     "weight": "5500 g",
     "volume": "1 ml",
-    "material": [ "vacuum-cast" ],
+    "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
     "non_functional": "destroyed_exo_glove_vcc_plate"
   },
@@ -475,28 +366,6 @@
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
-    "id": "exo_leg_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_leg_steel",
-    "name": { "str": "exoskeleton military composite legs plate" },
-    "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of military composite.",
-    "weight": "38500 g",
-    "volume": "8 L",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_leg_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_leg_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_leg_milcomp",
-    "name": { "str": "shattered military composite leg plate" },
-    "description": "The remains of a military composite leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_leg_milcomp",
-    "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "exo_leg_vcc",
     "type": "ARMOR",
     "category": "armor",
@@ -505,7 +374,7 @@
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of vacuum-cast carbide.",
     "weight": "38500 g",
     "volume": "8 L",
-    "material": [ "vacuum-cast" ],
+    "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
     "non_functional": "destroyed_exo_leg_vcc_plate"
   },
@@ -554,28 +423,6 @@
     "copy-from": "exo_boot_plastic",
     "name": { "str": "shattered plastic leg plate" },
     "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "foot_l", "foot_r" ] } ]
-  },
-  {
-    "id": "exo_boot_milcomp",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_boot_steel",
-    "name": { "str": "exoskeleton military composite boot plate" },
-    "description": "Designed to attach to an exoskeleton's boot, this is a sturdy plate of military composite.",
-    "weight": "38500 g",
-    "volume": "3250 ml",
-    "material": [ "hardsteel", "ceramic" ],
-    "material_thickness": 8,
-    "non_functional": "destroyed_exo_boot_milcomp_plate"
-  },
-  {
-    "id": "destroyed_exo_boot_milcomp_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_boot_milcomp",
-    "name": { "str": "shattered military composite boot plate" },
-    "description": "The remains of a military composite boot plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_boot_milcomp",
     "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
