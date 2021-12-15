@@ -821,7 +821,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",
