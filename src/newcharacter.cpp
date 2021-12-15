@@ -2163,7 +2163,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     int iheight = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "HOBBIES" ) );
+        draw_character_tabs( w, _( "BACKGROUND" ) );
 
         // Draw filter indicator
         for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
@@ -2743,10 +2743,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
             int skill_level = 0;
 
             // Grab skills from profession
-            for( auto &prof_skill : u.prof->skills() ) {
-                if( prof_skill.first == thisSkill->ident() ) {
-                    skill_level += prof_skill.second;
-                    break;
+            if( !!thisSkill ) {
+                for( auto &prof_skill : u.prof->skills() ) {
+                    if( prof_skill.first == thisSkill->ident() ) {
+                        skill_level += prof_skill.second;
+                        break;
+                    }
                 }
             }
 

@@ -839,6 +839,10 @@ class item : public visitable
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
+        // returns the abstract 'size' of the pocket
+        // used for attaching to molle items
+        int get_pocket_size() const;
+
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
         // player inventory handling penalties from traits
@@ -2668,6 +2672,9 @@ class item : public visitable
         int damage_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
+
+        // additional encumbrance this specific item has
+        units::volume additional_encumbrance = 0_ml;
 
     public:
         char invlet = 0;      // Inventory letter

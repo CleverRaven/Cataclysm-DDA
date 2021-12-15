@@ -17,7 +17,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -43,7 +43,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -104,7 +104,7 @@
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -131,7 +131,7 @@
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -156,7 +156,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
@@ -183,7 +183,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
@@ -212,7 +212,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -238,7 +238,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -264,7 +264,7 @@
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -290,7 +290,7 @@
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -314,7 +314,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -340,7 +340,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
