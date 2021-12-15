@@ -1210,7 +1210,9 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
         case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            if( x_in_y( std::max( adjusted_damage, 2 ), 5 ) ) {
+                add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            }
             break;
 
         case damage_type::ACID:
