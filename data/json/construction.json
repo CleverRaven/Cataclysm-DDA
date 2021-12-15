@@ -1057,6 +1057,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_rubber_mulch",
+    "group": "make_rubber_mulch",
+    "//": "Covers the floor with rubber mulch. Used for constructing exercise spaces.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "shredded_rubber", 200 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_rubber_mulch"
+  },
+  {
+    "type": "construction",
     "id": "constr_railroad_track_small",
     "group": "build_straight_small_railroad_track",
     "category": "CONSTRUCT",
@@ -1135,6 +1147,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_parkour_bars",
+    "group": "build_parkour_bars",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "420 m",
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [ [ [ "pipe", 36 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "f_parkour_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_strconc_wall_halfway",
     "group": "build_reinforced_concrete_wall",
     "//": "Step 2: foundation",
@@ -1160,6 +1184,20 @@
     "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_rope",
+    "group": "build_reinforced_concrete_wall_ropes",
+    "//": "Step 3: finish wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "rope_6", 8 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_strconc_wall_halfway",
+    "post_terrain": "t_concrete_wall_rope"
   },
   {
     "type": "construction",
@@ -4535,6 +4573,18 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_rubber_mulch",
+    "group": "remove_rubber_mulch",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "shredded_rubber", "count": [ 150, 200 ] } ],
+    "pre_terrain": "t_rubber_mulch",
     "post_terrain": "t_dirt"
   },
   {
