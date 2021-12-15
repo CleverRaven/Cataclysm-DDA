@@ -18,12 +18,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [
-          [ { "id": "CUT", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ],
-          [ { "id": "WRENCH" } ]
-        ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 381 ] ],
           [ [ "cattail_stalk", 172 ], [ "dogbane", 172 ], [ "pine_bough", 172 ], [ "straw_pile", 172 ] ],
