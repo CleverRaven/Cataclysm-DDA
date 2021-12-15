@@ -133,6 +133,7 @@ extern const field_type_str_id fd_gas_vent;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;
 extern const field_type_str_id fd_electricity;
+extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_fatigue;
 extern const field_type_str_id fd_push_items;
 extern const field_type_str_id fd_shock_vent;

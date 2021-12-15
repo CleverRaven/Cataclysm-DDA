@@ -765,10 +765,11 @@ bool mattack::shockstorm( monster *z )
             here.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
-    // 5x5 cloud of electricity at the square hit
-    for( const auto &dest : here.points_in_radius( tarp, 2 ) ) {
-        if( !one_in( 4 ) ) {
-            here.add_field( dest, fd_electricity, rng( 1, 3 ) );
+
+    // 3x3 cloud of electricity at the square hit
+    for( const auto &dest : here.points_in_radius( tarp, 1 ) ) {
+        if( one_in( 3 ) ) {
+            here.add_field( dest, fd_electricity, rng( 4, 10 ) );
         }
     }
 
