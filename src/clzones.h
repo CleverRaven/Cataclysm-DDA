@@ -19,6 +19,8 @@
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
+#include "avatar.h"
+#include "map.h"
 
 class JsonObject;
 class JsonOut;
@@ -51,6 +53,8 @@ class zone_type
 
         std::string name() const;
         std::string desc() const;
+
+        bool can_be_personal = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
@@ -239,6 +243,8 @@ class zone_data
         bool invert;
         bool enabled;
         bool is_vehicle;
+        //centered on the player
+        bool is_personal;
         tripoint start;
         tripoint end;
         shared_ptr_fast<zone_options> options;
@@ -249,6 +255,7 @@ class zone_data
             invert = false;
             enabled = false;
             is_vehicle = false;
+            is_personal = false;
             start = tripoint_zero;
             end = tripoint_zero;
             options = nullptr;
@@ -257,13 +264,14 @@ class zone_data
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false ) {
             name = _name;
             type = _type;
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
+            is_personal = personal;
             start = _start;
             end = _end;
 
@@ -314,10 +322,21 @@ class zone_data
         bool get_is_vehicle() const {
             return is_vehicle;
         }
+        bool get_is_personal() const {
+            return is_personal;
+        }
         tripoint get_start_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return start + get_map().getabs( player_character.pos() );
+            }
             return start;
         }
         tripoint get_end_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return end + get_map().getabs( player_character.pos() );
+            }
             return end;
         }
         tripoint get_center_point() const;
@@ -331,6 +350,14 @@ class zone_data
             return *options;
         }
         bool has_inside( const tripoint &p ) const {
+            // if it is personal then the zone is local
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                const tripoint &shift = get_map().getabs( player_character.pos() );
+                return p.x >= start.x + shift.x && p.x <= end.x + shift.x &&
+                       p.y >= start.y + shift.y && p.y <= end.y + shift.y &&
+                       p.z >= start.z + shift.z && p.z <= end.z + shift.z;
+            }
             return p.x >= start.x && p.x <= end.x &&
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
@@ -357,6 +384,10 @@ class zone_manager
         std::vector<zone_data> removed_vzones; // NOLINT(cata-serialize)
 
         std::map<zone_type_id, zone_type> types; // NOLINT(cata-serialize)
+
+        // a count of the number of personal zones the character has
+        int num_personal_zones = 0; // NOLINT(cata-serialize)
+
         // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<std::string, std::unordered_set<tripoint>> area_cache;
         // NOLINTNEXTLINE(cata-serialize)
@@ -384,7 +415,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr );
+                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
@@ -420,7 +451,7 @@ class zone_manager
         const zone_data *get_bottom_zone( const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type() const;
+        cata::optional<zone_type_id> query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
@@ -432,6 +463,8 @@ class zone_manager
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
+
+        bool has_personal_zones() const;
 
         bool save_zones();
         void load_zones();

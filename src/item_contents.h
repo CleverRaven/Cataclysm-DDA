@@ -159,6 +159,25 @@ class item_contents
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
+        // called when adding an item as pockets
+        // to a molle item
+        void add_pocket( const item &pocket );
+
+        // called when removing a molle pocket
+        // needs the index of the pocket in both
+        // related vectors
+        // returns the item that was attached
+        item remove_pocket( int index );
+
+        std::vector<const item *> get_added_pockets() const;
+
+        bool has_additional_pockets() const;
+
+        int get_additional_pocket_encumbrance( ) const;
+        int get_additional_space_used() const;
+        units::mass get_additional_weight() const;
+        units::volume get_additional_volume() const;
+
         // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
         std::vector<const item_pocket *> get_all_reloadable_pockets() const;
 
@@ -303,6 +322,13 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        // pockets that have been custom added
+        std::vector<item> additional_pockets;
+        int additional_pockets_encumbrance = 0; // NOLINT(cata-serialize)
+
+        // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
+        int additional_pockets_space_used = 0; // NOLINT(cata-serialize)
 
         struct item_contents_helper;
 

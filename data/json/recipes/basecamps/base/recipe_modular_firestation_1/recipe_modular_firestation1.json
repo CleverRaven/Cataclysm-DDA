@@ -80,14 +80,11 @@
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "time": "2 h",
     "construction_blueprint": "fbmc_firestation1_kitchen2_storage",
     "blueprint_name": "add storage and root cellar",
     "blueprint_requires": [ { "id": "fbmc_firestation1_kitchen" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "pantry" }, { "id": "sorting" } ],
-    "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen", "amount": 2 } ],
-    "check_blueprint_needs": false,
-    "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen", "amount": 2 } ]
   },
   {
     "type": "recipe",
@@ -438,23 +435,13 @@
     "description": "Let's get a nice workbench built to improve our work.  Place it next to the anvil.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_workbench",
     "blueprint_name": "build a workbench",
     "blueprint_requires": [ { "id": "fbmc_firestation1_tools" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_workbench" }, { "id": "fbmc_firestation_blacksmith_recipes_5" } ],
-    "blueprint_excludes": [ { "id": "fbmc_firestation1_workbench" } ],
-    "blueprint_needs": {
-      "time": "2 h",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
-        "components": [ [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "sheet_metal_small", 8 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_workbench" } ]
   },
   {
     "type": "recipe",

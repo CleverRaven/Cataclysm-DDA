@@ -1566,6 +1566,65 @@
     "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
   },
   {
+    "id": "santa_jacket",
+    "type": "ARMOR",
+    "name": { "str": "santa jacket" },
+    "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
+    "weight": "1500 g",
+    "volume": "4500 ml",
+    "price": 45000,
+    "price_postapoc": 500,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 18 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "santa_jacket_short",
+    "type": "ARMOR",
+    "name": { "str": "short santa jacket" },
+    "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
+    "weight": "1200 g",
+    "volume": "2000 ml",
+    "price": 18000,
+    "price_postapoc": 70,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_red",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 } ],
+    "warmth": 15,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
     "id": "ski_jacket",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
