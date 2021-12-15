@@ -148,7 +148,7 @@
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
@@ -164,7 +164,7 @@
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "time": "32 m",
     "autolearn": true,
@@ -292,7 +292,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [
       [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
@@ -372,7 +372,7 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "skewer_bone", 1 ] ] ]
   },
@@ -386,7 +386,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
@@ -401,7 +401,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
@@ -415,7 +415,7 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
   },
   {
@@ -429,7 +429,7 @@
     "time": "6 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ] ]
   },
   {
@@ -443,7 +443,7 @@
     "time": "2 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "skewer_bone", 20 ], [ "splinter", 20 ] ] ]
   },
   {
@@ -456,7 +456,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ], [ "aluminum_foil", 6 ] ] ]
   },
   {
@@ -470,7 +470,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
       { "proficiency": "prof_leatherworking" },
@@ -490,7 +490,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
       { "proficiency": "prof_leatherworking" },
@@ -517,7 +517,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
       { "proficiency": "prof_furriery" }
@@ -627,7 +627,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "splinter", 1 ], [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -656,7 +656,7 @@
     "time": "18 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "filament", 50 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "superglue", 1 ] ], [ [ "rag", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -832,7 +832,7 @@
     "difficulty": 1,
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
   },
   {
@@ -1256,7 +1256,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 75 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
@@ -1270,7 +1270,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 300 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
@@ -1285,7 +1285,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
@@ -1391,7 +1391,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "2 h",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "components": [
       [ [ "rx12_injector", 1 ] ],
@@ -1423,7 +1423,7 @@
     "time": "2 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [
         [ "bone_sturdy", 1, "LIST" ],
@@ -1458,7 +1458,7 @@
     "difficulty": 2,
     "time": "10 m",
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_plastic_small", 20 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
@@ -1554,7 +1554,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "soldering_standard", 25 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
@@ -1570,7 +1570,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
@@ -1662,7 +1662,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_demihumanleather", 1 ] ]
@@ -1679,7 +1679,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cured_pelt", 1 ] ] ]
   },
   {
@@ -1695,7 +1695,7 @@
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 2 },
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 }
@@ -1720,7 +1720,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ]
@@ -1739,7 +1739,7 @@
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 2 },
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 }
@@ -2192,7 +2192,7 @@
     "skill_used": "fabrication",
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
@@ -2260,7 +2260,7 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -2311,7 +2311,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "training_dummy_light", 1 ] ], [ [ "duct_tape", 50 ], [ "cordage", 2, "LIST" ] ], [ [ "scrap", 150 ] ] ]
   }
 ]

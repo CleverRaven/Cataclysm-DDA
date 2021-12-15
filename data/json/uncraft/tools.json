@@ -6,7 +6,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "50 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
   {
@@ -26,7 +26,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "hose", 3 ] ] ]
   },
   {
@@ -36,7 +36,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
@@ -157,7 +157,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -167,7 +167,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -177,7 +177,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -187,7 +187,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
   }
 ]
