@@ -23,7 +23,7 @@
     "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
   },
   {
-    "id": "modular_exoskeleton_off",
+    "id": "modular_exoskeleton",
     "type": "TOOL_ARMOR",
     "name": { "str": "exoskeleton frame", "str_pl": "exoskeleton frames" },
     "description": "This is a standard exoskeleton frame. Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools. Slots exist for the torso, back, arms, and legs.",
@@ -138,8 +138,8 @@
   },
   {
     "id": "modular_exoskeleton_on",
-    "copy-from": "modular_exoskeleton_off",
-    "repairs_like": "modular_exoskeleton_off",
+    "copy-from": "modular_exoskeleton",
+    "repairs_like": "modular_exoskeleton",
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "exoskeleton frame (on)", "str_pl": "exoskeleton frames (on)" },
@@ -147,8 +147,8 @@
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 7123,
-    "revert_to": "modular_exoskeleton_off",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton_off" }
+    "revert_to": "modular_exoskeleton",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" }
   },
   {
     "id": "exoskeleton_helmet",
