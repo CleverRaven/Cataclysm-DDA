@@ -313,7 +313,7 @@
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
     "use_action": {
       "type": "transform",
-      "msg": "You activate the helmet's audio enhancers.",
+      "msg": "You activate your suit's recoil dampeners.",
       "target": "exo_recoil_on",
       "active": true,
       "need_charges": 1,
