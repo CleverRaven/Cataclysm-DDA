@@ -259,5 +259,50 @@
     "type": "recipe",
     "result": "ballistic_vest_esapi",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_lsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wsurvivor_suit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wsurvivor_suit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "h20survivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsurvivor_suit",
+    "obsolete": true
   }
 ]
