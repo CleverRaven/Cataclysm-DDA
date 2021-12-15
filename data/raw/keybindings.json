@@ -2868,6 +2868,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ADD_PERSONAL_ZONE",
+    "category": "ZONES_MANAGER",
+    "name": "Add personal zone",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "p" },
+      { "input_method": "keyboard_char", "key": "P" },
+      { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "REMOVE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Remove zone",
