@@ -93,7 +93,7 @@ def generate_image(
                 color = SCHEME['colors'].get(
                     TERRAIN_COLOR_NAMES.get(terrain_id))
             if not color:
-                color = 0, 0, 0, 0
+                color = SCHEME['terrain'].get('t_null', (0, 0, 0, 0))
             try:
                 image_data[index_y, index_x] = color
             except TypeError:
