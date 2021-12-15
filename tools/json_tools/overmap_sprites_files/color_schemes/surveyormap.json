@@ -19,6 +19,7 @@
   },
   "terrain": {
     "null": [ 235, 235, 221 ],
+    "t_null": [ 235, 235, 221 ],
     "t_open_air": [ 188, 238, 255 ],
     "t_open_air_rooved_outside": [ 188, 238, 255 ],
     "t_open_air_rooved": [ 188, 238, 255 ],
@@ -37,7 +38,7 @@
     "t_region_groundcover_urban": [ 235, 235, 221 ],
     "t_region_groundcover_forest": [ 163, 187, 151 ],
     "t_region_groundcover_swamp": [ 163, 187, 151 ],
-    "t_region_groundcover_barren": [ 235, 235, 221 ],
+    "t_region_groundcover_barren": [ 225, 225, 211 ],
     "t_region_grass": [ 101, 139, 99 ],
     "t_region_soil": [ 77, 77, 0 ],
     "t_region_tree": [ 155, 155, 0 ],
@@ -319,6 +320,7 @@
     "t_floor_paper_noroof": [ 135, 133, 142 ],
     "t_floor_paper_hard": [ 135, 133, 142 ],
     "t_floor_brood_wasp": [ 135, 133, 142 ],
-    "t_floor_brood_fake": [ 135, 133, 142 ]
+    "t_floor_brood_fake": [ 135, 133, 142 ],
+    "t_fungus": [ 174, 172, 158 ]
   }
 }
