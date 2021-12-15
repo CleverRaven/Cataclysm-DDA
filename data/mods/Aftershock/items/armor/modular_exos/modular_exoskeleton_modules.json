@@ -83,7 +83,7 @@
     "id": "exo_small_aux_power",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "exoskeleton small APU" },
+    "name": { "str": "exoskeleton small auxiliary battery" },
     "description": "This is a small rechargable auxiliary power unit that attaches to an exoskeleton hardpoint.",
     "weight": "2 kg",
     "volume": "1 L",
