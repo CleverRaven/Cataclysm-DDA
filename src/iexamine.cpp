@@ -206,6 +206,7 @@ static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
@@ -1608,38 +1609,52 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
+    item &best_prying = you.item_with_best_of_quality( qual_PRY );
     item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
-    int action = -1;
+    enum act {
+        pick = 0,
+        pry = 1,
+        none = 2
+    };
+    int action = act::none;
 
     if( has_prying && can_pick ) {
-        uilist amenu;
-        amenu.text = string_format( _( "What to do with the %s?" ),
-                                    here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-        amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
-        amenu.addentry( 1, true, 'p', _( "Pry open" ) );
-        amenu.query();
-        if( amenu.ret < 0 || amenu.ret > 1 ) {
-            return;
+        const int pry_has = best_prying.get_quality( qual_PRY );
+        const int pry_req = here.has_furn( examp ) ?
+                            here.furn( examp )->prying->prying_data().prying_level :
+                            here.ter( examp )->prying->prying_data().prying_level;
+        if( pry_has < pry_req ) {
+            action = act::pick;
+        } else {
+            uilist amenu;
+            amenu.text = string_format( _( "What to do with the %s?" ),
+                                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
+            amenu.addentry( 1, true, 'p', _( "Pry open" ) );
+            amenu.query();
+            if( amenu.ret < act::pick || amenu.ret > act::pry ) {
+                return;
+            }
+            action = amenu.ret;
         }
-        action = amenu.ret;
     } else {
-        action = has_prying ? 1 : can_pick ? 0 : -1;
+        action = has_prying ? act::pry : can_pick ? act::pick : act::none;
     }
 
-    if( action == -1 ) {
+    if( action == act::none ) {
         add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                  here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
         return;
-    } else if( action == 1 ) {
+    } else if( action == act::pry ) {
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                               here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
+                               here.has_furn( examp ) ? here.furnname( examp ) :
+                               here.tername( examp ), best_prying.tname() );
         iuse::crowbar( &you, &best_prying, false, examp );
-    } else if( action == 0 ) {
+    } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
     }
 }
