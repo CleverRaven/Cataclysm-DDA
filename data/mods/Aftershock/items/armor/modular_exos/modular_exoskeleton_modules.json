@@ -96,7 +96,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
   },
   {
-    "id": "exo_large_carry_off",
+    "id": "exo_large_carry",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton large load support module (off)" },
@@ -140,17 +140,17 @@
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
     },
     "power_draw": 1500,
-    "revert_to": "exo_large_carry_off",
+    "revert_to": "exo_large_carry",
     "use_action": {
       "ammo_scale": 0,
-      "target": "exo_large_carry_off",
+      "target": "exo_large_carry",
       "msg": "You deactivate the module.",
       "menu_text": "Turn off module",
       "type": "transform"
     }
   },
   {
-    "id": "exo_small_carry_off",
+    "id": "exo_small_carry",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "exoskeleton small load support module (off)" },
@@ -194,17 +194,17 @@
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
     "power_draw": 1500,
-    "revert_to": "exo_small_carry_off",
+    "revert_to": "exo_small_carry",
     "use_action": {
       "ammo_scale": 0,
-      "target": "exo_small_carry_off",
+      "target": "exo_small_carry",
       "msg": "You deactivate the module.",
       "menu_text": "Turn off module",
       "type": "transform"
     }
   },
   {
-    "id": "exo_flashlight_off",
+    "id": "exo_flashlight",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
@@ -228,11 +228,11 @@
   },
   {
     "id": "exo_flashlight_low",
-    "copy-from": "exo_flashlight_off",
+    "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
     "power_draw": 1000,
-    "revert_to": "exo_flashlight_off",
+    "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn to high",
@@ -244,22 +244,22 @@
   },
   {
     "id": "exo_flashlight_high",
-    "copy-from": "exo_flashlight_off",
+    "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
     "power_draw": 2000,
-    "revert_to": "exo_flashlight_off",
+    "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn the heavy duty flashlight off.",
-      "target": "exo_flashlight_off"
+      "target": "exo_flashlight"
     },
     "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
-    "id": "exo_hearing_off",
+    "id": "exo_hearing",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "audio protection (off)", "str_pl": "audio protection (off)" },
@@ -283,22 +283,22 @@
   },
   {
     "id": "exo_hearing_on",
-    "copy-from": "exo_hearing_off",
+    "copy-from": "exo_hearing",
     "type": "TOOL",
     "name": { "str": "audio protection (on)", "str_pl": "audio protection (on)" },
     "power_draw": 500,
-    "revert_to": "exo_hearing_off",
+    "revert_to": "exo_hearing",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off the helmet's audio protection.",
-      "target": "exo_hearing_off"
+      "target": "exo_hearing"
     },
     "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY_ONE" ]
   },
   {
-    "id": "exo_recoil_off",
+    "id": "exo_recoil",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "recoil controller (off)", "str_pl": "recoil controller (off)" },
@@ -325,17 +325,17 @@
   },
   {
     "id": "exo_recoil_on",
-    "copy-from": "exo_recoil_off",
+    "copy-from": "exo_recoil",
     "type": "TOOL",
     "name": { "str": "recoil controller (on)", "str_pl": "recoil controllers (on)" },
     "power_draw": 2000,
-    "revert_to": "exo_recoil_off",
+    "revert_to": "exo_recoil",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off the recoil controller.",
-      "target": "exo_recoil_off"
+      "target": "exo_recoil"
     },
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
     "relic_data": {
@@ -343,7 +343,7 @@
     }
   },
   {
-    "id": "exo_optics_off",
+    "id": "exo_optics",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "8",
@@ -369,17 +369,17 @@
   },
   {
     "id": "exo_optics_on",
-    "copy-from": "exo_optics_off",
+    "copy-from": "exo_optics",
     "type": "TOOL",
     "name": { "str": "exoskeleton enhanced optics (on)", "str_pl": "exoskeleton enhanced optics (on)" },
     "power_draw": 500,
-    "revert_to": "exo_optics_off",
+    "revert_to": "exo_optics",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off helmet's optical enhancement.",
-      "target": "exo_optics_off"
+      "target": "exo_optics"
     },
     "flags": [ "ZOOM", "USE_UPS", "CANT_WEAR", "IR_EFFECT", "EXO_HELMET_GADGET", "ONLY_ONE" ]
   },
