@@ -1028,6 +1028,10 @@ bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
 }
+bool item::is_worn_by_player() const
+{
+    return get_player_character().is_worn( *this );
+}
 
 item item::in_its_container( int qty ) const
 {
@@ -8104,6 +8108,18 @@ bool item::is_container() const
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
 }
 
+bool item::is_container_with_restriction() const
+{
+    if( !is_container() ) {
+        return false;
+    }
+    return contents.is_restricted_container();
+}
+
+bool item::is_single_container_with_restriction() const
+{
+    return contents.is_single_restricted_container();
+}
 
 bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
 {
@@ -8417,9 +8433,9 @@ double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod va
     return modify;
 }
 
-units::length item::max_containable_length() const
+units::length item::max_containable_length( const bool unrestricted_pockets_only ) const
 {
-    return contents.max_containable_length();
+    return contents.max_containable_length( unrestricted_pockets_only );
 }
 
 units::length item::min_containable_length() const
@@ -9922,14 +9938,33 @@ int item::getlight_emit() const
     return lumint;
 }
 
-units::volume item::get_total_capacity() const
+units::volume item::get_total_capacity( const bool unrestricted_pockets_only ) const
 {
-    return contents.total_container_capacity();
+    return contents.total_container_capacity( unrestricted_pockets_only );
 }
 
-units::mass item::get_total_weight_capacity() const
+units::mass item::get_total_weight_capacity( const bool unrestricted_pockets_only ) const
 {
-    return contents.total_container_weight_capacity();
+    return contents.total_container_weight_capacity( unrestricted_pockets_only );
+}
+
+units::volume item::get_remaining_capacity( const bool unrestricted_pockets_only ) const
+{
+    return contents.remaining_container_capacity( unrestricted_pockets_only );
+}
+units::mass item::get_remaining_weight_capacity( const bool unrestricted_pockets_only ) const
+{
+    return contents.remaining_container_capacity_weight( unrestricted_pockets_only );
+}
+
+
+units::volume item::get_total_contained_volume( const bool unrestricted_pockets_only ) const
+{
+    return contents.total_contained_volume( unrestricted_pockets_only );
+}
+units::mass item::get_total_contained_weight( const bool unrestricted_pockets_only ) const
+{
+    return contents.total_contained_weight( unrestricted_pockets_only );
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
@@ -12038,6 +12073,11 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     }
 
     return 0_ml;
+}
+
+bool item::has_unrestricted_pockets() const
+{
+    return contents.has_unrestricted_pockets();
 }
 
 units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
