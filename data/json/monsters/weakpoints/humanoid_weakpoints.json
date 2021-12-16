@@ -10,7 +10,15 @@
         "difficulty": { "ranged": 2, "melee": 1 },
         "armor_mult": { "physical": 0.75 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
         "coverage": 8
       }
     ]
@@ -26,7 +34,47 @@
         "difficulty": { "ranged": 2, "melee": 1 },
         "armor_mult": { "physical": 0.75 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 15
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_natural_armour",
+    "weakpoints": [
+      {
+        "id": "arm",
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 8
+      },
+      {
+        "id": "leg",
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
         "coverage": 15
       }
     ]
@@ -55,7 +103,14 @@
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
           }
         ]
       },
@@ -104,7 +159,14 @@
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
           }
         ]
       }
@@ -134,7 +196,14 @@
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
           }
         ]
       }
@@ -151,7 +220,15 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
         "coverage": 8
       },
       {
@@ -204,8 +281,8 @@
         "name": "the face",
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "coverage_mult": { "ranged": 0.75 },
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage_mult": { "ranged": 0.5 },
         "coverage": 3,
         "effects": [
           {
@@ -220,7 +297,14 @@
             "duration": [ 1, 2 ],
             "chance": 25,
             "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
           }
         ]
       },
@@ -262,7 +346,11 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
         "coverage": 9
       },
       {
@@ -271,8 +359,16 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 7
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 10
       }
     ]
   }
