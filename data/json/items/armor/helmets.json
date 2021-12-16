@@ -571,7 +571,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
-    {
+  {
     "id": "flight_helmet",
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
