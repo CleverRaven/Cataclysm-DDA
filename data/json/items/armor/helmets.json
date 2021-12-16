@@ -498,14 +498,14 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "nomex" ],
+    "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -513,8 +513,8 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
@@ -522,8 +522,8 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
@@ -551,14 +551,14 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "nomex" ],
+    "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "encumbrance": 25,
         "coverage": 100,
