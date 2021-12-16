@@ -218,6 +218,21 @@ struct islot_brewable {
     void deserialize( const JsonObject &jo );
 };
 
+/** Material data for individual armor body parts */
+struct part_material {
+    material_id id; //material type
+    int cover; //portion coverage % of this material
+    float thickness; //portion thickness of this material
+
+    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material( material_id id, int cover, float thickness ) :
+        id( id ), cover( cover ), thickness( thickness ) {}
+    part_material( const std::string &id, int cover, float thickness ) :
+        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct armor_portion_data {
 
     // How much this piece encumbers the player.
@@ -234,10 +249,10 @@ struct armor_portion_data {
     int cover_vitals = 0;
 
     /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
+     * Average material thickness for all materials from
+     * this armor portion
      */
-    float thickness = 0.0f;
+    float avg_thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -247,15 +262,30 @@ struct armor_portion_data {
      */
     int env_resist_w_filter = 0;
 
-    // What materials this portion is made of, for armor purposes
-    std::vector<material_id> materials;
+    /**
+     * What materials this portion is made of, for armor purposes.
+     * Includes material portion and thickness.
+     */
+    std::vector<part_material> materials;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
+    std::vector<sub_bodypart_str_id> sub_coverage;
+
+
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
 
     void deserialize( const JsonObject &jo );
 };
@@ -265,6 +295,10 @@ struct islot_armor {
     * Whether this item can be worn on either side of the body
     */
     bool sided = false;
+    /**
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
+     */
+    itype_id non_functional;
     /**
      * How much warmth this item provides.
      */
@@ -282,13 +316,40 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
 
-    // Layer, encumbrance and coverage information.
+    /**
+     * If the item in question has any sub coverage when testing for encumberance
+     */
+    bool has_sub_coverage = false;
+
+    // Layer, encumbrance and coverage information for each body part.
+    // This isn't directly loaded in but is instead generated from the loaded in
+    // sub_data vector
     std::vector<armor_portion_data> data;
+
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
 
     bool was_loaded = false;
 
@@ -636,11 +697,22 @@ struct islot_gunmod : common_ranged_data {
     int sight_dispersion = -1;
 
     /**
-     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming.
-     *  Higher is better. In case of multiple usable sights,
-     *  the one with highest aim speed is used.
+    * If the target has not appeared in the scope, the aiming speed is relatively low.
+    * When the target appears in the scope, the aiming speed will be greatly accelerated.
+    * FoV uses a more realistic method to reflect the aiming speed of the sight to insteadthe original abstract aim_speed
+    */
+    int field_of_view = -1;
+
+    /**
+     *  Its position has been replaced by FoV.
+     *  But it is still retained due to compatibility considerations.
      */
     int aim_speed = -1;
+
+    /**
+    * This value is used to reflect other factors affecting aiming speed except Fov
+    */
+    double aim_speed_modifier = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -679,6 +751,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
+
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -744,6 +819,19 @@ struct islot_ammo : common_ranged_data {
      * Default charges.
      */
     int def_charges = 1;
+
+    /**
+     * Number of projectiles fired per round, e.g. shotgun shot.
+     */
+    int count = 1;
+    /**
+     * Spread/dispersion between projectiles fired from the same round.
+     */
+    int shot_spread = 0;
+    /**
+     * Damage for a single shot.
+     */
+    damage_instance shot_damage;
 
     /**
      * TODO: document me.
@@ -923,7 +1011,7 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
-        std::set<std::string> weapon_category;
+        std::set<weapon_category_id> weapon_category;
 
         std::string snippet_category;
         translation description; // Flavor text

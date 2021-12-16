@@ -201,6 +201,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_rubber_mulch",
+    "name": "rubber mulch",
+    "description": "A large area mulched with shredded rubber.  It's a softer place to land than regular dirt.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 3,
+    "connects_to": "MULCHFLOOR",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_pavement",
     "name": "pavement",
     "connects_to": "PAVEMENT",

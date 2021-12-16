@@ -107,6 +107,10 @@ class recipe
             return result_;
         }
 
+        const itype_id &container_id() const {
+            return container;
+        }
+
         bool was_loaded = false;
         bool obsolete = false;
 

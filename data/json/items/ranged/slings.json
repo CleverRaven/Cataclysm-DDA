@@ -15,7 +15,7 @@
     "skill": "throw",
     "ammo": [ "pebble" ],
     "weight": "96 g",
-    "volume": "250 ml",
+    "volume": "80 ml",
     "price_postapoc": 250,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },

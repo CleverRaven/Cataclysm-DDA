@@ -7,6 +7,9 @@
 #include "mutation.h"
 #include "options.h"
 
+static const mood_face_id mood_face_DEFAULT( "DEFAULT" );
+static const mood_face_id mood_face_DEFAULT_HORIZONTAL( "DEFAULT_HORIZONTAL" );
+
 namespace
 {
 generic_factory<mood_face> mood_face_factory( "mood_face" );
@@ -98,8 +101,11 @@ const mood_face_id &avatar::character_mood_face()
 
     // If we didn't get it first try, we're not getting it again
     if( !mood_face_cache.has_value() ) {
-        mood_face_cache = mood_face_id::NULL_ID();
-        debugmsg( "No valid mood_face found for: %s", face_type );
+        if( mood_face_horizontal ) {
+            mood_face_cache = mood_face_DEFAULT_HORIZONTAL;
+        } else {
+            mood_face_cache = mood_face_DEFAULT;
+        }
     }
 
     return mood_face_cache.value();

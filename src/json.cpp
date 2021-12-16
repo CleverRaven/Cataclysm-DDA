@@ -30,7 +30,7 @@
 static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
-    return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
+    return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
 }
 
 // Thw following function would fit more logically in catacharset.cpp, but it's

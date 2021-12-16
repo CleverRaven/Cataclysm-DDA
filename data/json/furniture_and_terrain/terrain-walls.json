@@ -412,6 +412,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_concrete_wall_rope",
+    "name": "concrete wall with ropes",
+    "looks_like": "t_rock",
+    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.  Used to train parkour.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 10,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] }, { "item": "rope_6", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_metal",
     "alias": [ "t_wall_metal_h", "t_wall_metal_v" ],
     "name": "metal wall",

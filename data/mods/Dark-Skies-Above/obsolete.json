@@ -17,7 +17,7 @@
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
@@ -37,7 +37,7 @@
     "cutting": 31,
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {

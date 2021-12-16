@@ -58,7 +58,7 @@
       "effect": { "id": "death_halfworm", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_halfworm",
@@ -84,7 +84,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_worm",
@@ -115,7 +115,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "upgrades": { "half_life": 20, "into": "mon_graboid" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_worm_small",
@@ -341,6 +341,77 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "abstract": "base_bee",
+    "type": "MONSTER",
+    "name": { "str": "bee" },
+    "default_faction": "bee",
+    "species": [ "INSECT_FLYING" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "e",
+    "aggression": 100,
+    "morale": 100,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0.25 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "damage_mult": { "all": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      },
+      {
+        "name": "the waist",
+        "crit_mult": { "all": 1.75 },
+        "difficulty": { "ranged": 4, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 15
+      }
+    ]
+  },
+  {
     "id": "mon_bee_small",
     "type": "MONSTER",
     "name": { "str": "bee" },
@@ -358,6 +429,7 @@
     "name": { "str": "giant bee" },
     "description": "With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "default_faction": "bee",
+    "copy-from": "base_bee",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "diff": 2,
@@ -403,6 +475,71 @@
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
+    "abstract": "base_centipede",
+    "type": "MONSTER",
+    "name": { "str": "centipede" },
+    "default_faction": "centipede",
+    "species": [ "CENTIPEDE" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "e",
+    "aggression": 100,
+    "morale": 100,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the underbelly",
+        "crit_mult": { "all": 1.5 },
+        "difficulty": { "ranged": 7, "melee": 2 },
+        "armor_mult": { "physical": 0.35 },
+        "coverage_mult": { "point": 0.45 },
+        "coverage": 15
+      }
+    ]
+  },
+  {
     "id": "mon_centipede_small",
     "type": "MONSTER",
     "name": { "str": "centipede" },
@@ -422,6 +559,7 @@
     "special_attacks": [
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 10,
         "move_cost": 115,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 8 } ],
@@ -447,6 +585,7 @@
     "description": "A two meter long centipede with a menacing set of venom-dripping mandibles and a worrying number of grabbing appendages, moving swiftly on dozens of spindly legs.  It has a pair of small compound eyes, but seems to mostly orient itself with its antennae.",
     "symbol": "a",
     "color": "light_green",
+    "copy-from": "base_centipede",
     "default_faction": "centipede",
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -540,16 +679,16 @@
     "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic grey, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
     "symbol": "A",
     "color": "dark_gray",
+    "copy-from": "base_centipede",
     "default_faction": "centipede",
     "bodytype": "insect",
     "material": [ "iflesh" ],
     "species": [ "CENTIPEDE" ],
     "volume": "950 L",
-    "weight": "2500 kg",
+    "weight": "1000 kg",
     "hp": 850,
     "speed": 110,
     "attack_cost": 110,
-    "aggression": 100,
     "regen_morale": true,
     "melee_skill": 6,
     "melee_dice": 3,
@@ -581,6 +720,70 @@
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
   },
   {
+    "abstract": "base_dragonfly",
+    "type": "MONSTER",
+    "name": { "str": "dragonfly" },
+    "default_faction": "aquatic_predator",
+    "species": [ "INSECT" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "e",
+    "aggression": 100,
+    "morale": 100,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 4 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 8,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 6, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      }
+    ]
+  },
+  {
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly naiad" },
@@ -604,6 +807,7 @@
       {
         "id": "stretch_attack",
         "range": 2,
+        "attack_upper": false,
         "hit_dmg_u": "The %1$s's mouthpart shoots out at you, and it pierces your %2$s!",
         "hit_dmg_npc": "The %1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
         "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
@@ -629,6 +833,7 @@
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
+    "copy-from": "base_dragonfly",
     "volume": "40 L",
     "weight": "40750 g",
     "hp": 50,
@@ -674,6 +879,7 @@
     "default_faction": "dragonfly",
     "bodytype": "insect",
     "species": [ "INSECT" ],
+    "copy-from": "base_dragonfly",
     "hp": 1100,
     "speed": 100,
     "material": [ "iflesh" ],
@@ -1235,7 +1441,7 @@
     "id": "mon_spider_wolf_small",
     "type": "MONSTER",
     "name": { "str": "wolf spider" },
-    "description": "A shaggy brown mutant spider the size of a dog with a long legs, two especially big eyes, and oversized fangs.",
+    "description": "A shaggy brown mutant spider the size of a dog with eight long legs, two especially big eyes, and oversized fangs.",
     "copy-from": "mon_spider_wolf_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
@@ -1292,6 +1498,77 @@
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
+    "abstract": "base_wasp",
+    "type": "MONSTER",
+    "name": { "str": "wasp" },
+    "default_faction": "wasp",
+    "species": [ "INSECT_FLYING" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "e",
+    "aggression": 100,
+    "morale": 100,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0.25 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "damage_mult": { "all": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      },
+      {
+        "name": "the waist",
+        "crit_mult": { "all": 1.75 },
+        "difficulty": { "ranged": 4, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 15
+      }
+    ]
+  },
+  {
     "id": "mon_wasp_larva",
     "type": "MONSTER",
     "name": { "str": "wasp larva", "str_pl": "wasp larvae" },
@@ -1335,6 +1612,7 @@
     "name": { "str": "wasp" },
     "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  It flies around erratically, searching for smaller prey.",
     "default_faction": "wasp",
+    "copy-from": "base_wasp",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "diff": 2,
@@ -1387,7 +1665,6 @@
     "description": "A mutated wasp worker, buzzing around their nest.  While their foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp_small",
     "aggression": 0,
-    "morale": 100,
     "melee_skill": 6,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
@@ -1410,6 +1687,7 @@
     "description": "A gigantic wasp worker, scouring the landscape for an easy meal to feed the next generation.  Its abdomen glowers with ominous yellow stripes and ends in a half-hidden stinger the size of a kitchen knife.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
+    "copy-from": "base_wasp",
     "species": [ "INSECT_FLYING" ],
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -1464,7 +1742,6 @@
     "description": "A wasp worker grown to the size of a person, buzzing around their home.  While their foraging sisters are relatively content to live and let live, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp",
     "aggression": 4,
-    "morale": 100,
     "melee_skill": 9,
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] }
@@ -1643,6 +1920,77 @@
     "harvest": "arachnid"
   },
   {
+    "abstract": "base_ant",
+    "type": "MONSTER",
+    "name": { "str": "ant" },
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "e",
+    "aggression": 100,
+    "morale": 100,
+    "weakpoints": [
+      {
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0.25 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "damage_mult": { "all": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      },
+      {
+        "name": "the waist",
+        "crit_mult": { "all": 1.75 },
+        "difficulty": { "ranged": 4, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 15
+      }
+    ]
+  },
+  {
     "id": "mon_ant_small",
     "type": "MONSTER",
     "name": { "str": "ant" },
@@ -1659,6 +2007,7 @@
     "name": { "str": "giant ant" },
     "description": "An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "default_faction": "ant",
+    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "62500 ml",
@@ -1703,6 +2052,7 @@
     "name": { "str": "giant acidic ant" },
     "description": "A monstrous brown ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
     "default_faction": "acid_ant",
+    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "diff": 2,
@@ -1764,6 +2114,7 @@
     "description": "An enormous brown ant with an elongated, pulsating abdomen.  Its orifice seems developed only for egg-laying rather than spraying acid like the rest of the colony, but it doesn't seem affected by the acrid liquid either.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
+    "copy-from": "base_ant",
     "species": [ "INSECT" ],
     "diff": 2,
     "volume": "92500 ml",
@@ -1774,7 +2125,6 @@
     "symbol": "a",
     "color": "green",
     "aggression": 20,
-    "morale": 100,
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 4,
@@ -1794,6 +2144,7 @@
     "name": { "str": "acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with its huge mandibles, a corrosive liquid seeps from the end of its bloated abdomen.",
     "default_faction": "acid_ant",
+    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "diff": 2,
@@ -1805,7 +2156,6 @@
     "symbol": "a",
     "color": "brown",
     "aggression": 40,
-    "morale": 100,
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -1854,6 +2204,7 @@
     "name": { "str": "queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "default_faction": "ant",
+    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "92500 ml",
@@ -1863,7 +2214,6 @@
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "light_red",
-    "morale": 100,
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 4,
@@ -1884,6 +2234,7 @@
     "name": { "str": "soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
     "default_faction": "ant",
+    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "62500 ml",
@@ -1894,7 +2245,6 @@
     "symbol": "a",
     "color": "red",
     "aggression": 30,
-    "morale": 100,
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -2243,7 +2593,58 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ],
+    "weakpoints": [
+      {
+        "name": "beneath the outer wings",
+        "coverage": 35,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.25 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 15
+      }
+    ]
   },
   {
     "id": "mon_grasshopper_small",
@@ -2473,16 +2874,17 @@
     "special_attacks": [
       [ "RANGED_PULL", 10 ],
       [ "GRAB", 3 ],
-      [ "impale", 10 ],
+      { "id": "impale", "attack_upper": false, "cooldown": 10 },
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 4,
         "accuracy": 8,
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ]
       }
     ],
-    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
+    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_antlion_giant",

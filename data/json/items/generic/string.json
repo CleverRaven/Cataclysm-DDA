@@ -47,9 +47,15 @@
     "name": { "str": "short rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "armor_data": {
-      "material": [ "cotton" ],
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 3, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 3,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
     },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [
@@ -76,9 +82,14 @@
     "name": { "str": "long rope" },
     "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "armor_data": {
-      "material": [ "cotton" ],
-      "material_thickness": 6,
-      "armor": [ { "encumbrance": 12, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
+          "encumbrance": 12,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "weight": 5, "volume": 5, "price": 5 },

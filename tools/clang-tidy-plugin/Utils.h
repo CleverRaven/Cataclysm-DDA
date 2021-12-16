@@ -27,11 +27,15 @@ namespace cata
 {
 
 inline StringRef getText(
+    const ast_matchers::MatchFinder::MatchResult &Result, CharSourceRange Range )
+{
+    return Lexer::getSourceText( Range, *Result.SourceManager, Result.Context->getLangOpts() );
+}
+
+inline StringRef getText(
     const ast_matchers::MatchFinder::MatchResult &Result, SourceRange Range )
 {
-    return Lexer::getSourceText( CharSourceRange::getTokenRange( Range ),
-                                 *Result.SourceManager,
-                                 Result.Context->getLangOpts() );
+    return getText( Result, CharSourceRange::getTokenRange( Range ) );
 }
 
 template <typename T>

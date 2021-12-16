@@ -737,17 +737,6 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_FAVORITE",
-    "category": "NPC_TRADE",
-    "name": "Toggle items as favorite",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "*" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
-      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
-    ]
-  },
-  {
-    "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
     "bindings": [
@@ -1403,6 +1392,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_INFOBOX_UP",
+    "name": "Scroll description up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_INFOBOX_DOWN",
+    "name": "Scroll description down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
@@ -1728,6 +1729,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Examine Contents",
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -1748,8 +1756,14 @@
     "type": "keybinding",
     "id": "SHOW_CONTENTS",
     "category": "INVENTORY",
-    "name": "Hide contents",
+    "name": "Show contents",
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_SKIP_UNSELECTABLE",
+    "category": "INVENTORY",
+    "name": "Toggle skipping unselectable items"
   },
   {
     "type": "keybinding",
@@ -1869,10 +1883,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Examine Nearby Terrain",
+    "name": "Examine nearby terrain or furniture",
     "category": "DEFAULTMODE",
     "id": "examine",
     "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Examine nearby terrain, furniture, and items",
+    "category": "DEFAULTMODE",
+    "id": "examine_and_pickup"
   },
   {
     "type": "keybinding",
@@ -1883,10 +1903,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Nearby Item(s)",
+    "name": "Pick up items from one nearby tile",
     "category": "DEFAULTMODE",
     "id": "pickup",
     "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pick up items from all nearby tiles",
+    "category": "DEFAULTMODE",
+    "id": "pickup_all"
   },
   {
     "type": "keybinding",
@@ -2842,6 +2868,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ADD_PERSONAL_ZONE",
+    "category": "ZONES_MANAGER",
+    "name": "Add personal zone",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "p" },
+      { "input_method": "keyboard_char", "key": "P" },
+      { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "REMOVE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Remove zone",
@@ -3076,7 +3113,7 @@
     "type": "keybinding",
     "id": "TOGGLE_ENTRY",
     "category": "INVENTORY",
-    "name": "Mark/unmark selected item",
+    "name": "Select/unselect highlighted item",
     "bindings": [
       { "input_method": "keyboard_any", "key": "l" },
       { "input_method": "keyboard_any", "key": "RIGHT" },
@@ -3091,7 +3128,6 @@
     "category": "INVENTORY",
     "name": "Next column",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "TAB" },
       { "input_method": "keyboard_any", "key": "h" },
       { "input_method": "keyboard_any", "key": "LEFT" },
       { "input_method": "keyboard_any", "key": "4" },
@@ -3110,14 +3146,14 @@
     "type": "keybinding",
     "id": "TOGGLE_NON_FAVORITE",
     "category": "INVENTORY",
-    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "name": "Select/unselect non-favorite items in multidrop menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
   },
   {
     "type": "keybinding",
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
-    "name": "Mark a specific amount of selected item"
+    "name": "Select a specific amount of highlighted item"
   },
   {
     "type": "keybinding",
@@ -3216,6 +3252,13 @@
       { "input_method": "keyboard_char", "key": "D" },
       { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXAMINE_CONTENTS",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Examine items in container",
+    "bindings": [ { "input_method": "keyboard_char", "key": "o" } ]
   },
   {
     "type": "keybinding",
@@ -3546,45 +3589,9 @@
   {
     "type": "keybinding",
     "id": "SWITCH_LISTS",
-    "category": "NPC_TRADE",
+    "category": "INVENTORY",
     "name": "Switch lists",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "PAGE_UP",
-    "category": "NPC_TRADE",
-    "name": "Back",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "PPAGE" },
-      { "input_method": "keyboard_char", "key": "<" },
-      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] }
-    ]
-  },
-  {
-    "type": "keybinding",
-    "id": "PAGE_DOWN",
-    "category": "NPC_TRADE",
-    "name": "More",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "NPAGE" },
-      { "input_method": "keyboard_char", "key": ">" },
-      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] }
-    ]
-  },
-  {
-    "type": "keybinding",
-    "id": "EXAMINE",
-    "category": "NPC_TRADE",
-    "name": "Examine item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "QUIT",
-    "category": "NPC_TRADE",
-    "name": "Cancel trading",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
   },
   {
     "type": "keybinding",
@@ -3665,5 +3672,26 @@
     "category": "NEW_CHAR_TRAITS",
     "name": "Sort traits list",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE PAGE",
+    "name": "Delete page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "d" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPORT_DIARY",
+    "name": "Export diary to .txt",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEW_PAGE",
+    "name": "Add new page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "n" ] } ]
   }
 ]

@@ -391,6 +391,7 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
+        bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
         monster_horde_attraction get_horde_attraction();
@@ -429,7 +430,7 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death();
+        void drop_items_on_death( item *corpse );
 
         // Other
         /**
@@ -543,7 +544,7 @@ class monster : public Creature
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
          * and to reviving monsters that spawn from a corpse.
          */
-        void init_from_item( const item &itm );
+        void init_from_item( item &itm );
 
         /**
          * Do some cleanup and caching as monster is being unloaded from map.

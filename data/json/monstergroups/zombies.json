@@ -38,8 +38,7 @@
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_null", "weight": 360 },
-      { "monster": "mon_zombie_child", "weight": 295, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_child", "weight": 295, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_tough", "weight": 75, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fat", "weight": 50, "cost_multiplier": 2 },
@@ -331,11 +330,11 @@
     "name": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_null", "weight": 100 },
-      { "monster": "mon_zombie_child", "weight": 650 },
-      { "monster": "mon_zombie_fat", "weight": 50 },
-      { "monster": "mon_zombie_tough", "weight": 50 },
-      { "monster": "mon_zombie", "weight": 150 }
+      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_zombie_child", "weight": 4 },
+      { "monster": "mon_zombie_fat", "weight": 1 },
+      { "monster": "mon_zombie_tough", "weight": 1 },
+      { "monster": "mon_zombie", "weight": 3 }
     ]
   },
   {
