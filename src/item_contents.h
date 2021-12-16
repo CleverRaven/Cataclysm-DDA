@@ -159,6 +159,10 @@ class item_contents
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
+        // gets all magazine well in this item
+        ret_val<std::vector<const item_pocket *>> get_all_magazine_wells() const;
+        ret_val<std::vector<item_pocket *>> get_all_magazine_wells();
+
         // called when adding an item as pockets
         // to a molle item
         void add_pocket( const item &pocket );

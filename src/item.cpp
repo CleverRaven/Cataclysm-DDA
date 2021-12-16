@@ -316,6 +316,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         }
     }
 
+    if( is_gun() ) {
+        for( item_pocket *pocket : get_all_magazine_wells().value() ) {
+            pocket->settings.set_collapse( true );
+        }
+    }
+
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         itype_id nanofab_recipe =
             item_group::item_from( type->nanofab_template_group ).typeId();
@@ -8126,6 +8132,16 @@ ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() cons
 ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
 {
     return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_magazine_wells() const
+{
+    return contents.get_all_magazine_wells();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_magazine_wells()
+{
+    return contents.get_all_magazine_wells();
 }
 
 item_pocket *item::contained_where( const item &contained )

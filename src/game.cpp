@@ -1617,18 +1617,29 @@ static hint_rating rate_action_collapse( const item &it )
             }
         }
         return hint_rating::cant;
+    } else if( it.is_gun() ) {
+        for( const item_pocket *magazine_well : it.get_all_magazine_wells().value() ) {
+            if( !magazine_well->settings.is_collapsed() ) {
+                return hint_rating::good;
+            }
+        }
     }
     return hint_rating::cant;
 }
 
 static hint_rating rate_action_expand( const item &it )
 {
-    if( !it.is_container() ) {
-        return hint_rating::cant;
-    }
-    for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
-        if( pocket->settings.is_collapsed() ) {
-            return hint_rating::good;
+    if( it.is_container() ) {
+        for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
+            if( pocket->settings.is_collapsed() ) {
+                return hint_rating::good;
+            }
+        }
+    } else if( it.is_gun() ) {
+        for( const item_pocket *magazine_well : it.get_all_magazine_wells().value() ) {
+            if( magazine_well->settings.is_collapsed() ) {
+                return hint_rating::good;
+            }
         }
     }
     return hint_rating::cant;
@@ -2035,6 +2046,10 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.is_container() ) {
                         for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
                             pocket->settings.set_collapse( cMenu == '>' );
+                        }
+                    } else if( oThisItem.is_gun() ) {
+                        for( item_pocket *magazine_well : oThisItem.get_all_magazine_wells().value() ) {
+                            magazine_well->settings.set_collapse( cMenu == '>' );
                         }
                     }
                     break;

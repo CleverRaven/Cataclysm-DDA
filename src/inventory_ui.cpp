@@ -797,6 +797,11 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
                 pocket->settings.set_collapse( collapse );
                 collapsed = true;
             }
+        } else if( loc.get_item()->is_gun() ) {
+            for( item_pocket *magazine_well : loc->get_all_magazine_wells().value() ) {
+                magazine_well->settings.set_collapse( collapse );
+                collapsed = true;
+            }
         }
     }
 

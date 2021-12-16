@@ -773,6 +773,9 @@ class item : public visitable
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
+        // gets all magazine well in this item
+        ret_val<std::vector<const item_pocket *>> get_all_magazine_wells() const;
+        ret_val<std::vector<item_pocket *>> get_all_magazine_wells();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled

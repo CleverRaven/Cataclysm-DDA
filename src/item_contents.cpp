@@ -1434,6 +1434,42 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     }
 }
 
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_magazine_wells() const
+{
+    std::vector<const item_pocket *> magazine_wells;
+    bool found = false;
+
+    for( const item_pocket &magazine_well : contents ) {
+        if( magazine_well.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            found = true;
+            magazine_wells.push_back( &magazine_well );
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<const item_pocket *>>::make_success( magazine_wells );
+    } else {
+        return ret_val<std::vector<const item_pocket *>>::make_failure( magazine_wells );
+    }
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_magazine_wells()
+{
+    std::vector<item_pocket *> magazine_wells;
+    bool found = false;
+
+    for( item_pocket &magazine_well : contents ) {
+        if( magazine_well.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            found = true;
+            magazine_wells.push_back( &magazine_well );
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<item_pocket *>>::make_success( magazine_wells );
+    } else {
+        return ret_val<std::vector<item_pocket *>>::make_failure( magazine_wells );
+    }
+}
+
 std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;
