@@ -3766,7 +3766,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_profession );
 
         werase( w_hobbies );
-        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Hobbies: " ) );
+        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
         if( you.hobbies.empty() ) {
             mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
         } else {
