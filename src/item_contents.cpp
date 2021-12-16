@@ -1589,17 +1589,14 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            total_vol += pocket.volume_capacity();
-            if( restriction_condition ) {
-                const pocket_data *p_data = pocket.get_pocket_data();
-                // if the pocket has default volume or is a holster that has an
-                // item in it instead of returning the volume return the volume of things contained
-                if( pocket.volume_capacity() >= pocket_data::max_volume_for_container || ( p_data->holster &&
-                        !pocket.all_items_top().empty() ) ) {
-                    total_vol += pocket.contains_volume();
-                } else {
-                    total_vol += pocket.volume_capacity();
-                }
+            const pocket_data *p_data = pocket.get_pocket_data();
+            // if the pocket has default volume or is a holster that has an
+            // item in it instead of returning the volume return the volume of things contained
+            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container || ( p_data->holster &&
+                    !pocket.all_items_top().empty() ) ) {
+                total_vol += pocket.contains_volume();
+            } else {
+                total_vol += pocket.volume_capacity();
             }
         }
     }
