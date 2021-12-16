@@ -48,7 +48,7 @@
       [
         [ "chem_black_powder", 90 ],
         [ "gunpowder", 90 ],
-        [ "chem_match_head_powder", 18 ],
+        [ "red_phosphorous", 18 ],
         [ "gunpowder_pistol", 90 ],
         [ "gunpowder_shotgun", 90 ],
         [ "gunpowder_magnum_pistol", 80 ],

@@ -13,7 +13,7 @@
     "cutting": 16,
     "flags": [ "STAB", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ]
   },
   {
     "type": "GENERIC",
@@ -31,6 +31,6 @@
     "cutting": 28,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "weapon_category": [ "BIONIC_WEAPONRY" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 22 ] ]
   }
 ]
