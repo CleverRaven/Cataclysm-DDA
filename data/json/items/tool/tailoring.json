@@ -270,7 +270,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "yellow",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ]
   },
