@@ -68,7 +68,7 @@
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.2 },
         "difficulty": { "melee": 2, "ranged": 4 },
-        "coverage_mult": { "ranged": 0.70 },
+        "coverage_mult": { "ranged": 0.7 },
         "coverage": 50,
         "effects": [
           {

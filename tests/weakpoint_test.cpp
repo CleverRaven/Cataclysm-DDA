@@ -164,8 +164,8 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
 TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
 {
     GIVEN( "100 bullet damage, 0 armor penetration" ) {
-        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BULLET, 100.0f,
-                                               0.0f ), 100000 );
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BULLET,
+                                               100.0f, 0.0f ), 100000 );
         THEN( "Verify hits and damage" ) {
             CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );
             CHECK( wr1.AveDam( "inline head" ) == Approx( 100.0f ).epsilon( 0.020f ) );
@@ -183,8 +183,8 @@ TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
     }
 
     GIVEN( "100 bashing damage, 50 armor penetration" ) {
-        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BASH, 100.0f,
-                                           50.0f ), 100000 );
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BASH,
+                                               100.0f, 50.0f ), 100000 );
         THEN( "Verify hits and damage" ) {
             CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );
             CHECK( wr1.AveDam( "inline head" ) == Approx( 100.0f ).epsilon( 0.020f ) );
