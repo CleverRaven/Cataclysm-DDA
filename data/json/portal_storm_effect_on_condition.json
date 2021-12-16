@@ -51,36 +51,6 @@
     ]
   },
   {
-    "id": "test_EOC",
-    "type": "TOOL",
-    "name": { "str_sp": "Test EOC" },
-    "description": "Tests.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "symbol": "!",
-    "color": "light_red",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Touch the opening.",
-      "effect_on_conditions": [ "EOC_PORTAL_STORM_MAPGEN" ]
-    }
-  },
-  {
-    "id": "test_EOC2",
-    "type": "TOOL",
-    "name": { "str_sp": "Test EOC2" },
-    "description": "Tests2.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "symbol": "!",
-    "color": "light_red",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Touch the opening.",
-      "effect_on_conditions": [ "EOC_PORTAL_STORM_MAPGEN_UNDO" ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
     "recurrence_min": { "name": "min_woc", "type": "weather", "context": "ps_time", "default": "6 days", "global": true },
