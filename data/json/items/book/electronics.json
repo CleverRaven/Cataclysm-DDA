@@ -104,7 +104,6 @@
     "color": "light_green",
     "skill": "electronics",
     "required_level": 6,
-    "max_level": 6,
     "intelligence": 12,
     "time": "60 m",
     "fun": -3
