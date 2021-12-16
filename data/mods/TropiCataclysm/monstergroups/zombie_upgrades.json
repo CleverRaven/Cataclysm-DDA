@@ -18,6 +18,7 @@
     "monsters": [
       { "monster": "mon_zombie_thorny" },
       { "monster": "mon_brute_thorny", "weight": 45 },
+      { "monster": "mon_swimmer_thorny", "weight": 45 },
       { "monster": "mon_shrieker_thorny", "weight": 90 },
       { "monster": "mon_boomer_thorny", "weight": 90 }
     ]
