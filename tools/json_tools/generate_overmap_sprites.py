@@ -15,6 +15,7 @@ from util import import_data
 
 
 SIZE = 24
+ROTATIONS = ('_E', '_S', '_W')
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 SCHEME = None
@@ -227,6 +228,8 @@ def output_image(
     """
     Save image to disk
     """
+    # if f'{name}{ROTATED_SUFFIX}' in CREATED_IDS:
+    #    raise Exception('ROTATED_SUFFIX caused duplicated sprite names')
     if name not in CREATED_IDS:
         # new ID
 
@@ -241,12 +244,17 @@ def output_image(
         if generate_json:
             tile_entry = TILE_ENTRY_TEMPLATE.copy()
             tile_entry['id'] = name
-            tile_entry['fg'] = name
+            tile_entry['fg'] = [name] + \
+                [f'{name}{suffix}' for suffix in ROTATIONS]
             filepath = output_dir / f'{name}.json'
             with open(filepath, 'w') as file:
                 json.dump(tile_entry, file)
 
+        # FIXME: move it into another function
         image.save(output_dir / f'{name}.png')
+        for rotation in ROTATIONS:
+            image = image.rotate(-90)
+            image.save(output_dir / f'{name}{rotation}.png')
         CREATED_IDS.add(name)
         return
 
@@ -260,17 +268,31 @@ def output_image(
     if name not in VARIANTS:
         # newly discovered ID with variants, move the previously generated one
         # into a duplicates subdirectory
-        first = output_dir / f'{name}.png'
-
         duplicates_subdir.mkdir(parents=True, exist_ok=True)
-        first.rename(duplicates_subdir / f'{name}.png')
+        (output_dir / f'{name}.png').rename(
+            duplicates_subdir / f'{name}.png'
+        )
+        for rotation in ROTATIONS:
+            (output_dir / f'{name}{rotation}.png').rename(
+                duplicates_subdir / f'{name}{rotation}.png'
+            )
+        if generate_json:
+            (output_dir / f'{name}.json').rename(
+                duplicates_subdir / f'{name}.json'
+            )
         VARIANTS[name] = 2
 
     else:
         # ID is known to have variants, just increment the counter
         VARIANTS[name] += 1
 
+    # FIXME: move it into another function
     image.save(duplicates_subdir / f'{name}_{VARIANTS[name]}.png')
+    for rotation in ROTATIONS:
+        image = image.rotate(-90)
+        image.save(
+            duplicates_subdir / f'{name}_{VARIANTS[name]}{rotation}.png'
+        )
 
 
 def main():
