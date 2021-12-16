@@ -449,6 +449,7 @@
     "vision_day": 15,
     "vision_night": 3,
     "harvest": "zombie_thorny",
+    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "special_attacks": [
       {
         "type": "bite",
