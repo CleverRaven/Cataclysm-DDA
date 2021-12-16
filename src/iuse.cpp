@@ -136,6 +136,8 @@ static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 
+static const ammotype ammo_battery( "battery" );
+
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
@@ -228,6 +230,10 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
+
+static const furn_str_id furn_f_ladder( "f_ladder" );
+
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -259,6 +265,7 @@ static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
@@ -296,6 +303,9 @@ static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
+static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -306,13 +316,20 @@ static const mtype_id mon_hologram( "mon_hologram" );
 static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
 
+static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
+static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
+
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
+
+static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
@@ -329,6 +346,17 @@ static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
 
+static const ter_str_id ter_t_grave( "t_grave" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_corpsed( "t_pit_corpsed" );
+static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
+static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
+static const ter_str_id ter_t_pit_spiked_covered( "t_pit_spiked_covered" );
+static const ter_str_id ter_t_utility_light( "t_utility_light" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
@@ -337,7 +365,6 @@ static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
@@ -346,7 +373,6 @@ static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NUMB( "NUMB" );
@@ -357,11 +383,12 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
-static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
+
+static const vproto_id vehicle_prototype_none( "none" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -416,9 +443,9 @@ static const std::vector<std::string> camera_ter_whitelist_flags = {
     "GOES_DOWN", "RAMP", "SHARP", "SIGN", "CLIMBABLE"
 };
 static const std::vector<ter_str_id> camera_ter_whitelist_types = {
-    ter_str_id( "t_pit_covered" ), ter_str_id( "t_grave_new" ), ter_str_id( "t_grave" ), ter_str_id( "t_pit" ),
-    ter_str_id( "t_pit_shallow" ), ter_str_id( "t_pit_corpsed" ), ter_str_id( "t_pit_spiked" ),
-    ter_str_id( "t_pit_spiked_covered" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_utility_light" )
+    ter_t_pit_covered, ter_t_grave_new, ter_t_grave, ter_t_pit,
+    ter_t_pit_shallow, ter_t_pit_corpsed, ter_t_pit_spiked,
+    ter_t_pit_spiked_covered, ter_t_pit_glass, ter_t_pit_glass, ter_t_utility_light
 };
 
 void remove_radio_mod( item &it, Character &p )
@@ -1565,7 +1592,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_id( "MYCUS" ) );
+            p->mutate_category( mutation_category_MYCUS );
             p->mod_stored_nutr( 10 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -2871,7 +2898,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
         return cata::nullopt;
     }
 
-    int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+    int bonus = std::max( it->get_quality( qual_DIG ) - 1, 1 );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
@@ -3000,24 +3027,6 @@ cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-cata::optional<int> iuse::cs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws scream to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 cata::optional<int> iuse::carver_off( Character *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3094,26 +3103,6 @@ cata::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, cons
     return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
                           false,
                           15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-cata::optional<int> iuse::ecs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
 }
 
 cata::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
@@ -4412,33 +4401,46 @@ cata::optional<int> iuse::fitness_check( Character *p, item *it, bool, const tri
         return cata::nullopt;
     } else {
         //What else should block using f-band?
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your health metrics on your %s." ), it->tname( 1,
+                                   false ) ) );
+        msg.append( "  ***\n\n" );
         const int bpm = p->heartrate_bpm();
-        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
-        //Maybe should pick better words
-        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        msg.append( "-> " );
+        msg.append( string_format( _( "Your heart rate is %i bpm." ), bpm ) );
         if( bpm > 179 ) {
-            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
-                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+            msg.append( "\n" );
+            msg.append( "-> " );
+            msg.append( _( "WARNING!  Slow down!  Your pulse is getting too high, champion!" ) );
         }
         const std::string exercise = p->activity_level_str();
+        msg.append( "\n" );
+        msg.append( "-> " );
         if( exercise == "NO_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You haven't really been active today.  Try going for a walk!'." ), it->tname() );
+            msg.append( _( "You haven't really been active today.  Try going for a walk!" ) );
         } else if( exercise == "LIGHT_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+            msg.append( _( "Good start!  Keep it up and move more." ) );
         } else if( exercise == "MODERATE_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+            msg.append( _( "Doing good!  Don't stop, push the limit!" ) );
         } else if( exercise == "ACTIVE_EXERCISE" ) {
-            //Ad will most likely need to go
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
-                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+            msg.append( _( "Great job!  Take a break and don't forget about hydration!" ) );
         } else {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+            msg.append( _( "You are too active!  Avoid overexertion for your safety and health." ) );
         }
-        //TODO add whatever else makes sense (sleep quality, health level approximation?)
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_spent_kcal( false ),
+                                   p->as_avatar()->get_daily_spent_kcal( true ) ) );
+        //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
     }
     return it->type->charges_to_use();
 }
@@ -4462,7 +4464,7 @@ cata::optional<int> iuse::hand_crank( Character *p, item *it, bool, const tripoi
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
-        if( it->ammo_capacity( ammotype( "battery" ) ) > it->ammo_remaining() ) {
+        if( it->ammo_capacity( ammo_battery ) > it->ammo_remaining() ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
@@ -4893,8 +4895,7 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    static const quality_id GLARE( "GLARE" );
-    if( !p->has_quality( GLARE, 1 ) ) {
+    if( !p->has_quality( qual_GLARE, 1 ) ) {
         p->add_msg_if_player( m_info, _( "You need welding goggles to do that." ) );
         return cata::nullopt;
     }
@@ -5120,8 +5121,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
 static bool heat_item( Character &p )
 {
     item_location loc = g->inv_map_splice( []( const item_location & itm ) {
-        const item *food = itm->get_food();
-        return food && !food->has_own_flag( flag_HOT ) &&
+        return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
                  get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
@@ -5132,17 +5132,16 @@ static bool heat_item( Character &p )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item *target = heat->get_food();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only approximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->has_own_flag( flag_FROZEN ) && !target->has_flag( flag_EATEN_COLD ) ) {
+    int duration = to_turns<int>( time_duration::from_seconds( to_gram( heat->weight() ) ) ) * 10;
+    if( heat->has_own_flag( flag_FROZEN ) && !heat->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.emplace_back( p, target );
+    p.activity.targets.emplace_back( p, heat );
     return true;
 }
 
@@ -5179,7 +5178,7 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( it->typeId() != itype_atomic_coffeepot && ( !it->ammo_sufficient( p ) ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
@@ -5201,6 +5200,19 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
     } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
     }
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return cata::nullopt;
+    }
+    if( it->typeId() == itype_atomic_coffeepot ) {
+        heat_item( *p );
+    }
+
     return cata::nullopt;
 }
 
@@ -5288,7 +5300,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
         return cata::nullopt;
     }
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0_degrees, 0, 0, false );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
@@ -5445,8 +5457,8 @@ cata::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint
             p->add_msg_if_player( _( "You don't do anything with your %s." ), it->tname() );
             return cata::nullopt;
         }
-    } else if( p->has_trait( trait_HYPEROPIC ) || p->has_trait( trait_MYOPIC ) ||
-               p->has_trait( trait_URSINE_EYE ) ) {
+    } else if( p->has_flag( json_flag_HYPEROPIC ) || p->has_flag( json_flag_MYOPIC ) ||
+               p->has_flag( json_flag_MYOPIC_IN_LIGHT ) ) {
         p->moves -= to_moves<int>( 20_seconds );
         p->add_msg_if_player( _( "You put the %s in your eyes." ), it->tname() );
         p->add_effect( effect_contacts, duration );
@@ -5641,7 +5653,7 @@ cata::optional<int> iuse::bell( Character *p, item *it, bool, const tripoint & )
                        "cow_bell" );
         if( !p->is_deaf() ) {
             auto cattle_level =
-                p->mutation_category_level.find( mutation_category_id( "CATTLE" ) );
+                p->mutation_category_level.find( mutation_category_CATTLE );
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
                                          0 :
                                          ( cattle_level->second ) / 8
@@ -5690,7 +5702,7 @@ cata::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, con
         return cata::nullopt;
     }
 
-    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
         !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -5899,7 +5911,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
 
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-            if( r.never_learn ) {
+            if( r.never_learn || r.obsolete ) {
                 continue;
             }
             if( science ) {
@@ -6067,7 +6079,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             p->add_msg_if_player( m_info, _( "You can't read a computer screen." ) );
             return cata::nullopt;
         }
-        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
             !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -8105,7 +8117,7 @@ cata::optional<int> iuse::autoclave( Character *p, item *it, bool t, const tripo
         }
 
         if( query_yn( _( "Start the autoclave?" ) ) ) {
-            requirement_data reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_data_autoclave_item;
             for( const auto &e : reqs.get_components() ) {
                 p->consume_items( e, 1, is_crafting_component );
             }
@@ -8217,7 +8229,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
             !p->has_effect( effect_contacts ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -8425,10 +8437,9 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 has_tools = false;
             }
 
-            static const quality_id SCREW_FINE( "SCREW_FINE" );
-            if( !cinv.has_quality( SCREW_FINE ) ) {
+            if( !cinv.has_quality( qual_SCREW_FINE ) ) {
                 p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
-                                      SCREW_FINE.obj().name );
+                                      qual_SCREW_FINE.obj().name );
                 has_tools = false;
             }
 
@@ -8724,7 +8735,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
-        bool is_power_cord = it->has_flag( flag_id( "POWER_CORD" ) );
+        bool is_power_cord = it->has_flag( json_flag_POWER_CORD );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
         if( !is_power_cord ) {
@@ -8988,6 +8999,27 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     return 0;
 }
 
+cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return cata::nullopt;
+    } else {
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your registered calories intake on your %s." ),
+                                   it->tname( 1, false ) ) );
+        msg.append( "  ***\n\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
+    }
+    return it->type->charges_to_use();
+}
+
 cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
 {
     if( it->is_armor() &&  !p->is_worn( *it ) ) {
@@ -9179,7 +9211,7 @@ cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 
     p->add_msg_if_player( _( "You set down the ladder." ) );
     p->moves -= to_moves<int>( 5_seconds );
-    here.furn_set( pnt, furn_str_id( "f_ladder" ) );
+    here.furn_set( pnt, furn_f_ladder );
     return 1;
 }
 
@@ -9268,7 +9300,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       crafting_inv.charges_of( itype_detergent ) );
+                                       std::max( crafting_inv.charges_of( itype_detergent ),
+                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
         return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
@@ -9327,7 +9360,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               required.water );
         return cata::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         return cata::nullopt;
@@ -9584,7 +9618,7 @@ cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const t
         return cata::nullopt;
     }
 
-    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
         !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -9707,7 +9741,7 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
         return cata::nullopt;
     }
 
-    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
         !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -9760,7 +9794,7 @@ cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripo
         return cata::nullopt;
     }
 
-    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
         !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );

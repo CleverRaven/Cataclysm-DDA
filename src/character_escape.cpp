@@ -6,6 +6,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "output.h"
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
@@ -196,9 +197,41 @@ bool Character::try_remove_grab()
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
+            // when you break out of a grab you have a chance to lose some things from your pockets
+            // that are hanging off your character
+            std::vector<item_pocket *> pd;
+            for( item &i : worn ) {
+                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+                if( i.has_ripoff_pockets() ) {
+                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                            pd.push_back( pocket );
+                        }
+                    }
+                }
+            }
+            // if we have items that can be pulled off
+            if( !pd.empty() ) {
+                // choose an item to be ripped off
+                int index = rng( 0, pd.size() - 1 );
+                int chance = rng( 0, get_effect_int( effect_grabbed, body_part_torso ) );
+                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+                // the item is ripped off your character
+                if( sturdiness < chance ) {
+                    pd[index]->spill_contents( adjacent_tile() );
+                    add_msg_player_or_npc( m_bad,
+                                           _( "As you escape the grab something comes loose and falls to the ground!" ),
+                                           _( "<npcname> escapes the grab something comes loose and falls to the ground!" ) );
+                    if( is_avatar() ) {
+                        popup( _( "As you escape the grab something comes loose and falls to the ground!" ) );
+                    }
+                }
+            }
+
             add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
                                    _( "<npcname> breaks out of the grab!" ) );
             remove_effect( effect_grabbed );
+
             for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
                 monster *mon = creatures.creature_at<monster>( dest );
                 if( mon && mon->has_effect( effect_grabbing ) ) {

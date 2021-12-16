@@ -69,6 +69,16 @@
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+static const bionic_id bio_razors( "bio_razors" );
+static const bionic_id bio_shock( "bio_shock" );
+
+static const character_modifier_id
+character_modifier_melee_attack_roll_mod( "melee_attack_roll_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
+static const character_modifier_id
+character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -88,6 +98,7 @@ static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
+static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
@@ -95,13 +106,23 @@ static const itype_id itype_rag( "rag" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
+static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
+
+static const limb_score_id limb_score_block( "block" );
+static const limb_score_id limb_score_reaction( "reaction" );
 
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
+static const matec_id WHIP_DISARM( "WHIP_DISARM" );
 static const matec_id tec_none( "tec_none" );
+
+static const material_id material_glass( "glass" );
+static const material_id material_steel( "steel" );
+
+static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -120,7 +141,6 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
@@ -316,7 +336,7 @@ float Character::hit_roll() const
     float hit = get_melee_hit_base();
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -333,9 +353,14 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= melee_attack_roll_modifier();
+    hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
+}
+
+bool Character::can_attack_high() const
+{
+    return !is_on_ground();
 }
 
 void Character::add_miss_reason( const std::string &reason, const unsigned int weight )
@@ -357,7 +382,7 @@ std::string Character::get_miss_reason()
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( avg_encumb_of_limb_type( body_part_type::type::torso ) / 10.0 ) );
-    const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
+    const int farsightedness = 2 * ( has_flag( json_flag_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
@@ -501,9 +526,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        bool allow_unarmed )
 {
     if( get_working_leg_count() < 2 ) {
-        if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
+        if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
-            set_movement_mode( move_mode_id( "prone" ) );
+            set_movement_mode( move_mode_prone );
             return false;
         }
     }
@@ -659,7 +684,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.actual_crit_count += 1;
         }
         // select target body part
-        const bodypart_id &target_bp = t.select_body_part( this, hit_spread );
+        const bodypart_id &target_bp = t.select_body_part( -1, -1, can_attack_high(),
+                                       hit_spread );
         damage_instance d;
         roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 
@@ -677,7 +703,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if( blocking_score( body_part_type::type::arm ) < 1.0f ) {
+        if( get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }
@@ -771,7 +797,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             std::string material = "flesh";
             if( t.is_monster() ) {
                 const monster *m = dynamic_cast<const monster *>( &t );
-                if( m->made_of( material_id( "steel" ) ) ) {
+                if( m->made_of( material_steel ) ) {
                     material = "steel";
                 }
             }
@@ -850,7 +876,7 @@ void Character::reach_attack( const tripoint &p )
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
     if( weapon.has_flag( flag_WHIP ) && ( get_skill_level( skill_melee ) > 5 ) && one_in( 3 ) ) {
-        force_technique = matec_id( "WHIP_DISARM" );
+        force_technique = WHIP_DISARM;
     }
 
     // Fighting is hard work
@@ -1030,7 +1056,7 @@ float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
+        has_effect( effect_winded ) || is_driving() ) {
         return 0.0f;
     }
 
@@ -1083,7 +1109,7 @@ float Character::get_dodge() const
     }
 
     // Reaction score of limbs influences dodge chances
-    ret *= reaction_score();
+    ret *= get_limb_score( limb_score_reaction );
 
     return std::max( 0.0f, ret );
 }
@@ -1241,7 +1267,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
+            if( has_bionic( bio_razors ) ) {
                 per_hand += 2;
             }
 
@@ -1323,7 +1349,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 }
             }
 
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
+            if( has_bionic( bio_razors ) ) {
                 per_hand += 2;
             }
 
@@ -1842,7 +1868,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
+        has_effect( effect_winded ) || is_driving() ) {
         return false;
     }
 
@@ -1903,7 +1929,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     block_score += mabuff_block_effectiveness_bonus();
 
     // multiply by bodypart reaction bonuses
-    block_score *= reaction_score();
+    block_score *= get_limb_score( limb_score_reaction );
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
@@ -2045,7 +2071,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_id( "glass" ) ) > twenty_percent ) {
+        } else if( weapon.made_of( material_glass ) > twenty_percent ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -2089,7 +2115,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     std::string target = t.disp_name();
 
-    const bionic_id bio_shock( "bio_shock" );
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( !is_armed() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
@@ -2102,7 +2127,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    const bionic_id bio_heat_absorb( "bio_heat_absorb" );
     if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( damage_type::COLD, 3 );
@@ -2135,7 +2159,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     // Glass weapons shatter sometimes
-    const int glass_portion = weap.made_of( material_id( "glass" ) );
+    const int glass_portion = weap.made_of( material_glass );
     float glass_fraction = glass_portion / static_cast<float>( weap.type->mat_portion_total );
     if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
         glass_fraction = 0.f;
@@ -2523,8 +2547,8 @@ int Character::attack_speed( const item &weap ) const
     const float ma_mult = mabuff_attack_cost_mult();
 
     double move_cost = base_move_cost;
-    move_cost *= melee_thrown_move_modifier_hands();
-    move_cost *= melee_thrown_move_modifier_torso();
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_balance_mod );
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;

@@ -104,6 +104,13 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
+static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
+static const mutation_category_id mutation_category_RAT( "RAT" );
+static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
+
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
+
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -239,10 +246,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_id( "RAT" ) );
+            u.mutate_category( mutation_category_RAT );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
+            u.mutate_category( mutation_category_TROGLOBITE );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -262,8 +269,12 @@ static void eff_fun_bleed( Character &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
+    // proficiency improves that factor to 3/4 and 4/5 respectively
     bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
-    if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
+    int prof_bonus = 3;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
+    if( !( tourniquet && one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
         u.vitamin_mod( vitamin_blood, -intense );
@@ -1005,7 +1016,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_id( "MYCUS" ) );
+                    u.mutate_category( mutation_category_MYCUS );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );

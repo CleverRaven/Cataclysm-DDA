@@ -90,6 +90,23 @@
   },
   {
     "type": "AMMO",
+    "id": "shredded_rubber",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "shredded rubber" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A handful of shredded rubber, usable as a mulch now.",
+    "material": [ "rubber" ],
+    "volume": "250 ml",
+    "weight": "6 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "count": 50
+  },
+  {
+    "type": "AMMO",
     "id": "material_limestone",
     "category": "spare_parts",
     "price": 50,
@@ -443,8 +460,7 @@
     "description": "A handful of finely-ground aluminum powder.  This strong reducing agent was used in combination with various oxidants for chemical welding and explosives alike.  Just before the Cataclysm, however, it was the basis of virtually all commercial metallic-hued paints and anti-corrosive coatings.",
     "material": [ "powder" ],
     "volume": "250 ml",
-    "weight": "2 g",
-    "//": "Weight should be 1.76g but the game will round down the number to 1g and 1.76g is closer to 2g",
+    "weight": "1760 mg",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
@@ -885,24 +901,6 @@
     "ammo_type": "components",
     "container": "bag_plastic",
     "count": 1000
-  },
-  {
-    "type": "AMMO",
-    "id": "chem_match_head_powder",
-    "category": "chems",
-    "price": 50,
-    "price_postapoc": 10,
-    "name": { "str_sp": "match head powder" },
-    "symbol": "=",
-    "color": "light_red",
-    "description": "Some match head powder from match heads, similar to black gunpowder but a bit weaker.  It can be used in crafting explosives and fuses when other, more suitable candidates are less available.",
-    "material": [ "powder" ],
-    "volume": "10 ml",
-    "weight": "2050 mg",
-    "bashing": 1,
-    "ammo_type": "components",
-    "container": "bag_plastic",
-    "count": 10
   },
   {
     "type": "AMMO",
@@ -1440,7 +1438,7 @@
     "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You have yet to find some use for it.",
     "material": [ "steel", "plastic" ],
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
-    "volume": "250 ml",
+    "volume": "90 ml",
     "weight": "80 g"
   },
   {
@@ -1713,7 +1711,7 @@
     "name": { "str_sp": "acetic anhydride" },
     "description": "This is a bottle of acetic anhydride, if you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
     "container": "bottle_glass",
-    "weight": "100 g",
+    "weight": "107 g",
     "use_action": [ "POISON", "BLECH" ],
     "fatigue_mod": -20,
     "volume": "100 ml",
@@ -1747,24 +1745,22 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
+    "category": "chems",
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_bathroom",
     "sealed": false,
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": -90,
-    "healthy": -20,
     "description": "Liquid soap.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "chems",
-    "freezing_point": -2,
-    "fun": -50
+    "ammo_type": "components",
+    "flags": [ "DETERGENT" ],
+    "count": 5
   }
 ]

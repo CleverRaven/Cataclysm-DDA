@@ -18,29 +18,6 @@
 #include "skill.h"
 #include "trait_group.h"
 
-static const std::array<npc_class_id, 19> legacy_ids = {{
-        npc_class_id( "NC_NONE" ),
-        npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
-        npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
-        npc_class_id( "NC_HACKER" ),         // Weak in combat but has hacking skills and equipment
-        npc_class_id( "NC_CYBORG" ),         // Broken Cyborg rescued from a lab
-        npc_class_id( "NC_DOCTOR" ),         // Found in towns, or roaming.  Stays in the clinic.
-        npc_class_id( "NC_TRADER" ),         // Roaming trader, journeying between towns.
-        npc_class_id( "NC_NINJA" ),          // Specializes in unarmed combat, carries few items
-        npc_class_id( "NC_COWBOY" ),         // Gunslinger and survivalist
-        npc_class_id( "NC_SCIENTIST" ),      // Uses intelligence-based skills and high-tech items
-        npc_class_id( "NC_BOUNTY_HUNTER" ),  // Resourceful and well-armored
-        npc_class_id( "NC_THUG" ),           // Moderate melee skills and poor equipment
-        npc_class_id( "NC_SCAVENGER" ),      // Good with pistols light weapons
-        npc_class_id( "NC_ARSONIST" ),       // Evacuation Center, restocks Molotovs and anarchist type stuff
-        npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
-        npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
-        npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
-        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
-    }
-};
-
 const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
 const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
@@ -60,6 +37,29 @@ const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
 const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
 const npc_class_id NC_THUG( "NC_THUG" );
 const npc_class_id NC_TRADER( "NC_TRADER" );
+
+static const std::array<npc_class_id, 19> legacy_ids = {{
+        NC_NONE,
+        NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+        NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
+        NC_HACKER,         // Weak in combat but has hacking skills and equipment
+        NC_CYBORG,         // Broken Cyborg rescued from a lab
+        NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
+        NC_TRADER,         // Roaming trader, journeying between towns.
+        NC_NINJA,          // Specializes in unarmed combat, carries few items
+        NC_COWBOY,         // Gunslinger and survivalist
+        NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
+        NC_BOUNTY_HUNTER,  // Resourceful and well-armored
+        NC_THUG,           // Moderate melee skills and poor equipment
+        NC_SCAVENGER,      // Good with pistols light weapons
+        NC_ARSONIST,       // Evacuation Center, restocks Molotovs and anarchist type stuff
+        NC_HUNTER,         // Survivor type good with bow or rifle
+        NC_SOLDIER,        // Well equipped and trained combatant, good with rifles and melee
+        NC_BARTENDER,      // Stocks alcohol
+        NC_JUNK_SHOPKEEP,   // Stocks wide range of items...
+        NC_HALLU           // Hallucinatory NPCs
+    }
+};
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -130,9 +130,10 @@ void npc_class::finalize_all()
 
 void npc_class::check_consistency()
 {
-    for( const auto &legacy : legacy_ids ) {
+    for( const npc_class_id &legacy : legacy_ids ) {
         if( !npc_class_factory.is_valid( legacy ) ) {
-            debugmsg( "Missing legacy npc class %s", legacy.c_str() );
+            debugmsg( "Missing legacy npc class %s (at index %d)",
+                      legacy.c_str(), &legacy - legacy_ids.data() );
         }
     }
 

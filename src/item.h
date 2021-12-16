@@ -124,6 +124,9 @@ struct iteminfo {
         /** Internal double floating point version of value, for numerical comparisons */
         double dValue;
 
+        /** Same as dValue, adjusted for the minimum unit (for numerical comparisons) */
+        double dUnitAdjustedVal;
+
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
@@ -160,9 +163,9 @@ struct iteminfo {
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags Flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999, double UnitVal = 0 );
         iteminfo( const std::string &Type, const std::string &Name, flags Flags );
-        iteminfo( const std::string &Type, const std::string &Name, double Value );
+        iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal = 0 );
 };
 
 template<>
@@ -562,6 +565,13 @@ class item : public visitable
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool combine_liquid = false ) const;
+
+        /**
+         * Whether the two items have same contents.
+         * Checks the contents and the contents of the contents.
+         */
+        bool same_contents( const item &rhs ) const;
+
         /**
          * Whether item is the same as `rhs` for RLE compression purposes.
          * Essentially a stricter version of `stacks_with`.
@@ -786,6 +796,12 @@ class item : public visitable
          * @param allow_bucket Allow filling non-sealable containers
          */
         bool is_container_full( bool allow_bucket = false ) const;
+
+        /**
+         * Whether the magazine pockets of this item have room for additional items
+         */
+        bool is_magazine_full() const;
+
         /**
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
@@ -839,6 +855,10 @@ class item : public visitable
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
+        // returns the abstract 'size' of the pocket
+        // used for attaching to molle items
+        int get_pocket_size() const;
+
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
         // player inventory handling penalties from traits
@@ -876,6 +896,7 @@ class item : public visitable
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        int get_raw_quality( const quality_id &id ) const;
         bool count_by_charges() const;
 
         /**
@@ -1337,11 +1358,6 @@ class item : public visitable
         float get_latent_heat() const;
         float get_freeze_point() const; // Celsius
 
-        // If this is food, returns itself.  If it contains food, return that
-        // contents.  Otherwise, returns nullptr.
-        item *get_food();
-        const item *get_food() const;
-
         void set_last_temp_check( const time_point &pt );
 
         /** How resistant clothes made of this material are to wind (0-100) */
@@ -1381,6 +1397,7 @@ class item : public visitable
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
+        units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
         /**
@@ -1389,10 +1406,14 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
-        bool can_reload_with( const itype_id &ammo ) const;
-        /** Returns true if this item can be reloaded with specified ammo type at this moment. */
-        bool is_reloadable_with( const itype_id &ammo ) const;
+
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, bool now ) const;
+
         /**
           * Returns true if any of the contents are not frozen or not empty if it's liquid
           */
@@ -1750,6 +1771,22 @@ class item : public visitable
          */
         bool swap_side();
         /**
+         * Returns if the armor has ablative pockets
+         */
+        bool is_ablative() const;
+        /**
+         * Returns if the armor has pockets with additional encumbrance
+         */
+        bool has_additional_encumbrance() const;
+        /**
+         * Returns if the armor has pockets with a chance to be ripped off
+         */
+        bool has_ripoff_pockets() const;
+        /**
+         * Returns if the armor has pockets with a chance to make noise when moving
+         */
+        bool has_noisy_pockets() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
@@ -1812,9 +1849,6 @@ class item : public visitable
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, const bodypart_id &bodypart,
-                          encumber_flags = encumber_flags::none ) const;
-
-        int get_encumber( const Character &, const sub_bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**
@@ -2140,8 +2174,9 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /** Get lowest dispersion of either integral or any attached sights */
-        int sight_dispersion() const;
+
+        /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
+        std::pair<int, int> sight_dispersion( const Character &character ) const;
 
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
@@ -2188,6 +2223,10 @@ class item : public visitable
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
+        /**
+        * Summed shot spread from mods. Returns 0 on non-gun items.
+        */
+        float gun_shot_spread_multiplier() const;
         /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */
@@ -2499,9 +2538,6 @@ class item : public visitable
         /** Update flags associated with temperature */
         void set_temp_flags( float new_temperature, float freeze_percentage );
 
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
-
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
@@ -2656,6 +2692,9 @@ class item : public visitable
         int damage_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
+
+        // additional encumbrance this specific item has
+        units::volume additional_encumbrance = 0_ml;
 
     public:
         char invlet = 0;      // Inventory letter

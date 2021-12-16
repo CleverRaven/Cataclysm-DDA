@@ -14,7 +14,9 @@
 // these ids must appear in corresponding json file, or "sentinels.json"
 // (or have some alternative way to be inserted into the generic_factory)
 
+//NOLINTNEXTLINE(cata-static-string_id-constants)
 MAKE_NULL_ID( activity_type, "ACT_NULL" )
+MAKE_NULL_ID( harvest_drop_type, "null" )
 MAKE_NULL_ID( harvest_list, "null" )
 MAKE_NULL_ID( Item_spawn_data, "null" )
 MAKE_NULL_ID( effect_type, "null" )
@@ -53,6 +55,7 @@ MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
         return id; \
     }
 
+//NOLINTNEXTLINE(cata-static-string_id-constants)
 MAKE_NULL_ID2( itype, "null" )
 MAKE_NULL_ID2( mtype, "mon_null" )
 MAKE_NULL_ID2( oter_t, "" )
@@ -71,6 +74,8 @@ MAKE_NULL_ID2( mutation_branch, "" )
 MAKE_NULL_ID2( requirement_data, "null" )
 MAKE_NULL_ID2( body_part_type, "bp_null" )
 MAKE_NULL_ID2( sub_body_part_type, "sub_bp_null" )
+MAKE_NULL_ID2( character_modifier, "" )
+MAKE_NULL_ID2( limb_score, "" )
 MAKE_NULL_ID2( bionic_data, "" )
 MAKE_NULL_ID2( construction, "constr_null" )
 MAKE_NULL_ID2( vehicle_prototype, "null" )

@@ -267,6 +267,11 @@ class uilist // NOLINT(cata-xy)
         void color_error( bool report );
 
         void init();
+
+        // Calculate sizes, populate arrays
+        void calc_data();
+
+        // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );

@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_mycus",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "mycus wine" },
     "weight": "33 g",
     "color": "white",
@@ -29,6 +30,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_marloss",
+    "looks_like": "wine_mycus",
     "name": { "str_sp": "marloss wine" },
     "weight": "33 g",
     "color": "pink",
@@ -56,6 +58,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_riesling",
+    "looks_like": "wine_chardonnay",
     "name": { "str_sp": "Riesling" },
     "weight": "50 g",
     "color": "white",
@@ -84,6 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_chardonnay",
+    "looks_like": "water",
     "name": { "str_sp": "Chardonnay" },
     "weight": "50 g",
     "color": "white",
@@ -138,6 +142,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_noir",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "pinot noir" },
     "weight": "50 g",
     "color": "red",
@@ -165,6 +170,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_marsala",
+    "looks_like": "wine_cabernet ",
     "name": { "str_sp": "marsala" },
     "weight": "50 g",
     "color": "red",
@@ -192,6 +198,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_vermouth",
+    "looks_like": "wine_chardonnay",
     "name": { "str_sp": "vermouth" },
     "weight": "50 g",
     "color": "red",
@@ -219,6 +226,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_barley",
+    "looks_like": "beer",
     "name": { "str_sp": "barley wine" },
     "weight": "249 g",
     "color": "brown",
@@ -275,6 +283,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vodka",
+    "looks_like": "water",
     "name": { "str_sp": "vodka" },
     "weight": "33 g",
     "color": "light_cyan",
@@ -302,6 +311,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gin",
+    "looks_like": "vodka",
     "name": { "str_sp": "gin" },
     "weight": "33 g",
     "color": "light_cyan",
@@ -329,6 +339,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rum",
+    "looks_like": "whiskey",
     "name": { "str_sp": "rum" },
     "weight": "33 g",
     "color": "light_cyan",
@@ -356,6 +367,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tequila",
+    "looks_like": "vodka",
     "name": { "str_sp": "tequila" },
     "weight": "34 g",
     "color": "yellow",
@@ -383,6 +395,7 @@
   {
     "type": "COMESTIBLE",
     "id": "triple_sec",
+    "looks_like": "whiskey",
     "name": { "str_sp": "triple sec" },
     "weight": "30 g",
     "color": "light_cyan",
@@ -410,6 +423,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bum_wine",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "cheap wine" },
     "weight": "35 g",
     "color": "red",
@@ -439,6 +453,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mixed_alcohol_strong",
+    "looks_like": "bum_wine",
     "name": { "str_sp": "strong mixed alcohol" },
     "weight": "34 g",
     "color": "red",
@@ -466,6 +481,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mixed_alcohol_weak",
+    "looks_like": "mixed_alcohol_strong",
     "name": { "str_sp": "weak mixed alcohol" },
     "weight": "248 g",
     "color": "light_red",
@@ -494,6 +510,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_wine",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "fruit wine" },
     "weight": "36 g",
     "color": "light_red",
@@ -522,6 +539,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brandy",
+    "looks_like": "whiskey",
     "name": { "str_sp": "brandy" },
     "weight": "34 g",
     "color": "light_red",
@@ -549,6 +567,7 @@
   {
     "type": "COMESTIBLE",
     "id": "irish_coffee",
+    "looks_like": "coffee",
     "name": { "str_sp": "Irish coffee" },
     "weight": "260 g",
     "color": "brown",
@@ -575,6 +594,7 @@
   {
     "type": "COMESTIBLE",
     "id": "long_island",
+    "looks_like": "cola",
     "name": { "str_sp": "Long Island iced tea" },
     "weight": "232 g",
     "color": "brown",
@@ -603,6 +623,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_screwdriver",
+    "looks_like": "juice",
     "name": { "str": "screwdriver cocktail" },
     "weight": "258 g",
     "color": "yellow",
@@ -631,6 +652,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_wild_apple",
+    "looks_like": "vodka",
     "name": { "str_sp": "wild apple" },
     "weight": "258 g",
     "color": "brown",
@@ -659,6 +681,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_rumcola",
+    "looks_like": "cola",
     "name": { "str_sp": "rum & cola" },
     "weight": "251 g",
     "color": "brown",
@@ -686,6 +709,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beer",
+    "looks_like": "water",
     "name": { "str_sp": "beer" },
     "weight": "251 g",
     "color": "brown",
@@ -713,6 +737,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mead",
+    "looks_like": "beer",
     "name": { "str_sp": "spiced mead" },
     "weight": "36 g",
     "color": "yellow",
@@ -740,6 +765,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_wine",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "dandelion wine" },
     "weight": "35 g",
     "color": "yellow",
@@ -768,6 +794,7 @@
   {
     "type": "COMESTIBLE",
     "id": "burdock_wine",
+    "looks_like": "wine_chardonnay",
     "name": { "str_sp": "burdock wine" },
     "weight": "247 g",
     "color": "yellow",
@@ -795,6 +822,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_wine",
+    "looks_like": "wine_chardonnay",
     "name": { "str_sp": "pine wine" },
     "weight": "35 g",
     "color": "light_green",
@@ -823,6 +851,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hb_beer",
+    "looks_like": "beer",
     "name": { "str_sp": "homebrew beer" },
     "weight": "249 g",
     "color": "brown",
@@ -851,6 +880,7 @@
   {
     "type": "COMESTIBLE",
     "id": "moonshine",
+    "looks_like": "vodka",
     "name": { "str_sp": "moonshine" },
     "weight": "35 g",
     "color": "brown",
@@ -879,6 +909,7 @@
   {
     "type": "COMESTIBLE",
     "id": "european_pilsner",
+    "looks_like": "beer",
     "name": { "str_sp": "European pilsner" },
     "weight": "249 g",
     "color": "brown",
@@ -907,6 +938,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pale_ale",
+    "looks_like": "beer",
     "name": { "str_sp": "American pale ale" },
     "weight": "249 g",
     "color": "brown",
@@ -935,6 +967,7 @@
   {
     "type": "COMESTIBLE",
     "id": "india_pale_ale",
+    "looks_like": "beer",
     "name": { "str_sp": "India pale ale" },
     "weight": "249 g",
     "color": "brown",
@@ -963,6 +996,7 @@
   {
     "type": "COMESTIBLE",
     "id": "stout",
+    "looks_like": "coffee",
     "name": { "str_sp": "stout" },
     "weight": "205 g",
     "color": "brown",
@@ -991,6 +1025,7 @@
   {
     "type": "COMESTIBLE",
     "id": "belgian_ale",
+    "looks_like": "beer",
     "name": { "str_sp": "Belgian ale" },
     "weight": "249 g",
     "color": "brown",
@@ -1019,6 +1054,7 @@
   {
     "type": "COMESTIBLE",
     "id": "imperial_stout",
+    "looks_like": "stout",
     "name": { "str_sp": "imperial stout" },
     "weight": "249 g",
     "color": "brown",
@@ -1047,6 +1083,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_strawberry_surprise",
+    "looks_like": "vodka",
     "name": { "str": "strawberry surprise" },
     "weight": "43 g",
     "color": "pink",
@@ -1076,6 +1113,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_boozeberry",
+    "looks_like": "cranberry_juice",
     "name": { "str": "boozeberry", "str_pl": "boozeberries" },
     "weight": "43 g",
     "color": "cyan",
@@ -1105,6 +1143,7 @@
   {
     "type": "COMESTIBLE",
     "id": "single_malt_whiskey",
+    "looks_like": "whiskey",
     "name": { "str_sp": "single malt whiskey" },
     "weight": "33 g",
     "color": "brown",
@@ -1163,6 +1202,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sherry",
+    "looks_like": "brandy",
     "name": { "str_sp": "sherry" },
     "weight": "120 g",
     "color": "brown",
@@ -1210,6 +1250,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_hobo",
+    "looks_like": "wine_chardonnay",
     "name": { "str_sp": "fancy hobo" },
     "weight": "50 g",
     "color": "yellow",
@@ -1238,6 +1279,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_kalimotxo",
+    "looks_like": "cola",
     "name": { "str_sp": "kalimotxo" },
     "weight": "250 g",
     "color": "red",
@@ -1266,6 +1308,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
+    "looks_like": "gin",
     "name": { "str_sp": "bee's knees" },
     "weight": "248 g",
     "color": "yellow",
@@ -1292,6 +1335,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_wsour",
+    "looks_like": "whiskey",
     "name": { "str": "whiskey sour" },
     "weight": "249 g",
     "color": "yellow",
@@ -1318,6 +1362,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_gold",
+    "looks_like": "beer",
     "name": { "str": "honeygold brew" },
     "weight": "259 g",
     "color": "yellow",
@@ -1344,6 +1389,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_ant",
+    "looks_like": "honey_gold",
     "name": { "str": "honey ball" },
     "weight": "178 g",
     "color": "yellow",
@@ -1370,6 +1416,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggnog_spiked",
+    "looks_like": "eggnog",
     "name": { "str": "spiked eggnog" },
     "weight": "132 g",
     "color": "white",
@@ -1400,6 +1447,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_martini",
+    "looks_like": "gin",
     "name": { "str": "martini" },
     "weight": "49600 mg",
     "color": "white",
@@ -1427,6 +1475,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_bloody_mary",
+    "looks_like": "tomato_juice",
     "name": { "str": "bloody mary cocktail" },
     "weight": "258 g",
     "color": "red",
@@ -1455,6 +1504,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_bloody_mary_blood",
+    "looks_like": "drink_bloody_mary",
     "name": { "str_sp": "'very' bloody mary cocktail" },
     "weight": "258 g",
     "color": "red",
@@ -1482,6 +1532,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_hard_seltzer",
+    "looks_like": "water",
     "name": { "str_sp": "hard seltzer" },
     "weight": "249 g",
     "color": "brown",
@@ -1510,6 +1561,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hb_seltzer",
+    "looks_like": "drink_hard_seltzer",
     "name": { "str_sp": "homebrew hard seltzer" },
     "weight": "249 g",
     "color": "yellow",

@@ -79,8 +79,11 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blade( "bio_blade" );
@@ -129,7 +132,12 @@ static const itype_id itype_thorazine( "thorazine" );
 static const material_id material_alcohol( "alcohol" );
 static const material_id material_battery( "battery" );
 
+static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+
 static const skill_id skill_firstaid( "firstaid" );
+
+static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
+static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -253,7 +261,7 @@ tripoint npc::good_escape_direction( bool include_pos )
 {
     map &here = get_map();
     if( path.empty() ) {
-        zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
+        zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint abs_pos = get_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
@@ -786,7 +794,7 @@ void npc::move()
     }
     regen_ai_cache();
     // NPCs under operation should just stay still
-    if( activity.id() == ACT_OPERATION || activity.id() == activity_id( "ACT_SPELLCASTING" ) ) {
+    if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -1169,7 +1177,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            aim();
+            aim( Target_attributes( target_size_in_moa( pos(), tar ) ) );
             break;
 
         case npc_shoot: {
@@ -1178,7 +1186,7 @@ void npc::execute_action( npc_action action )
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
             }
-            aim();
+            aim( Target_attributes( target_size_in_moa( pos(), tar ) ) );
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
@@ -1385,7 +1393,7 @@ void npc::witness_thievery( item *it )
 {
     known_stolen_item = it;
     // Shopkeep is behind glass
-    if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
+    if( myclass == NC_EVAC_SHOPKEEP ) {
         return;
     }
     set_attitude( NPCATT_RECOVER_GOODS );
@@ -2182,7 +2190,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim()
+void npc::aim( Target_attributes target_attributes )
 {
     const item &weapon = get_wielded_item();
     double aim_amount = aim_per_move( weapon, recoil );
@@ -2190,7 +2198,7 @@ void npc::aim()
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil );
+        aim_amount = aim_per_move( weapon, recoil, target_attributes );
     }
 }
 
@@ -2602,7 +2610,7 @@ bool npc::find_job_to_perform()
             continue;
         }
         player_activity scan_act = player_activity( elem );
-        if( elem == activity_id( "ACT_MOVE_LOOT" ) ) {
+        if( elem == ACT_MOVE_LOOT ) {
             assign_activity( elem );
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
@@ -2719,7 +2727,7 @@ void npc::move_pause()
     if( has_effect( effect_onfire ) ) {
         pause();
     } else {
-        aim();
+        aim( Target_attributes() );
         moves = std::min( moves, 0 );
     }
 }
@@ -2838,8 +2846,6 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    static const zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
-
     const item *wanted = nullptr;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
@@ -2897,7 +2903,7 @@ void npc::find_item()
     for( const tripoint &p : closest_points_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
+        if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
             continue;
         }
 
@@ -3007,7 +3013,7 @@ void npc::pick_up_item()
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
           !here.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
@@ -3340,7 +3346,7 @@ bool npc::do_player_activity()
 {
     int old_moves = moves;
     if( moves > 200 && activity && ( activity.is_multi_type() ||
-                                     activity.id() == activity_id( "ACT_TIDY_UP" ) ) ) {
+                                     activity.id() == ACT_TIDY_UP ) ) {
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.

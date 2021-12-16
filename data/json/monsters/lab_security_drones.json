@@ -47,23 +47,25 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "GM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "light_green",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
         "type": "spell",
         "spell_data": { "id": "green_maintenance_check" },
-        "cooldown": 5,
+        "cooldown": 20,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_GM",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -110,12 +112,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "OM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "yellow",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -126,7 +130,7 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -172,12 +176,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "blue",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -188,7 +194,7 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -260,12 +266,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "cyan",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -276,7 +284,7 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -337,12 +345,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "LGR security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "light_green",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -353,7 +363,7 @@
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_GR",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -440,12 +450,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BS security drone" },
-    "description": "A small drone, it has a camera and speaker visible.  It looks solid and built to withstand a lot of abuse.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "dark_gray",
-    "hp": 200,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -456,7 +468,7 @@
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_BS",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   }

@@ -101,13 +101,41 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const ammotype ammo_battery( "battery" );
+
+static const diseasetype_id disease_bad_food( "bad_food" );
+
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+
+static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
+
+static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+
+static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
+static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
+static const material_id material_glass( "glass" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
+
+static const oter_str_id oter_deep_rock( "deep_rock" );
+static const oter_str_id oter_empty_rock( "empty_rock" );
+static const oter_str_id oter_open_air( "open_air" );
+static const oter_str_id oter_solid_earth( "solid_earth" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
+
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1356,17 +1384,18 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
+    const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
-    if( old_id == new_furniture ) {
+    if( old_id == new_target_furniture ) {
         // Nothing changed
         return;
     }
 
-    current_submap->set_furn( l, new_furniture );
+    current_submap->set_furn( l, new_target_furniture );
 
     // Set the dirty flags
     const furn_t &old_t = old_id.obj();
-    const furn_t &new_t = new_furniture.obj();
+    const furn_t &new_t = new_target_furniture.obj();
 
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
@@ -1377,7 +1406,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         player_character.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
-    if( old_id == f_rubble && new_furniture == f_null ) {
+    if( old_id == f_rubble && new_target_furniture == f_null ) {
         Creature *c = get_creature_tracker().creature_at( p );
         if( c ) {
             c->remove_effect( effect_crushed );
@@ -1721,6 +1750,21 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+
+    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
+        if( new_t.has_flag( "FRESH_WATER" ) ) {
+            item water( "water", calendar::start_of_cataclysm );
+            // TODO: Move all numeric values to json
+            water.charges = rng( 40, 240 );
+            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
+                water.poison = rng( 1, 6 );
+                water.get_comestible()->parasites = 5;
+                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
+            }
+            add_item( p, water );
+        }
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -3481,15 +3525,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
+    if( smash_ter && ter( p ) == t_open_air && zlevels ) {
+        tripoint below( p.xy(), p.z - 1 );
+        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        ter_set( p, roof );
     }
 
     if( bash->explosive > 0 ) {
@@ -3557,7 +3596,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        int glass_portion = bashed_item->made_of( material_id( "glass" ) );
+        int glass_portion = bashed_item->made_of( material_glass );
         float glass_fraction = glass_portion / static_cast<float>( bashed_item->type->mat_portion_total );
         if( glass_portion && !bashed_item->active && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
             params.did_bash = true;
@@ -3905,7 +3944,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) &&
+            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
@@ -4410,8 +4449,6 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
-    static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
-
     if( item_is_blacklisted( new_item.typeId() ) ) {
         return null_item_reference();
     }
@@ -4498,6 +4535,16 @@ item map::water_from( const tripoint &p )
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
+        return ret;
+    }
+
+    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
+        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        ret.poison = rng( 1, 6 );
+        ret.get_comestible()->parasites = 5;
+        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
         return ret;
     }
 
@@ -4667,7 +4714,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     continue;
                 }
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-                if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
+                if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
                     ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
@@ -5441,7 +5488,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
-    const field_type &fd_type = *type_id;
+    // Hacky way to force electricity fields to become unlit electricity fields
+    const field_type_id &converted_type_id = ( type_id == fd_electricity ||
+            type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
+    const field_type &fd_type = *converted_type_id;
+
     intensity = std::min( intensity, fd_type.get_max_intensity() );
     if( intensity <= 0 ) {
         return false;
@@ -5456,7 +5507,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
-    if( current_submap->get_field( l ).add_field( type_id, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
@@ -5641,9 +5692,8 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.u_sight_impaired = player_character.sight_impaired();
     visibility_variables_cache.u_is_boomered = player_character.has_effect( effect_boomered );
     visibility_variables_cache.clairvoyance_field.reset();
-    const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
-    if( fd_clairvoyant.is_valid() ) {
-        visibility_variables_cache.clairvoyance_field = fd_clairvoyant;
+    if( field_fd_clairvoyant.is_valid() ) {
+        visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
@@ -6883,13 +6933,6 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 
 void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
 {
-    // Cache empty overmap types
-    static const oter_str_id rock( "empty_rock" );
-    static const oter_str_id air( "open_air" );
-    static const oter_str_id earth( "solid_earth" );
-    static const oter_str_id deep_rock( "deep_rock" );
-    static const ter_str_id t_soil( "t_soil" );
-
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
                   << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
 
@@ -6916,12 +6959,12 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
         // Short-circuit if the map tile is uniform
         // TODO: Replace with json mapgen functions.
-        if( terrain_type == air ) {
+        if( terrain_type == oter_open_air ) {
             generate_uniform( grid_abs_sub_rounded, t_open_air );
-        } else if( terrain_type == rock || terrain_type == deep_rock ) {
+        } else if( terrain_type == oter_empty_rock || terrain_type == oter_deep_rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
-        } else if( terrain_type == earth ) {
-            generate_uniform( grid_abs_sub_rounded, t_soil );
+        } else if( terrain_type == oter_solid_earth ) {
+            generate_uniform( grid_abs_sub_rounded, ter_t_soil );
         } else {
             tinymap tmp_map;
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
@@ -7247,13 +7290,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_str_id( "t_dirt" )},
-            {t_tree_young, ter_str_id( "t_dirt" )},
-            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
-            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
-            {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
-            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
-            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
+            {t_grass, ter_t_dirt},
+            {t_tree_young, ter_t_dirt},
+            {t_tree_pine, ter_t_tree_deadpine},
+            {t_tree_birch, ter_t_tree_birch_harvested},
+            {t_tree_willow, ter_t_tree_willow_harvested},
+            {t_tree_hickory, ter_t_tree_hickory_dead},
+            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -7266,7 +7309,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( ter_furn_flag::TFLAG_TREE ) ) {
-        ter_set( p, ter_str_id( "t_tree_dead" ) );
+        ter_set( p, ter_t_tree_dead );
     }
 }
 
@@ -8356,9 +8399,9 @@ void map::add_corpse( const tripoint &p )
         body.set_flag( flag_REVIVE_SPECIAL );
     }
 
-    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, calendar::turn_zero );
+    put_items_from_loc( Item_spawn_data_default_zombie_clothes, p, calendar::turn_zero );
     if( one_in( 3 ) ) {
-        put_items_from_loc( item_group_id( "default_zombie_items" ), p, calendar::turn_zero );
+        put_items_from_loc( Item_spawn_data_default_zombie_items, p, calendar::turn_zero );
     }
 
     add_item_or_charges( p, body );

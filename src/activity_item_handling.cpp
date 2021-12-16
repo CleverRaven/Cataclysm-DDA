@@ -97,6 +97,8 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
@@ -113,15 +115,21 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
+static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
+static const zone_type_id zone_type_( "" );
+static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
+static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -131,6 +139,7 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 
 /** Activity-associated item */
 struct act_item {
@@ -498,7 +507,9 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         act->set_to_null();
         return;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser,
+                                          is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
         act->set_to_null();
@@ -519,6 +530,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     std::vector<item_comp> comps1;
     comps1.emplace_back( itype_soap, required.cleanser );
     comps1.emplace_back( itype_detergent, required.cleanser );
+    comps1.emplace_back( itype_liquid_soap, required.cleanser );
     you->consume_items( comps1 );
 
     you->add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -1414,7 +1426,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
-                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
+                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_disassembly ) ?
                                   i.components.front().typeId() : i.typeId() );
                 req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
@@ -1458,7 +1470,7 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
         map &here = get_map();
         if( guy->assigned_camp &&
             mgr.has_near( zone_type_CAMP_STORAGE, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
+            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_CAMP_STORAGE,
                     here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
             for( const tripoint &elem : bc_storage_set ) {
                 tripoint here_local = here.getlocal( elem );
@@ -2183,16 +2195,42 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+            if( id != zone_type_LOOT_CUSTOM && mgr.has( id, src ) ) {
                 continue;
             }
 
-            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
+            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
             const std::unordered_set<tripoint> &dest_set = mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE,
                     &thisitem );
+
+            // if this item isn't going anywhere and its not sealed
+            // then we should unload it and see what is inside
+            if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    // no liquids don't want to spill stuff
+                    if( !contained->made_of( phase_id::LIQUID ) ) {
+                        //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
+                        //Check if on a cargo part
+                        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                                false ) ) {
+                            dest_veh = &vp->vehicle();
+                            dest_part = vp->part_index();
+                        } else {
+                            dest_veh = nullptr;
+                            dest_part = -1;
+                        }
+                        move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                        it->first->remove_item( *contained );
+                    }
+                }
+                // after dumping items go back to start of activity loop
+                // so that can re-assess the items in the tile
+                return;
+            }
+
             for( const tripoint &dest : dest_set ) {
                 const tripoint &dest_loc = here.getlocal( dest );
 
@@ -2356,7 +2394,7 @@ static void check_npc_revert( Character &you )
 static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
                                       const activity_id &act_id )
 {
-    zone_type_id ret = zone_type_id( "" );
+    zone_type_id ret = zone_type_;
     if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
         ret = zone_type_VEHICLE_DECONSTRUCT;
     }
@@ -2388,7 +2426,7 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
         ret = zone_type_MOPPING;
     }
     if( act_id == ACT_MULTIPLE_DIS ) {
-        ret = zone_type_id( "zone_disassemble" );
+        ret = zone_type_zone_disassemble;
     }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
@@ -2640,7 +2678,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
             requirement_data::save_requirement( reqs, req_id );
             what_we_need = req_id;
         } else if( reason == do_activity_reason::NEEDS_MINING ) {
-            what_we_need = requirement_id( "mining_standard" );
+            what_we_need = requirement_data_mining_standard;
         } else if( reason == do_activity_reason::NEEDS_TILLING ||
                    reason == do_activity_reason::NEEDS_PLANTING ||
                    reason == do_activity_reason::NEEDS_CHOPPING ||
@@ -2866,7 +2904,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    const auto &r = ( elem.typeId() == itype_id( "disassembly" ) ) ? elem.get_making() :
+                    const auto &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
                                     recipe_dictionary::get_uncraft( elem.typeId() );
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
@@ -3103,9 +3141,9 @@ int get_auto_consume_moves( Character &you, const bool food )
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );
     if( food ) {
-        consume_type_zone = zone_type_id( "AUTO_EAT" );
+        consume_type_zone = zone_type_AUTO_EAT;
     } else {
-        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+        consume_type_zone = zone_type_AUTO_DRINK;
     }
     map &here = get_map();
     const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, here.getabs( pos ),

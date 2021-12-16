@@ -54,7 +54,6 @@ void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
 void mapgen_cave( mapgendata &dat );
 void mapgen_cave_rat( mapgendata &dat );
-void mapgen_cavern( mapgendata &dat );
 void mapgen_rock( mapgendata &dat );
 void mapgen_rock_partial( mapgendata &dat );
 void mapgen_open_air( mapgendata &dat );

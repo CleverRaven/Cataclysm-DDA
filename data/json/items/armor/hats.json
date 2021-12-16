@@ -464,10 +464,10 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "white",
-    "warmth": 10,
+    "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 25, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "head" ] } ]
   },
   {
     "id": "porkpie",
@@ -508,6 +508,24 @@
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "santa_hat",
+    "type": "ARMOR",
+    "name": { "str": "santa hat" },
+    "description": "A red hat with white faux fur trim, commonly used by bearded men on Christmas.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "hat_knit",
+    "color": "red",
+    "warmth": 25,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "straw_hat",

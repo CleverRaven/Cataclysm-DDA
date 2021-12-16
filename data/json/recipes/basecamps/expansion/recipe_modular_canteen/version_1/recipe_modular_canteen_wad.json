@@ -18,7 +18,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 181 ] ],
           [ [ "nail", 244 ] ],
@@ -51,7 +51,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 259 ] ],
           [ [ "nail", 368 ] ],
@@ -84,7 +84,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 240 ] ],
           [ [ "nail", 448 ] ],
@@ -116,7 +116,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 360 ] ],
           [ [ "cattail_stalk", 128 ], [ "dogbane", 128 ], [ "pine_bough", 128 ], [ "straw_pile", 128 ] ],
@@ -148,7 +148,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 188 ] ],
           [ [ "nail", 274 ] ],
@@ -181,7 +181,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 233 ] ],
           [ [ "nail", 370 ] ],
@@ -213,7 +213,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 235 ] ],
           [ [ "nail", 504 ] ],

@@ -36,6 +36,7 @@
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -62,10 +63,13 @@
 
 struct mutation_branch;
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -82,8 +86,21 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 
+static const material_id material_cotton( "cotton" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_kevlar( "kevlar" );
+static const material_id material_paper( "paper" );
+static const material_id material_powder( "powder" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wood( "wood" );
+static const material_id material_wool( "wool" );
+
 static const species_id species_ROBOT( "ROBOT" );
 
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -94,17 +111,17 @@ const std::map<std::string, creature_size> Creature::size_map = {
 };
 
 const std::set<material_id> Creature::cmat_flesh{
-    material_id( "flesh" ), material_id( "iflesh" )
+    material_flesh, material_iflesh
 };
 const std::set<material_id> Creature::cmat_fleshnveg{
-    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+    material_flesh,  material_iflesh, material_veggy
 };
 const std::set<material_id> Creature::cmat_flammable{
-    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
-    material_id( "cotton" ), material_id( "wool" )
+    material_paper, material_powder, material_wood,
+    material_cotton, material_wool
 };
 const std::set<material_id> Creature::cmat_flameres{
-    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+    material_stone, material_kevlar, material_steel
 };
 
 Creature::Creature()
@@ -689,7 +706,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const weakpoint_attack &attack, const bodypart_id *bp )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
+        dealt_dam.bp_hit = anatomy_human_anatomy->random_body_part();
         return;
     }
 
@@ -708,7 +725,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = bp == nullptr ? select_body_part( source, hit_spread ) : *bp;
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -798,7 +816,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
     if( proj_effects.count( "INCENDIARY" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
                                dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
@@ -806,7 +824,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                                dealt_dam.bp_hit );
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
@@ -1124,6 +1142,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
     int total_damage = 0;
+    int total_base_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
@@ -1137,15 +1156,19 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
-    for( const auto &it : d.damage_units ) {
+    for( const damage_unit &it : d.damage_units ) {
         int cur_damage = 0;
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
+        total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
-
+    if( total_base_damage < total_damage ) {
+        // Only deal more HP than remains if damage not including crit multipliers is higher.
+        total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
+    }
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
@@ -1187,7 +1210,9 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
         case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            if( x_in_y( std::max( adjusted_damage, 2 ), 5 ) ) {
+                add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            }
             break;
 
         case damage_type::ACID:
@@ -1303,8 +1328,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     if( !force && is_immune_effect( eff_id ) ) {
         return;
     }
-    if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
-            has_effect( effect_riding ) ) ) {
+    if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||
+                                        has_effect( effect_riding ) ) ) {
         monster *mons = dynamic_cast<monster *>( this );
         if( mons && mons->mounted_player ) {
             mons->mounted_player->forced_dismount();
@@ -1881,7 +1906,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
                         part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
                         hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == body_part_head ) {
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
             new_max *= 0.8;
         }
 
@@ -2618,16 +2643,17 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
-bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
+
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
-
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
+    if( !is_monster() && !can_attack_high ) {
+        can_attack_high = as_character()->is_on_ground();
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

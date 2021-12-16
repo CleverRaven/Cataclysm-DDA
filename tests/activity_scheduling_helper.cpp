@@ -8,6 +8,7 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -74,7 +75,7 @@ void sleep_schedule::setup( avatar &guy ) const
 
 void sleep_schedule::do_turn( avatar &guy ) const
 {
-    if( !guy.has_effect( efftype_id( "sleep" ) ) ) {
+    if( !guy.has_effect( STATIC( efftype_id( "sleep" ) ) ) ) {
         debugmsg( "Woke up!" );
     }
 }

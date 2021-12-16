@@ -25,6 +25,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "output.h"
 #include "pimpl.h"
@@ -41,9 +42,13 @@ static const bionic_id bio_cqb( "bio_cqb" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
+static const limb_score_id limb_score_block( "block" );
+
 static const matec_id tec_none( "tec_none" );
 
 static const skill_id skill_unarmed( "unarmed" );
+
+static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
 
 namespace
 {
@@ -311,7 +316,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
         int skill_level = skillArray.get_int( 1 );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
-    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
@@ -1198,7 +1203,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
+    if( owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         }
@@ -1738,7 +1743,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( !valid_ma_weapons.empty() ) {
             Character &player = get_player_character();
-            const weapon_category_id other_cat( "OTHER_INVALID_WEAP_CAT" ); // hardcoded category
             std::map<weapon_category_id, std::vector<std::string>> weaps_by_cat;
             std::sort( valid_ma_weapons.begin(), valid_ma_weapons.end(),
             []( const itype_id & w1, const itype_id & w2 ) {
@@ -1763,14 +1767,14 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 }
                 if( !cat_found ) {
                     // Weapons that are uncategorized or not in the martial art's weapon categories
-                    weaps_by_cat[other_cat].push_back( wname );
+                    weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT].push_back( wname );
                 }
             }
 
             buffer += std::string( "<bold>" ) + _( "Weapons" ) + std::string( "</bold>" ) + "\n";
             bool has_other_cat = false;
             for( auto &weaps : weaps_by_cat ) {
-                if( weaps.first == other_cat ) {
+                if( weaps.first == weapon_category_OTHER_INVALID_WEAP_CAT ) {
                     // Print "OTHER" category at the end
                     has_other_cat = true;
                     continue;
@@ -1788,7 +1792,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 buffer += enumerate_as_string( weaps.second ) + "\n";
             }
             if( has_other_cat ) {
-                std::vector<std::string> &weaps = weaps_by_cat[other_cat];
+                std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
                 buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
                 buffer += enumerate_as_string( weaps );

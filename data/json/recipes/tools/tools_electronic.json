@@ -407,7 +407,7 @@
     "decomp_learn": 0,
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
@@ -773,7 +773,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 20 ], [ "plastic_molding", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
       { "proficiency": "prof_elec_soldering" },

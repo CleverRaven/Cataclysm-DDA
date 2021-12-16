@@ -615,7 +615,7 @@
         { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
         { "item": "birdfood", "x": [ 62, 64 ], "y": 5, "amount": [ 0, 1 ], "repeat": [ 3, 6 ] },
         { "item": "stepladder", "x": 65, "y": 5 },
-        { "item": "wheat", "x": [ 50, 55 ], "y": [ 6, 8 ], "amount": [ 2, 8 ], "repeat": [ 3, 6 ] }
+        { "item": "cattlefodder", "x": [ 50, 55 ], "y": [ 6, 8 ], "amount": [ 2, 8 ], "repeat": [ 3, 6 ] }
       ],
       "place_monster": [
         { "monster": "mon_horse", "x": [ 42, 43 ], "y": [ 25, 47 ], "repeat": [ 2, 4 ], "chance": 10 },

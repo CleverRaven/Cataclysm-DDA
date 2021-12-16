@@ -45,7 +45,7 @@
       { "item": "null", "prob": 10 },
       { "item": "jacket_army", "prob": 50 },
       { "item": "kevlar", "prob": 10 },
-      { "item": "ballistic_vest_esapi", "prob": 25 }
+      { "group": "military_ballistic_vest", "prob": 25 }
     ]
   },
   {

@@ -69,9 +69,11 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "talker.h"
+#include "teleport.h"
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "veh_type.h"
@@ -91,6 +93,10 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
 
@@ -576,8 +582,8 @@ void game::chat()
     const int guard_count = guards.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
-        !( player_character.is_wearing( itype_id( "foodperson_mask" ) ) ||
-           player_character.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        !( player_character.is_wearing( itype_foodperson_mask ) ||
+           player_character.is_wearing( itype_foodperson_mask_on ) ) ) {
         add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -1024,7 +1030,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                                  "medication or sedation wears off.\nYou estimate it will wear "
                                  "off in %2$s." ),
                               actor( true )->disp_name(),
-                              to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
+                              to_string_approx( player_character.estimate_effect_dur( skill_firstaid,
                                                 effect_narcosis, 90_minutes, 60_minutes, 6,
                                                 *actor( true )->get_npc() ) ) );
     }
@@ -3500,6 +3506,30 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    cata::optional<std::string> target_var;
+    bool global = false;
+    JsonObject target_obj = jo.get_object( member );
+    target_var = get_talk_varname( target_obj, "value" );
+    global = target_obj.get_bool( "global", false );
+    std::string fail_message = jo.get_string( "fail_message", "" );
+    std::string success_message = jo.get_string( "success_message", "" );
+    function = [is_npc, target_var, global, fail_message, success_message]( const dialogue & d ) {
+        talker *target = d.actor( is_npc );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, global );
+        Creature *teleporter = target->get_creature();
+        if( teleporter ) {
+            if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
+                                             false ) ) {
+                teleporter->add_msg_if_player( _( success_message ) );
+            } else {
+                teleporter->add_msg_if_player( _( fail_message ) );
+            }
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -3830,6 +3860,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_field( jo, "u_set_field", false );
     } else if( jo.has_string( "npc_set_field" ) ) {
         subeffect_fun.set_field( jo, "npc_set_field", true );
+    } else if( jo.has_object( "u_teleport" ) ) {
+        subeffect_fun.set_teleport( jo, "u_teleport", false );
+    } else if( jo.has_object( "npc_teleport" ) ) {
+        subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else {

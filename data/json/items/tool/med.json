@@ -57,7 +57,7 @@
     "name": { "str": "inhaler" },
     "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
     "weight": "85 g",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "price": 5000,
     "price_postapoc": 750,
     "material": [ "plastic" ],
@@ -109,7 +109,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -154,8 +154,8 @@
     "category": "tools",
     "name": { "str": "thermometer" },
     "description": "A plastic thermometer that can read the air temperature.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "25 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,

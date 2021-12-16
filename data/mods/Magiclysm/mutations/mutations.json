@@ -11,16 +11,6 @@
   },
   {
     "type": "mutation",
-    "id": "MIRROR_DISPLACEMENT",
-    "name": { "str": "Mirror Displacement" },
-    "points": 9,
-    "description": "You aren't where you seem to be.",
-    "starting_trait": false,
-    "category": [ "CHIMERA" ],
-    "flags": [ "UNCANNY_DODGE" ]
-  },
-  {
-    "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
     "extend": { "category": [ "DRAGON_BLACK" ] }
@@ -495,24 +485,6 @@
   },
   {
     "type": "mutation",
-    "id": "MANA_SIPHON_3",
-    "copy-from": "MANA_SIPHON_3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_ADD3",
-    "copy-from": "MANA_ADD3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_REGEN3",
-    "copy-from": "MANA_REGEN3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "MUZZLE_DRAGON",
     "name": { "str": "Scaled Mouth" },
     "points": -3,
@@ -584,6 +556,7 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -604,6 +577,7 @@
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You smash %s with your tail",

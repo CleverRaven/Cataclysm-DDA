@@ -39,8 +39,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_rifle",
@@ -78,8 +78,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_shotgun",
@@ -125,7 +125,7 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 3, "coverage": 12, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "flintlock_pouch",
@@ -206,11 +206,11 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
         "encumbrance": 4,
-        "coverage": 10,
+        "coverage": 25,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
@@ -236,7 +236,7 @@
     "armor": [
       {
         "encumbrance": 4,
-        "coverage": 10,
+        "coverage": 25,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
@@ -288,6 +288,6 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

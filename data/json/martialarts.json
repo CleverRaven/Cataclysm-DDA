@@ -215,7 +215,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50% of Strength.",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damge reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
@@ -236,11 +236,15 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance.  Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance.  Now strike back!\n\n+25% damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.25 },
+          { "stat": "damage", "type": "cut", "scale": 1.25 },
+          { "stat": "damage", "type": "stab", "scale": 1.25 }
+        ]
       }
     ],
     "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
@@ -297,12 +301,16 @@
       {
         "id": "buff_capoeira_onmiss",
         "name": "Capoeira Tempo",
-        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+15% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+15% damage.\nLasts 2 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
         "max_stacks": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.05 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.05 },
+          { "stat": "damage", "type": "cut", "scale": 1.05 },
+          { "stat": "damage", "type": "stab", "scale": 1.05 }
+        ]
       }
     ],
     "onmove_buffs": [
@@ -398,22 +406,30 @@
       {
         "id": "buff_dragon_onblock",
         "name": "Dragon's Vortex",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% damage.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_dragon_ondodge",
         "name": "Dragon Wing",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% damage.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "onpause_buffs": [
@@ -623,11 +639,15 @@
       {
         "id": "buff_judo_ondodge",
         "name": "Perfect Position",
-        "description": "You've moved into a perfect position to counter attack!.\n\n+30% Bash damage.",
+        "description": "You've moved into a perfect position to counter attack!.\n\n+30% damage.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.3 },
+          { "stat": "damage", "type": "cut", "scale": 1.3 },
+          { "stat": "damage", "type": "stab", "scale": 1.3 }
+        ]
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
@@ -801,32 +821,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapons": [
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_metal",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "cutlass",
-      "cutlass_fake",
-      "cutlass_inferior",
-      "cavalry_sabre",
-      "cavalry_sabre_fake"
-    ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -850,7 +845,7 @@
       {
         "id": "buff_muay_thai_ongethit",
         "name": "Determination",
-        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\nBash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
@@ -943,11 +938,12 @@
       {
         "id": "buff_niten_static",
         "name": "Niten Ichi-Ryu Stance",
-        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut armor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nArmor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
         "melee_allowed": true,
         "flat_bonuses": [
-          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "block", "scaling-stat": "per", "scale": 1.0 }
         ]
       }
@@ -973,7 +969,11 @@
         "max_stacks": 5,
         "persists": true,
         "flat_bonuses": [ { "stat": "dodge", "scale": -1.0 } ],
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.95 }, { "stat": "damage", "type": "cut", "scale": 0.95 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 0.95 },
+          { "stat": "damage", "type": "cut", "scale": 0.95 },
+          { "stat": "damage", "type": "stab", "scale": 0.95 }
+        ]
       }
     ],
     "ondodge_buffs": [
@@ -1030,23 +1030,31 @@
       {
         "id": "buff_pankration_ondodge",
         "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.\n+10% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "description": "The enemy has presented an opening in their defense.\n+10% damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "buff_pankration_oncrit",
         "name": "Close Combat",
-        "description": "You got your opponent right where you want them!\n\n+20% bash damage.\nLasts 1 turn.",
+        "description": "You got your opponent right where you want them!\n\n+20% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "required_buffs_all": [ "buff_pankration_ondodge" ],
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "techniques": [
@@ -1231,9 +1239,13 @@
       {
         "id": "buff_taekwondo_static2",
         "name": "Unhindered",
-        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% damage when not using a weapon.",
         "unarmed_allowed": true,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.33 },
+          { "stat": "damage", "type": "cut", "scale": 1.33 },
+          { "stat": "damage", "type": "stab", "scale": 1.33 }
+        ]
       }
     ],
     "techniques": [
@@ -1267,12 +1279,14 @@
       {
         "id": "buff_tai_chi_onblock",
         "name": "Repulse the Monkey",
-        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain bash Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception.  Gains Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "hit", "scaling-stat": "per", "scale": 0.2 }
         ]
       }

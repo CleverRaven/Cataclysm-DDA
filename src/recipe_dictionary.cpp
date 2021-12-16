@@ -27,6 +27,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
+
 recipe_dictionary recipe_dict;
 
 namespace
@@ -195,8 +197,12 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                if( r->is_practice() ) {
+                    return lcmatch( r->description.translated(), txt );
+                } else {
+                    const item result = r->create_result();
+                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                }
             }
 
             case search_type::proficiency:
@@ -549,7 +555,7 @@ void recipe_dictionary::finalize()
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
-            bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
+            bk.requirements_ = *requirement_data_uncraft_book * pages;
             // TODO: allow specifying time in requirement_data
             bk.time = pages * 10;
         }
