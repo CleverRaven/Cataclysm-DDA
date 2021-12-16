@@ -103,6 +103,8 @@
 
 static const ammotype ammo_battery( "battery" );
 
+static const diseasetype_id disease_bad_food( "bad_food" );
+
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
@@ -1748,6 +1750,21 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+
+    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
+        if( new_t.has_flag( "FRESH_WATER" ) ) {
+            item water( "water", calendar::start_of_cataclysm );
+            // TODO: Move all numeric values to json
+            water.charges = rng( 40, 240 );
+            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
+                water.poison = rng( 1, 6 );
+                water.get_comestible()->parasites = 5;
+                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
+            }
+            add_item( p, water );
+        }
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -4518,6 +4535,16 @@ item map::water_from( const tripoint &p )
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
+        return ret;
+    }
+
+    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
+        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        ret.poison = rng( 1, 6 );
+        ret.get_comestible()->parasites = 5;
+        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
         return ret;
     }
 
