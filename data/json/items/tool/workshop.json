@@ -548,6 +548,7 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
@@ -584,7 +585,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": [ "HAMMER" ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
