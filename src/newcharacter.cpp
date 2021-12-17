@@ -1188,7 +1188,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 sel = 4;
             }
         } else if( action == "LEFT" ) {
-            if( sel == 1 && u.calculate_nonmutated_strength( u ) > 4 ) {
+            if( sel == 1 && u.str_max > 4 ) {
                 u.str_max--;
             } else if( sel == 2 && u.dex_max > 4 ) {
                 u.dex_max--;
@@ -1198,7 +1198,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 u.per_max--;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.calculate_nonmutated_strength( u ) < max_stat_points ) {
+            if( sel == 1 && u.str_max < max_stat_points ) {
                 u.str_max++;
             } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 u.dex_max++;
