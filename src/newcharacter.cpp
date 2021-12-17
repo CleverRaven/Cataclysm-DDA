@@ -80,6 +80,7 @@ static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const string_id<scenario> scenario_wilderness( "wilderness" );
 
+static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -138,11 +139,17 @@ static int stat_point_pool()
 {
     return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
 }
+
+static int calculate_nonmutated_strength( const avatar &u )
+{
+    return u.str_max - 4 * u.has_trait( trait_HUGE );
+}
+
 static int stat_points_used( const avatar &u )
 {
     int used = 0;
     for( int stat : {
-             u.str_max, u.dex_max, u.int_max, u.per_max
+             calculate_nonmutated_strength( u ), u.dex_max, u.int_max, u.per_max
          } ) {
         used += stat + std::max( 0, stat - HIGH_STAT );
     }
@@ -1089,7 +1096,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
                 mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
-                if( u.str_max >= HIGH_STAT ) {
+                if( calculate_nonmutated_strength( u ) >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
                 }
@@ -1181,7 +1188,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 sel = 4;
             }
         } else if( action == "LEFT" ) {
-            if( sel == 1 && u.str_max > 4 ) {
+            if( sel == 1 && u.calculate_nonmutated_strength( u ) > 4 ) {
                 u.str_max--;
             } else if( sel == 2 && u.dex_max > 4 ) {
                 u.dex_max--;
@@ -1191,7 +1198,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 u.per_max--;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.str_max < max_stat_points ) {
+            if( sel == 1 && u.calculate_nonmutated_strength( u ) < max_stat_points ) {
                 u.str_max++;
             } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 u.dex_max++;
