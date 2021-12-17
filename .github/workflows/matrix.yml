@@ -166,6 +166,7 @@ jobs:
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         SKIP: ${{ ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+    if: ${{ github.event.pull_request.draft == false || matrix.title == "Basic Build and Test (GCC 9, Curses, LTO)" }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
