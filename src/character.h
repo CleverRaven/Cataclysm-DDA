@@ -2509,6 +2509,17 @@ class Character : public Creature, public visitable
         void set_rad( int new_rad );
         void mod_rad( int mod );
 
+        float get_heartrate_index() const;
+        void update_heartrate_index();
+
+        float get_bloodvol_index() const;
+        void update_bloodvol_index();
+
+        float get_circulation_resistance() const;
+        void set_circulation_resistance( float ncirculation_resistance );
+
+        void update_circulation();
+
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
@@ -3335,6 +3346,15 @@ class Character : public Creature, public visitable
         int stamina;
 
         int cardio_acc;
+
+        // All indices represent the percentage compared to normal.
+        // i.e. a value of 1.1 means 110% of normal.
+        float heart_rate_index = 1.0f;
+        float blood_vol_index = 1.0f;
+
+        float circulation;
+        // Should remain fixed at 1.0 for now.
+        float circulation_resistance = 1.0f;
 
         int fatigue;
         int sleep_deprivation;

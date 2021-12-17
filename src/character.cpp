@@ -8565,6 +8565,8 @@ void Character::use_fire( const int quantity )
     }
 }
 
+// Todo: refactor this function to take into account only heart_rate_index.
+// Will need to set-up the rng stats as modifiers during player creation to keep consistent.
 int Character::heartrate_bpm() const
 {
     //Dead have no heartbeat usually and no heartbeat in omnicell
