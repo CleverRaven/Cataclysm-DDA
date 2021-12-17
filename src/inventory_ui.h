@@ -26,6 +26,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
+#include "units.h"
 #include "units_fwd.h"
 
 class Character;
@@ -51,6 +52,7 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
+struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;

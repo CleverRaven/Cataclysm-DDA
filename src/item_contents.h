@@ -41,12 +41,11 @@ class item_contents
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
-        units::length max_containable_length() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
-        units::volume max_containable_volume() const;
+        units::volume max_containable_volume( bool unrestricted_pockets_only = false ) const;
 
         std::set<flag_id> magazine_flag_restrictions() const;
-
         /**
          * returns whether any of the pockets contained is compatible with the specified item.
          * Does not check if the item actually fits volume/weight wise
@@ -139,19 +138,21 @@ class item_contents
         units::length item_length_modifier() const;
 
         // gets the total weight capacity of all pockets
-        units::mass total_container_weight_capacity() const;
+        units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
         /**
           * gets the total volume available to be used.
           * does not guarantee that an item of that size can be inserted.
           */
-        units::volume total_container_capacity() const;
+        units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
 
         // Gets the total volume of every is_standard_type container
-        units::volume total_standard_capacity() const;
+        units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume remaining_container_capacity() const;
-        units::volume total_contained_volume() const;
+        units::volume remaining_container_capacity( bool unrestricted_pockets_only = false ) const;
+        units::volume total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
+        units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
@@ -280,6 +281,7 @@ class item_contents
 
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
@@ -295,6 +297,9 @@ class item_contents
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;
+        // the container has restrictions
+        bool is_restricted_container() const;
+        bool is_single_restricted_container() const;
         /**
          * @relates visitable
          * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility

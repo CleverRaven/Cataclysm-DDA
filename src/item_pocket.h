@@ -132,6 +132,7 @@ class item_pocket
 
         bool stacks_with( const item_pocket &rhs ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
+        bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
         bool is_valid() const;
