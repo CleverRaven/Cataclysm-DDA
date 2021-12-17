@@ -32,7 +32,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "memory_fast.h"
-#include "messages.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
