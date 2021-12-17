@@ -89,6 +89,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
       - [To hit object](#to-hit-object)
@@ -2498,6 +2499,51 @@ See also VEHICLE_JSON.md
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
 ```
+
+### Weakpoint Sets
+A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
+
+```json
+{
+  "type": "weakpoint_set",
+  "id": "wps_zombie_headshot",
+  "weakpoints": [
+    {
+      "id": "wp_head_stun",
+      "name": "the head",
+      "coverage": 5,
+      "crit_mult": { "all": 1.1 },
+      "armor_mult": { "physical": 0.75 },
+      "difficulty": { "melee": 1, "ranged": 3 },
+      "effects": [
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 5,
+          "message": "The %s is stunned!",
+          "damage_required": [ 1, 10 ]
+        },
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 25,
+          "message": "The %s is stunned!",
+          "damage_required": [ 11, 100 ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Weakpoint sets are applied to a monster using the monster's `"weakpoint_sets"` field. Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"//": "(in MONSTER type)",
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 # `data/json/items/` JSONs
 
