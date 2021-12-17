@@ -127,7 +127,7 @@
   {
     "id": "mon_feral_human_pipe_fungal_corpse",
     "type": "MONSTER",
-    "description": "Delicate fungal stalks sprout in rows from sores covering the body, and the facial expression is pure joy.  Coos softly.",
+    "description": "Delicate fungal stalks sprout in rows from sores covering the body, and what remains of the facial expression is pure agony.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
@@ -138,7 +138,7 @@
   {
     "id": "mon_feral_human_crowbar_fungal_corpse",
     "type": "MONSTER",
-    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and what remains of the facial expression is pure agony.  Moans softly.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
@@ -149,7 +149,7 @@
   {
     "id": "mon_feral_human_axe_fungal_corpse",
     "type": "MONSTER",
-    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and what remains of the facial expression is pure agony.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
