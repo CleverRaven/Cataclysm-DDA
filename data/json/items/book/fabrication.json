@@ -84,7 +84,6 @@
     "color": "blue",
     "skill": "fabrication",
     "required_level": 6,
-    "max_level": 6,
     "proficiencies": [
       { "proficiency": "prof_fine_metalsmithing", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false },
       { "proficiency": "prof_gem_setting", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false }

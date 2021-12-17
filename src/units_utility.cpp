@@ -166,10 +166,23 @@ std::string length_units( const units::length &length )
     }
 }
 
-std::string weight_to_string( const units::mass &weight )
+std::string length_to_string( const units::length &length, const bool compact )
 {
-    const double converted_weight = convert_weight( weight );
-    return string_format( "%.2f %s", converted_weight, weight_units() );
+    const int converted_length = convert_length( length );
+    std::string string_to_format = "%u%s%s";
+    return string_format( string_to_format, converted_length, compact ? "" : " ",
+                          length_units( length ) );
+}
+
+std::string weight_to_string( const units::mass &weight, const bool compact,
+                              const bool remove_trailing_zeroes )
+{
+    const int default_decimal_places = 2;
+    const double converted_weight = round_with_places( convert_weight( weight ),
+                                    default_decimal_places );
+    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
+                                   std::to_string( default_decimal_places ) + "f%s%s";
+    return string_format( string_to_format, converted_weight, compact ? "" : " ", weight_units() );
 }
 
 double convert_volume( int volume )
@@ -198,12 +211,39 @@ double convert_volume( int volume, int *out_scale )
     return ret;
 }
 
-std::string vol_to_string( const units::volume &vol )
+std::string vol_to_string( const units::volume &vol, const bool compact,
+                           const bool remove_trailing_zeroes )
 {
     int converted_volume_scale = 0;
+    const int default_decimal_places = 3;
     const double converted_volume =
-        convert_volume( vol.value(),
-                        &converted_volume_scale );
+        round_with_places( convert_volume( vol.value(),
+                                           &converted_volume_scale ), default_decimal_places );
+    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
+                                   std::to_string( default_decimal_places ) + "f%s%s";
+    return string_format( string_to_format, converted_volume, compact ? "" : " ", volume_units_abbr() );
+}
 
-    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
+std::string unit_to_string( const units::volume &unit, const bool compact,
+                            const bool remove_trailing_zeroes )
+{
+    return vol_to_string( unit, compact, remove_trailing_zeroes );
+}
+std::string unit_to_string( const units::mass &unit, const bool compact,
+                            const bool remove_trailing_zeroes )
+{
+    return weight_to_string( unit, compact, remove_trailing_zeroes );
+}
+std::string unit_to_string( const units::length &unit, const bool compact )
+{
+    return length_to_string( unit, compact );
+}
+
+/**
+ * round a float @value, with int @decimal_places limitation
+*/
+double round_with_places( double value, int decimal_places )
+{
+    const double multiplier = std::pow( 10.0, decimal_places );
+    return std::round( value * multiplier ) / multiplier;
 }
