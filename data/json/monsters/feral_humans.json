@@ -103,10 +103,7 @@
   {
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
-    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
     "copy-from": "mon_feral_human_pipe",
-    "default_faction": "fungus",
-    "speed": 0,
     "upgrades": { "age_grow": 4, "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
@@ -114,10 +111,7 @@
   {
     "id": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
-    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
     "copy-from": "mon_feral_human_crowbar",
-    "default_faction": "fungus",
-    "speed": 0,
     "upgrades": { "age_grow": 4, "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
