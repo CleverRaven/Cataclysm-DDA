@@ -1028,6 +1028,10 @@ bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
 }
+bool item::is_worn_by_player() const
+{
+    return get_player_character().is_worn( *this );
+}
 
 item item::in_its_container( int qty ) const
 {
@@ -2935,8 +2939,12 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::lower_is_better, mod.sight_dispersion );
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_FIELD_OF_VIEW ) ) {
-        info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
-                           iteminfo::lower_is_better, mod.field_of_view );
+        if( mod.field_of_view >= MAX_RECOIL ) {
+            info.emplace_back( "GUNMOD", _( "Field of view: <good>No limit</good>" ) );
+        } else {
+            info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
+                               iteminfo::lower_is_better, mod.field_of_view );
+        }
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER ) ) {
         info.emplace_back( "GUNMOD", _( "Aim speed modifier: " ), "",
@@ -3338,17 +3346,23 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::string layering = _( "Layer:" );
         if( has_flag( flag_PERSONAL ) ) {
             layering += _( " <stat>Personal aura</stat>." );
-        } else if( has_flag( flag_SKINTIGHT ) ) {
+        }
+        if( has_flag( flag_SKINTIGHT ) ) {
             layering += _( " <stat>Close to skin</stat>." );
-        } else if( has_flag( flag_BELTED ) ) {
+        }
+        if( has_flag( flag_BELTED ) ) {
             layering += _( " <stat>Strapped</stat>." );
-        } else if( has_flag( flag_OUTER ) ) {
+        }
+        if( has_flag( flag_OUTER ) ) {
             layering += _( " <stat>Outer</stat>." );
-        } else if( has_flag( flag_WAIST ) ) {
+        }
+        if( has_flag( flag_WAIST ) ) {
             layering += _( " <stat>Waist</stat>." );
-        } else if( has_flag( flag_AURA ) ) {
+        }
+        if( has_flag( flag_AURA ) ) {
             layering += _( " <stat>Outer aura</stat>." );
-        } else {
+        }
+        if( layering == "Layer:" ) {
             layering += _( " <stat>Normal</stat>." );
         }
 
@@ -3640,9 +3654,12 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const SkillLevel &skill = player_character.get_skill_level_object( book.skill );
             if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
                 const std::string skill_name = book.skill->name();
-                std::string fmt = string_format( _( "Can bring your <info>%s skill to</info> "
-                                                    "<num>." ), skill_name );
-                info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
+                std::string fmt;
+                if( book.level != 0 ) {
+                    fmt = string_format( _( "Can bring your <info>%s skill to</info> "
+                                            "<num>." ), skill_name );
+                    info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
+                }
                 fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
                                      skill_name );
                 info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.knowledgeLevel() );
@@ -6875,29 +6892,152 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     return encumber;
 }
 
-layer_level item::get_layer() const
+std::vector<layer_level> item::get_layer() const
 {
-    if( type->armor ) {
-        // We assume that an item will never have per-item flags defining its
-        // layer, so we can defer to the itype.
-        return type->layer;
-    }
+    std::vector<layer_level> layers;
 
     if( has_flag( flag_PERSONAL ) ) {
-        return layer_level::PERSONAL;
-    } else if( has_flag( flag_SKINTIGHT ) ) {
-        return layer_level::UNDERWEAR;
-    } else if( has_flag( flag_WAIST ) ) {
-        return layer_level::WAIST;
-    } else if( has_flag( flag_OUTER ) ) {
-        return layer_level::OUTER;
+        layers.push_back( layer_level::PERSONAL );
+    }
+    if( has_flag( flag_SKINTIGHT ) ) {
+        layers.push_back( layer_level::UNDERWEAR );
+    }
+    if( has_flag( flag_WAIST ) ) {
+        layers.push_back( layer_level::WAIST );
+    }
+    if( has_flag( flag_OUTER ) ) {
+        layers.push_back( layer_level::OUTER );
+    }
+    if( has_flag( flag_BELTED ) ) {
+        layers.push_back( layer_level::BELTED );
+    }
+    if( has_flag( flag_AURA ) ) {
+        layers.push_back( layer_level::AURA );
+    }
+    if( layers.empty() ) {
+        layers.push_back( layer_level::REGULAR );
+    }
+    return layers;
+}
+
+layer_level item::get_max_layer() const
+{
+    if( has_flag( flag_AURA ) ) {
+        return layer_level::AURA;
     } else if( has_flag( flag_BELTED ) ) {
         return layer_level::BELTED;
-    } else if( has_flag( flag_AURA ) ) {
-        return layer_level::AURA;
+    } else if( has_flag( flag_OUTER ) ) {
+        return layer_level::OUTER;
+    } else if( has_flag( flag_WAIST ) ) {
+        return layer_level::WAIST;
+    } else if( has_flag( flag_SKINTIGHT ) ) {
+        return layer_level::UNDERWEAR;
+    } else if( has_flag( flag_PERSONAL ) ) {
+        return layer_level::PERSONAL;
     } else {
         return layer_level::REGULAR;
     }
+}
+bool item::has_layer( layer_level ll ) const
+{
+    switch( ll ) {
+        case layer_level::PERSONAL:
+            return has_flag( flag_PERSONAL );
+        case layer_level::UNDERWEAR:
+            return has_flag( flag_SKINTIGHT );
+        case layer_level::WAIST:
+            return has_flag( flag_WAIST );
+        case layer_level::OUTER:
+            return has_flag( flag_OUTER );
+        case layer_level::BELTED:
+            return has_flag( flag_BELTED );
+        case layer_level::AURA:
+            return has_flag( flag_AURA );
+        case layer_level::NUM_LAYER_LEVELS:
+            // should never be seen
+            return false;
+        case layer_level::REGULAR:
+            std::vector<layer_level> layers;
+            if( has_flag( flag_PERSONAL ) ) {
+                layers.push_back( layer_level::PERSONAL );
+            }
+            if( has_flag( flag_SKINTIGHT ) ) {
+                layers.push_back( layer_level::UNDERWEAR );
+            }
+            if( has_flag( flag_WAIST ) ) {
+                layers.push_back( layer_level::WAIST );
+            }
+            if( has_flag( flag_OUTER ) ) {
+                layers.push_back( layer_level::OUTER );
+            }
+            if( has_flag( flag_BELTED ) ) {
+                layers.push_back( layer_level::BELTED );
+            }
+            if( has_flag( flag_AURA ) ) {
+                layers.push_back( layer_level::AURA );
+            }
+            // for regular layer it's the absence of a flag
+            return layers.empty();
+    }
+    return false;
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll ) const
+{
+    bool found = false;
+    for( layer_level layer : ll ) {
+        switch( layer ) {
+            case layer_level::PERSONAL:
+                found = found || has_flag( flag_PERSONAL );
+                break;
+            case layer_level::UNDERWEAR:
+                found = found || has_flag( flag_SKINTIGHT );
+                break;
+            case layer_level::WAIST:
+                found = found || has_flag( flag_WAIST );
+                break;
+            case layer_level::OUTER:
+                found = found || has_flag( flag_OUTER );
+                break;
+            case layer_level::BELTED:
+                found = found || has_flag( flag_BELTED );
+                break;
+            case layer_level::AURA:
+                found = found || has_flag( flag_AURA );
+                break;
+            case layer_level::NUM_LAYER_LEVELS:
+                // should never happen
+                break;
+            case layer_level::REGULAR:
+                std::vector<layer_level> layers;
+                if( has_flag( flag_PERSONAL ) ) {
+                    layers.push_back( layer_level::PERSONAL );
+                }
+                if( has_flag( flag_SKINTIGHT ) ) {
+                    layers.push_back( layer_level::UNDERWEAR );
+                }
+                if( has_flag( flag_WAIST ) ) {
+                    layers.push_back( layer_level::WAIST );
+                }
+                if( has_flag( flag_OUTER ) ) {
+                    layers.push_back( layer_level::OUTER );
+                }
+                if( has_flag( flag_BELTED ) ) {
+                    layers.push_back( layer_level::BELTED );
+                }
+                if( has_flag( flag_AURA ) ) {
+                    layers.push_back( layer_level::AURA );
+                }
+                // for regular layer it's the absence of a flag
+                found = found || layers.empty();
+                break;
+        }
+        //if they have any matching layers we don't need to keep looking
+        if( found ) {
+            break;
+        }
+    }
+    return found;
 }
 
 int item::get_avg_coverage( const cover_type &type ) const
@@ -8101,6 +8241,18 @@ bool item::is_container() const
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
 }
 
+bool item::is_container_with_restriction() const
+{
+    if( !is_container() ) {
+        return false;
+    }
+    return contents.is_restricted_container();
+}
+
+bool item::is_single_container_with_restriction() const
+{
+    return contents.is_single_restricted_container();
+}
 
 bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
 {
@@ -8414,9 +8566,9 @@ double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod va
     return modify;
 }
 
-units::length item::max_containable_length() const
+units::length item::max_containable_length( const bool unrestricted_pockets_only ) const
 {
-    return contents.max_containable_length();
+    return contents.max_containable_length( unrestricted_pockets_only );
 }
 
 units::length item::min_containable_length() const
@@ -9919,14 +10071,33 @@ int item::getlight_emit() const
     return lumint;
 }
 
-units::volume item::get_total_capacity() const
+units::volume item::get_total_capacity( const bool unrestricted_pockets_only ) const
 {
-    return contents.total_container_capacity();
+    return contents.total_container_capacity( unrestricted_pockets_only );
 }
 
-units::mass item::get_total_weight_capacity() const
+units::mass item::get_total_weight_capacity( const bool unrestricted_pockets_only ) const
 {
-    return contents.total_container_weight_capacity();
+    return contents.total_container_weight_capacity( unrestricted_pockets_only );
+}
+
+units::volume item::get_remaining_capacity( const bool unrestricted_pockets_only ) const
+{
+    return contents.remaining_container_capacity( unrestricted_pockets_only );
+}
+units::mass item::get_remaining_weight_capacity( const bool unrestricted_pockets_only ) const
+{
+    return contents.remaining_container_capacity_weight( unrestricted_pockets_only );
+}
+
+
+units::volume item::get_total_contained_volume( const bool unrestricted_pockets_only ) const
+{
+    return contents.total_contained_volume( unrestricted_pockets_only );
+}
+units::mass item::get_total_contained_weight( const bool unrestricted_pockets_only ) const
+{
+    return contents.total_contained_weight( unrestricted_pockets_only );
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
@@ -12037,6 +12208,11 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     return 0_ml;
 }
 
+bool item::has_unrestricted_pockets() const
+{
+    return contents.has_unrestricted_pockets();
+}
+
 units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
 const
 {
@@ -12092,9 +12268,9 @@ std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) 
     return contents.all_items_top( pk_type );
 }
 
-std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool unloading )
 {
-    return contents.all_items_top( pk_type );
+    return contents.all_items_top( pk_type, unloading );
 }
 
 std::list<const item *> item::all_items_ptr() const

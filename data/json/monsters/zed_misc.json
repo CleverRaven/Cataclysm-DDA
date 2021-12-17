@@ -956,6 +956,7 @@
     "diff": 25,
     "death_function": {
       "effect": { "id": "necro_boomer_death", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
       "message": "The %s lets out an unholy screech, and the corpses around it stir."
     }
   },
