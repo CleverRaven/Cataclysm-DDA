@@ -1162,7 +1162,7 @@ void Character::update_heartrate_index()
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float hr_stamina_mod = 0.0f;
     // The influence of stamina on heartrate seemeed excessive and was toned down.
-    if( stamina_level >= 0.9f ) {
+    hr_stamina_mod = 1.6f * ( 1.0f - stamina_level)
         hr_stamina_mod = 0.0f;
     } else if( stamina_level >= 0.8f ) {
         hr_stamina_mod = 0.2f;
