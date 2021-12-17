@@ -5914,7 +5914,7 @@ int Character::height() const
     const double base_height_deviation = base_height() / static_cast< double >
                                          ( Character::default_height() );
     const HeightLimits &limits = size_category_height_limits.at( get_size() );
-    return clamp<int>( base_height_deviation * limits.base_height,
+    return clamp<int>( std::round( base_height_deviation * limits.base_height ),
                        limits.min_height, limits.max_height );
 }
 
