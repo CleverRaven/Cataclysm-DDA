@@ -1848,21 +1848,21 @@
     "type": "json_flag"
   },
   {
-    "id": "LASER_SIGHT",
-    "type": "json_flag",
-    "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
-    "name": "laser sight"
-  },
-  {
     "id": "GAS_TANK",
     "type": "json_flag",
     "info": "Airtight tanks for propane, natural gas, etc.",
     "name": "gas tank"
   },
   {
-    "id": "EXO_SMALL",
-    "type": "json_flag",
-    "info": "This is meant for a small exoskeleton hardpoint."
+  "id": "LASER_SIGHT",
+  "type": "json_flag",
+  "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
+  "name": "laser sight"
+  },
+  {
+  "id": "EXO_SMALL",
+  "type": "json_flag",
+  "info": "This is meant for a small exoskeleton hardpoint."
   },
   {
     "id": "EXO_LARGE",
@@ -1928,5 +1928,75 @@
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
     "info": "This is meant for exoskeleton foot plating."
+	},
+	{
+  "type": "json flag",
+  "info": "This is meant for a small exoskeleton hardpoint."
+  },
+  {
+  "id": "EXO_LARGE",
+  "type": "json flag",
+  "info": "This is meant for a large exoskeleton hardpoint."
+  },
+  {
+  "id": "EXO_PSU",
+  "type": "json flag",
+  "info": "This is meant for an exoskeleton PSU hardpoint."
+  },
+  {
+  "id": "EXO_SMALL_GADGET",
+  "type": "json flag",
+  "info": "This is meant for small exoskeleton gadgets, 1 L or less."
+  },
+  {
+  "id": "EXO_HELMET_GADGET",
+  "type": "json flag",
+  "info": "This is meant for helmet-specific gadgets."
+  },
+  {
+  "id": "EXO_MEDIUM_GADGET",
+  "type": "json flag",
+  "info": "This is meant for medium exoskeleton gadgets, between 1 L and 5 L."
+  },
+  {
+  "id": "EXO_LARGE_GADGET",
+  "type": "json flag",
+  "info": "This is meant for large exoskeleton gadgets, larger than 5 L."
+  },
+  {
+  "id": "EXO_HELMET_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton helmet plating."
+  },
+  {
+  "id": "EXO_TORSO_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton torso plating."
+  },
+  {
+  "id": "EXO_PSU_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton PSU plating."
+  },
+  {
+  "id": "EXO_ARM_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton arm plating."
+  },
+  {
+  {
+  "id": "EXO_GLOVE_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton arm plating."
+  },
+  {
+  "id": "EXO_LEG_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton leg plating."
+  },
+  {
+  "id": "EXO_BOOT_PLATE",
+  "type": "json flag",
+  "info": "This is meant for exoskeleton foot plating."
   }
 ]
