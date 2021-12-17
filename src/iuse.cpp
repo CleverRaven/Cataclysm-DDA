@@ -3885,27 +3885,33 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name() );
+    } else if( tazer_was_armored ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but are blocked by armor." ),
+                                  _( "<npcname> attempts to shock %s, but is blocked by armor." ),
+                                  target->disp_name() );
     } else {
-        // TODO: Maybe - Execute an attack and maybe zap something other than torso
-        // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 5,
-                                            25 ) ) ).total_damage();
-        if( dam > 0 ) {
-            p->add_msg_player_or_npc( m_good,
-                                      _( "You shock %s!" ),
-                                      _( "<npcname> shocks %s!" ),
-                                      target->disp_name() );
+        // Stun duration scales harshly inversely with big creatures
+        if( target->get_size() == creature_size::tiny ) {
+            target->moves -= rng( 150, 250 );
+        } else if( target->get_size() == creature_size::small ) {
+            target->moves -= rng( 125, 200 );
+        } else if( target->get_size() == creature_size::large ) {
+            target->moves -= rng( 95, 115 );
+        } else if( target->get_size() == creature_size::huge ) {
+            target->moves -= rng( 50, 80 );
         } else {
-            p->add_msg_player_or_npc( m_warning,
-                                      _( "You unsuccessfully attempt to shock %s!" ),
-                                      _( "<npcname> unsuccessfully attempts to shock %s!" ),
-                                      target->disp_name() );
+            target->moves -= rng( 110, 150 );
         }
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You shock %s!" ),
+                                  _( "<npcname> shocks %s!" ),
+                                  target->disp_name() );
     }
 
     if( foe != nullptr ) {
@@ -3917,11 +3923,11 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
 cata::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 100 ) {
+    if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
-        fake.charges = 100;
+        fake.charges = 2;
         return tazer( p, &fake, b, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );

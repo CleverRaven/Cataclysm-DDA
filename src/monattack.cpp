@@ -3315,7 +3315,24 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
-    if( target == nullptr || target->uncanny_dodge() ) {
+    if( target == nullptr ) {
+        return;
+    };
+
+    /** @EFFECT_DODGE increases chance of dodging a tazer attack */
+    const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( 15, 10 ) < dice( tazer_resistance, 10 );
+
+    if( tazer_was_dodged || target->uncanny_dodge() ) {
+        target->add_msg_if_player( m_bad, _( "The %s attempts to shock you but you dodge." ),
+                                   z->name() );
+        return;
+    }
+
+    if( tazer_was_armored ) {
+        target->add_msg_if_player( m_bad, _( "The %s unsuccessfully attempts to shock you." ),
+                                   z->name() );
         return;
     }
 
