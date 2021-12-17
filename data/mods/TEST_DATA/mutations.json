@@ -157,5 +157,15 @@
       ]
     ],
     "transform": { "target": "TEST_TRIGGER_2", "msg_transform": "The trigger (active) is triggered.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_ARMOR_MUTATION",
+    "name": "Test armor",
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Gives some extra armor to body parts.",
+    "armor": [ { "part_types": [ "arm", "torso", "tail" ], "bash": 5 }, { "part_types": [ "ALL" ], "cut": 1 } ]
   }
 ]
