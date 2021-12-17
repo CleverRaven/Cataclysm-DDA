@@ -2325,7 +2325,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         tripoint target_pos = talker_pos;
         int max_radius = iov_max_radius.evaluate( target );
         if( target_params.has_value() ) {
-            mission_target_params update_params = target_params.value();
+            const mission_target_params update_params = target_params.value();
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
