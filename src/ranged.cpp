@@ -3109,8 +3109,8 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // Also fire if we're at our best aim level already.
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
-    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
+    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion <= min_recoil ||
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil <= min_recoil );
     return done_aiming;
 }
 
