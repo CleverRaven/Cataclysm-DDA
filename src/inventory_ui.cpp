@@ -995,10 +995,14 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
+    const auto is_visible = [&filter_fn, &filter]( inventory_entry const & it ) {
+        return it.is_item() && ( filter_fn( it ) && ( !filter.empty() || !it.is_hidden() ) );
+    };
+
     // restore entries revealed by SHOW_CONTENTS
     // FIXME: replace by std::remove_copy_if in C++17
     for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
-        if( it->is_item() && !it->is_hidden() && filter_fn( *it ) ) {
+        if( is_visible( *it ) ) {
             add_entry( *it );
             it = entries_hidden.erase( it );
         } else {
@@ -1008,7 +1012,7 @@ void inventory_column::prepare_paging( const std::string &filter )
 
     // First, remove all non-items and backup hidden entries
     for( auto it = entries.begin(); it != entries.end(); ) {
-        if( !it->is_item() || !filter_fn( *it ) || it->is_hidden() ) {
+        if( !is_visible( *it ) ) {
             if( it->is_item() ) {
                 entries_hidden.emplace_back( std::move( *it ) );
             }
@@ -2552,6 +2556,8 @@ void inventory_selector::action_examine( const item_location sitem )
     std::vector<iteminfo> vDummy;
 
     sitem->info( true, vThisItem );
+    vThisItem.insert( vThisItem.begin(),
+    { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
 
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
