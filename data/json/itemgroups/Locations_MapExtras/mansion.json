@@ -1302,7 +1302,8 @@
       [ "rag", 30 ],
       [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
-      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] }
+      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] },
+      [ "kevlar_shears", 5 ]
     ]
   },
   {

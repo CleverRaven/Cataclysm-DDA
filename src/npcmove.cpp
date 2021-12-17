@@ -1177,7 +1177,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            aim( Target_attributes( target_size_in_moa( pos(), tar ) ) );
+            aim( Target_attributes( pos(), tar ) );
             break;
 
         case npc_shoot: {
@@ -1186,7 +1186,7 @@ void npc::execute_action( npc_action action )
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
             }
-            aim( Target_attributes( target_size_in_moa( pos(), tar ) ) );
+            aim( Target_attributes( pos(), tar ) );
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {

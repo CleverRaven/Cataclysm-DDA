@@ -18,7 +18,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 300 ] ],
           [ [ "cattail_stalk", 80 ], [ "dogbane", 80 ], [ "pine_bough", 80 ], [ "straw_pile", 80 ] ],
@@ -50,7 +50,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 185 ] ],
           [ [ "cattail_stalk", 52 ], [ "dogbane", 52 ], [ "pine_bough", 52 ], [ "straw_pile", 52 ] ],
@@ -83,7 +83,12 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [
+          [ { "id": "CUT", "level": 2 } ],
+          [ { "id": "DIG" } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
         "components": [
           [ [ "2x4", 315 ] ],
           [ [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ], [ "straw_pile", 36 ] ],
@@ -117,7 +122,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ], [ "tailor", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 172 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
@@ -146,34 +151,7 @@
     "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "blueprint_needs": {
-      "time": "1 d 3 h 10 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
-        "qualities": [
-          [ { "id": "CUT" } ],
-          [ { "id": "GLARE", "level": 1 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
-        ],
-        "components": [
-          [ [ "2x4", 162 ] ],
-          [ [ "cattail_stalk", 24 ], [ "dogbane", 24 ], [ "pine_bough", 24 ], [ "straw_pile", 24 ] ],
-          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
-          [ [ "clay_lump", 24 ], [ "material_limestone", 24 ], [ "material_quicklime", 24 ] ],
-          [ [ "material_sand", 60 ], [ "pebble", 60 ] ],
-          [ [ "nail", 380 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "sheet_metal_small", 8 ] ],
-          [ [ "water", 32 ], [ "water_clean", 32 ] ],
-          [ [ "wood_panel", 23 ] ]
-        ]
-      }
-    }
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -194,7 +172,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 260 ] ],
           [ [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ], [ "straw_pile", 96 ] ],
@@ -229,7 +207,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 452 ] ],
           [ [ "anvil", 1 ] ],

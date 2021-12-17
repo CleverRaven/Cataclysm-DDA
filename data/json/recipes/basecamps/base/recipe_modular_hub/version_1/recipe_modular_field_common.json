@@ -738,7 +738,7 @@
       "skills": [ [ "survival", 3 ], [ "fabrication", 1 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "SAW_W" } ] ],
         "components": [
           [
             [ "cordage_36", 2 ],

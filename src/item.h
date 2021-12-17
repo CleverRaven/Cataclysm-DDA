@@ -761,6 +761,10 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        /** Whether it is a container, and if it is has some restrictions */
+        bool is_container_with_restriction() const;
+        /** Whether it is a container with only one pocket, and if it is has some restrictions */
+        bool is_single_container_with_restriction() const;
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
@@ -829,12 +833,24 @@ class item : public visitable
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
          */
-        units::volume get_total_capacity() const;
-        units::mass get_total_weight_capacity() const;
+        units::volume get_total_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_remaining_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        // checks if the item can have things placed in it
+        bool has_pockets() const {
+            // what has it gots in them, precious
+            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
+        }
+        bool has_unrestricted_pockets() const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
@@ -1380,7 +1396,7 @@ class item : public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
-        units::length max_containable_length() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
@@ -1789,7 +1805,22 @@ class item : public visitable
         /**
          * Returns clothing layer for item.
          */
-        layer_level get_layer() const;
+        std::vector<layer_level> get_layer() const;
+
+        /**
+         * Returns highest layer this clothing covers
+         */
+        layer_level get_max_layer() const;
+
+        /**
+         * Returns true if an item has a given layer level.
+         */
+        bool has_layer( layer_level ll ) const;
+
+        /**
+         * Returns true if an item has any of the given layer levels.
+         */
+        bool has_layer( const std::vector<layer_level> &ll ) const;
 
         enum cover_type {
             COVER_DEFAULT,
@@ -1877,6 +1908,10 @@ class item : public visitable
          * Returns true whether this item can be worn only when @param it is worn.
          */
         bool is_worn_only_with( const item &it ) const;
+        /**
+        * Returns true wether this item is worn or not
+        */
+        bool is_worn_by_player() const;
 
         /**
          * @name Pet armor related functions.
@@ -2440,8 +2475,10 @@ class item : public visitable
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
-        /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** returns a list of pointers to all top-level items
+         *  if unloading is true it ignores items in pockets that are flagged to not unload
+         */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         /**
          * returns a list of pointers to all items inside recursively
