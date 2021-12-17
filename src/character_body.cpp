@@ -20,7 +20,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
-static const efftype_id effect_cig("cig");
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -1160,21 +1160,8 @@ void Character::update_heartrate_index()
     }
     const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
-    float hr_stamina_mod = 0.0f;
     // The influence of stamina on heartrate seemeed excessive and was toned down.
-    hr_stamina_mod = 1.6f * ( 1.0f - stamina_level)
-        hr_stamina_mod = 0.0f;
-    } else if( stamina_level >= 0.8f ) {
-        hr_stamina_mod = 0.2f;
-    } else if( stamina_level >= 0.6f ) {
-        hr_stamina_mod = 0.5f;
-    } else if( stamina_level >= 0.4f ) {
-        hr_stamina_mod = 0.8f;
-    } else if( stamina_level >= 0.2f ) {
-        hr_stamina_mod = 1.2f;
-    } else {
-        hr_stamina_mod = 1.6f;
-    }
+    const float hr_stamina_mod = 1.6f * ( 1.0f - stamina_level );
 
     const int stim_level = get_stim();
     float hr_stim_mod = 0.0f;
