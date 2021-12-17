@@ -1227,6 +1227,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "enabled", enabled );
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
+    json.member( "cached_shift", cached_shift );
     json.member( "start", start );
     json.member( "end", end );
     options->serialize( json );
@@ -1253,8 +1254,10 @@ void zone_data::deserialize( const JsonObject &data )
     }
     if( data.has_member( "is_personal" ) ) {
         data.read( "is_personal", is_personal );
+        data.read( "cached_shift", cached_shift );
     } else {
         is_personal = false;
+        cached_shift = tripoint_zero;
     }
     //Legacy support
     if( data.has_member( "start_x" ) ) {
