@@ -26,7 +26,6 @@
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 3, 5 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 3, 5 ] } },
