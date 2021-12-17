@@ -1805,7 +1805,22 @@ class item : public visitable
         /**
          * Returns clothing layer for item.
          */
-        layer_level get_layer() const;
+        std::vector<layer_level> get_layer() const;
+
+        /**
+         * Returns highest layer this clothing covers
+         */
+        layer_level get_max_layer() const;
+
+        /**
+         * Returns true if an item has a given layer level.
+         */
+        bool has_layer( layer_level ll ) const;
+
+        /**
+         * Returns true if an item has any of the given layer levels.
+         */
+        bool has_layer( const std::vector<layer_level> &ll ) const;
 
         enum cover_type {
             COVER_DEFAULT,
