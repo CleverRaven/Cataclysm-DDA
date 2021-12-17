@@ -437,7 +437,7 @@
       "so, this is how it ends, huh?",
       "I don't wanna go",
       "bury me somewhere nice, if I don't make it",
-      "<name_g>, I don't feel so good",
+      "<name_g>, I don't feel so good"
     ]
   },
   {
@@ -503,7 +503,7 @@
       "buddy",
       "chum",
       "bruv",
-      "bud",
+      "bud"
     ]
   },
   {
@@ -630,7 +630,7 @@
       "alright",
       "that clear",
       "capiche",
-      "gotcha",
+      "gotcha"
     ]
   },
   {
@@ -961,7 +961,7 @@
       "Prepare yourself!  We have a",
       "<swear>",
       "Holy fuck!",
-      "Thats a whole lotta nope right there!",
+      "Thats a whole lotta nope right there!"
     ]
   },
   {
@@ -1003,7 +1003,7 @@
       "Weapons hot!",
       "Lock and load!",
       "We've got incoming!",
-      "Ready to rumble?".
+      "Ready to rumble?",
       "It's a good day to die",
       "Ambush!",
       "We've got company",
@@ -1313,7 +1313,7 @@
       "I smell heresy.",
       "Seriously?  You're smoking that?",
       "Well that's one way to guarantee the zombies don't kill you.",
-      "Come on <name_g>, you're better than this.",
+      "Come on <name_g>, you're better than this."
     ]
   },
   {
@@ -1627,7 +1627,7 @@
       "Nice to have food once in a while.",
       "I just had some food, but I'm still peckish.  Would you mind if I ate more?",
       "Not quite restaurant quality but it'll do.",
-      "I miss mom's cooking."
+      "I miss mom's cooking.",
       "I'll just pretend that was pizza."
     ]
   },
