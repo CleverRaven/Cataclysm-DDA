@@ -18,7 +18,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 78 ] ],
           [ [ "nail", 24 ] ],
@@ -50,7 +50,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 78 ] ],
           [ [ "nail", 24 ] ],
@@ -82,7 +82,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 108 ] ],
           [ [ "nail", 24 ] ],
@@ -114,7 +114,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 78 ] ],
           [ [ "nail", 24 ] ],
@@ -146,7 +146,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 38 ] ],
           [ [ "nail", 24 ] ],

@@ -194,7 +194,7 @@
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
     "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -230,7 +230,7 @@
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {

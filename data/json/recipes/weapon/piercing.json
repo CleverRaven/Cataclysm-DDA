@@ -272,7 +272,7 @@
       { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
@@ -296,7 +296,7 @@
       { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "stick_long", 1 ] ] ]
   },
@@ -509,7 +509,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
     "components": [
@@ -529,7 +529,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -554,7 +554,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ] ]
@@ -570,7 +570,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -605,7 +605,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "spike", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ] ]
   },
@@ -620,7 +620,7 @@
     "difficulty": 3,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ], [ "pointy_stick_long", 1 ] ] ]
@@ -710,7 +710,7 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
@@ -744,7 +744,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {

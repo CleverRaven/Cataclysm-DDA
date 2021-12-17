@@ -2850,6 +2850,8 @@ Books can be defined like this:
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
 ```
+It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
+
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
 ```C++
 "type" : "TOOL",      // Or any other item type

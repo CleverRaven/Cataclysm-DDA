@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -474,7 +474,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
   {
@@ -484,7 +484,7 @@
     "time": "1 h",
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },
   {

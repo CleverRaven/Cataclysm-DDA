@@ -127,7 +127,6 @@
     "color": "light_green",
     "skill": "chemistry",
     "required_level": 7,
-    "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
     "fun": -2
@@ -207,7 +206,6 @@
     "color": "light_green",
     "skill": "chemistry",
     "required_level": 8,
-    "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
     "fun": -2
