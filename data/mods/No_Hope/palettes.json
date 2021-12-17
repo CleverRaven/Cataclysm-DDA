@@ -691,7 +691,7 @@
     "type": "palette",
     "id": "bunker",
     "terrain": {
-      "#": "t_rock",
+      "#": "t_soil",
       "*": "t_chaingate_c",
       "+": "t_door_metal_c",
       "-": "t_scrap_wall",
