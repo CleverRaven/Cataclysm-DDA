@@ -44,7 +44,7 @@ jobs:
   build_object_creator:
     name: Build
     runs-on: windows-2019
-
+ 
     steps:
     - name: checkout repository
       uses: actions/checkout@v2

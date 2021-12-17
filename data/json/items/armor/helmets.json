@@ -498,40 +498,38 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "nomex" ],
+    "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 25
-        },
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
-          ],
-          "covers": [ "eyes" ],
-          "coverage": 100,
-          "encumbrance": 5
-        },
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
-          ],
-          "covers": [ "mouth" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
     "environmental_protection": 1,
@@ -553,22 +551,20 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "nomex" ],
+    "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 6.0 },
-            { "type": "nomex", "covered_by_mat": 100, "thickness": 6.0 }
-          ],
-          "encumbrance": 25,
-          "coverage": 100,
-          "covers": [ "head" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "head" ]
+      }
+    ],
     "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,
     "environmental_protection": 1,

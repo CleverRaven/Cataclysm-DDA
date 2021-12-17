@@ -104,6 +104,14 @@ class item_pocket
                 /** Flag to show or hide the pocket contents in 'i'nventory screen. */
                 void set_collapse( bool );
 
+                // functions for setting if the pocket is completely disabled for normal pickup
+                bool is_disabled() const;
+                void set_disabled( bool );
+
+                // functions for setting if the pocket will unload during normal actions
+                bool is_unloadable() const;
+                void set_unloadable( bool );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
@@ -115,6 +123,8 @@ class item_pocket
                 cata::flat_set<item_category_id> category_whitelist;
                 cata::flat_set<item_category_id> category_blacklist;
                 bool collapsed = false;
+                bool disabled = false;
+                bool unload = true;
         };
 
         item_pocket() = default;
@@ -122,6 +132,7 @@ class item_pocket
 
         bool stacks_with( const item_pocket &rhs ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
+        bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
         bool is_valid() const;

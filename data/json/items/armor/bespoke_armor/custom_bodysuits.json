@@ -86,7 +86,7 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER", "BELTED" ]
   },
   {
     "id": "lsurvivor_suit",

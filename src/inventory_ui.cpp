@@ -144,6 +144,27 @@ struct inventory_input {
     inventory_entry *entry;
 };
 
+struct container_data {
+    units::volume actual_capacity;
+    units::volume total_capacity;
+    units::mass actual_capacity_weight;
+    units::mass total_capacity_weight;
+    units::length max_containable_length;
+
+    std::string to_formatted_string( const bool compact = true ) {
+        std::string string_to_format;
+        if( compact ) {
+            string_to_format = "%s/%s : %s/%s : max %s";
+        } else {
+            string_to_format = "(remains %s, %s) max length %s";
+        }
+        return string_format( string_to_format,
+                              unit_to_string( total_capacity - actual_capacity, true, true ),
+                              unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
+                              unit_to_string( max_containable_length, true ) );
+    }
+};
+
 static int contained_offset( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
@@ -388,7 +409,31 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     if( !entry ) {
         return std::string();
     } else if( entry.is_item() ) {
-        return cells[cell_index].get_text( entry );
+        std::string text = cells[cell_index].get_text( entry );
+        const item &actual_item = *entry.locations.front();
+        if( cell_index == 0 && !text.empty() &&
+            entry.get_category_ptr()->get_id() == item_category_ITEMS_WORN &&
+            actual_item.is_worn_by_player() &&
+            actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
+            const units::volume total_capacity = actual_item.get_total_capacity( true );
+            const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
+            const units::length max_containable_length = actual_item.max_containable_length( true );
+
+            const units::volume actual_capacity = actual_item.get_total_contained_volume( true );
+            const units::mass actual_capacity_weight = actual_item.get_total_contained_weight( true );
+
+            container_data container_data = {
+                actual_capacity,
+                total_capacity,
+                actual_capacity_weight,
+                total_capacity_weight,
+                max_containable_length
+            };
+            std::string formatted_string = container_data.to_formatted_string( false );
+
+            text = text + string_format( " %s", formatted_string );
+        }
+        return text;
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
@@ -762,16 +807,27 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return get_entries( filter_to_selected );
 }
 
-std::vector<inventory_entry *> inventory_column::get_entries(
-    const std::function<bool( const inventory_entry &entry )> &filter_func ) const
+void inventory_column::_get_entries( get_entries_t *res, entries_t const &ent,
+                                     const ffilter_t &filter_func ) const
 {
-    std::vector<inventory_entry *> res;
+    if( allows_selecting() ) {
+        for( const auto &elem : ent ) {
+            if( filter_func( elem ) ) {
+                res->push_back( const_cast<inventory_entry *>( &elem ) );
+            }
+        }
+    }
+}
+
+inventory_column::get_entries_t inventory_column::get_entries( const ffilter_t &filter_func,
+        bool include_hidden ) const
+{
+    get_entries_t res;
 
     if( allows_selecting() ) {
-        for( const auto &elem : entries ) {
-            if( filter_func( elem ) ) {
-                res.push_back( const_cast<inventory_entry *>( &elem ) );
-            }
+        _get_entries( &res, entries, filter_func );
+        if( include_hidden ) {
+            _get_entries( &res, entries_hidden, filter_func );
         }
     }
 
@@ -902,15 +958,21 @@ void inventory_column::add_entry( const inventory_entry &entry )
     paging_is_valid = false;
 }
 
-void inventory_column::move_entries_to( inventory_column &dest )
+void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : entries ) {
+    for( const auto &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
+}
+
+void inventory_column::move_entries_to( inventory_column &dest )
+{
+    _move_entries_to( entries, dest );
+    _move_entries_to( entries_hidden, dest );
     dest.prepare_paging();
     clear();
 }
@@ -950,10 +1012,14 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
+    const auto is_visible = [&filter_fn, &filter]( inventory_entry const & it ) {
+        return it.is_item() && ( filter_fn( it ) && ( !filter.empty() || !it.is_hidden() ) );
+    };
+
     // restore entries revealed by SHOW_CONTENTS
     // FIXME: replace by std::remove_copy_if in C++17
     for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
-        if( it->is_item() && !it->is_hidden() && filter_fn( *it ) ) {
+        if( is_visible( *it ) ) {
             add_entry( *it );
             it = entries_hidden.erase( it );
         } else {
@@ -963,7 +1029,7 @@ void inventory_column::prepare_paging( const std::string &filter )
 
     // First, remove all non-items and backup hidden entries
     for( auto it = entries.begin(); it != entries.end(); ) {
-        if( !it->is_item() || !filter_fn( *it ) || it->is_hidden() ) {
+        if( !is_visible( *it ) ) {
             if( it->is_item() ) {
                 entries_hidden.emplace_back( std::move( *it ) );
             }
@@ -2365,7 +2431,7 @@ void inventory_selector::toggle_categorize_contained()
     }
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
-        for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
+        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             if( entry->any_item().where() == item_location::type::container ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
@@ -2384,12 +2450,12 @@ void inventory_selector::toggle_categorize_contained()
             }
         }
         own_gear_column.clear();
-        for( inventory_entry *entry : replacement_column.get_entries( return_true ) ) {
+        for( inventory_entry *entry : replacement_column.get_entries( return_true, true ) ) {
             own_gear_column.add_entry( *entry );
         }
         own_inv_column.set_indent_entries_override( false );
     } else {
-        for( inventory_entry *entry : own_inv_column.get_entries( return_item ) ) {
+        for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
             item_location ancestor = entry->any_item();
             while( ancestor.has_parent() ) {
                 ancestor = ancestor.parent_item();
@@ -2507,6 +2573,8 @@ void inventory_selector::action_examine( const item_location sitem )
     std::vector<iteminfo> vDummy;
 
     sitem->info( true, vThisItem );
+    vThisItem.insert( vThisItem.begin(),
+    { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
 
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;

@@ -63,6 +63,7 @@ Monsters may also have any of these optional properties:
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
+| `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
@@ -377,6 +378,19 @@ The `armor_mult`, `armor_penalty`, `damage_mult`, and `crit_mult` objects suppor
 Default weakpoints are weakpoint objects with an `id` equal to the empty string.
 When an attacker misses the other weakpoints, they will hit the defender's default weakpoint.
 A monster should have at most 1 default weakpoint.
+
+## "weakpoint_sets"
+(array of strings, optional)
+
+Each string refers to the id of a separate `"weakpoint_set"` type JSON object (See [Weakpoint Sets](JSON_INFO.md#weakpoint-sets) for details).
+
+Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 ## "families"
 (array of objects, optional)

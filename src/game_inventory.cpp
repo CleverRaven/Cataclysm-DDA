@@ -1780,9 +1780,9 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            // no liquids
-            if( !it->made_of( phase_id::LIQUID ) ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+            // no liquids and no items marked as favorite
+            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
                 // When item_location gets updated to get items inside containers outside the player inventory
                 // uncomment this

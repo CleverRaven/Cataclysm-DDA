@@ -97,6 +97,7 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weakpoint.h"
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
@@ -457,6 +458,7 @@ void DynamicDataLoader::initialize()
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
+    add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -617,6 +619,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
+    weakpoints::reset();
     weather_types::reset();
 }
 

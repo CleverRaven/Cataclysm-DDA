@@ -376,9 +376,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The second phase of this test is to perform the tile-level mapgen once
     // for each oter_type, in hopes of triggering any errors that might arise
     // with that.
+    /* Temporarally disabled until we fix https://github.com/CleverRaven/Cataclysm-DDA/issues/52345
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
         const tripoint_abs_omt pos = p.second.first_observed;
         tinymap tm;
         tm.load( project_to<coords::sm>( pos ), false );
     }
+    */
 }
