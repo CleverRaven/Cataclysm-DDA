@@ -351,7 +351,7 @@ TEST_CASE( "included bionics", "[bionics]" )
             THEN( "the bionic and its included bionics are installed" ) {
                 REQUIRE( dummy.num_bionics() > 1 );
                 bionic &parent_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
-                bionic &included_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
+                bionic &included_bio = dummy.bionic_at_index( dummy.num_bionics() - 1 );
                 REQUIRE( parent_bio.id == bio_ears );
                 REQUIRE( included_bio.id == bio_earplugs );
                 CHECK( included_bio.get_parent_uid() == parent_bio.get_uid() );
