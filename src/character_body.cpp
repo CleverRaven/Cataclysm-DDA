@@ -20,6 +20,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_cig("cig");
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -42,7 +43,6 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_cig( "cig" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
