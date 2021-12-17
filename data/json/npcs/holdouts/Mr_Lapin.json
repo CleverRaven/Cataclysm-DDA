@@ -205,11 +205,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "cattlefodder", "count": 2 }
-      ]
-    }
+    "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
   },
   {
     "id": "MISSION_Warrener_FOOD_2",
