@@ -15,7 +15,7 @@
     "material": [ "copper" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -35,7 +35,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
@@ -74,7 +74,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -94,7 +94,7 @@
     "material": [ "wood", "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -113,7 +113,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ]
   },
   {
     "type": "TOOL",
@@ -129,6 +129,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -18 ] ]
   }
 ]

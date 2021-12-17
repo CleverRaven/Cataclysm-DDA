@@ -16,7 +16,7 @@
     "using": [ [ "shot_forming", 12 ], [ "ammo_bullet", 126 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "11.5x the propellant and 11.5x the payload of 12 gauge 00 shot load. 13409 mg gunpowder rounded to 134 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -43,7 +43,7 @@
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 115 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "11.5x the propellant and 11.5x the payload of 12 gauge slug load. 19366 mg gunpowder rounded to 194 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -68,7 +68,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "11.5x the propellant and 11.5x the payload of 12 gauge flechette load. 8625 mg gunpowder rounded to 86 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
@@ -97,7 +97,7 @@
     "using": [ [ "shot_forming", 12 ], [ "ammo_bullet", 126 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -123,7 +123,7 @@
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 115 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -147,7 +147,7 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],

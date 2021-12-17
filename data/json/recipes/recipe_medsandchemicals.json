@@ -21,7 +21,10 @@
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ] ] ]
+    "components": [
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -56,7 +59,7 @@
     "difficulty": 2,
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },

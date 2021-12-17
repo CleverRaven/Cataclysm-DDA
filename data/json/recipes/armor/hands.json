@@ -104,7 +104,7 @@
     "skill_used": "tailor",
     "time": "16 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "gloves_leather", 1 ] ] ]
   },
   {
@@ -415,7 +415,7 @@
     "skill_used": "tailor",
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "gloves_survivor", 1 ] ] ]
   },
   {
@@ -423,7 +423,7 @@
     "type": "recipe",
     "copy-from": "gloves_survivor_fingerless",
     "time": "40 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "xl_gloves_survivor", 1 ] ] ]
   },
   {
@@ -435,7 +435,7 @@
     "skill_used": "tailor",
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "gloves_lsurvivor", 1 ] ] ]
   },
   {
@@ -443,7 +443,7 @@
     "type": "recipe",
     "copy-from": "gloves_lsurvivor_fingerless",
     "time": "40 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "xl_gloves_lsurvivor", 1 ] ] ]
   },
   {

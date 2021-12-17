@@ -540,7 +540,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ||
+            m.ter( p )->has_examine( iexamine::finite_water_source ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
