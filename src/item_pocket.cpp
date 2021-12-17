@@ -1927,7 +1927,7 @@ bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
            category_whitelist.empty() && category_blacklist.empty() &&
-           priority() == 0 && !collapsed;
+           priority() == 0 && !collapsed && !disabled && unload;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -2006,6 +2006,10 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
 
 bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
+    // if this pocket is disabled it accepts nothing
+    if( disabled ) {
+        return false;
+    }
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
@@ -2048,6 +2052,26 @@ void item_pocket::favorite_settings::set_collapse( bool flag )
     collapsed = flag;
 }
 
+bool item_pocket::favorite_settings::is_disabled() const
+{
+    return disabled;
+}
+
+void item_pocket::favorite_settings::set_disabled( bool flag )
+{
+    disabled = flag;
+}
+
+bool item_pocket::favorite_settings::is_unloadable() const
+{
+    return unload;
+}
+
+void item_pocket::favorite_settings::set_unloadable( bool flag )
+{
+    unload = flag;
+}
+
 template<typename T>
 std::string enumerate( cata::flat_set<T> container )
 {
@@ -2060,6 +2084,14 @@ std::string enumerate( cata::flat_set<T> container )
 
 void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
+    if( disabled ) {
+        info.emplace_back( "BASE", string_format(
+                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them" ) ) );
+    }
+    if( !unload ) {
+        info.emplace_back( "BASE", string_format(
+                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them" ) ) );
+    }
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
                        item_whitelist.empty() ? _( "(empty)" ) :
