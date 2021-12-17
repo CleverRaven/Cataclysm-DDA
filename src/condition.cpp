@@ -1220,6 +1220,23 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
         }
+    } else if (jo.has_array("distance")) {
+        JsonArray objects = jo.get_array(distance);
+        return [objects, d](const T&) {
+            tripoint first;
+            if (objects.get_object(0).has_string()) {
+                std::string type = objects.get_object(0).get_string();
+                if (type == "u") {
+                    first = d.actor(false).pos();
+                }
+                else if (type == "npc") {
+                    first = d.actor(true).pos();
+                }
+            }
+            else {
+                tripoint target_pos = get_tripoint_from_var(d.actor(is_npc), target_var, true);
+            }
+        };
     }
     jo.throw_error( "unrecognized integer source in " + jo.str() );
     return []( const T & ) {
