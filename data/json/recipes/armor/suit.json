@@ -403,17 +403,13 @@
     ],
     "components": [
       [ [ "jacket_army", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "chestrig", 1 ] ],
+      [ [ "mbag", 1 ], [ "runner_bag", 1 ] ],
       [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_army", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 24 ]
-      ]
+      [ [ "sheet_kevlar_layered", 24 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "swat_armor", 1 ] ]
     ]
   },
   {
