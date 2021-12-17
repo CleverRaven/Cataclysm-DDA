@@ -64,7 +64,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ], [ "tanned_hide", 5 ] ] ]
   },
@@ -92,7 +92,7 @@
     "difficulty": 3,
     "time": "5 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rag", 150 ], [ "leather", 150 ], [ "felt_patch", 150 ], [ "tanned_hide", 25 ] ] ]
   },

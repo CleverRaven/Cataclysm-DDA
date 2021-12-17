@@ -249,6 +249,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
+        case ter_furn_flag::TFLAG_MURKY: return "MURKY";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -278,6 +279,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "CLAY",                     TERCONN_CLAY },
         { "DIRT",                     TERCONN_DIRT },
         { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
+        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
         { "WOODFLOOR",               TERCONN_WOODFLOOR },
     }
