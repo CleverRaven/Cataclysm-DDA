@@ -45,7 +45,7 @@
     "copy-from": "afs_hydraulic_gauntlet",
     "type": "ARMOR",
     "name": { "str": "exoskeleton hydraulic gauntlet" },
-    "description": "A huge, heavy metal gauntlet lined with tubing and gauges, worn in place of standard exoskeleton gauntlets.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively. ",
+    "description": "A huge, heavy metal gauntlet lined with tubing and gauges, worn in place of standard exoskeleton gauntlets. Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively. ",
     "looks_like": "gauntlets_chitin",
     "color": "light_gray",
     "bashing": 50,
