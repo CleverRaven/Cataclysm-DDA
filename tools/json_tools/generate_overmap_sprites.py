@@ -15,7 +15,7 @@ from util import import_data
 
 
 SIZE = 24
-ROTATIONS = ('_E', '_S', '_W')
+ROTATIONS = ('_E', '_S', '_W')  # FIXME: try _north _east _south _west
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 SCHEME = None
@@ -78,6 +78,7 @@ def generate_image(
     rows: list,
     terrain_dict: dict,
     fill_ter: str,
+    rotation: int = 0,
 ) -> Image:
     """
     Generate sprite from rows
@@ -100,6 +101,9 @@ def generate_image(
             except TypeError:
                 print(color)
                 raise
+
+    if rotation:
+        image = image.rotate(-90 * rotation)
 
     return image
 
@@ -217,16 +221,32 @@ def get_mapgen_data(
     return mapgen_data
 
 
-def output_image(
+def write_image_with_rotations(
+    image: Image,
+    name: str,
+    output_dir: Path,
+    # raw_rotation: Union[None, int, list] = None,
+) -> None:
+    """
+    Write image to disk along with the rotations
+    """
+    image.save(output_dir / f'{name}.png')
+    for rotation_suffix in ROTATIONS:
+        image = image.rotate(-90)
+        image.save(output_dir / f'{name}{rotation_suffix}.png')
+
+
+def output_sprite(
     name: str,
     image: Image,
     generate_json: bool,
     output_dir: Optional[Path] = None,
     duplicates_dir: Optional[Path] = None,
+    # rotation: Union[None, int, list] = None,
     # single_terrain: bool = False
 ) -> None:
     """
-    Save image to disk
+    Handle single sprite
     """
     # if f'{name}{ROTATED_SUFFIX}' in CREATED_IDS:
     #    raise Exception('ROTATED_SUFFIX caused duplicated sprite names')
@@ -250,11 +270,7 @@ def output_image(
             with open(filepath, 'w') as file:
                 json.dump(tile_entry, file)
 
-        # FIXME: move it into another function
-        image.save(output_dir / f'{name}.png')
-        for rotation in ROTATIONS:
-            image = image.rotate(-90)
-            image.save(output_dir / f'{name}{rotation}.png')
+        write_image_with_rotations(image, name, output_dir)  # , rotation)
         CREATED_IDS.add(name)
         return
 
@@ -287,12 +303,55 @@ def output_image(
         VARIANTS[name] += 1
 
     # FIXME: move it into another function
-    image.save(duplicates_subdir / f'{name}_{VARIANTS[name]}.png')
-    for rotation in ROTATIONS:
-        image = image.rotate(-90)
-        image.save(
-            duplicates_subdir / f'{name}_{VARIANTS[name]}{rotation}.png'
-        )
+    write_image_with_rotations(
+        image,
+        f'{name}_{VARIANTS[name]}',
+        duplicates_subdir,
+        # rotation,
+    )
+
+
+def get_effective_rotation(rotation: Union[None, int, list]) -> int:
+    """
+    >>> get_effective_rotation(None)
+    0
+    >>> get_effective_rotation(1)
+    1
+    >>> get_effective_rotation([2])
+    2
+    >>> get_effective_rotation([3, 3])
+    3
+    >>> get_effective_rotation([0, 3])
+    0
+    >>> get_effective_rotation([3, 4])
+    WARNING: unexpected rotation value [3, 4]
+    0
+    """
+    if not rotation:
+        return 0
+
+    if isinstance(rotation, int):
+        return rotation
+
+    if not isinstance(rotation, list):
+        raise Exception(f'Unexpected rotation value: {rotation}')
+
+    if len(rotation) == 1:
+        return rotation[0]
+
+    if len(rotation) != 2:
+        raise Exception(f'Unexpected rotations length: {rotation}')
+
+    if rotation[0] == rotation[1]:
+        return rotation[0]
+
+    if rotation in ([0, 3], [0, 1]):
+        return 0
+
+    # if min(rotation) < 0 or max(rotation) > 3:
+    print(f'WARNING: unexpected rotation value {rotation}')
+
+    return 0
 
 
 def main():
@@ -399,6 +458,8 @@ def main():
         # if not terrain_dict:
         #    single_terrain = True
 
+        raw_rotation = mapgen.get('rotation')
+
         # verify "rows" is not empty
         rows = mapgen.get('rows')
         fill_ter = mapgen.get('fill_ter')
@@ -415,13 +476,15 @@ def main():
 
         # create the sprite
         image = generate_image(
-            rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter)
+            rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter,
+            rotation=get_effective_rotation(raw_rotation),
+        )
 
         # write sprite[s] to the output directory
         if isinstance(om_id, list) and isinstance(om_id[0], list):
             generator = split_image(image=image, om_ids=om_id)
             for submap_id, submap_image in generator:
-                output_image(
+                output_sprite(
                     name=submap_id,
                     image=submap_image,
                     generate_json=generate_json,
@@ -432,7 +495,7 @@ def main():
 
         else:
             om_id = get_first_valid(om_id)
-            output_image(
+            output_sprite(
                 name=om_id,
                 image=image,
                 generate_json=generate_json,
