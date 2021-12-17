@@ -781,11 +781,8 @@ static void smash()
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
-                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
-                    if( res.first == bp.id() ) {
-                        tmp_bash_armor += std::floor( res.second.type_resist( damage_type::BASH ) );
-                    }
-                }
+                const resistances &res = mut->damage_resistance( bp );
+                tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
