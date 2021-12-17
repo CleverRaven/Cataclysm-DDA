@@ -8684,6 +8684,10 @@ void game::reload_weapon( bool try_everything )
     [this]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();
         const item *bp = b.get_item();
+        // Non gun/magazines are sorted last and later ignored.
+        if( !ap->is_magazine() && !ap->is_gun() ) {
+            return false;
+        }
         // Current wielded weapon comes first.
         if( this->u.is_wielding( *bp ) ) {
             return false;
@@ -8707,6 +8711,9 @@ void game::reload_weapon( bool try_everything )
                ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
+        if( !candidate.get_item()->is_magazine() && !candidate.get_item()->is_gun() ) {
+            continue;
+        }
         std::vector<item::reload_option> ammo_list;
         u.list_ammo( *candidate.get_item(), ammo_list, false );
         if( !ammo_list.empty() ) {
