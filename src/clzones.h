@@ -244,10 +244,12 @@ class zone_data
         bool invert;
         bool enabled;
         bool is_vehicle;
-        //centered on the player
-        bool is_personal;
         tripoint start;
         tripoint end;
+        //centered on the player
+        bool is_personal;
+        // for personal zones a cached value for the global shift to where the zone was
+        tripoint cached_shift;
         shared_ptr_fast<zone_options> options;
 
     public:
@@ -259,6 +261,7 @@ class zone_data
             is_personal = false;
             start = tripoint_zero;
             end = tripoint_zero;
+            cached_shift = tripoint_zero;
             options = nullptr;
         }
 
@@ -340,6 +343,10 @@ class zone_data
             }
             return end;
         }
+        void update_cached_shift() {
+            avatar &player_character = get_avatar();
+            cached_shift = get_map().getabs( player_character.pos() );
+        }
         tripoint get_center_point() const;
         bool has_options() const {
             return options->has_options();
@@ -350,21 +357,21 @@ class zone_data
         zone_options &get_options() {
             return *options;
         }
-        bool has_inside( const tripoint &p ) const {
+        // check if the entry is inside
+        // if cached is set to true, use the cached location instead of the current player location
+        // for personal zones. This is used when checking for a zone DURING an activity which can otherise
+        // cause issues of zones moving around
+        bool has_inside( const tripoint &p, bool cached = false ) const {
             // if it is personal then the zone is local
             if( is_personal ) {
+                tripoint shift;
                 avatar &player_character = get_avatar();
-                const tripoint &shift = get_map().getabs( player_character.pos() );
-                add_msg( m_info, _( "p: %d,%d,%d" ), p.x, p.y, p.z );
-                add_msg( m_info, _( "start: %d,%d,%d" ), start.x + shift.x, start.y + shift.y, start.z + shift.z );
-                add_msg( m_info, _( "end: %d,%d,%d" ), end.x + shift.x, end.y + shift.y, end.z + shift.z );
+                // if we want the cached location vs the current uncached version centered on the player
+                cached ? shift = cached_shift : shift = get_map().getabs( player_character.pos() );
                 return p.x >= start.x + shift.x && p.x <= end.x + shift.x &&
                        p.y >= start.y + shift.y && p.y <= end.y + shift.y &&
                        p.z >= start.z + shift.z && p.z <= end.z + shift.z;
             }
-            add_msg( m_info, _( "p: %d,%d,%d" ), p.x, p.y, p.z );
-            add_msg( m_info, _( "start: %d,%d,%d" ), start.x, start.y, start.z );
-            add_msg( m_info, _( "end: %d,%d,%d" ), end.x, end.y, end.z );
             return p.x >= start.x && p.x <= end.x &&
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
@@ -423,7 +430,8 @@ class zone_manager
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
                   const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
-        const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
+        const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type,
+                                      bool cached = false ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 

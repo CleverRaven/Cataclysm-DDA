@@ -623,9 +623,14 @@ void zone_manager::cache_data()
 {
     area_cache.clear();
 
-    for( const zone_data &elem : zones ) {
+    for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
+        }
+
+        // update the current cached locations for each personal zone
+        if( elem.get_is_personal() ) {
+            elem.update_cached_shift();
         }
 
         const std::string &type_hash = elem.get_type_hash();
@@ -759,10 +764,11 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
+const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type,
+        bool cached ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where ) && zone.get_type() == type ) {
+        if( zone.has_inside( where, cached ) && zone.get_type() == type ) {
             return &zone;
         }
     }
@@ -778,12 +784,10 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
+    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM, true );
     if( !zone || !it ) {
-        add_msg( m_info, _( "no zone" ) );
         return false;
     }
-    add_msg( m_info, _( "found zone" ) );
     const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
@@ -796,9 +800,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
-    add_msg( m_info, _( "z: %d" ), where.z );
     for( const tripoint &point : point_set ) {
-        add_msg( m_info, _( "x: %d, y: %d, z: %d" ), point.x, point.y, point.z );
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_LOOT_CUSTOM, point ) ) {
