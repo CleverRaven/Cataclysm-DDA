@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "avatar.h"
+#include "messages.h"
 #include "map.h"
 
 class JsonObject;
@@ -354,10 +355,16 @@ class zone_data
             if( is_personal ) {
                 avatar &player_character = get_avatar();
                 const tripoint &shift = get_map().getabs( player_character.pos() );
+                add_msg( m_info, _( "p: %d,%d,%d" ), p.x, p.y, p.z );
+                add_msg( m_info, _( "start: %d,%d,%d" ), start.x + shift.x, start.y + shift.y, start.z + shift.z );
+                add_msg( m_info, _( "end: %d,%d,%d" ), end.x + shift.x, end.y + shift.y, end.z + shift.z );
                 return p.x >= start.x + shift.x && p.x <= end.x + shift.x &&
                        p.y >= start.y + shift.y && p.y <= end.y + shift.y &&
                        p.z >= start.z + shift.z && p.z <= end.z + shift.z;
             }
+            add_msg( m_info, _( "p: %d,%d,%d" ), p.x, p.y, p.z );
+            add_msg( m_info, _( "start: %d,%d,%d" ), start.x, start.y, start.z );
+            add_msg( m_info, _( "end: %d,%d,%d" ), end.x, end.y, end.z );
             return p.x >= start.x && p.x <= end.x &&
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
