@@ -82,6 +82,22 @@ parent_path_t path_to_top( inventory_entry const &e )
     return path;
 }
 
+using pred_t = std::function<bool( inventory_entry const & )>;
+void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &dst,
+              pred_t const &pred )
+{
+    for( auto it = src.begin(); it != src.end(); ) {
+        if( pred( *it ) ) {
+            if( it->is_item() ) {
+                dst.emplace_back( std::move( *it ) );
+            }
+            it = src.erase( it );
+        } else {
+            ++it;
+        }
+    }
+}
+
 } // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -985,29 +1001,14 @@ void inventory_column::prepare_paging( const std::string &filter )
     const auto is_visible = [&filter_fn, &filter]( inventory_entry const & it ) {
         return it.is_item() && ( filter_fn( it ) && ( !filter.empty() || !it.is_hidden() ) );
     };
+    const auto is_not_visible = [&is_visible]( inventory_entry const & it ) {
+        return !is_visible( it );
+    };
 
-    // restore entries revealed by SHOW_CONTENTS
-    // FIXME: replace by std::remove_copy_if in C++17
-    for( auto it = entries_hidden.begin(); it != entries_hidden.end(); ) {
-        if( is_visible( *it ) ) {
-            add_entry( *it );
-            it = entries_hidden.erase( it );
-        } else {
-            ++it;
-        }
-    }
-
-    // First, remove all non-items and backup hidden entries
-    for( auto it = entries.begin(); it != entries.end(); ) {
-        if( !is_visible( *it ) ) {
-            if( it->is_item() ) {
-                entries_hidden.emplace_back( std::move( *it ) );
-            }
-            it = entries.erase( it );
-        } else {
-            ++it;
-        }
-    }
+    // restore entries revealed by SHOW_CONTENTS or filter
+    move_if( entries_hidden, entries, is_visible );
+    // remove entries hidden by HIDE_CONTENTS
+    move_if( entries, entries_hidden, is_not_visible );
 
     // Then sort them with respect to categories
     std::stable_sort( entries.begin(), entries.end(),
