@@ -16,6 +16,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```controls_gate``` Controls the attached gate.
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
+- ```finite_water_source``` Drink or get water from a water source. Unlike ordinary `water_source`, terrain with this examine action will get liquid from a finite source (liquid is placed on that tile as an item during the mapgen) and will stop functioning if said liquid if exhausted on that tile.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
