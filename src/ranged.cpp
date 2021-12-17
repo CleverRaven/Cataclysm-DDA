@@ -1620,7 +1620,7 @@ static double calculate_aim_cap( const Character &you, const tripoint &target )
     if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( you.pos(), target );
         // Get angle of triangle that spans the target square.
-        const double angle = atan2( 1, range );
+        const double angle = 2 * atan2( 0.5, range );
         // Convert from radians to arcmin.
         min_recoil = 60 * 180 * angle / M_PI;
     }
