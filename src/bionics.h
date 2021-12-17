@@ -192,7 +192,7 @@ struct bionic {
         bionic( bionic_id pid, char pinvlet, bionic_uid pbionic_uid,
                 bionic_uid pparent_uid = 0 ) : id( pid ), invlet( pinvlet ),
             incapacitated_time( 0_turns ), uid( pbionic_uid ), parent_uid( pparent_uid ) {
-            initialize_pseudo_items();
+            initialize_pseudo_items( true );
         }
 
         const bionic_data &info() const {
@@ -206,7 +206,7 @@ struct bionic {
         int get_quality( const quality_id &quality ) const;
         item get_weapon() const;
         void set_weapon( const item &new_weapon );
-        bool install_weapon( const item &new_weapon );
+        bool install_weapon( const item &new_weapon, bool skip_checks = false );
         cata::optional<item> uninstall_weapon();
         bool has_weapon() const;
         bool can_install_weapon() const;
@@ -244,7 +244,8 @@ struct bionic {
         std::vector<item> passive_pseudo_items; // NOLINT(cata-serialize)
         bionic_uid uid;
         bionic_uid parent_uid;
-        void initialize_pseudo_items();
+        void initialize_pseudo_items( bool create_weapon = false );
+        void update_weapon_flags();
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

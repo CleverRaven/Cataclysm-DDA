@@ -1363,8 +1363,6 @@ class Character : public Creature, public visitable
         void update_last_bionic_uid() const;
         /** Returns the next valid UID for a bionic installation **/
         bionic_uid generate_bionic_uid() const;
-        /** Returns amount of Storage CBMs in the corpse **/
-        std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -1394,6 +1392,8 @@ class Character : public Creature, public visitable
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
+        bool is_using_bionic_weapon() const;
+        bionic_uid get_weapon_bionic_uid() const;
 
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( bionic &bio );
@@ -1403,6 +1403,8 @@ class Character : public Creature, public visitable
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( bionic &bio, bool eff_only = false );
+        /* Forces bionic deactivation */
+        void force_bionic_deactivation( bionic &bio );
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns the bionic at a given index in my_bionics[] */
@@ -1412,7 +1414,6 @@ class Character : public Creature, public visitable
         int get_used_bionics_slots( const bodypart_id &bp ) const;
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
-        bool replace_weapon_on_bionic( item_location &item_loc, int bionic_index );
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, Character &patient );

@@ -218,7 +218,7 @@ generic_factory<bionic_data> bionic_factory( "bionic" );
 std::vector<bionic_id> faulty_bionics;
 } //namespace
 
-void bionic::initialize_pseudo_items()
+void bionic::initialize_pseudo_items( bool create_weapon )
 {
     bionic_data bid( info() );
 
@@ -227,8 +227,11 @@ void bionic::initialize_pseudo_items()
     passive_pseudo_items.clear();
 
     if( bid.has_flag( json_flag_BIONIC_GUN ) || bid.has_flag( json_flag_BIONIC_WEAPON ) ) {
-        if( has_weapon() && inherit_use_bionic_power ) {
-            weapon.set_flag( flag_USES_BIONIC_POWER );
+        if( create_weapon && !id->fake_weapon.is_empty() && id->fake_weapon.is_valid() ) {
+            item new_weapon = item( id->fake_weapon );
+            install_weapon( new_weapon, true );
+        } else {
+            update_weapon_flags();
         }
     } else if( bid.has_flag( json_flag_BIONIC_TOGGLED ) ) {
         for( const itype_id &id : bid.toggled_pseudo_items ) {
@@ -252,6 +255,16 @@ void bionic::initialize_pseudo_items()
         for( item &pseudo : toggled_pseudo_items ) {
             pseudo.set_flag( flag_USES_BIONIC_POWER );
         }
+    }
+}
+
+void bionic::update_weapon_flags()
+{
+    if( has_weapon() ) {
+        if( id->has_flag( flag_USES_BIONIC_POWER ) ) {
+            weapon.set_flag( flag_USES_BIONIC_POWER );
+        }
+        weapon.set_flag( flag_NO_UNWIELD );
     }
 }
 
@@ -552,11 +565,11 @@ static void force_comedown( effect &eff )
 
 void npc::discharge_cbm_weapon()
 {
-    if( !weapon_bionic_uid ) {
+    if( !is_using_bionic_weapon() ) {
         return;
     }
 
-    cata::optional<bionic *> bio_opt = find_bionic_by_uid( weapon_bionic_uid );
+    cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
     if( !bio_opt ) {
         debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
         return;
@@ -572,7 +585,7 @@ void npc::discharge_cbm_weapon()
 void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 {
     // if we're already using a bio_weapon, keep using it
-    if( weapon_bionic_uid > 0 ) {
+    if( is_using_bionic_weapon() ) {
         return;
     }
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
@@ -728,7 +741,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         avatar_action::fire_ranged_bionic( player_character, bio.get_weapon(),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-        // TODO: Prompt to activate / replace weapon / uninstall weapon
         if( !bio.has_weapon() ) {
             debugmsg( "tried to activate weapon bionic \"%s\" without fake_weapon",
                       bio.info().id.str() );
@@ -738,8 +750,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
 
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-            if( weapon_bionic_uid ) {
-                if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( weapon_bionic_uid ) ) {
+            if( get_weapon_bionic_uid() ) {
+                if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
                     if( deactivate_bionic( **bio_opt, eff_only ) ) {
                         // restore state and try again
                         refund_power();
@@ -748,7 +760,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                         return activate_bionic( bio, eff_only, close_bionics_ui );
                     }
                 } else {
-                    debugmsg( "Can't find currently activated weapon bionic with UID %d", weapon_bionic_uid );
+                    debugmsg( "Can't find currently activated weapon bionic with UID %d", get_weapon_bionic_uid() );
                     weapon_bionic_uid = 0;
                     set_wielded_item( item() );
                     refund_power();
@@ -776,7 +788,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
         set_wielded_item( bio.get_weapon() );
         get_wielded_item().invlet = '#';
-        get_wielded_item().set_flag( flag_NO_UNWIELD );
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
@@ -1213,7 +1224,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-        if( bio.get_uid() == weapon_bionic_uid ) {
+        if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( get_wielded_item() );
             add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
@@ -1711,6 +1722,23 @@ void Character::process_bionic( bionic &bio )
     if( !bio.powered ) {
         passive_power_gen( bio );
         return;
+    }
+
+    if( bio.get_uid() == get_weapon_bionic_uid() ) {
+        const bool wrong_weapon_wielded = weapon.typeId() != bio.get_weapon().typeId() ||
+                                          !weapon.has_flag( flag_NO_UNWIELD );
+
+        if( wrong_weapon_wielded ) {
+            // Wielded weapon replaced in an unexpected way
+            debugmsg( "Wielded weapon doesn't match the expected weapon equipped from %s", bio.id->name );
+            weapon_bionic_uid = 0;
+        }
+
+        if( weapon.is_null() || wrong_weapon_wielded ) {
+            // Force deactivation because the weapon is gone
+            force_bionic_deactivation( bio );
+            return;
+        }
     }
 
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
@@ -2857,14 +2885,6 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         add_proficiency( learned );
     }
 
-    if( !b->fake_weapon.is_empty() && b->fake_weapon.is_valid() ) {
-        item new_weapon = item( b->fake_weapon );
-        if( b->has_flag( flag_USES_BIONIC_POWER ) ) {
-            new_weapon.set_flag( flag_USES_BIONIC_POWER );
-        }
-        bio.set_weapon( new_weapon );
-    }
-
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -3023,23 +3043,33 @@ item bionic::get_weapon() const
 void bionic::set_weapon( const item &new_weapon )
 {
     weapon = new_weapon;
+    update_weapon_flags();
 }
 
-bool bionic::install_weapon( const item &new_weapon )
+bool bionic::install_weapon( const item &new_weapon, bool skip_checks )
 {
-    if( has_weapon() ) {
-        debugmsg( "Tried to install a weapon on bionic \"%s\" with UID %i that already has a weapon installed.",
+    if( powered ) {
+        debugmsg( "Tried to install a weapon on powered bionic \"%s\" with UID %i.",
                   id.str(), uid );
         return false;
     }
 
-    if( !can_install_weapon( new_weapon ) ) {
-        debugmsg( "Tried to install a weapon with incompatible flags on bionic \"%s\" with UID %i.",
-                  id.str(), uid );
-        return false;
+    if( !skip_checks ) {
+        if( !can_install_weapon( new_weapon ) ) {
+            debugmsg( "Tried to install a weapon with incompatible flags on bionic \"%s\" with UID %i.",
+                      id.str(), uid );
+            return false;
+        }
+
+        if( has_weapon() ) {
+            debugmsg( "Tried to install a weapon on bionic \"%s\" with UID %i that already has a weapon installed.",
+                      id.str(), uid );
+            return false;
+        }
     }
 
-    weapon = new_weapon;
+    set_weapon( new_weapon );
+
     return true;
 }
 
@@ -3060,16 +3090,8 @@ cata::optional<item> bionic::uninstall_weapon()
     weapon = item();
 
     if( old_item && !old_item->is_null() ) {
-        if( old_item->has_own_flag( flag_USES_BIONIC_POWER ) &&
-            !old_item->type->has_flag( flag_USES_BIONIC_POWER ) ) {
-            // Item had the flag added because of the CBM. Remove it.
-            old_item->unset_flag( flag_USES_BIONIC_POWER );
-        }
-
-        if( old_item->has_own_flag( flag_NO_UNWIELD ) && !old_item->type->has_flag( flag_NO_UNWIELD ) ) {
-            // Item had the flag added because of the CBM. Remove it.
-            old_item->unset_flag( flag_NO_UNWIELD );
-        }
+        old_item->unset_flag( flag_USES_BIONIC_POWER );
+        old_item->unset_flag( flag_NO_UNWIELD );
     }
 
     return old_item;
@@ -3549,6 +3571,16 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     return ret;
 }
 
+bool Character::is_using_bionic_weapon() const
+{
+    return !!get_weapon_bionic_uid();
+}
+
+bionic_uid Character::get_weapon_bionic_uid() const
+{
+    return weapon_bionic_uid;
+}
+
 float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
 {
     float result = 0.0f;
@@ -3633,42 +3665,11 @@ void Character::update_last_bionic_uid() const
     next_bionic_uid++;
 }
 
-bool Character::replace_weapon_on_bionic( item_location &item_loc, int bionic_index )
+void Character::force_bionic_deactivation( bionic &bio )
 {
-    if( bionic_index < 0 || bionic_index >= static_cast<int>( my_bionics->size() ) ) {
-        debugmsg( "%s tried to replace the bionic fake_weapon for a bionic index out of range",
-                  this->disp_name() );
-        return false;
-    }
-
-    bionic &bio = ( *my_bionics )[bionic_index];
-    item &new_item = *item_loc.get_item();
-
-    if( !bio.can_install_weapon( new_item ) ) {
-        debugmsg( "%s tried to install invalid weapon on bionic \"%s\" with UID %i", this->disp_name(),
-                  bio.id.str(), bio.get_uid() );
-        return false;
-    }
-
-    if( bio.powered && !deactivate_bionic( bio ) ) {
-        debugmsg( "Failed to deactivate bionic \"%s\" with UID %i", bio.id.str(), bio.get_uid() );
-        return false;
-    }
-
-    if( bio.has_weapon() ) {
-        cata::optional<item> result = bio.uninstall_weapon();
-        if( !result ) {
-            // Error while uninstalling
-            return false;
-        }
-
-        // TODO: Try to add to inventory first?
-        get_map().add_item_or_charges( pos(), *result );
-    }
-
-    if( bio.install_weapon( new_item ) ) {
-        item_loc.remove_item();
-        return true;
-    }
-    return false;
+    time_duration old_time = bio.incapacitated_time;
+    bio.incapacitated_time = 0_turns;
+    deactivate_bionic( bio, true );
+    bio.powered = false;
+    bio.incapacitated_time = old_time;
 }

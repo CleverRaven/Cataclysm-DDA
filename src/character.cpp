@@ -2960,7 +2960,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         // check if "it" is currently wielded fake bionic weapon that can be deactivated
-        cata::optional<bionic *> bio_opt = find_bionic_by_uid( weapon_bionic_uid );
+        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
             return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
@@ -7008,6 +7008,14 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "You can't wield this. Wielding it would make it impossible to unwield it." ) );
+    }
+    if( it.has_flag( flag_BIONIC_WEAPON ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "You can't wield this. It looks like it has to be attached to a bionic." ) );
+    }
 
     const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
@@ -7055,7 +7063,7 @@ bool Character::unwield()
 
     // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
     if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-        cata::optional<bionic *> bio_opt = find_bionic_by_uid( weapon_bionic_uid );
+        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         return bio_opt && can_deactivate_bionic( **bio_opt ).success();
     }
 

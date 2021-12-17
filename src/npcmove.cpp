@@ -1192,7 +1192,7 @@ void npc::execute_action( npc_action action )
             } else {
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
-                if( weapon_bionic_uid > 0 ) {
+                if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
                 }
             }

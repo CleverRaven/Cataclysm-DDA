@@ -488,7 +488,7 @@
     "encumbrance": [ [ "arm_r", 2 ] ],
     "act_cost": "50 J",
     "fake_weapon": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_shotgun",
@@ -600,7 +600,7 @@
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ] ],
     "act_cost": "100 kJ",
     "fake_weapon": "bio_lightning",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_claws",
@@ -760,7 +760,7 @@
     "occupied_bodyparts": [ [ "arm_r", 8 ], [ "hand_r", 2 ] ],
     "act_cost": "50 kJ",
     "fake_weapon": "bio_emp_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_ethanol",
@@ -1023,7 +1023,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
     "fake_weapon": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_leaky",

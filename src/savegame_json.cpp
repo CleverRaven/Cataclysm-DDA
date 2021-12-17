@@ -1044,12 +1044,13 @@ void Character::load( const JsonObject &data )
             // Migrated bionics might not have their initial weapon yet
             if( !bio.has_weapon() && bio.id->fake_weapon.is_valid() ) {
                 const item new_weapon = item( bio.id->fake_weapon );
-                bio.set_weapon( new_weapon );
+                bio.install_weapon( new_weapon, true );
             }
         }
     }
 
-    bool has_old_bionic_weapon = !weapon_bionic_uid && get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
+    bool has_old_bionic_weapon = !is_using_bionic_weapon() &&
+                                 get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
                                  !get_wielded_item().ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
