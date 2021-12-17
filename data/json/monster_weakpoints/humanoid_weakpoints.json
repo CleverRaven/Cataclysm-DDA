@@ -1,57 +1,13 @@
 [
   {
     "type": "weakpoint_set",
-    "id": "wps_humanoid_torso",
+    "id": "wps_humanoid_body",
     "weakpoints": [
       {
         "id": "arm",
         "name": "the arm",
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "armor_mult": { "physical": 0.75 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [
-          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
-          {
-            "effect": "staggered",
-            "chance": 25,
-            "message": "The %s is knocked off-balance!",
-            "damage_required": [ 31, 100 ]
-          }
-        ],
-        "coverage": 8
-      }
-    ]
-  },
-  {
-    "type": "weakpoint_set",
-    "id": "wps_humanoid_legs",
-    "weakpoints": [
-      {
-        "id": "leg",
-        "name": "the leg",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "armor_mult": { "physical": 0.75 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [
-          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
-          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
-          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
-        ],
-        "coverage": 15
-      }
-    ]
-  },
-  {
-    "type": "weakpoint_set",
-    "id": "wps_humanoid_natural_armour",
-    "weakpoints": [
-      {
-        "id": "arm",
-        "name": "the arm",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 4, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
           { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
@@ -68,7 +24,7 @@
         "id": "leg",
         "name": "the leg",
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
           { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
@@ -76,20 +32,14 @@
           { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
         ],
         "coverage": 15
-      }
-    ]
-  },
-  {
-    "type": "weakpoint_set",
-    "id": "wps_humanoid_head",
-    "weakpoints": [
+      },
       {
         "id": "head",
         "name": "the head",
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
-        "difficulty": { "melee": 1, "ranged": 3 },
+        "difficulty": { "melee": 2, "ranged": 5 },
         "effects": [
           {
             "effect": "stunned",
@@ -120,7 +70,7 @@
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
+        "difficulty": { "ranged": 8, "melee": 6 },
         "coverage_mult": { "broad": 0.5 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
@@ -142,10 +92,10 @@
       {
         "id": "head",
         "name": "the head",
-        "coverage": 7,
+        "coverage": 6,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
-        "difficulty": { "melee": 1, "ranged": 3 },
+        "difficulty": { "melee": 3, "ranged": 5 },
         "effects": [
           {
             "effect": "stunned",
@@ -182,7 +132,7 @@
         "coverage": 3,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
-        "difficulty": { "melee": 1, "ranged": 3 },
+        "difficulty": { "melee": 3, "ranged": 6 },
         "effects": [
           {
             "effect": "stunned",
@@ -211,6 +161,42 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_humanoid_turnout_gear",
+    "weakpoints": [
+      {
+        "id": "arm",
+		"name": "a tear in its turnout gear",
+		"armor_mult": { "physical": 0.5, "acid": 0.5 }, 
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "broad": 0.65 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+		"coverage": 5 
+	  },
+      {
+        "id": "leg",
+        "name": "a tear in its turnout gear",
+		"armor_mult": { "physical": 0.5, "acid": 0.5 }, 
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "broad": 0.55 },
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_humanoid_body_armour",
     "weakpoints": [
       {
@@ -218,7 +204,7 @@
         "name": "the arm",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 4, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
           { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
@@ -235,7 +221,7 @@
         "id": "armpit",
         "name": "the armpit",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
-        "difficulty": { "all": 3 },
+        "difficulty": { "all": 5 },
         "coverage_mult": { "ranged": 0.1 },
         "coverage": 1
       },
@@ -243,6 +229,7 @@
         "id": "side_armour",
         "name": "the weak armor on the side",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "difficulty": { "broad": 4, "point": 1 },
         "coverage_mult": { "ranged": 0.65 },
         "coverage": 4
       },
@@ -253,35 +240,33 @@
         "coverage_mult": { "broad": 0.5 },
         "difficulty": { "ranged": 4, "melee": 1 },
         "coverage": 4
-      }
-    ]
-  },
-  {
-    "type": "weakpoint_set",
-    "id": "wps_humanoid_leg_armour",
-    "weakpoints": [
+      },
       {
         "id": "leg",
         "name": "an unarmored part of the leg",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
         "coverage": 8
       }
     ]
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_humanoid_full_helmet",
+    "id": "wps_humanoid_open_helmet",
     "weakpoints": [
       {
         "id": "head",
         "name": "the face",
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 3, "ranged": 5 },
+        "difficulty": { "melee": 3, "ranged": 7 },
         "coverage_mult": { "ranged": 0.5 },
         "coverage": 3,
         "effects": [
@@ -315,7 +300,7 @@
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 4, "broad": 6 },
+        "difficulty": { "point": 6, "broad": 9 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -330,9 +315,76 @@
       {
         "id": "neck",
         "name": "the neck",
-        "armor_mult": { "physical": 0 },
-        "difficulty": { "melee": 1, "ranged": 2 },
+        "armor_mult": { "physical": 0.25 },
+        "difficulty": { "melee": 4, "ranged": 6 },
+        "coverage_mult": { "broad": 0.5 },
         "coverage": 1
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_full_helmet",
+    "weakpoints": [
+      {
+        "id": "head",
+        "name": "the helmet",
+        "armor_mult": { "physical": 1.25 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.5 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 1,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 10,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "eye",
+        "name": "the goggles",
+        "armor_mult": { "physical": 1 },
+        "coverage": 1,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 6, "broad": 9 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_gasmask",
+    "weakpoints": [
+      {
+        "id": "eye",
+        "name": "the goggles",
+        "armor_mult": { "physical": 1 },
+        "coverage": 1,
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 6, "broad": 9 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
+        ]
       }
     ]
   },
@@ -344,7 +396,7 @@
         "id": "leg",
         "name": "the leg",
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 3, "melee": 2 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
           { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
@@ -357,7 +409,7 @@
         "id": "arm",
         "name": "the arm",
         "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
+        "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
           { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
@@ -368,7 +420,7 @@
             "damage_required": [ 31, 100 ]
           }
         ],
-        "coverage": 10
+        "coverage": 7
       }
     ]
   }
