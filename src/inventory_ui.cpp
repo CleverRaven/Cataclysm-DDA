@@ -807,16 +807,27 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return get_entries( filter_to_selected );
 }
 
-std::vector<inventory_entry *> inventory_column::get_entries(
-    const std::function<bool( const inventory_entry &entry )> &filter_func ) const
+void inventory_column::_get_entries( get_entries_t *res, entries_t const &ent,
+                                     const ffilter_t &filter_func ) const
 {
-    std::vector<inventory_entry *> res;
+    if( allows_selecting() ) {
+        for( const auto &elem : ent ) {
+            if( filter_func( elem ) ) {
+                res->push_back( const_cast<inventory_entry *>( &elem ) );
+            }
+        }
+    }
+}
+
+inventory_column::get_entries_t inventory_column::get_entries( const ffilter_t &filter_func,
+        bool include_hidden ) const
+{
+    get_entries_t res;
 
     if( allows_selecting() ) {
-        for( const auto &elem : entries ) {
-            if( filter_func( elem ) ) {
-                res.push_back( const_cast<inventory_entry *>( &elem ) );
-            }
+        _get_entries( &res, entries, filter_func );
+        if( include_hidden ) {
+            _get_entries( &res, entries_hidden, filter_func );
         }
     }
 
@@ -947,15 +958,21 @@ void inventory_column::add_entry( const inventory_entry &entry )
     paging_is_valid = false;
 }
 
-void inventory_column::move_entries_to( inventory_column &dest )
+void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : entries ) {
+    for( const auto &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
+}
+
+void inventory_column::move_entries_to( inventory_column &dest )
+{
+    _move_entries_to( entries, dest );
+    _move_entries_to( entries_hidden, dest );
     dest.prepare_paging();
     clear();
 }
@@ -2414,7 +2431,7 @@ void inventory_selector::toggle_categorize_contained()
     }
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
-        for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
+        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             if( entry->any_item().where() == item_location::type::container ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
@@ -2433,12 +2450,12 @@ void inventory_selector::toggle_categorize_contained()
             }
         }
         own_gear_column.clear();
-        for( inventory_entry *entry : replacement_column.get_entries( return_true ) ) {
+        for( inventory_entry *entry : replacement_column.get_entries( return_true, true ) ) {
             own_gear_column.add_entry( *entry );
         }
         own_inv_column.set_indent_entries_override( false );
     } else {
-        for( inventory_entry *entry : own_inv_column.get_entries( return_item ) ) {
+        for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
             item_location ancestor = entry->any_item();
             while( ancestor.has_parent() ) {
                 ancestor = ancestor.parent_item();
