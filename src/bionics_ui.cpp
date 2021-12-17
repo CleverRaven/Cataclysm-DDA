@@ -934,14 +934,15 @@ void avatar::power_bionics()
                                     std::vector<item *> valid_weapons = items_with( [&bio]( const item & it ) {
                                         return it.has_any_flag( bio.id->installable_weapon_flags );
                                     } );
-                                    for( int i = 0; i < valid_weapons.size(); i++ ) {
+                                    for( size_t i = 0; i < valid_weapons.size(); i++ ) {
                                         install_weapon_menu.addentry( i, true, MENU_AUTOASSIGN, valid_weapons[i]->tname() );
                                     }
                                     if( install_weapon_menu.entries.empty() ) {
                                         popup( _( "You don't have any items you can install in this bionic" ) );
                                     } else {
                                         install_weapon_menu.query();
-                                        if( install_weapon_menu.ret >= 0 && install_weapon_menu.ret < valid_weapons.size() ) {
+                                        if( install_weapon_menu.ret >= 0 &&
+                                            static_cast<size_t>( install_weapon_menu.ret ) < valid_weapons.size() ) {
                                             item &new_weapon = *valid_weapons[install_weapon_menu.ret];
                                             if( bio.can_install_weapon( new_weapon ) && bio.install_weapon( new_weapon ) ) {
                                                 item_location loc( *this, &new_weapon );

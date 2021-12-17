@@ -20,6 +20,8 @@
 static const bionic_id bio_batteries( "bio_batteries" );
 // Change to some other weapon CBM if bio_blade is ever removed
 static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 // Change to some other weapon CBM if bio_surgical_razor is ever removed
@@ -329,6 +331,30 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
                 CHECK_FALSE( dummy.is_using_bionic_weapon() );
                 CHECK_FALSE( bio.has_weapon() );
                 CHECK_FALSE( bio.powered );
+            }
+        }
+    }
+}
+
+TEST_CASE( "included bionics", "[bionics]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_bionics( dummy );
+
+    GIVEN( "character doesn't have any CBMs installed" ) {
+        REQUIRE( dummy.get_bionics().empty() );
+
+        WHEN( "a CBM with included bionics is installed" ) {
+            dummy.add_bionic( bio_ears );
+
+            THEN( "the bionic and its included bionics are installed" ) {
+                REQUIRE( dummy.num_bionics() > 1 );
+                bionic &parent_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
+                bionic &included_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
+                REQUIRE( parent_bio.id == bio_ears );
+                REQUIRE( included_bio.id == bio_earplugs );
+                CHECK( included_bio.get_parent_uid() == parent_bio.get_uid() );
             }
         }
     }

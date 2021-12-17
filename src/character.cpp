@@ -7010,11 +7010,11 @@ ret_val<bool> Character::can_wield( const item &it ) const
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         return ret_val<bool>::make_failure(
-                   _( "You can't wield this. Wielding it would make it impossible to unwield it." ) );
+                   _( "You can't wield this.  Wielding it would make it impossible to unwield it." ) );
     }
     if( it.has_flag( flag_BIONIC_WEAPON ) ) {
         return ret_val<bool>::make_failure(
-                   _( "You can't wield this. It looks like it has to be attached to a bionic." ) );
+                   _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
     }
 
     const item weapon = get_wielded_item();

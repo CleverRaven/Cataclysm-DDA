@@ -86,12 +86,9 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
-static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
 static const bionic_id bio_flashbang( "bio_flashbang" );
@@ -111,8 +108,6 @@ static const bionic_id bio_resonator( "bio_resonator" );
 static const bionic_id bio_shockwave( "bio_shockwave" );
 static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_time_freeze( "bio_time_freeze" );
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_tools_extend( "bio_tools_extend" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
@@ -2939,7 +2934,6 @@ void Character::remove_bionic( const bionic &bio )
     bionic_collection new_my_bionics;
     // any spells you should not forget due to still having a bionic installed that has it.
     std::set<spell_id> cbm_spells;
-    bool skipped_installed = false;
     for( bionic &i : *my_bionics ) {
         // Linked bionics: if either is removed, the other is removed as well.
         if( i.get_uid() == bio_uid || i.get_parent_uid() == bio_uid ) {
@@ -3242,6 +3236,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge_timer );
     json.member( "bionic_tags", bionic_tags );
     json.member( "bionic_uid", uid );
+    json.member( "parent_uid", parent_uid );
     if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
@@ -3283,6 +3278,10 @@ void bionic::deserialize( const JsonObject &jo )
 
     if( jo.has_int( "bionic_uid" ) ) {
         uid = jo.get_int( "bionic_uid" );
+    }
+
+    if( jo.has_int( "parent_uid" ) ) {
+        parent_uid = jo.get_int( "parent_uid" );
     }
 
     if( jo.has_member( "weapon" ) ) {

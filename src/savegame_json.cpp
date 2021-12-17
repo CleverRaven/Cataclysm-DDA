@@ -132,11 +132,6 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const bionic_id bio_blindfold( "bio_blindfold" );
-static const bionic_id bio_earplugs( "bio_earplugs" );
-static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
-
 static const efftype_id effect_hypocalcemia( "hypocalcemia" );
 static const efftype_id effect_hypovitA( "hypovitA" );
 static const efftype_id effect_hypovitB( "hypovitB" );
@@ -1089,7 +1084,7 @@ void Character::load( const JsonObject &data )
     }
 
     if( has_old_bionic_weapon ) {
-        debugmsg( "Couldn't find the bionic UID for the current bionic weapon. You will need to reactivate it." );
+        debugmsg( "Couldn't find the bionic UID for the current bionic weapon.  You will need to reactivate it." );
         set_wielded_item( item() );
     }
 
