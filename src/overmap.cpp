@@ -6065,8 +6065,9 @@ void overmap::place_mongroups()
                     }
                 }
                 if( swamp_count >= 25 ) {
+                    float norm_factor = std::abs( GROUP_SWAMP->freq_total / 1000.0f );
                     spawn_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                               rng( swamp_count * 8, swamp_count * 25 ) ) );
+                                               std::round( norm_factor * rng( swamp_count * 8, swamp_count * 25 ) ) ) );
                 }
             }
         }
@@ -6084,8 +6085,9 @@ void overmap::place_mongroups()
                 }
             }
             if( river_count >= 25 ) {
+                float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
                 spawn_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                           rng( river_count * 8, river_count * 25 ) ) );
+                                           std::round( norm_factor * rng( river_count * 8, river_count * 25 ) ) ) );
             }
         }
     }
@@ -6093,9 +6095,10 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
+        float norm_factor = std::abs( GROUP_WORM->freq_total / 1000.0f );
         spawn_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
                                    OMAPY * 2 - 1 ), 0 ),
-                                   rng( 20, 40 ), rng( 30, 50 ) ) );
+                                   rng( 20, 40 ), std::round( norm_factor * rng( 30, 50 ) ) ) );
     }
 }
 
