@@ -62,7 +62,7 @@
     "id": "mon_feral_sapien_spear",
     "type": "MONSTER",
     "name": { "str": "cunning feral" },
-    "description": "In this feral human's eyes is more intelligence than in those of most of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armour, leaving several gaps.  Although a bit more together, this creature is still only a few steps away from being a living zombie themself.",
+    "description": "In this feral human's eyes is more intelligence than in those of most of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armor, leaving several gaps.  Although a bit more together, this creature is still only a few steps away from being a living zombie themself.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
