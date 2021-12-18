@@ -16,6 +16,7 @@
 #include "map_selector.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
@@ -54,11 +55,9 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( item( container_id ).is_container() );
     REQUIRE( item( worn_id ).is_container() );
 
+    clear_avatar();
     Character &p = get_player_character();
-    p.worn.clear();
     p.worn.emplace_back( "backpack" );
-    p.inv->clear();
-    p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
     map &here = get_map();
 
@@ -78,10 +77,12 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     };
 
     // move player randomly until we find a suitable position
-    while( !suitable( p.pos(), 1 ) ) {
+    constexpr int num_trials = 100;
+    for( int i = 0; i < num_trials && !suitable( p.pos(), 1 ); ++i ) {
         CHECK( !p.in_vehicle );
         p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
     }
+    REQUIRE( suitable( p.pos(), 1 ) );
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
