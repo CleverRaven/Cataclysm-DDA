@@ -2644,8 +2644,11 @@ class Character : public Creature, public visitable
         float power_rating() const override;
         float speed_rating() const override;
 
-        /** Returns the item in the player's inventory with the highest of the specified quality*/
-        item &item_with_best_of_quality( const quality_id &qid );
+        /** Returns the item in the player's inventory with the highest of the specified quality.
+         * @param qid The quality to search
+         * @param tool_not_container If true, then recurse into the container to find the base tool
+        */
+        item &item_with_best_of_quality( const quality_id &qid, bool tool_not_container = false );
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
