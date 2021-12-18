@@ -35,7 +35,7 @@
     ]
   },
   {
-    "result": "armor_nomad",
+    "result": "armor_nomad_jumpsuit",
     "//": "nomad jumpsuit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -62,7 +62,7 @@
     ]
   },
   {
-    "result": "armor_nomad",
+    "result": "armor_nomad_jumpsuit",
     "//": "nomad jumpsuit",
     "id_suffix": "upgrade light jumpsuit",
     "type": "recipe",
@@ -82,12 +82,12 @@
     ],
     "components": [
       [ [ "cotton_patchwork", 2 ], [ "sheet_cotton_patchwork", 1 ] ],
-      [ [ "armor_nomad_light", 1 ] ],
+      [ [ "armor_nomad_jumpsuit_light", 1 ] ],
       [ [ "leather", 24 ], [ "tanned_hide", 4 ] ]
     ]
   },
   {
-    "result": "armor_nomad_light",
+    "result": "armor_nomad_jumpsuit_light",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",

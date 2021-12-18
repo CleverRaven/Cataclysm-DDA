@@ -492,5 +492,80 @@
     "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "armor_nomad",
+    "type": "ARMOR",
+    "name": { "str": "nomad gear" },
+    "description": "A makeshift outfit made from pre-Cataclysm clothing designed for long travels.  It has a lot of storage space.",
+    "weight": "5830 g",
+    "volume": "7500 ml",
+    "price": 35000,
+    "price_postapoc": 1750,
+    "to_hit": -3,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 40,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ARMOR",
+    "name": { "str": "light nomad gear" },
+    "description": "A light makeshift outfit made from pre-Cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
+    "weight": "3200 g",
+    "volume": "6500 ml",
+    "price": 29500,
+    "price_postapoc": 1250,
+    "to_hit": -4,
+    "material": [ "cotton" ],
+    "looks_like": "armor_nomad",
+    "symbol": "[",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 10,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ]
   }
 ]
