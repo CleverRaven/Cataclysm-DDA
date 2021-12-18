@@ -1246,7 +1246,17 @@
     "coverage": 30,
     "floor_bedding_warmth": 1500,
     "comfort": 3,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "EASY_DECONSTRUCT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1267,14 +1277,27 @@
     "floor_bedding_warmth": 1600,
     "move_cost": 2,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "CONTAINER", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "EASY_DECONSTRUCT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] }, { "item": "withered", "count": [ 40, 60 ] } ]
+      "items": [
+        { "item": "stick", "count": [ 3, 6 ] },
+        { "item": "pine_bough", "count": [ 6, 18 ] },
+        { "item": "withered", "count": [ 40, 60 ] }
+      ]
     }
   },
   {
