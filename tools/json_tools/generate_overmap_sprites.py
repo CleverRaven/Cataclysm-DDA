@@ -6,6 +6,7 @@ import argparse
 import json
 
 from collections import OrderedDict
+from collections import defaultdict
 from pathlib import Path
 from typing import Optional, Union
 
@@ -32,6 +33,7 @@ PALETTES = {}
 SCHEME = None
 CREATED_IDS = set()
 VARIANTS = dict()
+SINGLE_COLOR_SPRITES = defaultdict(set)
 
 
 def get_first_valid(
@@ -83,7 +85,7 @@ def generate_image(
     """
     Generate sprite from rows
     """
-    image = Image.new('RGBA', [len(rows[0]), len(rows)], 255)
+    image = Image.new('RGB', [len(rows[0]), len(rows)])
     image_data = image.load()
     for index_x, row in enumerate(rows):
         for index_y, char in enumerate(row):
@@ -270,9 +272,10 @@ def output_sprite(
     if name not in CREATED_IDS:
         # new ID
 
-        # if len(image.getcolors()) < 2 and not single_terrain:
-        #    SKIPPED['single_color'].add(name)
-        #    return
+        image_colors = image.getcolors()
+        if len(image_colors) < 2:  # and not single_terrain
+            SINGLE_COLOR_SPRITES[image_colors[0][1]].add(name)
+            return
 
         if output_dir is None:
             CREATED_IDS.add(name)
@@ -362,6 +365,33 @@ def get_initial_rotation(rotation: Union[None, int, list]) -> int:
     print(f'WARNING: unexpected rotation value {rotation}')
 
     return 0
+
+
+def handle_single_color_sprites(
+    output_dir: Path,
+) -> None:
+    """
+    Generate images for all colors and create JSON with all the tile entries
+    """
+    entries = list()
+
+    output_dir /= 'single_color'
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for color, names in SINGLE_COLOR_SPRITES.items():
+        image = Image.new('RGB', [SIZE, SIZE], color)
+        color_str = '_'.join(map(str, color))
+        image.save(output_dir / f'{color_str}.png')
+
+        for name in names:
+            entry = {
+                'id': name,
+                'fg': color_str,
+            }
+            entries.append(entry)
+
+    with open(output_dir / 'entries.json', 'w') as file:
+        json.dump(entries, file)
 
 
 def main():
@@ -513,6 +543,9 @@ def main():
                 duplicates_dir=duplicates_dir,
                 # single_terrain=single_terrain,
             )
+
+    if output_dir:
+        handle_single_color_sprites(output_dir)
 
 
 if __name__ == '__main__':
