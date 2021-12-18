@@ -1069,7 +1069,10 @@ struct itype {
 
         std::set<weapon_category_id> weapon_category;
 
-        std::map<quality_id, int> qualities; //Tool quality indicators
+        // Tool qualities and levels for those that work even when tool is not charged
+        std::map<quality_id, int> qualities;
+        // Tool qualities that work only when the tool has charges_to_use charges remaining
+        std::map<quality_id, int> charged_qualities;
 
         std::map<std::string, std::string> properties;
 
