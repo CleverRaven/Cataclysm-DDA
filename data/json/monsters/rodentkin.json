@@ -1,0 +1,35 @@
+[
+  {
+    "id": "mon_big_rat",
+    "type": "MONSTER",
+    "name": { "str": "big rat" },
+    "description": "This cat sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it showing off large teeth.",
+    "default_faction": "ratkin",
+    "copy-from": "mon_black_rat",
+    "volume": "2 L",
+    "weight": "2 kg",
+    "hp": 25,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "R",
+    "color": "dark_gray",
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "attack_effs": [ { "id": "rat_bite_fever", "chance": 10 } ],
+    "harvest": "mutant_rodent"
+  },
+  {
+    "id": "mon_lab_rat",
+    "type": "MONSTER",
+    "name": { "str": "zap rattigan" },
+    "description": "This cat sized albino mouse sparks randomly, whenever anything approaches it.",
+    "default_faction": "ratkin",
+    "copy-from": "mon_big_rat",
+    "symbol": "R",
+    "color": "white",
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
+  }
+]
