@@ -351,11 +351,34 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Liquid storage compartment",
+        "airtight": true,
+        "watertight": true,
+        "max_contains_volume": "3000 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3000 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 80
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": [
+      "WATER_PURIFIER",
+      {
+        "type": "transform",
+        "msg": "You turn the shoulder mounted flashlight on.",
+        "target": "nomad_rig_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Your internal reservoir is empty."
+      }
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER", "LIGHT_300" ],
     "armor": [
       {
         "encumbrance": [ 1, 3 ],
@@ -371,5 +394,21 @@
         "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
       }
     ]
+  },
+  {
+    "id": "nomad_rig_on",
+    "copy-from": "nomad_rig",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "nomad distributed rigging (on)", "str_pl": "nomad distributed riggings (on)" },
+    "power_draw": 15000,
+    "revert_to": "nomad_rig",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the shoulder mounted flashlight off.",
+      "target": "nomad_rig"
+    },
+    "flags": [ "LIGHT_500", "CHARGEDIM", "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
   }
 ]

@@ -548,5 +548,5 @@
     ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
     "delete": { "flags": [ "STURDY" ] }
-  },
+  }
 ]
