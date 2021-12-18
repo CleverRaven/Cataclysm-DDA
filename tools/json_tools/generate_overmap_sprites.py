@@ -30,6 +30,7 @@ SKIPPED = {
 }
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
+OVERMAP_TERRAIN_DATA = {}
 SCHEME = None
 CREATED_IDS = set()
 VARIANTS = dict()
@@ -160,6 +161,35 @@ def read_terrain_color_names() -> None:
             TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
 
 
+def read_overmap_terrain_data() -> None:
+    """
+    Fill the OVERMAP_TERRAIN_COLORS
+    """
+    overmap_terrain_data, errors = import_data(
+        json_dir=Path('../../data/json/overmap/overmap_terrain/'),
+        json_fmatch='*.json',
+    )
+    if errors:
+        print(errors)
+
+    for entry in overmap_terrain_data:
+        if entry.get('type') != 'overmap_terrain':
+            continue
+        entry_ids = entry.get('id')
+        if not entry_ids:
+            continue
+
+        color = SCHEME['colors'].get(entry.get('color'))
+        if not color:
+            continue
+
+        if isinstance(entry_ids, str):
+            entry_ids = (entry_ids,)
+
+        for terrain_id in entry_ids:
+            OVERMAP_TERRAIN_DATA[terrain_id] = color
+
+
 def add_palette(
     entry: dict,
 ) -> None:
@@ -229,6 +259,15 @@ def write_image_with_rotations(
     """
     Write image to disk along with the rotations
     """
+    context_color = OVERMAP_TERRAIN_DATA.get(name)
+    if context_color:
+        pixels = image.load()
+        height, width = image.size
+        for col in range(height):
+            for row in range(width):
+                if pixels[col, row] in SCHEME['replace_with_context']:
+                    pixels[col, row] = context_color
+
     image.save(output_dir / f'{name}.png')
     for rotation_suffix in ROTATIONS:
         image = image.rotate(-90)
@@ -415,6 +454,11 @@ def main():
         help='Generate JSON files for correct rotations',
     )
     arg_parser.add_argument(
+        '--context-coloring', dest='context_coloring', action='store_true',
+        help='Replace colors specified in the color scheme with '
+        'overmap_terrain color',
+    )
+    arg_parser.add_argument(
         '--mapgen-dir', dest='mapgen_dir', type=Path,
         default=Path('../../data/json/mapgen/'),
         help='directory with mapgen entries',
@@ -436,6 +480,7 @@ def main():
     duplicates_dir = args_dict.get('duplicates_dir', None)
     color_scheme_path = args_dict.get('color_scheme')
     generate_json = args_dict.get('json')
+    context_coloring = args_dict.get('context_coloring')
 
     # read needed values from the data/json/ subdirectories
     read_scheme(color_scheme_path)
@@ -443,6 +488,9 @@ def main():
     read_terrain_color_names()
 
     read_mapgen_palettes()
+
+    if context_coloring:
+        read_overmap_terrain_data()
 
     mapgen_data = get_mapgen_data(
         mapgen_dir=args_dict.get('mapgen_dir'),
