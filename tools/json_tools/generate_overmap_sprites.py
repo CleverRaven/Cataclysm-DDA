@@ -35,6 +35,7 @@ SCHEME = None
 CREATED_IDS = set()
 VARIANTS = dict()
 SINGLE_COLOR_SPRITES = defaultdict(set)
+COLOR_NAMES = set()
 
 
 def get_first_valid(
@@ -159,6 +160,7 @@ def read_terrain_color_names() -> None:
             terrain_color = terrain_color[0]
         if terrain_type == 'terrain' and terrain_id and terrain_color:
             TERRAIN_COLOR_NAMES[terrain_id] = terrain_color
+            COLOR_NAMES.add(terrain_color)
 
 
 def read_overmap_terrain_data() -> None:
@@ -179,7 +181,10 @@ def read_overmap_terrain_data() -> None:
         if not entry_ids:
             continue
 
-        color = SCHEME['colors'].get(entry.get('color'))
+        color_name = entry.get('color')
+        COLOR_NAMES.add(color_name)
+
+        color = SCHEME['colors'].get(color_name)
         if not color:
             continue
 
@@ -609,3 +614,5 @@ if __name__ == '__main__':
     for reason, skipped_values in SKIPPED.items():
         print(reason, len(skipped_values))
         print(skipped_values or '')
+    print('Unknown color names:')
+    print(COLOR_NAMES - SCHEME['colors'].keys())
