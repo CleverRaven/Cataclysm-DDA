@@ -397,7 +397,12 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim( Target_attributes( source.pos(), location ) );
     } else {
-        source.fire_gun( location );
+        if( source.is_hallucination() ) {
+            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            source.pretend_fire( &source, mode.qty, *mode );
+        } else {
+            source.fire_gun( location );
+        }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
     }
