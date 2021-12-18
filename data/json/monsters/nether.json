@@ -1025,8 +1025,8 @@
       {
         "type": "spell",
         "spell_data": { "id": "absence_capture_attack", "min_level": 1 },
-        "cooldown": 15,
-        "monster_message": "All the empty space around you is suddenly even emptier than should be possible."
+        "cooldown": 10,
+        "monster_message": "The absence intensifies."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },

@@ -120,25 +120,6 @@ static bool friendly_teacher( const Character &student, const Character &teacher
            ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
 }
 
-static tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                       bool global )
-{
-    tripoint target_pos = get_map().getabs( target->pos() );
-    if( target_var.has_value() ) {
-        std::string value;
-        if( global ) {
-            global_variables &globvars = get_globals();
-            value = globvars.get_global_value( target_var.value() );
-        } else {
-            value = target->get_value( target_var.value() );
-        }
-        if( !value.empty() ) {
-            target_pos = tripoint::from_string( value );
-        }
-    }
-    return target_pos;
-}
-
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
