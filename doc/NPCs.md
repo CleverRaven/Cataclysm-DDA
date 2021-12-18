@@ -950,6 +950,10 @@ Example | Description
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.
+`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
+```
+"condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, { "const": 5 } ], "op": ">" }
+```
 
 #### Sample responses with conditions and effects
 ```json
