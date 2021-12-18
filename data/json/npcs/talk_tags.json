@@ -578,8 +578,8 @@
       "Calling it a night for now.  You get some rest too, okay?",
       "I'm getting some shut-eye, good night!",
       "Time to view the old eye-lid cinema, good night!",
-      "Time to hit the hay",
-      "I'm going to see about a bed with my name on it, good night"
+      "Time to hit the hay.",
+      "I'm going to see about a bed with my name on it, good night."
     ]
   },
   {
@@ -669,8 +669,8 @@
       "You need to move, <name_g>, <okay>?",
       "Coming through!",
       "Out of my <swear> way!",
-      "I need to get by",
-      "Pardon me",
+      "I need to get by.",
+      "Pardon me.",
       "Can I just squeeze by you?"
     ]
   },
@@ -693,9 +693,9 @@
       "Now beat it, you <name_b>.",
       "Good haul.  See you around<punc>",
       "I need this more than you, I think.",
-      "Thanks for your generosity",
-      "Your contribution is much appreciated",
-      "Your helping to feed my kids"
+      "Thanks for your generosity.",
+      "Your contribution is much appreciated.",
+      "You're helping to feed my kids."
     ]
   },
   {
@@ -819,9 +819,9 @@
       "There's some bad folks around these parts, now stick'em up!",
       "You should have been more careful, now give me your stuff!",
       "This is a robbery!",
-      "Don't try anything funny",
+      "Don't try anything funny.",
       "Your money or your life!",
-      "Didn't anyone ever tell you not to tlak to strangers?  Give me your shit!"
+      "Didn't anyone ever tell you not to talk to strangers?  Give me your shit!"
     ]
   },
   {
@@ -861,11 +861,11 @@
       "Did you know that lack of food kills faster than chain smoking?",
       "Can't remember the last time I got a proper meal.",
       "I could eat a horse.",
-      "fuck, i'm starved",
-      "I could do with a bite to eat right now",
-      "I'd kill for some chocolate right now",
-      "Man I miss that burger joint I used to go to",
-      "I'm so hungry I can taste it",
+      "<swear>, I'm starved.",
+      "I could do with a bite to eat right now.",
+      "I'd kill for some chocolate right now.",
+      "Man I miss that burger joint I used to go to.",
+      "I'm so hungry I can taste it.",
       "I've never been so hungry in my life!"
     ]
   },
@@ -886,8 +886,8 @@
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
       "you're why the gene pool needs a lifeguard",
-      "Your father should have jerked you off onto a rock and let you dry up in the sun",
-      "Your a worthless cunt!"
+      "your father should have jerked you off onto a rock and let you dry up in the sun",
+      "you're a worthless cunt"
     ]
   },
   {
@@ -904,7 +904,7 @@
       "I don't like being a mutant crammed into your tiny little vehicle.",
       "Getting awfully cramped in here.",
       "I don't think this vehicle was designed for someone like me.",
-      "It's tighter than a nuns cunt in here!'"
+      "It's tighter than a nun's cunt in here!'"
     ]
   },
   {
@@ -981,7 +981,7 @@
       "<swear!>, here comes a <swear>",
       "Keep an eye on that",
       "I suggest a tactical retreat from that",
-      "Get down! theres a"
+      "Get down! There's a"
     ]
   },
   {
@@ -1065,8 +1065,8 @@
       "<swear> beautiful work.",
       "Getting really good at this.",
       "Look what you made me do.",
-      "It's better you than me",
-      "Phew, that was close",
+      "It's better you than me.",
+      "Phew, that was close.",
       "Did we win?"
     ]
   },
@@ -1146,8 +1146,8 @@
       "You're gonna rot in hell, you pieces of shit!",
       "You're gonna rot in hell for this!",
       "You done fucked up!",
-      "I won't even break a sweat",
-      "You ain't shit"
+      "I won't even break a sweat!",
+      "You ain't shit!"
     ]
   },
   {
@@ -1190,7 +1190,7 @@
       "Sounds like someone said something.",
       "Who goes there?",
       "I heard something!",
-      "Huh> what's that",
+      "Huh, what's that?",
       "Could have swore I just head a voice.",
       "Somebody there?",
       "Great, now I'm hearing things!",
@@ -1213,10 +1213,10 @@
       "Sounds like a fight's going on.",
       "What was that?",
       "Whats happening?",
-      "Somethings happening",
-      "Sounds like another riot",
-      "What was that? Oh god, oh god!",
-      "Whats that sound?"
+      "Something's happening.",
+      "Sounds like another riot.",
+      "What was that?  Oh god, oh god!",
+      "What's that sound?"
     ]
   },
   {
@@ -1264,9 +1264,9 @@
       "No problemo.",
       "Sounds fun!",
       "I've got nothing better to do.",
-      "No! just kidding.",
+      "No!  Just kidding.",
       "Let's do it.",
-      "I guess I can",
+      "I guess I can.",
       "I guess so.",
       "I should be able to.",
       "I'll try."
@@ -1290,7 +1290,7 @@
       "Are you sure it's a good idea to smoke that now?",
       "Are you getting stoned right now?",
       "Is that the devil's lettuce I smell?",
-      "Puff,puff, pass.",
+      "Puff, puff, pass.",
       "You got that sticky icky.",
       "Eh yo!  Lemme hit that!",
       "Roll, roll, roll your joint…",
