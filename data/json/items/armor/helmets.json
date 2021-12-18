@@ -464,7 +464,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "lobster helmet" },
-    "description": "A heavy marine helmet, with lobster-flanged ballistic plates hanging from the back to cover your neck. It provides excellent protection from all sorts of damage.",
+    "description": "A heavy marine helmet, with lobster-flanged ballistic plates hanging from the back to cover your neck.  It provides excellent protection from all sorts of damage.",
     "weight": "1383 g",
     "volume": "2 L",
     "price": 28000,
