@@ -610,7 +610,10 @@
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
-      "subway": { "chance": 75, "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10, "mx_bandits_ambush": 5 } },
+      "subway": {
+        "chance": 75,
+        "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10, "mx_bandits_ambush": 5 }
+      },
       "lab_subway": { "chance": 25, "extras": { "mx_military": 5, "mx_science": 15, "mx_portal": 3, "mx_portal_in": 3 } },
       "research_facility_lot": {
         "chance": 3,
