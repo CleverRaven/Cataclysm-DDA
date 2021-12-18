@@ -193,5 +193,30 @@
         "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
+  },
+  {
+    "id": "sleeping_bag_improvised",
+    "type": "ARMOR",
+    "name": { "str": "improvised sleeping bag" },
+    "description": "You might think it is bizarre to sleep in a body bag stuffed with dead plants.  However, the thought of sleeping in the cold is far more uncomfortable.",
+    "weight": "4700 g",
+    "volume": "30 L",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "plastic", "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "light_red",
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 80,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]
