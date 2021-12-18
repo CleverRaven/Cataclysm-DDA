@@ -323,5 +323,8 @@
     "t_floor_brood_wasp": [ 135, 133, 142 ],
     "t_floor_brood_fake": [ 135, 133, 142 ],
     "t_fungus": [ 174, 172, 158 ]
-  }
+  },
+  "replace_with_context": [
+    [ 135, 133, 142 ]
+  ]
 }
