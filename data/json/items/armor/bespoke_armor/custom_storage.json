@@ -378,7 +378,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER", "LIGHT_300" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER"],
     "armor": [
       {
         "encumbrance": [ 1, 3 ],
@@ -409,6 +409,6 @@
       "msg": "You turn the shoulder mounted flashlight off.",
       "target": "nomad_rig"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM", "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
+    "flags": [ "LIGHT_500", "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
   }
 ]

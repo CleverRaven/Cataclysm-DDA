@@ -5450,13 +5450,6 @@ float Character::active_light() const
         return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
-    for( const item &i : worn ) {
-        const int lumit = i.getlight_emit();
-        if( maxlum < lumit ) {
-            maxlum = lumit;
-        }
-    }
-
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
