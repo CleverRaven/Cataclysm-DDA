@@ -2,6 +2,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_dinosaur_body",
+    "//": "Generic dino body, no special armor, weaknesses, everything in hitting range of a normal human",
     "weakpoints": [
       {
         "name": "the head",
