@@ -150,7 +150,7 @@
     "entries": [
       { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": false, "prob": 40 },
       { "item": "heatpack", "prob": 40 },
-      { 
+      {
         "distribution": [
           { "item": "can_cheese", "container-item": "mre_bag_small", "prob": 40, "sealed": true },
           { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "prob": 40, "sealed": true }
