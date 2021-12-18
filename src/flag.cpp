@@ -167,6 +167,7 @@ const flag_id flag_MELTS( "MELTS" );
 const flag_id flag_MESSY( "MESSY" );
 const flag_id flag_MISSION_ITEM( "MISSION_ITEM" );
 const flag_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
+const flag_id flag_MUNDANE( "MUNDANE" );
 const flag_id flag_MUSHY( "MUSHY" );
 const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_MYCUS_OK( "MYCUS_OK" );

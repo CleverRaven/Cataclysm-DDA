@@ -177,6 +177,7 @@ extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
 extern const flag_id flag_MISSION_ITEM;
 extern const flag_id flag_MOUNTED_GUN;
+extern const flag_id flag_MUNDANE;
 extern const flag_id flag_MUSHY;
 extern const flag_id flag_MYCUS_OK;
 extern const flag_id flag_NANOFAB_TEMPLATE;
