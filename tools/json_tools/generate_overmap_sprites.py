@@ -15,23 +15,23 @@ from util import import_data
 
 
 SIZE = 24
-ROTATIONS = ('_E', '_S', '_W')  # FIXME: try _north _east _south _west
-TERRAIN_COLOR_NAMES = {}
-PALETTES = {}
-SCHEME = None
+ROTATIONS = ('_east', '_south', '_west')
+
 TILE_ENTRY_TEMPLATE = {
     'id': '',
     'fg': '',
     'rotates': True,
 }
-CREATED_IDS = set()
-VARIANTS = dict()
 SKIPPED = {
-    # 'single_color': set(),
     'duplicate': set(),
     'predecessor_mapgen': list(),
     'no_rows': list(),
 }
+TERRAIN_COLOR_NAMES = {}
+PALETTES = {}
+SCHEME = None
+CREATED_IDS = set()
+VARIANTS = dict()
 
 
 def get_first_valid(
@@ -172,7 +172,6 @@ def add_palette(
         terrains = {}
 
     palette_id = entry.get('id')
-    global PALETTES
 
     if palette_id in PALETTES:
         raise Exception(f'WARNING: duplicate palette id {palette_id}')
@@ -190,8 +189,6 @@ def add_palette(
 def read_mapgen_palettes() -> None:
     """
     Fill the PALETTES global
-
-    FIXME: read from mapgen folder too
     """
     palette_entries, errors = import_data(
         json_dir=Path('../../data/json/mapgen_palettes/'),
@@ -236,6 +233,21 @@ def write_image_with_rotations(
         image.save(output_dir / f'{name}{rotation_suffix}.png')
 
 
+def write_json(
+    output_dir: Path,
+    name: str,
+) -> None:
+    """
+    Generate and write JSON tile entry for compose.py
+    """
+    tile_entry = TILE_ENTRY_TEMPLATE.copy()
+    tile_entry['id'] = name
+    tile_entry['fg'] = [name] + [f'{name}{suffix}' for suffix in ROTATIONS]
+    filepath = output_dir / f'{name}.json'
+    with open(filepath, 'w') as file:
+        json.dump(tile_entry, file)
+
+
 def output_sprite(
     name: str,
     image: Image,
@@ -248,8 +260,13 @@ def output_sprite(
     """
     Handle single sprite
     """
-    # if f'{name}{ROTATED_SUFFIX}' in CREATED_IDS:
-    #    raise Exception('ROTATED_SUFFIX caused duplicated sprite names')
+    for suffix in ROTATIONS:
+        if f'{name}{suffix}' in CREATED_IDS:
+            raise Exception(
+                'Rotation suffix caused duplicated sprite names: '
+                f'{name}{suffix}'
+            )
+
     if name not in CREATED_IDS:
         # new ID
 
@@ -262,13 +279,7 @@ def output_sprite(
             return
 
         if generate_json:
-            tile_entry = TILE_ENTRY_TEMPLATE.copy()
-            tile_entry['id'] = name
-            tile_entry['fg'] = [name] + \
-                [f'{name}{suffix}' for suffix in ROTATIONS]
-            filepath = output_dir / f'{name}.json'
-            with open(filepath, 'w') as file:
-                json.dump(tile_entry, file)
+            write_json(output_dir=output_dir, name=name)
 
         write_image_with_rotations(image, name, output_dir)  # , rotation)
         CREATED_IDS.add(name)
@@ -302,7 +313,6 @@ def output_sprite(
         # ID is known to have variants, just increment the counter
         VARIANTS[name] += 1
 
-    # FIXME: move it into another function
     write_image_with_rotations(
         image,
         f'{name}_{VARIANTS[name]}',
@@ -311,19 +321,19 @@ def output_sprite(
     )
 
 
-def get_effective_rotation(rotation: Union[None, int, list]) -> int:
+def get_initial_rotation(rotation: Union[None, int, list]) -> int:
     """
-    >>> get_effective_rotation(None)
+    >>> get_initial_rotation(None)
     0
-    >>> get_effective_rotation(1)
+    >>> get_initial_rotation(1)
     1
-    >>> get_effective_rotation([2])
+    >>> get_initial_rotation([2])
     2
-    >>> get_effective_rotation([3, 3])
+    >>> get_initial_rotation([3, 3])
     3
-    >>> get_effective_rotation([0, 3])
+    >>> get_initial_rotation([0, 3])
     0
-    >>> get_effective_rotation([3, 4])
+    >>> get_initial_rotation([3, 4])
     WARNING: unexpected rotation value [3, 4]
     0
     """
@@ -477,7 +487,7 @@ def main():
         # create the sprite
         image = generate_image(
             rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter,
-            rotation=get_effective_rotation(raw_rotation),
+            rotation=get_initial_rotation(raw_rotation),
         )
 
         # write sprite[s] to the output directory
