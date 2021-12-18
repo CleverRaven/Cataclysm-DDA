@@ -61,6 +61,7 @@ ID_WHITELIST = {
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
+    'bio_shotgun_gun',
 }
 
 

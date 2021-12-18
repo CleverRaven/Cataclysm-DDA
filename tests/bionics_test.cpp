@@ -347,14 +347,23 @@ TEST_CASE( "included bionics", "[bionics]" )
 
         WHEN( "a CBM with included bionics is installed" ) {
             dummy.add_bionic( bio_ears );
+            bionic &parent_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
+            bionic &included_bio = dummy.bionic_at_index( dummy.num_bionics() - 1 );
 
             THEN( "the bionic and its included bionics are installed" ) {
                 REQUIRE( dummy.num_bionics() > 1 );
-                bionic &parent_bio = dummy.bionic_at_index( dummy.num_bionics() - 2 );
-                bionic &included_bio = dummy.bionic_at_index( dummy.num_bionics() - 1 );
                 REQUIRE( parent_bio.id == bio_ears );
                 REQUIRE( included_bio.id == bio_earplugs );
                 CHECK( included_bio.get_parent_uid() == parent_bio.get_uid() );
+            }
+
+            WHEN( "the parent bionic is uninstalled" ) {
+                REQUIRE( dummy.num_bionics() > 1 );
+                dummy.remove_bionic( parent_bio );
+
+                THEN( "the bionic is removed along with the included bionic" ) {
+                    CHECK( dummy.num_bionics() == 0 );
+                }
             }
         }
     }
