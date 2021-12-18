@@ -355,7 +355,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "brew_vinegar",
-    "result_mult": 10,
+    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
