@@ -490,7 +490,13 @@ def main():
     read_mapgen_palettes()
 
     if context_coloring:
-        read_overmap_terrain_data()
+        if SCHEME['replace_with_context']:
+            read_overmap_terrain_data()
+        else:
+            print(
+                'WARNING: replace_with_context color scheme value is empty '
+                'but context_coloring is True'
+            )
 
     mapgen_data = get_mapgen_data(
         mapgen_dir=args_dict.get('mapgen_dir'),
