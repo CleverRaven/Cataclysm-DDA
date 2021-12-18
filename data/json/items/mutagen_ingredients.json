@@ -34,7 +34,7 @@
     "id": "mouse_sample_foot",
     "symbol": "q",
     "color": "white",
-    "name": { "str": "rabbit sample" },
+    "name": { "str": "mouse sample" },
     "description": "A genetic sample of materials from various parts of a mutant mouse.",
     "price": 1000,
     "price_postapoc": 10,
