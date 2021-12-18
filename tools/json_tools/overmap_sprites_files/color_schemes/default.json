@@ -9,6 +9,7 @@
     "cyan": [0, 150, 180],
     "gray": [150, 150, 150],
     "dark_gray": [99, 99, 99],
+    "light_gray": [155, 155, 155],
     "light_red": [255, 150, 150],
     "light_green": [0, 255, 0],
     "yellow": [255, 255, 0],
@@ -18,6 +19,25 @@
     "white": [255, 255, 255]
   },
   "terrain": {
-    "null": [0, 0, 0, 0]
-  }
+    "null": [0, 0, 0],
+    "t_null": [0, 0, 0],
+    "t_open_air": [188, 238, 255],
+    "t_region_groundcover": [97, 56, 28],
+    "t_region_groundcover_urban": [97, 56, 28],
+    "t_region_groundcover_forest": [0, 110, 0],
+    "t_region_groundcover_swamp": [0, 110, 0],
+    "t_region_groundcover_barren": [97, 56, 28],
+    "t_region_grass": [0, 110, 0],
+    "t_region_soil": [97, 56, 28],
+    "t_region_tree": [0, 110, 0],
+    "t_region_tree_evergreen": [0, 110, 0],
+    "t_region_tree_fruit": [0, 110, 0],
+    "t_region_tree_nut": [0, 110, 0],
+    "t_region_tree_shade": [0, 110, 0],
+    "t_region_shrub": [0, 110, 0],
+    "t_region_shrub_fruit": [0, 110, 0],
+    "t_region_shrub_decorative": [0, 110, 0]
+  },
+  "replace_with_context": [
+  ]
 }
