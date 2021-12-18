@@ -1476,7 +1476,18 @@
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic", "lame-brain" ]
+    "text": [
+      "stupid",
+      "idiotic",
+      "dumb",
+      "dumb-ass",
+      "moronic",
+      "mickey mouse",
+      "shit-for-brains",
+      "brain-dead",
+      "imbecilic",
+      "lame-brain"
+    ]
   },
   {
     "type": "snippet",
@@ -1523,7 +1534,15 @@
   {
     "type": "snippet",
     "category": "<the_cataclysm>",
-    "text": [ "the Cataclysm", "the apocalypse", "the end of the world", "Armageddon", "the end of days", "the end", "the reckoning" ]
+    "text": [
+      "the Cataclysm",
+      "the apocalypse",
+      "the end of the world",
+      "Armageddon",
+      "the end of days",
+      "the end",
+      "the reckoning"
+    ]
   },
   {
     "type": "snippet",
@@ -1665,7 +1684,12 @@
     "type": "snippet",
     "category": "<far_distance>",
     "//": "A threat is on the horizon.",
-    "text": [ "far enough away that we could make sneak away.", "out on the horizon, so don't worry much.", "at a long distance.", "it's a million miles away!" ]
+    "text": [
+      "far enough away that we could make sneak away.",
+      "out on the horizon, so don't worry much.",
+      "at a long distance.",
+      "it's a million miles away!"
+    ]
   },
   {
     "type": "snippet",
