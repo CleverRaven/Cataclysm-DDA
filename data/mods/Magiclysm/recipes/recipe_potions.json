@@ -250,7 +250,7 @@
       [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ]
     ],
-    "components": [ [ [ "potion_starter", 5 ] ], [ [ "blood", 3 ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -270,7 +270,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
     "components": [
       [ [ "potion_starter", 5 ] ],
-      [ [ "blood", 5 ] ],
+      [ [ "edible_blood", 5, "LIST" ] ],
       [ [ "slime_scrap", 5 ], [ "meat_tainted", 15 ] ],
       [ [ "bandages", 5 ], [ "bandages_makeshift_bleached", 7 ], [ "bandages_makeshift_boiled", 7 ] ]
     ]
