@@ -2173,7 +2173,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     }
 
     // if we still have no tile, we're out of luck, fall back to unknown
-    if( !tt ) {
+    if( !tt && category != TILE_CATEGORY::MAP_EXTRA ) {
         tt = tileset_ptr->find_tile_type( "unknown" );
     }
 
