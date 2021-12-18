@@ -104,13 +104,23 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "description": "Leg holster",
+        "description": "Deep leg holster",
         "holster": true,
         "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "45 cm",
         "moves": 70
+      },
+      {
+        "magazine_well": "350 ml",
+        "description": "Small sheath",
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
       },
       {
         "pocket_type": "CONTAINER",
