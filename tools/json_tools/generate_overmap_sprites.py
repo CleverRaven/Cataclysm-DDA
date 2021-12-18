@@ -383,12 +383,11 @@ def handle_single_color_sprites(
         color_str = '_'.join(map(str, color))
         image.save(output_dir / f'{color_str}.png')
 
-        for name in names:
-            entry = {
-                'id': name,
-                'fg': color_str,
-            }
-            entries.append(entry)
+        entry = {
+            'id': list(names),
+            'fg': color_str,
+        }
+        entries.append(entry)
 
     with open(output_dir / 'entries.json', 'w') as file:
         json.dump(entries, file)
