@@ -362,6 +362,16 @@
         "max_contains_weight": "3000 g",
         "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 80
+      },
+      {
+        "description": "Archaic holster",
+        "magazine_well": "1500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "130 cm",
+        "min_item_length": "30 cm",
+        "moves": 100,
+        "holster": true
       }
     ],
     "charges_per_use": 1,
@@ -378,7 +388,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER"],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ],
     "armor": [
       {
         "encumbrance": [ 1, 3 ],
@@ -386,7 +396,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       },
-      { "encumbrance": [ 1, 3 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] },
+      { "encumbrance": [ 1, 3 ], "coverage": 70, "covers": [ "torso" ] },
       {
         "encumbrance": [ 1, 2 ],
         "coverage": 80,
@@ -399,7 +409,7 @@
     "id": "nomad_rig_on",
     "copy-from": "nomad_rig",
     "type": "TOOL_ARMOR",
-    "name": { "str": "nomad distributed rigging (on)", "str_pl": "nomad distributed riggings (on)" },
+    "name": { "str": "nomad harness (on)", "str_pl": "nomad harnesses (on)" },
     "power_draw": 15000,
     "revert_to": "nomad_rig",
     "use_action": {

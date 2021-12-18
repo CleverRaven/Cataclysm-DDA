@@ -48,9 +48,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
     },
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
@@ -77,7 +75,7 @@
     "id": "armor_nomad_jumpsuit_light",
     "type": "ARMOR",
     "name": { "str": "light nomad jumpsuit" },
-    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.",
+    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.   It's clever construction adds additional core support helping you to carry more equipment.",
     "copy-from": "armor_nomad_jumpsuit",
     "price": 29500,
     "price_postapoc": 1250,
@@ -89,8 +87,8 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 5, 5 ] }
     ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
-    "use_action": [],
-    "delete": { "flags": [ "STURDY" ] }
+    "use_action": [  ],
+    "delete": { "flags": [ "STURDY", "USES_BIONICE_POWER" ] }
   },
   {
     "id": "armor_scavenger",
