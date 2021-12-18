@@ -423,6 +423,8 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         if( jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
             explicit_def_null = true;
         }
+    } else if( extending && !jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
+        explicit_def_null = true;
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
