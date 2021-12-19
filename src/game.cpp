@@ -7144,11 +7144,16 @@ void game::list_items_monsters()
     }
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        const Creature::Attitude att_lhs = lhs->attitude_to( u );
-        const Creature::Attitude att_rhs = rhs->attitude_to( u );
+        if( !u.has_trait( trait_INATTENTIVE ) ) {
+            const Creature::Attitude att_lhs = lhs->attitude_to( u );
+            const Creature::Attitude att_rhs = rhs->attitude_to( u );
 
-        return att_lhs < att_rhs || ( att_lhs == att_rhs
-                                      && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+            return att_lhs < att_rhs || ( att_lhs == att_rhs
+                                          && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        } else { // Sort just by ditance if player has inattentive trait
+            return ( rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        }
+
     } );
 
     // If the current list is empty, switch to the non-empty list
