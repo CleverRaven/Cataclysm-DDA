@@ -3012,6 +3012,11 @@ class Character : public Creature, public visitable
         bool disassemble();
         bool disassemble( item_location target, bool interactive = true, bool disassemble_all = false );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
+        /**
+         * Completely disassemble an item, and drop yielded components at its former position.
+         * @param target - the in-progress disassembly item location
+         * @param dis - recipe for disassembly (by default uses recipe_dictionary::get_uncraft)
+         */
         void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );
 

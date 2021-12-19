@@ -57,6 +57,32 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "test_rag_bundle",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "TEST rag bundle",
+    "description": "This is a bundle of 100 rags tied together with a piece of string.",
+    "weight": "800 g",
+    "volume": "2000 ml",
+    "price": 0,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "white"
+  },
+  {
+    "id": "test_knotted_string_ball",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "TEST knotted ball of string",
+    "description": "This is a ball of 100 short pieces of string, all tangled and knotted together.",
+    "weight": "600 g",
+    "volume": "1000 ml",
+    "price": 0,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "white"
+  },
+  {
     "type": "GENERIC",
     "id": "test_2x4",
     "name": "TEST plank",
@@ -546,6 +572,36 @@
     "min_skills": [ [ "electronics", 3 ], [ "traps", 2 ] ],
     "min_intelligence": 9,
     "min_perception": 5
+  },
+  {
+    "id": "test_multitool",
+    "type": "TOOL",
+    "name": { "str": "TEST multi-tool" },
+    "description": "Some kind of super-multi-tool, like a swiss army knife with a pocket dimension.",
+    "weight": "500 g",
+    "volume": "100 ml",
+    "longest_side": "10 cm",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [
+      [ "BUTCHER", 7 ],
+      [ "CUT", 1 ],
+      [ "DRILL", 1 ],
+      [ "HAMMER", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER_SOFT", 1 ],
+      [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "WRENCH", 1 ],
+      [ "WRENCH_FINE", 1 ]
+    ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "test_soldering_iron",
