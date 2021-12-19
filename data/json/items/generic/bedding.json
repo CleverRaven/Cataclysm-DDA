@@ -222,7 +222,7 @@
   {
     "id": "grass_sheet",
     "type": "ARMOR",
-    "name": { "str": "grass blanket" },
+    "name": { "str": "grass sheet" },
     "description": "Some grass yarn woven into a crude sheet.",
     "weight": "500 g",
     "volume": "700 ml",
