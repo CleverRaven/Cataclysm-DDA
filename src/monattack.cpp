@@ -2342,7 +2342,7 @@ bool mattack::formblob( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : pts ) {
         Creature *critter = creatures.creature_at( dest );
-        if( critter == nullptr && get_map().passable( dest ) ) {
+        if( critter == nullptr ) {
             if( z->get_speed_base() > mon_blob_small->speed + 35 && rng( 0, 250 ) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
                 shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
