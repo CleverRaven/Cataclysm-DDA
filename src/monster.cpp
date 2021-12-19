@@ -699,14 +699,20 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     oss << "<color_h_white>" << get_effect_status() << "</color>";
     vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
-    // Hostility indicator on the second line.
-    std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, vStart++ ), att.second, att.first );
-
-    // Awareness indicator in the third line.
     Character &pc = get_player_character();
     bool sees_player = sees( pc );
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
+
+    // Hostility indicator on the second line.
+    std::pair<std::string, nc_color> att = get_attitude();
+    if( player_knows ) {
+        mvwprintz( w, point( column, vStart++ ), att.second, att.first );
+    } else {
+        mvwprintz( w, point( column, vStart++ ), all_colors.get( attitude_names.at( MATT_UNKNOWN ).second ),
+                   attitude_names.at( MATT_UNKNOWN ).first );
+    }
+
+    // Awareness indicator in the third line.
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
     senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
