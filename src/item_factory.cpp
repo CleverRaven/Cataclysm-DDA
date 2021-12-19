@@ -80,6 +80,7 @@ static const item_category_id item_category_mods( "mods" );
 static const item_category_id item_category_other( "other" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
+static const item_category_id item_category_veh_parts( "veh_parts" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
@@ -3316,6 +3317,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
+    // TODO: remove condition once degradation is ready to be applied to all items
+    if( def.category_force != item_category_veh_parts ) {
+        degrade_mult = 0.f;
+    }
     if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
         def.degrade_increments_ = 0;
     } else {
