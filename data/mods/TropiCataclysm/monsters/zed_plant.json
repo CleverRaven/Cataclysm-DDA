@@ -67,7 +67,7 @@
     "id": "mon_boomer_thorny",
     "type": "MONSTER",
     "name": { "str": "thorny boomer" },
-    "description": "A fat and slow zombie covered in plant growths of unknown origin.  Some vines seem to extend into its mouth and guts",
+    "description": "A fat and slow zombie covered in plant growths of unknown origin.  Some vines seem to extend into its mouth and guts.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "PLANT" ],
