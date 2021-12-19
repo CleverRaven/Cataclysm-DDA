@@ -333,7 +333,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "insulated" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

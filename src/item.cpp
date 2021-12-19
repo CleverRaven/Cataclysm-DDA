@@ -3201,6 +3201,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                            iteminfo::no_newline | iteminfo::is_decimal, acid_resist() );
         info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
                            iteminfo::no_newline | iteminfo::is_decimal, fire_resist() );
+        info.emplace_back( "ARMOR", space + _( "Electric: " ), "",
+                           iteminfo::no_newline | iteminfo::is_decimal, electric_resist() );
         info.emplace_back( "ARMOR", space + _( "Environmental: " ),
                            get_base_env_resist( *this ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
@@ -7565,6 +7567,42 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     return res;
 }
 
+float item::electric_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by electricity
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    float mod = get_clothing_mod_val( clothing_mod_type_electric );
+    if( is_null() ) {
+        return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->elec_resist() * m->thickness * 0.2f;
+            }
+            return resist + mod;
+        }
+    }
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->elec_resist() * m.second * 0.2f;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return resist + mod;
+}
+
 int item::min_damage() const
 {
     return type->damage_min();
@@ -7733,7 +7771,6 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp )
             return 0.0f;
         case damage_type::PURE:
         case damage_type::BIOLOGICAL:
-        case damage_type::ELECTRIC:
         case damage_type::COLD:
             // Currently hardcoded:
             // Items can never be damaged by those types
@@ -7751,6 +7788,8 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp )
             return fire_resist( to_self, 0, bp );
         case damage_type::BULLET:
             return bullet_resist( to_self, bp );
+        case damage_type::ELECTRIC:
+            return electric_resist( to_self, 0, bp );
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }

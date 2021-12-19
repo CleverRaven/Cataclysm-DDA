@@ -65,6 +65,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
@@ -1661,19 +1662,48 @@ void map::player_in_field( Character &you )
         if( ft == fd_electricity ) {
             // Small universal damage based on intensity, only if not electroproofed.
             if( !you.is_elec_immune() ) {
-                int total_damage = 0;
-                for( const bodypart_id &bp :
-                     you.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                    const int dmg = rng( 1, std::max( cur.get_field_intensity(), 4 ) );
-                    total_damage += you.deal_damage( nullptr, bp, damage_instance( damage_type::ELECTRIC,
-                                                     dmg ) ).total_damage();
+                // Lower body parts will be much more likely to be hit
+                // Weights based on intensity ranges:
+                // Intensity 1 - 2: Feet (2)
+                // Intensity 3: Feet (2), Legs (1)
+                // Intensity 4: Feet (3), Legs (1)
+                // Intensity 5 : Feet (3), Legs (2)
+                // Intensity 6: Feet (3), Legs (2), Torso (1)
+                // Intensity 7: Feet (3), Legs (2), Torso (1), Arms (1)
+                // Intensity 8: Feet (3), Legs (2), Torso (2), Arms (1)
+                // Intensity 9: Feet (3), Legs (2), Torso (2), Arms (1), Hands (1)
+                // Intensity 10: Feet (3), Legs (2), Torso (2), Arms (1), Hands (1), Head (1)
+                static const std::vector<bodypart_id> bodypart_weighted_list = {
+                    body_part_foot_l, body_part_foot_r, body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r,
+                    body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r, body_part_torso, body_part_torso,
+                    body_part_arm_l, body_part_arm_r, body_part_torso, body_part_torso, body_part_hand_l, body_part_hand_r,
+                    body_part_head, body_part_head
+                };
+                // If on the ground, all bodyparts can be hit
+                const int bodypart_roll = you.is_on_ground() ? 20 : rng( 1, cur.get_field_intensity() * 2 );
+                const int bodypart_index = clamp( bodypart_roll - 1, 0,
+                                                  static_cast<int>( bodypart_weighted_list.size() ) );
+                const bodypart_id hit_bodypart = bodypart_weighted_list[bodypart_index];
+                // Apply damage to main body part hit
+                const float main_part_damage = you.deal_damage( nullptr, hit_bodypart,
+                                               damage_instance( damage_type::ELECTRIC, cur.get_field_intensity() ) ).total_damage();
+                // Apply 25% of the main part damage to other body parts
+                const int other_parts_damage = round( main_part_damage * 0.25f );
+                if( other_parts_damage > 0 ) {
+                    for( const bodypart_id &bp :
+                         you.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        if( bp == hit_bodypart ) {
+                            continue;
+                        }
+                        you.apply_damage( nullptr, bp, other_parts_damage, true );
+                    }
                 }
 
-                if( total_damage > 0 ) {
+                if( main_part_damage > 0 ) {
                     if( you.has_trait( trait_ELECTRORECEPTORS ) ) {
                         you.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
                                                    _( "<npcname> is shocked!" ) );
-                        you.mod_pain( total_damage / 2 );
+                        you.mod_pain( main_part_damage / 2 );
                     } else {
                         you.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
                     }
@@ -2027,7 +2057,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
             z.deal_damage( nullptr, bodypart_id( "torso" ),
-                           damage_instance( damage_type::ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
+                           damage_instance( damage_type::ELECTRIC, rng( 1, cur.get_field_intensity() ) ) );
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {

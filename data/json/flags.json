@@ -816,6 +816,11 @@
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
+    "id": "insulated",
+    "type": "json_flag",
+    "info": "This gear is padded with rubber to <good>increase</good> its overall <info>electrical insulation</info>."
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",

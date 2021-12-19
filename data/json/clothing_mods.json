@@ -70,5 +70,18 @@
       { "type": "encumbrance", "value": 3, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
     ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "insulated",
+    "flag": "insulated",
+    "item": "chunk_rubber",
+    "implement_prompt": "Pad it with rubber",
+    "destroy_prompt": "Destroy rubber padding",
+    "mod_value": [
+      { "type": "encumbrance", "value": 2 },
+      { "type": "encumbrance", "value": 4, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "electric", "value": 0.5 }
+    ]
   }
 ]

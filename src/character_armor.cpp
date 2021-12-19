@@ -374,116 +374,164 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     std::list<item> worn_remains;
     bool armor_destroyed = false;
 
+    sub_bodypart_id sbp;
+    sub_bodypart_id secondary_sbp;
+    // if this body part has sub part locations roll one
+    if( !bp->sub_parts.empty() ) {
+        sbp = bp->random_sub_part( false );
+        // the torso has a second layer of hanging body parts
+        if( bp == body_part_torso ) {
+            secondary_sbp = bp->random_sub_part( true );
+        }
+    }
+
+    static const std::vector<damage_type> first_pass_damagetypes = { damage_type::BASH,  damage_type::CUT, damage_type::STAB, damage_type::BULLET };
+    float initial_electric_damage = 0;
+
+    // Apply modifiers from enchantments / ADS before checking armor and reductions
     for( damage_unit &elem : dam.damage_units ) {
-        if( elem.amount < 0 ) {
-            // Prevents 0 damage hits (like from hallucinations) from ripping armor
-            elem.amount = 0;
+        if( elem.amount >= 0 ) {
+            armor_enchantment_adjust( *this, elem );
+
+            // The bio_ads CBM absorbs damage before hitting armor
+            if( has_active_bionic( bio_ads ) ) {
+                if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
+                    if( elem.type == damage_type::BASH ) {
+                        elem.amount -= rng( 1, 2 );
+                    } else if( elem.type == damage_type::CUT ) {
+                        elem.amount -= rng( 1, 4 );
+                    } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
+                        elem.amount -= rng( 1, 8 );
+                    }
+                    mod_power_level( -bio_ads->power_trigger );
+                }
+                if( elem.amount < 0 ) {
+                    elem.amount = 0;
+                }
+            }
+
+            if( elem.type == damage_type::ELECTRIC ) {
+                // Store initial electric damage to implement insulation as a binary defense
+                initial_electric_damage = elem.amount;
+            }
+        }
+    }
+
+    // Only the outermost armor can be set on fire
+    bool outermost = true;
+    // The worn vector has the innermost item first, so
+    // iterate reverse to damage the outermost (last in worn vector) first.
+    for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
+        // Apply armor reductions
+        item &armor = *iter;
+
+        if( !armor.covers( bp ) ) {
+            ++iter;
             continue;
         }
 
-        // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic( bio_ads ) ) {
-            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
-                if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 2 );
-                } else if( elem.type == damage_type::CUT ) {
-                    elem.amount -= rng( 1, 4 );
-                } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 8 );
+        const std::string pre_damage_name = armor.tname();
+
+        bool first_pass = true;
+        bool penetrated = false;
+        bool destroy = false;
+        const int roll = rng( 1, 100 );
+
+        do {
+            for( damage_unit &elem : dam.damage_units ) {
+                const bool is_first_pass_type = std::find( first_pass_damagetypes.begin(),
+                                                first_pass_damagetypes.end(), elem.type ) != first_pass_damagetypes.end();
+                if( first_pass != is_first_pass_type ) {
+                    // Do physical damages on first pass to check if armor is penetrated
+                    continue;
                 }
-                mod_power_level( -bio_ads->power_trigger );
-            }
-            if( elem.amount < 0 ) {
-                elem.amount = 0;
-            }
-        }
 
-        armor_enchantment_adjust( *this, elem );
-
-        sub_bodypart_id sbp;
-        sub_bodypart_id secondary_sbp;
-        // if this body part has sub part locations roll one
-        if( !bp->sub_parts.empty() ) {
-            sbp = bp->random_sub_part( false );
-            // the torso has a second layer of hanging body parts
-            if( bp == body_part_torso ) {
-                secondary_sbp = bp->random_sub_part( true );
-            }
-        }
-
-        // generate a single roll for determining if hit
-        int roll = rng( 1, 100 );
-
-        // Only the outermost armor can be set on fire
-        bool outermost = true;
-        // The worn vector has the innermost item first, so
-        // iterate reverse to damage the outermost (last in worn vector) first.
-        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
-            item &armor = *iter;
-
-            if( !armor.covers( bp ) ) {
-                ++iter;
-                continue;
-            }
-
-            const std::string pre_damage_name = armor.tname();
-            bool destroy = false;
-
-            item_armor_enchantment_adjust( *this, elem, armor );
-            // Heat damage can set armor on fire
-            // Even though it doesn't cause direct physical damage to it
-            if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
-                // TODO: Different fire intensity values based on damage
-                fire_data frd{ 2 };
-                destroy = armor.burn( frd );
-                int fuel = roll_remainder( frd.fuel_produced );
-                if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,
-                                true );
+                if( elem.amount < 0 ) {
+                    // Prevents 0 damage hits (like from hallucinations) from ripping armor
+                    elem.amount = 0;
+                    continue;
                 }
-            }
 
-            if( !destroy ) {
+                // Electric damage is not prevented by armor that doesn't block the physical
+                // portion of the attack
+                if( elem.type == damage_type::ELECTRIC && penetrated ) {
+                    continue;
+                }
+
+                item_armor_enchantment_adjust( *this, elem, armor );
+                // Heat damage can set armor on fire
+                // Even though it doesn't cause direct physical damage to it
+                if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
+                    // TODO: Different fire intensity values based on damage
+                    fire_data frd{ 2 };
+                    destroy |= armor.burn( frd );
+                    int fuel = roll_remainder( frd.fuel_produced );
+                    if( fuel > 0 ) {
+                        add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,
+                                    true );
+                    }
+                }
+
                 // if we don't have sub parts data
                 // this is the feet head and hands
                 if( bp->sub_parts.empty() ) {
-                    destroy = armor_absorb( elem, armor, bp, roll );
+                    destroy |= armor_absorb( elem, armor, bp, roll );
                 } else {
                     // if this armor has sublocation data test against it instead of just a generic roll
-                    destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                    destroy |= armor_absorb( elem, armor, bp, sbp, roll );
                     // for the torso we also need to consider if it hits anything hanging off the player or their neck
                     if( bp == body_part_torso ) {
-                        destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
+                        destroy |= armor_absorb( elem, armor, bp, secondary_sbp, roll );
                     }
                 }
+
+                if( first_pass && elem.amount > 0 ) {
+                    // Layer didn't fully prevent physical damage
+                    penetrated = true;
+                }
+            }
+            first_pass = !first_pass;
+        } while( !first_pass );
+
+        if( destroy ) {
+            if( get_player_view().sees( *this ) ) {
+                SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
+                         m_neutral, _( "destroyed" ), m_info );
+            }
+            destroyed_armor_msg( *this, pre_damage_name );
+            armor_destroyed = true;
+            armor.on_takeoff( *this );
+            for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                worn_remains.push_back( *it );
             }
 
-            if( destroy ) {
-                if( get_player_view().sees( *this ) ) {
-                    SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
-                             m_neutral, _( "destroyed" ), m_info );
-                }
-                destroyed_armor_msg( *this, pre_damage_name );
-                armor_destroyed = true;
-                armor.on_takeoff( *this );
-                for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    worn_remains.push_back( *it );
-                }
-                // decltype is the type name of the iterator, note that reverse_iterator::base returns the
-                // iterator to the next element, not the one the revers_iterator points to.
-                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype( iter )( worn.erase( --iter.base() ) );
-            } else {
-                ++iter;
-                outermost = false;
-            }
+            // decltype is the type name of the iterator, note that reverse_iterator::base returns the
+            // iterator to the next element, not the one the revers_iterator points to.
+            // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
+            iter = decltype( iter )( worn.erase( --iter.base() ) );
+        } else {
+            ++iter;
+            outermost = false;
+        }
+    }
+
+    // Apply post armor reductions
+    for( damage_unit &elem : dam.damage_units ) {
+        // Special case for electric damage, only prevented if fully insulated
+        if( elem.type == damage_type::ELECTRIC && elem.amount > 0 &&
+            initial_electric_damage > elem.amount ) {
+            // Only 20% of the "resisted" damage will be absorbed by armor
+            elem.amount += ( initial_electric_damage - elem.amount ) * 0.8f;
         }
 
-        passive_absorb_hit( bp, elem );
+        if( elem.amount >= 0 ) {
+            passive_absorb_hit( bp, elem );
 
-        post_absorbed_damage_enchantment_adjust( *this, elem );
+            post_absorbed_damage_enchantment_adjust( *this, elem );
+        }
         elem.amount = std::max( elem.amount, 0.0f );
     }
+
     map &here = get_map();
     for( item &remain : worn_remains ) {
         here.add_item_or_charges( pos(), remain );

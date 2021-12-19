@@ -1152,6 +1152,8 @@ class item : public visitable
         float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() )  const;
         float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
+        float electric_resist( bool to_self = false, int base_env_resist = 0,
+                               const bodypart_id &bp = bodypart_id() ) const;
         /*@}*/
 
         /**

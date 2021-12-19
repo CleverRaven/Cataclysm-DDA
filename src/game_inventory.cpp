@@ -325,6 +325,10 @@ class armor_inventory_preset: public inventory_selector_preset
                 return get_decimal_string( loc->fire_resist() );
             }, _( "FIRE" ) );
 
+            append_cell( [this]( const item_location & loc ) {
+                return get_decimal_string( loc->electric_resist() );
+            }, _( "ELEC" ) );
+
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_env_resist() );
             }, _( "ENV" ) );

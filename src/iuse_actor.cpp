@@ -4664,6 +4664,9 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                                          temp_item.acid_resist() ), get_compare_color( mod.acid_resist(), temp_item.acid_resist(), true ) );
         desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.fire_resist(),
                                          temp_item.fire_resist() ), get_compare_color( mod.fire_resist(), temp_item.fire_resist(), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Electric" ), mod.electric_resist(),
+                                         temp_item.electric_resist() ), get_compare_color( mod.electric_resist(),
+                                                 temp_item.electric_resist(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
                                          temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),
