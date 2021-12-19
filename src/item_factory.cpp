@@ -79,8 +79,8 @@ static const item_category_id item_category_magazines( "magazines" );
 static const item_category_id item_category_mods( "mods" );
 static const item_category_id item_category_other( "other" );
 static const item_category_id item_category_tools( "tools" );
-static const item_category_id item_category_weapons( "weapons" );
 static const item_category_id item_category_veh_parts( "veh_parts" );
+static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 

@@ -17,6 +17,8 @@
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+static const item_category_id item_category_veh_parts( "veh_parts" );
+
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
@@ -304,7 +306,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         item shirt( "longshirt" );
         item deg_test( "test_baseball" );
         REQUIRE( shirt.is_armor() );
-        REQUIRE( deg_test.type->category_force == item_category_id( "veh_parts" ) );
+        REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
         // Ensure the health bar option is enabled
         override_option opt( "ITEM_HEALTH_BAR", "true" );
@@ -424,7 +426,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             item shirt( "longshirt" );
             item deg_test( "test_baseball" );
             REQUIRE( shirt.is_armor() );
-            REQUIRE( deg_test.type->category_force == item_category_id( "veh_parts" ) );
+            REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
             CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
             CHECK( deg_test.tname() == "baseball" );

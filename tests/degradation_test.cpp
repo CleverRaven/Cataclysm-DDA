@@ -17,9 +17,8 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
         return 0.f;
     }
     map &m = get_map();
-    Character &u = get_player_character();
     m.spawn_item( spawn_pos, it, count, 0, calendar::turn, damage );
-    REQUIRE( m.i_at( spawn_pos ).size() == count );
+    REQUIRE( m.i_at( spawn_pos ).size() == static_cast<unsigned>( count ) );
     float deg = 0.f;
     for( const item &it : m.i_at( spawn_pos ) ) {
         deg += it.degradation();
@@ -30,9 +29,6 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
 
 TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
 {
-    map &m = get_map();
-    Character &u = get_player_character();
-
     SECTION( "Non-spawned items have no degradation" ) {
         item norm( itype_test_baseball );
         item half( itype_test_baseball_half_degradation );
