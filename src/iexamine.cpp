@@ -3061,6 +3061,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     if( here.has_items( examp ) ) {
+        // Note: This is displayed regardless of whether "examine with pickup" was used
         selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     }
     if( !already_on_fire ) {

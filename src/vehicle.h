@@ -1808,7 +1808,7 @@ class vehicle
         void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp );
+        void interact_with( const vpart_position &vp, bool with_pickup = false );
 
         std::string disp_name() const;
 
