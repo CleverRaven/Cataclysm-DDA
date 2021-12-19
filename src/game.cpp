@@ -2447,7 +2447,7 @@ bool game::is_game_over()
         }
         // if you have allies you should be able to swap
         if( !g->get_follower_list().empty() ) {
-            if( query_yn( _( "You have died. Play as an ally?" ) ) ) {
+            if( query_yn( _( "You have died. Play as a follower?" ) ) ) {
                 get_avatar().control_npc_menu();
                 return false;
             }
