@@ -714,6 +714,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
