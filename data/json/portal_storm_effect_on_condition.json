@@ -311,7 +311,7 @@
           "condition": "u_is_outside",
           "effect": {
             "set_weighted_list_eocs": [
-              [ "EOC_PORTAL_WRAITH", 5 ],
+              [ "EOC_PORTAL_SHIFTING_MASS", 5 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
               [ "EOC_PORTAL_PAIN", 1 ],
@@ -354,7 +354,7 @@
           "condition": "u_is_outside",
           "effect": {
             "set_weighted_list_eocs": [
-              [ "EOC_PORTAL_WRAITH", 1 ],
+              [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
               [ "EOC_PORTAL_ABSENCE", 2 ],
               [ "EOC_PORTAL_PAIN", 3 ],
@@ -398,7 +398,7 @@
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
               [ "EOC_PORTAL_INCORPOREAL", 2 ],
-              [ "EOC_PORTAL_WRAITH", 1 ],
+              [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
@@ -506,7 +506,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_WRAITH",
+    "id": "EOC_PORTAL_SHIFTING_MASS",
     "condition": "u_is_outside",
     "effect": [
       {
@@ -515,7 +515,7 @@
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_wraith_count", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_count", "type": "weather", "context": "ps" },
           "=",
           { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
           "/",
@@ -523,12 +523,12 @@
         ]
       },
       {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_wraith_count", "type": "weather", "context": "ps" }, "++" ]
+        "arithmetic": [ { "global_val": "var", "var_name": "ps_shifting_mass_count", "type": "weather", "context": "ps" }, "++" ]
       },
       {
-        "u_set_spawn_monster": "mon_wraith",
-        "real_count": { "name": "ps_wraith_count", "type": "weather", "context": "ps", "default": 1, "global": true },
-        "hallucination_count": { "name": "ps_wraith_count", "type": "weather", "context": "ps", "default": 1, "global": true },
+        "u_set_spawn_monster": "mon_shifting_mass",
+        "real_count": { "name": "ps_shifting_mass_count", "type": "weather", "context": "ps", "default": 1, "global": true },
+        "hallucination_count": { "name": "ps_shifting_mass_count", "type": "weather", "context": "ps", "default": 1, "global": true },
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
