@@ -79,6 +79,7 @@ static const item_category_id item_category_magazines( "magazines" );
 static const item_category_id item_category_mods( "mods" );
 static const item_category_id item_category_other( "other" );
 static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
@@ -3312,6 +3313,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         JsonArray arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
+    }
+
+    float degrade_mult = 1.0f;
+    optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
+    // TODO: remove condition once degradation is ready to be applied to all items
+    if( def.category_force != item_category_veh_parts ) {
+        degrade_mult = 0.f;
+    }
+    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+        def.degrade_increments_ = 0;
+    } else {
+        float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
+        def.degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
     }
 
     // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`

@@ -286,6 +286,13 @@ class item : public visitable
         item &set_damage( int qty );
 
         /**
+         * Filter setting degradation constrained by 0 and @ref max_damage
+         * @note this method also sets the damage to qty if damage is less than qty
+         * @return same instance to allow method chaining
+         */
+        item &set_degradation( int qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -349,6 +356,11 @@ class item : public visitable
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
+
+        /**
+         * Returns a symbol indicating the current degradation of the item.
+         */
+        std::string degradation_symbol() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -1175,6 +1187,12 @@ class item : public visitable
         /** How much damage has the item sustained? */
         int damage() const;
 
+        /** How much degradation has the item accumulated? */
+        int degradation() const;
+
+        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        void rand_degradation();
+
         /**
          * Scale item damage to the given number of levels. This function is
          * here mostly for back-compatibility. It should not be used when
@@ -1196,6 +1214,9 @@ class item : public visitable
 
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
+
+        /** Number of degradation increments before the item is destroyed */
+        int degrade_increments() const;
 
         /**
          * Relative item health.
@@ -2707,6 +2728,7 @@ class item : public visitable
         // The faction that previously owned this item
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
+        int degradation_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
 

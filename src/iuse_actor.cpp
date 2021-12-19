@@ -696,7 +696,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( vpr.part(), tmp );
+            veh->set_hp( vpr.part(), tmp, true, it.degradation() );
         }
     } else {
         try {
@@ -710,7 +710,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
-                veh->set_hp( dst, src.hp() );
+                veh->set_hp( dst, src.hp(), true, it.degradation() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -2952,11 +2952,11 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         return true;
     }
 
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.degradation() ) {
         return true;
     }
 
-    if( fix.damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() + fix.degradation() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname() );
@@ -3025,7 +3025,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.degradation() ) {
         return RT_REPAIR;
     }
 
@@ -3161,7 +3161,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            fix->set_damage( std::max( damage - itype::damage_scale, fix->degradation() ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),

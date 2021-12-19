@@ -723,6 +723,18 @@ int item::damage() const
     return damage_;
 }
 
+int item::degradation() const
+{
+    return degradation_;
+}
+
+void item::rand_degradation()
+{
+    degradation_ = damage() <= 0 ? 0 : rng( 0, damage() );
+    degradation_ = degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>
+                   ( degrade_increments() ) ) : 0;
+}
+
 int item::damage_level() const
 {
     if( damage_ == 0 ) {
@@ -739,6 +751,14 @@ int item::damage_level() const
 item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
+    degradation_ = std::max( std::min( damage_, degradation_ ), 0 );
+    return *this;
+}
+
+item &item::set_degradation( int qty )
+{
+    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
+    damage_ = std::min( std::max( damage_, degradation_ ), max_damage() );
     return *this;
 }
 
@@ -1228,6 +1248,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( damage_ != rhs.damage_ ) {
+        return false;
+    }
+    if( degradation_ != rhs.degradation_ ) {
         return false;
     }
     if( burnt != rhs.burnt ) {
@@ -2070,6 +2093,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                charges );
             info.emplace_back( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
                                damage_ );
+            info.emplace_back( "BASE", _( "degradation: " ), "", iteminfo::lower_is_better,
+                               degradation_ );
             info.emplace_back( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -5428,6 +5453,32 @@ std::string item::dirt_symbol() const
     return dirt_symbol;
 }
 
+std::string item::degradation_symbol() const
+{
+    const int inc = max_damage() / 5;
+    const int dgr_lvl = degradation() / ( inc > 0 ? inc : 1 );
+    std::string dgr_symbol;
+
+    switch( dgr_lvl ) {
+        case 0:
+            dgr_symbol = colorize( "\u2588", c_light_green );
+            break;
+        case 1:
+            dgr_symbol = colorize( "\u2587", c_yellow );
+            break;
+        case 2:
+            dgr_symbol = colorize( "\u2585", c_magenta );
+            break;
+        case 3:
+            dgr_symbol = colorize( "\u2583", c_light_red );
+            break;
+        default:
+            dgr_symbol = colorize( "\u2581", c_red );
+            break;
+    }
+    return degrade_increments() == 0 ? "" : dgr_symbol;
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
                          bool with_contents ) const
 {
@@ -7575,14 +7626,27 @@ int item::max_damage() const
     return type->damage_max();
 }
 
+int item::degrade_increments() const
+{
+    return type->degrade_increments();
+}
+
 float item::get_relative_health() const
 {
     return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
 }
 
+static int get_dmg_lvl_internal( int dmg, int min, int max )
+{
+    const int inc = ( max - min ) / 5;
+    dmg -= min;
+    return inc > 0 ? dmg == 0 ? -1 : ( dmg - 1 ) / inc : 0;
+}
+
 bool item::mod_damage( int qty, damage_type dt )
 {
     bool destroy = false;
+    int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
 
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
@@ -7596,7 +7660,15 @@ bool item::mod_damage( int qty, damage_type dt )
     if( !count_by_charges() ) {
         destroy |= damage_ + qty > max_damage();
 
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
+    }
+
+    if( qty > 0 && !destroy ) {
+        int degrade = std::max( get_dmg_lvl_internal( damage_, min_damage(), max_damage() ) - dmg_lvl, 0 );
+        int incr = degrade_increments();
+        if( incr > 0 ) {
+            degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
+        }
     }
 
     return destroy;
@@ -7676,7 +7748,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
+            outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -7700,7 +7772,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
+        outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
         if( include_intact && outputstring == " " ) {

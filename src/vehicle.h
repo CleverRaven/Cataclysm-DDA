@@ -400,6 +400,8 @@ struct vehicle_part {
 
         /** Current part damage in same units as item::damage. */
         int damage() const;
+        /** Current part degradation of part base */
+        int degradation() const;
         /** max damage of part base */
         int max_damage() const;
 
@@ -799,7 +801,7 @@ class vehicle
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
          */
-        void set_hp( vehicle_part &pt, int qty );
+        void set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation = -1 );
 
         /**
          * Apply damage to part constrained by range [0,durability] possibly destroying it

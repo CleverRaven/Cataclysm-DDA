@@ -2583,6 +2583,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.

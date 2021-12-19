@@ -2446,5 +2446,52 @@
     "volume": "250 ml",
     "vitamins": [ [ "test_vitx", 200 ] ],
     "fun": -10
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball_half_degradation",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml",
+    "degradation_multiplier": 0.5
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball_x2_degradation",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml",
+    "degradation_multiplier": 2
   }
 ]

@@ -162,7 +162,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         }
         // seems it's not needed but just in case
         if( p.has_feature( "SOLAR_PANEL" ) ) {
-            veh.set_hp( p.part(), 0 );
+            veh.set_hp( p.part(), 0, true );
         }
     }
     get_map().board_vehicle( test_origin, &character );
