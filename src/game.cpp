@@ -285,6 +285,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
+static const trait_id trait_UNATTENTIVE( "UNATTENTIVE" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -7794,7 +7795,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( u ) ) {
+                    if( critter->sees( u ) && !u.has_trait(trait_UNATTENTIVE) ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;

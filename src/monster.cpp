@@ -146,6 +146,7 @@ static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_UNATTENTIVE ( "UNATTENTIVE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
@@ -702,10 +703,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), att.second, att.first );
 
     // Awareness indicator in the third line.
-    bool sees_player = sees( get_player_character() );
-    std::string senses_str = sees_player ? _( "Can see to your current location" ) :
+    Character &pc = get_player_character();
+    bool sees_player = sees( pc );
+    bool player_knows = !pc.has_trait(trait_UNATTENTIVE);
+    std::string senses_str = player_knows && sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+    senses_str = !player_knows ? _("You have no idea what is it doing") :
+    		senses_str;
+    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows && sees_player ? c_red : c_green,
                               senses_str );
 
     const std::string speed_desc = speed_description(

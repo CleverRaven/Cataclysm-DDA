@@ -207,6 +207,16 @@
     "cancels": [ "BADHEARING" ],
     "hearing_modifier": 1.75
   },
+  { 
+    "type": "mutation",
+    "id": "UNATTENTIVE",
+    "name": { "str": "Unattentive" },
+    "points": -2,
+    "starting_trait": true,
+    "description": "You never paid attention to your surroundings and specifically to people around you. You can't judge intent of critters you see.",
+    "purifiable": false,
+    "valid":	false
+  },
   {
     "type": "mutation",
     "id": "OUTDOORSMAN",
