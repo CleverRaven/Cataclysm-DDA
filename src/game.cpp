@@ -7793,8 +7793,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             ++CatSortIter;
                             continue;
                         }
-                    } else {
-                        mvwprintz( w_monsters, point( 1, y ), c_magenta, "Unknown" );
                     }
 
                     // select current monster
