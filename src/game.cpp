@@ -2445,6 +2445,13 @@ bool game::is_game_over()
         if( !u.is_dead_state() ) {
             return false;
         }
+        // if you have allies you should be able to swap
+        if( !g->get_follower_list().empty() ) {
+            if( query_yn( _( "You have died. Play as an ally?" ) ) ) {
+                get_avatar().control_npc_menu();
+                return false;
+            }
+        }
         Messages::deactivate();
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
