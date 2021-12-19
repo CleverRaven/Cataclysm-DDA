@@ -731,7 +731,8 @@ int item::degradation() const
 void item::rand_degradation()
 {
     degradation_ = damage() <= 0 ? 0 : rng( 0, damage() );
-    degradation_ = degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>( degrade_increments() ) ) : 0;
+    degradation_ = degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>
+                   ( degrade_increments() ) ) : 0;
 }
 
 int item::damage_level() const
