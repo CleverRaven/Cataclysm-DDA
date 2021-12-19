@@ -515,7 +515,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
 bool Character::can_make( const recipe *r, int batch_size )
 {
-    const inventory &crafting_inv = crafting_inventory( r );
+    const inventory &crafting_inv = crafting_inventory();
 
     if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
