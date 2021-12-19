@@ -368,7 +368,7 @@
   {
     "type": "vehicle_part",
     "id": "exo_gantry",
-    "name": { "str_sp": "exoskeleton maintenance gantry" },
+    "name": { "str: "exoskeleton maintenance gantry" },
     "symbol": "T",
     "categories": [ "utility" ],
     "color": "light_gray",
