@@ -9,18 +9,19 @@
     "volume": "2 L",
     "weight": "2 kg",
     "hp": 25,
-    "speed": 100,
     "material": [ "flesh" ],
     "symbol": "R",
     "color": "dark_gray",
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 3,
+    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
     "attack_effs": [ { "id": "rat_bite_fever", "chance": 10 } ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
     "harvest": "mutant_rodent"
   },
   {
-    "id": "mon_lab_rat",
+    "id": "mon_zap_rat",
     "type": "MONSTER",
     "name": { "str": "zap rattigan" },
     "description": "This cat sized albino mouse sparks randomly, whenever anything approaches it.",
@@ -31,5 +32,39 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
+  },
+  {
+    "id": "mon_tunnel_rat",
+    "type": "MONSTER",
+    "name": { "str": "Tunnel Runner" },
+    "description": "Prior to the cataclysm someone might have referred to this giant rat erupting from the earth as a 'mass of claws and teeth', however you live in a world where masses of claws and teeth move on their own and attack people so this is only an incredibly violent dog sized rat that viciously attacks.",
+    "default_faction": "ratkin",
+    "copy-from": "mon_big_rat",
+    "volume": "20 L",
+    "weight": "35 kg",
+    "hp": 45,
+    "speed": 80,
+    "symbol": "r",
+    "color": "brown_green",
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "dodge": 3,
+    "armor_bash": 5,
+    "armor_cut": 6,
+    "armor_bullet": 2,
+    "special_attacks": [
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 12 } ],
+        "min_mul": 1,
+        "max_mul": 2.1,
+        "infection_chance": 4
+      }
+    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
   }
 ]

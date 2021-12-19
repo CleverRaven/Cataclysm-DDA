@@ -31,7 +31,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "mouse_sample_foot",
+    "id": "mouse_sample",
     "symbol": "q",
     "color": "white",
     "name": { "str": "mouse sample" },
