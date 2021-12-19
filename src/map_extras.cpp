@@ -938,9 +938,10 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
+    auto good_portal_pos = [&]( const tripoint & p ) {
         return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
-    } );
+    };
+    const cata::optional<tripoint> portal_pos = random_point( points, good_portal_pos );
 
     // If we can't get a point to spawn the portal (e.g. we're triggered in entirely open air) we're done here.
     if( !portal_pos ) {
@@ -954,7 +955,10 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.trap_set( *portal_pos, tr_portal );
+    // Creating rubble can change the terrain type so check that again
+    if( good_portal_pos( *portal_pos ) ) {
+        m.trap_set( *portal_pos, tr_portal );
+    }
 
     // We'll make between 0 and 4 attempts to spawn monsters here.
     int num_monsters = rng( 0, 4 );
