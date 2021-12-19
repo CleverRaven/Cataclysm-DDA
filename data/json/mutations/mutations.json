@@ -213,7 +213,7 @@
     "name": { "str": "Unattentive" },
     "points": -2,
     "starting_trait": true,
-    "description": "You never paid attention to your surroundings and specifically to people around you. You can't judge intent of critters you see.",
+    "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge intent of critters you see.",
     "purifiable": false,
     "valid":	false
   },
