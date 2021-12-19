@@ -19,6 +19,7 @@
     "white": [ 255, 255, 255 ]
   },
   "replace_with_context": [
+    [ 135, 133, 142 ]
   ],
   "override_terrain_color": [
     [
