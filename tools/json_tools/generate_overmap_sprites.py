@@ -82,7 +82,7 @@ def generate_image(
     rows: list,
     terrain_dict: dict,
     fill_ter: str,
-    rotation: int = 0,
+    # rotation: int = 0,
 ) -> Image:
     """
     Generate sprite from rows
@@ -110,8 +110,8 @@ def generate_image(
                 print(color)
                 raise
 
-    if rotation:
-        image = image.rotate(-90 * rotation)
+    # if rotation:
+    #    image = image.rotate(-90 * rotation, expand=True)
 
     return image
 
@@ -313,6 +313,7 @@ def output_sprite(
     generate_json: bool,
     output_dir: Optional[Path] = None,
     duplicates_dir: Optional[Path] = None,
+    rotation: int = 0,
     # rotation: Union[None, int, list] = None,
     # single_terrain: bool = False
 ) -> None:
@@ -325,6 +326,9 @@ def output_sprite(
                 'Rotation suffix caused duplicated sprite names: '
                 f'{name}{suffix}'
             )
+
+    if rotation:
+        image = image.rotate(-90 * rotation)  # , expand=True
 
     if name not in CREATED_IDS:
         # new ID
@@ -588,7 +592,6 @@ def main():
         # create the sprite
         image = generate_image(
             rows=rows, terrain_dict=terrain_dict, fill_ter=fill_ter,
-            rotation=get_initial_rotation(raw_rotation),
         )
 
         # write sprite[s] to the output directory
@@ -601,6 +604,7 @@ def main():
                     generate_json=generate_json,
                     output_dir=output_dir,
                     duplicates_dir=duplicates_dir,
+                    rotation=get_initial_rotation(raw_rotation),
                     # single_terrain=single_terrain,
                 )
 
@@ -612,6 +616,7 @@ def main():
                 generate_json=generate_json,
                 output_dir=output_dir,
                 duplicates_dir=duplicates_dir,
+                rotation=get_initial_rotation(raw_rotation),
                 # single_terrain=single_terrain,
             )
 
