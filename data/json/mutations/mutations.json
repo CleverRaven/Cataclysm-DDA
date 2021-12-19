@@ -209,8 +209,8 @@
   },
   { 
     "type": "mutation",
-    "id": "UNATTENTIVE",
-    "name": { "str": "Unattentive" },
+    "id": "INATTENTIVE",
+    "name": { "str": "Inattentive" },
     "points": -2,
     "starting_trait": true,
     "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge intent of critters you see.",

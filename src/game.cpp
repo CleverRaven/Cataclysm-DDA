@@ -285,7 +285,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
-static const trait_id trait_UNATTENTIVE( "UNATTENTIVE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -7725,12 +7725,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Creature::Attitude> mSortCategory;
-
-    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
-        const Creature::Attitude attitude = monster_list[i]->attitude_to( u );
-        if( static_cast<int>( attitude ) != last_attitude ) {
-            mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = static_cast<int>( attitude );
+    const bool player_knows = !u.has_trait( trait_INATTENTIVE );
+    if( player_knows ) {
+        for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
+            const Creature::Attitude attitude = monster_list[i]->attitude_to( u );
+            if( static_cast<int>( attitude ) != last_attitude ) {
+                mSortCategory[i + mSortCategory.size()] = attitude;
+                last_attitude = static_cast<int>( attitude );
+            }
         }
     }
 
@@ -7780,7 +7782,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                 const int endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
-                    if( CatSortIter != mSortCategory.cend() ) {
+
+                    if( player_knows && CatSortIter != mSortCategory.cend() ) {
                         const int iCurPos = iStartPos + y;
                         const int iCatPos = CatSortIter->first;
                         if( iCurPos == iCatPos ) {
@@ -7790,12 +7793,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             ++CatSortIter;
                             continue;
                         }
+                    } else {
+                        mvwprintz( w_monsters, point( 1, y ), c_magenta, "Unknown" );
                     }
+
                     // select current monster
                     Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( u ) && !u.has_trait( trait_UNATTENTIVE ) ) {
+                    if( critter->sees( u ) && player_knows ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
@@ -7851,6 +7857,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     } else if( p != nullptr ) {
                         sText = npc_attitude_name( p->get_attitude() );
                         color = p->symbol_color();
+                    }
+                    if( !player_knows ) {
+                        sText = "Unknown";
+                        color = c_yellow;
                     }
                     mvwprintz( w_monsters, point( width - 19, y ), color, sText );
 

@@ -146,7 +146,7 @@ static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
-static const trait_id trait_UNATTENTIVE ( "UNATTENTIVE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
@@ -178,6 +178,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -705,12 +706,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Awareness indicator in the third line.
     Character &pc = get_player_character();
     bool sees_player = sees( pc );
-    const bool player_knows = !pc.has_trait( trait_UNATTENTIVE );
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
     senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
-    		senses_str;
-    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows && sees_player ? c_red : c_green,
+                 senses_str;
+    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
+                              sees_player ? c_red : c_green,
                               senses_str );
 
     const std::string speed_desc = speed_description(
@@ -1195,6 +1197,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
