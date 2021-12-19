@@ -2342,16 +2342,19 @@ bool mattack::formblob( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : pts ) {
         Creature *critter = creatures.creature_at( dest );
-        if( critter == nullptr ) {
-            if( z->get_speed_base() > 85 && rng( 0, 250 ) < z->get_speed_base() ) {
+        if( critter == nullptr && get_map().passable( dest ) ) {
+            if( z->get_speed_base() > mon_blob_small->speed + 35 && rng( 0, 250 ) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
-                didit = true;
-                z->set_speed_base( z->get_speed_base() - 15 );
-                if( monster *const blob = g->place_critter_at( mon_blob_small, dest ) ) {
-                    blob->make_ally( *z );
+                shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
+                mon->ammo = mon->type->starting_ammo;
+                if( mon->will_move_to( dest ) ) {
+                    didit = true;
+                    z->set_speed_base( z->get_speed_base() - mon_blob_small->speed );
+                    if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                        blob->make_ally( *z );
+                    }
+                    break;
                 }
-
-                break;
             }
 
             continue;
@@ -2381,9 +2384,10 @@ bool mattack::formblob( monster *z )
             didit = true;
             othermon.set_speed_base( othermon.get_speed_base() + 5 );
             z->set_speed_base( z->get_speed_base() - 5 );
-            if( othermon.type->id == mon_blob_small && othermon.get_speed_base() >= 60 ) {
+            if( othermon.type->id == mon_blob_small &&
+                othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
                 poly_keep_speed( othermon, mon_blob );
-            } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
+            } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
         } else if( ( othermon.made_of( material_flesh ) ||
