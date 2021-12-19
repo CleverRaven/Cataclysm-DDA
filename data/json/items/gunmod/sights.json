@@ -3,7 +3,7 @@
     "id": "bow_sight",
     "type": "GUNMOD",
     "name": { "str": "five pin bow sight" },
-    "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
+    "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially.",
     "weight": "120 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -17,7 +17,7 @@
     "mod_targets": [ "bow" ],
     "sight_dispersion": 15,
     "field_of_view": 900,
-    "aim_speed_modifier": -1,
+    "aim_speed_modifier": 4,
     "min_skills": [ [ "archery", 2 ] ]
   },
   {
@@ -36,7 +36,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 25,
+    "sight_dispersion": 30,
     "aim_speed_modifier": 8,
     "field_of_view": 900
   },

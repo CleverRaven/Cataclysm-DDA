@@ -1994,7 +1994,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     // So use a constant instead.
     if( obj.gun_skill() == skill_archery ) {
         dispersion.add_range( dispersion_from_skill( avgSkill,
-                              600 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+                              450 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     } else {
         dispersion.add_range( dispersion_from_skill( avgSkill,
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );

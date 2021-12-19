@@ -348,6 +348,7 @@ static const quality_id qual_LIFT( "LIFT" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
 
+static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -844,9 +845,13 @@ static double modified_sight_speed( double aim_speed_modifier, double effective_
 
 int Character::point_shooting_limit( const item &gun )const
 {
+    // This value is not affected by PER, because the accuracy of aim shooting depends more on muscle memory and skill
     skill_id gun_skill = gun.gun_skill();
-
-    return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    if( gun_skill == skill_archery ) {
+        return 30 + 220 / ( 1 + std::min( get_skill_level( gun_skill ), MAX_SKILL ) );
+    } else {
+        return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    }
 }
 
 double Character::fastest_aiming_method_speed( const item &gun, double recoil,
