@@ -430,7 +430,7 @@
     "speed": 110,
     "material": [ "veggy" ],
     "symbol": "Z",
-    "color": "blue_light_green",
+    "color": "light_blue_green",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 6,
