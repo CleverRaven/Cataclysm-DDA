@@ -40,7 +40,7 @@
     "warmth": 20,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "armor_chitin",
@@ -61,7 +61,7 @@
     "warmth": 10,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -136,7 +136,7 @@
     "warmth": 60,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_farmor",
@@ -186,7 +186,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor",
@@ -281,7 +281,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_plarmor",
@@ -464,7 +464,7 @@
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -492,7 +492,7 @@
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -807,7 +807,7 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "OUTER" ]
   },
   {
     "id": "xedra_enviro_suit",
@@ -866,7 +866,7 @@
     ],
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
   },
   {
     "id": "swat_armor",
@@ -928,7 +928,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "mil_flight_suit",
