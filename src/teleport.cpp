@@ -47,10 +47,9 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
 }
 
-bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe,
+bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                                   bool add_teleglow, bool display_message )
 {
-
     if( critter.pos() == target ) {
         return false;
     }
@@ -65,11 +64,21 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
         }
         return false;
     }
+    bool shifted = false;
+    if( !here.inbounds( target ) ) {
+        const tripoint_abs_ms abs_ms( here.getabs( target ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        shifted = true;
+        target = here.getlocal( abs_ms );
+    }
     //handles teleporting into solids.
     if( here.impassable( target ) ) {
         if( safe ) {
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( critter.global_omt_location() );
             }
             return false;
         }
@@ -90,11 +99,17 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
+            if( shifted ) {
+                g->place_player_overmap( critter.global_omt_location() );
+            }
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                     poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
             if( display_message ) {
                 poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( critter.global_omt_location() );
             }
             return false;
         } else {
