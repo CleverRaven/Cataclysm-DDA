@@ -706,7 +706,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     Character &pc = get_player_character();
     bool sees_player = sees( pc );
     const bool player_knows = !pc.has_trait( trait_UNATTENTIVE );
-    std::string senses_str = player_knows && sees_player ? _( "Can see to your current location" ) :
+    std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
     senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
     		senses_str;

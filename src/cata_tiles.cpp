@@ -79,6 +79,8 @@ static const itype_id itype_corpse( "corpse" );
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
+static const trait_id trait_UNATTENTIVE ( "UNATTENTIVE" );
+
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
         "corner",
@@ -3461,7 +3463,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 
     if( result && !is_player ) {
         std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
-        if( sees_player ) {
+        if( sees_player && you.has_trait(trait_UNATTENTIVE) ) {
             draw_id += "_sees_player";
         }
         if( tileset_ptr->find_tile_type( draw_id ) ) {
