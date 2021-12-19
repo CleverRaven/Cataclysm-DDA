@@ -9781,9 +9781,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     }
 
     bool ammo_from_map = !ammo.held_by( u );
-    item_location container;
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
-        container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
         ammo = item_location( ammo, &ammo->first_ammo() );
     }
@@ -9792,8 +9790,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
     int limit = 0;
     if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo );
-    } else if( ammo->ammo_data() && ammo->ammo_data()->ammo ) {
-        limit = ammo_capacity( ammo->ammo_data()->ammo->type ) - ammo_remaining();
+    } else if( ammo->is_ammo() ) {
+        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining();
     }
 
     if( ammo->ammo_type() == ammo_plutonium ) {
@@ -9815,34 +9813,20 @@ bool item::reload( Character &u, item_location ammo, int qty )
             }
         }
 
-        if( ammo->has_flag( flag_SPEEDLOADER ) ) {
-            // sets curammo to one of the ammo types contained
-            curammo = ammo->first_ammo().type;
-            qty = std::min( qty, ammo->ammo_remaining() );
-            item ammo_copy( ammo->first_ammo() );
-            ammo_copy.charges = qty;
-            put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
-            ammo->ammo_consume( qty, tripoint_zero, &u );
-        } else if( ammo->ammo_type() == ammo_plutonium ) {
-            curammo = ammo->type;
-            ammo->charges -= qty;
+        curammo = ammo->type;
+        item item_copy( *ammo );
+        ammo->charges -= qty;
 
+        if( ammo->ammo_type() == ammo_plutonium ) {
             // any excess is wasted rather than overfilling the item
-            item plut( *ammo );
-            plut.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity( ammo_plutonium ) );
-            put_in( plut, item_pocket::pocket_type::MAGAZINE );
+            item_copy.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity( ammo_plutonium ) );
         } else {
-            curammo = ammo->type;
-            qty = std::min( qty, ammo->charges );
-            item item_copy( *ammo );
-            ammo->charges -= qty;
             item_copy.charges = qty;
-            put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
         }
+
+        put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
+
     } else if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
-        if( container ) {
-            container->on_contents_changed();
-        }
         item contents( *ammo );
         fill_with( contents, qty );
         if( ammo.has_parent() ) {
@@ -9862,11 +9846,6 @@ bool item::reload( Character &u, item_location ammo, int qty )
             remove_item( *magazine_current() );
         }
 
-        if( !ammo ) {
-            debugmsg( "Tried to reload using invalidated ammo location" );
-            return false;
-        }
-
         put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
         ammo.remove_item();
         if( ammo_from_map ) {
@@ -9878,11 +9857,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         return true;
     }
 
-    if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
+    if( ammo->charges == 0 ) {
         ammo.remove_item();
-        if( container ) {
-            u.inv->restack( u ); // emptied containers do not stack with non-empty ones
-        }
     }
     if( ammo_from_map ) {
         u.invalidate_weight_carried_cache();

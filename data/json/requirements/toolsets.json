@@ -138,7 +138,9 @@
     "id": "cutting_wire_standard",
     "type": "requirement",
     "//": "Cutting wires",
-    "tools": [ [ [ "hacksaw", -1 ], [ "multitool", -1 ], [ "boltcutters", -1 ] ] ]
+    "tools": [
+      [ [ "hacksaw", -1 ], [ "multitool", -1 ], [ "boltcutters", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ]
   },
   {
     "id": "mining_standard",
