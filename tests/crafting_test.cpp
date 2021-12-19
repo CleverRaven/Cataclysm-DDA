@@ -49,8 +49,8 @@ static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
-static const itype_id itype_water( "water" );
 static const itype_id itype_scissors( "scissors" );
+static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -58,11 +58,11 @@ static const quality_id qual_ANVIL( "ANVIL" );
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CHISEL( "CHISEL" );
 static const quality_id qual_CUT( "CUT" );
+static const quality_id qual_FABRIC_CUT( "FABRIC_CUT" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LEATHER_AWL( "LEATHER_AWL" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SEW( "SEW" );
-static const quality_id qual_FABRIC_CUT( "FABRIC_CUT" );
 
 static const recipe_id recipe_2byarm_guard( "2byarm_guard" );
 static const recipe_id recipe_armguard_acidchitin( "armguard_acidchitin" );
