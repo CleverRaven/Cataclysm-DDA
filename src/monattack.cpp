@@ -2399,10 +2399,10 @@ bool mattack::formblob( monster *z )
     }
 
     if( didit ) { // We did SOMEthing.
-        if( z->type->id == mon_blob && z->get_speed_base() <= 50 ) {
+        if( z->type->id == mon_blob && z->get_speed_base() <= mon_blob_small->speed ) {
             // We shrank!
             poly_keep_speed( *z, mon_blob_small );
-        } else if( z->type->id == mon_blob_large && z->get_speed_base() <= 70 ) {
+        } else if( z->type->id == mon_blob_large && z->get_speed_base() <= mon_blob->speed ) {
             // We shrank!
             poly_keep_speed( *z, mon_blob );
         }
