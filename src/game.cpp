@@ -7795,7 +7795,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( u ) && !u.has_trait(trait_UNATTENTIVE) ) {
+                    if( critter->sees( u ) && !u.has_trait( trait_UNATTENTIVE ) ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
