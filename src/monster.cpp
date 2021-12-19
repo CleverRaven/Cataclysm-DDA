@@ -708,7 +708,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     bool player_knows = !pc.has_trait(trait_UNATTENTIVE);
     std::string senses_str = player_knows && sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    senses_str = !player_knows ? _("You have no idea what is it doing") :
+    senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
     		senses_str;
     vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows && sees_player ? c_red : c_green,
                               senses_str );
