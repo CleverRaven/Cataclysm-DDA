@@ -20,7 +20,7 @@
     "type": "GENERIC",
     "id": "exo_gantry",
     "copy-from": "vehicle_rig",
-    "name": { "str_sp": "exoskeleton maintenance gantry" },
+    "name": "exoskeleton maintenance gantry",
     "description": "A gantry for supporting an exoskeleton upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active."
   }
 ]

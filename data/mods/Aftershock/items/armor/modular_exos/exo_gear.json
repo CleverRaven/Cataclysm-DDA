@@ -2,7 +2,7 @@
   {
     "id": "exo_mounted_drill",
     "type": "TOOL_ARMOR",
-    "name": { "str": "exoskeleton mounted drill", "str_pl": "exoskeleton mounted drills" },
+    "name": { "str": "exoskeleton mounted drill" },
     "category": "tool",
     "description": "A powerful header drill with tough carbide bits, this tool mounts to the exoskeleton's arm and extends past the hand.  While turned off, it still makes a powerful mace.",
     "flags": [ "USE_UPS", "DURABLE_MELEE", "POWERARMOR_COMPATIBLE", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
@@ -31,7 +31,7 @@
     "id": "exo_mounted_drill_on",
     "type": "TOOL_ARMOR",
     "copy-from": "exo_mounted_drill",
-    "name": { "str": "exoskeleton mounted drill (on)", "str_pl": "exoskeleton mounted drills (on)" },
+    "name": { "str": "exoskeleton mounted drill (on)" },
     "description": "The drill is now rotating and making a low growling noise.  Meant to make short work of the toughest rock, it should work on more mobile surfaces as well.  Use it to turn it off.",
     "flags": [ "USE_UPS", "MESSY", "POWERED", "DURABLE_MELEE", "DIG_TOOL", "POWERARMOR_COMPATIBLE" ],
     "bashing": 60,
