@@ -2828,7 +2828,7 @@ class jmapgen_remove_items : public jmapgen_piece
         std::vector<itype_id> items_to_remove;
         jmapgen_remove_items( const JsonObject &jo, const std::string &/*context*/ ) {
             for( std::string item_id : jo.get_string_array( "items" ) ) {
-                items_to_remove.push_back( itype_id( item_id ) );
+                items_to_remove.emplace_back( itype_id( item_id ) );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -2863,7 +2863,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string &/*context*/ ) {
             for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.push_back( vproto_id( item_id ) );
+                vehicles_to_remove.emplace_back( vproto_id( item_id ) );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
