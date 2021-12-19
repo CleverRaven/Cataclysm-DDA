@@ -591,7 +591,9 @@ std::string diary::get_head_text()
         const int minutes = to_minutes<int>( turn_diff ) % 60;
         std::string time_diff_text;
         if( opened_page != 0 ) {
-            std::string days_text, hours_text, minutes_text;
+            std::string days_text;
+            std::string hours_text;
+            std::string minutes_text;
             if( days > 0 ) {
                 days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ) );
             }
