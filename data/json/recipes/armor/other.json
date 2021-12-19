@@ -35,6 +35,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
+    "id_suffix": "from_sheet",
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "grass_sheet", 2 ] ] ]
   },
