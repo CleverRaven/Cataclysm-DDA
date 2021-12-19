@@ -1660,7 +1660,7 @@ class jmapgen_field : public jmapgen_piece
             ftype( jsi.get_member( "field" ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
-            , remove( jsi.get_bool("remove",false) ) {
+            , remove( jsi.get_bool( "remove", false ) ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -1668,11 +1668,11 @@ class jmapgen_field : public jmapgen_piece
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            if (remove){
-                dat.m.remove_field(tripoint(x.get(), y.get(), dat.m.get_abs_sub().z), chosen_id);
+            if( remove ) {
+                dat.m.remove_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), chosen_id );
             } else {
-                dat.m.add_field(tripoint(x.get(), y.get(), dat.m.get_abs_sub().z), chosen_id,
-                    intensity, age);
+                dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), chosen_id,
+                                 intensity, age );
             }
         }
 
@@ -2365,7 +2365,7 @@ class jmapgen_trap : public jmapgen_piece
         bool remove;
         jmapgen_trap( const JsonObject &jsi, const std::string &/*context*/ ) {
             init( jsi.get_member( "trap" ) );
-            remove = jsi.get_bool("remove", false);
+            remove = jsi.get_bool( "remove", false );
         }
 
         explicit jmapgen_trap( const JsonValue &tid ) {
@@ -2385,10 +2385,10 @@ class jmapgen_trap : public jmapgen_piece
                 return;
             }
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
-            if (remove) {
-                dat.m.remove_trap(actual_loc);
+            if( remove ) {
+                dat.m.remove_trap( actual_loc );
             } else {
-                dat.m.trap_set(actual_loc, chosen_id);
+                dat.m.trap_set( actual_loc, chosen_id );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -2785,6 +2785,7 @@ class jmapgen_translate : public jmapgen_piece
             to.check( oter_name, parameters );
         }
 };
+
 /**
  * Place a zone
  */
@@ -2823,73 +2824,69 @@ class jmapgen_zone : public jmapgen_piece
  */
 class jmapgen_remove_items : public jmapgen_piece
 {
-    public:        
+    public:
         std::vector<itype_id> items_to_remove;
         jmapgen_remove_items( const JsonObject &jo, const std::string &/*context*/ ) {
-            for (std::string item_id : jo.get_string_array("remove_items") ) {
-                items_to_remove.push_back(itype_id(item_id));
+            for( std::string item_id : jo.get_string_array( "items" ) ) {
+                items_to_remove.push_back( itype_id( item_id ) );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            tripoint_range<tripoint> range = tripoint_range<tripoint>(start, end);
-            for (const tripoint& p : range) {      
-                std::vector<itype_id> items_to_remove_local = items_to_remove;
-                map_selector(p).remove_items_with([items_to_remove_local](const item& it) {
-                    if (items_to_remove_local.empty()) {
+            tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
+                                             get_map().getlocal( end ) );
+            std::vector<itype_id> items_to_remove_local = items_to_remove;
+            for( const tripoint &p : range ) {
+                map_selector( p ).remove_items_with( [items_to_remove_local]( const item & it ) {
+                    if( items_to_remove_local.empty() ) {
                         return true;
                     }
-                    for (itype_id item_id : items_to_remove_local) {
-                        if (it.typeId() == item_id)
+                    for( const itype_id &item_id : items_to_remove_local ) {
+                        if( it.typeId() == item_id ) {
                             return true;
+                        }
                     }
                     return false;
-                });
+                } );
             }
         }
-
-        void check( const std::string &oter_name, const mapgen_parameters &parameters
-                  ) const override {
-            
-        }
 };
-
 
 /**
  * Removes vehicles
  */
-class jmapgen_remove_vehicle : public jmapgen_piece
+class jmapgen_remove_vehicles : public jmapgen_piece
 {
-    public:        
+    public:
         std::vector<vproto_id> vehicles_to_remove;
-        jmapgen_remove_vehicle( const JsonObject &jo, const std::string &/*context*/ ) {
-            for (std::string item_id : jo.get_string_array("remove_vehicles") ) {
-                vehicles_to_remove.push_back(vproto_id(item_id));
+        jmapgen_remove_vehicles( const JsonObject &jo, const std::string &/*context*/ ) {
+            for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
+                vehicles_to_remove.push_back( vproto_id( item_id ) );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
+
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            VehicleList vehicles = dat.m.get_vehicles(start, end);
-            for (wrapped_vehicle veh : vehicles) {  
-                bool remove = vehicles_to_remove.empty();
-                for (const vproto_id vpid : vehicles_to_remove) {
-                    if (veh.v->type == vpid) {
-                        remove = true;
+
+            tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
+            for( const tripoint &p : range ) {
+                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
+                    bool remove = vehicles_to_remove.empty();
+                    for( const vproto_id &vpid : vehicles_to_remove ) {
+                        if( vp->vehicle().type == vpid ) {
+                            remove = true;
+                        }
+                    }
+                    if( remove ) {
+                        dat.m.destroy_vehicle( &vp->vehicle() );
+                        get_map().clear_vehicle_level_caches();
                     }
                 }
-                if (remove) {
-                    dat.m.destroy_vehicle(veh.v);
-                }
             }
-        }
-
-        void check( const std::string &oter_name, const mapgen_parameters &parameters
-                  ) const override {
-            
         }
 };
 
@@ -3553,6 +3550,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // with the items entry with refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
@@ -3807,6 +3805,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_loot>( jo, "place_loot", context_ );
     objects.load_objects<jmapgen_monster_group>( jo, "place_monsters", context_ );
     objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles", context_ );
+    objects.load_objects<jmapgen_remove_vehicles>( jo, "remove_vehicles", context_ );
     objects.load_objects<jmapgen_trap>( jo, "place_traps", context_ );
     objects.load_objects<jmapgen_furniture>( jo, "place_furniture", context_ );
     objects.load_objects<jmapgen_terrain>( jo, "place_terrain", context_ );
