@@ -807,7 +807,17 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "OUTER" ]
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "RAINPROOF",
+      "GAS_PROOF",
+      "HELMET_COMPAT",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "STURDY",
+      "OUTER"
+    ]
   },
   {
     "id": "xedra_enviro_suit",
