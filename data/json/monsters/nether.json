@@ -954,7 +954,7 @@
   {
     "id": "mon_shifting_mass",
     "type": "MONSTER",
-    "name": { "str": "shifting mass" },
+    "name": { "str": "shifting mass", "str_pl": "shifting masses" },
     "description": "A small, shifting mass floating in midair.  It is not even real enough to have a stable shape.  You can see through it, not as if it were transparent but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
