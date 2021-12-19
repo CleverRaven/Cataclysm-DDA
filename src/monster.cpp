@@ -705,7 +705,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Awareness indicator in the third line.
     Character &pc = get_player_character();
     bool sees_player = sees( pc );
-    bool player_knows = !pc.has_trait(trait_UNATTENTIVE);
+    const bool player_knows = !pc.has_trait( trait_UNATTENTIVE );
     std::string senses_str = player_knows && sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
     senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
