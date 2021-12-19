@@ -1275,6 +1275,7 @@
     "color": "brown_green",
     "looks_like": "t_leanto",
     "floor_bedding_warmth": 1600,
+    "comfort": 3,
     "move_cost": 2,
     "coverage": 30,
     "flags": [
