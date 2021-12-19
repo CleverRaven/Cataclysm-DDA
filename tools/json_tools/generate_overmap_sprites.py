@@ -101,8 +101,9 @@ def generate_image(
             if not color:
                 color = SCHEME['override_terrain_color'].get(
                     't_null',
-                    (0, 0, 0, 0)
+                    (0, 0, 0)
                 )
+
             try:
                 image_data[index_y, index_x] = color
             except TypeError:
@@ -148,8 +149,6 @@ def read_scheme(
             terrain_ids = (terrain_ids,)
         for terrain_id in terrain_ids:
             SCHEME['override_terrain_color'][terrain_id] = color
-
-    print(SCHEME)
 
     # TODO: support fallback_predecessor_mapgen
     SCHEME['override_terrain_color'][None] = 0, 0, 0, 0
