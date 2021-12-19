@@ -368,7 +368,7 @@
   {
     "type": "vehicle_part",
     "id": "exo_gantry",
-    "name": { "str": "exoskeleton maintenance gantry" },
+    "name": { "str_sp": "exoskeleton maintenance gantry" },
     "symbol": "T",
     "categories": [ "utility" ],
     "color": "light_gray",
@@ -377,7 +377,7 @@
     "looks_like": "welding_rig",
     "damage_modifier": 10,
     "durability": 200,
-    "description": "A gantry for supporting an exoskeleton upright during maintenance and repair. Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
+    "description": "A gantry for supporting an exoskeleton upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
     "size": 800,
     "bonus": 600,
     "item": "afs_metal_rig",
