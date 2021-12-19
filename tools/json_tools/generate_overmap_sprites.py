@@ -31,7 +31,7 @@ SKIPPED = {
 TERRAIN_COLOR_NAMES = {}
 PALETTES = {}
 OVERMAP_TERRAIN_DATA = {}
-SCHEME = None
+SCHEME = {}
 CREATED_IDS = set()
 VARIANTS = dict()
 SINGLE_COLOR_SPRITES = defaultdict(set)
@@ -94,12 +94,15 @@ def generate_image(
             terrain_id = get_first_valid(terrain_dict.get(char), fill_ter)
             # TODO: skip on t_secretdoor_metal_c ?
 
-            color = SCHEME['terrain'].get(terrain_id)
+            color = SCHEME['override_terrain_color'].get(terrain_id)
             if not color:
                 color = SCHEME['colors'].get(
                     TERRAIN_COLOR_NAMES.get(terrain_id))
             if not color:
-                color = SCHEME['terrain'].get('t_null', (0, 0, 0, 0))
+                color = SCHEME['override_terrain_color'].get(
+                    't_null',
+                    (0, 0, 0, 0)
+                )
             try:
                 image_data[index_y, index_x] = color
             except TypeError:
@@ -134,11 +137,22 @@ def read_scheme(
     Parse color scheme JSON into the SCHEME global
     """
     with open(color_scheme_path) as file:
-        global SCHEME
-        SCHEME = json.load(file, cls=TupleJSONDecoder)
+        data = json.load(file, cls=TupleJSONDecoder)
+
+    SCHEME['colors'] = data['colors']
+    SCHEME['replace_with_context'] = data.get('replace_with_context', [])
+
+    SCHEME['override_terrain_color'] = {}
+    for color, terrain_ids in data.get('override_terrain_color'):
+        if isinstance(terrain_ids, str):
+            terrain_ids = (terrain_ids,)
+        for terrain_id in terrain_ids:
+            SCHEME['override_terrain_color'][terrain_id] = color
+
+    print(SCHEME)
 
     # TODO: support fallback_predecessor_mapgen
-    SCHEME['terrain'][None] = 0, 0, 0, 0
+    SCHEME['override_terrain_color'][None] = 0, 0, 0, 0
 
 
 def read_terrain_color_names() -> None:
