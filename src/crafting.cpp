@@ -2566,14 +2566,14 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     // Recovered component items to be dropped
     std::list<item> drop_items;
 
-    // Recovered and destroyed item names and count of each
-    std::map<std::string, int> recover_tally;
-    std::map<std::string, int> destroy_tally;
+    // Recovered and destroyed item types and count of each
+    std::map<itype_id, int> recover_tally;
+    std::map<itype_id, int> destroy_tally;
 
     // Roll skill and damage checks for successful recovery of each component
     for( const item &newit : components ) {
-        // Use item name to index recover/destroy tallies
-        const std::string itname = newit.tname();
+        // Use item type to index recover/destroy tallies
+        const itype_id it_type_id = newit.typeId();
         // Chance of failure based on character skill and recipe difficulty
         const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides );
         // If original item was damaged, there is another chance for recovery to fail
@@ -2582,19 +2582,19 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         // If component recovery failed, tally it and continue with the next component
         if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
             // Count destroyed items
-            if( destroy_tally.count( itname ) == 0 ) {
-                destroy_tally[itname] = newit.count();
+            if( destroy_tally.count( it_type_id ) == 0 ) {
+                destroy_tally[it_type_id] = newit.count();
             } else {
-                destroy_tally[itname] += newit.count();
+                destroy_tally[it_type_id] += newit.count();
             }
             continue;
         }
 
         // Component recovered successfully; add to the tally
-        if( recover_tally.count( itname ) == 0 ) {
-            recover_tally[itname] = newit.count();
+        if( recover_tally.count( it_type_id ) == 0 ) {
+            recover_tally[it_type_id] = newit.count();
         } else {
-            recover_tally[itname] += newit.count();
+            recover_tally[it_type_id] += newit.count();
         }
 
         // Use item from components list, or (if not contained)
@@ -2633,27 +2633,31 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Log how many of each component failed to be recovered
-    for( std::pair<std::string, int> destroyed : destroy_tally ) {
+    for( std::pair<itype_id, int> destroyed : destroy_tally ) {
+        // Get name of item, pluralized for its quantity
+        const std::string it_name = item( destroyed.first ).type_name( destroyed.second );
         if( this->is_avatar() ) {
-            //~ %1$d: quantity destroyed, %2$s: name of destroyed item
-            add_msg( m_bad, _( "You fail to recover %1$d x %2$s." ), destroyed.second, destroyed.first );
+            //~ %1$d: quantity destroyed, %2$s: pluralized name of destroyed item
+            add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), destroyed.second, it_name );
         } else {
-            //~ %1$s: NPC name, %2$d: quantity destroyed, %2$s: name of destroyed item
-            add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$d x %3$s" ),
-                                    this->disp_name( false, true ), destroyed.second, destroyed.first );
+            //~ %1$s: NPC name, %2$d: quantity destroyed, %2$s: pluralized name of destroyed item
+            add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$d %3$s." ),
+                                    this->disp_name( false, true ), destroyed.second, it_name );
         }
     }
 
     // Log how many of each component were recovered successfully
-    for( std::pair<std::string, int> recovered : recover_tally ) {
+    for( std::pair<itype_id, int> recovered : recover_tally ) {
+        // Get name of item, pluralized for its quantity
+        const std::string it_name = item( recovered.first ).type_name( recovered.second );
         // Recovery successful; inform player
         if( this->is_avatar() ) {
-            //~ %1$d: quantity recovered, %2$s: name of recovered item
-            add_msg( m_good, _( "You recover %1$d x %2$s." ), recovered.second, recovered.first );
+            //~ %1$d: quantity recovered, %2$s: pluralized name of recovered item
+            add_msg( m_good, _( "You recover %1$d %2$s." ), recovered.second, it_name );
         } else {
-            //~ %1$s: NPC name, %2$d: quantity recovered, %2$s: name of recovered item
-            add_msg_if_player_sees( *this, m_good, _( "%1$s recovers %2$d x %3$s" ),
-                                    this->disp_name( false, true ), recovered.second, recovered.first );
+            //~ %1$s: NPC name, %2$d: quantity recovered, %2$s: pluralized name of recovered item
+            add_msg_if_player_sees( *this, m_good, _( "%1$s recovers %2$d %3$s." ),
+                                    this->disp_name( false, true ), recovered.second, it_name );
         }
     }
 
