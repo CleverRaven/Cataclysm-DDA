@@ -25,7 +25,7 @@
   {
     "id": "modular_exoskeleton",
     "type": "TOOL_ARMOR",
-    "name": { "str": "exoskeleton frame", "str_pl": "exoskeleton frames" },
+    "name": { "str": "exoskeleton frame" },
     "description": "This is a standard exoskeleton frame. Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools. Slots exist for the torso, back, arms, and legs.",
     "weight": "40 kg",
     "volume": "130 L",
