@@ -105,6 +105,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -3297,9 +3298,13 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
+    if( z->get_effect_int( effect_eyebot_assisted ) > 2 ) {
+        // Only spawn 3 every 6 hours
+        return true;
+    }
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0,
-                            player_character.global_sm_location() );
+                            0, player_character.global_sm_location() );
+    z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
 
     return true;
 }

@@ -2682,5 +2682,12 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
+  },
+  {
+    "type": "effect_type",
+    "id": "eyebot_assisted",
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "max_duration": "6 hours"
   }
 ]
