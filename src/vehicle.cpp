@@ -4285,20 +4285,20 @@ float vehicle::k_traction( float wheel_traction_area ) const
 int vehicle::static_drag( bool actual ) const
 {
     bool is_actively_towed = is_towed();
-    if ( is_actively_towed ) {
-        vehicle* towing_veh = tow_data.get_towed_by();
-        if (!towing_veh) {
+    if( is_actively_towed ) {
+        vehicle *towing_veh = tow_data.get_towed_by();
+        if( !towing_veh ) {
             is_actively_towed = false;
         } else {
             const int tow_index = get_tow_part();
-            if ( tow_index == -1 ) {
+            if( tow_index == -1 ) {
                 is_actively_towed = false;
             } else {
                 const int other_tow_index = towing_veh->get_tow_part();
-                if ( other_tow_index == -1 ) {
+                if( other_tow_index == -1 ) {
                     is_actively_towed = false;
                 } else {
-                    map& here = get_map();
+                    map &here = get_map();
                     const tripoint towed_tow_point = here.getabs( global_part_pos3( tow_index ) );
                     const tripoint tower_tow_point = here.getabs( towing_veh->global_part_pos3( other_tow_index ) );
                     is_actively_towed = rl_dist( towed_tow_point, tower_tow_point ) >= 6;
