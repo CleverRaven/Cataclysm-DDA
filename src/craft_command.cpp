@@ -26,8 +26,6 @@
 #include "uistate.h"
 #include "visitable.h"
 
-static const itype_id itype_money( "money" );
-
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template<typename CompType>
@@ -344,8 +342,6 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
             for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
                 for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
                     if( rl_dist( loc, p ) >= radius ) {
-                        // "Simulate" consuming items and put them back
-                        // not very efficient but should be rare enough not to matter
                         std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count,
                                               i == 0 ? empty_filter : filter );
                         ret.insert( ret.end(), tmp.begin(), tmp.end() );
@@ -354,8 +350,6 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
             }
         }
         if( it.use_from & usage_from::player && real_count > 0 ) {
-            // "Simulate" consuming items and put them back
-            // not very efficient but should be rare enough not to matter
             std::list<item> tmp = crafter->use_amount( it.comp.type, real_count,
                                   i == 0 ? empty_filter : filter );
             real_count -= tmp.size();
@@ -398,13 +392,9 @@ item craft_command::create_in_progress_craft()
     for( const auto &it : item_selections ) {
         std::list<item> tmp = sane_consume_items( it, crafter, batch_size, filter );
         for( item &tmp_it : tmp ) {
-            if( tmp_it.loaded_ammo().typeId() == itype_money ) {
-                continue;
-            } else if( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) {
+            if( ( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) || !tmp_it.is_container_empty() ) {
                 item_location tmp_loc( *crafter, &tmp_it );
                 unload_activity_actor::unload( *crafter, tmp_loc );
-            } else if( !tmp_it.is_container_empty() ) {
-                tmp_it.spill_contents( *crafter );
             }
         }
         used.splice( used.end(), tmp );
