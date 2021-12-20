@@ -13,12 +13,16 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
+#include "iuse.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "visitable.h"
+
+static const itype_id itype_iv_purifier( "iv_purifier" );
 
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -27,6 +31,7 @@ static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -211,4 +216,34 @@ TEST_CASE( "starting_items", "[slow]" )
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
+}
+
+TEST_CASE( "Generated character with category mutations", "[mutation]" )
+{
+    REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
+    avatar u = get_sanitized_player();
+    REQUIRE( u.get_mutations().empty() );
+    REQUIRE( u.get_base_traits().empty() );
+    REQUIRE( u.mutation_category_level.empty() );
+
+    SECTION( "Mutations have category levels" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( !u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( !u.mutation_category_level.empty() );
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( u.mutation_category_level.empty() );
+    }
+
+    SECTION( "Category mutations can be purified" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        item purifier( itype_iv_purifier );
+        iuse::purify_iv( &u, &purifier, true, tripoint_zero );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
 }

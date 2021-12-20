@@ -12,7 +12,9 @@
 #include <string>
 
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
 #include "json.h"
 #include "ofstream_wrapper.h"
@@ -538,4 +540,143 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
         buffer << *a;
     }
     return buffer.str();
+}
+
+template<>
+std::string io::enum_to_string<holiday>( holiday data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case holiday::none:             return "none";
+        case holiday::new_year:         return "new_year";
+        case holiday::easter:           return "easter";
+        case holiday::independence_day: return "independence_day";
+        case holiday::halloween:        return "halloween";
+        case holiday::thanksgiving:     return "thanksgiving";
+        case holiday::christmas:        return "christmas";
+            // *INDENT-ON*
+        case holiday::num_holiday:
+            break;
+    }
+    cata_fatal( "Invalid holiday." );
+}
+
+/* compare against table of easter dates */
+static bool is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday get_holiday_from_time( std::time_t time, bool force_refresh )
+{
+    static holiday cached_holiday = holiday::none;
+    static bool is_cached = false;
+
+    if( force_refresh ) {
+        is_cached = false;
+    }
+    if( is_cached ) {
+        return cached_holiday;
+    }
+
+    is_cached = true;
+
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = time == 0 ? std::time( nullptr ) : time;
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            cached_holiday = holiday::new_year;
+            return cached_holiday;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            cached_holiday = holiday::easter;
+            return cached_holiday;
+        } else if( month == 7 && day == 4 ) {
+            cached_holiday = holiday::independence_day;
+            return cached_holiday;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            cached_holiday = holiday::halloween;
+            return cached_holiday;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            cached_holiday = holiday::thanksgiving;
+            return cached_holiday;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            cached_holiday = holiday::christmas;
+            return cached_holiday;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    cached_holiday = holiday::none;
+    return cached_holiday;
+}
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
 }

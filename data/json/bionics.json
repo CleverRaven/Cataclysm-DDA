@@ -1529,9 +1529,9 @@
   {
     "id": "bio_tools",
     "type": "bionic",
-    "name": { "str": "Integrated Toolset" },
-    "description": "Surgically implanted in your hands and forearms is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, heating elements, and others.  You can use this in place of many tools when crafting.",
-    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
+    "name": { "str": "Integrated Multitool" },
+    "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
@@ -1539,8 +1539,8 @@
   {
     "id": "bio_tools_extend",
     "type": "bionic",
-    "name": { "str": "Extended Toolset" },
-    "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
+    "name": { "str": "Extended Multitool" },
+    "description": "Extend or withdraw your integrated multitool to access its functions.  This takes up your hands.",
     "fake_weapon": "toolset_extended",
     "included": true,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
@@ -1671,5 +1671,14 @@
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]
+  },
+  {
+    "id": "bio_faulty_electromagnetic_leak",
+    "type": "bionic",
+    "name": { "str": "Electromagnetic Leak" },
+    "capacity": "-25 kJ",
+    "dupes_allowed": true,
+    "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
+    "flags": [ "BIONIC_FAULTY" ]
   }
 ]

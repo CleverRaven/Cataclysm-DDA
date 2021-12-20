@@ -19,6 +19,7 @@
 #include "butchery_requirements.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "character_modifier.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -96,6 +97,7 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weakpoint.h"
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
@@ -441,6 +443,8 @@ void DynamicDataLoader::initialize()
     } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
+    add( "limb_score", &limb_score::load_limb_scores );
+    add( "character_mod", &character_modifier::load_character_modifiers );
     add( "body_part", &body_part_type::load_bp );
     add( "sub_body_part", &sub_body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
@@ -454,6 +458,7 @@ void DynamicDataLoader::initialize()
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
+    add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -539,6 +544,7 @@ void DynamicDataLoader::unload_data()
     sub_body_part_type::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
+    character_modifier::reset();
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
@@ -556,6 +562,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
+    limb_score::reset();
     mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
@@ -612,6 +619,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
+    weakpoints::reset();
     weather_types::reset();
 }
 

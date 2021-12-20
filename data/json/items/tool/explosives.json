@@ -554,9 +554,9 @@
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
-      "fields_radius": 2,
-      "fields_min_intensity": 3,
-      "fields_max_intensity": 3,
+      "fields_radius": 1,
+      "fields_min_intensity": 2,
+      "fields_max_intensity": 10,
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",

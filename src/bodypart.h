@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
@@ -99,6 +100,40 @@ struct stat_hp_mods {
     void deserialize( const JsonObject &jo );
 };
 
+struct limb_score {
+    public:
+        static void load_limb_scores( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<limb_score> &get_all();
+
+        const limb_score_id &getId() const {
+            return id;
+        }
+        const translation &name() const {
+            return _name;
+        }
+        bool affected_by_wounds() const {
+            return wound_affect;
+        }
+        bool affected_by_encumb() const {
+            return encumb_affect;
+        }
+    private:
+        limb_score_id id;
+        translation _name;
+        bool wound_affect = true;
+        bool encumb_affect = true;
+        bool was_loaded = false;
+        friend class generic_factory<limb_score>;
+};
+
+struct bp_limb_score {
+    limb_score_id id = limb_score_id::NULL_ID();
+    float score = 0.0f;
+    float max = 0.0f;
+};
+
 struct body_part_type {
     public:
         /**
@@ -149,10 +184,8 @@ struct body_part_type {
         std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
-        /** Size of the body part when doing an unweighted selection. */
+        /** Size of the body part for melee targeting. */
         float hit_size = 0.0f;
-        /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
-        std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
 
         /** Sub-location of the body part used for encumberance, coverage and determining protection
          */
@@ -176,27 +209,13 @@ struct body_part_type {
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
 
-        // fine motor control
-        float manipulator_score = 0.0f;
-        float manipulator_max = 0.0f;
+        // Threshold to start encumbrance scaling
+        int encumbrance_threshold = 0;
+        // Limit of encumbrance, after reaching this point the limb contributes no scores
+        int encumbrance_limit = 0;
 
-        // modifier for lifting strength
-        float lifting_score = 0.0f;
-
-        // ability to block using martial arts
-        // each whole number is a block
-        float blocking_score = 0.0f;
-        // how well you can breathe with this part. cumulative.
-        float breathing_score = 0.0f;
-        // how well you can see things. affects things like throwing dispersion. cumulative
-        float vision_score = 0.0f;
-        // how well you can see in the dark
-        float nightvision_score = 0.0f;
-        // general reaction speed - dodge
-        float reaction_score = 0.0f;
-        float movement_speed_score = 0.0f;
-        float balance_score = 0.0f;
-        float swim_score = 0.0f;
+        // If true, extra encumbrance on this limb affects dodge effectiveness
+        bool encumb_impacts_dodge = false;
 
         float smash_efficiency = 0.5f;
 
@@ -241,12 +260,45 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
+        float get_limb_score( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return bpls.score;
+                }
+            }
+            return 0.0f;
+        }
+
+        float get_limb_score_max( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return bpls.max;
+                }
+            }
+            return 0.0f;
+        }
+
+        bool has_limb_score( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         int bionic_slots() const {
             return bionic_slots_;
         }
+
+        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
+        // limb score values
+        std::vector<bp_limb_score> limb_scores;
+        // Protection from various damage types
+        resistances armor;
 };
 
 
@@ -374,6 +426,8 @@ class bodypart
         float wound_adjusted_limb_value( float val ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( float val ) const;
+        // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)
+        float skill_adjusted_limb_value( float val, int skill ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -386,19 +440,14 @@ class bodypart
 
         float get_wetness_percentage() const;
 
-        float get_manipulator_score() const;
-        float get_encumb_adjusted_manipulator_score() const;
-        float get_wound_adjusted_manipulator_score() const;
-        float get_manipulator_max() const;
-        float get_blocking_score() const;
-        float get_lifting_score() const;
-        float get_breathing_score() const;
-        float get_vision_score() const;
-        float get_nightvision_score() const;
-        float get_reaction_score() const;
-        float get_movement_speed_score() const;
-        float get_balance_score() const;
-        float get_swim_score( double swim_skill = 0.0 ) const;
+        int get_encumbrance_threshold() const;
+        int get_encumbrance_limit() const;
+
+        // Get modified limb score as defined in limb_scores.json.
+        // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
+        float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
+                              int override_wounds = -1 ) const;
+        float get_limb_score_max( const limb_score_id &score ) const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

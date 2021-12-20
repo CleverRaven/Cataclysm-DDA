@@ -231,6 +231,8 @@ void item_contents::serialize( JsonOut &json ) const
         json.start_object();
 
         json.member( "contents", contents );
+        json.member( "additional_pockets", additional_pockets );
+
 
         json.end_object();
     }
@@ -240,6 +242,8 @@ void item_contents::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "contents", contents );
+    data.read( "additional_pockets", additional_pockets );
+
 }
 
 void item_pocket::serialize( JsonOut &json ) const
@@ -248,6 +252,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
+    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -263,6 +268,7 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
+    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -279,6 +285,8 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
     json.member( "collapsed", collapsed );
+    json.member( "disabled", disabled );
+    json.member( "unload", unload );
     json.end_object();
 }
 
@@ -293,6 +301,12 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     if( data.has_member( "collapsed" ) ) {
         data.read( "collapsed", collapsed );
     }
+    if( data.has_member( "disabled" ) ) {
+        data.read( "disabled", disabled );
+    }
+    if( data.has_member( "unload" ) ) {
+        data.read( "unload", unload );
+    }
 }
 
 void pocket_data::deserialize( const JsonObject &data )
@@ -302,6 +316,12 @@ void pocket_data::deserialize( const JsonObject &data )
 }
 
 void sealable_data::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+    load( data );
+}
+
+void pocket_noise::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     load( data );
@@ -762,6 +782,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
     invalidate_pseudo_items();
+    update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -959,7 +980,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level", max_power_level, false, 0_kJ );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1199,7 +1220,7 @@ void Character::store( JsonOut &json ) const
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
-    json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
+    json.member( "max_power_level_modifier", units::to_kilojoule( max_power_level_modifier ) );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
@@ -2694,6 +2715,7 @@ void item::io( Archive &archive )
     archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
+    archive.io( "degradation", degradation_, 0 );
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
@@ -2869,6 +2891,7 @@ void item::deserialize( const JsonObject &data )
     io( archive );
     archive.allow_omitted_members();
     data.copy_visited_members( archive );
+
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2879,6 +2902,7 @@ void item::deserialize( const JsonObject &data )
     } else if( data.has_object( "contents" ) ) { // non-empty contents
         item_contents read_contents;
         data.read( "contents", read_contents );
+
         contents.read_mods( read_contents );
         update_modified_pockets();
         contents.combine( read_contents );
@@ -2946,7 +2970,7 @@ void item::serialize( JsonOut &json ) const
 
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-    if( !contents.empty_real() ) {
+    if( !contents.empty_real() || contents.has_additional_pockets() ) {
         json.member( "contents", contents );
     }
 }

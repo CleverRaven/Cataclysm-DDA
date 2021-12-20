@@ -202,7 +202,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -426,7 +426,47 @@
     "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
     "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "legguard_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of metal leg guards", "str_pl": "pairs of metal leg guards" },
+    "description": "A pair of leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "weight": "2260 g",
+    "volume": "5500 ml",
+    "price": 40000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "looks_like": "legguard_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 13,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "name": { "str": "pair of XL metal leg guards", "str_pl": "pairs of XL metal leg guards" },
+    "description": "A pair of extra large hammered metal plates tied to your legs.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_paper",

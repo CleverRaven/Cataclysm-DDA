@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -352,7 +352,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "legguard_metal",
+    "result": "legguard_metal_sheets",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
@@ -367,12 +367,49 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
-    "result": "xl_legguard_metal",
+    "result": "xl_legguard_metal_sheets",
     "type": "recipe",
-    "copy-from": "legguard_metal",
+    "copy-from": "legguard_metal_sheets",
     "time": "50 m",
     "using": [ [ "steel_tiny", 6 ], [ "strap_large", 2 ], [ "clasps", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "result": "legguard_metal",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "8 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [
+      [ "forging_standard", 6 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 12 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "result": "xl_legguard_metal",
+    "type": "recipe",
+    "copy-from": "legguard_metal",
+    "time": "9 h",
+    "using": [
+      [ "forging_standard", 8 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 16 ]
+    ]
   },
   {
     "result": "legguard_paper",
@@ -437,7 +474,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
   {
@@ -447,7 +484,7 @@
     "time": "1 h",
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },
   {

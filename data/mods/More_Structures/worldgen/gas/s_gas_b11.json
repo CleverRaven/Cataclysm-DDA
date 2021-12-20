@@ -55,7 +55,7 @@
       "place_loot": [
         { "group": "snacks", "chance": 60, "repeat": [ 2 ], "x": [ 16, 18 ], "y": [ 16, 20 ] },
         { "group": "office", "chance": 60, "repeat": [ 2 ], "x": [ 12, 14 ], "y": [ 19, 20 ] },
-        { "group": "office", "chance": 60, "repeat": [ 3 ], "x": [ 8, 6 ], "y": [ 15, 12 ] },
+        { "group": "office", "chance": 60, "repeat": [ 3 ], "x": [ 6, 8 ], "y": [ 12, 15 ] },
         { "group": "guns_pistol_milspec", "chance": 60, "repeat": [ 2 ], "x": [ 6, 6 ], "y": [ 9, 10 ] },
         { "group": "ammo_pistol_milspec", "chance": 60, "repeat": [ 4 ], "x": [ 8, 8 ], "y": [ 10, 10 ] },
         { "group": "prison_armor", "chance": 60, "repeat": [ 2 ], "x": [ 8, 8 ], "y": [ 9, 9 ] },

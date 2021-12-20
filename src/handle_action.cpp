@@ -781,11 +781,8 @@ static void smash()
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
-                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
-                    if( res.first == bp.id() ) {
-                        tmp_bash_armor += std::floor( res.second.type_resist( damage_type::BASH ) );
-                    }
-                }
+                const resistances &res = mut->damage_resistance( bp );
+                tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
@@ -1026,6 +1023,12 @@ static void sleep()
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
     }
+
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+        add_msg( m_info, _( "You cannot sleep while swimming." ) );
+        return;
+    }
+
     uilist as_m;
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
@@ -1165,6 +1168,11 @@ static void loot()
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
     const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
+
+    // cache should only happen if we have personal zones defined
+    if( mgr.has_personal_zones() ) {
+        mgr.cache_data();
+    }
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -2432,6 +2440,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_MISSIONS:
             list_missions();
+            break;
+
+        case ACTION_DIARY:
+            diary::show_diary_ui( u.get_avatar_diary() );
             break;
 
         case ACTION_SCORES:

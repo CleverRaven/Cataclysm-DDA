@@ -213,8 +213,8 @@
     "trait": "WOOLALLERGY",
     "sub": [
       { "item": "blazer", "new": [ "jacket_leather_red" ] },
-      { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
-      { "item": "hat_newsboy", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
+      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
+      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
       { "item": "peacoat", "new": [ "jacket_flannel" ] },
       { "item": "sweater", "new": [ "sweatshirt" ] },
       { "item": "boots_winter", "new": [ "boots_fur" ] },
@@ -1149,6 +1149,7 @@
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
     "skills": [ { "level": 4, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -1217,6 +1218,7 @@
           "jacket_light",
           "knife_folding",
           "hat_ball",
+          "kevlar",
           "wristwatch",
           "leather_belt"
         ],
@@ -1257,6 +1259,7 @@
     "description": "You went on providing in-home care for the elderly even as the whole world fell apart around you.  You can only pray that you don't see your former clients among the walking dead…",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_wound_care" ],
     "items": {
       "both": [
         "pants",
@@ -1838,6 +1841,7 @@
     "description": "On your way to respond to an emergency call, you nearly drove straight into a riot in the city.  Turning off of the burning, debris-covered streets, you took a long detour only to find yourself lost.  That call will have to wait - you're in an emergency of your own now.",
     "points": 5,
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_wound_care" ],
     "vehicle": "fire_engine",
     "items": {
       "both": {
@@ -3794,6 +3798,7 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -3812,6 +3817,7 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -3851,7 +3857,7 @@
       { "level": 4, "name": "firstaid" }
     ],
     "traits": [ "PROF_MED" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_wound_care", "prof_wound_care_expert" ],
     "items": {
       "both": {
         "items": [
@@ -4004,6 +4010,7 @@
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your job description.",
     "points": 5,
     "skills": [ { "level": 5, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -4113,5 +4120,34 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "portal_traveler",
+    "name": "Portal Traveler",
+    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost your conscience and woke up in this place.",
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
+        "entries": [
+          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "rad_monitor"
+          },
+          {
+            "item": "medium_atomic_battery_cell",
+            "ammo-item": "battery",
+            "charges": 20,
+            "container-item": "broken_dimensional_anchor"
+          },
+          { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

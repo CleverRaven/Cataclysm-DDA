@@ -57,6 +57,32 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "test_rag_bundle",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "TEST rag bundle",
+    "description": "This is a bundle of 100 rags tied together with a piece of string.",
+    "weight": "800 g",
+    "volume": "2000 ml",
+    "price": 0,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "white"
+  },
+  {
+    "id": "test_knotted_string_ball",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "TEST knotted ball of string",
+    "description": "This is a ball of 100 short pieces of string, all tangled and knotted together.",
+    "weight": "600 g",
+    "volume": "1000 ml",
+    "price": 0,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "white"
+  },
+  {
     "type": "GENERIC",
     "id": "test_2x4",
     "name": "TEST plank",
@@ -219,6 +245,31 @@
     "revert_to": "test_shears_off",
     "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
     "qualities": [ [ "SHEAR", 3 ] ]
+  },
+  {
+    "id": "test_cordless_drill",
+    "type": "TOOL",
+    "name": { "str": "test cordless drill" },
+    "description": "This is a cordless battery-powered drill with a selection of drill bits.",
+    "weight": "2721 g",
+    "volume": "750 ml",
+    "longest_side": "22 cm",
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 5,
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   },
   {
     "id": "test_tool_belt",
@@ -523,6 +574,36 @@
     "min_perception": 5
   },
   {
+    "id": "test_multitool",
+    "type": "TOOL",
+    "name": { "str": "TEST multi-tool" },
+    "description": "Some kind of super-multi-tool, like a swiss army knife with a pocket dimension.",
+    "weight": "500 g",
+    "volume": "100 ml",
+    "longest_side": "10 cm",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [
+      [ "BUTCHER", 7 ],
+      [ "CUT", 1 ],
+      [ "DRILL", 1 ],
+      [ "HAMMER", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER_SOFT", 1 ],
+      [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "WRENCH", 1 ],
+      [ "WRENCH_FINE", 1 ]
+    ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
     "id": "test_soldering_iron",
     "type": "TOOL",
     "name": "TEST soldering iron",
@@ -769,6 +850,23 @@
     "armor": [ { "coverage": 1 } ]
   },
   {
+    "id": "test_tail_encumber",
+    "type": "ARMOR",
+    "name": "TEST tail encumbrance",
+    "description": "Tests the effects of encumbrance on the test body part.",
+    "weight": "500 g",
+    "volume": "3 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
+  },
+  {
     "id": "test_hazmat_suit",
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
@@ -789,7 +887,7 @@
       {
         "encumbrance": 37,
         "coverage": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -817,7 +915,7 @@
         "cover_melee": 100,
         "cover_ranged": 0,
         "cover_vitals": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -845,7 +943,7 @@
         "cover_melee": 0,
         "cover_ranged": 100,
         "cover_vitals": 100,
-        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   },
@@ -1753,7 +1851,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "sight_dispersion": 11,
-    "aim_speed": 4,
+    "field_of_view": 300,
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
@@ -2429,5 +2527,52 @@
     "volume": "250 ml",
     "vitamins": [ [ "test_vitx", 200 ] ],
     "fun": -10
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball_half_degradation",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml",
+    "degradation_multiplier": 0.5
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_baseball_x2_degradation",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml",
+    "degradation_multiplier": 2
   }
 ]

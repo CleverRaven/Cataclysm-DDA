@@ -107,7 +107,7 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "paper", 1200 ] ], [ [ "duct_tape", 150 ] ] ]
   },
   {
@@ -284,7 +284,7 @@
     "difficulty": 5,
     "time": "10 h",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
     "components": [ [ [ "stomach_sealed", 16 ], [ "large_stomach_sealed", 10 ] ], [ [ "filament", 60, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_leatherworking_basic" } ]
@@ -315,7 +315,7 @@
     "time": "8 d",
     "book_learn": [ [ "tailor_japanese", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "straw_pile", 40 ] ], [ [ "cordage", 3, "LIST" ] ] ]
   },
   {
@@ -360,7 +360,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 80 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -373,7 +373,7 @@
     "copy-from": "cuirass_scrap",
     "time": "3 h 20 m",
     "using": [ [ "cordage", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 120 ] ] ]
   },
   {
@@ -390,7 +390,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
   {
@@ -401,7 +401,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },
   {
@@ -520,7 +520,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_esapi", 1 ], [ "sheet_kevlar_layered", 16 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "sheet_kevlar_layered", 16 ]
+      ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -705,7 +710,7 @@
     "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ], [ "cordage", 4 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "LEATHER_AWL", "level": 1 },
       { "id": "SEW_CURVED", "level": 1 }
     ],
@@ -811,7 +816,13 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_esapi", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "kevlar_plate", 16 ]
+      ]
     ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -838,6 +849,48 @@
       [ [ "duct_tape", 225 ] ],
       [ [ "kevlar", 2 ], [ "ballistic_vest_esapi", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 32 ] ]
     ]
+  },
+  {
+    "result": "ballistic_vest_heavy",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "ballistic_vest_esapi", 1 ] ], [ [ "iotv_shoulder_plate", 2 ] ], [ [ "iotv_groin_plate", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "ballistic_vest_heavy_arms",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "ballistic_vest_esapi", 1 ] ], [ [ "iotv_shoulder_plate", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "ballistic_vest_heavy_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "ballistic_vest_esapi", 1 ] ], [ [ "iotv_groin_plate", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "dragonskin",
@@ -879,7 +932,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "grass_yarn", 5 ] ] ]
   },
   {
@@ -993,7 +1046,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "fur", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
   },
@@ -1009,7 +1062,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
   },
@@ -1046,7 +1099,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_leather", 1 ] ] ]
   },
@@ -1062,7 +1115,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_survivor", 1 ] ] ]
   },
@@ -1082,7 +1135,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_esapi", 1 ], [ "sheet_kevlar_layered", 13 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "sheet_kevlar_layered", 13 ]
+      ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1145,7 +1203,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "fur", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
   },
@@ -1161,7 +1219,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
   },
@@ -1218,7 +1276,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_leather", 1 ] ] ]
   },
@@ -1259,7 +1317,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_esapi", 1 ], [ "sheet_kevlar_layered", 10 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "sheet_kevlar_layered", 10 ]
+      ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1291,7 +1354,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
   },
@@ -1378,6 +1441,18 @@
     "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
   },
   {
+    "result": "maid_dress_short",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "mag_animecon", 1 ] ],
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 6 ] ]
+  },
+  {
     "result": "sweater",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -1443,7 +1518,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 16 ] ], [ [ "duct_tape", 16 ] ] ]
   },
   {
@@ -1548,7 +1623,12 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army_modern", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_esapi", 1 ], [ "sheet_kevlar_layered", 12 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "sheet_kevlar_layered", 12 ]
+      ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1691,7 +1771,7 @@
     "time": "6 m",
     "autolearn": true,
     "byproducts": [ [ "leather", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]
   },

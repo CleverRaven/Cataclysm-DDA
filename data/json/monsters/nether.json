@@ -952,10 +952,10 @@
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
   },
   {
-    "id": "mon_wraith",
+    "id": "mon_shifting_mass",
     "type": "MONSTER",
-    "name": { "str": "Wraith" },
-    "description": "A small, grotesque jellyfish-like creature floating in midair.  You can see through it, not as if it were transparent but as if it isn't quite fully here.",
+    "name": { "str": "shifting mass", "str_pl": "shifting masses" },
+    "description": "A small, shifting mass floating in midair.  It is not even real enough to have a stable shape.  You can see through it, not as if it were transparent but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "1000 ml",
@@ -970,9 +970,9 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "wraith_attack", "min_level": 1 },
+        "spell_data": { "id": "shifting_mass", "min_level": 1 },
         "cooldown": 1,
-        "monster_message": "For a moment the wraith passes into you as if it were an illusion and a slight wave of fatigue washes over you."
+        "monster_message": "For a moment the shifting mass passes into you as if it were an illusion and a slight wave of fatigue washes over you."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
@@ -1003,6 +1003,33 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_absence",
+    "type": "MONSTER",
+    "name": { "str": "Absence" },
+    "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here, that is far from natural or safe.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 150,
+    "speed": 40,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "absence_capture_attack", "min_level": 1 },
+        "cooldown": 10,
+        "monster_message": "The absence intensifies."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {

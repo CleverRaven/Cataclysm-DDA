@@ -67,6 +67,11 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const itype_id itype_fitness_band( "fitness_band" );
+static const itype_id itype_smart_phone( "smart_phone" );
+static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
+static const itype_id itype_smart_phone_music( "smart_phone_music" );
+
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
@@ -76,6 +81,7 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -160,10 +166,10 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
         if( !u.activity.targets.empty() ) {
-            position_set = inv_s.select_one_of( u.activity.targets );
+            position_set = inv_s.highlight_one_of( u.activity.targets );
         }
         if( !position_set && u.activity.values.size() >= 2 ) {
-            inv_s.select_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
+            inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
         }
     }
 
@@ -179,12 +185,12 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     if( u.has_activity( consuming ) ) {
         u.activity.values.clear();
-        const auto init_pair = inv_s.get_selection_position();
+        const auto init_pair = inv_s.get_highlighted_position();
         u.activity.values.push_back( init_pair.first );
         u.activity.values.push_back( init_pair.second );
         u.activity.str_values.clear();
         u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = inv_s.get_selected().locations;
+        u.activity.targets = inv_s.get_highlighted().locations;
     }
 
     return location;
@@ -212,7 +218,7 @@ void game_menus::inv::common( avatar &you )
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.select( location );
+            inv_s.highlight( location );
         }
 
         location = inv_s.execute();
@@ -247,7 +253,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
         inv_s.add_contained_items( loc );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.select( location );
+            inv_s.highlight( location );
         }
 
         location = inv_s.execute();
@@ -990,6 +996,59 @@ static std::string get_consume_needs_hint( Character &you )
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+
+    int kcal_ingested_today = you.as_avatar()->get_daily_ingested_kcal( false );
+    int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
+    int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
+    int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
+    bool has_fitness_band =  you.is_wearing( itype_fitness_band );
+    bool has_tracker = has_fitness_band || you.has_amount( itype_smart_phone, 1 ) ||
+                       you.has_amount( itype_smart_phone_flashlight, 1 ) || you.has_amount( itype_smart_phone_music, 1 );
+
+    std::string kcal_estimated_intake;
+    if( kcal_ingested_today == 0 ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "none" );
+    } else if( kcal_ingested_today < 0.2 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "minimal" );
+    } else if( kcal_ingested_today < 0.5 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "low" );
+    } else if( kcal_ingested_today < 1.0 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "moderate" );
+    } else if( kcal_ingested_today < 1.5 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "high" );
+    } else if( kcal_ingested_today < 2.0 * you.base_bmr() ) {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "very high" );
+    } else {
+        //~ kcal_estimated_intake
+        kcal_estimated_intake = _( "huge" );
+    }
+
+    hint.append( "\n" );
+    if( has_tracker ) {
+        hint.append( _( "Consumed: " ) );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_today ), c_white );
+        hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_yesterday ), c_white );
+        hint.append( string_format( "%s %s", _( "Yesterday: " ), colorize( desc.first, desc.second ) ) );
+    } else {
+        hint.append( _( "Consumed today (kcal): " ) );
+        hint.append( colorize( kcal_estimated_intake, c_white ) );
+    }
+    if( has_fitness_band ) {
+        hint.append( string_format( " %s ", LINE_XOXO_S ) );
+        hint.append( _( "Spent: " ) );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_today ), c_white );
+        hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
+        desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_yesterday ), c_white );
+        hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
+    }
     return hint;
 }
 
@@ -1721,9 +1780,9 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            // no liquids
-            if( !it->made_of( phase_id::LIQUID ) ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+            // no liquids and no items marked as favorite
+            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
                 // When item_location gets updated to get items inside containers outside the player inventory
                 // uncomment this
@@ -1763,6 +1822,38 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const Character &you;
         const item &tool;
         const saw_barrel_actor &actor;
+};
+
+class attach_molle_inventory_preset : public inventory_selector_preset
+{
+    public:
+        attach_molle_inventory_preset( const molle_attach_actor *actor, const item *vest ) :
+            actor( actor ), vest( vest ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
+                   loc->has_flag( flag_PALS_LARGE );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+
+            if( !loc.get_item()->empty() ) {
+                return "item needs to be empty.";
+            }
+
+            if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
+                return "not enough space left on the vest.";
+            }
+
+            {
+                return std::string();
+            }
+        }
+
+    private:
+        const molle_attach_actor *actor;
+        const item *vest;
 };
 
 class salvage_inventory_preset: public inventory_selector_preset
@@ -1834,6 +1925,26 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )
                                       )
+                       );
+}
+
+item_location game_menus::inv::molle_attach( Character &you, item &tool )
+{
+    const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                      ( tool.type->get_use( "attach_molle" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
+                         _( "Attach an item to the vest" ), 1,
+                         _( "You don't have any MOLLE compatible items." ),
+                         string_format(
+                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
+                             tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
+                         )
                        );
 }
 

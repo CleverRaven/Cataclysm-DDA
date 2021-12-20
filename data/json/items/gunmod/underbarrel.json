@@ -233,8 +233,8 @@
     "type": "GUNMOD",
     "name": { "str": "underbarrel laser sight" },
     "description": "A visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
-    "weight": "120 g",
-    "volume": "250 ml",
+    "weight": "70 g",
+    "volume": "40 ml",
     "integral_volume": "0 ml",
     "price": 10000,
     "price_postapoc": 500,
@@ -243,11 +243,12 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "lemat_revolver_shotgun",

@@ -293,6 +293,7 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
+    TFLAG_MURKY,
 
     NUM_TFLAG_FLAGS
 };
@@ -326,6 +327,7 @@ enum ter_connects : int {
     TERCONN_CLAY,
     TERCONN_DIRT,
     TERCONN_ROCKFLOOR,
+    TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
 };

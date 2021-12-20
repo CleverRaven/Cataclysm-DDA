@@ -10,11 +10,10 @@
     "volume": "6 L",
     "price": 160000,
     "price_postapoc": 1000,
-    "material": [ "nylon" ],
     "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
     "color": "light_gray",
     "warmth": 15,
-    "material_thickness": 6,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
     "pocket_data": [
       {
@@ -23,6 +22,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
+        "description": "Pocket for front plate",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -31,6 +31,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
+        "description": "Pocket for back plate",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -39,6 +40,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
+        "description": "Pocket for right side plate",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -47,10 +49,22 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
+        "description": "Pocket for left side plate",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
-    "armor": [ { "encumbrance": [ 6, 6 ], "coverage": 100, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 6, 6 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "esapi_plate",
@@ -115,6 +129,201 @@
     "material_thickness": 2,
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 1, "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "ballistic_vest_heavy",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_esapi",
+    "name": { "str": "heavy ballistic vest" },
+    "description": "Heavy ballistic armor with specailized pockets on the front, back and sides for armored plates.  This configuration adds shoulder protectors as well as groin and neck protection.",
+    "weight": "7 kg",
+    "volume": "8 L",
+    "material": [ "nylon", "kevlar_layered" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 6, 6 ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 5, 5 ],
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 2, 2 ],
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavy_arms",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy",
+    "name": { "str": "legless heavy ballistic vest" },
+    "description": "Heavy ballistic armor with specailized pockets on the front, back and sides for armored plates.  This configuration adds shoulder protectors as well as neck protection.",
+    "weight": "5 kg",
+    "volume": "7 L",
+    "material": [ "nylon", "kevlar_layered" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 6, 6 ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 5, 5 ],
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavy_legs",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy",
+    "name": { "str": "sleevless heavy ballistic vest" },
+    "description": "Heavy ballistic armor with specailized pockets on the front, back and sides for armored plates.  This configuration adds groin and neck protection.",
+    "weight": "5 kg",
+    "volume": "7 L",
+    "material": [ "nylon", "kevlar_layered" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 6, 6 ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 2, 2 ],
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_light",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_esapi",
+    "//": "based on smaller thorax only plate carriers",
+    "name": { "str": "light ballistic vest" },
+    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "weight": "900 g",
+    "volume": "4 L",
+    "warmth": 0,
+    "material": [ "nylon" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": [ 1, 1 ],
+        "coverage": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "dragonskin",

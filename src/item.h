@@ -286,6 +286,13 @@ class item : public visitable
         item &set_damage( int qty );
 
         /**
+         * Filter setting degradation constrained by 0 and @ref max_damage
+         * @note this method also sets the damage to qty if damage is less than qty
+         * @return same instance to allow method chaining
+         */
+        item &set_degradation( int qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -349,6 +356,11 @@ class item : public visitable
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
+
+        /**
+         * Returns a symbol indicating the current degradation of the item.
+         */
+        std::string degradation_symbol() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -565,6 +577,13 @@ class item : public visitable
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool combine_liquid = false ) const;
+
+        /**
+         * Whether the two items have same contents.
+         * Checks the contents and the contents of the contents.
+         */
+        bool same_contents( const item &rhs ) const;
+
         /**
          * Whether item is the same as `rhs` for RLE compression purposes.
          * Essentially a stricter version of `stacks_with`.
@@ -754,6 +773,10 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        /** Whether it is a container, and if it is has some restrictions */
+        bool is_container_with_restriction() const;
+        /** Whether it is a container with only one pocket, and if it is has some restrictions */
+        bool is_single_container_with_restriction() const;
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
@@ -785,6 +808,12 @@ class item : public visitable
          * @param allow_bucket Allow filling non-sealable containers
          */
         bool is_container_full( bool allow_bucket = false ) const;
+
+        /**
+         * Whether the magazine pockets of this item have room for additional items
+         */
+        bool is_magazine_full() const;
+
         /**
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
@@ -816,15 +845,31 @@ class item : public visitable
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
          */
-        units::volume get_total_capacity() const;
-        units::mass get_total_weight_capacity() const;
+        units::volume get_total_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_remaining_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        // checks if the item can have things placed in it
+        bool has_pockets() const {
+            // what has it gots in them, precious
+            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
+        }
+        bool has_unrestricted_pockets() const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
+
+        // returns the abstract 'size' of the pocket
+        // used for attaching to molle items
+        int get_pocket_size() const;
 
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
@@ -862,7 +907,17 @@ class item : public visitable
         void add_rain_to_container( bool acid, int charges = 1 );
         /*@}*/
 
+        /**
+         * Return the level of a given quality the tool may have, or INT_MIN if it
+         * does not have that quality, or lacks enough charges to have that quality.
+         */
         int get_quality( const quality_id &id ) const;
+        int get_raw_quality( const quality_id &id ) const;
+
+        /**
+         * Return true if this item's type is counted by charges
+         * (true for stackable, ammo, or comestible)
+         */
         bool count_by_charges() const;
 
         /**
@@ -1141,6 +1196,12 @@ class item : public visitable
         /** How much damage has the item sustained? */
         int damage() const;
 
+        /** How much degradation has the item accumulated? */
+        int degradation() const;
+
+        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        void rand_degradation();
+
         /**
          * Scale item damage to the given number of levels. This function is
          * here mostly for back-compatibility. It should not be used when
@@ -1162,6 +1223,9 @@ class item : public visitable
 
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
+
+        /** Number of degradation increments before the item is destroyed */
+        int degrade_increments() const;
 
         /**
          * Relative item health.
@@ -1362,7 +1426,8 @@ class item : public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
-        units::length max_containable_length() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
+        units::length min_containable_length() const;
         units::volume max_containable_volume() const;
 
         /**
@@ -1371,10 +1436,14 @@ class item : public visitable
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
-        bool can_reload_with( const itype_id &ammo ) const;
-        /** Returns true if this item can be reloaded with specified ammo type at this moment. */
-        bool is_reloadable_with( const itype_id &ammo ) const;
+
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, bool now ) const;
+
         /**
           * Returns true if any of the contents are not frozen or not empty if it's liquid
           */
@@ -1736,6 +1805,18 @@ class item : public visitable
          */
         bool is_ablative() const;
         /**
+         * Returns if the armor has pockets with additional encumbrance
+         */
+        bool has_additional_encumbrance() const;
+        /**
+         * Returns if the armor has pockets with a chance to be ripped off
+         */
+        bool has_ripoff_pockets() const;
+        /**
+         * Returns if the armor has pockets with a chance to make noise when moving
+         */
+        bool has_noisy_pockets() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
@@ -1754,7 +1835,22 @@ class item : public visitable
         /**
          * Returns clothing layer for item.
          */
-        layer_level get_layer() const;
+        std::vector<layer_level> get_layer() const;
+
+        /**
+         * Returns highest layer this clothing covers
+         */
+        layer_level get_max_layer() const;
+
+        /**
+         * Returns true if an item has a given layer level.
+         */
+        bool has_layer( layer_level ll ) const;
+
+        /**
+         * Returns true if an item has any of the given layer levels.
+         */
+        bool has_layer( const std::vector<layer_level> &ll ) const;
 
         enum cover_type {
             COVER_DEFAULT,
@@ -1842,6 +1938,10 @@ class item : public visitable
          * Returns true whether this item can be worn only when @param it is worn.
          */
         bool is_worn_only_with( const item &it ) const;
+        /**
+        * Returns true wether this item is worn or not
+        */
+        bool is_worn_by_player() const;
 
         /**
          * @name Pet armor related functions.
@@ -2119,8 +2219,9 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /** Get lowest dispersion of either integral or any attached sights */
-        int sight_dispersion() const;
+
+        /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
+        std::pair<int, int> sight_dispersion( const Character &character ) const;
 
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
@@ -2167,6 +2268,10 @@ class item : public visitable
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
+        /**
+        * Summed shot spread from mods. Returns 0 on non-gun items.
+        */
+        float gun_shot_spread_multiplier() const;
         /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */
@@ -2400,8 +2505,10 @@ class item : public visitable
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
-        /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** returns a list of pointers to all top-level items
+         *  if unloading is true it ignores items in pockets that are flagged to not unload
+         */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -2477,9 +2584,6 @@ class item : public visitable
 
         /** Update flags associated with temperature */
         void set_temp_flags( float new_temperature, float freeze_percentage );
-
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
@@ -2633,8 +2737,12 @@ class item : public visitable
         // The faction that previously owned this item
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
+        int degradation_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
+
+        // additional encumbrance this specific item has
+        units::volume additional_encumbrance = 0_ml;
 
     public:
         char invlet = 0;      // Inventory letter

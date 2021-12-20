@@ -1392,6 +1392,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_INFOBOX_UP",
+    "name": "Scroll description up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_INFOBOX_DOWN",
+    "name": "Scroll description down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
@@ -1744,8 +1756,14 @@
     "type": "keybinding",
     "id": "SHOW_CONTENTS",
     "category": "INVENTORY",
-    "name": "Hide contents",
+    "name": "Show contents",
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_SKIP_UNSELECTABLE",
+    "category": "INVENTORY",
+    "name": "Toggle skipping unselectable items"
   },
   {
     "type": "keybinding",
@@ -2850,6 +2868,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ADD_PERSONAL_ZONE",
+    "category": "ZONES_MANAGER",
+    "name": "Add personal zone",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "p" },
+      { "input_method": "keyboard_char", "key": "P" },
+      { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "REMOVE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Remove zone",
@@ -3084,7 +3113,7 @@
     "type": "keybinding",
     "id": "TOGGLE_ENTRY",
     "category": "INVENTORY",
-    "name": "Mark/unmark selected item",
+    "name": "Select/unselect highlighted item",
     "bindings": [
       { "input_method": "keyboard_any", "key": "l" },
       { "input_method": "keyboard_any", "key": "RIGHT" },
@@ -3117,14 +3146,14 @@
     "type": "keybinding",
     "id": "TOGGLE_NON_FAVORITE",
     "category": "INVENTORY",
-    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "name": "Select/unselect non-favorite items in multidrop menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
   },
   {
     "type": "keybinding",
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
-    "name": "Mark a specific amount of selected item"
+    "name": "Select a specific amount of highlighted item"
   },
   {
     "type": "keybinding",
@@ -3643,5 +3672,26 @@
     "category": "NEW_CHAR_TRAITS",
     "name": "Sort traits list",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE PAGE",
+    "name": "Delete page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "d" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPORT_DIARY",
+    "name": "Export diary to .txt",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEW_PAGE",
+    "name": "Add new page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "n" ] } ]
   }
 ]

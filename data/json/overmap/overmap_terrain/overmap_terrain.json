@@ -236,7 +236,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin", "bandit_cabin" ],
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -285,12 +297,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2", "lodge_basement_laboratory_entrance" ],
+    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
     "see_cost": 4,
     "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_basement_laboratory_entrance" ],
+    "copy-from": "lodge_basement_residential1",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -417,19 +435,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "name": "looted building",
-    "sym": "#",
-    "color": "light_gray",
-    "see_cost": 2
-  },
-  {
-    "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
     "sym": "%",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -478,24 +488,6 @@
     "color": "light_blue",
     "see_cost": 5,
     "mondensity": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_forest",
-    "name": "basin",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "name": "bog",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -599,7 +591,8 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -771,7 +764,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

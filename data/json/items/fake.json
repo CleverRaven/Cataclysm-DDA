@@ -28,25 +28,21 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "integrated toolset" },
+    "name": { "str": "integrated multitool" },
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
+      [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
+      [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "CUT", 1 ],
+      [ "CUT", 2 ],
       [ "PRY", 1 ],
       [ "PRYING_NAIL", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ]
+      [ "BUTCHER", -55 ]
     ]
   },
   {
@@ -66,7 +62,7 @@
     "cutting": 8,
     "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",

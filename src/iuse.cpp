@@ -265,6 +265,7 @@ static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
@@ -3026,24 +3027,6 @@ cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-cata::optional<int> iuse::cs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws scream to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 cata::optional<int> iuse::carver_off( Character *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3120,26 +3103,6 @@ cata::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, cons
     return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
                           false,
                           15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-cata::optional<int> iuse::ecs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
 }
 
 cata::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
@@ -3922,27 +3885,33 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name() );
+    } else if( tazer_was_armored ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but are blocked by armor." ),
+                                  _( "<npcname> attempts to shock %s, but is blocked by armor." ),
+                                  target->disp_name() );
     } else {
-        // TODO: Maybe - Execute an attack and maybe zap something other than torso
-        // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 5,
-                                            25 ) ) ).total_damage();
-        if( dam > 0 ) {
-            p->add_msg_player_or_npc( m_good,
-                                      _( "You shock %s!" ),
-                                      _( "<npcname> shocks %s!" ),
-                                      target->disp_name() );
+        // Stun duration scales harshly inversely with big creatures
+        if( target->get_size() == creature_size::tiny ) {
+            target->moves -= rng( 150, 250 );
+        } else if( target->get_size() == creature_size::small ) {
+            target->moves -= rng( 125, 200 );
+        } else if( target->get_size() == creature_size::large ) {
+            target->moves -= rng( 95, 115 );
+        } else if( target->get_size() == creature_size::huge ) {
+            target->moves -= rng( 50, 80 );
         } else {
-            p->add_msg_player_or_npc( m_warning,
-                                      _( "You unsuccessfully attempt to shock %s!" ),
-                                      _( "<npcname> unsuccessfully attempts to shock %s!" ),
-                                      target->disp_name() );
+            target->moves -= rng( 110, 150 );
         }
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You shock %s!" ),
+                                  _( "<npcname> shocks %s!" ),
+                                  target->disp_name() );
     }
 
     if( foe != nullptr ) {
@@ -3954,11 +3923,11 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
 cata::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 100 ) {
+    if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
-        fake.charges = 100;
+        fake.charges = 2;
         return tazer( p, &fake, b, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
@@ -4438,33 +4407,46 @@ cata::optional<int> iuse::fitness_check( Character *p, item *it, bool, const tri
         return cata::nullopt;
     } else {
         //What else should block using f-band?
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your health metrics on your %s." ), it->tname( 1,
+                                   false ) ) );
+        msg.append( "  ***\n\n" );
         const int bpm = p->heartrate_bpm();
-        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
-        //Maybe should pick better words
-        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        msg.append( "-> " );
+        msg.append( string_format( _( "Your heart rate is %i bpm." ), bpm ) );
         if( bpm > 179 ) {
-            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
-                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+            msg.append( "\n" );
+            msg.append( "-> " );
+            msg.append( _( "WARNING!  Slow down!  Your pulse is getting too high, champion!" ) );
         }
         const std::string exercise = p->activity_level_str();
+        msg.append( "\n" );
+        msg.append( "-> " );
         if( exercise == "NO_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You haven't really been active today.  Try going for a walk!'." ), it->tname() );
+            msg.append( _( "You haven't really been active today.  Try going for a walk!" ) );
         } else if( exercise == "LIGHT_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+            msg.append( _( "Good start!  Keep it up and move more." ) );
         } else if( exercise == "MODERATE_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+            msg.append( _( "Doing good!  Don't stop, push the limit!" ) );
         } else if( exercise == "ACTIVE_EXERCISE" ) {
-            //Ad will most likely need to go
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
-                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+            msg.append( _( "Great job!  Take a break and don't forget about hydration!" ) );
         } else {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+            msg.append( _( "You are too active!  Avoid overexertion for your safety and health." ) );
         }
-        //TODO add whatever else makes sense (sleep quality, health level approximation?)
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_spent_kcal( false ),
+                                   p->as_avatar()->get_daily_spent_kcal( true ) ) );
+        //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
     }
     return it->type->charges_to_use();
 }
@@ -5202,7 +5184,7 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( it->typeId() != itype_atomic_coffeepot && ( !it->ammo_sufficient( p ) ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     }
@@ -5224,6 +5206,19 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
     } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
     }
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return cata::nullopt;
+    }
+    if( it->typeId() == itype_atomic_coffeepot ) {
+        heat_item( *p );
+    }
+
     return cata::nullopt;
 }
 
@@ -5528,13 +5523,18 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ),
-                              fix.tname() );
+    if( fix.damage() <= fix.min_damage() + fix.degradation() ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "You can't improve your %s any more, considering the degradation." ) :
+                          _( "You can't improve your %s any more this way." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname() );
+    if( fix.damage() <= fix.degradation() && p->get_skill_level( skill_mechanics ) < 8 ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "Your %s is in its best condition, considering the degradation." ) :
+                          _( "Your %s is already in peak condition." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return cata::nullopt;
@@ -5562,7 +5562,7 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
-        fix.set_damage( 0 );
+        fix.set_damage( fix.degradation() );
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
                               fix.tname( 1, false ), startdurability, resultdurability );
@@ -5922,7 +5922,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
 
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-            if( r.never_learn ) {
+            if( r.never_learn || r.obsolete ) {
                 continue;
             }
             if( science ) {
@@ -9010,6 +9010,27 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     return 0;
 }
 
+cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return cata::nullopt;
+    } else {
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your registered calories intake on your %s." ),
+                                   it->tname( 1, false ) ) );
+        msg.append( "  ***\n\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
+    }
+    return it->type->charges_to_use();
+}
+
 cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
 {
     if( it->is_armor() &&  !p->is_worn( *it ) ) {
@@ -9290,7 +9311,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       crafting_inv.charges_of( itype_detergent ) );
+                                       std::max( crafting_inv.charges_of( itype_detergent ),
+                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
         return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
@@ -9349,7 +9371,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               required.water );
         return cata::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         return cata::nullopt;

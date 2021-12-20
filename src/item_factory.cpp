@@ -79,6 +79,7 @@ static const item_category_id item_category_magazines( "magazines" );
 static const item_category_id item_category_mods( "mods" );
 static const item_category_id item_category_other( "other" );
 static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
@@ -565,19 +566,25 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.has_flag( flag_PERSONAL ) ) {
-        obj.layer = layer_level::PERSONAL;
-    } else if( obj.has_flag( flag_SKINTIGHT ) ) {
-        obj.layer = layer_level::UNDERWEAR;
-    } else if( obj.has_flag( flag_WAIST ) ) {
-        obj.layer = layer_level::WAIST;
-    } else if( obj.has_flag( flag_OUTER ) ) {
-        obj.layer = layer_level::OUTER;
-    } else if( obj.has_flag( flag_BELTED ) ) {
-        obj.layer = layer_level::BELTED;
-    } else if( obj.has_flag( flag_AURA ) ) {
-        obj.layer = layer_level::AURA;
-    } else {
-        obj.layer = layer_level::REGULAR;
+        obj.layer.push_back( layer_level::PERSONAL );
+    }
+    if( obj.has_flag( flag_SKINTIGHT ) ) {
+        obj.layer.push_back( layer_level::UNDERWEAR );
+    }
+    if( obj.has_flag( flag_WAIST ) ) {
+        obj.layer.push_back( layer_level::WAIST );
+    }
+    if( obj.has_flag( flag_OUTER ) ) {
+        obj.layer.push_back( layer_level::OUTER );
+    }
+    if( obj.has_flag( flag_BELTED ) ) {
+        obj.layer.push_back( layer_level::BELTED );
+    }
+    if( obj.has_flag( flag_AURA ) ) {
+        obj.layer.push_back( layer_level::AURA );
+    }
+    if( obj.layer.empty() ) {
+        obj.layer.push_back( layer_level::REGULAR );
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
@@ -799,10 +806,20 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // go through the pockets and apply some characteristics
         for( const pocket_data &pocket : obj.pockets ) {
             if( pocket.ablative ) {
                 obj.armor->ablative = true;
                 break;
+            }
+            if( pocket.extra_encumbrance > 0 ) {
+                obj.armor->additional_pocket_enc = true;
+            }
+            if( pocket.ripoff > 0 ) {
+                obj.armor->ripoff_chance = true;
+            }
+            if( pocket.activity_noise.chance > 0 ) {
+                obj.armor->noisy = true;
             }
         }
     }
@@ -1190,10 +1207,6 @@ void Item_factory::init()
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
-    add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
-    add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
-    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
-    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
@@ -1245,6 +1258,7 @@ void Item_factory::init()
     add_iuse( "HEAT_FOOD", &iuse::heat_food );
     add_iuse( "HONEYCOMB", &iuse::honeycomb );
     add_iuse( "HOTPLATE", &iuse::hotplate );
+    add_iuse( "HOTPLATE_ATOMIC", &iuse::hotplate_atomic );
     add_iuse( "INHALER", &iuse::inhaler );
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
@@ -1337,6 +1351,7 @@ void Item_factory::init()
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
+    add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
@@ -1364,6 +1379,8 @@ void Item_factory::init()
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<molle_attach_actor>() );
+    add_actor( std::make_unique<molle_detach_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<mutagen_actor>() );
@@ -1732,8 +1749,14 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                 msg += "gunmod does not specify location\n";
             }
-            if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
-                msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
+            if( type->gunmod->sight_dispersion >= 0 ) {
+                if( type->gunmod->field_of_view <= 0 && type->gunmod->aim_speed < 0 ) {
+                    msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
+                } else if( type->gunmod->aim_speed > 0 ) {
+                    msg += "Aim speed will be converted to FoV and aim_speed_modifier automatically, if FoV is not set.\n";
+                }
+            } else if( type->gunmod->sight_dispersion < 0 && type->gunmod->field_of_view > 0 ) {
+                msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
             }
             if( type->gunmod->usable.empty() ) {
                 msg += "gunmod does not specify mod targets\n";
@@ -2704,19 +2727,31 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
+    assign( jo, "field_of_view", slot.field_of_view );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
+    assign( jo, "aim_speed_modifier", slot.aim_speed_modifier );
     assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "range_multiplier", slot.range_multiplier );
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
+    assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
+    // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
+    if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
+        if( slot.aim_speed > 6 ) {
+            slot.aim_speed_modifier = 5 * ( slot.aim_speed - 6 );
+            slot.field_of_view = 480;
+        } else {
+            slot.field_of_view = 480 - 30 * ( 6 - slot.aim_speed );
+        }
+    }
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {
@@ -3280,6 +3315,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
+    float degrade_mult = 1.0f;
+    optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
+    // TODO: remove condition once degradation is ready to be applied to all items
+    if( def.category_force != item_category_veh_parts ) {
+        degrade_mult = 0.f;
+    }
+    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+        def.degrade_increments_ = 0;
+    } else {
+        float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
+        def.degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
+    }
+
     // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
     // when changing this list
     static const std::set<std::string> needs_plural = {
@@ -3413,6 +3461,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             tmp.allow_omitted_members();
             delete_qualities_from_json( tmp, "qualities", def );
         }
+    }
+
+    if( jo.has_member( "charged_qualities" ) ) {
+        def.charged_qualities.clear();
+        set_qualities_from_json( jo, "charged_qualities", def );
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -3684,10 +3737,18 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto quali = std::pair<quality_id, int>( quality_id( curr.get_string( 0 ) ),
                                curr.get_int( 1 ) );
-            if( def.qualities.count( quali.first ) > 0 ) {
-                curr.throw_error( "Duplicated quality", 0 );
+            // Populate charged qualities or regular qualities, preventing duplicates
+            if( member == "charged_qualities" ) {
+                if( def.charged_qualities.count( quali.first ) > 0 ) {
+                    curr.throw_error( "Duplicated charged quality", 0 );
+                }
+                def.charged_qualities.insert( quali );
+            } else {
+                if( def.qualities.count( quali.first ) > 0 ) {
+                    curr.throw_error( "Duplicated quality", 0 );
+                }
+                def.qualities.insert( quali );
             }
-            def.qualities.insert( quali );
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
@@ -3899,15 +3960,16 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
 {
     std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int( "prob", 100 );
+    holiday event = obj.get_enum_value<holiday>( "event", holiday::none );
     std::string subcontext = "entry within " + context;
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                             ig.with_magazine, context );
+                                             ig.with_magazine, context, event );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                             ig.with_magazine, context );
+                                             ig.with_magazine, context, event );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
@@ -3921,11 +3983,11 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     std::unique_ptr<Single_item_creator> sptr;
     if( obj.has_member( "item" ) ) {
         sptr = std::make_unique<Single_item_creator>(
-                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability, context );
+                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability, context, event );
     } else if( obj.has_member( "group" ) ) {
         sptr = std::make_unique<Single_item_creator>(
                    obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability,
-                   context );
+                   context, event );
     }
     if( !sptr ) {
         return;

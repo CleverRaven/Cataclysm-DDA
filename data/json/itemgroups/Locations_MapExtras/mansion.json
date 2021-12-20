@@ -14,7 +14,7 @@
       { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
       { "group": "shoes_maid", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "maid_hat", "prob": 50, "damage": [ 0, 4 ] },
-      { "item": "maid_dress", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "mansion_maid_dress", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "corpse_female" }
     ]
   },
@@ -1302,7 +1302,8 @@
       [ "rag", 30 ],
       [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
-      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] }
+      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] },
+      [ "kevlar_shears", 5 ]
     ]
   },
   {
@@ -1525,7 +1526,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "maid_dress", 90 ],
+      [ "maid_dress", 70 ],
+      [ "maid_dress_short", 30 ],
       [ "maid_hat", 90 ],
       [ "suit", 80 ],
       [ "pocketwatch", 30 ],
@@ -1634,6 +1636,12 @@
       [ "socks", 20 ],
       [ "heels", 10 ]
     ]
+  },
+  {
+    "id": "mansion_maid_dress",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "maid_dress", 80 ], [ "maid_dress_short", 20 ] ]
   },
   {
     "id": "gear_butler",

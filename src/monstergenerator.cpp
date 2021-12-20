@@ -210,6 +210,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
+        case MF_ATTACK_UPPER: return "ATTACK_UPPER";
+        case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -724,22 +726,64 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
-    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
         weakpoints.clear();
-        weakpoints.load( jo.get_array( "weakpoints" ) );
+    }
+
+    // Load each set of weakpoints.
+    // Each subsequent weakpoint set overwrites
+    // matching weakpoints from the previous set.
+    if( jo.has_array( "weakpoint_sets" ) ) {
+        for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
+            weakpoints_id set_id( jval.get_string() );
+            weakpoints.add_from_set( set_id, true );
+        }
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.add_from_set( set_id, true );
+                }
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.del_from_set( set_id );
+                }
+            }
+        }
+    }
+
+    // Finally, inline weakpoints overwrite
+    // any matching weakpoints from the previous sets.
+    if( jo.has_array( "weakpoints" ) ) {
+        ::weakpoints tmp_wp;
+        tmp_wp.load( jo.get_array( "weakpoints" ) );
+        weakpoints.add_from_set( tmp_wp, true );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                weakpoints.load( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.add_from_set( tmp_wp, true );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.del_from_set( tmp_wp );
             }
         }
     }
@@ -752,14 +796,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.load( jo.get_array( "families" ) );
+                families.load( tmp.get_array( "families" ) );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.remove( jo.get_array( "families" ) );
+                families.remove( tmp.get_array( "families" ) );
             }
         }
     }

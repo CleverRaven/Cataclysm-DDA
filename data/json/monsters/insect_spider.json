@@ -58,7 +58,7 @@
       "effect": { "id": "death_halfworm", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_halfworm",
@@ -84,7 +84,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_worm",
@@ -115,7 +115,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "upgrades": { "half_life": 20, "into": "mon_graboid" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_worm_small",
@@ -559,6 +559,7 @@
     "special_attacks": [
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 10,
         "move_cost": 115,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 8 } ],
@@ -806,6 +807,7 @@
       {
         "id": "stretch_attack",
         "range": 2,
+        "attack_upper": false,
         "hit_dmg_u": "The %1$s's mouthpart shoots out at you, and it pierces your %2$s!",
         "hit_dmg_npc": "The %1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
         "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
@@ -2872,16 +2874,17 @@
     "special_attacks": [
       [ "RANGED_PULL", 10 ],
       [ "GRAB", 3 ],
-      [ "impale", 10 ],
+      { "id": "impale", "attack_upper": false, "cooldown": 10 },
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 4,
         "accuracy": 8,
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ]
       }
     ],
-    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
+    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_antlion_giant",

@@ -333,8 +333,8 @@
   },
   {
     "type": "SPELL",
-    "id": "wraith_attack",
-    "name": { "str": "Wraith Attack" },
+    "id": "shifting_mass",
+    "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 1,
@@ -348,7 +348,7 @@
     "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
     "shape": "blast",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_wraith_attack"
+    "effect_str": "EOC_shifting_mass_attack"
   },
   {
     "type": "SPELL",
@@ -365,11 +365,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_wraith_attack",
+    "id": "EOC_shifting_mass_attack",
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" },
           "=",
           { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
           "+",
@@ -378,7 +378,7 @@
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" },
           "=",
           { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
           "+",
@@ -389,14 +389,14 @@
         "arithmetic": [
           { "u_val": "fatigue" },
           "+=",
-          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" }
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" }
         ]
       },
       {
         "arithmetic": [
           { "u_val": "stamina" },
           "+=",
-          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" }
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" }
         ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
@@ -434,5 +434,64 @@
       },
       { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "absence_capture_attack",
+    "name": { "str": "Absence Capture Attack" },
+    "description": "Traps you with nothing.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 12,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_absence_capture_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_absence_capture_attack",
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
+    "effect": [
+      { "u_location_variable": { "value": "cage", "type": "eoc", "context": "transform", "global": true } },
+      {
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_transform",
+        "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+      },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "EOC_PORTAL_ABSENCE_CHANGE",
+            "effect": [
+              {
+                "u_transform_radius": 2,
+                "ter_furn_transform": "portal_cage_revert_transform",
+                "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+              }
+            ]
+          }
+        ],
+        "time_in_future_min": "3 seconds",
+        "time_in_future_max": "5 seconds"
+      },
+      { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
+    ],
+    "false_effect": [
+      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      { "u_message": "For an instant you feel the absence's hunger upon you." }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_cage_transform",
+    "furniture": [ { "result": [ "f_absence" ], "valid_furniture": [ "f_null" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_cage_revert_transform",
+    "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
   }
 ]

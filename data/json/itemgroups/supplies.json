@@ -101,6 +101,22 @@
     ]
   },
   {
+    "id": "hardware_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ]
+    ]
+  },
+  {
     "id": "supplies_plumbing",
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
@@ -334,6 +350,20 @@
       { "item": "kidney", "prob": 10, "count": [ 1, 3 ] },
       { "item": "liver", "prob": 10, "count": [ 1, 3 ] },
       { "item": "brain", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "rabbit_foot", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "snail_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "frog_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "insect_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "bovine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "spider_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "molerat_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "reptile_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "ursine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "beast_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "human_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "cephalopod_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },

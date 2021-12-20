@@ -92,6 +92,7 @@ namespace
 {
 
 generic_factory<body_part_type> body_part_factory( "body part" );
+generic_factory<limb_score> limb_score_factory( "limb score" );
 
 } // namespace
 
@@ -119,6 +120,43 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
     }
 
     return iter->second;
+}
+
+/** @relates string_id */
+template<>
+const limb_score &string_id<limb_score>::obj() const
+{
+    return limb_score_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<limb_score>::is_valid() const
+{
+    return limb_score_factory.is_valid( *this );
+}
+
+void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src )
+{
+    limb_score_factory.load( jo, src );
+}
+
+void limb_score::reset()
+{
+    limb_score_factory.reset();
+}
+
+const std::vector<limb_score> &limb_score::get_all()
+{
+    return limb_score_factory.get_all();
+}
+
+void limb_score::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "name", _name );
+    optional( jo, was_loaded, "affected_by_wounds", wound_affect, true );
+    optional( jo, was_loaded, "affected_by_encumb", encumb_affect, true );
 }
 
 /**@relates string_id*/
@@ -253,7 +291,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
-    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
@@ -263,6 +300,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
+    optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
 
     // tokens are actually legacy code that should be on their way out.
     if( !was_loaded ) {
@@ -301,21 +339,25 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "flags", flags );
 
-    optional( jo, was_loaded, "manipulator_score", manipulator_score );
-    optional( jo, was_loaded, "manipulator_max", manipulator_max );
+    optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
 
-    optional( jo, was_loaded, "lifting_score", lifting_score );
-    optional( jo, was_loaded, "movement_speed_score", movement_speed_score );
-    optional( jo, was_loaded, "balance_score", balance_score );
+    if( jo.has_member( "limb_scores" ) ) {
+        limb_scores.clear();
+        const JsonArray &jarr = jo.get_array( "limb_scores" );
+        for( const JsonValue jval : jarr ) {
+            bp_limb_score bpls;
+            bpls.id = limb_score_id( jval.get_array().get_string( 0 ) );
+            bpls.score = jval.get_array().get_float( 1 );
+            bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
+            limb_scores.emplace_back( bpls );
+        }
+    }
 
-    optional( jo, was_loaded, "blocking_score", blocking_score );
-
-    optional( jo, was_loaded, "breathing_score", breathing_score );
-    optional( jo, was_loaded, "swim_score", swim_score );
-
-    optional( jo, was_loaded, "vision_score", vision_score );
-    optional( jo, was_loaded, "nightvision_score", nightvision_score );
-    optional( jo, was_loaded, "reaction_score", reaction_score );
+    if( jo.has_object( "armor" ) ) {
+        armor = resistances();
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
 
     mandatory( jo, was_loaded, "side", part_side );
 
@@ -378,8 +420,13 @@ void body_part_type::check() const
         debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
     }
 
-    if( manipulator_score > manipulator_max ) {
-        debugmsg( "Body part %s has higher manipulator score than max.", id.str() );
+    for( const bp_limb_score &bpls : limb_scores ) {
+        if( !bpls.id.is_valid() ) {
+            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.id.str() );
+        }
+        if( bpls.score > bpls.max ) {
+            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.id.str() );
+        }
     }
 
     // Check that connected_to leads eventually to the root bodypart (currently always head),
@@ -394,6 +441,16 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::damage_resistance( const damage_type &dt ) const
+{
+    return armor.type_resist( dt );
+}
+
+float body_part_type::damage_resistance( const damage_unit &du ) const
+{
+    return armor.get_effective_resist( du );
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
@@ -494,6 +551,16 @@ float bodypart::get_wetness_percentage() const
     return static_cast<float>( wetness ) / id->drench_max;
 }
 
+int bodypart::get_encumbrance_threshold() const
+{
+    return id->encumbrance_threshold;
+}
+
+int bodypart::get_encumbrance_limit() const
+{
+    return id->encumbrance_limit;
+}
+
 float bodypart::wound_adjusted_limb_value( const float val ) const
 {
     double percent = static_cast<double>( get_hp_cur() ) /
@@ -507,76 +574,48 @@ float bodypart::wound_adjusted_limb_value( const float val ) const
 
 float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
+    int enc = get_encumbrance_data().encumbrance;
+    // Check if we're over our encumbrance limit, return 0 if so
+    if( enc >= get_encumbrance_limit() ) {
+        return 0;
+    }
+    // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0
+    enc = std::max( 0, ( enc - get_encumbrance_threshold() ) );
     // This is designed to get a 5% adjustment for an increase of 3 encumbrance, with further
     // adjustments decreasing to avoid a multiplier of 0 (or infinity if reciprocal).
-    return val * 19.0f / ( 19.0f + get_encumbrance_data().encumbrance / 3.0f );
+    return val * 19.0f / ( 19.0f + enc / 3.0f );
 }
 
-float bodypart::get_manipulator_score() const
+float bodypart::skill_adjusted_limb_value( float val, int skill ) const
 {
-    return id->manipulator_score;
+    const float mitigated_score = val * ( 1.0f + ( skill / 10.0f ) );
+    return std::min( val, mitigated_score );
 }
 
-float bodypart::get_manipulator_max() const
+float bodypart::get_limb_score( const limb_score_id &score, int skill, int override_encumb,
+                                int override_wounds ) const
 {
-    return id->manipulator_max;
+    bool process_wounds = override_wounds == 1 || ( override_wounds == -1 &&
+                          score->affected_by_wounds() );
+    bool process_encumb = override_encumb == 1 || ( override_encumb == -1 &&
+                          score->affected_by_encumb() );
+
+    float sc = id->get_limb_score( score );
+    if( process_wounds ) {
+        sc = wound_adjusted_limb_value( sc );
+    }
+    if( process_encumb ) {
+        sc = encumb_adjusted_limb_value( sc );
+    }
+    if( skill >= 0 ) {
+        sc = skill_adjusted_limb_value( sc, skill );
+    }
+    return sc;
 }
 
-float bodypart::get_encumb_adjusted_manipulator_score() const
+float bodypart::get_limb_score_max( const limb_score_id &score ) const
 {
-    return encumb_adjusted_limb_value( get_wound_adjusted_manipulator_score() );
-}
-
-float bodypart::get_wound_adjusted_manipulator_score() const
-{
-    return wound_adjusted_limb_value( get_manipulator_score() );
-}
-
-float bodypart::get_blocking_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->blocking_score ) );
-}
-
-float bodypart::get_lifting_score() const
-{
-    return wound_adjusted_limb_value( id->lifting_score );
-}
-
-float bodypart::get_breathing_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->breathing_score ) );
-}
-
-float bodypart::get_vision_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->vision_score ) );
-}
-
-float bodypart::get_nightvision_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->nightvision_score ) );
-}
-
-float bodypart::get_reaction_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->reaction_score ) );
-}
-
-float bodypart::get_movement_speed_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->movement_speed_score ) );
-}
-
-float bodypart::get_balance_score() const
-{
-    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->balance_score ) );
-}
-
-float bodypart::get_swim_score( const double swim_skill ) const
-{
-    const float mitigated_score = id->swim_score * ( 1.0f + ( swim_skill / 10.0f ) );
-    return std::min( encumb_adjusted_limb_value(
-                         wound_adjusted_limb_value( mitigated_score ) ), id->swim_score );
+    return id->get_limb_score_max( score );
 }
 
 int bodypart::get_hp_cur() const

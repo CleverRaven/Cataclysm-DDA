@@ -148,7 +148,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
@@ -664,7 +664,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ], [ "survival", 1 ] ],
     "time": "20 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_empty",
@@ -677,7 +677,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "50 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "stick", 10 ] ] ],
     "pre_terrain": "t_wattle_fence_posts",
     "post_terrain": "t_wattle_fence"
@@ -690,7 +690,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ] ],
       [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
@@ -709,7 +709,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ] ],
       [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
@@ -728,7 +728,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ] ],
       [ [ "material_quicklime", 8 ], [ "material_limestone", 8 ], [ "clay_lump", 8 ] ],
@@ -746,7 +746,7 @@
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "30 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "2x4", 2 ], [ "stick", 4 ] ],
       [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
@@ -1057,6 +1057,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_rubber_mulch",
+    "group": "make_rubber_mulch",
+    "//": "Covers the floor with rubber mulch. Used for constructing exercise spaces.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "shredded_rubber", 200 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_rubber_mulch"
+  },
+  {
+    "type": "construction",
     "id": "constr_railroad_track_small",
     "group": "build_straight_small_railroad_track",
     "category": "CONSTRUCT",
@@ -1135,6 +1147,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_parkour_bars",
+    "group": "build_parkour_bars",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "420 m",
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [ [ [ "pipe", 36 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "f_parkour_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_strconc_wall_halfway",
     "group": "build_reinforced_concrete_wall",
     "//": "Step 2: foundation",
@@ -1160,6 +1184,20 @@
     "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_rope",
+    "group": "build_reinforced_concrete_wall_ropes",
+    "//": "Step 3: finish wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "rope_6", 8 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_strconc_wall_halfway",
+    "post_terrain": "t_concrete_wall_rope"
   },
   {
     "type": "construction",
@@ -1391,7 +1429,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
@@ -2332,7 +2370,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 2 } ] ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_desk"
@@ -3269,7 +3307,7 @@
     "qualities": [
       [ { "id": "DIG", "level": 1 } ],
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "CUT", "level": 2 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
     "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
@@ -3392,7 +3430,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
     "time": "45 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
       [ [ "stick_long", 6 ] ],
       [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
@@ -3882,7 +3920,7 @@
     "category": "CONSTRUCT",
     "difficulty": 2,
     "time": "90m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
     "pre_terrain": "t_tree_pine",
     "post_terrain": "t_leanto"
@@ -4050,7 +4088,7 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "10 m",
-    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
     "components": [ [ [ "log", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_logstool"
@@ -4093,7 +4131,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
-    "post_terrain": "t_metal_grate_window"
+    "post_terrain": "t_metal_grate_window_noglass"
   },
   {
     "type": "construction",
@@ -4103,8 +4141,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
@@ -4117,11 +4154,10 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
-    "pre_terrain": "t_metal_grate_window",
-    "post_terrain": "t_metal_grate_window_with_curtain"
+    "pre_terrain": "t_metal_grate_window_noglass",
+    "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
   {
     "type": "construction",
@@ -4537,6 +4573,18 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_rubber_mulch",
+    "group": "remove_rubber_mulch",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "shredded_rubber", "count": [ 150, 200 ] } ],
+    "pre_terrain": "t_rubber_mulch",
     "post_terrain": "t_dirt"
   },
   {

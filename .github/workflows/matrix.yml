@@ -29,24 +29,24 @@ on:
 # https://apt.llvm.org/
 
 jobs:
-  skip-duplicates:
+  skip-duplicates-code:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
-  skip-duplicates-mods:
+  skip-duplicates-data:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip_mods: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
@@ -54,7 +54,7 @@ jobs:
           cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
-    needs: skip-duplicates
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
     strategy:
       max-parallel: 1
       matrix:
@@ -70,6 +70,8 @@ jobs:
             gold: 1
             lto: 1
             native: linux64
+            archive-success: basic-build
+            dont_skip_data_only_changes: 1
             title: Basic Build and Test (GCC 9, Curses, LTO)
 
           - compiler: clang++-12
@@ -82,6 +84,7 @@ jobs:
             native: linux64
             sanitize: address
             mods: --mods=magiclysm
+            dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
 
           - compiler: g++-11
@@ -161,7 +164,8 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
-        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
+        ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
@@ -221,11 +225,24 @@ jobs:
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
-    - run: echo ${{ github.event.number }} > pull_request_id
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "true" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && success() }}
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "false" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && failure() }}
     - uses: actions/upload-artifact@v2
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
+      with:
+        name: ${{ env.ARCHIVE_SUCCESS }}
+        path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()
