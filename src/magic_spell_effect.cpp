@@ -1558,7 +1558,6 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
     if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
         mass += mass;
     }
-    const time_duration summon_time = sp.duration_turns();
     std::vector<tripoint> pts = closest_points_first( caster.pos(), 1 );
     std::vector<monster *> summoned_slimes;
     // Make sure the creature has enough mass to create new slimes
