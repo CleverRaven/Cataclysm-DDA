@@ -565,28 +565,6 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.has_flag( flag_PERSONAL ) ) {
-        obj.layer.push_back( layer_level::PERSONAL );
-    }
-    if( obj.has_flag( flag_SKINTIGHT ) ) {
-        obj.layer.push_back( layer_level::UNDERWEAR );
-    }
-    if( obj.has_flag( flag_WAIST ) ) {
-        obj.layer.push_back( layer_level::WAIST );
-    }
-    if( obj.has_flag( flag_OUTER ) ) {
-        obj.layer.push_back( layer_level::OUTER );
-    }
-    if( obj.has_flag( flag_BELTED ) ) {
-        obj.layer.push_back( layer_level::BELTED );
-    }
-    if( obj.has_flag( flag_AURA ) ) {
-        obj.layer.push_back( layer_level::AURA );
-    }
-    if( obj.layer.empty() ) {
-        obj.layer.push_back( layer_level::REGULAR );
-    }
-
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
         string_starts_with( obj.get_id().str(), "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
@@ -2324,6 +2302,8 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             }
         }
     }
+
+    optional( jo, false, "layers", layers );
 }
 
 template<typename T>

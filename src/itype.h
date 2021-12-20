@@ -275,8 +275,7 @@ struct armor_portion_data {
 
 
     // What layer does it cover if any
-    // TODO: Not currently supported, we still use flags for this
-    //cata::optional<layer_level> layer;
+    std::vector<layer_level> layers;
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -1040,8 +1039,6 @@ struct itype {
 
         // What it has to say.
         std::vector<std::string> chat_topics;
-
-        std::vector<layer_level> layer;
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
