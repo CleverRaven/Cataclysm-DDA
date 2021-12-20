@@ -2835,23 +2835,30 @@ class jmapgen_remove_items : public jmapgen_piece
                   ) const override {
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
-                                             get_map().getlocal( end ) );
             std::vector<itype_id> items_to_remove_local = items_to_remove;
-            for( const tripoint &p : range ) {
-                map_selector( p ).remove_items_with( [items_to_remove_local]( const item & it ) {
-                    if( items_to_remove_local.empty() ) {
+            auto item_filter = [items_to_remove_local]( const item & it ) {
+                if( items_to_remove_local.empty() ) {
+                    return true;
+                }
+                for( const itype_id &item_id : items_to_remove_local ) {
+                    if( it.typeId() == item_id ) {
                         return true;
                     }
-                    for( const itype_id &item_id : items_to_remove_local ) {
-                        if( it.typeId() == item_id ) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } );
+                }
+                return false;
+            };
+
+            if( start == end ) {
+                map_selector( get_map().getlocal( start ) ).remove_items_with( item_filter );
+            } else {
+                tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
+                                                 get_map().getlocal( end ) );
+                for( const tripoint &p : range ) {
+                    map_selector( p ).remove_items_with( item_filter );
+                }
             }
-        }
+        };
+
 };
 
 /**
@@ -2871,10 +2878,8 @@ class jmapgen_remove_vehicles : public jmapgen_piece
 
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-
-            tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
-            for( const tripoint &p : range ) {
-                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
+            if( start == end ) {
+                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( start ) ) ) {
                     bool remove = vehicles_to_remove.empty();
                     for( const vproto_id &vpid : vehicles_to_remove ) {
                         if( vp->vehicle().type == vpid ) {
@@ -2884,6 +2889,22 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                     if( remove ) {
                         dat.m.destroy_vehicle( &vp->vehicle() );
                         get_map().clear_vehicle_level_caches();
+                    }
+                }
+            } else {
+                tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
+                for( const tripoint &p : range ) {
+                    if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
+                        bool remove = vehicles_to_remove.empty();
+                        for( const vproto_id &vpid : vehicles_to_remove ) {
+                            if( vp->vehicle().type == vpid ) {
+                                remove = true;
+                            }
+                        }
+                        if( remove ) {
+                            dat.m.destroy_vehicle( &vp->vehicle() );
+                            get_map().clear_vehicle_level_caches();
+                        }
                     }
                 }
             }
