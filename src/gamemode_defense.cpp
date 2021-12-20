@@ -1112,7 +1112,7 @@ std::string caravan_category_name( caravan_category cat )
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
-            return _( "Ammuniton" );
+            return _( "Ammunition" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
