@@ -1838,11 +1838,6 @@ class item : public visitable
         std::vector<layer_level> get_layer() const;
 
         /**
-         * Returns highest layer this clothing covers
-         */
-        layer_level get_max_layer() const;
-
-        /**
          * Returns true if an item has a given layer level.
          */
         bool has_layer( layer_level ll ) const;

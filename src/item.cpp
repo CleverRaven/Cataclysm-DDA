@@ -6983,6 +6983,9 @@ std::vector<layer_level> item::get_layer() const
     if( has_flag( flag_SKINTIGHT ) ) {
         layers.push_back( layer_level::UNDERWEAR );
     }
+    if( has_flag( flag_NORMAL ) ) {
+        layers.push_back( layer_level::REGULAR );
+    }
     if( has_flag( flag_WAIST ) ) {
         layers.push_back( layer_level::WAIST );
     }
@@ -6995,30 +6998,13 @@ std::vector<layer_level> item::get_layer() const
     if( has_flag( flag_AURA ) ) {
         layers.push_back( layer_level::AURA );
     }
+    // fallback for old way of doing items
     if( layers.empty() ) {
         layers.push_back( layer_level::REGULAR );
     }
     return layers;
 }
 
-layer_level item::get_max_layer() const
-{
-    if( has_flag( flag_AURA ) ) {
-        return layer_level::AURA;
-    } else if( has_flag( flag_BELTED ) ) {
-        return layer_level::BELTED;
-    } else if( has_flag( flag_OUTER ) ) {
-        return layer_level::OUTER;
-    } else if( has_flag( flag_WAIST ) ) {
-        return layer_level::WAIST;
-    } else if( has_flag( flag_SKINTIGHT ) ) {
-        return layer_level::UNDERWEAR;
-    } else if( has_flag( flag_PERSONAL ) ) {
-        return layer_level::PERSONAL;
-    } else {
-        return layer_level::REGULAR;
-    }
-}
 bool item::has_layer( layer_level ll ) const
 {
     switch( ll ) {
@@ -7038,6 +7024,12 @@ bool item::has_layer( layer_level ll ) const
             // should never be seen
             return false;
         case layer_level::REGULAR:
+            if( has_flag( flag_NORMAL ) ) {
+                // new way to define regular layer
+                return true;
+            }
+
+            // otherwise check for absence of normal layer
             std::vector<layer_level> layers;
             if( has_flag( flag_PERSONAL ) ) {
                 layers.push_back( layer_level::PERSONAL );
@@ -7090,6 +7082,10 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
                 // should never happen
                 break;
             case layer_level::REGULAR:
+                if( has_flag( flag_NORMAL ) ) {
+                    found = true;
+                    break;
+                }
                 std::vector<layer_level> layers;
                 if( has_flag( flag_PERSONAL ) ) {
                     layers.push_back( layer_level::PERSONAL );
