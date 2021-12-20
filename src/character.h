@@ -2291,6 +2291,8 @@ class Character : public Creature, public visitable
         item &get_wielded_item();
         void set_wielded_item( const item &to_wield );
 
+        int get_random_heartrate();
+
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
         pimpl<character_martial_arts> martial_arts_data;
@@ -3363,6 +3365,9 @@ class Character : public Creature, public visitable
         float circulation;
         // Should remain fixed at 1.0 for now.
         float circulation_resistance = 1.0f;
+
+        // average natural bpm for character, preset value replaced by random at chargen
+        int avg_nat_bpm = 70;
 
         int fatigue;
         int sleep_deprivation;
