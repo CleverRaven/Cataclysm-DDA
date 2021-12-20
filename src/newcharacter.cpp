@@ -1663,6 +1663,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait_deps( cur_trait );
+                u.chose_mutation_color( cur_trait );
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
                 } else {

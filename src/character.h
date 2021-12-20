@@ -1147,6 +1147,7 @@ class Character : public Creature, public visitable
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
+        void chose_mutation_color( const trait_id &trait );
         void set_mutation_colour( const trait_id &trait );
 
         bool can_power_mutation( const trait_id &mut );

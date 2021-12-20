@@ -234,9 +234,26 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     my_mutations[target].powered = start_powered;
 }
 
+void Character::chose_mutation_color( const trait_id &trait )
+{
+    std::string color;
+    if( !trait->colours.empty() && has_trait( trait ) ) {
+        uilist col_menu;
+        std::vector<std::string> col_list;
+        col_menu.text = string_format( _( "Chose color for %s:" ), trait->name() );
+        for( auto it = trait->colours.begin(); it != trait->colours.end(); it++ ) {
+            col_menu.addentry( it->obj );
+            col_list.push_back( it->obj );
+        }
+        col_menu.query();
+        color = col_list[col_menu.ret];
+    }
+    my_mutations[trait].colour = color;
+}
+
 void Character::set_mutation_colour( const trait_id &trait )
 {
-    if( trait->colours.empty() ) {
+    if( trait->colours.empty() || !has_trait( trait ) ) {
         return;
     }
     my_mutations[trait].colour = *trait->colours.pick();
