@@ -270,6 +270,7 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -285,7 +286,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
-static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
