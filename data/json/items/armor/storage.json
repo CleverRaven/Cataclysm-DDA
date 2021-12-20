@@ -748,6 +748,7 @@
   },
   {
     "id": "dump_pouch",
+    "repairs_like": "legrig",
     "type": "ARMOR",
     "name": { "str": "tactical dump pouch", "str_pl": "tactical dump pouches" },
     "description": "An expandable pouch secured with straps.  Provides a bit of extra storage with minimal encumbrance.",
@@ -772,7 +773,7 @@
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {

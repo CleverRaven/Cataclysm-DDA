@@ -85,6 +85,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             }
 
             ret += mutation_armor( bp, dt );
+            ret += bp->damage_resistance( dt );
             return ret;
         }
         case damage_type::NONE:
@@ -135,6 +136,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
                 }
 
                 per_bp.second += mutation_armor( bp, dt );
+                per_bp.second += bp->damage_resistance( dt );
                 break;
             }
             case damage_type::NONE:
@@ -163,6 +165,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::BASH );
+    ret += bp->damage_resistance( damage_type::BASH );
     return ret;
 }
 
@@ -182,6 +185,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::CUT );
+    ret += bp->damage_resistance( damage_type::CUT );
     return ret;
 }
 
@@ -202,6 +206,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::BULLET );
+    ret += bp->damage_resistance( damage_type::BULLET );
     return ret;
 }
 

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_THORNY_BOOMER_UPGRADE",
+    "default": "mon_boomer_thorny",
+    "//": "Upgrades for the Thorny Boomer.",
+    "monsters": [
+      { "monster": "mon_boomer_thorny" },
+      { "monster": "mon_boomer_sap", "weight": 250 },
+      { "monster": "mon_boomer_pollen", "weight": 250 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_THORNY_SHAMBLER_UPGRADE",
+    "default": "mon_zombie_thorny",
+    "//": "Upgrades for the Thorny Shambler.",
+    "monsters": [
+      { "monster": "mon_zombie_thorny" },
+      { "monster": "mon_brute_thorny", "weight": 15 },
+      { "monster": "mon_swimmer_thorny", "weight": 30 },
+      { "monster": "mon_shrieker_thorny", "weight": 15 },
+      { "monster": "mon_boomer_thorny", "weight": 30 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHILD_ZOMBIE_UPGRADE",
+    "default": "mon_zombie_shriekling",
+    "//": "Copy of the vanilla zombie child upgrade group to see if it can override with the new thorny children.",
+    "monsters": [
+      { "monster": "mon_zombie_anklebiter", "weight": 30 },
+      { "monster": "mon_zombie_sproglodyte", "weight": 100 },
+      { "monster": "mon_czombie_thorny", "weight": 40 },
+      { "monster": "mon_zombie_shriekling", "weight": 300 },
+      { "monster": "mon_zombie_creepy", "weight": 30 },
+      { "monster": "mon_zombie_snotgobbler", "weight": 300 },
+      { "monster": "mon_zombie_waif", "weight": 200 }
+    ]
+  }
+]

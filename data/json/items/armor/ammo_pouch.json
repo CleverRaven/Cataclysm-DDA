@@ -122,7 +122,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -314,7 +314,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_MEDIUM" ],
     "armor": [ { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
   },
   {
@@ -479,6 +479,406 @@
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "light_load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "light load bearing vest" },
+    "description": "This lightweight harness covered in MOLLE webbing is designed to attach a few pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "looks_like": "vest",
+    "price": 4700,
+    "price_postapoc": 2000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 55, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "load bearing vest" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "1250 g",
+    "volume": "1000 ml",
+    "looks_like": "vest",
+    "price": 7400,
+    "price_postapoc": 3000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "heavy_load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "heavy load bearing vest" },
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "2000 g",
+    "volume": "1750 ml",
+    "looks_like": "vest",
+    "price": 13000,
+    "price_postapoc": 4000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] } ]
+  },
+  {
+    "id": "radio_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/5-11-tactical-molle-radio-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "tactical radio pouch", "str_pl": "tactical radio pouches" },
+    "description": "A pouch designed to keep your radio accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 40
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "gadget_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-gadget-pouch-tan498-?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "gadget pouch", "str_pl": "gadget pouches" },
+    "description": "A pouch designed to keep gadgets and small items accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "h2o_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-h2o-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "H2O pouch", "str_pl": "H2O pouches" },
+    "description": "A pouch designed to hold a water bottle with an additional front tactical pocket.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "250 g",
+    "volume": "400 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2048 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "254 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "426 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tool_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-t-and-t-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "tactical tool pouch", "str_pl": "tactical tool pouches" },
+    "description": "A low profile pouch designed to keep tools and accessories accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 400,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2753 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "305 mm",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "flashlight_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-flashlight-pouch?PMSRCH=MOLLE%20GEAR liberties were taken with this one so it would hold either flashlight",
+    "name": { "str": "flashlight pouch", "str_pl": "flashlight pouches" },
+    "description": "A tiny pouch designed to hold a flashlight keeping it accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "37 cm",
+        "moves": 40
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tactical_holster",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "name": { "str": "tactical holster" },
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-vertical-molle-holster?PMSRCH=MOLLE%20GEAR",
+    "description": "A sturdy holster designed to be worn vertically so it will take up a small profile on a tactical vest.  This makes it a little more awkward to pull from than a normal holster.",
+    "weight": "220 g",
+    "volume": "500 ml",
+    "price": 9000,
+    "price_postapoc": 500,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 70
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE", "PALS_SMALL" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gas_mask_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
+    "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
+    "description": "A large pouch capable of holding a gas mask and an additional filter keeping both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "//": "gas masks don't seem to have lengths currently",
+        "max_item_length": "30 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "8 cm",
+        "moves": 80
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tactical_grenade_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
+    "name": { "str": "tactical grenade pouch", "str_pl": "tactical grenade pouches" },
+    "description": "A pouch designed to hold one military grenade keeping it both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "200 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "triple_stacker_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-triple-stacker-open-top-m4-mag-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "triple stacker ammo pouch", "str_pl": "triple stacker ammo pouches" },
+    "description": "A collection of 6 pockets 3 wide and 2 deep designed to hold rifle magazines keeping them both accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "tactical_shotshell_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
+    "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
+    "description": "A pouch designed to hold shotgun shells or 308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlkevlar",

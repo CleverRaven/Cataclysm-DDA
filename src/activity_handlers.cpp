@@ -2468,7 +2468,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
+                                               fix_location->damage() <= fix_location->degradation() ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
@@ -2581,8 +2582,11 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
-                you->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+                const char *msg = fix.damage_level() > 0 ?
+                                  _( "Your %s is repaired as much as possible, considering the degradation." ) :
+                                  _( "Your %s is already fully repaired." );
+                you->add_msg_if_player( m_info, msg, fix.tname() );
                 repeat = repeat_type::INIT;
             }
         } while( repeat == repeat_type::INIT );

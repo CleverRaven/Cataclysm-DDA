@@ -71,7 +71,7 @@ struct item_penalties {
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
-    layer_level layer = worn_item_it->get_layer();
+    std::vector<layer_level> layer = worn_item_it->get_layer();
 
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
@@ -88,7 +88,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( bp->sub_parts.empty() ) {
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
             [layer, bp]( const item & i ) {
-                return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+                return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
             } );
             if( num_items > 1 ) {
                 body_parts_with_stacking_penalty.push_back( bp );
@@ -100,7 +100,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                 }
                 const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
                 [layer, bp, sbp]( const item & i ) {
-                    return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                    return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
                            i.covers( sbp );
                 } );
                 if( num_items > 1 ) {
@@ -212,25 +212,37 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const item_penalties penalties = get_item_penalties( worn_item_it, c, bp );
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
-        std::string layer_description = [&]() {
-            switch( worn_item_it->get_layer() ) {
-                case layer_level::PERSONAL:
-                    return _( "in your <color_light_blue>personal aura</color>" );
-                case layer_level::UNDERWEAR:
-                    return _( "<color_light_blue>close to your skin</color>" );
-                case layer_level::REGULAR:
-                    return _( "of <color_light_blue>normal</color> clothing" );
-                case layer_level::WAIST:
-                    return _( "on your <color_light_blue>waist</color>" );
-                case layer_level::OUTER:
-                    return _( "of <color_light_blue>outer</color> clothing" );
-                case layer_level::BELTED:
-                    return _( "<color_light_blue>strapped</color> to you" );
-                case layer_level::AURA:
-                    return _( "an <color_light_blue>aura</color> around you" );
-                default:
-                    return _( "Unexpected layer" );
+        std::string layer_description = [&]() -> std::string {
+            std::string outstring;
+            for( layer_level layer : worn_item_it->get_layer() )
+            {
+                switch( layer ) {
+                    case layer_level::PERSONAL:
+                        outstring.append( _( "in your <color_light_blue>personal aura</color> " ) );
+                        break;
+                    case layer_level::UNDERWEAR:
+                        outstring.append( _( "<color_light_blue>close to your skin</color> " ) );
+                        break;
+                    case layer_level::REGULAR:
+                        outstring.append( _( "of <color_light_blue>normal</color> clothing " ) );
+                        break;
+                    case layer_level::WAIST:
+                        outstring.append( _( "on your <color_light_blue>waist</color> " ) );
+                        break;
+                    case layer_level::OUTER:
+                        outstring.append( _( "of <color_light_blue>outer</color> clothing " ) );
+                        break;
+                    case layer_level::BELTED:
+                        outstring.append( _( "<color_light_blue>strapped</color> to you " ) );
+                        break;
+                    case layer_level::AURA:
+                        outstring.append( _( "an <color_light_blue>aura</color> around you " ) );
+                        break;
+                    default:
+                        return _( "Unexpected layer" );
+                }
             }
+            return outstring ;
         }
         ();
         std::string body_parts =

@@ -1780,9 +1780,9 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            // no liquids
-            if( !it->made_of( phase_id::LIQUID ) ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+            // no liquids and no items marked as favorite
+            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
                 // When item_location gets updated to get items inside containers outside the player inventory
                 // uncomment this
@@ -1822,6 +1822,38 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const Character &you;
         const item &tool;
         const saw_barrel_actor &actor;
+};
+
+class attach_molle_inventory_preset : public inventory_selector_preset
+{
+    public:
+        attach_molle_inventory_preset( const molle_attach_actor *actor, const item *vest ) :
+            actor( actor ), vest( vest ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
+                   loc->has_flag( flag_PALS_LARGE );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+
+            if( !loc.get_item()->empty() ) {
+                return "item needs to be empty.";
+            }
+
+            if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
+                return "not enough space left on the vest.";
+            }
+
+            {
+                return std::string();
+            }
+        }
+
+    private:
+        const molle_attach_actor *actor;
+        const item *vest;
 };
 
 class salvage_inventory_preset: public inventory_selector_preset
@@ -1893,6 +1925,26 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )
                                       )
+                       );
+}
+
+item_location game_menus::inv::molle_attach( Character &you, item &tool )
+{
+    const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                      ( tool.type->get_use( "attach_molle" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
+                         _( "Attach an item to the vest" ), 1,
+                         _( "You don't have any MOLLE compatible items." ),
+                         string_format(
+                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
+                             tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
+                         )
                        );
 }
 

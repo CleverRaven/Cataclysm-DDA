@@ -54,7 +54,6 @@ static const itype_id itype_water( "water" );
 static const morale_type morale_food_good( "morale_food_good" );
 
 static const quality_id qual_ANVIL( "ANVIL" );
-static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CHISEL( "CHISEL" );
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_HAMMER( "HAMMER" );
@@ -400,17 +399,6 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
 static time_point midnight = calendar::turn_zero + 0_hours;
 static time_point midday = calendar::turn_zero + 12_hours;
-
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = get_player_character().posz();
-    map &here = get_map();
-    here.update_visibility_cache( z );
-    here.invalidate_map_cache( z );
-    here.build_map_cache( z );
-}
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow
@@ -1000,13 +988,6 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_fishing_hook_basic, 172, 100, true );
         }
     }
-}
-
-TEST_CASE( "check-tool_qualities" )
-{
-    CHECK( tool_with_ammo( "mess_kit", 20 ).has_quality( qual_BOIL, 2, 1 ) );
-    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).has_quality( qual_BOIL, 2, 1 ) );
-    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).get_quality( qual_BOIL ) > 0 );
 }
 
 TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )

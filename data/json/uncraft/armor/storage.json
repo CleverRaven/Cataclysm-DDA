@@ -6,7 +6,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -16,7 +16,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 6 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

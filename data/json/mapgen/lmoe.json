@@ -229,5 +229,155 @@
       ],
       "palettes": [ "bunker", "empty_bunker_items" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe_zombie" ],
+    "//": "Above ground",
+    "//2": "blob psychosis influences more aggressive deterrents for intruders",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "       S     S         S",
+        "   S       S     S      ",
+        " S     S            S   ",
+        "          S             ",
+        "   S    S SSSSS      S  ",
+        "      SSSSSSSSSSSS      ",
+        "     SS$$$$$$$$$$SS     ",
+        "     S$$TTTTTTTT$$S   S ",
+        "    SS$$T))))))T$$S     ",
+        " S  SS$$T)####)T$$SS    ",
+        "    SS$$T)#>>#)T$$SS    ",
+        "    SS$$T)#..#)T$$SS    ",
+        "    SS$$T)#+##)T$$SS   S",
+        "  S  S$$T))_)))T$$SS    ",
+        "     S$$$$$_$$$$$$S     ",
+        "     SS$$$$_$$$$$SS  S  ",
+        "      SSSSS_SSSSSS      ",
+        "S      S S   SS S       ",
+        "                 S    S ",
+        "   S   S                ",
+        "            S  S        ",
+        "                       S",
+        "    S      S            ",
+        "                  S     "
+      ],
+      "palettes": [ "bunker_ext" ],
+      "set": [
+        { "point": "trap", "id": "tr_beartrap", "x": 11, "y": 11 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 7, 15 ], "y": 4 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 18 ], "y": 5 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 6 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 7 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 19 ], "y": 8 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 9 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 10 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 11 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 12 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 20 ], "y": 13 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 14 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 19 ], "y": 15 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 5, 18 ], "y": 16 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 7, 17 ], "y": 17 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 8, 14 ], "y": 18 },
+        { "point": "trap", "id": "tr_spike_pit", "x": 11, "y": 17 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe_zombie_under_empty" ],
+    "//": "Monster occupied LMOE shelter.",
+    "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rows": [
+        "########################",
+        "########################",
+        "##<<..=...^#############",
+        "##....*....^############",
+        "##....=....^############",
+        "##===###Y...^###########",
+        "##G.R###-+|||####||||||#",
+        "##a.l###A.|UUVVvv|{{{{|#",
+        "##=*=###..|U.....:....|#",
+        "##c..ll-..|Uuuu.u||||||#",
+        "##c....+..|||||+||Dh..d#",
+        "##c.h..-r.+......+...BB#",
+        "##c.TTT-r.-r..h..------#",
+        "#######--+-r.hLh.+...BB#",
+        "#######-F.Sr..h..-Dh..d#",
+        "#######-C.......-------#",
+        "#######-CCKC.uu.+...hD-#",
+        "#######-----.--+-}....-#",
+        "#########W.~.-s.-}.BBS-#",
+        "#########H...-&.-w.BBr-#",
+        "#########l..A-Kt-------#",
+        "#########--------#######",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 12, 16 ], "y": [ 11, 14 ], "density": 0.4 } ],
+      "set": [
+        { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 6 },
+        { "point": "trap", "id": "tr_spike_pit", "x": 7, "y": 3 },
+        { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe_zombie_under_empty" ],
+    "//": "Monster occupied LMOE shelter.",
+    "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
+    "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_carpet_metal_purple",
+      "rows": [
+        "##|||||#################",
+        "##|,,<|||||||###########",
+        "##|Y,<|w,BBd|###########",
+        "||||+||},BB,|###########",
+        "|A,,,E|,,,,,|###########",
+        "|f,,,,|+|||||||||||#####",
+        "|f,,,e|,,,,b|_____|#####",
+        "|f,,,,|,,h,,|_____|#####",
+        "|Dh,,P|,hLh,|_____|#####",
+        "|,,,,,|,hLh,|_____|#####",
+        "|,,,,,+,,h,,|_____|#####",
+        "|,|||||~,,,u|_____|#####",
+        "|,+,,B|K,,,u:_____|#####",
+        "|,|d,B|COC,u|_____|#####",
+        "|,||||||||+||_____|#####",
+        "|,+,,B|t,,,K|_____|#####",
+        "|}|d,B|WAv,s|_____|#####",
+        "|;|||||||||:|||+||||||||",
+        "|__|_____|__|_______=__|",
+        "|__|_____||+|_______*__|",
+        "|__|________|_______=__|",
+        "|__|________+_______=__|",
+        "|__+________|_______=__|",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_nested": [
+        { "chunks": [ "lmoe3_storage_11x11" ], "x": 13, "y": 6 },
+        { "chunks": [ "lmoe3_tankroom_11x11" ], "x": 1, "y": 18 },
+        { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 7, 11 ], "y": [ 6, 16 ], "density": 0.4 } ],
+      "set": [
+        { "point": "trap", "id": "tr_beartrap", "x": 13, "y": 12 },
+        { "point": "trap", "id": "tr_nailboard", "x": 4, "y": 2 },
+        { "point": "trap", "id": "tr_shotgun_2", "x": 15, "y": 18 }
+      ]
+    }
   }
 ]

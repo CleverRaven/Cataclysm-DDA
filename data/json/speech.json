@@ -2264,6 +2264,42 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"You!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Raagh!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hunger…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate… you…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
     "sound": "\"Sing with me!\"",
     "volume": 10

@@ -231,6 +231,8 @@ void item_contents::serialize( JsonOut &json ) const
         json.start_object();
 
         json.member( "contents", contents );
+        json.member( "additional_pockets", additional_pockets );
+
 
         json.end_object();
     }
@@ -240,6 +242,8 @@ void item_contents::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "contents", contents );
+    data.read( "additional_pockets", additional_pockets );
+
 }
 
 void item_pocket::serialize( JsonOut &json ) const
@@ -281,6 +285,8 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
     json.member( "collapsed", collapsed );
+    json.member( "disabled", disabled );
+    json.member( "unload", unload );
     json.end_object();
 }
 
@@ -294,6 +300,12 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     data.read( "category_blacklist", category_blacklist );
     if( data.has_member( "collapsed" ) ) {
         data.read( "collapsed", collapsed );
+    }
+    if( data.has_member( "disabled" ) ) {
+        data.read( "disabled", disabled );
+    }
+    if( data.has_member( "unload" ) ) {
+        data.read( "unload", unload );
     }
 }
 
@@ -2703,6 +2715,7 @@ void item::io( Archive &archive )
     archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
+    archive.io( "degradation", degradation_, 0 );
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
@@ -2878,6 +2891,7 @@ void item::deserialize( const JsonObject &data )
     io( archive );
     archive.allow_omitted_members();
     data.copy_visited_members( archive );
+
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2888,6 +2902,7 @@ void item::deserialize( const JsonObject &data )
     } else if( data.has_object( "contents" ) ) { // non-empty contents
         item_contents read_contents;
         data.read( "contents", read_contents );
+
         contents.read_mods( read_contents );
         update_modified_pockets();
         contents.combine( read_contents );
@@ -2955,7 +2970,7 @@ void item::serialize( JsonOut &json ) const
 
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-    if( !contents.empty_real() ) {
+    if( !contents.empty_real() || contents.has_additional_pockets() ) {
         json.member( "contents", contents );
     }
 }
