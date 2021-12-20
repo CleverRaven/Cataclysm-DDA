@@ -194,7 +194,7 @@ void Character::set_mutations( const std::vector<trait_id> &traits )
 {
     for( const trait_id &trait : traits ) {
         set_mutation_unsafe( trait );
-        set_mutation_colour( trait );
+        set_mutation_color( trait );
     }
     do_mutation_updates();
 }
@@ -202,7 +202,7 @@ void Character::set_mutations( const std::vector<trait_id> &traits )
 void Character::set_mutation( const trait_id &trait )
 {
     set_mutation_unsafe( trait );
-    set_mutation_colour( trait );
+    set_mutation_color( trait );
     do_mutation_updates();
 }
 
@@ -237,26 +237,26 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 void Character::chose_mutation_color( const trait_id &trait )
 {
     std::string color;
-    if( !trait->colours.empty() && has_trait( trait ) ) {
+    if( !trait->colors.empty() && has_trait( trait ) ) {
         uilist col_menu;
         std::vector<std::string> col_list;
         col_menu.text = string_format( _( "Chose color for %s:" ), trait->name() );
-        for( auto it = trait->colours.begin(); it != trait->colours.end(); it++ ) {
+        for( auto it = trait->colors.begin(); it != trait->colors.end(); it++ ) {
             col_menu.addentry( it->obj );
             col_list.push_back( it->obj );
         }
         col_menu.query();
         color = col_list[col_menu.ret];
     }
-    my_mutations[trait].colour = color;
+    my_mutations[trait].color = color;
 }
 
-void Character::set_mutation_colour( const trait_id &trait )
+void Character::set_mutation_color( const trait_id &trait )
 {
-    if( trait->colours.empty() || !has_trait( trait ) ) {
+    if( trait->colors.empty() || !has_trait( trait ) ) {
         return;
     }
-    my_mutations[trait].colour = *trait->colours.pick();
+    my_mutations[trait].color = *trait->colors.pick();
 }
 
 bool Character::can_power_mutation( const trait_id &mut )

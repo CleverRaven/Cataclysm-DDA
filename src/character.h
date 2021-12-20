@@ -1148,7 +1148,7 @@ class Character : public Creature, public visitable
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
         void chose_mutation_color( const trait_id &trait );
-        void set_mutation_colour( const trait_id &trait );
+        void set_mutation_color( const trait_id &trait );
 
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -3259,7 +3259,7 @@ class Character : public Creature, public visitable
 
             bool show_sprite = true;
 
-            std::string colour;
+            std::string color;
 
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );

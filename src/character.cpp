@@ -3041,7 +3041,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
 {
     std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::string> mutation_sorting;
-    std::map<std::string, std::string> mutation_colours;
+    std::map<std::string, std::string> mutation_colors;
     int order;
     std::string overlay_id;
 
@@ -3058,7 +3058,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
-        mutation_colours.insert( std::pair<std::string, std::string>( overlay_id, mut.second.colour ) );
+        mutation_colors.insert( std::pair<std::string, std::string>( overlay_id, mut.second.color ) );
     }
 
     // then get bionics
@@ -3069,7 +3069,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.emplace_back( "mutation_" + mutorder.second, mutation_colours[mutorder.second] );
+        rval.emplace_back( "mutation_" + mutorder.second, mutation_colors[mutorder.second] );
     }
 
     // next clothing
