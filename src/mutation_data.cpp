@@ -477,9 +477,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray col : jo.get_array( "colours" ) ) {
-        const std::string colour = col.next_string();
-        const int weight = col.next_int();
-        colours[colour] = weight;
+        colours.add( col.next_string(), col.next_int() );
     }
 
     for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {

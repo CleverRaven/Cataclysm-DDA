@@ -239,19 +239,7 @@ void Character::set_mutation_colour( const trait_id &trait )
     if( trait->colours.empty() ) {
         return;
     }
-
-    int tot_weight = 0;
-    for( std::pair<std::string, int> col : trait->colours ) {
-        tot_weight += col.second;
-    }
-    int roll = rng( 0, tot_weight );
-    for( std::pair<std::string, int> col : trait->colours ) {
-        if( roll <= col.second ) {
-            my_mutations[trait].colour = col.first;
-            break;
-        }
-        roll -= col.second;
-    }
+    my_mutations[trait].colour = *trait->colours.pick();
 }
 
 bool Character::can_power_mutation( const trait_id &mut )
