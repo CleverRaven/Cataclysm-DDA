@@ -1244,6 +1244,8 @@
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
+    "floor_bedding_warmth": 1500,
+    "comfort": 3,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
     "bash": {
       "str_min": 4,

@@ -425,6 +425,7 @@
     "color": "cyan",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -487,6 +488,7 @@
     "color": "light_red",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -628,6 +630,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {

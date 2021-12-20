@@ -5059,17 +5059,13 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
         // Web sleepers can use their webs if better furniture isn't available
         else if( websleep && web >= 3 ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_improvised_shelter ) {
-            comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            comfort += 1 + static_cast<int>( comfort_level::neutral );
         } else if( !trap_at_pos.is_null() ) {
             comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
             comfort -= here.move_cost( p );
+            // Include comfort from terrain, if any
+            comfort += ter_at_pos.obj().comfort;
         }
 
         if( comfort_response.aid == nullptr ) {
@@ -8186,10 +8182,8 @@ int Character::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
     } else if( boardable ) {
         floor_bedding_warmth += boardable->info().floor_bedding_warmth;
-    } else if( ter_at_pos == t_improvised_shelter ) {
-        floor_bedding_warmth -= 500;
     } else {
-        floor_bedding_warmth -= 2000;
+        floor_bedding_warmth += ter_at_pos.obj().floor_bedding_warmth - 2000;
     }
 
     return floor_bedding_warmth;
