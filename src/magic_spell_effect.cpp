@@ -1561,8 +1561,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
     std::vector<tripoint> pts = closest_points_first( caster.pos(), 1 );
     std::vector<monster *> summoned_slimes;
     // Make sure the creature has enough mass to create new slimes
-    int last_mass = mass;
-    while( mass > 35 ) {
+    if( mass >= mon_blob_small->speed / 2 ) {
         for( const tripoint &dest : pts ) {
             // Fall back to small slimes if no bigger smile is chosen
             mtype_id slime_id = mon_blob_small;
@@ -1581,17 +1580,17 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
                     if( caster_monster ) {
                         blob->make_ally( *caster_monster );
                     }
-                    mass -= slime_id->speed - 15;
-                    blob->set_speed_base( slime_id->speed - 15 );
+                    const int used_mass = std::min( mass, slime_id->speed - 15 );
+                    mass -= used_mass;
+                    blob->set_speed_base( used_mass );
                     blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
                     summoned_slimes.push_back( mon.get() );
+                    if( mass < mon_blob_small->speed / 2 ) {
+                        break;
+                    }
                 }
             }
         }
-        if( last_mass <= mass ) {
-            break;
-        }
-        last_mass = mass;
     }
 
     // Divide remaining mass between summoned slimes
