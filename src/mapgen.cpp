@@ -4859,7 +4859,16 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    tripoint_range<tripoint> options =
+                    points_in_rectangle( { 6, 6, abs_sub.z },
+                    { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z } );
+                    cata::optional<tripoint> center = random_point(
+                    options, [&]( const tripoint & p ) {
+                        return tr_at( p ).is_null();
+                    } );
+                    if( !center ) {
+                        break;
+                    }
                     std::vector<artifact_natural_property> valid_props = {
                         ARTPROP_BREATHING,
                         ARTPROP_CRACKLING,
@@ -4876,10 +4885,10 @@ void map::draw_lab( mapgendata &dat )
                         }
                         make_rubble( {p, abs_sub.z } );
                         ter_set( p, t_thconc_floor );
-                    }, center.xy(), 4 );
-                    furn_set( center.xy(), f_null );
-                    trap_set( center, tr_portal );
-                    create_anomaly( center, random_entry( valid_props ), false );
+                    }, center->xy(), 4 );
+                    furn_set( center->xy(), f_null );
+                    trap_set( *center, tr_portal );
+                    create_anomaly( *center, random_entry( valid_props ), false );
                     break;
                 }
                 // radioactive accident.
