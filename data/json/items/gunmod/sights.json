@@ -9,7 +9,7 @@
     "integral_volume": "0 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "install_time": "20 m",
+    "install_time": "60 m",
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -18,7 +18,6 @@
     "sight_dispersion": 23,
     "field_of_view": 900,
     "aim_speed_modifier": 8,
-    "flags": [ "SLOW_WIELD" ],
     "min_skills": [ [ "archery", 2 ] ]
   },
   {
