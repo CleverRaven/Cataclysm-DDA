@@ -33,6 +33,40 @@
     "damage_reduction": { "all": 32 }
   },
   {
+    "id": "ap_oven",
+    "name": { "str": "oven" },
+    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "broken_color": "light_cyan",
+    "broken_symbol": "x",
+    "categories": [ "utility" ],
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" } ],
+    "epower": 0,
+    "item": "oven",
+    "location": "center",
+    "looks_like": "f_oven",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "breaks_into": [
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 3 ] }
+    ],
+    "size": 200,
+    "type": "vehicle_part"
+  },
+  {
     "type": "vehicle_part",
     "id": "power_cord",
     "name": { "str": "power cord" },
