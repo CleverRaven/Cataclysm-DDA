@@ -40,21 +40,14 @@
     "color": "dark_gray",
     "broken_color": "light_cyan",
     "broken_symbol": "x",
-    "categories": [ "utility" ],
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE", "CTRL_ELECTRONIC"  ],
     "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" } ],
     "epower": 0,
     "item": "oven",
-    "location": "center",
     "looks_like": "f_oven",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
     "breaks_into": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
