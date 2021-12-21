@@ -2291,8 +2291,6 @@ class Character : public Creature, public visitable
         item &get_wielded_item();
         void set_wielded_item( const item &to_wield );
 
-        int get_random_heartrate();
-
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
         pimpl<character_martial_arts> martial_arts_data;
@@ -2307,6 +2305,9 @@ class Character : public Creature, public visitable
         bool blood_rh_factor = false;
         // Randomizes characters' blood type and Rh
         void randomize_blood();
+
+        int avg_nat_bpm;
+        void randomize_heartrate();
 
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
@@ -3365,9 +3366,6 @@ class Character : public Creature, public visitable
         float circulation;
         // Should remain fixed at 1.0 for now.
         float circulation_resistance = 1.0f;
-
-        // average natural bpm for character, preset value replaced by random at chargen
-        int avg_nat_bpm = 70;
 
         int fatigue;
         int sleep_deprivation;

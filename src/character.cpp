@@ -526,7 +526,6 @@ Character::Character() :
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
-    avg_nat_bpm = get_random_heartrate();
     set_anatomy( anatomy_human_anatomy );
     update_type_of_scent( true );
     pkill = 0;
@@ -628,9 +627,9 @@ void Character::set_wielded_item( const item &to_wield )
     weapon = to_wield;
 }
 
-int Character::get_random_heartrate()
+void Character::randomize_heartrate()
 {
-    return rng_normal( 60, 80 );
+    avg_nat_bpm = rng_normal( 60, 80 );
 }
 
 void Character::randomize_blood()
@@ -8581,7 +8580,7 @@ int Character::heartrate_bpm() const
     int average_heartbeat = avg_nat_bpm * get_heartrate_index();
 
     // minor moment-to-moment variation
-    average_heartbeat += rng( -5, 5 );
+    // average_heartbeat += rng( -5, 5 );
 
     //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
     if( has_trait( trait_CHEMIMBALANCE ) ) {
