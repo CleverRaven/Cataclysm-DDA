@@ -1887,7 +1887,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos == t_improvised_shelter ||
+                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||
