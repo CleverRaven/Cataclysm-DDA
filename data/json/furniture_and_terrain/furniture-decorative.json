@@ -213,11 +213,7 @@
     "move_cost_mod": 2,
     "required_str": 1,
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "standing_lamp", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "standing_lamp", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,

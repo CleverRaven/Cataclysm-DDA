@@ -69,6 +69,6 @@
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "CIRCLE_LIGHT","APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
   }
 ]
