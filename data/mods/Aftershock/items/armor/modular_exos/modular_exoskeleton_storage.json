@@ -96,7 +96,7 @@
     "id": "exo_small_ammo_pouch",
     "copy-from": "legrig",
     "type": "ARMOR",
-    "name": { "str_sp": "exoskeleton small ammo pouches"" },
+    "name": { "str_sp": "exoskeleton small ammo pouches" },
     "description": "A set of pouches that attach to a hardpoint.",
     "symbol": "[",
     "color": "dark_gray",
