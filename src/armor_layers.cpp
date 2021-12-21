@@ -85,7 +85,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         std::set<std::string> bad_items_within;
         // if no subparts do the old way
         if( bp->sub_parts.empty() ) {
-            std::vector<layer_level> layer = worn_item_it->get_layer( bp );
+            std::vector<layer_level> layer = worn_item_it->get_layer( );
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
             [layer, bp]( const item & i ) {
                 return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
@@ -94,7 +94,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                 body_parts_with_stacking_penalty.push_back( bp );
             }
             for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-                if( it->get_layer( bp ) > layer && it->covers( bp ) ) {
+                if( it->get_layer( ) > layer && it->covers( bp ) ) {
                     bad_items_within.insert( it->type_name() );
                 }
             }
@@ -103,7 +103,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                 if( !worn_item_it->covers( sbp ) ) {
                     continue;
                 }
-                std::vector<layer_level> layer = worn_item_it->get_layer( sbp );
+                std::vector<layer_level> layer = worn_item_it->get_layer( );
                 const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
                 [layer, bp, sbp]( const item & i ) {
                     return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
@@ -113,7 +113,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                     body_parts_with_stacking_penalty.push_back( bp );
                 }
                 for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
+                    if( it->get_layer( ) > layer && it->covers( sbp ) ) {
                         bad_items_within.insert( it->type_name() );
                     }
                 }

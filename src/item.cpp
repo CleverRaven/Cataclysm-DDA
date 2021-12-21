@@ -3369,28 +3369,33 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
         std::string layering = _( "Layer:" );
-        if( has_flag( flag_PERSONAL ) ) {
-            layering += _( " <stat>Personal aura</stat>." );
+        for( const layer_level &ll : get_layer() ) {
+            switch( ll ) {
+                case layer_level::PERSONAL:
+                    layering += _( " <stat>Personal aura</stat>." );
+                    break;
+                case layer_level::UNDERWEAR:
+                    layering += _( " <stat>Close to skin</stat>." );
+                    break;
+                case layer_level::REGULAR:
+                    layering += _( " <stat>Normal</stat>." );
+                    break;
+                case layer_level::WAIST:
+                    layering += _( " <stat>Waist</stat>." );
+                    break;
+                case layer_level::OUTER:
+                    layering += _( " <stat>Outer</stat>." );
+                    break;
+                case layer_level::BELTED:
+                    layering += _( " <stat>Strapped</stat>." );
+                    break;
+                case layer_level::AURA:
+                    layering += _( " <stat>Outer aura</stat>." );
+                    break;
+                default:
+                    layering += _( " Should never see this." );
+            }
         }
-        if( has_flag( flag_SKINTIGHT ) ) {
-            layering += _( " <stat>Close to skin</stat>." );
-        }
-        if( has_flag( flag_BELTED ) ) {
-            layering += _( " <stat>Strapped</stat>." );
-        }
-        if( has_flag( flag_OUTER ) ) {
-            layering += _( " <stat>Outer</stat>." );
-        }
-        if( has_flag( flag_WAIST ) ) {
-            layering += _( " <stat>Waist</stat>." );
-        }
-        if( has_flag( flag_AURA ) ) {
-            layering += _( " <stat>Outer aura</stat>." );
-        }
-        if( layering == "Layer:" ) {
-            layering += _( " <stat>Normal</stat>." );
-        }
-
         info.emplace_back( "ARMOR", layering );
     }
 

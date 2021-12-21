@@ -78,7 +78,8 @@
         "encumbrance": [ 15, 26 ],
         "coverage": 100,
         "cover_vitals": 90,
-        "covers": [ "torso" ]
+        "covers": [ "torso" ],
+        "layers": [ "Underwear"]
       },
       {
         "material": [
