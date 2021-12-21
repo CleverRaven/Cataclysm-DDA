@@ -5647,19 +5647,32 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
-    const std::string tile = m.tername( lp );
-    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
-        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
-        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
-    } else {
-        mvwprintz( w_look, point( column, line ), c_white, area_name );
-        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    // Print OMT type and terrain type on first two lines
+    // if can't fit in one line.
+    std::string tile = m.tername( lp );
+    tile[0] = toupper( tile[0] );
+    std::string area =  area_name;
+    area[0] = toupper( area[0] );
+    mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_white, tile );
+    std::string desc = string_format( m.ter( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture on second line if any.
+    // Furniture if any.
     if( m.has_furn( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
+        std::string desc = m.furnname( lp );
+        desc[0] = toupper( desc[0] );
+        mvwprintz( w_look, point( column, line++ ), c_white, desc );
+        desc = string_format( m.furn( lp ).obj().description );
+        lines = foldstring( desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines; i++ ) {
+            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        }
     }
 
     // Cover percentage from terrain and furniture next.
@@ -5667,8 +5680,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                     m.coverage( lp ) );
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
-    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
-    int numlines = lines.size();
+    lines = foldstring( m.features( lp ), max_width );
+    numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
