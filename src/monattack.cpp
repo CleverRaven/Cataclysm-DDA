@@ -105,6 +105,8 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
+static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -3297,9 +3299,23 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
+
+    const effect &depleted = z->get_effect( effect_eyebot_depleted );
+    const effect &assisted = z->get_effect( effect_eyebot_assisted );
+    const bool is_depleted = !depleted.is_null() &&
+                             depleted.get_intensity() == depleted.get_max_intensity();
+    const bool fully_assisted = !assisted.is_null() &&
+                                assisted.get_intensity() == assisted.get_max_intensity();
+    if( fully_assisted || is_depleted ) {
+        // Only spawn 3 every 6 hours
+        // Or stop once this eyebot has spawned 10 bots
+        return true;
+    }
+
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0,
-                            player_character.global_sm_location() );
+                            0, player_character.global_sm_location() );
+    z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
+    z->add_effect( effect_source::empty(), effect_eyebot_depleted, 1_minutes, true, 0 );
 
     return true;
 }
