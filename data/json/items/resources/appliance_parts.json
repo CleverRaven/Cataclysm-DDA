@@ -31,6 +31,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "oven_controls",
+    "symbol": "#",
+    "color": "dark_blue_white",
+    "name": { "str": "oven door" },
+    "category": "spare_parts",
+    "description": "The control panel and LCD from a dismantled electric oven.",
+    "price": 100,
+    "price_postapoc": 5,
+    "material": [ "budget_steel", "glass" ],
+    "weight": "1 kg",
+    "volume": "2 L",
+    "longest_side": "65 cm"
+  },
+  {
+    "type": "GENERIC",
     "id": "oven_door",
     "symbol": "#",
     "color": "dark_blue_white",
