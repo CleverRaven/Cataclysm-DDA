@@ -11,6 +11,7 @@
     "autolearn": true,
     "skills_required": [ "electronics", 1 ],
     "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
     "components": [
       [ [ "oven_stovetop", 1 ] ],
       [ [ "oven_cabinet", 1 ] ],
@@ -26,7 +27,10 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
+    "skill_used": "fabrication",
+    "difficulty": 0,
     "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
     "components": [
       [ [ "oven_stovetop", 1 ] ],
       [ [ "oven_cabinet", 1 ] ],
