@@ -76,6 +76,8 @@
       [ [ "wire", 8 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pilot_light", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "fanblade_metal", 1 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
   },
