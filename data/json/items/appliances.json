@@ -29,6 +29,7 @@
     "description": "A disconnected electric convection-based oven, commonly used for heating and cooking food.",
     "color": "dark_gray_white",
     "name": { "str": "disconnected oven" },
+    "material": [ "budget_steel" ],
     "longest_side": "69 cm",
     "insulation": 3,
     "volume": "290 L",
