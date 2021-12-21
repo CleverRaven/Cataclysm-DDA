@@ -766,7 +766,8 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 }
 
-static field spell_remove_field( const spell &sp, const field_type_id &target_field_type_id, const tripoint &center )
+static field spell_remove_field( const spell &sp, const field_type_id &target_field_type_id,
+                                 const tripoint &center )
 {
     ::map &here = get_map();
     area_expander expander;
@@ -777,7 +778,7 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
 
     field field_removed = field();
     bool did_field_removal = false;
-    
+
     for( const auto &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
@@ -785,7 +786,8 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
 
         field &target_field = here.field_at( node.position );
         for( const std::pair<const field_type_id, field_entry> &fd : target_field ) {
-            if( fd.first.is_valid() && !fd.first.id().is_null() && fd.second.get_field_type() == target_field_type_id ) {
+            if( fd.first.is_valid() && !fd.first.id().is_null() &&
+                fd.second.get_field_type() == target_field_type_id ) {
                 field_removed = target_field;
                 here.remove_field( node.position, target_field_type_id );
                 sp.make_sound( node.position );
@@ -802,8 +804,9 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
     return field_removed;
 }
 
-static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, const spell &sp, Creature &caster )
-{ 
+static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, const spell &sp,
+        Creature &caster )
+{
     for( const std::pair<const field_type_id, field_entry> &fd : fd_fatigue_field ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
@@ -819,7 +822,8 @@ static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, const
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
-                caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ), intensity_name );
+                caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ),
+                                          intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
                 teleport::teleport( caster );
@@ -832,15 +836,15 @@ static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, const
 void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoint &center )
 {
     const field_type_id &target_field_type_id = field_type_id( sp.effect_data() );
-    field field_removed = spell_remove_field(sp, target_field_type_id, center);
+    field field_removed = spell_remove_field( sp, target_field_type_id, center );
 
     for( const std::pair<const field_type_id, field_entry> &fd : field_removed ) {
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
             if( fd.first.id() == fd_fatigue ) {
                 handle_remove_fd_fatigue_field( field_removed, sp, caster );
-            }
-            else {
-                caster.add_msg_if_player( m_neutral, _( "The %s suddenly dissapates." ), fd.second.get_intensity_level().name );
+            } else {
+                caster.add_msg_if_player( m_neutral, _( "The %s suddenly dissapates." ),
+                                          fd.second.get_intensity_level().name );
             }
         }
     }
