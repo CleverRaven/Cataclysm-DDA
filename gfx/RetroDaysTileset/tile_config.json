@@ -2263,7 +2263,7 @@
         { "id": "helmet_kabuto", "fg": 1305, "rotates": false },
         { "id": "helmet_larmor", "fg": 1294, "rotates": false },
         { "id": [ "helmet_liner", "helmet_nomad", "veil_wedding" ], "fg": 1295, "rotates": false },
-        { "id": [ "pickelhaube" ], "fg": 1365, "rotates": false },
+        { "id": [ "helmet_lobster", "pickelhaube" ], "fg": 1365, "rotates": false },
         { "id": "helmet_nasal", "fg": 1307, "rotates": false },
         { "id": [ "helmet_netting", "hat_boonie" ], "fg": 1280, "rotates": false },
         { "id": "helmet_plate", "fg": 1203, "rotates": false },
