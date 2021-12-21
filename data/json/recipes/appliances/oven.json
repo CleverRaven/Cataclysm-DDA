@@ -40,9 +40,7 @@
       [ [ "oven_broiler_pan", 1 ] ],
       [ [ "heavy_wire_rack", 2 ] ],
       [ [ "element", 4 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "pipe_fittings", 4 ] ],
-      [ [ "pilot_light", 1 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
