@@ -2392,6 +2392,11 @@ struct weldrig_hack {
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
+    ::repair_item_finish( act, you, false );
+}
+
+void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+{
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2474,6 +2479,10 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
+            if( no_menu ) {
+                act->set_to_null();
+                return;
+            }
         }
     }
     // Check tool is valid before we query target and Repeat choice.

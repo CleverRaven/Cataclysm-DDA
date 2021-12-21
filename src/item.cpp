@@ -756,14 +756,14 @@ int item::damage_floor( bool allow_negative ) const
 item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    degradation_ = std::max( std::min( damage_, degradation_ ), 0 );
+    degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
     return *this;
 }
 
 item &item::set_degradation( int qty )
 {
     degradation_ = std::max( std::min( qty, max_damage() ), 0 );
-    damage_ = std::min( std::max( damage_, degradation_ ), max_damage() );
+    damage_ = std::min( std::max( damage_, damage_floor( false ) ), max_damage() );
     return *this;
 }
 
