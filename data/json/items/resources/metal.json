@@ -379,5 +379,20 @@
     "material": [ "budget_steel" ],
     "symbol": "*",
     "color": "light_gray"
+  },
+  {
+    "id": "heavy_wire_rack",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "heavy wire rack" },
+    "description": "A durable steel rack, the sort you might find in an oven or on a barbecue.",
+    "weight": "600 g",
+    "volume": "5 L",
+    "longest_side": "60 cm",
+    "price": 50,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray"
   }
 ]
