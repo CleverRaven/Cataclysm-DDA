@@ -38,6 +38,7 @@
       [ [ "oven_controls", 1 ] ],
       [ [ "oven_door", 1 ] ],
       [ [ "oven_broiler_pan", 1 ] ],
+      [ [ "heavy_wire_rack", 2 ] ],
       [ [ "element", 4 ] ],
       [ [ "cable", 4 ] ],
       [ [ "pipe_fittings", 4 ] ],
