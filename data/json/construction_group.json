@@ -1076,6 +1076,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_oven",
+    "name": "Place Oven"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
