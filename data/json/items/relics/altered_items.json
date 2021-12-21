@@ -1,6 +1,20 @@
 [
   {
     "type": "GENERIC",
+    "id": "altered_pistol",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "glock_17",
+    "name": { "str": "silver pistol" },
+    "description": "A Glock 17 pistol that appears to be made entirely of silver. It weighs almost nothing, and has no chamber for loading ammunition.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "silver" ],
+    "weight": "1 g",
+    "volume": "427 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "altered_phone",
     "symbol": ",",
     "color": "light_red",
