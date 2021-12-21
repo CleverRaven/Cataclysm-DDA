@@ -5514,6 +5514,11 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return cata::nullopt;
     }
+    return ::gun_repair( p, it, loc );
+}
+
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc )
+{
     item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
@@ -5530,7 +5535,8 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, msg, fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= fix.damage_floor( false ) && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.damage() <= fix.damage_floor( false ) && fix.damage_floor( true ) < 0 &&
+        p->get_skill_level( skill_mechanics ) < 8 ) {
         const char *msg = fix.damage_level() > 0 ?
                           _( "Your %s is in its best condition, considering the degradation." ) :
                           _( "Your %s is already in peak condition." );

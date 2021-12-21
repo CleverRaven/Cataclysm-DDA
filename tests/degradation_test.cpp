@@ -3,6 +3,7 @@
 #include "activity_handlers.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "iuse.h"
 #include "map_helpers.h"
 #include "map.h"
 #include "player_helpers.h"
@@ -14,9 +15,11 @@ static const itype_id itype_tailors_kit( "tailors_kit" );
 static const itype_id itype_test_baseball( "test_baseball" );
 static const itype_id itype_test_baseball_half_degradation( "test_baseball_half_degradation" );
 static const itype_id itype_test_baseball_x2_degradation( "test_baseball_x2_degradation" );
+static const itype_id itype_test_glock_degrade( "test_glock_degrade" );
 static const itype_id itype_thread( "thread" );
 
 static const skill_id skill_tailor( "tailor" );
+static const skill_id skill_mechanics( "mechanics" );
 
 static constexpr int max_iters = 4000;
 static constexpr tripoint spawn_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
@@ -214,7 +217,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 
     // Setup character
     clear_character( u, true );
-    u.set_skill_level( skill_tailor, 20 );
+    u.set_skill_level( skill_tailor, 10 );
     u.wield( fix );
     REQUIRE( u.get_wielded_item().typeId() == fix.typeId() );
 
@@ -392,10 +395,201 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
     }
 }
 
+// Testing iuse::gun_repair
+TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
+{
+    GIVEN( "Gun with normal degradation" ) {
+        Character &u = get_player_character();
+        item gun( itype_test_glock_degrade );
+        clear_character( u );
+        u.set_skill_level( skill_mechanics, 10 );
+
+        WHEN( "0 damage / 0 degradation" ) {
+            gun.set_damage( 0 );
+            gun.set_degradation( 0 );
+            REQUIRE( gun.damage() == 0 );
+            REQUIRE( gun.degradation() == 0 );
+            THEN( "Repaired to -1000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == -1000 );
+            }
+        }
+
+        WHEN( "1000 damage / 0 degradation" ) {
+            gun.set_damage( 1000 );
+            gun.set_degradation( 0 );
+            REQUIRE( gun.damage() == 1000 );
+            REQUIRE( gun.degradation() == 0 );
+            THEN( "Repaired to 0 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 0 );
+            }
+        }
+
+        WHEN( "4000 damage / 0 degradation" ) {
+            gun.set_damage( 4000 );
+            gun.set_degradation( 0 );
+            REQUIRE( gun.damage() == 4000 );
+            REQUIRE( gun.degradation() == 0 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+
+        WHEN( "0 damage / 1000 degradation" ) {
+            gun.set_damage( 0 );
+            gun.set_degradation( 1000 );
+            REQUIRE( gun.damage() == 0 );
+            REQUIRE( gun.degradation() == 1000 );
+            THEN( "Repaired to 0 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 0 );
+            }
+        }
+
+        WHEN( "1000 damage / 1000 degradation" ) {
+            gun.set_damage( 1000 );
+            gun.set_degradation( 1000 );
+            REQUIRE( gun.damage() == 1000 );
+            REQUIRE( gun.degradation() == 1000 );
+            THEN( "Repaired to 0 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 0 );
+            }
+        }
+
+        WHEN( "4000 damage / 1000 degradation" ) {
+            gun.set_damage( 4000 );
+            gun.set_degradation( 1000 );
+            REQUIRE( gun.damage() == 4000 );
+            REQUIRE( gun.degradation() == 1000 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+
+        WHEN( "1000 damage / 2000 degradation" ) {
+            gun.set_damage( 1000 );
+            gun.set_degradation( 2000 );
+            REQUIRE( gun.damage() == 1000 );
+            REQUIRE( gun.degradation() == 2000 );
+            THEN( "Repaired to 1000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 1000 );
+            }
+        }
+
+        WHEN( "2000 damage / 2000 degradation" ) {
+            gun.set_damage( 2000 );
+            gun.set_degradation( 2000 );
+            REQUIRE( gun.damage() == 2000 );
+            REQUIRE( gun.degradation() == 2000 );
+            THEN( "Repaired to 1000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 1000 );
+            }
+        }
+
+        WHEN( "4000 damage / 2000 degradation" ) {
+            gun.set_damage( 4000 );
+            gun.set_degradation( 2000 );
+            REQUIRE( gun.damage() == 4000 );
+            REQUIRE( gun.degradation() == 2000 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+
+        WHEN( "2000 damage / 3000 degradation" ) {
+            gun.set_damage( 2000 );
+            gun.set_degradation( 3000 );
+            REQUIRE( gun.damage() == 2000 );
+            REQUIRE( gun.degradation() == 3000 );
+            THEN( "Repaired to 2000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 2000 );
+            }
+        }
+
+        WHEN( "3000 damage / 3000 degradation" ) {
+            gun.set_damage( 3000 );
+            gun.set_degradation( 3000 );
+            REQUIRE( gun.damage() == 3000 );
+            REQUIRE( gun.degradation() == 3000 );
+            THEN( "Repaired to 2000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 2000 );
+            }
+        }
+
+        WHEN( "4000 damage / 3000 degradation" ) {
+            gun.set_damage( 4000 );
+            gun.set_degradation( 3000 );
+            REQUIRE( gun.damage() == 4000 );
+            REQUIRE( gun.degradation() == 3000 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+
+        WHEN( "3000 damage / 4000 degradation" ) {
+            gun.set_damage( 3000 );
+            gun.set_degradation( 4000 );
+            REQUIRE( gun.damage() == 3000 );
+            REQUIRE( gun.degradation() == 4000 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+
+        WHEN( "4000 damage / 4000 degradation" ) {
+            gun.set_damage( 4000 );
+            gun.set_degradation( 4000 );
+            REQUIRE( gun.damage() == 4000 );
+            REQUIRE( gun.degradation() == 4000 );
+            THEN( "Repaired to 3000 damage" ) {
+                u.wield( gun );
+                item_location gun_loc( u, &gun );
+                ::gun_repair( &u, &gun, gun_loc );
+                CHECK( gun.damage() == 3000 );
+            }
+        }
+    }
+}
+
 // TODO:
 // - generic_multi_activity_handler
-// - Character::mend_item
-// - iuse::gun_repair
 // - unfold_vehicle_iuse::use
 // - veh_interact::do_repair
 // - vehicle::set_hp && vehicle::get_hp

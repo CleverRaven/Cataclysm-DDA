@@ -2574,5 +2574,37 @@
     "weight": "150 g",
     "volume": "250 ml",
     "degradation_multiplier": 2
+  },
+  {
+    "id": "test_glock_degrade",
+    "type": "GUN",
+    "name": { "str": "Test Glock" },
+    "description": "A handgun for testing, based on the Glock 9mm.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 69000,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "test_9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "durability": 6,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
+    "skill": "pistol",
+    "category": "veh_parts",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
+      }
+    ]
   }
 ]
