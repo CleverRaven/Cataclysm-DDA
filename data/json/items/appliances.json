@@ -27,7 +27,7 @@
     "looks_like": "f_oven",
     "symbol": "#",
     "description": "A disconnected electric convection-based oven, commonly used for heating and cooking food.",
-    "color": "gray",
+    "color": "dark_gray_white",
     "name": { "str": "disconnected oven" },
     "longest_side": "69 cm",
     "insulation": 3,
