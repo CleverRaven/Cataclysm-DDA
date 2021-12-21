@@ -530,7 +530,7 @@
     "result": "tin",
     "type": "recipe",
     "activity_level": "fake",
-    "byproducts": [ [ "steel_chunk" ] ],
+    "byproducts": [ [ "steel_chunk" ], [ "chemical_waste_liquid", 101 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",

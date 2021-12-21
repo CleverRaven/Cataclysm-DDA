@@ -66,6 +66,7 @@
     "difficulty": 3,
     "time": "15 m",
     "autolearn": true,
+    "byproducts": [ [ "chemical_waste_powder", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [
       [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
@@ -101,6 +102,7 @@
     "difficulty": 4,
     "time": "3 h 30 m",
     "autolearn": true,
+    "byproducts": [ [ "chemical_waste_paste", 7 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "ANVIL", "level": 1 },
@@ -133,6 +135,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
+    "byproducts": [ [ "chemical_waste_liquid", 101 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
       [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
