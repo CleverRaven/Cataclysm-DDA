@@ -354,14 +354,6 @@
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
   },
   {
-    "id": "EOC_MIGO_INTEREST_INCREASE",
-    "type": "effect_on_condition",
-    "recurrence_min": "7 days",
-    "recurrence_max": "14 days",
-    "condition": { "not": { "one_in_chance": 4 } },
-    "effect": [ { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 } ]
-  },
-  {
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
