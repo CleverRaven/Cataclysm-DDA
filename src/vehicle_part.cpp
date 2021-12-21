@@ -132,8 +132,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
-        return dur - dur * ( base.damage() - base.degradation() ) /
-               ( base.max_damage() - base.degradation() );
+        return dur - dur * damage_percent();
     } else {
         return dur;
     }
@@ -154,6 +153,11 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
+int vehicle_part::damage_floor( bool allow_negative ) const
+{
+    return base.damage_floor( allow_negative );
+}
+
 int vehicle_part::damage_level() const
 {
     return base.damage_level();
@@ -166,8 +170,7 @@ double vehicle_part::health_percent() const
 
 double vehicle_part::damage_percent() const
 {
-    return static_cast<double>( base.damage() - base.degradation() ) /
-           ( base.max_damage() - base.degradation() );
+    return static_cast<double>( damage() ) / max_damage();
 }
 
 /** parts are considered broken at zero health */

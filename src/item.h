@@ -1218,6 +1218,13 @@ class item : public visitable
          */
         int damage_level() const;
 
+        /**
+         * Get the minimum possible damage this item can be repaired to,
+         * accounting for degradation.
+         * @param allow_negative If true, get the damage floor for reinforcement
+         */
+        int damage_floor( bool allow_negative ) const;
+
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
 
