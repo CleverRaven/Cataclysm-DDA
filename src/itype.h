@@ -350,6 +350,9 @@ struct islot_armor {
     // This vector can have duplicates for body parts themselves.
     std::vector<armor_portion_data> sub_data;
 
+    // all of the layers this item is involved in
+    std::vector<layer_level> all_layers;
+
     bool was_loaded = false;
 
     int avg_env_resist() const;

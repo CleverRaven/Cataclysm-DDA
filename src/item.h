@@ -1838,6 +1838,16 @@ class item : public visitable
         std::vector<layer_level> get_layer() const;
 
         /**
+         * Returns clothing layer for body part.
+         */
+        std::vector<layer_level> get_layer( bodypart_id bp ) const;
+
+        /**
+         * Returns clothing layer for sub bodypart.
+         */
+        std::vector<layer_level> get_layer( sub_bodypart_id sbp ) const;
+
+        /**
          * Returns true if an item has a given layer level.
          */
         bool has_layer( layer_level ll ) const;

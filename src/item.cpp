@@ -6975,34 +6975,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
 std::vector<layer_level> item::get_layer() const
 {
-    std::vector<layer_level> layers;
-
-    if( has_flag( flag_PERSONAL ) ) {
-        layers.push_back( layer_level::PERSONAL );
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return std::vector<layer_level>();
     }
-    if( has_flag( flag_SKINTIGHT ) ) {
-        layers.push_back( layer_level::UNDERWEAR );
-    }
-    if( has_flag( flag_NORMAL ) ) {
-        layers.push_back( layer_level::REGULAR );
-    }
-    if( has_flag( flag_WAIST ) ) {
-        layers.push_back( layer_level::WAIST );
-    }
-    if( has_flag( flag_OUTER ) ) {
-        layers.push_back( layer_level::OUTER );
-    }
-    if( has_flag( flag_BELTED ) ) {
-        layers.push_back( layer_level::BELTED );
-    }
-    if( has_flag( flag_AURA ) ) {
-        layers.push_back( layer_level::AURA );
-    }
-    // fallback for old way of doing items
-    if( layers.empty() ) {
-        layers.push_back( layer_level::REGULAR );
-    }
-    return layers;
+    return armor->all_layers;
 }
 
 bool item::has_layer( layer_level ll ) const
