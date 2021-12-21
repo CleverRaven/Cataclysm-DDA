@@ -36,5 +36,17 @@
     "bashing": 28,
     "to_hit": -2,
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_wool_bat",
+    "symbol": "#",
+    "color": "brown",
+    "name": { "str": "rock wool insulation bat" },
+    "description": "A tinfoil-wrapped bat of rock wool insulation: fire and moisture resistant, used for hot appliances like dishwashers and ovens.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "150 g",
+    "volume": "3 L"
   }
 ]
