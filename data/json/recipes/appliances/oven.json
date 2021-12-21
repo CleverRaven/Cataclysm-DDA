@@ -18,6 +18,7 @@
       [ [ "oven_controls", 1 ] ],
       [ [ "oven_door", 1 ] ],
       [ [ "oven_broiler_pan", 1 ] ],
+      [ [ "heavy_wire_rack", 2 ] ],
       [ [ "element", 4 ] ],
       [ [ "cable", 1 ] ]
     ]
@@ -73,7 +74,6 @@
       [ [ "element", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "escrap", 2 ] ],
-      [ [ "wire", 8 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pilot_light", 1 ] ],
       [ [ "motor_micro", 1 ] ],
