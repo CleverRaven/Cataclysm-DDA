@@ -64,6 +64,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
 
@@ -84,8 +85,6 @@ static const species_id species_SLIME( "SLIME" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-
-static const efftype_id effect_teleglow( "teleglow" );
 
 namespace spell_detail
 {
