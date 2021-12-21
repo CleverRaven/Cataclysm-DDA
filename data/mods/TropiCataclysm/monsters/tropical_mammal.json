@@ -410,10 +410,9 @@
     "melee_cut": 2,
     "dodge": 2,
     "harvest": "mammal_fur",
-    "special_attacks": [ { "type": "leap", "cooldown": 15, "move_cost": 0, "max_range": 12, "min_consider_range": 4 } ],
+    "special_attacks": [ [ "EAT_CROP", 120 ], { "type": "leap", "cooldown": 15, "move_cost": 0, "max_range": 12, "min_consider_range": 4 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   }
 ]
