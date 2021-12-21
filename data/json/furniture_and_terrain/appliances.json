@@ -38,7 +38,7 @@
     "description": "A standard electric convection-based oven, commonly used for heating and cooking food.",
     "symbol": "#",
     "color": "dark_gray",
-    "broken_color": "light_cyan",
+    "broken_color": "dark_gray_white",
     "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
