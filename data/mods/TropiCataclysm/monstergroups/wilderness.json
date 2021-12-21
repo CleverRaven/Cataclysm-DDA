@@ -19,7 +19,12 @@
     "monsters": [
       { "monster": "mon_ocelot", "weight": 7, "cost_multiplier": 2 },
       { "monster": "mon_ocelot", "weight": 12, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
-      { "monster": "mon_bear_andean", "weight": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINDER" ] },
+      {
+        "monster": "mon_bear_andean",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINDER" ]
+      },
       { "monster": "mon_bushdog", "weight": 1, "cost_multiplier": 2, "pack_size": [ 2, 5 ] },
       { "monster": "mon_tapir", "weight": 3, "cost_multiplier": 10 },
       { "monster": "mon_jaguar", "weight": 1, "cost_multiplier": 3 },
