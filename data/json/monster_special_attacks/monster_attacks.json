@@ -83,6 +83,21 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "teke_push",
+    "cooldown": 20,
+    "move_cost": 200,
+    "range": 6,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ],
+    "hit_dmg_u": "The %1$s stares at you intently and a sudden wind buffets you!",
+    "hit_dmg_npc": "The %1$s stares intently at <npcname> and a hurricane force wind hits them!",
+    "no_dmg_msg_u": "The %1$s's wind buffets your %2$s, but it doesn't catch hold!",
+    "no_dmg_msg_npc": "The %1$s's winds  hit <npcname>, but it doesn't catch hold!",
+    "miss_msg_u": "The %s stares at you, but you the wind bursts past you!",
+    "miss_msg_npc": "The %s's stares at <npcname>, but the wind blows past them!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "longswipe",
     "cooldown": 20,
     "move_cost": 150,
