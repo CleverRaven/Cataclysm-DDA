@@ -110,7 +110,9 @@
     "valid_targets": [ "ground", "self" ],
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "slime_split"
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blobsplit",
@@ -120,7 +122,9 @@
     "valid_targets": [ "ground", "self" ],
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "slime_split"
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blobsplit_brain",
@@ -130,7 +134,9 @@
     "valid_targets": [ "ground", "self" ],
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "slime_split"
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blob_brain",

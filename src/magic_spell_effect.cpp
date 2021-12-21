@@ -1558,8 +1558,10 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
     if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
         mass += mass;
     }
-    std::vector<tripoint> pts = closest_points_first( caster.pos(), 1 );
+    const int radius = sp.aoe();
+    std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
     std::vector<monster *> summoned_slimes;
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     // Make sure the creature has enough mass to create new slimes
     if( mass >= mon_blob_small->speed / 2 ) {
         for( const tripoint &dest : pts ) {
@@ -1577,6 +1579,10 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
             mon->ammo = mon->type->starting_ammo;
             if( mon->will_move_to( dest ) ) {
                 if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                    sp.make_sound( dest );
+                    if( !permanent ) {
+                        blob->set_summon_time( sp.duration_turns() );
+                    }
                     if( caster_monster ) {
                         blob->make_ally( *caster_monster );
                     }
@@ -1604,7 +1610,6 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
 
     // Last resort: Find a slime nearby that will absorb part of this mass
     if( mass > 3 ) {
-        std::vector<tripoint> pts = closest_points_first( caster.pos(), 1 );
         for( const tripoint &dest : pts ) {
             if( monster *mon = get_creature_tracker().creature_at<monster>( dest ) ) {
                 if( mon->type->in_species( species_SLIME ) ) {
