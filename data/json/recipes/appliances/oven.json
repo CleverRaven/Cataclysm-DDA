@@ -1,0 +1,20 @@
+[
+  {
+    "result": "oven",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "oven_stovetop", 1 ] ],
+      [ [ "oven_cabinet", 1 ] ],
+      [ [ "oven_controls", 1 ] ],
+      [ [ "oven_door", 1 ] ],
+      [ [ "oven_broiler_pan", 1 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "pilot_light", 1 ] ]
+    ]
+  }
+]
