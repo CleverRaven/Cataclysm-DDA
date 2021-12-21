@@ -65,7 +65,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const auto &info = vpr.info();
         repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
-        if( vpr.part().removed || vpr.part().damage() <= 0 ) {
+        if( vpr.part().removed || vpr.part().damage() <= vpr.part().degradation() ) {
             continue;
         }
 
@@ -83,7 +83,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( info.is_repairable() &&
-            ( who.meets_skill_requirements( info.repair_skills ) ) &&
+            who.meets_skill_requirements( info.repair_skills ) &&
             ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
@@ -170,7 +170,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {
-        veh.set_hp( pt, pt.info().durability );
+        veh.set_hp( pt, pt.info().durability, true );
     }
 
     // TODO: NPC doing that

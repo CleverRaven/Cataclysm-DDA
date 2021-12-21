@@ -34,7 +34,7 @@
   {
     "type": "proficiency",
     "id": "prof_tanning",
-    "name": { "str": "Tanning" },
+    "name": { "str": "Skilled Tanning" },
     "description": "You have a lot of practice and experience with processing hides to leather, as well as related techniques like making boiled leather.",
     "can_learn": true,
     "time_to_learn": "8 h",

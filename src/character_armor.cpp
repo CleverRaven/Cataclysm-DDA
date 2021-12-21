@@ -80,11 +80,12 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             int ret = 0;
             for( const item &i : worn ) {
                 if( i.covers( bp ) ) {
-                    ret += i.damage_resist( dt );
+                    ret += i.damage_resist( dt, false, bp );
                 }
             }
 
             ret += mutation_armor( bp, dt );
+            ret += bp->damage_resistance( dt );
             return ret;
         }
         case damage_type::NONE:
@@ -131,10 +132,11 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case damage_type::COLD:
             case damage_type::ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->damage_resist( dt );
+                    per_bp.second += it->damage_resist( dt, false, bp );
                 }
 
                 per_bp.second += mutation_armor( bp, dt );
+                per_bp.second += bp->damage_resistance( dt );
                 break;
             }
             case damage_type::NONE:
@@ -152,7 +154,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bash_resist();
+            ret += i.bash_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -163,6 +165,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::BASH );
+    ret += bp->damage_resistance( damage_type::BASH );
     return ret;
 }
 
@@ -171,7 +174,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.cut_resist();
+            ret += i.cut_resist( false, bp );
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
@@ -182,6 +185,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::CUT );
+    ret += bp->damage_resistance( damage_type::CUT );
     return ret;
 }
 
@@ -190,7 +194,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.bullet_resist();
+            ret += i.bullet_resist( false, bp );
         }
     }
 
@@ -202,6 +206,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp, damage_type::BULLET );
+    ret += bp->damage_resistance( damage_type::BULLET );
     return ret;
 }
 
@@ -212,7 +217,7 @@ int Character::get_armor_acid( bodypart_id bp ) const
 
 int Character::get_env_resist( bodypart_id bp ) const
 {
-    float ret = 0;
+    float ret = bp->env_protection;
     for( const item &i : worn ) {
         // Head protection works on eyes too (e.g. baseball cap)
         if( i.covers( bp ) || ( bp == body_part_eyes && i.covers( body_part_head ) ) ) {
@@ -395,6 +400,20 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         armor_enchantment_adjust( *this, elem );
 
+        sub_bodypart_id sbp;
+        sub_bodypart_id secondary_sbp;
+        // if this body part has sub part locations roll one
+        if( !bp->sub_parts.empty() ) {
+            sbp = bp->random_sub_part( false );
+            // the torso has a second layer of hanging body parts
+            if( bp == body_part_torso ) {
+                secondary_sbp = bp->random_sub_part( true );
+            }
+        }
+
+        // generate a single roll for determining if hit
+        int roll = rng( 1, 100 );
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
@@ -425,7 +444,18 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
 
             if( !destroy ) {
-                destroy = armor_absorb( elem, armor, bp );
+                // if we don't have sub parts data
+                // this is the feet head and hands
+                if( bp->sub_parts.empty() ) {
+                    destroy = armor_absorb( elem, armor, bp, roll );
+                } else {
+                    // if this armor has sublocation data test against it instead of just a generic roll
+                    destroy = armor_absorb( elem, armor, bp, sbp, roll );
+                    // for the torso we also need to consider if it hits anything hanging off the player or their neck
+                    if( bp == body_part_torso ) {
+                        destroy = armor_absorb( elem, armor, bp, secondary_sbp, roll );
+                    }
+                }
             }
 
             if( destroy ) {
@@ -442,7 +472,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype( iter )( worn.erase( --( iter.base() ) ) );
+                iter = decltype( iter )( worn.erase( --iter.base() ) );
             } else {
                 ++iter;
                 outermost = false;
@@ -464,26 +494,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
-
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
-    if( du.type == damage_type::BULLET ) {
-        ctype = item::cover_type::COVER_RANGED;
-    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
-               du.type == damage_type::STAB ) {
-        ctype = item::cover_type::COVER_MELEE;
-    }
-
-    if( rng( 1, 100 ) > armor.get_coverage( bp, ctype ) ) {
-        return false;
-    }
-
     // TODO: add some check for power armor
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = armor.damage_resist( du.type, true );
+    const float armors_own_resist = armor.damage_resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
         // This is some weird type that doesn't damage armors
         return false;
@@ -534,5 +551,127 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 
     return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
+                              const sub_bodypart_id &sbp, int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( roll > armor.get_coverage( sbp, ctype ) ) {
+        return false;
+    }
+
+    // if the armor location has ablative armor apply that first
+    if( armor.is_ablative() ) {
+        ablative_armor_absorb( du, armor, sbp, roll );
+    }
+
+    // if we hit the specific location then we should continue with absorption as normal
+    return armor_absorb( du, armor, bp );
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    if( roll > armor.get_coverage( bp, ctype ) ) {
+        return false;
+    }
+
+    return armor_absorb( du, armor, bp );
+}
+
+bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp,
+                                       int roll )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( du.type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+               du.type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+
+    for( item_pocket *const pocket : armor.get_all_contained_pockets().value() ) {
+        // if the pocket is ablative and not empty we should use its values
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            item &ablative_armor = pocket->front();
+
+            float ablative_coverage = ablative_armor.get_coverage( bp, ctype );
+            float armor_coverage = armor.get_coverage( bp, ctype );
+
+            // ablative armor stores its overall coverage ex: covers 30% of the torso
+            // but if that plate is in a vest that only covers 60% of the torso then
+            // it covers 50% of the vest so need to scale the coverage appropriately
+            // since the attack has already hit the vest now we are checking if it hits
+            // a plate
+
+            float coverage = ( ablative_coverage / armor_coverage ) * 100;
+
+            // if the attack hits this plate
+            if( roll < coverage ) {
+                // ablative plates are concerned with the damage they absorb not what they don't absorb
+                float incoming_damage = du.amount;
+
+                // mitigate the actual damage instance
+                ablative_armor.mitigate_damage( du );
+
+                // check if the item breaks
+                // We want armor's own resistance to this type, not the resistance it grants
+                const float armors_own_resist = ablative_armor.damage_resist( du.type, true );
+
+                // plates are rated to survive 3 shots at the caliber they protect
+                // linearly scale off the scale value to find the chance it breaks
+                float break_chance = 33.3 * ( incoming_damage / armors_own_resist );
+
+                float roll_to_break = rng_float( 0.0, 100.0 );
+
+                if( roll_to_break < break_chance ) {
+                    //the plate is broken
+                    const std::string pre_damage_name = ablative_armor.tname();
+
+                    // TODO: add balistic and shattering verbs for ablative materials instead of hard coded
+                    std::string format_string = _( "Your %1$s is %2$s!" );
+                    std::string damage_verb = "shattered";
+                    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
+
+                    if( is_avatar() ) {
+                        SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
+                                 damage_verb,
+                                 m_info );
+                    }
+
+                    // delete the now destroyed item
+                    itype_id replacement = ablative_armor.find_armor_data()->non_functional;
+                    remove_item( ablative_armor );
+
+                    // replace it with its destroyed version
+                    pocket->add( item( replacement ) );
+
+                    return true;
+                }
+                return false;
+            } else {
+                // reduce value and try for additional plates
+                roll = roll - coverage;
+            }
+        }
+    }
+    return false;
+
 }
 

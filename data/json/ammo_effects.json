@@ -89,7 +89,7 @@
   {
     "id": "LIGHTNING",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_electricity", "intensity_min": 3, "intensity_max": 3 }
+    "aoe": { "field_type": "fd_electricity", "intensity_min": 6, "intensity_max": 10, "chance": 25 }
   },
   {
     "id": "PLASMA",
@@ -136,6 +136,31 @@
     "id": "FRAG_20x66",
     "type": "ammo_effect",
     "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 } }
+  },
+  {
+    "id": "EXPLOSIVE_GRENADE",
+    "type": "ammo_effect",
+    "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
+  },
+  {
+    "id": "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1",
+    "type": "ammo_effect",
+    "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
+  },
+  {
+    "id": "EXPLOSIVE_HOMEMADE_GRENADE_1",
+    "type": "ammo_effect",
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
+  },
+  {
+    "id": "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2",
+    "type": "ammo_effect",
+    "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
+  },
+  {
+    "id": "EXPLOSIVE_HOMEMADE_GRENADE_2",
+    "type": "ammo_effect",
+    "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
   },
   {
     "id": "EXPLOSIVE_20x66",

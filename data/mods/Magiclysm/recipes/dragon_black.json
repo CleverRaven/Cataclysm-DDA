@@ -12,7 +12,7 @@
     "time": "48 m",
     "batch_time_factors": [ 20, 10 ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 2 },
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 },
@@ -37,8 +37,7 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "//": "volume of black dragon hide is leather x8 so it neeeds x8 filament",
-    "using": [ [ "filament", 64 ] ],
+    "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 2 } ],
     "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "rag", 3 ] ] ]
   },
@@ -51,7 +50,8 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "using": [ [ "filament", 8 ] ],
+    "//": "volume of black dragon hide is leather x8 so it neeeds x8 filament",
+    "using": [ [ "filament", 64 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "black_dragon_tanned_hide", 10 ] ] ],
     "flags": [ "BLIND_HARD" ]

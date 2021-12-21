@@ -65,12 +65,16 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const flag_id json_flag_FIT( "FIT" );
+
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const mtype_id mon_generator( "mon_generator" );
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -108,7 +112,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( const point &a, const point &b, const point &c )
 {
-    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+    int cross = ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
@@ -554,7 +558,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                    if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
                         break;
@@ -914,7 +918,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( flag_id( "FIT" ) );
+        granted.set_flag( json_flag_FIT );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {
@@ -1032,7 +1036,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
-    spawned_mon.no_extra_death_drops = true;
+    spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     return true;
 }
 
@@ -1051,7 +1055,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
             num_mons--;
             sp.make_sound( *iter );
         } else {
-            add_msg( m_bad, "failed to place monster" );
+            debugmsg( "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
@@ -1292,9 +1296,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( ( guy.has_trait_flag( json_flag_PRED1 ) ) ||
-                   ( guy.has_trait_flag( json_flag_PRED2 ) ) ) {
-            msg = ( _( "Culling the weak is distasteful, but necessary." ) );
+        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
+                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+            msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {

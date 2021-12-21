@@ -276,6 +276,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_parkour_bars",
+    "name": "Build Parkour Bars"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fence",
     "name": "Build Fence"
   },
@@ -508,6 +513,11 @@
     "type": "construction_group",
     "id": "build_reinforced_concrete_wall",
     "name": "Build Reinforced Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_concrete_wall_ropes",
+    "name": "Build Reinforced Concrete Wall with Ropes"
   },
   {
     "type": "construction_group",
@@ -1006,6 +1016,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_rubber_mulch",
+    "name": "Make Rubber Mulch Floor"
+  },
+  {
+    "type": "construction_group",
     "id": "make_woodchip_floor",
     "name": "Make Woodchip Floor"
   },
@@ -1213,6 +1228,11 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rubber_mulch",
+    "name": "Remove Rubber Mulch"
   },
   {
     "type": "construction_group",

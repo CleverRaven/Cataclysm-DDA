@@ -179,6 +179,7 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 

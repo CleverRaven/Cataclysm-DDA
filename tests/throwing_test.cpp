@@ -21,6 +21,8 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const skill_id skill_throw( "throw" );
+
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
     const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
@@ -45,11 +47,9 @@ struct throw_test_pstats {
 
 static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &pstats )
 {
-    return( stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
-            " PER: " << pstats.per << " SKL: " << pstats.skill_lvl );
+    return stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
+           " PER: " << pstats.per << " SKL: " << pstats.skill_lvl;
 }
-
-static const skill_id skill_throw = skill_id( "throw" );
 
 static void reset_player( Character &you, const throw_test_pstats &pstats, const tripoint &pos )
 {

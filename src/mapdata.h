@@ -293,6 +293,7 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
+    TFLAG_MURKY,
 
     NUM_TFLAG_FLAGS
 };
@@ -326,6 +327,7 @@ enum ter_connects : int {
     TERCONN_CLAY,
     TERCONN_DIRT,
     TERCONN_ROCKFLOOR,
+    TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
 };
@@ -798,7 +800,7 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
-extern furn_id f_null,
+extern furn_id f_null, f_clear,
        f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,

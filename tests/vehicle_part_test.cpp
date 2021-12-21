@@ -31,25 +31,25 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+
+static const itype_id itype_oatmeal( "oatmeal" );
+static const itype_id itype_water_clean( "water_clean" );
+
+static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
+
+static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+
+static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
 static time_point midnight = calendar::turn_zero;
 static time_point midday = midnight + 12_hours;
-
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = get_player_character().posz();
-    map &here = get_map();
-    here.update_visibility_cache( z );
-    here.invalidate_map_cache( z );
-    here.build_map_cache( z );
-}
 
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
-    const vpart_info &vp = vpart_id( "halfboard_horizontal" ).obj();
+    const vpart_info &vp = vpart_halfboard_horizontal.obj();
     CHECK( vp.damage_reduction[static_cast<int>( damage_type::BASH )] != 0 );
 }
 
@@ -120,7 +120,6 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     set_time( midday );
 
     const tripoint test_origin( 60, 60, 0 );
-    const itype_id itype_water_clean( "water_clean" );
     Character &character = get_player_character();
     const item backpack( "backpack" );
     character.wear_item( backpack );
@@ -136,12 +135,12 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     }
     character.learn_recipe( &recipe );
 
-    get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90_degrees, 0, 0 );
+    get_map().add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position &ovp = get_map().veh_at( test_origin );
     vehicle &veh = ovp->vehicle();
     REQUIRE( ovp.has_value() );
 
-    REQUIRE( veh.fuel_left( itype_id( "water_clean" ), true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
         tank.part().ammo_set( itype_water_clean, give_water );
         break;
@@ -152,7 +151,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         }
         // seems it's not needed but just in case
         if( p.has_feature( "SOLAR_PANEL" ) ) {
-            veh.set_hp( p.part(), 0 );
+            veh.set_hp( p.part(), 0, true );
         }
     }
     get_map().board_vehicle( test_origin, &character );
@@ -174,8 +173,8 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE_FALSE( character.is_armed() );
         character.make_craft( recipe.ident(), 1 );
         REQUIRE( character.activity );
-        REQUIRE( character.activity.id() == activity_id( "ACT_CRAFT" ) );
-        while( character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+        REQUIRE( character.activity.id() == ACT_CRAFT );
+        while( character.activity.id() == ACT_CRAFT ) {
             character.moves = 100;
             character.activity.do_turn( character );
         }
@@ -196,24 +195,24 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     SECTION( "cook oatmeal without oatmeal" ) {
         std::vector<item> items;
 
-        test_craft_via_rig( items, 2, 2, 1, 1, recipe_id( "oatmeal_cooked" ).obj(), false );
+        test_craft_via_rig( items, 2, 2, 1, 1, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
-        items.emplace_back( itype_id( "oatmeal" ) );
+        items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 0, 0, 1, 1, recipe_id( "oatmeal_cooked" ).obj(), false );
+        test_craft_via_rig( items, 0, 0, 1, 1, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal without water" ) {
         std::vector<item> items;
-        items.emplace_back( itype_id( "oatmeal" ) );
+        items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 2, 0, 0, recipe_id( "oatmeal_cooked" ).obj(), false );
+        test_craft_via_rig( items, 2, 2, 0, 0, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
-        items.emplace_back( itype_id( "oatmeal" ) );
+        items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 0, 1, 0, recipe_id( "oatmeal_cooked" ).obj(), true );
+        test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
     }
 }

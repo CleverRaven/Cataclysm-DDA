@@ -60,6 +60,7 @@
       [ "backpack_leather", 28 ],
       [ "holster", 8 ],
       [ "bholster", 2 ],
+      [ "bbholster", 2 ],
       [ "armguard_soft", 40 ],
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],

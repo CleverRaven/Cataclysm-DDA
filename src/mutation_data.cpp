@@ -16,11 +16,14 @@
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+
+static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
@@ -547,9 +550,18 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         const resistances res = load_resistances_instance( ao );
-
+        // Set damage resistances for all body parts of the specified type(s)
+        for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
+            for( const body_part_type &bp : body_part_type::get_all() ) {
+                if( type_string == "ALL" ||
+                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ) {
+                    armor[bp.id] += res;
+                }
+            }
+        }
+        // Set damage resistances for specific body parts
         for( const std::string &part_string : ao.get_tags( "parts" ) ) {
-            armor[bodypart_str_id( part_string )] = res;
+            armor[bodypart_str_id( part_string )] += res;
         }
     }
 
@@ -681,7 +693,7 @@ void mutation_branch::reset_all()
     trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
-    trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
+    trait_groups.emplace( Trait_group_EMPTY_GROUP,
                           make_shared_fast<Trait_group_collection>( 100 ) );
 }
 

@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
@@ -95,7 +96,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return item_pocket::pocket_type::MAGAZINE_WELL;
-    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+    } else if( container.is_magazine() && payload.is_ammo() ) {
         return item_pocket::pocket_type::MAGAZINE;
     }
     return item_pocket::pocket_type::CONTAINER;
@@ -145,8 +146,8 @@ static void put_into_container(
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
-        const std::string &context )
-    : Item_spawn_data( _probability, context )
+        const std::string &context, holiday event )
+    : Item_spawn_data( _probability, context, event )
     , id( _id )
     , type( _type )
 {
@@ -375,6 +376,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    new_item.rand_degradation();
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
@@ -456,7 +458,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         } else if( new_item.is_tool() ) {
             if( !new_item.magazine_default().is_null() ) {
                 item mag( new_item.magazine_default() );
-                mag.ammo_set( mag.ammo_default(), ch );
+                if( !mag.ammo_default().is_null() ) {
+                    mag.ammo_set( mag.ammo_default(), ch );
+                }
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
@@ -502,7 +506,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( spawn_mag ) {
             item mag( new_item.magazine_default(), new_item.birthday() );
-            if( spawn_ammo ) {
+            if( spawn_ammo && !mag.ammo_default().is_null() ) {
                 mag.ammo_set( mag.ammo_default() );
             }
             new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -592,8 +596,8 @@ void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> 
 }
 
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
-                        const std::string &context )
-    : Item_spawn_data( probability, context )
+                        const std::string &context, holiday event )
+    : Item_spawn_data( probability, context, event )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
@@ -633,13 +637,13 @@ void Item_group::add_group_entry( const item_group_id &groupid, int probability 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
     cata_assert( ptr.get() != nullptr );
-    if( ptr->probability <= 0 ) {
+    if( ptr->get_probability( true ) <= 0 ) {
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->probability = std::min( 100, ptr->probability );
+        ptr->set_probablility( std::min( 100, ptr->get_probability( true ) ) );
     }
-    sum_prob += ptr->probability;
+    sum_prob += ptr->get_probability( true );
 
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
@@ -656,20 +660,23 @@ Item_spawn_data::ItemList Item_group::create(
     ItemList result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= ( elem )->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec, flags );
+            ItemList tmp = elem->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec, flags );
+            ItemList tmp = elem->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
             break;
         }
@@ -683,19 +690,22 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     }
     return item( null_item_id, birthday );
@@ -704,7 +714,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
 void Item_group::check_consistency() const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency();
+        elem->check_consistency();
     }
     Item_spawn_data::check_consistency();
 }
@@ -714,11 +724,33 @@ void Item_spawn_data::set_container_item( const itype_id &container )
     container_item = container;
 }
 
+int Item_spawn_data::get_probability( bool skip_event_check ) const
+{
+    // Use probability as normal
+    if( skip_event_check || event == holiday::none ) {
+        return probability;
+    }
+
+    // Item spawn is event-based, but option is disabled
+    std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
+    if( opt != "items" && opt != "both" ) {
+        return 0;
+    }
+
+    // Use probability if the current holiday matches the item's spawn event
+    if( event == get_holiday_from_time() ) {
+        return probability;
+    }
+
+    // Not currently the item's holiday
+    return 0;
+}
+
 bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
-            sum_prob -= ( *a )->probability;
+            sum_prob -= ( *a )->get_probability( true );
             a = items.erase( a );
         } else {
             ++a;
@@ -730,14 +762,14 @@ bool Item_group::remove_item( const itype_id &itemid )
 void Item_group::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        ( elem )->replace_items( replacements );
+        elem->replace_items( replacements );
     }
 }
 
 bool Item_group::has_item( const itype_id &itemid ) const
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        if( ( elem )->has_item( itemid ) ) {
+        if( elem->has_item( itemid ) ) {
             return true;
         }
     }

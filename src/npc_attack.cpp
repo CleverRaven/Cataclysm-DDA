@@ -14,6 +14,8 @@
 #include "projectile.h"
 #include "ranged.h"
 
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+
 namespace npc_attack_constants
 {
 // if you are attacking your target, multiply potential by this number
@@ -93,7 +95,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -154,7 +156,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 {
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
-    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
         !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
@@ -251,7 +253,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
             } else if( source.path.size() == 1 ) {
                 if( critter != nullptr ) {
                     if( source.can_use_offensive_cbm() ) {
-                        source.activate_bionic_by_id( bionic_id( "bio_hydraulics" ) );
+                        source.activate_bionic_by_id( bio_hydraulics );
                     }
                     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a melee attack",
                                    source.disp_name() );
@@ -393,9 +395,14 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
-        source.aim();
+        source.aim( Target_attributes( source.pos(), location ) );
     } else {
-        source.fire_gun( location );
+        if( source.is_hallucination() ) {
+            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            source.pretend_fire( &source, mode.qty, *mode );
+        } else {
+            source.fire_gun( location );
+        }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
     }

@@ -9,7 +9,8 @@
       { "item": "compbow_high", "prob": 20 },
       { "item": "compbow_low", "prob": 40 },
       { "item": "recurbow", "prob": 30 },
-      { "item": "reflexrecurvebow", "prob": 10 }
+      { "item": "reflexrecurvebow", "prob": 10 },
+      { "item": "bow_sling", "prob": 10 }
     ]
   },
   {
@@ -27,7 +28,8 @@
       { "item": "win70", "prob": 20, "charges-min": 0, "charges-max": 3 },
       { "item": "colt_lightning", "prob": 2, "charges-min": 0, "charges-max": 10 },
       { "item": "henry_big_boy", "prob": 2, "charges-min": 0, "charges-max": 10 },
-      { "item": "weatherby_5", "prob": 2, "charges-min": 0, "charges-max": 3 }
+      { "item": "weatherby_5", "prob": 2, "charges-min": 0, "charges-max": 3 },
+      { "item": "single_sling", "prob": 10 }
     ]
   },
   {

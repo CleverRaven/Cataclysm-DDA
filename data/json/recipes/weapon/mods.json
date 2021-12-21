@@ -571,7 +571,7 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 }
@@ -602,7 +602,7 @@
     "difficulty": 1,
     "time": "6 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "duct_tape", 75 ] ], [ [ "bottle_twoliter", 1 ] ], [ [ "bottle_plastic", 4 ], [ "bottle_plastic_small", 4 ] ] ]
   },
   {
@@ -617,7 +617,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
@@ -938,7 +938,7 @@
     ],
     "using": [ [ "soldering_standard", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -1017,7 +1017,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
@@ -1034,7 +1034,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1049,7 +1049,7 @@
     "book_learn": [ [ "recipe_bows", 3 ], [ "manual_archery", 5 ], [ "book_archery", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_gunsmithing_spring" }, { "proficiency": "prof_bowyery" } ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
@@ -1075,7 +1075,21 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "filament", 20, "LIST" ], [ "sling", 1 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "choke",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 8,
+    "time": "1 h",
+    "book_learn": [ [ "manual_shotgun", 4 ] ],
+    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
   }
 ]

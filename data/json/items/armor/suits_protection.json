@@ -13,6 +13,7 @@
     "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
@@ -58,6 +59,7 @@
     "looks_like": "armor_larmor",
     "color": "green",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "STURDY" ],
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -107,6 +109,7 @@
     "bashing": 2,
     "material": [ "fur" ],
     "symbol": "[",
+    "longest_side": "30 cm",
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
@@ -157,6 +160,7 @@
     "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "touring_suit",
     "color": "brown",
     "armor": [
@@ -209,6 +213,7 @@
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -236,6 +241,7 @@
     "material": [ "leather", "iron" ],
     "symbol": "[",
     "color": "brown",
+    "longest_side": "60 cm",
     "looks_like": "armor_larmor",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 22 ] },
@@ -302,6 +308,7 @@
     "looks_like": "armor_lightplate",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -331,6 +338,7 @@
     "looks_like": "kevlar",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 2.5,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
@@ -355,6 +363,7 @@
     "looks_like": "armor_lightplate",
     "color": "dark_gray",
     "warmth": 25,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
@@ -377,6 +386,7 @@
     "looks_like": "armor_lightplate",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "40 cm",
     "material_thickness": 2,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -397,6 +407,7 @@
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "40 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -416,6 +427,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "white",
+    "longest_side": "12 cm",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 12 ] },
@@ -530,6 +542,7 @@
     "looks_like": "jumpsuit",
     "color": "white",
     "warmth": 10,
+    "longest_side": "12 cm",
     "material_thickness": 1,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ],
@@ -555,6 +568,7 @@
     "looks_like": "jumpsuit",
     "color": "light_gray",
     "warmth": 30,
+    "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
@@ -578,7 +592,7 @@
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.",
+    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "453 g",
     "volume": "3 L",
     "price": 20000,
@@ -592,33 +606,75 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose", "menu_text": "Loosen" },
     "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
     ]
+  },
+  {
+    "id": "gambeson_loose",
+    "type": "ARMOR",
+    "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
+    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your gambeson a bit tighter.",
+      "target": "gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "kevlar gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "2880 g",
+    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
+    "weight": "2760 g",
     "volume": "2520 ml",
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "material": [ "kevlar_layered" ],
+    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
     "warmth": 30,
-    "material_thickness": 5,
+    "material_thickness": 3.2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
     "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 30, "encumbrance": 5 }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 12 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 16 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      }
     ]
+  },
+  {
+    "id": "k_gambeson_loose",
+    "type": "ARMOR",
+    "name": { "str": "kevlar gambeson (loose)", "str_pl": "kevlar gambesons (loose)" },
+    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "k_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your kevlar gambeson a bit tighter.",
+      "target": "k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "xl_gambeson",
@@ -626,7 +682,21 @@
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_gambeson_loose",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
+    "copy-from": "xl_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL gambeson a bit tighter.",
+      "target": "xl_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "xl_k_gambeson",
@@ -634,7 +704,21 @@
     "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "OVERSIZE" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_k_gambeson_loose",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar gambeson (loose)", "str_pl": "XL kevlar gambesons (loose)" },
+    "copy-from": "xl_k_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL kevlar gambeson a bit tighter.",
+      "target": "xl_k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
   },
   {
     "id": "hazmat_suit",
@@ -799,6 +883,7 @@
     "to_hit": -3,
     "material": [ "kevlar_layered", "thermo_resin", "plastic" ],
     "symbol": "[",
+    "longest_side": "40 cm",
     "looks_like": "armor_riot",
     "color": "dark_gray",
     "armor": [

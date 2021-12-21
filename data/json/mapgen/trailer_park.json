@@ -37,7 +37,7 @@
         { "chance": 5, "item": "road", "x": 5, "y": 10 },
         { "chance": 5, "item": "road", "x": 2, "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 } ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 14, 23 ], "y": [ 10, 16 ], "repeat": [ 1, 6 ] } ],
       "place_toilets": [ { "x": 7, "y": 3 }, { "x": 8, "y": 21 } ],
       "rows": [
         "________________________",
@@ -126,10 +126,10 @@
         { "chance": 35, "item": "softdrugs", "x": 7, "y": 20 },
         { "chance": 35, "item": "house_suicide_clothing", "x": 7, "y": 19 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 10, "y": 19, "repeat": [ 1, 6 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 },
-        { "monster": "GROUP_DOGS", "x": 3, "y": 14, "repeat": [ 1, 2 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 7, 13 ], "y": [ 16, 23 ], "repeat": [ 1, 6 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 14, 20 ], "y": [ 10, 16 ], "repeat": [ 1, 6 ] },
+        { "group": "GROUP_DOGS", "x": [ 0, 6 ], "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
       ],
       "place_loot": [ { "item": "television", "x": 20, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 19, "y": 5, "chance": 100 } ],
       "place_toilets": [ { "x": 8, "y": 21 } ],
@@ -237,9 +237,9 @@
         { "chance": 45, "item": "kitchen", "x": 18, "y": 21 },
         { "chance": 30, "item": "kitchen", "x": 6, "y": 2 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 },
-        { "monster": "GROUP_DOGS", "x": 3, "y": 14, "repeat": [ 1, 2 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 14, 20 ], "y": [ 10, 16 ], "repeat": [ 1, 6 ] },
+        { "group": "GROUP_DOGS", "x": [ 0, 6 ], "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
       ],
       "place_toilets": [ { "x": 18, "y": 2 }, { "x": 8, "y": 21 } ],
       "rows": [

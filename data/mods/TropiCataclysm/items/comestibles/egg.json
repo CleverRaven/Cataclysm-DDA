@@ -1,0 +1,131 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_guinea_fowl",
+    "name": "guinea fowl egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GUINEA_FOWL",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose",
+    "name": "goose egg",
+    "copy-from": "egg_guinea_fowl",
+    "calories": 266,
+    "volume": "125 ml",
+    "weight": "144 g",
+    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose_golden",
+    "name": "golden goose egg",
+    "copy-from": "egg_goose",
+    "calories": 300,
+    "volume": "125 ml",
+    "weight": "144 g",
+    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_quail",
+    "name": "quail egg",
+    "copy-from": "egg_guinea_fowl",
+    "rot_spawn": "GROUP_EGG_QUAIL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rhea",
+    "name": "rhea egg",
+    "copy-from": "egg_guinea_fowl",
+    "volume": "600 ml",
+    "weight": "600 g",
+    "calories": 1000,
+    "rot_spawn": "GROUP_EGG_RHEA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toad",
+    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_constrictor",
+    "name": "snake egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a tropical snake.",
+    "rot_spawn": "GROUP_EGG_CONSTRICTOR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lizard",
+    "name": "lizard egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a tropical lizard.",
+    "rot_spawn": "GROUP_EGG_LIZARD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_monitor",
+    "name": "varanid egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of a monitor lizard.",
+    "rot_spawn": "GROUP_EGG_MONITOR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_iguana",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The egg of an iguana.",
+    "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_beetle",
+    "name": "water beetle egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water beetle, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_bug",
+    "name": "water scorpion egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water scorpion, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BUG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle",
+    "name": "turtle egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a turtle.  Its covered in leaves",
+    "rot_spawn": "GROUP_EGG_TURTLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_snapper",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a snapping turtle.  Its covered in mud",
+    "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tortoise",
+    "name": "iguana egg",
+    "copy-from": "egg_reptile",
+    "description": "The round egg of a tortoise.  Its covered in dirt",
+    "rot_spawn": "GROUP_EGG_IGUANA"
+  }
+]

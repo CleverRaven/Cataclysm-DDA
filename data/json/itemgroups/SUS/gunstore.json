@@ -127,13 +127,14 @@
       { "item": "beret", "prob": 30 },
       { "item": "beret_wool", "prob": 30 },
       { "item": "bandolier_shotgun", "prob": 15 },
+      { "group": "loaded_lbv", "prob": 15 },
       { "item": "goggles_nv", "prob": 1 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "bootsheath", "prob": 10 },
       { "group": "ear_protection", "prob": 45 },
       { "item": "hat_boonie", "prob": 30 },
       { "item": "balclava", "prob": 30 },
-      { "item": "ballistic_vest_empty", "prob": 5 }
+      { "item": "ballistic_vest_esapi", "prob": 5 }
     ]
   }
 ]

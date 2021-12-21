@@ -127,7 +127,7 @@
     "id": "animal_blood",
     "type": "COMESTIBLE",
     "copy-from": "meat",
-    "name": { "str_sp": "blood" },
+    "name": { "str_sp": "animal blood" },
     "description": "Fresh blood extracted from a living creature.",
     "healthy": 0,
     "parasites": 0,
@@ -212,7 +212,7 @@
       "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
       "moves": 150,
       "type": "delayed_transform",
-      "transform_age": 4800,
+      "transform_age": 28800,
       "not_ready_msg": "The meat isn't fully cured yet.",
       "//": "8 hours"
     }
@@ -483,6 +483,7 @@
     "snippet_category": "cooked_bug_organs_desc",
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
+    "parasites": 0,
     "healthy": -2,
     "delete": { "flags": [ "RAW" ] }
   },

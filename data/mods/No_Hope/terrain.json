@@ -242,5 +242,77 @@
       "ter_set": "t_null",
       "items": "wall_bash_results"
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_red",
+    "name": "red carpet",
+    "description": "Soft red carpet.",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 6, 13 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_red_carpet_olight",
+    "name": "red carpet, overhead light",
+    "description": "A soft red carpet with a still-functioning light attached to the ceiling above.",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_flat_roof",
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_carpet_red",
+      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_floor",
+    "name": "rock floor",
+    "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_floor_olight",
+    "name": "rock floor, overhead light",
+    "description": "A relatively flat area of rock and stone with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "connects_to": "RAIL",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   }
 ]

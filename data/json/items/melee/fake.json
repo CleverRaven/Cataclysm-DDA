@@ -12,8 +12,8 @@
     "bashing": 8,
     "cutting": 16,
     "flags": [ "STAB", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "weapon_category": [ "CLAWS" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
+    "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ]
   },
   {
     "type": "GENERIC",
@@ -30,6 +30,7 @@
     "longest_side": "30 cm",
     "cutting": 28,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
+    "weapon_category": [ "BIONIC_WEAPONRY" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 22 ] ]
   }
 ]

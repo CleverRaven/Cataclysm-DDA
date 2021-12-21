@@ -25,7 +25,7 @@ These properties are required for all monsters:
 | `description`     | (string) In-game description of the monster, in one or two sentences
 | `ascii_picture`   | (string) Id of the asci_art used for this monster
 | `hp`              | (integer) Hit points
-| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`
+| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 | `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 | `symbol`          | (string) UTF-8 single-character string representing the monster in-game
 | `color`           | (string) Symbol color for the monster
@@ -42,13 +42,12 @@ Monsters may also have any of these optional properties:
 | `species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
 | `scent_tracked`          | (array of strings) Monster tracks these scents
 | `scent_ignored`          | (array of strings) Monster ignores these scents
-| `size`                   | (string) Size flag, ex. TINY, SMALL, MEDIUM, LARGE, HUGE
 | `material`               | (array of strings) Materials the monster is made of
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 | `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
-| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0 
+| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -64,6 +63,7 @@ Monsters may also have any of these optional properties:
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
+| `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
@@ -77,7 +77,7 @@ Monsters may also have any of these optional properties:
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
-| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
+| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md)
 | `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
 | `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
@@ -305,6 +305,11 @@ Example:
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
 
+## "hitsize_min", "hitsize_max"
+(integer, optional )
+
+Lower and upper bound of limb sizes the monster's melee attack can target - see `body_parts.json` for the hit sizes.
+
 ## "grab_strength"
 (integer, optional)
 
@@ -331,7 +336,7 @@ Weakpoints in the monster's protection.
 | `name`              | name of the weakpoint. Used in hit messages.
 | `coverage`          | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
 | `coverage_mult`     | object mapping weapon types to constant coverage multipliers.
-| `difficulty`        | object mapping weakon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
+| `difficulty`        | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
 | `armor_mult`        | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
 | `armor_penalty`     | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 | `damage_mult`       | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
@@ -374,10 +379,23 @@ Default weakpoints are weakpoint objects with an `id` equal to the empty string.
 When an attacker misses the other weakpoints, they will hit the defender's default weakpoint.
 A monster should have at most 1 default weakpoint.
 
+## "weakpoint_sets"
+(array of strings, optional)
+
+Each string refers to the id of a separate `"weakpoint_set"` type JSON object (See [Weakpoint Sets](JSON_INFO.md#weakpoint-sets) for details).
+
+Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
+
 ## "families"
 (array of objects, optional)
 
-Weakpoint families that the monster belongs to. 
+Weakpoint families that the monster belongs to.
 
 | field               | description
 | ---                 | ---
@@ -487,7 +505,7 @@ The upgrades object may have the following members:
 | field        | description
 | ---          | ---
 | `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group.
 | `into`       | (string, optional) The upgraded monster's type.
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
@@ -649,15 +667,18 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
-| `damage_max_instance` | Array of objects, see ## "melee_damage" 
-| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
+| `damage_max_instance` | Array of objects, see ## "melee_damage"
+| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a
 |						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
 |						| targeted with a chance proportional to the value.
 | `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
+| `hitsize_min`         | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
@@ -676,7 +697,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 
 | field                 | description
 | ---                   | ---
-| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100. 
+| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100.
 
 
 ## "leap"

@@ -452,7 +452,7 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return id.to_i() >= 0 && static_cast<size_t>( id.to_i() ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -704,7 +704,8 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
         JsonObject proportional = jo.get_object( "proportional" );
         proportional.allow_omitted_members();
         if( proportional.has_member( name ) ) {
-            debugmsg( "Member %s of type %s does not support proportional", name, typeid( MemberType ).name() );
+            debugmsg( "Member %s of type %s does not support proportional", name,
+                      demangle( typeid( MemberType ).name() ) );
         }
     }
     return false;
@@ -754,7 +755,8 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
         if( !relative.has_member( name ) ) {
             return false;
         }
-        debugmsg( "Member %s of type %s does not support relative", name, typeid( MemberType ).name() );
+        debugmsg( "Member %s of type %s does not support relative", name,
+                  demangle( typeid( MemberType ).name() ) );
     }
     return false;
 }
@@ -1101,7 +1103,7 @@ class generic_typed_reader
                 if( !relative.has_member( name ) ) {
                     return false;
                 }
-                debugmsg( "Member %s of type %s does not support relative", name, typeid( C ).name() );
+                debugmsg( "Member %s of type %s does not support relative", name, demangle( typeid( C ).name() ) );
             }
             return false;
         }
@@ -1222,7 +1224,7 @@ template<typename T>
 class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 {
     private:
-        using map_t = std::map<std::string, T>;
+        using map_t = std::unordered_map<std::string, T>;
 
     private:
         const map_t &flag_map;
@@ -1231,6 +1233,11 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
     public:
         typed_flag_reader( const map_t &flag_map, const std::string &flag_type )
             : flag_map( flag_map )
+            , flag_type( flag_type ) {
+        }
+
+        explicit typed_flag_reader( const std::string &flag_type )
+            : flag_map( io::get_enum_lookup_map<T>() )
             , flag_type( flag_type ) {
         }
 
@@ -1247,9 +1254,10 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 };
 
 template<typename T>
-typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
+typed_flag_reader<T> make_flag_reader( const std::unordered_map<std::string, T> &m,
+                                       const std::string &e )
 {
-    return typed_flag_reader<T> { m, e };
+    return typed_flag_reader<T>( m, e );
 }
 
 /**
