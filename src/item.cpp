@@ -6982,6 +6982,10 @@ std::vector<layer_level> item::get_layer() const
 {
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() ) {
+            return { layer_level::BELTED };
+        }
         return std::vector<layer_level>();
     }
     return armor->all_layers;
@@ -6991,6 +6995,10 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() && bp == body_part_torso ) {
+            return { layer_level::BELTED };
+        }
         return std::vector<layer_level>();
     }
 
@@ -7012,6 +7020,10 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() && sbp == sub_bodypart_id( "torso_hanging_back" ) ) {
+            return { layer_level::BELTED };
+        }
         return std::vector<layer_level>();
     }
 
