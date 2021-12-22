@@ -126,6 +126,8 @@ static const mutation_category_id mutation_category_ELFA( "ELFA" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_DIG( "DIG" );
 
@@ -694,7 +696,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( vpr.part(), tmp );
+            veh->set_hp( vpr.part(), tmp, true, it.degradation() );
         }
     } else {
         try {
@@ -708,7 +710,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
-                veh->set_hp( dst, src.hp() );
+                veh->set_hp( dst, src.hp(), true, it.degradation() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -2950,11 +2952,11 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         return true;
     }
 
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.degradation() ) {
         return true;
     }
 
-    if( fix.damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() + fix.degradation() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname() );
@@ -3023,7 +3025,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.degradation() ) {
         return RT_REPAIR;
     }
 
@@ -3159,7 +3161,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            fix->set_damage( std::max( damage - itype::damage_scale, fix->degradation() ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
@@ -3339,17 +3341,14 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
+    // each tier of proficiency cuts requred time by half
     int cost = move_cost;
-    if( long_action ) {
-        // A hack: long action healing on NPCs isn't done yet.
-        // So just heal at start and paralyze the player for 5 minutes.
-        cost /= std::min( 10, p.get_skill_level( skill_firstaid ) + 1 );
-    }
+    cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
+    cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
@@ -3393,8 +3392,13 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        return bandages_power + bandages_scaling * prof_bonus;
     }
 
     return bandages_power;
@@ -3404,7 +3408,12 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return disinfectant_power + disinfectant_scaling * prof_bonus;
     }
 
     return disinfectant_power;
@@ -3414,7 +3423,12 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bleed + healer.get_skill_level( skill_firstaid ) / 2;
+        int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
+                     prof_bonus + 1 : prof_bonus;
+        prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
+                     prof_bonus + 2 : prof_bonus;
+        return bleed + prof_bonus;
     }
 
     return bleed;
@@ -3547,6 +3561,10 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care,
+                                 time_duration::from_turns( practice_amount ) );
+    healer.practice_proficiency( proficiency_prof_wound_care_expert,
+                                 time_duration::from_turns( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3563,9 +3581,11 @@ static bodypart_id pick_part_to_heal(
     const bool precise = &healer == &patient ?
                          patient.has_trait( trait_SELFAWARE ) :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
-
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
+                         ( ( healer.get_skill_level( skill_firstaid ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
+                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
+                           healer.per_cur >= 20 );
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
@@ -4011,6 +4031,82 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void molle_attach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "size", size );
+    assign( jo, "moves", moves );
+}
+
+cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+
+
+    item_location loc = game_menus::inv::molle_attach( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.get_item();
+    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+
+    it.get_contents().add_pocket( obj );
+
+    // the item has been added to the vest it should no longer exist in the world
+    loc.remove_item();
+
+
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
+{
+    return std::make_unique<molle_attach_actor>( *this );
+}
+
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
+        const tripoint & ) const
+{
+
+    std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
+    uilist prompt;
+    prompt.text = _( "Remove which accessory?" );
+
+    for( size_t i = 0; i != items_attached.size(); ++i ) {
+        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+    }
+
+    prompt.query();
+
+
+    if( prompt.ret >= 0 ) {
+        p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
+        p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
+        return 0;
+    }
+
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
+{
+    return std::make_unique<molle_detach_actor>( *this );
+}
+
+void molle_detach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "moves", moves );
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,

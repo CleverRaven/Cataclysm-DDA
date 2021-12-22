@@ -143,8 +143,8 @@ player_activity veh_interact::serialize_activity()
                 if( pt->is_broken() ) {
                     time = vp->install_time( player_character );
                 } else if( pt->base.max_damage() > 0 ) {
-                    time = vp->repair_time( player_character ) * pt->base.damage() /
-                           pt->base.max_damage();
+                    time = vp->repair_time( player_character ) * ( pt->base.damage() - pt->base.degradation() ) /
+                           ( pt->base.max_damage() - pt->base.degradation() );
                 }
             }
             break;
@@ -1219,7 +1219,8 @@ void veh_interact::do_repair()
                 ok = false;
             } else {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
-                                  vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
+                                  vp.repair_time( player_character ) * ( pt.base.damage() - pt.base.degradation() ) /
+                                  ( pt.base.max_damage() - pt.base.degradation() ) );
             }
         }
 
@@ -1348,7 +1349,7 @@ void veh_interact::do_refill()
                     return false;
                 }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
-                if( pt.get_base().is_reloadable_with( obj.typeId() ) ) {
+                if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
                 }
                 return can_reload;
@@ -2329,7 +2330,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
         for( size_t i = 0; i < parts_here.size(); i++ ) {
             auto &pt = veh->part( parts_here[i] );
 
-            if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
+            if( pt.base.damage() > pt.base.degradation() && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
             }
             if( pt.info().has_flag( "WHEEL" ) ) {
@@ -3032,7 +3033,7 @@ void veh_interact::count_durability()
     const vehicle_part_range vpr = veh->get_all_parts();
     int qty = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + std::max( rhs.part().base.damage(), 0 );
+        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.degradation() );
     } );
 
     int total = std::accumulate( vpr.begin(), vpr.end(), 0,

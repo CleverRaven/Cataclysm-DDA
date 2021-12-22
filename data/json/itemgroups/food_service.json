@@ -307,7 +307,8 @@
       [ "yeast", 10 ],
       [ "sugar", 9 ],
       [ "cornmeal", 8 ],
-      [ "flour", 25 ],
+      { "item": "flour", "charges": [ 1, 70 ], "prob": 5 },
+      { "item": "flour", "charges": [ 1, 175 ], "prob": 20, "container-item": "bag_plastic" },
       [ "cookbook", 3 ],
       [ "cookbook_italian", 2 ]
     ]
@@ -598,7 +599,8 @@
       { "item": "artificial_sweetener", "prob": 10 },
       { "item": "soysauce", "prob": 10 },
       { "item": "hot_sauce", "prob": 10 },
-      { "item": "flour", "prob": 40 },
+      { "item": "flour", "charges": [ 1, 70 ], "prob": 8 },
+      { "item": "flour", "charges": [ 1, 175 ], "prob": 32, "container-item": "bag_plastic" },
       { "item": "curry_powder", "prob": 40 },
       { "item": "cornmeal", "prob": 52 },
       { "item": "oyster_crackers", "charges-min": 1, "prob": 35 }
@@ -740,7 +742,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "flour", "prob": 65 },
+      { "item": "flour", "charges": 70, "prob": 40 },
+      { "item": "flour", "charges": 175, "prob": 25, "container-item": "bag_plastic" },
       { "item": "bread_flour", "prob": 35 },
       { "item": "cornmeal", "prob": 50 },
       { "item": "yeast", "prob": 40 },
@@ -963,7 +966,8 @@
       [ "pepper", 15 ],
       [ "salt", 20 ],
       [ "sugar", 5 ],
-      [ "flour", 17 ],
+      { "item": "flour", "charges": [ 1, 70 ], "prob": 4 },
+      { "item": "flour", "charges": [ 1, 175 ], "prob": 13, "container-item": "bag_plastic" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
       [ "cooking_oil", 20 ],

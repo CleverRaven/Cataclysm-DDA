@@ -1348,8 +1348,9 @@ void options_manager::add_options_general()
        );
 
     add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
-         to_translation( "If enabled, unique items can spawn during special events (Christmas, Halloween, etc.)" ),
-    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) } }, "off" );
+         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
+    "off" );
 
     add_empty_line();
 
@@ -1913,6 +1914,11 @@ void options_manager::add_options_graphics()
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
 
     add_empty_line();
+
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {

@@ -150,5 +150,69 @@
     "copy-from": "mon_test_speed_desc_base",
     "name": { "str_sp": "speed 100 monster with multiple descriptions" },
     "speed_description": "mon_test_speed_desc_B"
+  },
+  {
+    "id": "mon_test_zombie_cop",
+    "type": "MONSTER",
+    "name": { "str": "zombie cop" },
+    "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
+    "bodytype": "human",
+    "default_faction": "zombie",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "armor_bash": 6,
+    "armor_cut": 6,
+    "armor_bullet": 6,
+    "armor_stab": 6,
+    "weakpoints": [
+      {
+        "id": "test_leg",
+        "name": "inline leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 25
+      },
+      {
+        "id": "test_arm",
+        "name": "inline arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 25
+      },
+      { "id": "test_head", "name": "inline head", "armor_mult": { "physical": 0 }, "coverage": 25 }
+    ],
+    "weakpoint_sets": [ "test_humanoid", "test_special_head" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "mon_zombie_cop_death_drops",
+    "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
   }
 ]

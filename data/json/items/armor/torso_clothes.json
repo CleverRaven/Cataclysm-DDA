@@ -503,9 +503,9 @@
     "looks_like": "dress",
     "color": "blue",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 75, "encumbrance": [ 5, 7 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] }
     ],
     "pocket_data": [
       {
@@ -517,6 +517,41 @@
       }
     ],
     "warmth": 5,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "maid_dress_short",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str_sp": "Short french maid clothes" },
+    "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "maid_dress",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 20 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 15,
+        "encumbrance": 2
+      }
+    ],
+    "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
@@ -573,6 +608,89 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "santa_dress",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "santa dress", "str_pl": "santa dresses" },
+    "description": "A red sleeved dress with white faux fur as trim.  For when you want to be Mrs.  Claus on Christmas, or perhaps Santa going clubbing.",
+    "weight": "800 g",
+    "volume": "3500 ml",
+    "price": 18000,
+    "price_postapoc": 60,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "red",
+    "warmth": 25,
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 10 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 8 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 }
+    ]
+  },
+  {
+    "id": "santa_dress_long",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
+    "description": "A red sleeved long dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
+    "weight": "1200 g",
+    "volume": "3850 ml",
+    "price": 25000,
+    "price_postapoc": 90,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "santa_dress",
+    "color": "red",
+    "warmth": 30,
+    "material_thickness": 0.8,
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 6 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 8 }
+    ]
+  },
+  {
+    "id": "santa_dress_short",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
+    "description": "A short red dress with white faux fur as trim.  Looks like something Mrs.  Claus might wear on Christmas night.",
+    "weight": "600 g",
+    "volume": "2000 ml",
+    "price": 16000,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "red",
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 4 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
   },
   {
     "id": "sheriffshirt",

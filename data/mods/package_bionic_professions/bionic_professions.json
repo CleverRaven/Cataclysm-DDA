@@ -243,7 +243,7 @@
     "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  That makes you one of the few non-zombies in the world that can calibrate an Autodoc, which might come in handy.",
     "points": 4,
     "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care" ],
     "traits": [ "PROF_AUTODOC" ],
     "items": {
       "both": {
@@ -274,7 +274,7 @@
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {

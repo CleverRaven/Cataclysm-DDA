@@ -725,7 +725,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = bp == nullptr ? select_body_part( source, hit_spread ) : *bp;
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -1141,6 +1142,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
     int total_damage = 0;
+    int total_base_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
@@ -1154,15 +1156,19 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
-    for( const auto &it : d.damage_units ) {
+    for( const damage_unit &it : d.damage_units ) {
         int cur_damage = 0;
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
+        total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
-
+    if( total_base_damage < total_damage ) {
+        // Only deal more HP than remains if damage not including crit multipliers is higher.
+        total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
+    }
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
@@ -1204,7 +1210,9 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
         case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            if( x_in_y( std::max( adjusted_damage, 2 ), 5 ) ) {
+                add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            }
             break;
 
         case damage_type::ACID:
@@ -2635,16 +2643,17 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
-bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
+
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
-
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
+    if( !is_monster() && !can_attack_high ) {
+        can_attack_high = as_character()->is_on_ground();
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

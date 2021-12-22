@@ -11,7 +11,7 @@
     "time": "5 m",
     "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "food_processor", 10 ] ] ],
     "components": [
       [

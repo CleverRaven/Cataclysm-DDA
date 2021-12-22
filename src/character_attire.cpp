@@ -378,28 +378,29 @@ int Character::item_wear_cost( const item &it ) const
 {
     double mv = item_handling_cost( it );
 
-    switch( it.get_layer() ) {
-        case layer_level::UNDERWEAR:
-            mv *= 1.5;
-            break;
+    for( layer_level layer : it.get_layer() )
+        switch( layer ) {
+            case layer_level::UNDERWEAR:
+                mv *= 1.5;
+                break;
 
-        case layer_level::REGULAR:
-            break;
+            case layer_level::REGULAR:
+                break;
 
-        case layer_level::WAIST:
-        case layer_level::OUTER:
-            mv /= 1.5;
-            break;
+            case layer_level::WAIST:
+            case layer_level::OUTER:
+                mv /= 1.5;
+                break;
 
-        case layer_level::BELTED:
-            mv /= 2.0;
-            break;
+            case layer_level::BELTED:
+                mv /= 2.0;
+                break;
 
-        case layer_level::PERSONAL:
-        case layer_level::AURA:
-        default:
-            break;
-    }
+            case layer_level::PERSONAL:
+            case layer_level::AURA:
+            default:
+                break;
+        }
 
     mv *= std::max( it.get_avg_encumber( *this ) / 10.0, 1.0 );
 
@@ -589,8 +590,8 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
     [this, &worn_item]( const bodypart_str_id & bp ) {
         // no need to check items that are worn under worn_item in the armor sort order
         for( auto i = std::next( worn_item ), end = worn.end(); i != end; ++i ) {
-            if( i->covers( bp ) && i->get_layer() != layer_level::BELTED &&
-                i->get_layer() != layer_level::WAIST &&
+            if( i->covers( bp ) && !i->has_layer( layer_level::BELTED ) &&
+                !i->has_layer( layer_level::WAIST ) &&
                 i->get_coverage( bp ) >= worn_item->get_coverage( bp ) ) {
                 return false;
             }
@@ -784,7 +785,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             continue;
         }
 
-        const layer_level item_layer = it.get_layer();
+        const std::vector<layer_level> item_layers = it.get_layer();
         int encumber_val = it.get_encumber( c, bp.id() );
         int layering_encumbrance = clamp( encumber_val, 2, 10 );
 
@@ -801,25 +802,27 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
         const int armorenc = !power_armor || !it.is_power_armor() ?
                              encumber_val : std::max( 0, encumber_val - 40 );
 
-        // do the sublayers of this armor conflict
-        bool conflicts = false;
+        for( layer_level item_layer : item_layers ) {
+            // do the sublayers of this armor conflict
+            bool conflicts = false;
 
-        // add the sublocations to the overall body part layer and update if we are conflicting
-        if( it.has_sublocations() && item_layer >= highest_layer_so_far[bp] ) {
-            conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
-        } else {
-            conflicts = true;
+            // add the sublocations to the overall body part layer and update if we are conflicting
+            if( it.has_sublocations() && item_layer >= highest_layer_so_far[bp] ) {
+                conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
+            } else {
+                conflicts = true;
+            }
+
+            highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
+
+            // Apply layering penalty to this layer, as well as any layer worn
+            // within it that would normally be worn outside of it.
+            for( layer_level penalty_layer = item_layer;
+                 penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
+                vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+            }
+            vals[bp].armor_encumbrance += armorenc;
         }
-
-        highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
-
-        // Apply layering penalty to this layer, as well as any layer worn
-        // within it that would normally be worn outside of it.
-        for( layer_level penalty_layer = item_layer;
-             penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
-        }
-        vals[bp].armor_encumbrance += armorenc;
     }
 }
 

@@ -358,6 +358,10 @@
       { "item": "spider_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "molerat_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "reptile_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "ursine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "beast_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "human_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "cephalopod_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }

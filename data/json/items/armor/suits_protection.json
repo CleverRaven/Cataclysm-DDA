@@ -13,6 +13,7 @@
     "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
@@ -39,7 +40,7 @@
     "warmth": 20,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "armor_chitin",
@@ -58,8 +59,9 @@
     "looks_like": "armor_larmor",
     "color": "green",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -68,7 +70,7 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_acidchitin",
@@ -91,7 +93,7 @@
     "name": { "str": "XL biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_farmor",
@@ -107,6 +109,7 @@
     "bashing": 2,
     "material": [ "fur" ],
     "symbol": "[",
+    "longest_side": "30 cm",
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
@@ -133,7 +136,7 @@
     "warmth": 60,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_farmor",
@@ -141,7 +144,7 @@
     "name": { "str": "XL fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_larmor",
@@ -157,6 +160,7 @@
     "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "touring_suit",
     "color": "brown",
     "armor": [
@@ -182,7 +186,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor",
@@ -190,7 +194,7 @@
     "name": { "str": "XL leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_lightplate",
@@ -209,6 +213,7 @@
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -219,7 +224,7 @@
     "name": { "str": "XL plate armor" },
     "copy-from": "armor_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_plarmor",
@@ -236,6 +241,7 @@
     "material": [ "leather", "iron" ],
     "symbol": "[",
     "color": "brown",
+    "longest_side": "60 cm",
     "looks_like": "armor_larmor",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 22 ] },
@@ -275,7 +281,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_plarmor",
@@ -283,7 +289,7 @@
     "name": { "str": "XL plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_plate",
@@ -302,6 +308,7 @@
     "looks_like": "armor_lightplate",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -312,7 +319,7 @@
     "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_riot",
@@ -331,6 +338,7 @@
     "looks_like": "kevlar",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 2.5,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
@@ -355,6 +363,7 @@
     "looks_like": "armor_lightplate",
     "color": "dark_gray",
     "warmth": 25,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
@@ -377,6 +386,7 @@
     "looks_like": "armor_lightplate",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "40 cm",
     "material_thickness": 2,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -397,6 +407,7 @@
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "40 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
@@ -416,6 +427,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "white",
+    "longest_side": "12 cm",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 12 ] },
@@ -452,7 +464,7 @@
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -461,7 +473,7 @@
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit",
@@ -480,7 +492,7 @@
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -489,7 +501,7 @@
     "name": { "str": "XL chainmail armor" },
     "copy-from": "chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
@@ -530,6 +542,7 @@
     "looks_like": "jumpsuit",
     "color": "white",
     "warmth": 10,
+    "longest_side": "12 cm",
     "material_thickness": 1,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ],
@@ -555,6 +568,7 @@
     "looks_like": "jumpsuit",
     "color": "light_gray",
     "warmth": 30,
+    "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
@@ -572,7 +586,7 @@
     "name": { "str": "XL entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -668,7 +682,7 @@
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
   },
   {
@@ -690,7 +704,7 @@
     "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "OVERSIZE" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
   },
   {
@@ -758,7 +772,7 @@
     "name": { "str": "XL flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -852,7 +866,7 @@
     ],
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
   },
   {
     "id": "swat_armor",
@@ -869,6 +883,7 @@
     "to_hit": -3,
     "material": [ "kevlar_layered", "thermo_resin", "plastic" ],
     "symbol": "[",
+    "longest_side": "40 cm",
     "looks_like": "armor_riot",
     "color": "dark_gray",
     "armor": [
@@ -913,7 +928,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "mil_flight_suit",

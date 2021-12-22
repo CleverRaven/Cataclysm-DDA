@@ -25,7 +25,7 @@ These properties are required for all monsters:
 | `description`     | (string) In-game description of the monster, in one or two sentences
 | `ascii_picture`   | (string) Id of the asci_art used for this monster
 | `hp`              | (integer) Hit points
-| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`
+| `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 | `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 | `symbol`          | (string) UTF-8 single-character string representing the monster in-game
 | `color`           | (string) Symbol color for the monster
@@ -42,7 +42,6 @@ Monsters may also have any of these optional properties:
 | `species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
 | `scent_tracked`          | (array of strings) Monster tracks these scents
 | `scent_ignored`          | (array of strings) Monster ignores these scents
-| `size`                   | (string) Size flag, ex. TINY, SMALL, MEDIUM, LARGE, HUGE
 | `material`               | (array of strings) Materials the monster is made of
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
@@ -64,6 +63,7 @@ Monsters may also have any of these optional properties:
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
+| `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
@@ -305,6 +305,11 @@ Example:
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
 
+## "hitsize_min", "hitsize_max"
+(integer, optional )
+
+Lower and upper bound of limb sizes the monster's melee attack can target - see `body_parts.json` for the hit sizes.
+
 ## "grab_strength"
 (integer, optional)
 
@@ -373,6 +378,19 @@ The `armor_mult`, `armor_penalty`, `damage_mult`, and `crit_mult` objects suppor
 Default weakpoints are weakpoint objects with an `id` equal to the empty string.
 When an attacker misses the other weakpoints, they will hit the defender's default weakpoint.
 A monster should have at most 1 default weakpoint.
+
+## "weakpoint_sets"
+(array of strings, optional)
+
+Each string refers to the id of a separate `"weakpoint_set"` type JSON object (See [Weakpoint Sets](JSON_INFO.md#weakpoint-sets) for details).
+
+Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 ## "families"
 (array of objects, optional)
@@ -657,7 +675,10 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
 |						| targeted with a chance proportional to the value.
 | `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
+| `hitsize_min`         | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.

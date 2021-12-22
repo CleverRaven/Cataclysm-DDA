@@ -10,6 +10,7 @@
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      { "group": "christmas_accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 25, "event": "christmas" },
       {
         "distribution": [
           {
@@ -26,7 +27,13 @@
                     "collection": [
                       { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
                       { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                      {
+                        "distribution": [
+                          { "item": "leather_belt", "prob": 85, "damage": [ 1, 4 ] },
+                          { "group": "christmas_belts", "prob": 25, "damage": [ 1, 4 ], "event": "christmas" }
+                        ],
+                        "prob": 30
+                      }
                     ]
                   },
                   { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
@@ -76,6 +83,7 @@
                           { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
                           { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
+                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" },
                           {
                             "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
                             "prob": 5
@@ -250,7 +258,12 @@
     "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance)",
     "id": "default_zombie_death_drops",
     "entries": [
-      { "group": "default_zombie_clothes" },
+      {
+        "distribution": [
+          { "group": "default_zombie_clothes", "prob": 90 },
+          { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 }
+        ]
+      },
       { "group": "default_zombie_items", "prob": 50 },
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
     ]

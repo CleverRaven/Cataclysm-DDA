@@ -419,6 +419,10 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
+            ter_set( pos, oter_id( "forest" ) );
+        } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {
+            ter_set( pos, oter_id( "forest_water" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||

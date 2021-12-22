@@ -176,6 +176,34 @@
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
+    "id": "santa_belt",
+    "type": "ARMOR",
+    "name": { "str": "broad belt" },
+    "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 9000,
+    "price_postapoc": 250,
+    "bashing": 5,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "90 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "tool_belt",
     "type": "ARMOR",
     "name": { "str": "tool belt" },

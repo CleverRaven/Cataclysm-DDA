@@ -29,7 +29,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
@@ -271,7 +271,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
   },
   {
@@ -284,7 +284,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
   },
   {
@@ -534,7 +534,7 @@
     "time": "2 m",
     "byproducts": [ [ "splinter", 1 ] ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "hammer_sledge", 1 ] ] ]
   },
   {
@@ -733,7 +733,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "knife_butcher",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "4 h",
@@ -1090,7 +1090,7 @@
     "time": "1 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
     "using": [ [ "plastic_molding", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
@@ -1125,7 +1125,7 @@
     "difficulty": 2,
     "time": "1 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "using": [ [ "plastic_molding", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
@@ -1141,7 +1141,7 @@
     "time": "25 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {

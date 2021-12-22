@@ -17,6 +17,8 @@
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+static const item_category_id item_category_veh_parts( "veh_parts" );
+
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
@@ -302,13 +304,16 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 {
     GIVEN( "some clothing" ) {
         item shirt( "longshirt" );
+        item deg_test( "test_baseball" );
         REQUIRE( shirt.is_armor() );
+        REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
         // Ensure the health bar option is enabled
         override_option opt( "ITEM_HEALTH_BAR", "true" );
 
         // Damage bar uses a scale of 0 `||` to 4 `XX`, in increments of 25%
         int dam25 = shirt.max_damage() / 4;
+        int deg20 = shirt.max_damage() / 5;
 
         WHEN( "it is undamaged" ) {
             shirt.set_damage( 0 );
@@ -317,7 +322,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // green `||`
             THEN( "it appears undamaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_green>||\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -328,7 +333,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
-                CHECK( shirt.tname() == "<color_c_yellow>|\\\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_yellow>|\\</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -339,7 +344,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // magenta `|.`
             THEN( "it appears moderately damaged" ) {
-                CHECK( shirt.tname() == "<color_c_magenta>|.\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_magenta>|.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -350,7 +355,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_red>\\.\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -361,7 +366,55 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {
-                CHECK( shirt.tname() == "<color_c_dark_gray>XX\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_dark_gray>XX</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is one quarter degraded" ) {
+            deg_test.set_degradation( deg20 );
+            REQUIRE( deg_test.degradation() == deg20 );
+            REQUIRE( deg_test.damage_level() == 1 );
+
+            // yellow bar
+            THEN( "it appears slightly degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_yellow>|\\</color><color_c_yellow>\u2587</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is half degraded" ) {
+            deg_test.set_degradation( deg20 * 2 );
+            REQUIRE( deg_test.degradation() == deg20 * 2 );
+            REQUIRE( deg_test.damage_level() == 2 );
+
+            // magenta bar
+            THEN( "it appears slightly more degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_magenta>|.</color><color_c_magenta>\u2585</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is three quarters degraded" ) {
+            deg_test.set_degradation( deg20 * 3 );
+            REQUIRE( deg_test.degradation() == deg20 * 3 );
+            REQUIRE( deg_test.damage_level() == 2 );
+
+            // light red bar
+            THEN( "it appears very degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_magenta>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is totally degraded" ) {
+            deg_test.set_degradation( deg20 * 4 );
+            REQUIRE( deg_test.degradation() == deg20 * 4 );
+            REQUIRE( deg_test.damage_level() == 3 );
+
+            // short red bar
+            THEN( "it appears extremely degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_light_red>\\.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }
@@ -371,9 +424,12 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
         THEN( "clothing health bars are hidden" ) {
             item shirt( "longshirt" );
+            item deg_test( "test_baseball" );
             REQUIRE( shirt.is_armor() );
+            REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
             CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
+            CHECK( deg_test.tname() == "baseball" );
         }
     }
 }
@@ -445,7 +501,8 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     item purse( itype_purse );
     item rock( itype_test_rock );
     item rock2( itype_rock );
-    const std::string color_pref = "<color_c_light_green>||\u00A0</color>";
+    const std::string color_pref =
+        "<color_c_light_green>||</color>\u00A0";
 
     const std::string nesting_sym = ">";
 

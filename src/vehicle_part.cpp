@@ -122,7 +122,8 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
+        res.insert( 0, colorize( base.damage_symbol(),
+                                 base.damage_color() ) + base.degradation_symbol() + " " );
     }
     return res;
 }
@@ -131,7 +132,8 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
-        return dur - dur * base.damage() / base.max_damage();
+        return dur - dur * ( base.damage() - base.degradation() ) /
+               ( base.max_damage() - base.degradation() );
     } else {
         return dur;
     }
@@ -140,6 +142,11 @@ int vehicle_part::hp() const
 int vehicle_part::damage() const
 {
     return base.damage();
+}
+
+int vehicle_part::degradation() const
+{
+    return base.degradation();
 }
 
 int vehicle_part::max_damage() const
@@ -154,12 +161,13 @@ int vehicle_part::damage_level() const
 
 double vehicle_part::health_percent() const
 {
-    return 1.0 - static_cast<double>( base.damage() ) / base.max_damage();
+    return 1.0 - damage_percent();
 }
 
 double vehicle_part::damage_percent() const
 {
-    return static_cast<double>( base.damage() ) / base.max_damage();
+    return static_cast<double>( base.damage() - base.degradation() ) /
+           ( base.max_damage() - base.degradation() );
 }
 
 /** parts are considered broken at zero health */
@@ -361,7 +369,7 @@ bool vehicle_part::can_reload( const item &obj ) const
     if( !obj.is_null() ) {
         const itype_id obj_type = obj.typeId();
         if( is_reactor() ) {
-            return base.is_reloadable_with( obj_type );
+            return base.can_reload_with( obj, true );
         }
 
         // forbid filling tanks with solids or non-material things
@@ -381,7 +389,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // don't fill magazines with inappropriate fuel
-        if( !is_tank() && !base.is_reloadable_with( obj_type ) ) {
+        if( !is_tank() && !base.can_reload_with( obj, true ) ) {
             return false;
         }
     }
@@ -584,7 +592,7 @@ const vpart_info &vehicle_part::info() const
     return *info_cache;
 }
 
-void vehicle::set_hp( vehicle_part &pt, int qty )
+void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )
 {
     if( qty == pt.info().durability || pt.info().durability <= 0 ) {
         pt.base.set_damage( 0 );
@@ -594,6 +602,12 @@ void vehicle::set_hp( vehicle_part &pt, int qty )
 
     } else {
         pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
+    }
+    if( !keep_degradation ) {
+        pt.base.rand_degradation();
+    }
+    if( new_degradation >= 0 ) {
+        pt.base.set_degradation( 0 );
     }
 }
 

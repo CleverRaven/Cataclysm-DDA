@@ -386,12 +386,16 @@
       {
         "id": "mma_buff_setting_sun_onblock",
         "name": "Fool's Strike",
-        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% bash damage.\nLasts 2 turns.",
+        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% damage.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.15 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "ondodge_buffs": [

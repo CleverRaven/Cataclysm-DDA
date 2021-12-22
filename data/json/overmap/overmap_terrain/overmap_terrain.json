@@ -236,7 +236,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin", "bandit_cabin" ],
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -476,24 +488,6 @@
     "color": "light_blue",
     "see_cost": 5,
     "mondensity": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_forest",
-    "name": "basin",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "name": "bog",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

@@ -40,6 +40,7 @@
     "type": "GUN",
     "name": { "str": "base pistol" },
     "skill": "pistol",
+    "sight_dispersion": 60,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

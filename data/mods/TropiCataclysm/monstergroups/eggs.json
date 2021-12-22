@@ -85,5 +85,23 @@
     "type": "monstergroup",
     "default": "mon_water_scorpion_larva",
     "monsters": [ { "monster": "mon_water_scorpion_larva", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TURTLE",
+    "type": "monstergroup",
+    "default": "mon_turtle",
+    "monsters": [ { "monster": "mon_turtle", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAPPER",
+    "type": "monstergroup",
+    "default": "mon_turtle_snapper",
+    "monsters": [ { "monster": "mon_turtle_snapper", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TORTOISE",
+    "type": "monstergroup",
+    "default": "mon_tortoise",
+    "monsters": [ { "monster": "mon_tortoise", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]

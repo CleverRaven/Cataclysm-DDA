@@ -340,6 +340,8 @@ static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -352,9 +354,6 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
@@ -547,7 +546,6 @@ Character::Character() :
     crafting_cache.time = calendar::before_time_starts;
 
     set_power_level( 0_kJ );
-    set_max_power_level( 0_kJ );
     cash = 0;
     scent = 500;
     male = true;
@@ -813,92 +811,194 @@ void Character::add_msg_player_or_say( const game_message_params &params,
     Messages::add_msg( params, player_msg );
 }
 
-int Character::effective_dispersion( int dispersion ) const
+int Character::effective_dispersion( int dispersion, bool zoom ) const
+{
+    return get_character_parallax( zoom ) + dispersion;
+}
+
+int Character::get_character_parallax( bool zoom ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
-    dispersion += ranged_per_mod();
+    int character_parallax = zoom ? static_cast<int>( ranged_per_mod() * 0.25 ) : ranged_per_mod();
+    character_parallax += get_modifier( character_modifier_ranged_dispersion_vision_mod );
 
-    dispersion += get_modifier( character_modifier_ranged_dispersion_vision_mod );
-
-    return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
+    return std::max( static_cast<int>( std::round( character_parallax ) ), 0 );
 }
 
-std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
+static double modified_sight_speed( double aim_speed_modifier, double effective_sight_dispersion,
+                                    double recoil )
 {
-    // Get fastest sight that can be used to improve aim further below @ref recoil.
-    int sight_speed_modifier = INT_MIN;
-    int limit = 0;
-    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 : 6;
-        limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    if( recoil <= effective_sight_dispersion ) {
+        return 0;
+    }
+    // When recoil tends to effective_sight_dispersion, the aiming speed bonus will tend to 0
+    // Wehn recoil > 3 * effective_sight_dispersion + 1, attenuation_factor = 1
+    // use 3 * effective_sight_dispersion + 1 instead of 3 * effective_sight_dispersion to avoid min=max
+    if( effective_sight_dispersion < 0 ) {
+        return 0;
+    }
+    double attenuation_factor = 1 - logarithmic_range( effective_sight_dispersion,
+                                3 * effective_sight_dispersion + 1, recoil );
+
+    return ( 10.0 + aim_speed_modifier ) * attenuation_factor;
+}
+
+int Character::point_shooting_limit( const item &gun )const
+{
+    // This value is not affected by PER, because the accuracy of aim shooting depends more on muscle memory and skill
+    skill_id gun_skill = gun.gun_skill();
+    if( gun_skill == skill_archery ) {
+        return 30 + 220 / ( 1 + std::min( get_skill_level( gun_skill ), MAX_SKILL ) );
+    } else {
+        return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    }
+}
+
+double Character::fastest_aiming_method_speed( const item &gun, double recoil,
+        const Target_attributes target_attributes ) const
+{
+    // Get fastest aiming method that can be used to improve aim further below @ref recoil.
+
+    skill_id gun_skill = gun.gun_skill();
+    // aim with instinct (point shooting)
+
+    // When it is a negative number, the effect of reducing the aiming speed is very significant.
+    // When it is a positive number, a large value is needed to significantly increase the aiming speed
+    double point_shooting_speed_modifier = 0;
+    if( gun_skill == skill_pistol ) {
+        point_shooting_speed_modifier = 10 + 4 * get_skill_level( gun_skill );
+    } else {
+        point_shooting_speed_modifier = get_skill_level( gun_skill );
     }
 
+    double aim_speed_modifier = modified_sight_speed( point_shooting_speed_modifier,
+                                point_shooting_limit( gun ), recoil );
+    // aim with iron sight
+    if( !gun.has_flag( flag_DISABLE_SIGHTS ) ) {
+        const int iron_sight_FOV = 480;
+        int effective_iron_sight_dispersion = effective_dispersion( gun.type->gun->sight_dispersion );
+        double iron_sight_speed = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 :
+                                  modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
+        if( effective_iron_sight_dispersion < recoil && iron_sight_speed > aim_speed_modifier &&
+            recoil <= iron_sight_FOV ) {
+            aim_speed_modifier = iron_sight_speed;
+        }
+    }
+
+    // aim with other sights
+
+    // to check whether laser sights are available
+    const int base_distance = 10;
+    const float light_limit = 120.0f;
+    bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
+                                     1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
-        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
+        if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod.sight_dispersion ) < recoil &&
-            mod.aim_speed > sight_speed_modifier ) {
-            sight_speed_modifier = mod.aim_speed;
-            limit = effective_dispersion( mod.sight_dispersion );
+        if( e->has_flag( flag_LASER_SIGHT ) && !laser_light_available ) {
+            continue;
         }
+        bool zoom = e->has_flag( flag_ZOOM );
+        double e_effective_dispersion = effective_dispersion( mod.sight_dispersion,
+                                        zoom );
+
+        // The character can hardly get the aiming speed bonus from a non-magnifier sight when aiming at a target that is too far or too small
+        double effective_aim_speed_modifier = 4 * get_character_parallax( zoom ) >
+                                              target_attributes.size_in_moa ? std::min( 0.0, mod.aim_speed_modifier ) : mod.aim_speed_modifier;
+        if( e_effective_dispersion < recoil && recoil <= mod.field_of_view ) {
+            double e_speed = recoil < mod.field_of_view ? modified_sight_speed( effective_aim_speed_modifier,
+                             e_effective_dispersion, recoil ) : 0;
+            if( e_speed > aim_speed_modifier ) {
+                aim_speed_modifier = e_speed;
+            }
+        }
+
     }
-    return std::make_pair( sight_speed_modifier, limit );
+    return aim_speed_modifier;
 }
 
-int Character::get_most_accurate_sight( const item &gun ) const
+int Character::most_accurate_aiming_method_limit( const item &gun ) const
 {
     if( !gun.is_gun() ) {
         return 0;
     }
 
-    int limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    int limit = point_shooting_limit( gun );
+
+    if( !gun.has_flag( flag_DISABLE_SIGHTS ) ) {
+        int iron_sight_limit = effective_dispersion( gun.type->gun->sight_dispersion );
+        if( limit > iron_sight_limit ) {
+            limit = iron_sight_limit;
+        }
+    }
+
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
-        if( mod.aim_speed >= 0 ) {
-            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
+        if( mod.field_of_view > 0 && mod.sight_dispersion >= 0 ) {
+            limit = std::min( limit, effective_dispersion( mod.sight_dispersion, e->has_flag( flag_ZOOM ) ) );
         }
     }
 
     return limit;
 }
 
-double Character::aim_cap_from_volume( const item &gun ) const
+double Character::aim_factor_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
-
-    units::volume wielded_volume = gun.volume();
+    double wielded_volume = gun.volume() / 1_ml;
     if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
         // use the unfolded volume
-        wielded_volume += gun.collapsed_volume_delta();
+        wielded_volume += gun.collapsed_volume_delta() / 1_ml;
     }
 
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
-    // TODO: also scale with skill level.
-    if( gun_skill == skill_smg || gun_skill == skill_shotgun ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_pistol ) {
-        aim_cap = std::max( 15.0, aim_cap * 1.25 );
-    } else if( gun_skill == skill_rifle ) {
-        aim_cap = std::max( 7.0, aim_cap - 7.0 );
-    } else if( gun_skill == skill_archery ) {
-        aim_cap = std::max( 13.0, aim_cap );
-    } else { // Launchers, etc.
-        aim_cap = std::max( 10.0, aim_cap );
+    double factor = gun_skill == skill_pistol ? 4 : 1;
+    double min_volume_without_debuff =  800;
+    if( wielded_volume > min_volume_without_debuff ) {
+        factor *= std::pow( min_volume_without_debuff / wielded_volume, 0.333333 );
     }
-    return aim_cap;
+
+
+
+    return std::max( factor, 0.2 ) ;
 }
 
-double Character::aim_per_move( const item &gun, double recoil ) const
+static bool is_obstacle( tripoint pos )
+{
+    return get_map().coverage( pos ) >= 50;
+}
+
+double Character::aim_factor_from_length( const item &gun ) const
+{
+    tripoint cur_pos = pos();
+    bool nw_to_se = is_obstacle( cur_pos + tripoint_south_east ) &&
+                    is_obstacle( cur_pos + tripoint_north_west );
+    bool w_to_e = is_obstacle( cur_pos + tripoint_west ) &&
+                  is_obstacle( cur_pos + tripoint_east );
+    bool sw_to_ne = is_obstacle( cur_pos + tripoint_south_west ) &&
+                    is_obstacle( cur_pos + tripoint_north_east );
+    bool n_to_s = is_obstacle( cur_pos + tripoint_north ) &&
+                  is_obstacle( cur_pos + tripoint_south );
+    double wielded_length = gun.length() / 1_mm;
+    double factor = 1.0;
+
+    if( nw_to_se || w_to_e || sw_to_ne || n_to_s ) {
+        factor = 1.0 - static_cast<float>( ( wielded_length - 300 ) / 1000 );
+        factor =  std::min( factor, 1.0 );
+    }
+    return std::max( factor, 0.2 ) ;
+}
+
+double Character::aim_per_move( const item &gun, double recoil,
+                                const Target_attributes target_attributes ) const
 {
     if( !gun.is_gun() ) {
         return 0.0;
     }
 
-    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
-    int sight_speed_modifier = best_sight.first;
-    int limit = best_sight.second;
+    double sight_speed_modifier = fastest_aiming_method_speed( gun, recoil, target_attributes );
+    int limit = most_accurate_aiming_method_limit( gun );
     if( sight_speed_modifier == INT_MIN ) {
         // No suitable sights (already at maximum aim).
         return 0;
@@ -911,28 +1011,36 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     double aim_speed = 10.0;
 
     skill_id gun_skill = gun.gun_skill();
-    // Ranges [0 - 10]
+    // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
     aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
 
-    // Range [0 - 12]
     /** @EFFECT_DEX increases aiming speed */
+    // every DEX increases 0.5 aim_speed
     aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
-    // Range [0 - 10]
     aim_speed += sight_speed_modifier;
 
     aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
-    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
+    // Use a milder attenuation function to replace the previous logarithmic attenuation function when recoil is closed to 0.
+    aim_speed *= std::max( recoil / MAX_RECOIL, 1 - logarithmic_range( 0, MAX_RECOIL, recoil ) );
+
+    double base_aim_speed_cap = 20 +  1.0 * get_skill_level( gun_skill );
+
+    // This upper limit usually only affects the first half of the aiming process
+    // Pistols have a much higher aiming speed limit
+    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_volume( gun ) );
+
+    // When the character is in an open area, it will not be affected by the length of the weapon.
+    // This upper limit usually only affects the first half of the aiming process
+    // Weapons shorter than carbine are usually not affected by it
+    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_length( gun ) );
 
     // Just a raw scaling factor.
-    aim_speed *= 6.5;
+    aim_speed *= 2.4;
 
-    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
-    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
-
-    // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
-    aim_speed = std::max( aim_speed, 5.0 );
+    // Minimum improvement is 0.01MoA.  This is just to prevent data anomalies
+    aim_speed = std::max( aim_speed, 0.01 );
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
@@ -2389,34 +2497,36 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
+    units::energy val = enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER,
+                        max_power_level_cached + max_power_level_modifier );
+    return clamp( val, 0_kJ, units::energy_max );
 }
 
 void Character::set_power_level( const units::energy &npower )
 {
-    power_level = std::min( npower, get_max_power_level() );
+    power_level = clamp( npower, 0_kJ, get_max_power_level() );
 }
 
-void Character::set_max_power_level( const units::energy &npower_max )
+void Character::set_max_power_level_modifier( const units::energy &capacity )
 {
-    max_power_level = npower_max;
+    max_power_level_modifier = clamp( capacity, units::energy_min, units::energy_max );
+}
+
+void Character::set_max_power_level( const units::energy &capacity )
+{
+    max_power_level_modifier = clamp( capacity - max_power_level_cached, units::energy_min,
+                                      units::energy_max );
 }
 
 void Character::mod_power_level( const units::energy &npower )
 {
-    // Remaining capacity between current and maximum power levels we can make use of.
-    const units::energy remaining_capacity = get_max_power_level() - get_power_level();
-    // We can't add more than remaining capacity, so get the minimum of the two
-    const units::energy minned_npower = std::min( npower, remaining_capacity );
-    // new candidate power level
-    const units::energy new_power = get_power_level() + minned_npower;
-    // set new power level while prevending it from going negative
-    set_power_level( std::max( 0_kJ, new_power ) );
+    set_power_level( power_level + npower );
 }
 
-void Character::mod_max_power_level( const units::energy &npower_max )
+void Character::mod_max_power_level_modifier( const units::energy &npower )
 {
-    max_power_level += npower_max;
+    max_power_level_modifier = clamp( max_power_level_modifier + npower, units::energy_min,
+                                      units::energy_max );
 }
 
 bool Character::is_max_power() const
@@ -3701,7 +3811,8 @@ int Character::get_speed() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() + int( Character::has_proficiency( proficiency_prof_spotting ) ) *
+    return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
+                proficiency_prof_spotting ) ) *
            Character::get_per_base();
 }
 
@@ -4953,17 +5064,13 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
         // Web sleepers can use their webs if better furniture isn't available
         else if( websleep && web >= 3 ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_improvised_shelter ) {
-            comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            comfort += 1 + static_cast<int>( comfort_level::neutral );
         } else if( !trap_at_pos.is_null() ) {
             comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
             comfort -= here.move_cost( p );
+            // Include comfort from terrain, if any
+            comfort += ter_at_pos.obj().comfort;
         }
 
         if( comfort_response.aid == nullptr ) {
@@ -5817,7 +5924,7 @@ int Character::height() const
     const double base_height_deviation = base_height() / static_cast< double >
                                          ( Character::default_height() );
     const HeightLimits &limits = size_category_height_limits.at( get_size() );
-    return clamp<int>( base_height_deviation * limits.base_height,
+    return clamp<int>( std::round( base_height_deviation * limits.base_height ),
                        limits.min_height, limits.max_height );
 }
 
@@ -5914,7 +6021,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
-            if( obj->damage() > 0 ) {
+            if( obj->damage() > obj->degradation() ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
                 if( rep.empty() ) {
                     add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
@@ -6873,8 +6980,10 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
             damage_unit du_copy = du;
             du_copy.type = damage_type::CUT;
             du.amount -= mutation_armor( bp, du_copy );
+            du.amount -= bp->damage_resistance( du_copy );
         } else {
             du.amount -= mutation_armor( bp, du );
+            du.amount -= bp->damage_resistance( du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
@@ -8078,10 +8187,8 @@ int Character::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
     } else if( boardable ) {
         floor_bedding_warmth += boardable->info().floor_bedding_warmth;
-    } else if( ter_at_pos == t_improvised_shelter ) {
-        floor_bedding_warmth -= 500;
     } else {
-        floor_bedding_warmth -= 2000;
+        floor_bedding_warmth += ter_at_pos.obj().floor_bedding_warmth - 2000;
     }
 
     return floor_bedding_warmth;
@@ -8457,6 +8564,8 @@ void Character::use_fire( const int quantity )
     }
 }
 
+// Todo: refactor this function to take into account only heart_rate_index.
+// Will need to set-up the rng stats as modifiers during player creation to keep consistent.
 int Character::heartrate_bpm() const
 {
     //Dead have no heartbeat usually and no heartbeat in omnicell
@@ -8703,7 +8812,7 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
 bool Character::crush_frozen_liquid( item_location loc )
 {
     if( has_quality( qual_HAMMER ) ) {
-        item hammering_item = item_with_best_of_quality( qual_HAMMER );
+        item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
         //~ %1$s: item to be crushed, %2$s: hammer name
         if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
                          "<color_red>Be wary of fragile items nearby!</color>" ),
@@ -8761,7 +8870,25 @@ float Character::speed_rating() const
     return ret;
 }
 
-item &Character::item_with_best_of_quality( const quality_id &qid )
+static item *get_matching_qual_recursive( const std::list<item *> &ilist, const quality_id &qid,
+        int lvl )
+{
+    for( item *it : ilist ) {
+        if( it->get_quality( qid ) != lvl ) {
+            continue;
+        } else if( it->empty_container() ) {
+            return it;
+        } else {
+            item *tmp = get_matching_qual_recursive( it->all_items_top(), qid, lvl );
+            if( tmp == nullptr ) {
+                return it;
+            }
+        }
+    }
+    return nullptr;
+}
+
+item &Character::item_with_best_of_quality( const quality_id &qid, bool tool_not_container )
 {
     int maxq = max_quality( qid );
     auto items_with_quality = items_with( [qid]( const item & it ) {
@@ -8769,6 +8896,12 @@ item &Character::item_with_best_of_quality( const quality_id &qid )
     } );
     for( item *it : items_with_quality ) {
         if( it->get_quality( qid ) == maxq ) {
+            if( tool_not_container && !it->empty_container() ) {
+                item *tmp = get_matching_qual_recursive( it->all_items_top(), qid, maxq );
+                if( tmp != nullptr ) {
+                    return *tmp;
+                }
+            }
             return *it;
         }
     }
@@ -8866,6 +8999,10 @@ int Character::run_cost( int base_cost, bool diag ) const
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
+
+        if( !is_mounted() && !is_prone() && has_effect( effect_downed ) ) {
+            movecost *= 3;
+        }
     }
 
     if( diag ) {
@@ -9796,7 +9933,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.all_items_top() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             moves += this->item_handling_cost( *contained );
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
@@ -11165,8 +11302,12 @@ void Character::pause()
         for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
             total_hand_encumb += encumb( part );
         }
+        // proficiency bonus is equal to having extra levels of firstaid skill (up to +3)
+        int prof_bonus = get_skill_level( skill_firstaid );
+        prof_bonus = has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+        prof_bonus = has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
         time_duration penalty = 1_turns * total_hand_encumb;
-        time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
+        time_duration benefit = 5_turns + 10_turns * prof_bonus;
 
         bool broken_arm = false;
         for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
@@ -11191,6 +11332,8 @@ void Character::pause()
                                    _( "You attempt to put pressure on the bleeding wound!" ),
                                    _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
             practice( skill_firstaid, 1 );
+            practice_proficiency( proficiency_prof_wound_care, 1_turns );
+            practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );
         }
     }
     // on-pause effects for martial arts

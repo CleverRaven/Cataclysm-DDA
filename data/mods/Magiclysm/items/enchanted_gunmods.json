@@ -38,9 +38,11 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": "1 m",
     "sight_dispersion": 27,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
-    "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_under", "msg": "You rotate the laser sight." }
+    "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_under", "msg": "You rotate the laser sight." },
+    "flags": [ "LASER_SIGHT" ]
   },
   {
     "id": "mana_laser_under",
@@ -58,10 +60,11 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "install_time": "30 m",
     "sight_dispersion": 27,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_rail", "msg": "You rotate the laser sight." },
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "mana_dot_sight",
@@ -79,7 +82,8 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "install_time": "30 m",
     "sight_dispersion": 21,
-    "aim_speed": 7,
+    "field_of_view": 540,
+    "aim_speed_modifier": 12,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   }

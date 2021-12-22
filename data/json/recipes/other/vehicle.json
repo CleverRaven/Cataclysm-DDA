@@ -55,7 +55,7 @@
     "difficulty": 2,
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
@@ -69,7 +69,7 @@
     "difficulty": 2,
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "bottle_plastic", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
@@ -83,7 +83,7 @@
     "difficulty": 2,
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {

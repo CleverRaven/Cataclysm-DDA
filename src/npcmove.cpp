@@ -1177,7 +1177,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            aim();
+            aim( Target_attributes( pos(), tar ) );
             break;
 
         case npc_shoot: {
@@ -1186,7 +1186,7 @@ void npc::execute_action( npc_action action )
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
             }
-            aim();
+            aim( Target_attributes( pos(), tar ) );
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
@@ -2190,7 +2190,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim()
+void npc::aim( Target_attributes target_attributes )
 {
     const item &weapon = get_wielded_item();
     double aim_amount = aim_per_move( weapon, recoil );
@@ -2198,7 +2198,7 @@ void npc::aim()
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil );
+        aim_amount = aim_per_move( weapon, recoil, target_attributes );
     }
 }
 
@@ -2727,7 +2727,7 @@ void npc::move_pause()
     if( has_effect( effect_onfire ) ) {
         pause();
     } else {
-        aim();
+        aim( Target_attributes() );
         moves = std::min( moves, 0 );
     }
 }

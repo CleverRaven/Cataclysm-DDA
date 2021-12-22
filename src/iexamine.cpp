@@ -206,6 +206,7 @@ static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
@@ -226,6 +227,7 @@ static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
@@ -1273,7 +1275,8 @@ void iexamine::intercom( Character &you, const tripoint &examp )
 void iexamine::rubble( Character &you, const tripoint &examp )
 {
     int moves;
-    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ) {
+    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ||
+        you.has_trait( trait_BURROWLARGE ) ) {
         moves = to_moves<int>( 1_minutes );
     } else if( you.has_quality( qual_DIG, 2 ) ) {
         moves = to_moves<int>( 2_minutes );
@@ -1605,26 +1608,55 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
-
     map &here = get_map();
-    if( best_prying.is_null() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-            locked_object_pickable( you, examp );
+    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
+    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
+    const bool has_prying = !best_prying.is_null();
+    const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
+                          ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
+    enum act {
+        pick = 0,
+        pry = 1,
+        none = 2
+    };
+    int action = act::none;
+
+    if( has_prying && can_pick ) {
+        const int pry_has = best_prying.get_quality( qual_PRY );
+        const int pry_req = here.has_furn( examp ) ?
+                            here.furn( examp )->prying->prying_data().prying_level :
+                            here.ter( examp )->prying->prying_data().prying_level;
+        if( pry_has < pry_req ) {
+            action = act::pick;
         } else {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            uilist amenu;
+            amenu.text = string_format( _( "What to do with the %s?" ),
+                                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
+            amenu.addentry( 1, true, 'p', _( "Pry open" ) );
+            amenu.query();
+            if( amenu.ret < act::pick || amenu.ret > act::pry ) {
+                return;
+            }
+            action = amenu.ret;
         }
-        return;
+    } else {
+        action = has_prying ? act::pry : can_pick ? act::pick : act::none;
     }
 
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
-
-    iuse::crowbar( &you, &best_prying, false, examp );
+    if( action == act::none ) {
+        add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
+                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        return;
+    } else if( action == act::pry ) {
+        //~ %1$s: terrain/furniture name, %2$s: prying tool name
+        you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                               here.has_furn( examp ) ? here.furnname( examp ) :
+                               here.tername( examp ), best_prying.tname() );
+        iuse::crowbar( &you, &best_prying, false, examp );
+    } else if( action == act::pick ) {
+        locked_object_pickable( you, examp );
+    }
 }
 
 /**
@@ -2038,7 +2070,8 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW );
+    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW ) ||
+                        you.has_trait( trait_BURROWLARGE );
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
             none( you, examp );
@@ -3028,6 +3061,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     if( here.has_items( examp ) ) {
+        // Note: This is displayed regardless of whether "examine with pickup" was used
         selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     }
     if( !already_on_fire ) {
@@ -3932,6 +3966,17 @@ void iexamine::clean_water_source( Character &, const tripoint &examp )
 {
     item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+}
+
+void iexamine::finite_water_source( Character &, const tripoint &examp )
+{
+    map_stack items = get_map().i_at( examp );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of( phase_id::LIQUID ) ) {
+            liquid_handler::handle_liquid_from_ground( item_it, examp );
+            break;
+        }
+    }
 }
 
 const itype *furn_t::crafting_pseudo_item_type() const
@@ -4983,8 +5028,10 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
-                bio_list.emplace_back( bio.id );
-                bionic_names.emplace_back( bio.info().name.translated() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
+                }
             }
             int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {
@@ -6325,6 +6372,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
+            { "finite_water_source", &iexamine::finite_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },

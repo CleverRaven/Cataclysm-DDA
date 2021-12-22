@@ -335,6 +335,13 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 
 
+## Bodyparts
+
+-```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+-```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
+
+
 ## Books
 
 - ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
@@ -581,6 +588,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FRESH_WATER``` Source of fresh water. Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
@@ -594,6 +602,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
+- ```MURKY``` Water taker from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
@@ -624,6 +633,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
+- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
@@ -919,6 +929,8 @@ Other monster flags.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters.
+- ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
+- ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.

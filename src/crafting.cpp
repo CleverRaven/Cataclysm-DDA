@@ -101,6 +101,7 @@ static const string_id<struct furn_t> furn_f_fake_bench_hands( "f_fake_bench_han
 static const string_id<struct furn_t> furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -584,7 +585,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         *crafting_cache.crafting_inventory += *i;
     }
 
-    if( has_trait( trait_BURROW ) ) {
+    if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
         *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
@@ -717,6 +718,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
+                //~ %1$s: name of item being placed, %2$s: vehicle part name
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
@@ -726,8 +728,10 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
-            pgettext( "furniture, item", "Not enough space on the %s. You drop the %s on the ground." ),
-            pgettext( "furniture, item", "Not enough space on the %s. <npcname> drops the %s on the ground." ),
+            //~ %1$s: vehicle part name, %2$s: name of the item being placed
+            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %1$s on the ground." ),
+            pgettext( "furniture, item",
+                      "Not enough space on the %1$s. <npcname> drops the %2$s on the ground." ),
             vp->part().name(), newit.tname() );
 
         return set_item_map( loc, newit );
@@ -736,6 +740,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
         if( here.has_furn( loc ) ) {
             const furn_t &workbench = here.furn( loc ).obj();
             p.add_msg_player_or_npc(
+                //~ %1$s: name of item being placed, %2$s: vehicle part name
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 newit.tname(), workbench.name() );
@@ -2400,7 +2405,7 @@ void Character::complete_disassemble( item_location target )
     if( rec ) {
         complete_disassemble( target, rec );
     } else {
-        debugmsg( "bad disassembly recipe: %d", temp.type_name() );
+        debugmsg( "bad disassembly recipe: %s", temp.type_name() );
         activity.set_to_null();
         return;
     }
@@ -2463,15 +2468,12 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    item &org_item = target.get_item()->components.front();
-    const bool filthy = org_item.is_filthy();
     const tripoint loc = target.position();
 
-    // Make a copy to keep its data (damage/components) even after it
-    // has been removed.
+    // Get the item to disassemble, and make a copy to keep its data (damage/components)
+    // after the original has been removed.
+    item org_item = target.get_item()->components.front();
     item dis_item = org_item;
-
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
     if( this->is_avatar() ) {
         add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
@@ -2480,7 +2482,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
                                 this->disp_name( false, true ), dis_item.tname() );
     }
 
-    // Get rid of the disassembly item
+    // Get rid of the disassembled item
     target.remove_item();
 
     // Consume tool charges
@@ -2489,22 +2491,6 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // add the components to the map
-    // Player skills should determine how many components are returned
-
-    int skill_dice = 2 + get_skill_level( dis.skill_used ) * 3;
-    skill_dice += get_skill_level( dis.skill_used );
-
-    // Sides on dice is 16 plus your current intelligence
-    ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + int_cur;
-
-    int diff_dice = dis.difficulty;
-    int diff_sides = 24; // 16 + 8 (default intelligence)
-
-    // disassembly only nets a bit of practice
-    if( dis.skill_used ) {
-        practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
-    }
 
     // If the components aren't empty, we want items exactly identical to them
     // Even if the best-fit recipe does not involve those items
@@ -2559,30 +2545,58 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         }
     }
 
+    // Player skills should determine how many components are returned
+    int skill_dice = 2 + get_skill_level( dis.skill_used ) * 4;
+
+    // Sides on dice is 16 plus your current intelligence
+    ///\EFFECT_INT increases success rate for disassembling items
+    int skill_sides = 16 + int_cur;
+
+    int diff_dice = dis.difficulty;
+    int diff_sides = 24; // 16 + 8 (default intelligence)
+
+    // disassembly only nets a bit of practice
+    if( dis.skill_used ) {
+        practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
+    }
+
+    // Item damage_level (0-4) reduces chance of success (0.8^lvl =~ 100%, 80%, 64%, 51%, 41%)
+    const float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
+
+    // Recovered component items to be dropped
     std::list<item> drop_items;
 
+    // Recovered and destroyed item types and count of each
+    std::map<itype_id, int> recover_tally;
+    std::map<itype_id, int> destroy_tally;
+
+    // Roll skill and damage checks for successful recovery of each component
     for( const item &newit : components ) {
+        // Use item type to index recover/destroy tallies
+        const itype_id it_type_id = newit.typeId();
+        // Chance of failure based on character skill and recipe difficulty
         const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides );
-        if( dis.difficulty != 0 && !comp_success ) {
-            if( this->is_avatar() ) {
-                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
-            } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s." ), this->disp_name( false,
-                                        true ), newit.tname() );
-            }
-            continue;
-        }
+        // If original item was damaged, there is another chance for recovery to fail
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
-        if( !dmg_success ) {
-            // Show reason for failure (damaged item, tname contains the damage adjective)
-            if( this->is_avatar() ) {
-                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
+
+        // If component recovery failed, tally it and continue with the next component
+        if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
+            // Count destroyed items
+            if( destroy_tally.count( it_type_id ) == 0 ) {
+                destroy_tally[it_type_id] = newit.count();
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s from the %3$s." ),
-                                        this->disp_name( false, true ), newit.tname(), dis_item.tname() );
+                destroy_tally[it_type_id] += newit.count();
             }
             continue;
         }
+
+        // Component recovered successfully; add to the tally
+        if( recover_tally.count( it_type_id ) == 0 ) {
+            recover_tally[it_type_id] = newit.count();
+        } else {
+            recover_tally[it_type_id] += newit.count();
+        }
+
         // Use item from components list, or (if not contained)
         // use newit, the default constructed.
         item act_item = newit;
@@ -2596,7 +2610,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             act_item.set_flag( flag_FIT );
         }
 
-        if( filthy ) {
+        // Filthy items yield filthy components
+        if( dis_item.is_filthy() ) {
             act_item.set_flag( flag_FILTHY );
         }
 
@@ -2617,6 +2632,36 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         }
     }
 
+    // Log how many of each component failed to be recovered
+    for( std::pair<itype_id, int> destroyed : destroy_tally ) {
+        // Get name of item, pluralized for its quantity
+        const std::string it_name = item( destroyed.first ).type_name( destroyed.second );
+        if( this->is_avatar() ) {
+            //~ %1$d: quantity destroyed, %2$s: pluralized name of destroyed item
+            add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), destroyed.second, it_name );
+        } else {
+            //~ %1$s: NPC name, %2$d: quantity destroyed, %2$s: pluralized name of destroyed item
+            add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$d %3$s." ),
+                                    this->disp_name( false, true ), destroyed.second, it_name );
+        }
+    }
+
+    // Log how many of each component were recovered successfully
+    for( std::pair<itype_id, int> recovered : recover_tally ) {
+        // Get name of item, pluralized for its quantity
+        const std::string it_name = item( recovered.first ).type_name( recovered.second );
+        // Recovery successful; inform player
+        if( this->is_avatar() ) {
+            //~ %1$d: quantity recovered, %2$s: pluralized name of recovered item
+            add_msg( m_good, _( "You recover %1$d %2$s." ), recovered.second, it_name );
+        } else {
+            //~ %1$s: NPC name, %2$d: quantity recovered, %2$s: pluralized name of recovered item
+            add_msg_if_player_sees( *this, m_good, _( "%1$s recovers %2$d %3$s." ),
+                                    this->disp_name( false, true ), recovered.second, it_name );
+        }
+    }
+
+    // Drop all recovered components
     put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, loc );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {

@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -227,6 +227,35 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
+  },
+  {
+    "result": "skirt_leather",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "fastener_small", 1 ], [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "kilt_leather",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "6 h",
+    "book_learn": [ [ "scots_tailor", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "fabric_leather_hide", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "kilt",
@@ -474,7 +503,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
   {
@@ -484,7 +513,7 @@
     "time": "1 h",
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },
   {
