@@ -407,7 +407,7 @@ struct int_or_var {
             return int_val.value();
         } else if( var_val.has_value() ) {
             std::string val;
-            global_variables& globvars = get_globals();
+            global_variables &globvars = get_globals();
             switch( type ) {
                 case var_type::global:
                     val = globvars.get_global_value( var_val.value() );
@@ -436,17 +436,28 @@ struct duration_or_var {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
-    bool global = false;
+    var_type type;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
     time_duration evaluate( talker *talk ) const {
         if( dur_val.has_value() ) {
             return dur_val.value();
         } else if( var_val.has_value() ) {
             std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
+            global_variables &globvars = get_globals();
+            switch( type ) {
+                case var_type::global:
+                    val = globvars.get_global_value( var_val.value() );
+                    break;
+                case var_type::u:
+                    val = talk->get_value( var_val.value() );
+                    break;
+                case var_type::npc:
+                    val = talk->get_value( var_val.value() );
+                    break;
+                default:
+                    debugmsg( "Invalid type." );
             }
             if( !val.empty() ) {
                 time_duration ret_val;
