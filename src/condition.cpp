@@ -58,9 +58,10 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
-    const std::string &type_var = jo.get_string( "type", "default" );
-    const std::string &var_context = jo.get_string( "context", "default" );
-    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+    const std::string &type_var = jo.get_string( "type", "" );
+    const std::string &var_context = jo.get_string( "context", "" );
+    return "npctalk_var" + ( type_var == "" ? "" : "_" + type_var ) + ( var_context == "" ? "" : "_" +
+            var_context ) + "_" + var_basename;
 }
 
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
