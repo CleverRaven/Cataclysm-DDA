@@ -735,22 +735,13 @@
   {
     "type": "scenario",
     "id": "debug",
-    "name": {
-      "male": "Bug Hunter",
-      "female": "Bug Huntress"
-    },
+    "name": "Debugging",
     "points": 99,
-    "description": "For debugging purposes only.  You descend into the mortal realm to fulfill your destiny of hunting and reporting bugs.  As you swear the holy oath to not use this scenario to cheat, the urge to explore and improve the realm consumes you…",
+    "description": "For debugging purposes only.  You descend into the mortal realm to fulfill your destiny of hunting and reporting bugs.  As you swear the holy oath to not use this scenario to cheat and to duly report any bugs you find, the urge to explore and improve the realm consumes you…",
     "forced_traits": [ "DEBUG_NIGHTVISION",  "DEBUG_CLAIRVOYANCE", "DEBUG_CLAIRVOYANCE_PLUS", "DEBUG_CLOAK", "DEBUG_LS", "DEBUG_STAMINA", "DEBUG_NOSCENT", "DEBUG_SILENT", "DEBUG_NODMG", "DEBUG_NOTEMP", "FLEET2", "GOODHEARING", "QUICK" ],
-    "items": {
-      "both": [
-        "debug_backpack",
-        "diving_watch",
-        "halligan",
-        "syringe"
-      ]
-    },
-    "start_name": "Anywhere",
+    "professions": [ "bughunter" ],
+    "allowed_locs": [ "sloc_field" ],
+    "start_name": "Field",
     "flags": [ "DEBUG", "LONE_START" ]
   }
 ]

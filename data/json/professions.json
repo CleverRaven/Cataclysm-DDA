@@ -4149,5 +4149,47 @@
       }
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "bughunter",
+    "name": { "male": "Bug Hunter", "female": "Bug Huntress" },
+    "description": "You carry some special gear and all your skills are extremely well honed since you spent so much time diving into the source code, so what could stop you from finding and squashing bugs?",
+    "points": 99,
+    "skills": [
+      { "level": 10, "name": "bashing" },
+      { "level": 10, "name": "chemistry" },
+      { "level": 10, "name": "computer" },
+      { "level": 10, "name": "cooking" },
+      { "level": 10, "name": "cutting" },
+      { "level": 10, "name": "dodge" },
+      { "level": 10, "name": "driving" },
+      { "level": 10, "name": "electronics" },
+      { "level": 10, "name": "firstaid" },
+      { "level": 10, "name": "fabrication" },
+      { "level": 10, "name": "gun" },
+      { "level": 10, "name": "mechanics" },
+      { "level": 10, "name": "melee" },
+      { "level": 10, "name": "pistol" },
+      { "level": 10, "name": "rifle" },
+      { "level": 10, "name": "shotgun" },
+      { "level": 10, "name": "smg" },
+      { "level": 10, "name": "speech" },
+      { "level": 10, "name": "stabbing" },
+      { "level": 10, "name": "survival" },
+      { "level": 10, "name": "swimming" },
+      { "level": 10, "name": "tailor" },
+      { "level": 10, "name": "throw" },
+      { "level": 10, "name": "traps" },
+      { "level": 10, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "debug_backpack", "diving_watch", "halligan", "syringe" ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

@@ -4453,14 +4453,11 @@ The following properties (mandatory, except if noted otherwise) are supported:
 The in-game description.
 
 ## `name`
-(string or object with members "male" and "female")
+(string)
 
-The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+The in-game name should be a gender-neutral name, it is **not** possible to use `male` or `female` in this property. Example:
 ```C++
-"name": {
-    "male": "Runaway groom",
-    "female": "Runaway bride"
-}
+"name": "Squatter"
 ```
 
 ## `points`
@@ -4468,29 +4465,21 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 
 Point cost of scenario. Positive values cost points and negative values grant points.
 
-## `items`
-(optional, object with optional members "both", "male" and "female")
-
-Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
-
-Example:
-```C++
-"items": {
-    "both": [
-        "pants",
-        "rock",
-        "rock"
-    ],
-    "male": [ "briefs" ],
-    "female": [ "panties" ]
-}
-```
-This gives the player pants, two rocks and (depending on the gender) briefs or panties.
-
 ## `flags`
 (optional, array of strings)
 
-A list of flags. TODO: document those flags here.
+A list of flags. Example:
+
+```C++
+"flags": [ "CHALLENGE", "LONE_START" ]
+
+```
+
+| Flag | Use |
+|------|-----|
+|`CHALLENGE` | An especially difficult scenario |
+| `LONE_START` | There are no starting NPCs |
+| `CITY_START` | The character starts near or in a city |
 
 ## `cbms`
 (optional, array of strings)
@@ -4503,7 +4492,7 @@ A list of CBM ids that are implanted in the character.
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
 
 ## `allowed_locs`
-(optional, array of strings)
+(array of strings)
 
 A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
 
