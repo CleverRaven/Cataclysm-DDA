@@ -111,6 +111,7 @@ static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
+static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
 static const matec_id WBLOCK_1( "WBLOCK_1" );
@@ -206,12 +207,12 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
 
     /** @EFFECT_DEX reduces chance of damaging your melee weapon */
 
-    /** @EFFECT_STR increases chance of damaging your melee weapon (NEGATIVE) */
+    /** @ARM_STR increases chance of damaging your melee weapon (NEGATIVE) */
 
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
     const float stat_factor = dex_cur / 2.0f
                               + get_skill_level( skill_melee )
-                              + ( 64.0f / std::max( str_cur, 4 ) );
+                              + ( 64.0f / std::max( get_arm_str(), 4 ) );
 
     float material_factor;
 
@@ -927,8 +928,8 @@ void Character::reach_attack( const tripoint &p )
                    !( weapon.has_flag( flag_SPEAR ) &&
                       here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
-            /** @EFFECT_STR increases bash effects when reach attacking past something */
-            here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
+            /** @ARM_STR increases bash effects when reach attacking past something */
+            here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
@@ -960,7 +961,7 @@ int stumble( Character &u, const item &weap )
         return 0;
     }
 
-    int str_mod = u.str_cur;
+    int str_mod = u.get_arm_str();
     if( u.is_on_ground() ) {
         str_mod /= 4;
     } else if( u.is_crouching() ) {
@@ -1136,12 +1137,12 @@ float Character::dodge_roll() const
 
 float Character::bonus_damage( bool random ) const
 {
-    /** @EFFECT_STR increases bashing damage */
+    /** @ARM_STR increases bashing damage */
     if( random ) {
-        return rng_float( get_str() / 2.0f, get_str() );
+        return rng_float( get_arm_str() / 2.0f, get_arm_str() );
     }
 
-    return get_str() * 0.75f;
+    return get_arm_str() * 0.75f;
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
@@ -1160,8 +1161,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill *= 2;
     }
 
-    const int stat = get_str();
-    /** @EFFECT_STR increases bashing damage */
+    const int stat = get_arm_str();
+    /** @ARM_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( damage_type::BASH );
 
@@ -1237,7 +1238,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_mul *= ( 1.0f + ( bash_cap / weap_dam ) ) / 2.0f;
     }
 
-    /** @EFFECT_STR boosts low cap on bashing damage */
+    /** @ARM_STR boosts low cap on bashing damage */
     const float low_cap = std::min( 1.0f, stat / 20.0f );
     const float bash_min = low_cap * weap_dam;
     weap_dam = average ? ( bash_min + weap_dam ) * 0.5f : rng_float( bash_min, weap_dam );
@@ -1916,15 +1917,15 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     int block_score = 1;
 
-    /** @EFFECT_STR increases attack blocking effectiveness with a limb or worn/wielded item */
+    /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
     if( unarmed || force_unarmed ) {
         if( martial_arts_data->can_limb_block( *this ) ) {
             // block_bonus for limb blocks will be added when the limb is decided
-            block_score = str_cur + melee_skill + unarmed_skill;
+            block_score = get_arm_str() + melee_skill + unarmed_skill;
         } else if( has_shield ) {
             // We can still block with a worn item while unarmed. Use higher of melee and unarmed
-            block_score = str_cur + block_bonus + std::max( melee_skill, unarmed_skill );
+            block_score = get_arm_str() + block_bonus + std::max( melee_skill, unarmed_skill );
         } else {
             // We don't have a shield or a technique. How are we blocking?
             return false;
@@ -2178,8 +2179,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     // only consider portion of weapon made of glass
     const int vol = weap.volume() * glass_fraction / 250_ml;
     if( glass_portion &&
-        /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
-        rng_float( 0.0f, vol + 8 ) < vol + str_cur ) {
+        /** @ARM_STR increases chance of breaking glass weapons (NEGATIVE) */
+        rng_float( 0.0f, vol + 8 ) < vol + get_arm_str() ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
@@ -2649,15 +2650,17 @@ void avatar::disarm( npc &target )
         return;
     }
 
-    /** @EFFECT_STR increases chance to disarm, primary stat */
+    /** @ARM_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
-    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+    /** Grip strength modifies all disarm rolls */
+    int my_roll = dice( 3, get_limb_score( limb_score_grip ) * get_arm_str() + get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
     my_roll += dice( 3, get_skill_level( skill_melee ) );
 
-    int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
-    their_roll += dice( 3, target.get_per() );
+    int their_roll = dice( 3, target.get_limb_score( limb_score_grip ) * target.get_arm_str() +
+                           target.get_dex() );
+    their_roll *= target.get_limb_score( limb_score_reaction );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
     item &it = target.get_wielded_item();

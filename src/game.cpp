@@ -241,6 +241,10 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
+static const limb_score_id limb_score_footing( "footing" );
+static const limb_score_id limb_score_grip( "grip" );
+static const limb_score_id limb_score_lift( "lift" );
+
 static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
@@ -9889,12 +9893,14 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    //ARM_STR affects dragging furniture
+    int str = u.get_arm_str();
 
     const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) { // NOLINT(bugprone-branch-clone)
         return 50 * weary_mult;
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - ( str_req - u.get_str() ), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - ( str_req - str ), 2 ) ) ) {
         return 100 * weary_mult;
     } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         return 50 * weary_mult;
@@ -9902,10 +9908,10 @@ int game::grabbed_furn_move_time( const tripoint &dp )
     int moves_total = 0;
     moves_total = str_req * 10;
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 moves_total += std::max( 3000, move_penalty * 10 ) * weary_mult;
             } else {
                 moves_total += 100 * weary_mult;
@@ -9980,19 +9986,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    int str = u.get_arm_str();
 
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         return true;
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 40 &&
+    } else if( str_req > str && u.get_perceived_pain() > 40 &&
                !u.has_trait( trait_CENOBITE ) && !u.has_trait( trait_MASOCHIST ) &&
                !u.has_trait( trait_MASOCHIST_MED ) ) {
         add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
         return true;
 
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
+    } else if( str_req > str && u.get_perceived_pain() > 50 &&
                ( u.has_trait( trait_MASOCHIST ) || u.has_trait( trait_MASOCHIST_MED ) ) ) {
         add_msg( m_bad,
                  _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
@@ -10000,8 +10007,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
 
         ///\EFFECT_STR determines ability to drag furniture
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - str_req - str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
         u.mod_pain( 1 ); // Hurt ourselves.
@@ -10012,10 +10019,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
 
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
                     add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
@@ -11609,6 +11616,11 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     climb /= wet_penalty;
+
+    // Apply limb score penalties - grip, arm strength and footing are all relevant
+
+    climb *= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
+                   limb_score_lift ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6 ;
 
     // Being weighed down makes it easier for you to slip.
     const double weight_ratio = u.weight_carried() / u.weight_capacity();

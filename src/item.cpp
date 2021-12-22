@@ -7950,7 +7950,7 @@ bool item::is_two_handed( const Character &guy ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
+    return ( ( weight() / 113_gram ) > guy.get_arm_str() * 4 );
 }
 
 const std::map<material_id, int> &item::made_of() const
@@ -9149,9 +9149,9 @@ int item::gun_recoil( const Character &p, bool bipod ) const
         return 0;
     }
 
-    ///\EFFECT_STR improves the handling of heavier weapons
+    ///\ARM_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
+    double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {

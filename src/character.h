@@ -464,6 +464,8 @@ class Character : public Creature, public visitable
 
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
+        // Strength modified by limb lifting score
+        int get_arm_str() const;
         // Defines distance from which CAMOUFLAGE mobs are visible
         int get_eff_per() const override;
 
@@ -807,6 +809,8 @@ class Character : public Creature, public visitable
         void try_remove_crushed();
         void try_remove_webs();
         void try_remove_impeding_effect();
+        // Calculate generic trap escape chance
+        bool can_escape_trap( int difficulty, bool manip );
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;

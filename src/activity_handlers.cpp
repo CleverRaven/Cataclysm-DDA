@@ -1827,7 +1827,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill

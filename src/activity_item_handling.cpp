@@ -2294,7 +2294,7 @@ static int chop_moves( Character &you, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -2336,7 +2336,8 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     }
     int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
     if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( you.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+        moves += ( ( MAX_STAT + 4 ) - std::min( you.get_arm_str(),
+                                                MAX_STAT ) ) * to_moves<int>( 5_minutes );
     }
     if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
