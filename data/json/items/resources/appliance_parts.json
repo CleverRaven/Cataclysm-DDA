@@ -34,7 +34,7 @@
     "id": "oven_controls",
     "symbol": "#",
     "color": "light_cyan",
-    "name": { "str": "oven door" },
+    "name": { "str": "oven control panel" },
     "category": "spare_parts",
     "description": "The control panel and LCD from a dismantled electric oven.",
     "price": 100,
