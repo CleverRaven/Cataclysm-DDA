@@ -2998,7 +2998,7 @@ void monster::init_from_item( item &itm )
         }
     } else {
         // must be a robot
-        const int damfac = itm.max_damage() - std::max( itm.degradation(), itm.damage() ) + 1;
+        const int damfac = itm.max_damage() - std::max( 0, itm.damage() ) + 1;
         // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
         hp = std::max( 1, hp * damfac / ( itm.max_damage() + 1 ) );
     }

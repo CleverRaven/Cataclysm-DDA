@@ -404,9 +404,11 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
+        /** Current damage floor of the part base */
+        int damage_floor( bool allow_negative ) const;
 
         /** Current part damage level in same units as item::damage_level */
-        int damage_level() const;
+        int damage_level( int dmg = INT_MIN ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
