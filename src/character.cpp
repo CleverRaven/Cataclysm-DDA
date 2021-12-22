@@ -3788,6 +3788,11 @@ int Character::get_arm_str() const
     return str_cur * get_modifier( character_modifier_limb_str_mod );
 }
 
+int Character::get_arm_str() const
+{
+    return str_cur * get_modifier( character_modifier_limb_str_mod );
+}
+
 int Character::get_eff_per() const
 {
     return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
