@@ -86,6 +86,7 @@ class widget
 {
     private:
         friend class generic_factory<widget>;
+        friend void custom_draw_fn( avatar &u, const catacurses::window &w, const widget &wgt );
 
         widget_id id;
         bool was_loaded = false;
@@ -126,6 +127,8 @@ class widget
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
+        // Finalize anything that must wait until all widgets are loaded
+        static void finalize();
         // Reset to defaults using generic widget_factory
         static void reset();
 

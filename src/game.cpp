@@ -3365,6 +3365,7 @@ void game::draw_panels( bool force_draw )
     // Total up height used by all panels, and see what is left over for log
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
+        // The panel with height -2 is the message log panel
         if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
@@ -3375,14 +3376,16 @@ void game::draw_panels( bool force_draw )
         if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
+            // The panel with height -2 is the message log panel
             if( h == -2 ) {
                 h = log_height;
             }
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
                 if( panel.always_draw || draw_this_turn ) {
+                    widget *wgt = panel.get_widget();
                     panel.draw( u, catacurses::newwin( h, panel.get_width(),
-                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
+                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ), wgt );
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();

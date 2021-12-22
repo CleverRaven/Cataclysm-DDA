@@ -135,23 +135,27 @@ bool default_render();
 class window_panel
 {
     public:
-        window_panel( const std::function<void( avatar &, const catacurses::window & )> &draw_func,
+        window_panel( const std::function<void( avatar &, const catacurses::window &, widget * )>
+                      &draw_func,
                       const std::string &id, const translation &nm, int ht, int wd, bool default_toggle_,
                       const std::function<bool()> &render_func = default_render, bool force_draw = false );
 
-        std::function<void( avatar &, const catacurses::window & )> draw;
+        std::function<void( avatar &, const catacurses::window &, widget * )> draw;
         std::function<bool()> render;
 
         int get_height() const;
         int get_width() const;
         const std::string &get_id() const;
         std::string get_name() const;
+        void set_widget( const widget *w );
+        widget *get_widget() const;
         bool toggle;
         bool always_draw;
 
     private:
         int height;
         int width;
+        widget *wgt = nullptr;
         std::string id;
         translation name;
 };
@@ -162,14 +166,19 @@ class panel_layout
 {
     public:
         panel_layout( const translation &_name,
-                      const std::vector<window_panel> &_panels );
+                      const std::vector<window_panel> &_panels,
+                      std::vector<window_panel>( *_load_fn )() );
 
         std::string name() const;
         const std::vector<window_panel> &panels() const;
         std::vector<window_panel> &panels();
+        // Do deferred loading of panel layout with _load_fn, if defined (otherwise do nothing)
+        void deferred_load();
     private:
         translation _name;
         std::vector<window_panel> _panels;
+        // Optional callback function to generate window_panel list with deferred load
+        std::vector<window_panel>( *_load_fn )();
 };
 
 // The panel_manager allows the player choose their current panel layout and window panels.
@@ -213,6 +222,7 @@ class panel_manager
         std::string current_layout_id;
         std::map<std::string, panel_layout> layouts;
 
+        friend widget;
 };
 
 #endif // CATA_SRC_PANELS_H

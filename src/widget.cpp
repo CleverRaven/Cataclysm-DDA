@@ -183,6 +183,15 @@ void widget::load( const JsonObject &jo, const std::string & )
     }
 }
 
+void widget::finalize()
+{
+    // If any layouts have been deferred for loading...
+    for( auto &l : panel_manager::get_manager().layouts ) {
+        l.second.deferred_load();
+    }
+    panel_manager::get_manager().init();
+}
+
 int widget::get_var_max( const avatar &ava )
 {
     // Some vars (like HP) have an inherent maximum, used unless the widget overrides it
@@ -329,6 +338,45 @@ std::string widget::show( const avatar &ava )
     }
 }
 
+// If this widget is not a layout, use its label for the window panel id and name
+// FIXME: Support label for layout widgets too!
+static void custom_draw_func( avatar &u, const catacurses::window &w, widget *wgt )
+{
+    const int width = catacurses::getmaxx( w );
+    const int widt = width - 1; // For margin
+
+    if( wgt == nullptr || width <= 0 ) {
+        return;
+    }
+
+    werase( w );
+    if( wgt->_style == "layout" ) {
+        if( wgt->_arrange == "rows" ) {
+            // Layout widgets in rows
+            // FIXME: Be able to handle rows that are themselves more than one line!
+            // Could this be done in the layout() function somehow (by returning newlines?)
+            int row_num = 0;
+            for( const widget_id &row_wid : wgt->_widgets ) {
+                widget row_widget = row_wid.obj();
+                trim_and_print( w, point( 1, row_num ), widt, c_light_gray, row_widget.layout( u,
+                                widt ) );
+                row_num++;
+            }
+        } else {
+            // Layout widgets in columns
+            // For now, this is the default when calling layout()
+            // So, just layout self
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            trim_and_print( w, point( 1, 1 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+        }
+    } else {
+        // Just layout self
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        trim_and_print( w, point( 1, 1 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+    }
+    wnoutrefresh( w );
+}
+
 window_panel widget::get_window_panel( const int width, const int req_height )
 {
     // Width is fixed, but height may vary depending on child widgets
@@ -342,36 +390,9 @@ window_panel widget::get_window_panel( const int width, const int req_height )
     // Minimap and log do not have a predetermined height
     // (or they should allow caller to customize height)
 
-    // If this widget is not a layout, use its label for the window panel id and name
-    // FIXME: Support label for layout widgets too!
-    auto draw_func = [this, width]( const avatar & u, const catacurses::window & w ) {
-        werase( w );
-        if( _style == "layout" ) {
-            if( _arrange == "rows" ) {
-                // Layout widgets in rows
-                // FIXME: Be able to handle rows that are themselves more than one line!
-                // Could this be done in the layout() function somehow (by returning newlines?)
-                int row_num = 0;
-                for( const widget_id &row_wid : _widgets ) {
-                    widget row_widget = row_wid.obj();
-                    trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
-                                    width - 1 ) ) );
-                    row_num++;
-                }
-            } else {
-                // Layout widgets in columns
-                // For now, this is the default when calling layout()
-                // So, just layout self
-                trim_and_print( w, point( 1, 1 ), width - 1, c_light_gray, _( layout( u, width - 1 ) ) );
-            }
-        } else {
-            // Just layout self
-            trim_and_print( w, point( 1, 1 ), width - 1, c_light_gray, _( layout( u, width - 1 ) ) );
-        }
-        wnoutrefresh( w );
-    };
-
-    return window_panel( draw_func, _label.translated(), _label, height, width, false );
+    window_panel win( custom_draw_func, _label.translated(), _label, height, width, true );
+    win.set_widget( &this->id.obj() );
+    return win;
 }
 
 bool widget::uses_text_function()
@@ -633,7 +654,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
             }
             // Allow 2 spaces of padding after each column, except last column (full-justified)
             if( wid != _widgets.back() ) {
-                ret += string_format( "%s  ", cur_child.layout( ava, cur_width - 2 ) );
+                ret += string_format( "%s  ", cur_child.layout( ava, cur_width == 0 ? cur_width : cur_width - 2 ) );
             } else {
                 ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
             }

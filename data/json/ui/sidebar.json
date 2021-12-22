@@ -810,6 +810,7 @@
     "id": "root_layout",
     "type": "widget",
     "style": "layout",
+    "width": 50,
     "arrange": "rows",
     "widgets": [ "hitpoints_all_graphs_layout", "sound_fatigue_focus_layout", "stamina_speed_move_layout", "stats_layout" ]
   }
