@@ -6987,116 +6987,79 @@ std::vector<layer_level> item::get_layer() const
     return armor->all_layers;
 }
 
-bool item::has_layer( layer_level ll ) const
+std::vector<layer_level> item::get_layer( bodypart_id bp ) const
 {
-    switch( ll ) {
-        case layer_level::PERSONAL:
-            return has_flag( flag_PERSONAL );
-        case layer_level::UNDERWEAR:
-            return has_flag( flag_SKINTIGHT );
-        case layer_level::WAIST:
-            return has_flag( flag_WAIST );
-        case layer_level::OUTER:
-            return has_flag( flag_OUTER );
-        case layer_level::BELTED:
-            return has_flag( flag_BELTED );
-        case layer_level::AURA:
-            return has_flag( flag_AURA );
-        case layer_level::NUM_LAYER_LEVELS:
-            // should never be seen
-            return false;
-        case layer_level::REGULAR:
-            if( has_flag( flag_NORMAL ) ) {
-                // new way to define regular layer
-                return true;
-            }
-
-            // otherwise check for absence of normal layer
-            std::vector<layer_level> layers;
-            if( has_flag( flag_PERSONAL ) ) {
-                layers.push_back( layer_level::PERSONAL );
-            }
-            if( has_flag( flag_SKINTIGHT ) ) {
-                layers.push_back( layer_level::UNDERWEAR );
-            }
-            if( has_flag( flag_WAIST ) ) {
-                layers.push_back( layer_level::WAIST );
-            }
-            if( has_flag( flag_OUTER ) ) {
-                layers.push_back( layer_level::OUTER );
-            }
-            if( has_flag( flag_BELTED ) ) {
-                layers.push_back( layer_level::BELTED );
-            }
-            if( has_flag( flag_AURA ) ) {
-                layers.push_back( layer_level::AURA );
-            }
-            // for regular layer it's the absence of a flag
-            return layers.empty();
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return std::vector<layer_level>();
     }
-    return false;
+
+    for( const armor_portion_data &data : t->data ) {
+        if( !data.covers.has_value() ) {
+            continue;
+        }
+        for( const bodypart_str_id &bpid : data.covers.value() ) {
+            if( bp == bpid ) {
+                return data.layers;
+            }
+        }
+    }
+    // body part not covered by this armour
+    return std::vector<layer_level>();
+}
+
+std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return std::vector<layer_level>();
+    }
+
+    for( const armor_portion_data &data : t->sub_data ) {
+        for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
+            if( sbp == bpid ) {
+                return data.layers;
+            }
+        }
+    }
+    // body part not covered by this armour
+    return std::vector<layer_level>();
 }
 
 bool item::has_layer( const std::vector<layer_level> &ll ) const
 {
-    bool found = false;
-    for( layer_level layer : ll ) {
-        switch( layer ) {
-            case layer_level::PERSONAL:
-                found = found || has_flag( flag_PERSONAL );
-                break;
-            case layer_level::UNDERWEAR:
-                found = found || has_flag( flag_SKINTIGHT );
-                break;
-            case layer_level::WAIST:
-                found = found || has_flag( flag_WAIST );
-                break;
-            case layer_level::OUTER:
-                found = found || has_flag( flag_OUTER );
-                break;
-            case layer_level::BELTED:
-                found = found || has_flag( flag_BELTED );
-                break;
-            case layer_level::AURA:
-                found = found || has_flag( flag_AURA );
-                break;
-            case layer_level::NUM_LAYER_LEVELS:
-                // should never happen
-                break;
-            case layer_level::REGULAR:
-                if( has_flag( flag_NORMAL ) ) {
-                    found = true;
-                    break;
-                }
-                std::vector<layer_level> layers;
-                if( has_flag( flag_PERSONAL ) ) {
-                    layers.push_back( layer_level::PERSONAL );
-                }
-                if( has_flag( flag_SKINTIGHT ) ) {
-                    layers.push_back( layer_level::UNDERWEAR );
-                }
-                if( has_flag( flag_WAIST ) ) {
-                    layers.push_back( layer_level::WAIST );
-                }
-                if( has_flag( flag_OUTER ) ) {
-                    layers.push_back( layer_level::OUTER );
-                }
-                if( has_flag( flag_BELTED ) ) {
-                    layers.push_back( layer_level::BELTED );
-                }
-                if( has_flag( flag_AURA ) ) {
-                    layers.push_back( layer_level::AURA );
-                }
-                // for regular layer it's the absence of a flag
-                found = found || layers.empty();
-                break;
-        }
-        //if they have any matching layers we don't need to keep looking
-        if( found ) {
-            break;
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return false;
+    }
+    for( const layer_level &test_level : ll ) {
+        if( std::count( t->all_layers.begin(), t->all_layers.end(), test_level ) > 0 ) {
+            return true;
         }
     }
-    return found;
+    return false;
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const
+{
+    const std::vector<layer_level> layers = get_layer( bp );
+    for( const layer_level &test_level : ll ) {
+        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const
+{
+    const std::vector<layer_level> layers = get_layer( sbp );
+    for( const layer_level &test_level : ll ) {
+        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int item::get_avg_coverage( const cover_type &type ) const
