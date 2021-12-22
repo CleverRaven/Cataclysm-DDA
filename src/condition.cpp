@@ -60,7 +60,8 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
     const std::string &var_basename = jo.get_string( member );
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
-    return "npctalk_var" + ( type_var == "" ? "" : "_" + type_var ) + ( var_context == "" ? "" : "_" +
+    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
+            +
             var_context ) + "_" + var_basename;
 }
 
