@@ -119,6 +119,25 @@
             "damage_required": [ 51, 100 ]
           }
         ]
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
       }
     ]
   },
@@ -154,6 +173,25 @@
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 10, "melee": 8 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
           }
         ]
       }
@@ -300,7 +338,7 @@
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 6, "broad": 9 },
+        "difficulty": { "point": 7, "broad": 9 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -364,10 +402,11 @@
         "armor_mult": { "physical": 1 },
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 6, "broad": 9 },
+        "difficulty": { "point": 7, "broad": 9 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
-        ]
+        ],
+        "//": "All right, I'll admit it, I only added this effect so I could make the joke.  What you gonna do about it?"
       }
     ]
   },
@@ -381,7 +420,7 @@
         "armor_mult": { "physical": 1 },
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 6, "broad": 9 },
+        "difficulty": { "point": 7, "broad": 9 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
         ]

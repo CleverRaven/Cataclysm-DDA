@@ -34,5 +34,31 @@
         "armor_mult": { "all": 0.5 } 
       }
     ]
-  }
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_eyes_big",
+    "//": "Let's assume that larger-than-tiny eyes are mildly more resistant to damage.",
+    "weakpoints": [
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0.2 },
+        "coverage": 2,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 40 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      }
+    ]
+  },
 ]
