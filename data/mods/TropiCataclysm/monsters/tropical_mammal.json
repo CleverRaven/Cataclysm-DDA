@@ -144,7 +144,7 @@
     "id": "mon_camel",
     "type": "MONSTER",
     "name": { "str": "camel" },
-    "description": "A large herbivore introduced from the old world via zoos and private owners.  Ironically, camels were once native to the american continent in distant times.",
+    "description": "A large herbivore introduced from the old world via zoos and private owners.  Ironically, camels were once native to the American continent in distant times.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
