@@ -589,8 +589,7 @@
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
           { "item": "wrench", "container-item": "tool_belt" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" },
-          { "item": "welding_rod_steel", "count": 25 }
+          { "item": "weldtank", "ammo-item": "oxyacetylene", "charges": 240, "container-item": "oxy_torch" }
         ]
       },
       "male": [ "boxer_shorts" ],
