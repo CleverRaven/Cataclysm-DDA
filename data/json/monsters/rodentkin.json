@@ -88,9 +88,7 @@
     "armor_bash": 15,
     "armor_cut": 3,
     "armor_bullet": 16,
-    "special_attacks": [
-      { "id": "teke_push" }
-    ],
+    "special_attacks": [ { "id": "teke_push" } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
   }
 ]
