@@ -624,8 +624,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap.damage() >= ( weap.max_damage() - weap.degradation() ) / 3 + weap.degradation() &&
-                   one_turn_in( 1_hours ) ) {
+        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
+                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
