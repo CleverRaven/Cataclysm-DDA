@@ -96,7 +96,7 @@
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
-      { "id": "FINE_HAMMER", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
     "components": [

@@ -43,7 +43,7 @@
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" } ],
     "epower": 0,
     "item": "oven",
