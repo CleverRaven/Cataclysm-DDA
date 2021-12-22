@@ -292,7 +292,8 @@
       "bloody hell",
       "fuck's sake",
       "bollocks",
-      "goodness"
+      "goodness",
+      "fuck me sideways"
     ]
   },
   {
@@ -331,7 +332,8 @@
       "Hi <name_g>",
       "Well met!",
       "Howdy.",
-      "<name_g>."
+      "<name_g>.",
+      "Salutations."
     ]
   },
   {
@@ -372,7 +374,10 @@
       "Bye bye, <name_b>!",
       "See you later, alligator.",
       "Our paths must part, for now at least.",
-      "There's something I gotta do on my own.  Sorry."
+      "There's something I gotta do on my own.  Sorry.",
+      "I'm out",
+      "Peace out.",
+      "It's not you, it's me."
     ]
   },
   {
@@ -402,7 +407,14 @@
       "your life is now forfeit,",
       "when I'm through with you, there won't be enough left to identify",
       "I'm gonna beat you so bad, even the people who look like you will hurt",
-      "come closer, I can't beat the shit out of you from a distance"
+      "come closer, I can't beat the shit out of you from a distance",
+      "I'm going to rip out your tongue and wipe my ass with it",
+      "you just signed your death warrant",
+      "prepare to die",
+      "I'm going to make you my bitch",
+      "momma said knock you out",
+      "you did this, not me",
+      "I'm going to wear your ears as a necklace"
     ]
   },
   {
@@ -424,7 +436,8 @@
       "didn't think it would end like this.",
       "so, this is how it ends, huh?",
       "I don't wanna go",
-      "bury me somewhere nice, if I don't make it"
+      "bury me somewhere nice, if I don't make it",
+      "<name_g>, I don't feel so good"
     ]
   },
   {
@@ -446,7 +459,9 @@
       "Hey, I'm over here!",
       "Hold up a second, will ya?",
       "What's the rush?",
-      "Wait for me <name_g>, I can't keep up with you like this!"
+      "Wait for me <name_g>, I can't keep up with you like this!",
+      "Where's the rush?",
+      "Hey!  Slow down!"
     ]
   },
   {
@@ -487,7 +502,8 @@
       "my dude",
       "buddy",
       "chum",
-      "bruv"
+      "bruv",
+      "bud"
     ]
   },
   {
@@ -512,7 +528,15 @@
       "Stay with me!",
       "Keep close!",
       "Stay close!",
-      "Let's keep going!"
+      "Let's keep going!",
+      "Hurry!",
+      "Hurry up!",
+      "Move faster!",
+      "I don't have all day!",
+      "Are you coming?",
+      "Quit dawdling!",
+      "Your slower than cold molasses going uphill",
+      "My grandmother moves faster than you!"
     ]
   },
   {
@@ -534,7 +558,9 @@
       "I'll just go to sleep, <okay>?",
       "I just… gotta close my eyes for a bit, okay?",
       "Can't remember the last time I had a proper kip.",
-      "I can't keep going for long <name_g>.  I need some rest, bad."
+      "I can't keep going for long <name_g>.  I need some rest, bad.",
+      "My eyes are dropping, I need to rest.",
+      "You see these eyebags?  I need to sleep!"
     ]
   },
   {
@@ -549,7 +575,11 @@
       "There's a bed calling my name, and I'm going to it.",
       "Good night!  Wake me if you need me.",
       "Well, I'm going to bed now.",
-      "Calling it a night for now.  You get some rest too, okay?"
+      "Calling it a night for now.  You get some rest too, okay?",
+      "I'm getting some shut-eye, good night!",
+      "Time to view the old eye-lid cinema, good night!",
+      "Time to hit the hay.",
+      "I'm going to see about a bed with my name on it, good night."
     ]
   },
   {
@@ -599,7 +629,8 @@
       "see, <name_g>",
       "alright",
       "that clear",
-      "capiche"
+      "capiche",
+      "gotcha"
     ]
   },
   {
@@ -636,7 +667,11 @@
       "Out of my way, <name_b>!",
       "Move it, <name_g>!",
       "You need to move, <name_g>, <okay>?",
-      "Coming through!"
+      "Coming through!",
+      "Out of my <swear> way!",
+      "I need to get by.",
+      "Pardon me.",
+      "Can I just squeeze by you?"
     ]
   },
   {
@@ -656,7 +691,11 @@
       "Thanks, <name_g>!",
       "Pleasure doing business with you.",
       "Now beat it, you <name_b>.",
-      "Good haul.  See you around<punc>"
+      "Good haul.  See you around<punc>",
+      "I need this more than you, I think.",
+      "Thanks for your generosity.",
+      "Your contribution is much appreciated.",
+      "You're helping to feed my kids."
     ]
   },
   {
@@ -752,7 +791,11 @@
       "Wait up, <okay>?",
       "Let's talk, <name_g>!",
       "Look, <name_g><punc> let's talk!",
-      "Hey, what's the rush?  Let's chat a tad."
+      "Hey, what's the rush?  Let's chat a tad.",
+      "I need to talk to you!",
+      "Don't be afraid, I need to talk to you!",
+      "Thank God, another survivor!  Can we talk?",
+      "Hey!  Do you speak English?"
     ]
   },
   {
@@ -772,7 +815,13 @@
       "Hands in the air, <name_b>!",
       "Hands up, no sudden movements and we're gravy, okay?",
       "Take it easy and put your hands up now, <name_g>.",
-      "Why don't you put your hands up for me <name_g>."
+      "Why don't you put your hands up for me <name_g>.",
+      "There's some bad folks around these parts, now stick'em up!",
+      "You should have been more careful, now give me your stuff!",
+      "This is a robbery!",
+      "Don't try anything funny.",
+      "Your money or your life!",
+      "Didn't anyone ever tell you not to talk to strangers?  Give me your shit!"
     ]
   },
   {
@@ -811,7 +860,13 @@
       "Consider this idea: you give me food and I eat it.",
       "Did you know that lack of food kills faster than chain smoking?",
       "Can't remember the last time I got a proper meal.",
-      "I could eat a horse."
+      "I could eat a horse.",
+      "<swear>, I'm starved.",
+      "I could do with a bite to eat right now.",
+      "I'd kill for some chocolate right now.",
+      "Man I miss that burger joint I used to go to.",
+      "I'm so hungry I can taste it.",
+      "I've never been so hungry in my life!"
     ]
   },
   {
@@ -830,7 +885,9 @@
       "I've had enough of you, begone",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
-      "you're why the gene pool needs a lifeguard"
+      "you're why the gene pool needs a lifeguard",
+      "your father should have jerked you off onto a rock and let you dry up in the sun",
+      "you're a worthless cunt"
     ]
   },
   {
@@ -846,7 +903,8 @@
       "This sucks.  I'm too big.",
       "I don't like being a mutant crammed into your tiny little vehicle.",
       "Getting awfully cramped in here.",
-      "I don't think this vehicle was designed for someone like me."
+      "I don't think this vehicle was designed for someone like me.",
+      "It's tighter than a nun's cunt in here!'"
     ]
   },
   {
@@ -901,7 +959,9 @@
       "<swear!>, here comes a <swear>",
       "Incoming!",
       "Prepare yourself!  We have a",
-      "<swear>"
+      "<swear>",
+      "Holy fuck!",
+      "Thats a whole lotta nope right there!"
     ]
   },
   {
@@ -919,7 +979,9 @@
       "<swear!>, a",
       "Look out!  A",
       "<swear!>, here comes a <swear>",
-      "Keep an eye on that"
+      "Keep an eye on that",
+      "I suggest a tactical retreat from that",
+      "Get down!  There's a"
     ]
   },
   {
@@ -940,7 +1002,13 @@
       "Fight or flight?",
       "Weapons hot!",
       "Lock and load!",
-      "We've got incoming!"
+      "We've got incoming!",
+      "Ready to rumble?",
+      "It's a good day to die",
+      "Ambush!",
+      "We've got company",
+      "Bogies incoming!",
+      "Nerd alert!"
     ]
   },
   {
@@ -995,7 +1063,11 @@
       "Well, that got the blood pumping.",
       "We're clear, but stay frosty.",
       "<swear> beautiful work.",
-      "Getting really good at this."
+      "Getting really good at this.",
+      "Look what you made me do.",
+      "It's better you than me.",
+      "Phew, that was close.",
+      "Did we win?"
     ]
   },
   {
@@ -1037,7 +1109,10 @@
       "Let's dance,",
       "You and me,",
       "I will kill you to death,",
-      "You're going down,"
+      "You're going down,",
+      "Get fucked,",
+      "Time to meet your maker,",
+      "I'm going to fuck you up,"
     ]
   },
   {
@@ -1069,7 +1144,10 @@
       "Is this Reno?  Because I need to watch you die!",
       "You're going to pay for that, <name_b>!",
       "You're gonna rot in hell, you pieces of shit!",
-      "You're gonna rot in hell for this!"
+      "You're gonna rot in hell for this!",
+      "You done fucked up!",
+      "I won't even break a sweat!",
+      "You ain't shit!"
     ]
   },
   {
@@ -1091,7 +1169,8 @@
       "Watch my back while I stitch my arm back on <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
       "Let me fix myself up here for a second.",
-      "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this."
+      "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this.",
+      "I've been through too much to bleed out now!  Bandaging this up!"
     ]
   },
   {
@@ -1109,7 +1188,14 @@
       "Who's there?",
       "Did anyone else hear that?",
       "Sounds like someone said something.",
-      "Who goes there?"
+      "Who goes there?",
+      "I heard something!",
+      "Huh, what's that?",
+      "Could have swore I just head a voice.",
+      "Somebody there?",
+      "Great, now I'm hearing things!",
+      "Say something?",
+      "What did you say?"
     ]
   },
   {
@@ -1125,7 +1211,12 @@
       "Sounds like something bad's going on.",
       "What's going on over there?",
       "Sounds like a fight's going on.",
-      "What was that?"
+      "What was that?",
+      "Whats happening?",
+      "Something's happening.",
+      "Sounds like another riot.",
+      "What was that?  Oh god, oh god!",
+      "What's that sound?"
     ]
   },
   {
@@ -1166,7 +1257,19 @@
       "Capiche.",
       "You got it.",
       "Aye aye.",
-      "Aye."
+      "Aye.",
+      "Gotcha.",
+      "Okie Dokie.",
+      "On it.",
+      "No problemo.",
+      "Sounds fun!",
+      "I've got nothing better to do.",
+      "No!  Just kidding.",
+      "Let's do it.",
+      "I guess I can.",
+      "I guess so.",
+      "I should be able to.",
+      "I'll try."
     ]
   },
   {
@@ -1186,7 +1289,14 @@
       "Man, I can smell the weed, can I have some?",
       "Are you sure it's a good idea to smoke that now?",
       "Are you getting stoned right now?",
-      "Is that the devil's lettuce I smell?"
+      "Is that the devil's lettuce I smell?",
+      "Puff, puff, pass.",
+      "You got that sticky icky.",
+      "Eh yo!  Lemme hit that!",
+      "Roll, roll, roll your joint…",
+      "Hook us up!",
+      "Hey, don't hog it!",
+      "Share that shit!"
     ]
   },
   {
@@ -1216,7 +1326,11 @@
       "Why are you smoking crack cocaine?",
       "Crack cocaine smells awful!",
       "Are you seriously going to be a crackhead around me?",
-      "<meth_smoke>"
+      "<meth_smoke>",
+      "Crack is a hell of a drug.",
+      "Can I get a hit?",
+      "Fuckin' crackhead!",
+      "Got any more of that?"
     ]
   },
   {
@@ -1229,7 +1343,8 @@
       "Hey, <name_g>, can I get some batteries here?  I need to recharge.",
       "Internal batteries running low.  How many batteries can you spare right now?",
       "I can do a lot more for you if you pass me a couple batteries to recharge.",
-      "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge."
+      "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge.",
+      "My batteries are all out of juice, need to recharge."
     ]
   },
   {
@@ -1335,7 +1450,8 @@
       "Let's hit the road.",
       "We'll pick this up another time.  Let's go.",
       "Let's put a pin in this chat for now.",
-      "Talk to you later."
+      "Talk to you later.",
+      "Let's get a move on."
     ]
   },
   {
@@ -1360,7 +1476,18 @@
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic" ]
+    "text": [
+      "stupid",
+      "idiotic",
+      "dumb",
+      "dumb-ass",
+      "moronic",
+      "mickey mouse",
+      "shit-for-brains",
+      "brain-dead",
+      "imbecilic",
+      "lame-brain"
+    ]
   },
   {
     "type": "snippet",
@@ -1399,13 +1526,23 @@
       "thing right out of a scary movie",
       "<swear> thing",
       "whatever-the-fuck that is",
-      "eldritch horror"
+      "eldritch horror",
+      "beast",
+      "monstrosity"
     ]
   },
   {
     "type": "snippet",
     "category": "<the_cataclysm>",
-    "text": [ "the Cataclysm", "the apocalypse", "the end of the world", "Armageddon", "the end of days" ]
+    "text": [
+      "the Cataclysm",
+      "the apocalypse",
+      "the end of the world",
+      "Armageddon",
+      "the end of days",
+      "the end",
+      "the reckoning"
+    ]
   },
   {
     "type": "snippet",
@@ -1429,7 +1566,9 @@
       "Book it!",
       "Leg it!",
       "I'm getting the hell out of here!",
-      "Thank fuck for all the cardio!"
+      "Thank fuck for all the cardio!",
+      "Let's get out of here!",
+      "Time to haul ass!"
     ]
   },
   {
@@ -1490,7 +1629,7 @@
     "//": "NPCs say this after drinking water from a camp well.",
     "text": [
       "Clean water, the taste that refreshes!",
-      "I was parched, but not I am not.",
+      "I was parched, but now I am not.",
       "Water is nice, but I should get a grog ration.",
       "Nothing quite like clean water.",
       "That wasn't Evian, but I'm not thirsty."
@@ -1505,7 +1644,10 @@
       "That food was good, but I miss real restaurants.",
       "Well, that satisfied me.",
       "Nice to have food once in a while.",
-      "I just had some food, but I'm still peckish.  Would you mind if I ate more?"
+      "I just had some food, but I'm still peckish.  Would you mind if I ate more?",
+      "Not quite restaurant quality but it'll do.",
+      "I miss mom's cooking.",
+      "I'll just pretend that was pizza."
     ]
   },
   {
@@ -1542,7 +1684,12 @@
     "type": "snippet",
     "category": "<far_distance>",
     "//": "A threat is on the horizon.",
-    "text": [ "far enough away that we could make sneak away.", "out on the horizon, so don't worry much.", "at a long distance." ]
+    "text": [
+      "far enough away that we could make sneak away.",
+      "out on the horizon, so don't worry much.",
+      "at a long distance.",
+      "it's a million miles away!"
+    ]
   },
   {
     "type": "snippet",

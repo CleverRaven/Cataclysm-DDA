@@ -121,7 +121,7 @@
     "vision_day": 25,
     "vision_night": 8,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mutant_human",
+    "harvest": "mutant_human_ungulate",
     "death_drops": "mon_mutant_experimental_death_drops",
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
@@ -163,6 +163,7 @@
     "armor_bullet": 12,
     "bleed_rate": 50,
     "vision_night": 20,
+    "harvest": "mutant_human_arthropod",
     "emit_fields": [ { "emit_id": "emit_web_small", "delay": "5 s" } ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "extend": { "flags": [ "CLIMBS", "SMELLS", "KEENNOSE", "WEBWALK" ], "anger_triggers": [ "PLAYER_WEAK", "HURT" ] },
@@ -198,6 +199,7 @@
     ],
     "dodge": 9,
     "vision_night": 15,
+    "harvest": "mutant_human_camouflaged",
     "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] }
   },
   {
@@ -281,6 +283,7 @@
     "armor_stab": 30,
     "armor_bullet": 70,
     "armor_fire": 50,
+    "harvest": "mutant_human_mollusk",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] }
   },

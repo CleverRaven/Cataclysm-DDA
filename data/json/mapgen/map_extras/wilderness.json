@@ -24,7 +24,7 @@
       ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
       ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
       ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
-      "|": [ [ "t_region_groundcover_forest", 7 ], "t_water_sh" ]
+      "|": [ [ "t_region_groundcover_forest", 7 ], "t_puddle" ]
     },
     "furniture": {
       ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],

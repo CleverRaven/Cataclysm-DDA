@@ -285,6 +285,8 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
     json.member( "collapsed", collapsed );
+    json.member( "disabled", disabled );
+    json.member( "unload", unload );
     json.end_object();
 }
 
@@ -298,6 +300,12 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     data.read( "category_blacklist", category_blacklist );
     if( data.has_member( "collapsed" ) ) {
         data.read( "collapsed", collapsed );
+    }
+    if( data.has_member( "disabled" ) ) {
+        data.read( "disabled", disabled );
+    }
+    if( data.has_member( "unload" ) ) {
+        data.read( "unload", unload );
     }
 }
 
@@ -2707,6 +2715,7 @@ void item::io( Archive &archive )
     archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
+    archive.io( "degradation", degradation_, 0 );
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );

@@ -1780,9 +1780,9 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            // no liquids
-            if( !it->made_of( phase_id::LIQUID ) ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+            // no liquids and no items marked as favorite
+            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
                 // When item_location gets updated to get items inside containers outside the player inventory
                 // uncomment this
@@ -1938,13 +1938,18 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
         return item_location();
     }
 
+    const int vacancies = actor->size - tool.get_contents().get_additional_space_used();
+
     return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
                          _( "Attach an item to the vest" ), 1,
                          _( "You don't have any MOLLE compatible items." ),
-                         string_format(
-                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
-                             tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
-                         )
+                         string_format( "%s\n%s",
+                                        string_format( _( "Choose an accessory to attach to your %s" ),
+                                                tool.tname( 1, false ) ),
+                                        string_format( n_gettext( "There is space for %d small item",
+                                                "There is space for %d small items",
+                                                vacancies ), vacancies )
+                                      )
                        );
 }
 

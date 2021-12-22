@@ -1609,8 +1609,8 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.item_with_best_of_quality( qual_PRY );
-    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK );
+    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
+    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
@@ -3061,6 +3061,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     if( here.has_items( examp ) ) {
+        // Note: This is displayed regardless of whether "examine with pickup" was used
         selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     }
     if( !already_on_fire ) {

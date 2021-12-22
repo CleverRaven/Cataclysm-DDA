@@ -286,6 +286,13 @@ class item : public visitable
         item &set_damage( int qty );
 
         /**
+         * Filter setting degradation constrained by 0 and @ref max_damage
+         * @note this method also sets the damage to qty if damage is less than qty
+         * @return same instance to allow method chaining
+         */
+        item &set_degradation( int qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -349,6 +356,11 @@ class item : public visitable
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
+
+        /**
+         * Returns a symbol indicating the current degradation of the item.
+         */
+        std::string degradation_symbol() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -895,8 +907,17 @@ class item : public visitable
         void add_rain_to_container( bool acid, int charges = 1 );
         /*@}*/
 
+        /**
+         * Return the level of a given quality the tool may have, or INT_MIN if it
+         * does not have that quality, or lacks enough charges to have that quality.
+         */
         int get_quality( const quality_id &id ) const;
         int get_raw_quality( const quality_id &id ) const;
+
+        /**
+         * Return true if this item's type is counted by charges
+         * (true for stackable, ammo, or comestible)
+         */
         bool count_by_charges() const;
 
         /**
@@ -1175,6 +1196,12 @@ class item : public visitable
         /** How much damage has the item sustained? */
         int damage() const;
 
+        /** How much degradation has the item accumulated? */
+        int degradation() const;
+
+        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        void rand_degradation();
+
         /**
          * Scale item damage to the given number of levels. This function is
          * here mostly for back-compatibility. It should not be used when
@@ -1188,14 +1215,27 @@ class item : public visitable
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
+         *
+         * @param dmg If specified, get the damage level of "dmg" instead of
+         * this item's current damage.
          */
-        int damage_level() const;
+        int damage_level( int dmg = INT_MIN ) const;
+
+        /**
+         * Get the minimum possible damage this item can be repaired to,
+         * accounting for degradation.
+         * @param allow_negative If true, get the damage floor for reinforcement
+         */
+        int damage_floor( bool allow_negative ) const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
 
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
+
+        /** Number of degradation increments before the item is destroyed */
+        int degrade_increments() const;
 
         /**
          * Relative item health.
@@ -1805,7 +1845,22 @@ class item : public visitable
         /**
          * Returns clothing layer for item.
          */
-        layer_level get_layer() const;
+        std::vector<layer_level> get_layer() const;
+
+        /**
+         * Returns highest layer this clothing covers
+         */
+        layer_level get_max_layer() const;
+
+        /**
+         * Returns true if an item has a given layer level.
+         */
+        bool has_layer( layer_level ll ) const;
+
+        /**
+         * Returns true if an item has any of the given layer levels.
+         */
+        bool has_layer( const std::vector<layer_level> &ll ) const;
 
         enum cover_type {
             COVER_DEFAULT,
@@ -2460,8 +2515,10 @@ class item : public visitable
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
-        /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** returns a list of pointers to all top-level items
+         *  if unloading is true it ignores items in pockets that are flagged to not unload
+         */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -2690,6 +2747,7 @@ class item : public visitable
         // The faction that previously owned this item
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
+        int degradation_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
 

@@ -984,6 +984,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_warped",
+    "name": "warped wall",
+    "description": "Almost a simple stone wall.  But the angles don't add up, the shadows are wrong, whatever this is, it doesn't belong here.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL"
+  },
+  {
+    "type": "terrain",
     "id": "t_junk_palisade",
     "name": "junk metal barrier",
     "looks_like": "t_scrap_wall_halfway",

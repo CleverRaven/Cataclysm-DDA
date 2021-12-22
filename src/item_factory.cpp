@@ -79,6 +79,7 @@ static const item_category_id item_category_magazines( "magazines" );
 static const item_category_id item_category_mods( "mods" );
 static const item_category_id item_category_other( "other" );
 static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
@@ -565,19 +566,25 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.has_flag( flag_PERSONAL ) ) {
-        obj.layer = layer_level::PERSONAL;
-    } else if( obj.has_flag( flag_SKINTIGHT ) ) {
-        obj.layer = layer_level::UNDERWEAR;
-    } else if( obj.has_flag( flag_WAIST ) ) {
-        obj.layer = layer_level::WAIST;
-    } else if( obj.has_flag( flag_OUTER ) ) {
-        obj.layer = layer_level::OUTER;
-    } else if( obj.has_flag( flag_BELTED ) ) {
-        obj.layer = layer_level::BELTED;
-    } else if( obj.has_flag( flag_AURA ) ) {
-        obj.layer = layer_level::AURA;
-    } else {
-        obj.layer = layer_level::REGULAR;
+        obj.layer.push_back( layer_level::PERSONAL );
+    }
+    if( obj.has_flag( flag_SKINTIGHT ) ) {
+        obj.layer.push_back( layer_level::UNDERWEAR );
+    }
+    if( obj.has_flag( flag_WAIST ) ) {
+        obj.layer.push_back( layer_level::WAIST );
+    }
+    if( obj.has_flag( flag_OUTER ) ) {
+        obj.layer.push_back( layer_level::OUTER );
+    }
+    if( obj.has_flag( flag_BELTED ) ) {
+        obj.layer.push_back( layer_level::BELTED );
+    }
+    if( obj.has_flag( flag_AURA ) ) {
+        obj.layer.push_back( layer_level::AURA );
+    }
+    if( obj.layer.empty() ) {
+        obj.layer.push_back( layer_level::REGULAR );
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
@@ -3308,6 +3315,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
+    float degrade_mult = 1.0f;
+    optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
+    // TODO: remove condition once degradation is ready to be applied to all items
+    if( def.category_force != item_category_veh_parts ) {
+        degrade_mult = 0.f;
+    }
+    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+        def.degrade_increments_ = 0;
+    } else {
+        float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
+        def.degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
+    }
+
     // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
     // when changing this list
     static const std::set<std::string> needs_plural = {
@@ -3441,6 +3461,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             tmp.allow_omitted_members();
             delete_qualities_from_json( tmp, "qualities", def );
         }
+    }
+
+    if( jo.has_member( "charged_qualities" ) ) {
+        def.charged_qualities.clear();
+        set_qualities_from_json( jo, "charged_qualities", def );
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -3712,10 +3737,18 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto quali = std::pair<quality_id, int>( quality_id( curr.get_string( 0 ) ),
                                curr.get_int( 1 ) );
-            if( def.qualities.count( quali.first ) > 0 ) {
-                curr.throw_error( "Duplicated quality", 0 );
+            // Populate charged qualities or regular qualities, preventing duplicates
+            if( member == "charged_qualities" ) {
+                if( def.charged_qualities.count( quali.first ) > 0 ) {
+                    curr.throw_error( "Duplicated charged quality", 0 );
+                }
+                def.charged_qualities.insert( quali );
+            } else {
+                if( def.qualities.count( quali.first ) > 0 ) {
+                    curr.throw_error( "Duplicated quality", 0 );
+                }
+                def.qualities.insert( quali );
             }
-            def.qualities.insert( quali );
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );

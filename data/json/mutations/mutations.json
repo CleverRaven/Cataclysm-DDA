@@ -6729,7 +6729,7 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
+    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
     "movecost_swim_modifier": 0.85,

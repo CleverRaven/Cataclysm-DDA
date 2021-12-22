@@ -714,6 +714,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
@@ -817,6 +818,18 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 ]
 ```
 
+### Remove vehicles by type
+
+| Field    | Description
+| ---      | ---
+| vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
+
+```json 
+"remove_vehicles": [ 
+    { "vehicles": ["fire_engine"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific item with "item"
 
 | Field  | Description
@@ -837,6 +850,18 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
+### Remove items by type
+
+| Field    | Description
+| ---      | ---
+| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
+
+```json 
+"remove_items": [ 
+    { "items": ["rock"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -852,7 +877,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 | Field | Description
 | ---   | ---
 | trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
-
+| remove| (optional, bool) If true the given trap will be removed rather than added. Defaults to false.
 
 ### Place furniture with "furniture"
 

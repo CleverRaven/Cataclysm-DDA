@@ -59,37 +59,156 @@
     "id": "armor_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger gear" },
-    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear.  It has a lot of storage space.",
+    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear reinforced with soft armor panels.  It has a lot of storage space.",
     "weight": "7915 g",
     "volume": "7500 ml",
     "price": 180000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar_layered", "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_nomad",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 26 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 15, 19 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 15, 26 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 15, 15 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ]
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+        ],
+        "encumbrance": [ 10, 14 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ]
+      }
     ],
     "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Deep leg holster",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
+        "moves": 70
+      },
+      {
+        "magazine_well": "350 ml",
+        "description": "Small sheath",
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
       { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
     ],
     "warmth": 40,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER", "BELTED" ]
   },
   {
-    "id": "lsurvivor_suit",
+    "id": "lsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "light survivor suit" },
@@ -100,18 +219,30 @@
     "price_postapoc": 5000,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
+    "looks_like": "survivor_jumpsuit",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
     ],
     "warmth": 15,
     "material_thickness": 4,
@@ -119,15 +250,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xl_lsurvivor_suit",
+    "id": "xl_lsurvivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XL light survivor suit" },
-    "copy-from": "lsurvivor_suit",
+    "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "survivor_suit",
+    "id": "survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "survivor suit" },
@@ -141,15 +272,27 @@
     "looks_like": "touring_suit",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 20 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 17 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 12 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
     ],
     "warmth": 15,
     "material_thickness": 4,
@@ -158,7 +301,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xlsurvivor_suit",
+    "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL survivor suit" },
@@ -171,20 +314,30 @@
     "bashing": 6,
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
+    "looks_like": "survivor_jumpsuit",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 30 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 22 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
     ],
     "warmth": 15,
     "material_thickness": 4,
@@ -193,7 +346,7 @@
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "wsurvivor_suit",
+    "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "winter survivor suit" },
@@ -206,18 +359,30 @@
     "bashing": 6,
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
+    "looks_like": "survivor_jumpsuit",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 20 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
     ],
     "warmth": 75,
     "material_thickness": 5,
@@ -226,30 +391,30 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xl_wsurvivor_suit",
+    "id": "xl_wsurvivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XL winter survivor suit" },
-    "copy-from": "wsurvivor_suit",
+    "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "wsurvivor_suit_nofur",
+    "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
     "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "copy-from": "wsurvivor_suit",
+    "copy-from": "wsurvivor_jumpsuit",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
     "warmth": 65,
-    "looks_like": "survivor_suit",
+    "looks_like": "survivor_jumpsuit",
     "color": "pink"
   },
   {
-    "id": "xl_wsurvivor_suit_nofur",
+    "id": "xl_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
     "name": { "str": "XL winter survivor suit" },
-    "copy-from": "wsurvivor_suit",
+    "copy-from": "wsurvivor_jumpsuit",
     "material": [ "kevlar_layered", "faux_fur" ],
     "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "color": "pink",
@@ -258,7 +423,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "h20survivor_suit",
+    "id": "h20survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "survivor wetsuit" },
@@ -274,16 +439,27 @@
     "looks_like": "wetsuit",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 10 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 200 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
     ],
     "warmth": 15,
     "material_thickness": 3,

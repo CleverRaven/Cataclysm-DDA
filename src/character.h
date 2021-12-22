@@ -2509,6 +2509,17 @@ class Character : public Creature, public visitable
         void set_rad( int new_rad );
         void mod_rad( int mod );
 
+        float get_heartrate_index() const;
+        void update_heartrate_index();
+
+        float get_bloodvol_index() const;
+        void update_bloodvol_index();
+
+        float get_circulation_resistance() const;
+        void set_circulation_resistance( float ncirculation_resistance );
+
+        void update_circulation();
+
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
@@ -2633,8 +2644,11 @@ class Character : public Creature, public visitable
         float power_rating() const override;
         float speed_rating() const override;
 
-        /** Returns the item in the player's inventory with the highest of the specified quality*/
-        item &item_with_best_of_quality( const quality_id &qid );
+        /** Returns the item in the player's inventory with the highest of the specified quality.
+         * @param qid The quality to search
+         * @param tool_not_container If true, then recurse into the container to find the base tool
+        */
+        item &item_with_best_of_quality( const quality_id &qid, bool tool_not_container = false );
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -2998,6 +3012,11 @@ class Character : public Creature, public visitable
         bool disassemble();
         bool disassemble( item_location target, bool interactive = true, bool disassemble_all = false );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
+        /**
+         * Completely disassemble an item, and drop yielded components at its former position.
+         * @param target - the in-progress disassembly item location
+         * @param dis - recipe for disassembly (by default uses recipe_dictionary::get_uncraft)
+         */
         void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );
 
@@ -3335,6 +3354,15 @@ class Character : public Creature, public visitable
         int stamina;
 
         int cardio_acc;
+
+        // All indices represent the percentage compared to normal.
+        // i.e. a value of 1.1 means 110% of normal.
+        float heart_rate_index = 1.0f;
+        float blood_vol_index = 1.0f;
+
+        float circulation;
+        // Should remain fixed at 1.0 for now.
+        float circulation_resistance = 1.0f;
 
         int fatigue;
         int sleep_deprivation;

@@ -1060,7 +1060,7 @@
     "symbol": "/",
     "color": "brown",
     "ammo": [ "battery" ],
-    "charges_per_use": 100,
+    "charges_per_use": 2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
