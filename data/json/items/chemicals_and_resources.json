@@ -1807,7 +1807,7 @@
     "price_postapoc": 1,
     "material": [ "powder_nonflam" ],
     "volume": "1 L",
-	"stack_size": 100,
+    "stack_size": 100,
     "category": "chems",
     "fun": -30
   },
@@ -1831,7 +1831,7 @@
     "price_postapoc": 1,
     "material": [ "soil" ],
     "volume": "1 L",
-	"stack_size": 100,
+    "stack_size": 100,
     "category": "chems",
     "fun": -30
   }
