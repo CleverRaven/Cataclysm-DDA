@@ -176,7 +176,7 @@
     "id": "mon_bushdog",
     "type": "MONSTER",
     "name": { "str": "bush dog" },
-    "description": "A small and elusive canid native to South and Central America.  Its harmless to humans but their packs can take on prey several times their size.",
+    "description": "A small and elusive canid native to South and Central America.  It is harmless to humans but their packs can take on prey several times their size.",
     "default_faction": "small_animal",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
