@@ -497,7 +497,7 @@ struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
-    var_type type;
+    var_type type = var_type::u;
     bool is_npc() const {
         return type == var_type::npc;
     }
@@ -521,7 +521,7 @@ struct duration_or_var {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
-    var_type type;
+    var_type type = var_type::u;
     bool is_npc() const {
         return type == var_type::npc;
     }
