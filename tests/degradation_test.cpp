@@ -3,10 +3,15 @@
 #include "activity_handlers.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "iuse.h"
 #include "map_helpers.h"
 #include "map.h"
 #include "player_helpers.h"
+#include "vehicle.h"
+#include "vpart_range.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
@@ -15,6 +20,7 @@ static const itype_id itype_tailors_kit( "tailors_kit" );
 static const itype_id itype_test_baseball( "test_baseball" );
 static const itype_id itype_test_baseball_half_degradation( "test_baseball_half_degradation" );
 static const itype_id itype_test_baseball_x2_degradation( "test_baseball_x2_degradation" );
+static const itype_id itype_test_folding_bicycle( "test_folding_bicycle" );
 static const itype_id itype_test_glock_degrade( "test_glock_degrade" );
 static const itype_id itype_thread( "thread" );
 
@@ -585,6 +591,51 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
                 CHECK( gun.damage() == 3000 );
             }
         }
+    }
+}
+
+static void unfold_and_check( int dmg, int deg )
+{
+    clear_map();
+    Character &u = get_player_character();
+    u.move_to( tripoint_abs_ms( u.get_location().x() + 1, u.get_location().y(), 0 ) );
+    map &m = get_map();
+    item bike_it( itype_test_folding_bicycle );
+    bike_it.set_damage( dmg );
+    bike_it.set_degradation( deg );
+    REQUIRE( bike_it.damage() == dmg );
+    REQUIRE( bike_it.degradation() == deg );
+    const use_function *bike_use = bike_it.get_use( "unfold_vehicle" );
+    REQUIRE( bike_use != nullptr );
+    REQUIRE( bike_use->get_actor_ptr() != nullptr );
+
+    REQUIRE( bike_use->get_actor_ptr()->use( u, bike_it, false, tripoint_zero ).has_value() );
+    optional_vpart_position bike_part = m.veh_at( m.getabs( u.pos() ) );
+    REQUIRE( bike_part.has_value() );
+    CHECK( bike_part->vehicle().get_all_parts().part_count() > 0 );
+    for( auto &part : bike_part->vehicle().get_all_parts() ) {
+        CAPTURE( part.part().name() );
+        CHECK( part.part().damage() == dmg );
+        CHECK( part.part().degradation() == deg );
+    }
+}
+
+TEST_CASE( "Unfolding vehicle parts with degradation", "[item][degradation][vehicle]" )
+{
+    SECTION( "0 damage / 0 degradation" ) {
+        unfold_and_check( 0, 0 );
+    }
+    SECTION( "0 damage / 1000 degradation" ) {
+        unfold_and_check( 0, 1000 );
+    }
+    SECTION( "1000 damage / 1000 degradation" ) {
+        unfold_and_check( 1000, 1000 );
+    }
+    SECTION( "3000 damage / 0 degradation" ) {
+        unfold_and_check( 3000, 0 );
+    }
+    SECTION( "3000 damage / 4000 degradation" ) {
+        unfold_and_check( 3000, 4000 );
     }
 }
 

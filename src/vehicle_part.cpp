@@ -607,10 +607,13 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
         pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
     }
     if( !keep_degradation ) {
-        pt.base.rand_degradation();
-    }
-    if( new_degradation >= 0 ) {
-        pt.base.set_degradation( 0 );
+        if( new_degradation >= 0 ) {
+            pt.base.set_degradation( new_degradation );
+        } else {
+            pt.base.rand_degradation();
+        }
+    } else if( new_degradation >= 0 ) {
+        pt.base.set_degradation( new_degradation );
     }
 }
 

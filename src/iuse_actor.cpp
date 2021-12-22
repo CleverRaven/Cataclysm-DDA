@@ -674,6 +674,15 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         return cata::nullopt;
     }
     veh->set_owner( p );
+    // Set damage and degradation based on source item.
+    // This is to preserve the item's state if it has
+    // never been unfolded (no saved parts data).
+    for( int i = 0; i < veh->part_count(); i++ ) {
+        item vp = veh->part( i ).get_base();
+        vp.set_damage( it.damage() );
+        vp.set_degradation( it.degradation() );
+        veh->part( i ).set_base( vp );
+    }
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
