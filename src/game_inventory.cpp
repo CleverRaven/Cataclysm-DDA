@@ -1938,13 +1938,18 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
         return item_location();
     }
 
+    const int vacancies = actor->size - tool.get_contents().get_additional_space_used();
+
     return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
                          _( "Attach an item to the vest" ), 1,
                          _( "You don't have any MOLLE compatible items." ),
-                         string_format(
-                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
-                             tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
-                         )
+                         string_format( "%s\n%s",
+                                        string_format( _( "Choose an accessory to attach to your %s" ),
+                                                tool.tname( 1, false ) ),
+                                        string_format( n_gettext( "There is space for %d small item",
+                                                "There is space for %d small items",
+                                                vacancies ), vacancies )
+                                      )
                        );
 }
 
