@@ -76,6 +76,11 @@
   },
   {
     "type": "weapon_category",
+    "id": "BIONIC_SWORDS",
+    "name": "BIONIC SWORDS"
+  },
+  {
+    "type": "weapon_category",
     "id": "MEDIEVAL_SWORDS",
     "name": "MEDIEVAL SWORDS"
   },
