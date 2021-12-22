@@ -69,13 +69,29 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
                            int default_val )
 {
     int_or_var ret_val;
-    ret_val.global = false;
     if( jo.has_int( member ) ) {
         mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
         const JsonObject &var_obj = jo.get_object( member );
-        optional( var_obj, false, "global", ret_val.global, false );
-        ret_val.var_val = get_talk_varname( var_obj, "name", false );
+        if( jo.has_member( "u_val" ) ) {
+            ret_val.type = var_type::u;
+            ret_val.var_val = get_talk_varname( var_obj, "u_val", false );
+        } else if( jo.has_member( "npc_val" ) ) {
+            ret_val.type = var_type::npc;
+            ret_val.var_val = get_talk_varname( var_obj, "npc_val", false );
+        } else if( jo.has_member( "global_val" ) ) {
+            ret_val.type = var_type::global;
+            ret_val.var_val = get_talk_varname( var_obj, "global_val", false );
+        } else if( jo.has_member( "faction_val" ) ) {
+            ret_val.type = var_type::faction;
+            ret_val.var_val = get_talk_varname( var_obj, "faction_val", false );
+        } else if( jo.has_member( "party_val" ) ) {
+            ret_val.type = var_type::party;
+            ret_val.var_val = get_talk_varname( var_obj, "party_val", false );
+        } else {
+            jo.throw_error( "Invalid variable type." );
+        }
+
         mandatory( var_obj, false, "default", ret_val.default_val );
     } else if( required ) {
         jo.throw_error( "No valid value for ", member );
@@ -238,7 +254,7 @@ void conditional_t<T>::set_has_strength( const JsonObject &jo, const std::string
 {
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
-        return d.actor( is_npc )->str_cur() >= iov.evaluate( d.actor( is_npc ) );
+        return d.actor( is_npc )->str_cur() >= iov.evaluate( d.actor(iov.is_npc()) );
     };
 }
 
@@ -248,7 +264,7 @@ void conditional_t<T>::set_has_dexterity( const JsonObject &jo, const std::strin
 {
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
-        return d.actor( is_npc )->dex_cur() >= iov.evaluate( d.actor( is_npc ) );
+        return d.actor( is_npc )->dex_cur() >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -258,7 +274,7 @@ void conditional_t<T>::set_has_intelligence( const JsonObject &jo, const std::st
 {
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
-        return d.actor( is_npc )->int_cur() >= iov.evaluate( d.actor( is_npc ) );
+        return d.actor( is_npc )->int_cur() >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -268,7 +284,7 @@ void conditional_t<T>::set_has_perception( const JsonObject &jo, const std::stri
 {
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
-        return d.actor( is_npc )->per_cur() >= iov.evaluate( d.actor( is_npc ) );
+        return d.actor( is_npc )->per_cur() >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -381,7 +397,7 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
     }
     condition = [need, iov, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        int amount = iov.evaluate( d.actor( is_npc ) );
+        int amount = iov.evaluate( d.actor(iov.is_npc() ) );
         return ( actor->get_fatigue() > amount && need == "fatigue" ) ||
                ( actor->get_hunger() > amount && need == "hunger" ) ||
                ( actor->get_thirst() > amount && need == "thirst" );
@@ -438,7 +454,7 @@ void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string 
     int_or_var iov = get_int_or_var( jo, "value" );
     condition = [var_name, op, iov, is_npc]( const T & d ) {
         int stored_value = 0;
-        int value = iov.evaluate( d.actor( is_npc ) );
+        int value = iov.evaluate( d.actor(iov.is_npc() ) );
         const std::string &var = d.actor( is_npc )->get_value( var_name );
         if( !var.empty() ) {
             stored_value = std::stoi( var );
@@ -527,8 +543,7 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo )
 {
     int_or_var iov = get_int_or_var( jo, "npc_allies" );
     condition = [iov]( const T & d ) {
-        return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( iov.evaluate( d.actor(
-                    false ) ) );
+        return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( iov.evaluate( d.actor(iov.is_npc() ) ) );
     };
 }
 
@@ -537,7 +552,7 @@ void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 {
     int_or_var iov = get_int_or_var( jo, "u_has_cash" );
     condition = [iov]( const T & d ) {
-        return d.actor( false )->cash() >= iov.evaluate( d.actor( false ) );
+        return d.actor( false )->cash() >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -546,7 +561,7 @@ void conditional_t<T>::set_u_are_owed( const JsonObject &jo )
 {
     int_or_var iov = get_int_or_var( jo, "u_are_owed" );
     condition = [iov]( const T & d ) {
-        return d.actor( true )->debt() >= iov.evaluate( d.actor( false ) );
+        return d.actor( true )->debt() >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -609,7 +624,7 @@ void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
     int_or_var iov = get_int_or_var( jo, "days_since_cataclysm" );
     condition = [iov]( const T & d ) {
-        return calendar::turn >= calendar::start_of_cataclysm + 1_days * iov.evaluate( d.actor( false ) );
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -845,7 +860,7 @@ void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::strin
 {
     int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
-        return one_in( iov.evaluate( d.actor( false ) ) );
+        return one_in( iov.evaluate( d.actor(iov.is_npc() ) ) );
     };
 }
 
@@ -872,7 +887,7 @@ void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::strin
     int_or_var iovx = get_int_or_var( var_obj, "x" );
     int_or_var iovy = get_int_or_var( var_obj, "y" );
     condition = [iovx, iovy]( const T & d ) {
-        return x_in_y( iovx.evaluate( d.actor( false ) ), iovy.evaluate( d.actor( false ) ) );
+        return x_in_y( iovx.evaluate( d.actor(iovx.is_npc() ) ), iovy.evaluate( d.actor(iovy.is_npc() ) ) );
     };
 }
 
@@ -888,9 +903,9 @@ void conditional_t<T>::set_is_weather( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::string &member )
 {
-    int_or_var trust = get_int_or_var( jo, member );
-    condition = [trust]( const T & d ) {
-        return d.actor( true )->get_faction()->trusts_u >= trust.evaluate( d.actor( false ) );
+    int_or_var iov = get_int_or_var( jo, member );
+    condition = [iov]( const T & d ) {
+        return d.actor( true )->get_faction()->trusts_u >= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 

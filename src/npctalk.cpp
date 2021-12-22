@@ -1970,7 +1970,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
             iov_intensity]( const dialogue & d ) {
         d.actor( is_npc )->add_effect( efftype_id( new_effect ), dov_duration.evaluate( d.actor( is_npc ) ),
                                        target, permanent, force,
-                                       iov_intensity.evaluate( d.actor( is_npc ) ) );
+                                       iov_intensity.evaluate( d.actor(iov_intensity.is_npc() ) ) );
     };
 }
 
@@ -2055,7 +2055,7 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     const std::string var_name = get_talk_varname( jo, member, false );
     int_or_var iov = get_int_or_var( jo, "adjustment" );
     function = [is_npc, var_name, iov]( const dialogue & d ) {
-        int adjusted_value = iov.evaluate( d.actor( is_npc ) );
+        int adjusted_value = iov.evaluate( d.actor(iov.is_npc() ) );
 
         const std::string &var = d.actor( is_npc )->get_value( var_name );
         if( !var.empty() ) {
@@ -2304,14 +2304,14 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
-        int max_radius = iov_max_radius.evaluate( target );
+        int max_radius = iov_max_radius.evaluate( d.actor(iov_max_radius.is_npc() ) );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
         } else if( max_radius > 0 ) {
             bool found = false;
-            int min_radius = iov_min_radius.evaluate( target );
+            int min_radius = iov_min_radius.evaluate( d.actor(iov_min_radius.is_npc() ) );
             for( int attempts = 0; attempts < 25; attempts++ ) {
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
@@ -2349,7 +2349,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
     function = [iov, transform, target_var, global, is_npc]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
-        get_map().transform_radius( transform, iov.evaluate( target ), target_pos );
+        get_map().transform_radius( transform, iov.evaluate( d.actor(iov.is_npc() ) ), target_pos );
     };
 }
 
@@ -2629,7 +2629,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     function = [is_npc, iov]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
-            wet_character( *target, iov.evaluate( d.actor( is_npc ) ) );
+            wet_character( *target, iov.evaluate( d.actor(iov.is_npc() ) ) );
         }
     };
 }
@@ -2705,8 +2705,8 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string
     int_or_var iov_cap = get_int_or_var( jo, "cap" );
 
     function = [is_npc, iov_amount, iov_cap]( const dialogue & d ) {
-        d.actor( is_npc )->mod_healthy_mod( iov_amount.evaluate( d.actor( is_npc ) ),
-                                            iov_cap.evaluate( d.actor( is_npc ) ) );
+        d.actor( is_npc )->mod_healthy_mod( iov_amount.evaluate( d.actor(iov_amount.is_npc() ) ),
+                                            iov_cap.evaluate( d.actor(iov_cap.is_npc() ) ) );
     };
 }
 
@@ -3344,9 +3344,9 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
     const bool capped = jo.get_bool( "capped", false );
     function = [is_npc, new_type, iov_bonus, iov_max_bonus, dov_duration, dov_decay_start,
             capped]( const dialogue & d ) {
-        d.actor( is_npc )->add_morale( morale_type( new_type ), iov_bonus.evaluate( d.actor( is_npc ) ),
-                                       iov_max_bonus.evaluate( d.actor( is_npc ) ), dov_duration.evaluate( d.actor( is_npc ) ),
-                                       dov_decay_start.evaluate( d.actor( is_npc ) ),
+        d.actor( is_npc )->add_morale( morale_type( new_type ), iov_bonus.evaluate( d.actor(iov_bonus.is_npc() ) ),
+                                       iov_max_bonus.evaluate( d.actor(iov_max_bonus.is_npc() ) ), dov_duration.evaluate( d.actor(is_npc) ),
+                                       dov_decay_start.evaluate( d.actor(is_npc) ),
                                        capped );
     };
 }
@@ -3362,17 +3362,17 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
 
 void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::string &member )
 {
-    int_or_var trust = get_int_or_var( jo, member );
-    function = [trust]( const dialogue & d ) {
-        d.actor( true )->get_faction()->trusts_u += trust.evaluate( d.actor( false ) );
+    int_or_var iov = get_int_or_var( jo, member );
+    function = [iov]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u += iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
 void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
 {
-    int_or_var trust = get_int_or_var( jo, member );
-    function = [trust]( const dialogue & d ) {
-        d.actor( true )->get_faction()->trusts_u -= trust.evaluate( d.actor( false ) );
+    int_or_var iov = get_int_or_var( jo, member );
+    function = [iov]( const dialogue & d ) {
+        d.actor( true )->get_faction()->trusts_u -= iov.evaluate( d.actor(iov.is_npc() ) );
     };
 }
 
@@ -3386,7 +3386,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std:
                                 calendar::turn + rng( dov_length_min.evaluate( d.actor( false ) ),
                                         dov_length_max.evaluate( d.actor( false ) ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
-                                -1, iov.evaluate( d.actor( false ) ) );
+                                -1, iov.evaluate( d.actor(iov.is_npc() ) ) );
     };
 }
 
@@ -3426,7 +3426,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         if( group_id.is_valid() ) {
             target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( group_id ) );
         } else if( new_monster.is_empty() ) {
-            int target_range = iov_target_range.evaluate( d.actor( is_npc ) );
+            int target_range = iov_target_range.evaluate( d.actor(iov_target_range.is_npc() ) );
             //grab a random nearby hostile creature to create a hallucination or copy of
             Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
                 bool not_self = get_player_character().pos() != critter.pos();
@@ -3441,10 +3441,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         } else {
             target_monster = monster( new_monster );
         }
-        int min_radius = iov_min_radius.evaluate( d.actor( is_npc ) );
-        int max_radius = iov_max_radius.evaluate( d.actor( is_npc ) );
-        int real_count = iov_real_count.evaluate( d.actor( is_npc ) );
-        int hallucination_count = iov_hallucination_count.evaluate( d.actor( is_npc ) );
+        int min_radius = iov_min_radius.evaluate( d.actor(iov_min_radius.is_npc() ) );
+        int max_radius = iov_max_radius.evaluate( d.actor(iov_max_radius.is_npc() ) );
+        int real_count = iov_real_count.evaluate( d.actor(iov_real_count.is_npc() ) );
+        int hallucination_count = iov_hallucination_count.evaluate( d.actor(iov_hallucination_count.is_npc() ) );
         cata::optional<time_duration> lifespan;
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_map().getlocal( get_tripoint_from_var( target, target_var, global ) );
@@ -3494,8 +3494,8 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
 
     function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
             hit_player, target_var, global]( const dialogue & d ) {
-        int radius = iov_radius.evaluate( d.actor( is_npc ) );
-        int intensity = iov_intensity.evaluate( d.actor( is_npc ) );
+        int radius = iov_radius.evaluate( d.actor(iov_radius.is_npc() ) );
+        int intensity = iov_intensity.evaluate( d.actor(iov_intensity.is_npc() ) );
 
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, global );
