@@ -773,8 +773,9 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
     std::vector<npc_ptr> npc_list = companion_list( p, id );
     int distance = caravan_dist( dest );
     time_duration time = 20_minutes + distance * 10_minutes;
-    popup( _( "The caravan departs with an estimated total travel time of %d hours…" ),
-           to_hours<int>( time ) );
+    const int hours = to_hours<int>( time );
+    popup( n_gettext( "The caravan departs with an estimated total travel time of %d hour…",
+                      "The caravan departs with an estimated total travel time of %d hours…", hours ), hours );
 
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
