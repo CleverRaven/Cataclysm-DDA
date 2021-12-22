@@ -1,0 +1,38 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_natural_armor",
+    "weakpoints": [
+      { "name": "a small gap in the thick hide", 
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 } 
+      },
+      { "name": "a soft fold in the thick hide", 
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "all": 0.5 } 
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_bone_armor",
+    "weakpoints": [
+      { "name": "a small gap in the bony plates", 
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 } 
+      },
+      { "name": "a joint in the bony plates", 
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.25 },
+        "armor_mult": { "all": 0.5 } 
+      }
+    ]
+  }
+]

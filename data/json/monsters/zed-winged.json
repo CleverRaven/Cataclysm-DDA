@@ -22,7 +22,7 @@
     "melee_cut": 0,
     "bleed_rate": 50,
     "vision_night": 3,
-    "weakpoint_sets": [ "wps_humanoid_torso", "wps_humanoid_legs", "wps_humanoid_head" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -87,7 +87,7 @@
     "armor_bullet": 2,
     "bleed_rate": 0,
     "vision_night": 7,
-    "weakpoint_sets": [ "wps_humanoid_torso", "wps_humanoid_legs", "wps_humanoid_head", "wps_humanoid_head_small" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "weakpoints": [
       {
         "id": "arm",
