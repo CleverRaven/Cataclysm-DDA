@@ -32,6 +32,7 @@ class trade_selector : public inventory_drop_selector
         using entry_t = std::pair<item_location, int>;
         using select_t = std::vector<entry_t>;
         void execute();
+        void on_toggle() override;
         select_t to_trade() const;
         void resize( point const &size, point const &origin );
         shared_ptr_fast<ui_adaptor> get_ui() const;
