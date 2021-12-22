@@ -24,6 +24,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "vpart_range.h"
 #include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -252,6 +253,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
         std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const vpart_reference, item>> veh_items;
         std::vector<item> inv_items;
 
         auto reset_items = [&]() {
@@ -260,6 +262,9 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
             }
             for( auto &iit : inv_items ) {
                 crafter->i_add_or_drop( iit );
+            }
+            for( auto &vit : veh_items ) {
+                vit.first.vehicle().add_item( vit.first.part(), vit.second );
             }
         };
 
@@ -281,7 +286,11 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
+                                if( const cata::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                                    veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
+                                } else {
+                                    map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
+                                }
                             }
                             if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {
                                 reset_items();
