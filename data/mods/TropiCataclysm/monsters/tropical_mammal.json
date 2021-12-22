@@ -66,7 +66,7 @@
     "name": { "str": "spectacled bear" },
     "copy-from": "mon_bear",
     "description": "The andean bear, sometimes called spectacled bear is the only bear species native to South America.  It lives in a very diverse array of ecosystems on low to high altitudes.",
-    "reproduction": { "baby_monster": "mon_cub_spectacled", "baby_count": 1, "baby_timer": 700 }
+    "reproduction": { "baby_monster": "mon_cub_andean", "baby_count": 1, "baby_timer": 700 }
   },
   {
     "id": "mon_cub_andean",
