@@ -297,8 +297,69 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_humanoid_light_armour",
+    "weakpoints": [
+      {
+        "id": "arm",
+        "name": "the arm",
+        "armor_mult": { "physical": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 8
+      },
+      {
+        "id": "side_armour",
+        "name": "the weak armor on the side",
+        "armor_mult": { "physical": 0.15 },
+        "difficulty": { "broad": 2, "point": 1 },
+        "coverage_mult": { "ranged": 0.65 },
+        "coverage": 4
+      },
+      {
+        "id": "stomach_armour",
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "physical": 0.25 },
+        "coverage_mult": { "broad": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage": 4
+      },
+      {
+        "id": "leg",
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "physical": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 12
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_humanoid_open_helmet",
     "weakpoints": [
+      {
+        "id": "helmet",
+        "//": "the hard part of the helmet is actually the opposite of a weakpoint.",
+        "name": "the helmet",
+        "armor_mult": { "physical": 1.5 },
+        "crit_mult": { "all": 0.5 },
+        "coverage": 3
+      },
       {
         "id": "head",
         "name": "the face",
@@ -365,9 +426,16 @@
     "id": "wps_humanoid_full_helmet",
     "weakpoints": [
       {
-        "id": "head",
+        "id": "helmet",
         "name": "the helmet",
-        "armor_mult": { "physical": 1.25 },
+        "//": "the hard part of the helmet is actually the opposite of a weakpoint.",
+        "armor_mult": { "physical": 1.5 },
+        "crit_mult": { "all": 0.5 },
+        "coverage": 3
+      },
+      {
+        "id": "head",
+        "name": "the face shield",
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 3, "ranged": 7 },
         "coverage_mult": { "ranged": 0.5 },
