@@ -10,7 +10,7 @@
     "difficulty": 1,
     "autolearn": true,
     "skills_required": [ "electronics", 1 ],
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
     "components": [
       [ [ "oven_stovetop", 1 ] ],
@@ -29,9 +29,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "skill_used": "fabrication",
-    "difficulty": 0,
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
     "components": [
       [ [ "oven_stovetop", 1 ] ],
       [ [ "oven_cabinet", 1 ] ],
@@ -48,9 +47,10 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
     "qualities": [
-      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
@@ -62,9 +62,10 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
     "qualities": [
-      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
@@ -89,9 +90,10 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
     "qualities": [
-      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "FINE_HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
@@ -112,9 +114,10 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
     "qualities": [
-      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
@@ -125,9 +128,10 @@
     "result": "oven_controls",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "30 m",
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_mult": 1 }, { "proficiency": "prof_elec_circuits", "fail_mult": 1 } ],
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 } ],
+    "time": "1 h",
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1 }, { "proficiency": "prof_elec_circuits", "fail_multiplier": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", -1 ], [ "toolset", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
