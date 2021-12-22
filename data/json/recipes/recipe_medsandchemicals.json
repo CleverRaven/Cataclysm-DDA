@@ -1682,7 +1682,7 @@
   },
   {
     "result": "chemical_waste_powder",
-	"result_mult": 100,
+    "result_mult": 100,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
