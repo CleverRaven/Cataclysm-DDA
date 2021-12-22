@@ -612,7 +612,7 @@ static vehicle &unfold_and_check( int dmg, int deg )
     REQUIRE( bike_use->get_actor_ptr() != nullptr );
 
     REQUIRE( bike_use->get_actor_ptr()->use( u, bike_it, false, tripoint_zero ).has_value() );
-    optional_vpart_position bike_part = m.veh_at( m.getabs( u.pos() ) );
+    optional_vpart_position bike_part = m.veh_at( u.get_location() );
     REQUIRE( bike_part.has_value() );
     CHECK( bike_part->vehicle().get_all_parts().part_count() > 0 );
     for( auto &part : bike_part->vehicle().get_all_parts() ) {
