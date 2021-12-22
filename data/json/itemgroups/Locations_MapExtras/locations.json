@@ -1977,7 +1977,8 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
+      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+	  { "item": "chemical_waste_liquid", "prob": 75, "charges-min": 250 }
     ]
   },
   {

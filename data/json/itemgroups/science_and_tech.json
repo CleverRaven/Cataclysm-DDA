@@ -224,7 +224,8 @@
       { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
       { "item": "red_phosphorous", "prob": 10 },
       { "item": "acetic_anhydride", "prob": 8 },
-      { "item": "iodine_crystal", "prob": 12 }
+      { "item": "iodine_crystal", "prob": 12 },
+	  { "item": "chemical_waste_liquid", "prob": 80, "charges-min": 250 }
     ]
   },
   {

@@ -1825,7 +1825,7 @@
     "quench": -70,
     "healthy": -40,
     "calories": 10,
-    "description": "Powder mixed with small amounts of liquid, basically chemical mud. It contains many different chemicals.",
+    "description": "Powder mixed with small amounts of liquid, basically chemical slurry. It contains many different chemicals.",
     "price": 10,
     "//": "wet mix of chemical precipitates. chemical_waste_powder mixed with small amounts of chemical_waste_liquid to consistency of a mud",
     "price_postapoc": 1,
