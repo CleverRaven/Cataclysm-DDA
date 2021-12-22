@@ -329,7 +329,7 @@
     "id": "mon_llama",
     "type": "MONSTER",
     "name": { "str_sp": "llama" },
-    "description": "A fairly large and wooly herbivore endemic to the American Continent.  Llamas and their kin are distant relatives to camels and were domesticated by the andean people.",
+    "description": "A fairly large and wooly herbivore endemic to the American Continent.  Llamas and their kin are distant relatives to camels and were domesticated by the Andean people.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
