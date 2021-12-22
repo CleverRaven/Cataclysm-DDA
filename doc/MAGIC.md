@@ -125,8 +125,8 @@ Below is a table of currently implemented effects, along with special rules for 
 | `upgrade` | Immediately upgrades a target monster
 | `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
 | `guilt` | The target gets the guilt morale as if it killed the caster
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe. Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
-| `remove_field` | Removes a `effect_str` field within aoe range
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
+| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
 | `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
