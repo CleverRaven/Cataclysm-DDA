@@ -735,16 +735,17 @@ void item::rand_degradation()
                    ( degrade_increments() ) ) : 0;
 }
 
-int item::damage_level() const
+int item::damage_level( int dmg ) const
 {
-    if( damage_ == 0 ) {
+    dmg = dmg == INT_MIN ? damage_ : dmg;
+    if( dmg == 0 ) {
         return 0;
     } else if( max_damage() <= 1 ) {
-        return damage_ > 0 ? 4 : damage_;
-    } else if( damage_ < 0 ) {
-        return -( 3 * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
+        return dmg > 0 ? 4 : dmg;
+    } else if( dmg < 0 ) {
+        return -( 3 * ( -dmg - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
-        return 3 * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
+        return 3 * ( dmg - 1 ) / ( max_damage() - 1 ) + 1;
     }
 }
 

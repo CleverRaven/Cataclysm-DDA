@@ -158,9 +158,9 @@ int vehicle_part::damage_floor( bool allow_negative ) const
     return base.damage_floor( allow_negative );
 }
 
-int vehicle_part::damage_level() const
+int vehicle_part::damage_level( int dmg ) const
 {
-    return base.damage_level();
+    return base.damage_level( dmg );
 }
 
 double vehicle_part::health_percent() const
@@ -598,13 +598,15 @@ const vpart_info &vehicle_part::info() const
 void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )
 {
     if( qty == pt.info().durability || pt.info().durability <= 0 ) {
-        pt.base.set_damage( 0 );
+        pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
-        pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
+        int amt = pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability;
+        amt = std::max( amt, pt.base.damage_floor( false ) );
+        pt.base.set_damage( amt );
     }
     if( !keep_degradation ) {
         if( new_degradation >= 0 ) {

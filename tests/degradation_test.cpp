@@ -10,8 +10,10 @@
 #include "map.h"
 #include "player_helpers.h"
 #include "vehicle.h"
-#include "vpart_range.h"
+#include "veh_utils.h"
+#include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
@@ -24,8 +26,8 @@ static const itype_id itype_test_folding_bicycle( "test_folding_bicycle" );
 static const itype_id itype_test_glock_degrade( "test_glock_degrade" );
 static const itype_id itype_thread( "thread" );
 
-static const skill_id skill_tailor( "tailor" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_tailor( "tailor" );
 
 static constexpr int max_iters = 4000;
 static constexpr tripoint spawn_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
@@ -594,7 +596,7 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
     }
 }
 
-static void unfold_and_check( int dmg, int deg )
+static vehicle &unfold_and_check( int dmg, int deg )
 {
     clear_map();
     Character &u = get_player_character();
@@ -618,8 +620,10 @@ static void unfold_and_check( int dmg, int deg )
         CHECK( part.part().damage() == dmg );
         CHECK( part.part().degradation() == deg );
     }
+    return bike_part->vehicle();
 }
 
+// Testing unfold_vehicle_iuse::use
 TEST_CASE( "Unfolding vehicle parts with degradation", "[item][degradation][vehicle]" )
 {
     SECTION( "0 damage / 0 degradation" ) {
@@ -639,8 +643,306 @@ TEST_CASE( "Unfolding vehicle parts with degradation", "[item][degradation][vehi
     }
 }
 
-// TODO:
-// - generic_multi_activity_handler
-// - unfold_vehicle_iuse::use
-// - veh_interact::do_repair
-// - vehicle::set_hp && vehicle::get_hp
+// Testing vehicle::set_hp
+TEST_CASE( "Setting vehicle hp with degradation", "[item][degradation][vehicle]" )
+{
+    GIVEN( "Performing a full part repair" ) {
+        WHEN( "1000 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 0 );
+            THEN( "Repaired to 0 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 0 );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 0 );
+            THEN( "Repaired to 0 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 0 );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        WHEN( "1000 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 1000 );
+            THEN( "Repaired to 0 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 0 );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 1000 );
+            THEN( "Repaired to 0 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 0 );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        WHEN( "2000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 2000, 2000 );
+            THEN( "Repaired to 1000 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 1000 );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 2000 );
+            THEN( "Repaired to 1000 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 1000 );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 3000 );
+            THEN( "Repaired to 2000 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 2000 );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        WHEN( "4000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 4000, 3000 );
+            THEN( "Repaired to 2000 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 2000 );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        WHEN( "4000 damage / 4000 degradation" ) {
+            vehicle &veh = unfold_and_check( 4000, 4000 );
+            THEN( "Repaired to 3000 damage" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == 3000 );
+                    CHECK( vp.part().degradation() == 4000 );
+                }
+            }
+        }
+    }
+    GIVEN( "Performing a partial repair" ) {
+        // 0 degradation
+        WHEN( "0 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 0 );
+            THEN( "Set damage to 0" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == Approx( 0 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        WHEN( "0 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 0 );
+            THEN( "Set damage to 2000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 2, true );
+                    CHECK( vp.part().damage() == Approx( 2000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        WHEN( "0 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 0 );
+            THEN( "Set damage to 3000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 4, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        WHEN( "0 damage / 0 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 0 );
+            THEN( "Set damage to 4000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), 0, true );
+                    CHECK( vp.part().damage() == Approx( 4000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 0 );
+                }
+            }
+        }
+        // 1000 degradation
+        WHEN( "0 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 1000 );
+            THEN( "Set damage to 0" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == Approx( 0 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        WHEN( "0 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 1000 );
+            THEN( "Set damage to 2000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 2, true );
+                    CHECK( vp.part().damage() == Approx( 2000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        WHEN( "0 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 1000 );
+            THEN( "Set damage to 3000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 4, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        WHEN( "0 damage / 1000 degradation" ) {
+            vehicle &veh = unfold_and_check( 0, 1000 );
+            THEN( "Set damage to 4000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), 0, true );
+                    CHECK( vp.part().damage() == Approx( 4000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 1000 );
+                }
+            }
+        }
+        // 2000 degradation
+        WHEN( "1000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 2000 );
+            THEN( "Set damage to 0" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == Approx( 1000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        WHEN( "1000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 2000 );
+            THEN( "Set damage to 2000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 2, true );
+                    CHECK( vp.part().damage() == Approx( 2000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        WHEN( "1000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 2000 );
+            THEN( "Set damage to 3000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 4, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        WHEN( "1000 damage / 2000 degradation" ) {
+            vehicle &veh = unfold_and_check( 1000, 2000 );
+            THEN( "Set damage to 4000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), 0, true );
+                    CHECK( vp.part().damage() == Approx( 4000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 2000 );
+                }
+            }
+        }
+        // 3000 degradation
+        WHEN( "2000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 2000, 3000 );
+            THEN( "Set damage to 0" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == Approx( 2000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        WHEN( "2000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 2000, 3000 );
+            THEN( "Set damage to 2000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 2, true );
+                    CHECK( vp.part().damage() == Approx( 2000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        WHEN( "2000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 2000, 3000 );
+            THEN( "Set damage to 3000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 4, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        WHEN( "2000 damage / 3000 degradation" ) {
+            vehicle &veh = unfold_and_check( 2000, 3000 );
+            THEN( "Set damage to 4000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), 0, true );
+                    CHECK( vp.part().damage() == Approx( 4000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 3000 );
+                }
+            }
+        }
+        // 4000 degradation
+        WHEN( "3000 damage / 4000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 4000 );
+            THEN( "Set damage to 0" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 4000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 4000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 4000 );
+            THEN( "Set damage to 2000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 2, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 4000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 4000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 4000 );
+            THEN( "Set damage to 3000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), vp.info().durability / 4, true );
+                    CHECK( vp.part().damage() == Approx( 3000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 4000 );
+                }
+            }
+        }
+        WHEN( "3000 damage / 4000 degradation" ) {
+            vehicle &veh = unfold_and_check( 3000, 4000 );
+            THEN( "Set damage to 4000" ) {
+                for( const vpart_reference &vp : veh.get_all_parts() ) {
+                    veh.set_hp( vp.part(), 0, true );
+                    CHECK( vp.part().damage() == Approx( 4000 ).margin( 50 ) );
+                    CHECK( vp.part().degradation() == 4000 );
+                }
+            }
+        }
+    }
+}
