@@ -49,14 +49,13 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "sheet_metal_small", 2 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "escrap", 4 ] ]
-    ]
+    "qualities": [
+      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "spring", 1 ] ], [ [ "hinge", 1 ] ], [ [ "wire", 1 ] ], [ [ "escrap", 4 ] ] ]
   },
   {
     "result": "oven_cabinet",
@@ -64,7 +63,12 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "//": "Pilot lights shouldn't be part of an electric oven but we don't have gas ones yet. Can be removed when that changes.",
     "components": [
       [ [ "sheet_metal", 2 ] ],
@@ -86,7 +90,12 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
-    "qualities": [ { "id": "SCREWDRIVER", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "FINE_HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "components": [
       [ [ "reinforced_glass_sheet", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
@@ -96,6 +105,38 @@
       [ [ "escrap", 2 ] ],
       [ [ "cable", 2 ] ],
       [ [ "hinge", 2 ] ]
+    ]
+  },
+  {
+    "result": "oven_broiler_pan",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_mult": 1 } ],
+    "qualities": [
+      { "id": "SCREWDRIVER", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "scrap", 2 ] ], [ [ "bearing", 12 ] ] ]
+  },
+  {
+    "result": "oven_controls",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_mult": 1 }, { "proficiency": "prof_elec_circuits", "fail_mult": 1 } ],
+    "qualities": [ { "id": "SCREWDRIVER", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", -1 ], [ "toolset", -1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "escrap", 6 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "solder", 8 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
     ]
   }
 ]
