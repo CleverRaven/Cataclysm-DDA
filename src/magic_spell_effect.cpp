@@ -790,7 +790,6 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
                 fd.second.get_field_type() == target_field_type_id ) {
                 field_removed = target_field;
                 here.remove_field( node.position, target_field_type_id );
-                sp.make_sound( node.position );
                 did_field_removal = true;
             }
         }
@@ -804,13 +803,11 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
     return field_removed;
 }
 
-static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, const spell &sp,
-        Creature &caster )
+static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, Creature &caster )
 {
     for( const std::pair<const field_type_id, field_entry> &fd : fd_fatigue_field ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
-        sp.make_sound( caster.pos() );
 
         switch( intensity ) {
             case 1:
@@ -840,8 +837,10 @@ void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoi
 
     for( const std::pair<const field_type_id, field_entry> &fd : field_removed ) {
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
+            sp.make_sound( caster.pos() );
+
             if( fd.first.id() == fd_fatigue ) {
-                handle_remove_fd_fatigue_field( field_removed, sp, caster );
+                handle_remove_fd_fatigue_field( field_removed, caster );
             } else {
                 caster.add_msg_if_player( m_neutral, _( "The %s suddenly dissapates." ),
                                           fd.second.get_intensity_level().name );
