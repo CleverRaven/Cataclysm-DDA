@@ -1912,8 +1912,8 @@ bool vehicle::level_vehicle()
                                      !here.supports_above( part_pos + tripoint_below );
         }
         if( !is_on_ramp &&
-            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( part_pos.xy(), part_pos.z - 1 ) ) ||
-            here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( part_pos.xy(), part_pos.z + 1 ) ) ) {
+            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( part_pos.xy(), part_pos.z - 1 ) ) ||
+              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( part_pos.xy(), part_pos.z + 1 ) ) ) ) {
             is_on_ramp = true;
         }
     }
