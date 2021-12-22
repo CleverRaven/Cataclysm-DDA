@@ -6,6 +6,7 @@
 #include <climits>
 
 #include "calendar.h"
+#include "condition.h"
 #include "dialogue.h"
 #include "json.h"
 #include "optional.h"

@@ -50,21 +50,6 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
-// throws an error on failure, so no need to return
-std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
-{
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
-                          jo.has_array( "possible_values" ) ) ) {
-        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
-    }
-    const std::string &var_basename = jo.get_string( member );
-    const std::string &type_var = jo.get_string( "type", "" );
-    const std::string &var_context = jo.get_string( "context", "" );
-    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
-            +
-            var_context ) + "_" + var_basename;
-}
-
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
                            int default_val )
 {
@@ -72,27 +57,10 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
     if( jo.has_int( member ) ) {
         mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
-        const JsonObject &var_obj = jo.get_object( member );
-        if( jo.has_member( "u_val" ) ) {
-            ret_val.type = var_type::u;
-            ret_val.var_val = get_talk_varname( var_obj, "u_val", false );
-        } else if( jo.has_member( "npc_val" ) ) {
-            ret_val.type = var_type::npc;
-            ret_val.var_val = get_talk_varname( var_obj, "npc_val", false );
-        } else if( jo.has_member( "global_val" ) ) {
-            ret_val.type = var_type::global;
-            ret_val.var_val = get_talk_varname( var_obj, "global_val", false );
-        } else if( jo.has_member( "faction_val" ) ) {
-            ret_val.type = var_type::faction;
-            ret_val.var_val = get_talk_varname( var_obj, "faction_val", false );
-        } else if( jo.has_member( "party_val" ) ) {
-            ret_val.type = var_type::party;
-            ret_val.var_val = get_talk_varname( var_obj, "party_val", false );
-        } else {
-            jo.throw_error( "Invalid variable type." );
-        }
-
-        mandatory( var_obj, false, "default", ret_val.default_val );
+        var_info var = read_var_info( jo.get_object( member ), true );
+        ret_val.type = var.type;
+        ret_val.var_val = var.name;
+        ret_val.default_val = stoi( var.default_val );
     } else if( required ) {
         jo.throw_error( "No valid value for ", member );
     } else {
@@ -108,26 +76,10 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
     if( jo.has_int( member ) || jo.has_string( member ) ) {
         mandatory( jo, false, member, ret_val.dur_val );
     } else if( jo.has_object( member ) ) {
-        const JsonObject &var_obj = jo.get_object( member );
-        if( jo.has_member( "u_val" ) ) {
-            ret_val.type = var_type::u;
-            ret_val.var_val = get_talk_varname( var_obj, "u_val", false );
-        } else if( jo.has_member( "npc_val" ) ) {
-            ret_val.type = var_type::npc;
-            ret_val.var_val = get_talk_varname( var_obj, "npc_val", false );
-        } else if( jo.has_member( "global_val" ) ) {
-            ret_val.type = var_type::global;
-            ret_val.var_val = get_talk_varname( var_obj, "global_val", false );
-        } else if( jo.has_member( "faction_val" ) ) {
-            ret_val.type = var_type::faction;
-            ret_val.var_val = get_talk_varname( var_obj, "faction_val", false );
-        } else if( jo.has_member( "party_val" ) ) {
-            ret_val.type = var_type::party;
-            ret_val.var_val = get_talk_varname( var_obj, "party_val", false );
-        } else {
-            jo.throw_error( "Invalid variable type." );
-        }
-        mandatory( var_obj, false, "default", ret_val.default_val );
+        var_info var = read_var_info( jo.get_object( member ), true );
+        ret_val.type = var.type;
+        ret_val.var_val = var.name;
+        ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
     } else if( required ) {
         jo.throw_error( "No valid value for ", member );
     } else {
@@ -137,17 +89,11 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
 }
 
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                bool global )
+                                var_type vtype )
 {
     tripoint target_pos = get_map().getabs( target->pos() );
     if( target_var.has_value() ) {
-        std::string value;
-        if( global ) {
-            global_variables &globvars = get_globals();
-            value = globvars.get_global_value( target_var.value() );
-        } else {
-            value = target->get_value( target_var.value() );
-        }
+        std::string value = read_var_value( vtype, target_var.value(), target );
         if( !value.empty() ) {
             target_pos = tripoint::from_string( value );
         }
@@ -942,6 +888,10 @@ static std::string get_string_from_input( JsonArray objects, int index )
         return "npc_" + get_talk_varname( object, "npc_val", false );
     } else if( object.has_string( "global_val" ) ) {
         return "global_" + get_talk_varname( object, "global_val", false );
+    } else if( object.has_string( "faction_val" ) ) {
+        return "faction_" + get_talk_varname( object, "faction_val", false );
+    } else if( object.has_string( "party_val" ) ) {
+        return "party_" + get_talk_varname( object, "party_val", false );
     }
     object.throw_error( "Invalid input type." );
     return "";
@@ -955,11 +905,18 @@ static tripoint get_tripoint_from_string( std::string type, T &d )
     } else if( type == "npc" ) {
         return get_map().getabs( d.actor( true )->pos() );
     } else if( type.find( "u_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), false );
+        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), var_type::u );
     } else if( type.find( "npc_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), false );
+        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), var_type::npc );
     } else if( type.find( "global_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ), true );
+        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
+                                      var_type::global );
+    } else if( type.find( "faction_" ) == 0 ) {
+        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
+                                      var_type::faction );
+    } else if( type.find( "party_" ) == 0 ) {
+        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
+                                      var_type::party );
     }
     return tripoint();
 }

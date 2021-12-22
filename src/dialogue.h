@@ -394,6 +394,105 @@ struct dynamic_line_t {
         }
 };
 
+struct var_info {
+    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+        name( in_name ), default_val( in_default_val ) {}
+    var_type type;
+    std::string name;
+    std::string default_val;
+};
+static std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                                     bool check_value = false )
+{
+    if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
+        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                            jo.has_array( "possible_values" ) ) ) ) {
+        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+    }
+    const std::string &var_basename = jo.get_string( member );
+    const std::string &type_var = jo.get_string( "type" );
+    const std::string &var_context = jo.get_string( "context" );
+    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+}
+
+static var_info read_var_info( JsonObject jo, bool require_default )
+{
+    std::string default_val;
+    if( jo.has_string( "default" ) ) {
+        default_val = std::to_string( to_turns<int>( read_from_json_string<time_duration>
+                                      ( jo.get_member( "default" ), time_duration::units ) ) );
+    } else if( jo.has_int( "default" ) ) {
+        default_val = std::to_string( jo.get_int( "default" ) );
+    } else if( require_default ) {
+        jo.throw_error( "No default value provided." );
+    }
+
+    if( jo.has_member( "u_val" ) ) {
+        return var_info( var_type::u, get_talk_varname( jo, "u_val", false ), default_val );
+    } else if( jo.has_member( "npc_val" ) ) {
+        return var_info( var_type::npc, get_talk_varname( jo, "npc_val", false ), default_val );
+    } else if( jo.has_member( "global_val" ) ) {
+        return var_info( var_type::global, get_talk_varname( jo, "global_val", false ), default_val );
+    } else if( jo.has_member( "faction_val" ) ) {
+        return var_info( var_type::faction, get_talk_varname( jo, "faction_val", false ), default_val );
+    } else if( jo.has_member( "party_val" ) ) {
+        return var_info( var_type::party, get_talk_varname( jo, "party_val", false ), default_val );
+    } else {
+        jo.throw_error( "Invalid variable type." );
+    }
+}
+
+static std::string read_var_value( var_type type, std::string name, talker *talk )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            return globvars.get_global_value( name );
+            break;
+        case var_type::u:
+            return talk->get_value( name );
+            break;
+        case var_type::npc:
+            return talk->get_value( name );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+    return "";
+}
+
+static void write_var_value( var_type type, std::string name, talker *talk, std::string value )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            globvars.set_global_value( name, value );
+            break;
+        case var_type::u:
+            talk->set_value( name, value );
+            break;
+        case var_type::npc:
+            talk->set_value( name, value );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+}
+
 struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
@@ -406,21 +505,7 @@ struct int_or_var {
         if( int_val.has_value() ) {
             return int_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            global_variables &globvars = get_globals();
-            switch( type ) {
-                case var_type::global:
-                    val = globvars.get_global_value( var_val.value() );
-                    break;
-                case var_type::u:
-                    val = talk->get_value( var_val.value() );
-                    break;
-                case var_type::npc:
-                    val = talk->get_value( var_val.value() );
-                    break;
-                default:
-                    debugmsg( "Invalid type." );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 return std::stoi( val );
             }
@@ -444,21 +529,7 @@ struct duration_or_var {
         if( dur_val.has_value() ) {
             return dur_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            global_variables &globvars = get_globals();
-            switch( type ) {
-                case var_type::global:
-                    val = globvars.get_global_value( var_val.value() );
-                    break;
-                case var_type::u:
-                    val = talk->get_value( var_val.value() );
-                    break;
-                case var_type::npc:
-                    val = talk->get_value( var_val.value() );
-                    break;
-                default:
-                    debugmsg( "Invalid type." );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 time_duration ret_val;
                 ret_val = time_duration::from_turns( std::stoi( val ) );
