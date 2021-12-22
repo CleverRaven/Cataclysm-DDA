@@ -64,6 +64,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
