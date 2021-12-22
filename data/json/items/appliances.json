@@ -34,14 +34,7 @@
     "insulation": 3,
     "volume": "290 L",
     "weight": "77 kg",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "120 L",
-        "max_contains_weight": "200 kg"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
     "type": "TOOL",
