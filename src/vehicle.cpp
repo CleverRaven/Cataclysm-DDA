@@ -3374,11 +3374,11 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
             float energy = vpr.part().base.legacy_front().specific_energy;
             float mass = to_gram( vpr.part().base.legacy_front().weight() );
 
-//    for( const vehicle_part &vp : parts ) {
-//        if( vp.is_tank() && vp.ammo_current() == ftype &&
-//            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
-//            float energy = vp.base.legacy_front().specific_energy;
-//            float mass = to_gram( vp.base.legacy_front().weight() );
+            //    for( const vehicle_part &vp : parts ) {
+            //        if( vp.is_tank() && vp.ammo_current() == ftype &&
+            //            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
+            //            float energy = vp.base.legacy_front().specific_energy;
+            //            float mass = to_gram( vp.base.legacy_front().weight() );
             total_energy += energy * mass;
             total_mass += mass;
         }
@@ -7382,13 +7382,14 @@ const vehicle_part &vehicle::part( int part_num ) const
 
 int vehicle::get_non_fake_part( const int part_num )
 {
-    if( part_num < num_parts() ) {
+    if( part_num != -1 && part_num < num_parts() ) {
         if( parts.at( part_num ).is_fake ) {
             return parts.at( part_num ).fake_part_to;
         } else {
             return part_num;
         }
     }
+    std::cout << "Returning -1 for get_non_fake_part.";
     return -1;
 }
 

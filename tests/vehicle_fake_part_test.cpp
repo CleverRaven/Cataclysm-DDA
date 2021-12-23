@@ -25,7 +25,7 @@ static void really_clear_map()
 
 static void validate_part_count( const vehicle &veh, const int target_velocity,
                                  const units::angle &face_dir, const int real_parts,
-				 const int fake_parts, const int active_fakes )
+                                 const int fake_parts, const int active_fakes )
 {
     if( target_velocity > 0 && veh.velocity <= 200 ) {
         std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
@@ -67,7 +67,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
     GIVEN( "A vehicle with a known number of parts" ) {
         const tripoint test_origin( 30, 30, 0 );
 
-	for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
+        for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
             for( int sub_angle = 0; sub_angle < 6; sub_angle += 1 )  {
                 const units::angle angle = quadrant * 90_degrees + sub_angle * 15_degrees;
                 really_clear_map();
@@ -82,7 +82,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
                 // include inactive fakes since the vehicle isn't rotated
                 bool tested_a_fake = false;
                 for( const vpart_reference vp : veh->get_all_parts_with_fakes( true ) ) {
-                     tested_a_fake |= vp.part().is_fake;
+                    tested_a_fake |= vp.part().is_fake;
                 }
                 validate_part_count( *veh, 0, angle, original_parts, fake_parts,
                                      active_fakes_by_angle.at( sub_angle ) );
@@ -255,10 +255,10 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         veh->velocity = veh->cruise_velocity;
         here.vehmove();
         const tripoint global_move = veh->global_pos3();
-        const tripoint obstacle_point = test_origin + 2 * ( global_move - global_origin ); 
+        const tripoint obstacle_point = test_origin + 2 * ( global_move - global_origin );
         vehicle *trg = here.add_vehicle( school_bus, obstacle_point, 90_degrees, 100, 0 );
-	REQUIRE( trg != nullptr );
-	trg->name = "crash bus";
+        REQUIRE( trg != nullptr );
+        trg->name = "crash bus";
         WHEN( "A vehicle is placed in the vehicle's path such that it will hit a true part" ) {
             // we're travelling south east, so place another vehicle in the way.
 
@@ -275,13 +275,13 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
                 // hitting the bus should have slowed the vehicle down
                 REQUIRE( veh->velocity < target_velocity );
 
-		for( const vpart_reference &vp: veh->get_all_parts() ) {
+                for( const vpart_reference &vp : veh->get_all_parts() ) {
                     if( vp.info().durability > vp.part().hp() ) {
                         damaged_parts.push_back( vp.part_index() );
                     }
                 }
 
-                for( const vpart_reference &vp: trg->get_all_parts() ) {
+                for( const vpart_reference &vp : trg->get_all_parts() ) {
                     if( vp.info().durability > vp.part().hp() ) {
                         trg_damaged_parts.push_back( vp.part_index() );
                     }

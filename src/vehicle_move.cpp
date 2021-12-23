@@ -98,7 +98,8 @@ int vehicle::slowdown( int at_velocity ) const
         const double skid_factor = 1 + 24 * std::abs( units::sin( face.dir() - move.dir() ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
-    double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
+    // check mass to make sure it's not 0 which happens for some reason
+    double accel_slowdown = total_mass().value() > 0 ? f_total_drag / to_kilogram( total_mass() ) : 0;
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
     if( is_towing() ) {
