@@ -2344,7 +2344,8 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
     }
     function = [iov, transform, target_var, type, is_npc]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
-        tripoint target_pos = get_tripoint_from_var( target, target_var, type, d.actor( type == var_type::npc ) );
+        tripoint target_pos = get_tripoint_from_var( target, target_var, type,
+                              d.actor( type == var_type::npc ) );
         get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
     };
 }
@@ -3223,7 +3224,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     }
     function = [is_npc, message, volume, type, target_var, vtype, snippet,
             same_snippet]( const dialogue & d ) {
-        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, vtype, d.actor( vtype == var_type::npc ) );
+        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, vtype,
+                              d.actor( vtype == var_type::npc ) );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
@@ -3509,7 +3511,8 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
         int radius = iov_radius.evaluate( d.actor( iov_radius.is_npc() ) );
         int intensity = iov_intensity.evaluate( d.actor( iov_intensity.is_npc() ) );
 
-        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, type, d.actor( type == var_type::npc ) );
+        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, type,
+                              d.actor( type == var_type::npc ) );
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
@@ -3528,7 +3531,8 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &m
     std::string fail_message = jo.get_string( "fail_message", "" );
     std::string success_message = jo.get_string( "success_message", "" );
     function = [is_npc, target_var, type, fail_message, success_message]( const dialogue & d ) {
-        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, type, d.actor( type == var_type::npc ) );
+        tripoint target_pos = get_tripoint_from_var( d.actor( is_npc ), target_var, type,
+                              d.actor( type == var_type::npc ) );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
