@@ -35,6 +35,8 @@ static const itype_id itype_test_mp3( "test_mp3" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
 
+static const material_id material_nut( "nut" );
+
 TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
@@ -245,6 +247,14 @@ static void assert_minimum_length_to_volume_ratio( const item &target )
         CHECK( target.length() >= 0_mm );
         return;
     }
+
+    // Nut dimensions are the size of an individual nut in the collection
+    // of nuts, so they're an exception to the 'minimal diameter' rule.
+    if( target.only_made_of( { material_nut } ) ) {
+        CHECK( target.length() > 0_mm );
+        return;
+    }
+
     // Minimum possible length is if the item is a sphere.
     const float minimal_diameter = std::cbrt( ( 3.0 * units::to_milliliter( target.base_volume() ) ) /
                                    ( 4.0 * M_PI ) );
