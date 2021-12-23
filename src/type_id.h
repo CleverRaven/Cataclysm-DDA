@@ -268,4 +268,7 @@ using json_character_flag = string_id<json_flag>;
 class widget;
 using widget_id = string_id<widget>;
 
+struct weakpoints;
+using weakpoints_id = string_id<weakpoints>;
+
 #endif // CATA_SRC_TYPE_ID_H

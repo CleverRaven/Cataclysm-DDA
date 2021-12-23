@@ -1,11 +1,27 @@
 [
   {
-    "//": "Currently only used for T Rex nest same freq as dermatik nest",
+    "//": "Pred nests in forest_water same freq as dermatik nest",
     "type": "region_overlay",
     "regions": [ "all" ],
     "map_extras": {
-      "forest_water": { "chance": 20, "extras": { "mx_nest_tyrannosaurus": 10 } },
-      "forest": { "chance": 20, "extras": { "mx_nest_maiasaura": 20 } }
+      "forest_water": {
+        "chance": 20,
+        "extras": {
+          "mx_nest_acrocanthosaurus": 30,
+          "mx_nest_albertosaurus": 30,
+          "mx_nest_allosaurus": 30,
+          "mx_nest_ceratosaurus": 30,
+          "mx_nest_coelophysis": 30,
+          "mx_nest_deinonychus": 30,
+          "mx_nest_dilophosaurus": 30,
+          "mx_nest_gorgosaurus": 30,
+          "mx_nest_siats": 30,
+          "mx_nest_tyrannosaurus": 30,
+          "mx_nest_utahraptor": 30,
+          "mx_nest_velociraptor": 30
+        }
+      },
+      "forest": { "chance": 20, "extras": { "mx_nest_maiasaura": 60 } }
     }
   }
 ]

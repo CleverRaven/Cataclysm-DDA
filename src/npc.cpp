@@ -1471,7 +1471,8 @@ void npc::invalidate_range_cache()
 {
     const item &weapon = get_wielded_item();
     if( weapon.is_gun() ) {
-        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+        confident_range_cache = confident_shoot_range( weapon,
+                                most_accurate_aiming_method_limit( weapon ) );
     } else {
         confident_range_cache = weapon.reach_range( *this );
     }

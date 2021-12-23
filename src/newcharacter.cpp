@@ -247,13 +247,15 @@ void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
     const mutation_branch &mdata = tr.obj();
-    if( !has_trait( tr ) && !mdata.category.empty() ) {
+    if( mdata.category.empty() || mdata.startingtrait ) {
+        toggle_trait( tr );
+    } else if( !has_trait( tr ) ) {
         int rc = 0;
         while( !has_trait( tr ) && rc < depth_max ) {
             mutate_towards( tr );
             rc++;
         }
-    } else if( has_trait( tr ) && !mdata.category.empty() ) {
+    } else if( has_trait( tr ) ) {
         int rc = 0;
         std::unordered_map<trait_id, int> deps;
         build_mut_dependency_map( tr, deps, 0 );
@@ -271,8 +273,6 @@ void Character::toggle_trait_deps( const trait_id &tr )
             }
             rc++;
         }
-    } else {
-        toggle_trait( tr );
     }
 }
 
@@ -856,7 +856,8 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
-        _( "HOBBIES" ),
+        //~ Not scenery/backdrop, but previous life up to this point
+        _( "BACKGROUND" ),
         _( "STATS" ),
         _( "TRAITS" ),
         _( "SKILLS" ),
@@ -1600,7 +1601,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                 for( const profession *hobbies : u.hobbies ) {
                     if( hobbies->is_locked_trait( cur_trait ) ) {
                         inc_type = 0;
-                        popup( _( "Your hobby of %s prevents you from removing this trait." ),
+                        popup( _( "Your background of %s prevents you from removing this trait." ),
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
@@ -2162,7 +2163,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     int iheight = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "HOBBIES" ) );
+        draw_character_tabs( w, _( "BACKGROUND" ) );
 
         // Draw filter indicator
         for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
@@ -2193,13 +2194,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s earns %2$d point",
-                                           "Hobby %1$s earns %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
+                                           "Background %1$s earns %2$d points",
                                            pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s costs %2$d point",
-                                           "Hobby %1$s costs %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
+                                           "Background %1$s costs %2$d points",
                                            pointsForProf );
             }
 
@@ -2257,7 +2258,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession traits
             const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-            buffer += colorize( _( "Hobby traits:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background traits:" ), c_light_blue ) + "\n";
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
@@ -2268,7 +2269,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession skills
             const auto prof_skills = sorted_profs[cur_id]->skills();
-            buffer += colorize( _( "Hobby skill experience:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background skill experience:" ), c_light_blue ) + "\n";
             if( prof_skills.empty() ) {
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
@@ -2296,9 +2297,9 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             // Proficiencies
             const std::string newline = "\n";
             std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
-            buffer += colorize( _( "Hobby proficiencies:" ), c_light_blue ) + newline;
+            buffer += colorize( _( "Background proficiencies:" ), c_light_blue ) + newline;
             if( prof_proficiencies.empty() ) {
-                buffer += pgettext( "Hobby has no proficiencies", "None" ) + newline;
+                buffer += pgettext( "Background has no proficiencies", "None" ) + newline;
             } else {
                 for( const proficiency_id &prof : prof_proficiencies ) {
                     buffer += prof->name() + newline;
@@ -2422,7 +2423,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                         for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
                             if( are_conflicting_traits( new_trait, suspect_trait ) ) {
                                 conflict_found = true;
-                                popup( _( "The trait [%1$s] conflicts with hobby [%2$s]'s trait [%3$s]." ), new_trait->name(),
+                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait->name(),
                                        hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
                             }
                         }
@@ -2481,7 +2482,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 60 )
-            .description( _( "Search by hobby name." ) )
+            .description( _( "Search by background name." ) )
             .edit( filterstring );
             recalc_profs = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
@@ -2525,11 +2526,74 @@ tab_direction set_skills( avatar &u, pool_type pool )
         return localized_compare( a.name(), b.name() );
     } );
 
-    const int num_skills = sorted_skills.size();
-    int cur_offset = 0;
+    std::stable_sort( sorted_skills.begin(), sorted_skills.end(),
+    []( const Skill * a, const Skill * b ) {
+        return a->display_category() < b->display_category();
+    } );
+
+    std::vector<std::pair<skill_displayType_id, const Skill *>> skill_list;
+    for( const Skill *skl : sorted_skills ) {
+        if( skill_list.empty() ) {
+            skill_list.emplace_back( skl->display_category(), nullptr );
+        }
+
+        if( skl->display_category() == skill_list.back().first ) {
+            skill_list.emplace_back( skl->display_category(), skl );
+        } else {
+            skill_list.emplace_back( skl->display_category(), nullptr );
+            skill_list.emplace_back( skl->display_category(), skl );
+        }
+    }
+
+    const int num_skills = skill_list.size();
+    int cur_offset = 1;
     int cur_pos = 0;
-    const Skill *currentSkill = sorted_skills[cur_pos];
+    const Skill *currentSkill = nullptr;
     int selected = 0;
+
+    const int scroll_rate = num_skills > 20 ? 5 : 2;
+    auto get_next = [&]( bool go_up, bool fast_scroll ) {
+        bool invalid = true;
+        while( invalid ) {
+            if( fast_scroll ) {
+                if( go_up ) {
+                    if( cur_pos == 0 ) {
+                        cur_pos = num_skills - 1;
+                    } else if( cur_pos <= scroll_rate ) {
+                        cur_pos = 0;
+                    } else {
+                        cur_pos += -scroll_rate;
+                    }
+                } else {
+                    if( cur_pos == num_skills - 1 ) {
+                        cur_pos = 0;
+                    } else if( cur_pos + scroll_rate >= num_skills ) {
+                        cur_pos = num_skills - 1;
+                    } else {
+                        cur_pos += +scroll_rate;
+                    }
+                }
+            } else {
+                if( go_up ) {
+                    cur_pos--;
+                    if( cur_pos < 0 ) {
+                        cur_pos = num_skills - 1;
+                    }
+                } else {
+                    cur_pos++;
+                    if( cur_pos >= num_skills ) {
+                        cur_pos = 0;
+                    }
+                }
+            }
+            currentSkill = skill_list[cur_pos].second;
+            if( currentSkill ) {
+                invalid = false;
+            }
+        }
+    };
+
+    get_next( false, false );
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
@@ -2659,10 +2723,13 @@ tab_direction set_skills( avatar &u, pool_type pool )
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = 5 + i - cur_offset;
-            const Skill *thisSkill = sorted_skills[i];
+            const skill_displayType_id &display_type = skill_list[i].first;
+            const Skill *thisSkill = skill_list[i].second;
             // Clear the line
             mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
-            if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
+            if( !thisSkill ) {
+                mvwprintz( w, point( 2, y ), c_yellow, display_type->display_string() );
+            } else if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
                 mvwprintz( w, point( 2, y ),
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
             } else {
@@ -2676,10 +2743,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
             int skill_level = 0;
 
             // Grab skills from profession
-            for( auto &prof_skill : u.prof->skills() ) {
-                if( prof_skill.first == thisSkill->ident() ) {
-                    skill_level += prof_skill.second;
-                    break;
+            if( !!thisSkill ) {
+                for( auto &prof_skill : u.prof->skills() ) {
+                    if( prof_skill.first == thisSkill->ident() ) {
+                        skill_level += prof_skill.second;
+                        break;
+                    }
                 }
             }
 
@@ -2696,40 +2765,19 @@ tab_direction set_skills( avatar &u, pool_type pool )
         wnoutrefresh( w_description );
     } );
 
+
+
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
-            cur_pos++;
-            if( cur_pos >= num_skills ) {
-                cur_pos = 0;
-            }
-            currentSkill = sorted_skills[cur_pos];
+            get_next( false, false );
         } else if( action == "UP" ) {
-            cur_pos--;
-            if( cur_pos < 0 ) {
-                cur_pos = num_skills - 1;
-            }
-            currentSkill = sorted_skills[cur_pos];
+            get_next( true, false );
         } else if( action == "PAGE_DOWN" ) {
-            if( cur_pos == num_skills - 1 ) {
-                cur_pos = 0;
-            } else if( cur_pos + scroll_rate >= num_skills ) {
-                cur_pos = num_skills - 1;
-            } else {
-                cur_pos += +scroll_rate;
-            }
-            currentSkill = sorted_skills[cur_pos];
+            get_next( false, true );
         } else if( action == "PAGE_UP" ) {
-            if( cur_pos == 0 ) {
-                cur_pos = num_skills - 1;
-            } else if( cur_pos <= scroll_rate ) {
-                cur_pos = 0;
-            } else {
-                cur_pos += -scroll_rate;
-            }
-            currentSkill = sorted_skills[cur_pos];
+            get_next( true, true );
         } else if( action == "LEFT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
@@ -3718,7 +3766,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_profession );
 
         werase( w_hobbies );
-        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Hobbies: " ) );
+        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
         if( you.hobbies.empty() ) {
             mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
         } else {

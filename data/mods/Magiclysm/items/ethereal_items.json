@@ -704,7 +704,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "caustic_aura_spell" } ],
+          "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
           "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
         }
       ]
@@ -800,7 +800,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",

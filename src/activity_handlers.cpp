@@ -1187,12 +1187,6 @@ static void butchery_quarter( item *corpse_item, const Character &you )
     map &here = get_map();
     tripoint pos = you.pos();
 
-    // Drop contents before creating copies so contents aren't duplicated
-    for( item *it : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        here.add_item_or_charges( pos, *it );
-        corpse_item->remove_item( *it );
-    }
-
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
         here.add_item_or_charges( pos, *corpse_item, true );
@@ -1246,6 +1240,10 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     const mtype *corpse = corpse_item.get_mtype();
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
+
+    // Dump items from the "container" before destroying it.
+    // Presumably, the character would be doing this while setting up for butchering.
+    corpse_item.spill_contents( target.position() );
 
     if( action == butcher_type::QUARTER ) {
         butchery_quarter( &corpse_item, *you );
@@ -2394,6 +2392,11 @@ struct weldrig_hack {
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
+    ::repair_item_finish( act, you, false );
+}
+
+void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+{
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2470,11 +2473,16 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
+                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
+            if( no_menu ) {
+                act->set_to_null();
+                return;
+            }
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2583,8 +2591,12 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
-                you->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+            if( repeat == repeat_type::FULL &&
+                fix.damage() <= fix.damage_floor( false ) ) {
+                const char *msg = fix.damage_level() > 0 ?
+                                  _( "Your %s is repaired as much as possible, considering the degradation." ) :
+                                  _( "Your %s is already fully repaired." );
+                you->add_msg_if_player( m_info, msg, fix.tname() );
                 repeat = repeat_type::INIT;
             }
         } while( repeat == repeat_type::INIT );
@@ -3196,8 +3208,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             }
 
             if( you->has_bionic( bid ) ) {
-                you->perform_uninstall( bid, act->values[0], act->values[1],
-                                        units::from_millijoule( act->values[2] ), act->values[3] );
+                you->perform_uninstall( bid, act->values[0], act->values[1], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
                 you->remove_effect( effect_under_operation );

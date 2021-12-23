@@ -44,17 +44,9 @@ def parse_generic(json, origin):
         write_text(json["revert_msg"], origin,
                    comment="Dying message of tool \"{}\"".format(name))
 
-
-#     if "message" in item:
-#         writestr(outfile, item["message"], format_strings=True,
-#                     comment="Message for {} '{}'".format(object_type, name),
-#                     **kwargs)
-#         wrote = True
-#     if "messages" in item:
-#         for message in item["messages"]:
-#             writestr(outfile, message, **kwargs)
-#             wrote = True
-#     if "valid_mod_locations" in item:
-#         for mod_loc in item["valid_mod_locations"]:
-#             writestr(outfile, mod_loc[0], **kwargs)
-#             wrote = True
+    if "pocket_data" in json:
+        for pocket in json["pocket_data"]:
+            if "description" in pocket:
+                write_text(pocket["description"], origin,
+                           comment="Description of a pocket in item \"{}\""
+                           .format(name))

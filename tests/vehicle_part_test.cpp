@@ -45,17 +45,6 @@ static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 static time_point midnight = calendar::turn_zero;
 static time_point midday = midnight + 12_hours;
 
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = get_player_character().posz();
-    map &here = get_map();
-    here.update_visibility_cache( z );
-    here.invalidate_map_cache( z );
-    here.build_map_cache( z );
-}
-
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
@@ -162,7 +151,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         }
         // seems it's not needed but just in case
         if( p.has_feature( "SOLAR_PANEL" ) ) {
-            veh.set_hp( p.part(), 0 );
+            veh.set_hp( p.part(), 0, true );
         }
     }
     get_map().board_vehicle( test_origin, &character );

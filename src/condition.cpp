@@ -104,6 +104,25 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
     return ret_val;
 }
 
+tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
+                                bool global )
+{
+    tripoint target_pos = get_map().getabs( target->pos() );
+    if( target_var.has_value() ) {
+        std::string value;
+        if( global ) {
+            global_variables &globvars = get_globals();
+            value = globvars.get_global_value( target_var.value() );
+        } else {
+            value = target->get_value( target_var.value() );
+        }
+        if( !value.empty() ) {
+            target_pos = tripoint::from_string( value );
+        }
+    }
+    return target_pos;
+}
+
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( const T & )> &condition, bool default_val )
@@ -874,6 +893,43 @@ void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::s
     };
 }
 
+static std::string get_string_from_input( JsonArray objects, int index )
+{
+    if( objects.has_string( index ) ) {
+        std::string type = objects.get_string( index );
+        if( type == "u" || type == "npc" ) {
+            return type;
+        }
+    }
+    JsonObject object = objects.get_object( index );
+    if( object.has_string( "u_val" ) ) {
+        return "u_" + get_talk_varname( object, "u_val", false );
+    } else if( object.has_string( "npc_val" ) ) {
+        return "npc_" + get_talk_varname( object, "npc_val", false );
+    } else if( object.has_string( "global_val" ) ) {
+        return "global_" + get_talk_varname( object, "global_val", false );
+    }
+    object.throw_error( "Invalid input type." );
+    return "";
+}
+
+template<class T>
+static tripoint get_tripoint_from_string( std::string type, T &d )
+{
+    if( type == "u" ) {
+        return get_map().getabs( d.actor( false )->pos() );
+    } else if( type == "npc" ) {
+        return get_map().getabs( d.actor( true )->pos() );
+    } else if( type.find( "u_" ) == 0 ) {
+        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), false );
+    } else if( type.find( "npc_" ) == 0 ) {
+        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), false );
+    } else if( type.find( "global_" ) == 0 ) {
+        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ), true );
+    }
+    return tripoint();
+}
+
 template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
@@ -1220,6 +1276,18 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
         }
+    } else if( jo.has_array( "distance" ) ) {
+        JsonArray objects = jo.get_array( "distance" );
+        if( objects.size() != 2 ) {
+            objects.throw_error( "distance requires an array with 2 elements." );
+        }
+        std::string first = get_string_from_input( objects, 0 );
+        std::string second = get_string_from_input( objects, 1 );
+        return [first, second]( const T & d ) {
+            tripoint first_point = get_tripoint_from_string( first, d );
+            tripoint second_point = get_tripoint_from_string( second, d );
+            return rl_dist( first_point, second_point );
+        };
     }
     jo.throw_error( "unrecognized integer source in " + jo.str() );
     return []( const T & ) {

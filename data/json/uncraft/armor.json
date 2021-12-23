@@ -100,7 +100,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "lycra_patch", 1 ] ] ]
   },
   {
@@ -108,7 +108,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
   }
 ]

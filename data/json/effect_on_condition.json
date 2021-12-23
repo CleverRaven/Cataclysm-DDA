@@ -360,5 +360,12 @@
     "recurrence_max": "14 days",
     "condition": { "not": { "one_in_chance": 4 } },
     "effect": [ { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 } ]
+  },
+  {
+    "id": "EOC_DEATH_SWITCH",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
+    "effect": [ "take_control_menu" ]
   }
 ]

@@ -306,8 +306,6 @@
     "condition": {
       "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
       "op": "="
-    },
-    "duration_min": "2 hours",
-    "duration_max": "4 hours"
+    }
   }
 ]

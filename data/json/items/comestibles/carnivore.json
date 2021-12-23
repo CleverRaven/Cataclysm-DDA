@@ -127,7 +127,7 @@
     "id": "animal_blood",
     "type": "COMESTIBLE",
     "copy-from": "meat",
-    "name": { "str_sp": "blood" },
+    "name": { "str_sp": "animal blood" },
     "description": "Fresh blood extracted from a living creature.",
     "healthy": 0,
     "parasites": 0,

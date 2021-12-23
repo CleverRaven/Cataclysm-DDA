@@ -376,6 +376,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    new_item.rand_degradation();
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
@@ -731,7 +732,8 @@ int Item_spawn_data::get_probability( bool skip_event_check ) const
     }
 
     // Item spawn is event-based, but option is disabled
-    if( get_option<std::string>( "EVENT_SPAWNS" ) != "items" ) {
+    std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
+    if( opt != "items" && opt != "both" ) {
         return 0;
     }
 

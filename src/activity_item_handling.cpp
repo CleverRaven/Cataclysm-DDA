@@ -98,6 +98,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
@@ -506,7 +507,9 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         act->set_to_null();
         return;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser,
+                                          is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
         act->set_to_null();
@@ -527,6 +530,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     std::vector<item_comp> comps1;
     comps1.emplace_back( itype_soap, required.cleanser );
     comps1.emplace_back( itype_detergent, required.cleanser );
+    comps1.emplace_back( itype_liquid_soap, required.cleanser );
     you->consume_items( comps1 );
 
     you->add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -656,7 +660,8 @@ static bool vehicle_activity( Character &you, const tripoint &src_loc, int vpind
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
         const vehicle_part part = veh->part( vpindex );
-        time_to_take = vp.repair_time( you ) * part.damage() / part.max_damage();
+        time_to_take = vp.repair_time( you ) * ( part.damage() - part.degradation() ) /
+                       ( part.max_damage() - part.degradation() );
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( you );
     }
@@ -1178,7 +1183,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                if( part_elem->is_broken() || part_elem->damage() <= part_elem->degradation() ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
@@ -2201,6 +2206,32 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             const std::unordered_set<tripoint> &dest_set = mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE,
                     &thisitem );
+
+            // if this item isn't going anywhere and its not sealed
+            // then we should unload it and see what is inside
+            if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    // no liquids don't want to spill stuff
+                    if( !contained->made_of( phase_id::LIQUID ) ) {
+                        //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
+                        //Check if on a cargo part
+                        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                                false ) ) {
+                            dest_veh = &vp->vehicle();
+                            dest_part = vp->part_index();
+                        } else {
+                            dest_veh = nullptr;
+                            dest_part = -1;
+                        }
+                        move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                        it->first->remove_item( *contained );
+                    }
+                }
+                // after dumping items go back to start of activity loop
+                // so that can re-assess the items in the tile
+                return;
+            }
+
             for( const tripoint &dest : dest_set ) {
                 const tripoint &dest_loc = here.getlocal( dest );
 

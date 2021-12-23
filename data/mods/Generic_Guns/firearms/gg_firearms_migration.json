@@ -295,7 +295,7 @@
     "replace": "rifle_sporter"
   },
   {
-    "id": [ "pamd68", "pamd71z", "pamd68rubik" ],
+    "id": [ "pamd68", "pamd71z", "pamd68rubik", "pamd68mountable" ],
     "type": "MIGRATION",
     "replace": "rifle_assault_foreign"
   },

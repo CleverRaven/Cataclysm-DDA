@@ -89,6 +89,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
       - [To hit object](#to-hit-object)
@@ -631,8 +632,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | `base_hp`              | (_mandatory_) The amount of hp this part has before any modification.
 | `opposite_part`        | (_mandatory_) What is the opposite part of this one in case of a pair.
-| `hit_size`             | (_mandatory_) Size of the body part when doing an unweighted selection.
-| `hit_size_relative`    | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| `hit_size`             | (_mandatory_) Size of the body part for (melee) attack targeting.  Monster special attacks are capable of targeting set bodypart hitsizes (see `hitsize_min/max` in `MONSTERS.md`)
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched.
 | `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
@@ -648,6 +648,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 | `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json
 {
@@ -666,10 +667,10 @@ For information about tools with option to export ASCII art in format ready to b
   "connected_to": "torso",
   "opposite_part": "arm_r",
   "hit_size": 9,
-  "hit_size_relative": [ 15, 20, 22.86 ],
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
+  "armor": { "electric": 2, "stab": 1 },
   "side": "left",
   "legacy_id": "ARM_L",
   "hot_morale_mod": 0.5,
@@ -712,12 +713,12 @@ Here are the currently defined limb scores:
 | `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
 | `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion.
+| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance and block effectivity.
-| `balance_score`        | Modifies thrown attack speed, melee attack rolls.
+| `reaction_score`       | Modifies dodge chance, block effectivity, melee weakpoint hit chances.
+| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost, twice as strongly as `footing_score`.
+| `movement_speed_score` | Modifies movement cost.
 | `swim_score`           | Modifies swim speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
@@ -1075,6 +1076,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
+| `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
 ```C++
 // Example of a monstergroup containing only "monster" entries:
@@ -1086,7 +1088,8 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
     { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
     { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
     { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
-    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] },
+    { "monster" : "mon_santa", "weight" : 500, "event" : "christmas" }
   ]
 },
 // Example of a monstergroup containing subgroups:
@@ -2130,14 +2133,16 @@ The `id` must be exact as it is hardcoded to look for that.
   "arm_r": 0.75
 },
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
-    [
-        [ "head" ],
-        { "bash" : 2 } // The resistance provided to the body part(s) selected above
-    ],
-    [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
-        { "bash" : 1 }        // ...and gives them those resistances instead
-    ]
+  {
+    "part_types": [ "arm", "leg" ],
+    "bash": 2,
+    "electric": 5                  // The resistance provided to the body part type(s) selected above
+  },
+  {
+    "parts": [ "arm_l", "arm_r" ], // Overrides the above settings for those specific body parts
+    "bash": 1,                     // ...and gives them those resistances instead
+    "cut": 2
+  }
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
@@ -2499,6 +2504,51 @@ See also VEHICLE_JSON.md
                                             * (you can't stack non-stackable part flags). */
 ```
 
+### Weakpoint Sets
+A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
+
+```json
+{
+  "type": "weakpoint_set",
+  "id": "wps_zombie_headshot",
+  "weakpoints": [
+    {
+      "id": "wp_head_stun",
+      "name": "the head",
+      "coverage": 5,
+      "crit_mult": { "all": 1.1 },
+      "armor_mult": { "physical": 0.75 },
+      "difficulty": { "melee": 1, "ranged": 3 },
+      "effects": [
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 5,
+          "message": "The %s is stunned!",
+          "damage_required": [ 1, 10 ]
+        },
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 25,
+          "message": "The %s is stunned!",
+          "damage_required": [ 11, 100 ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Weakpoint sets are applied to a monster using the monster's `"weakpoint_sets"` field. Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"//": "(in MONSTER type)",
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
+
 # `data/json/items/` JSONs
 
 ### Generic Items
@@ -2533,6 +2583,7 @@ See also VEHICLE_JSON.md
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
@@ -2850,6 +2901,8 @@ Books can be defined like this:
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
 ```
+It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
+
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
@@ -3169,7 +3222,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "cutting": 0,         // Cutting damage caused by using it as a melee weapon
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
+"use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
+"qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
+"charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
 // Only TOOL type items may define the following fields:
 "ammo": [ "NULL" ],        // Ammo types used for reloading
 "charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool

@@ -929,5 +929,85 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin_prepper" ],
+    "weight": 330,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "...%....................",
+        "..######$##==#########..",
+        "..#R  d#sT#  #A DBBD #..",
+        "..#R  c#  #  #A  BB  $..",
+        "..$R   #> =  =       $..",
+        "..$R   #  #  #########..",
+        "..#R   ####  =  DBBD #..",
+        "..#R   L##A  #A  BB  $..",
+        "..####=####  #A      $..",
+        "..#ttb  uu#  #########..",
+        "..$ttb   u#  #a OOO  $..",
+        "..$bb     =  =    rrr$..",
+        "..#      u#  #    rSr#..",
+        "..#1F5V234#  #a   rrr#..",
+        "..###$$####==####$$###..",
+        "..o bbbb             o..",
+        "..-                  -..",
+        "..-                  -..",
+        "..o-------oGGo-------o..",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "cabin_palette" ],
+      "set": [ { "point": "trap", "id": "tr_beartrap", "x": 9, "y": 6 } ],
+      "terrain": { ">": "t_stairs_down", "$": "t_window_boarded", "=": "t_door_locked" },
+      "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 100, "ammo": 90, "magazine": 100 } ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 12, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin_prepper_shelter" ],
+    "//": "A lmoe shelter replica refitted for the cabin's dug-out basement.",
+    "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rows": [
+        "########################",
+        "########################",
+        "#########^^#############",
+        "########^..^############",
+        "########..^^############",
+        "########Y..^^###########",
+        "##G.R###<.|||####||||||#",
+        "##a.l###A.|UUVVvv|{{{{|#",
+        "##=*=###..|U.....:....|#",
+        "##c..ll-..|Uuuu.u||||||#",
+        "##c....+..|||||+||Dh..d#",
+        "##c.h..-r.+......+...BB#",
+        "##c.TTT-r.-r..h..------#",
+        "#######--+-r.hLh.+...BB#",
+        "#######-F.Sr..h..-Dh..d#",
+        "#######-C.......-------#",
+        "#######-CCKC.uu.+...hD-#",
+        "#######-----.--+-}....-#",
+        "#########W.~.-s.-}.BBS-#",
+        "#########H...-&.-w.BBr-#",
+        "#########l..A-Kt-------#",
+        "#########--------#######",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 12, 16 ], "y": [ 11, 14 ], "density": 0.4 } ],
+      "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
+    }
   }
 ]

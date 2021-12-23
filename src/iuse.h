@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -95,8 +96,6 @@ cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & )
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -105,8 +104,6 @@ cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
@@ -242,6 +239,8 @@ cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
+// used for unit testing iuse::gun_repair
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {

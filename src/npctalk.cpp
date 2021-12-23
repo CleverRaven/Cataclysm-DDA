@@ -120,25 +120,6 @@ static bool friendly_teacher( const Character &student, const Character &teacher
            ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
 }
 
-static tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                       bool global )
-{
-    tripoint target_pos = get_map().getabs( target->pos() );
-    if( target_var.has_value() ) {
-        std::string value;
-        if( global ) {
-            global_variables &globvars = get_globals();
-            value = globvars.get_global_value( target_var.value() );
-        } else {
-            value = target->get_value( target_var.value() );
-        }
-        if( !value.empty() ) {
-            target_pos = tripoint::from_string( value );
-        }
-    }
-    return target_pos;
-}
-
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -2312,13 +2293,23 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global,
+    cata::optional<mission_target_params> target_params;
+    if( jo.has_object( "target_params" ) ) {
+        JsonObject target_obj = jo.get_object( "target_params" );
+        target_params = mission_util::parse_mission_om_target( target_obj );
+    }
+
+    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, global, target_params,
                     is_npc]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
         int max_radius = iov_max_radius.evaluate( target );
-        if( max_radius > 0 ) {
+        if( target_params.has_value() ) {
+            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
+            target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
+                                   project_to<coords::ms>( omt_pos ).z() );
+        } else if( max_radius > 0 ) {
             bool found = false;
             int min_radius = iov_min_radius.evaluate( target );
             for( int attempts = 0; attempts < 25; attempts++ ) {
@@ -2374,13 +2365,25 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             update_ids.emplace_back( line );
         }
     }
-
-    function = [target_params, update_ids]( const dialogue & d ) {
-        mission_target_params update_params = target_params;
-        if( d.has_beta ) {
-            update_params.guy = d.actor( true )->get_npc();
+    bool global = false;
+    cata::optional<std::string> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        JsonObject target_obj = jo.get_object( "target_var" );
+        global = target_obj.get_bool( "global", false );
+        target_var = get_talk_varname( target_obj, "value" );
+    }
+    function = [target_params, update_ids, target_var, global]( const dialogue & d ) {
+        tripoint_abs_omt omt_pos;
+        if( target_var.has_value() ) {
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( false ), target_var, global ) );
+            omt_pos = project_to<coords::omt>( abs_ms );
+        } else {
+            mission_target_params update_params = target_params;
+            if( d.has_beta ) {
+                update_params.guy = d.actor( true )->get_npc();
+            }
+            omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
         for( const update_mapgen_id &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }

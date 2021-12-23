@@ -465,7 +465,6 @@
       [ "teleumbrella", 2 ],
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
-      [ "helmet_lobster", 2 ],
       [ "textbook_tailor", 12 ],
       [ "swage", 2 ],
       [ "forge", 5 ],
@@ -511,6 +510,7 @@
       [ "bagh_nakha", 2 ],
       [ "leathersandals", 10 ],
       [ "maid_dress", 3 ],
+      [ "maid_dress_short", 3 ],
       [ "maid_hat", 3 ],
       [ "miner_hat", 3 ],
       [ "grapnel", 1 ],
@@ -1519,6 +1519,7 @@
     "items": [
       [ "corset", 20 ],
       [ "corset_waist", 10 ],
+      [ "maid_dress_short", 20 ],
       { "item": "vibrator", "prob": 20, "charges": [ 0, 100 ] },
       [ "leather_cat_tail", 20 ],
       [ "leather_cat_ears", 20 ],

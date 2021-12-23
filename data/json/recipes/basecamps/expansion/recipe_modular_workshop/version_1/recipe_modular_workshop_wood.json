@@ -123,26 +123,7 @@
     "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "blueprint_needs": {
-      "time": "1 d 2 h 10 m",
-      "skills": [ [ "fabrication", 4 ] ],
-      "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 162 ] ],
-          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
-          [ [ "nail", 500 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "sheet_metal_small", 8 ] ],
-          [ [ "water", 2 ], [ "water_clean", 2 ] ],
-          [ [ "wood_panel", 29 ] ]
-        ]
-      }
-    }
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -291,7 +291,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
-    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
@@ -353,6 +352,11 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
             limb_scores.emplace_back( bpls );
         }
+    }
+
+    if( jo.has_object( "armor" ) ) {
+        armor = resistances();
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
 
     mandatory( jo, was_loaded, "side", part_side );
@@ -437,6 +441,16 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::damage_resistance( const damage_type &dt ) const
+{
+    return armor.type_resist( dt );
+}
+
+float body_part_type::damage_resistance( const damage_unit &du ) const
+{
+    return armor.get_effective_resist( du );
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )

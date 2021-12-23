@@ -103,6 +103,8 @@
 
 static const ammotype ammo_battery( "battery" );
 
+static const diseasetype_id disease_bad_food( "bad_food" );
+
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
@@ -1748,6 +1750,21 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+
+    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
+        if( new_t.has_flag( "FRESH_WATER" ) ) {
+            item water( "water", calendar::start_of_cataclysm );
+            // TODO: Move all numeric values to json
+            water.charges = rng( 40, 240 );
+            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
+                water.poison = rng( 1, 6 );
+                water.get_comestible()->parasites = 5;
+                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
+            }
+            add_item( p, water );
+        }
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -3508,15 +3525,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
+    if( smash_ter && ter( p ) == t_open_air && zlevels ) {
+        tripoint below( p.xy(), p.z - 1 );
+        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        ter_set( p, roof );
     }
 
     if( bash->explosive > 0 ) {
@@ -4308,6 +4320,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
 
     new_item.set_damage( damlevel );
+    new_item.rand_degradation();
     for( const flag_id &flag : flags ) {
         new_item.set_flag( flag );
     }
@@ -4523,6 +4536,16 @@ item map::water_from( const tripoint &p )
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
+        return ret;
+    }
+
+    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
+        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        ret.poison = rng( 1, 6 );
+        ret.get_comestible()->parasites = 5;
+        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
         return ret;
     }
 
@@ -5466,7 +5489,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
-    const field_type &fd_type = *type_id;
+    // Hacky way to force electricity fields to become unlit electricity fields
+    const field_type_id &converted_type_id = ( type_id == fd_electricity ||
+            type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
+    const field_type &fd_type = *converted_type_id;
+
     intensity = std::min( intensity, fd_type.get_max_intensity() );
     if( intensity <= 0 ) {
         return false;
@@ -5481,7 +5508,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
-    if( current_submap->get_field( l ).add_field( type_id, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
@@ -6589,6 +6616,15 @@ void map::save()
 void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
                 const bool pump_events )
 {
+    map &main_map = get_map();
+    if( this != &main_map ) {
+        // It's unsafe to load a map that overlaps with the primary map;
+        // various caches get confused.  So make sure we're not doing that.
+        if( main_map.inbounds( project_to<coords::ms>( w ) ) ) {
+            debugmsg( "loading non-main map at %s which overlaps with main map (abs_sub = %s) "
+                      "is not supported", w.to_string(), main_map.abs_sub.to_string() );
+        }
+    }
     for( auto &traps : traplocs ) {
         traps.clear();
     }
