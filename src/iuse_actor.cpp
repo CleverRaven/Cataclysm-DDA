@@ -239,12 +239,14 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        for( const trait_id &mut : p.get_mutations() ) {
-            const mutation_branch &branch = mut.obj();
-            if( branch.conflicts_with_item( tmp ) ) {
-                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                     branch.name() );
-                return cata::nullopt;
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+            for( const trait_id &mut : p.get_mutations() ) {
+                const mutation_branch &branch = mut.obj();
+                if( branch.conflicts_with_item( tmp ) ) {
+                    p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                         branch.name() );
+                    return cata::nullopt;
+                }
             }
         }
     }
@@ -1357,10 +1359,13 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
+        const int minutes = moves / to_moves<int>( 1_minutes );
         p.add_msg_if_player( m_info, need_sunlight ?
-                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
-                             _( "At your skill level, it will take around %d minutes to light a fire." ),
-                             moves / to_moves<int>( 1_minutes ) );
+                             n_gettext( "If the current weather holds, it will take around %d minute to light a fire.",
+                                        "If the current weather holds, it will take around %d minutes to light a fire.", minutes ) :
+                             n_gettext( "At your skill level, it will take around %d minute to light a fire.",
+                                        "At your skill level, it will take around %d minutes to light a fire.", minutes ),
+                             minutes );
     } else if( moves < to_moves<int>( 2_turns ) && get_map().is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );

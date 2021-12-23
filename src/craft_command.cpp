@@ -24,6 +24,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "vpart_range.h"
 #include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -103,7 +104,7 @@ void craft_command::execute( const cata::optional<tripoint> &new_loc )
     execute();
 }
 
-void craft_command::execute()
+void craft_command::execute( bool only_cache_comps )
 {
     if( empty() ) {
         return;
@@ -120,7 +121,7 @@ void craft_command::execute()
         if( missing_items.empty() && missing_tools.empty() ) {
             // All items we used previously are still there, so we don't need to do selection.
             need_selections = false;
-        } else if( !query_continue( missing_items, missing_tools ) ) {
+        } else if( !only_cache_comps && !query_continue( missing_items, missing_tools ) ) {
             return;
         }
     }
@@ -181,6 +182,10 @@ void craft_command::execute()
         }
     }
 
+    if( only_cache_comps ) {
+        return;
+    }
+
     crafter->start_craft( *this, loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
@@ -228,11 +233,11 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss );
 }
 
-static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>> items,
-                                     Character *crafter, int batch, const std::function<bool( const item & )> &filter )
+bool craft_command::continue_prompt_liquids( const std::function<bool( const item & )> &filter,
+        bool no_prompt )
 {
     map &m = get_map();
-    for( const auto &it : items ) {
+    for( const auto &it : item_selections ) {
         const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
         if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
         !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
@@ -241,53 +246,126 @@ static bool continue_prompt_liquids( const std::vector<comp_selection<item_comp>
             continue;
         }
 
-        const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
-
         // Everything below only occurs for item components that are liquid containers
-        int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch : std::abs( it.comp.count );
+        auto empty_filter = [&filter]( const item & it ) {
+            return it.empty_container() && filter( it );
+        };
+
+        const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
+        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const vpart_reference, item>> veh_items;
+        std::vector<item> inv_items;
+
+        auto reset_items = [&]() {
+            for( auto &mit : map_items ) {
+                m.add_item_or_charges( mit.first, mit.second );
+            }
+            for( auto &iit : inv_items ) {
+                crafter->i_add_or_drop( iit );
+            }
+            for( auto &vit : veh_items ) {
+                vit.first.vehicle().add_item( vit.first.part(), vit.second );
+            }
+        };
+
+        int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch_size : std::abs( it.comp.count );
+        for( int i = 0; i < 2 && real_count > 0; i++ ) {
+            if( it.use_from & usage_from::map ) {
+                const tripoint &loc = crafter->pos();
+                for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
+                    for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
+                        if( rl_dist( loc, p ) >= radius ) {
+                            // "Simulate" consuming items and put them back
+                            // not very efficient but should be rare enough not to matter
+                            std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count,
+                                                  i == 0 ? empty_filter : filter );
+                            bool cont_not_empty = false;
+                            std::string iname;
+                            for( item &tmp_i : tmp ) {
+                                if( !tmp_i.empty_container() ) {
+                                    cont_not_empty = true;
+                                    iname = tmp_i.tname( 1U, true );
+                                }
+                                if( const cata::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                                    veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
+                                } else {
+                                    map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
+                                }
+                            }
+                            if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {
+                                reset_items();
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            if( it.use_from & usage_from::player && real_count > 0 ) {
+                // "Simulate" consuming items and put them back
+                // not very efficient but should be rare enough not to matter
+                std::list<item> tmp = crafter->use_amount( it.comp.type, real_count,
+                                      i == 0 ? empty_filter : filter );
+                real_count -= tmp.size();
+                bool cont_not_empty = false;
+                std::string iname;
+                for( item &tmp_i : tmp ) {
+                    if( !tmp_i.empty_container() ) {
+                        cont_not_empty = true;
+                        iname = tmp_i.tname( 1U, true );
+                    }
+                    inv_items.emplace_back( tmp_i );
+                }
+                if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {
+                    reset_items();
+                    return false;
+                }
+            }
+        }
+        reset_items();
+    }
+    return true;
+}
+
+static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
+        int batch, const std::function<bool( const item & )> &filter )
+{
+    map &m = get_map();
+    const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
+    if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
+    !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
+    return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
+} ) ) {
+        return crafter->consume_items( it, batch, filter );
+    }
+
+    // Everything below only occurs for item components that are liquid containers
+    auto empty_filter = [&filter]( const item & it ) {
+        return it.empty_container() && filter( it );
+    };
+
+    int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch : std::abs( it.comp.count );
+    std::list<item> ret;
+    for( int i = 0; i < 2 && real_count > 0; i++ ) {
         if( it.use_from & usage_from::map ) {
             const tripoint &loc = crafter->pos();
             for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
                 for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
                     if( rl_dist( loc, p ) >= radius ) {
-                        // "Simulate" consuming items and put them back
-                        // not very efficient but should be rare enough not to matter
-                        std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count, filter );
-                        bool cont_not_empty = false;
-                        std::string iname;
-                        for( item &tmp_i : tmp ) {
-                            if( !tmp_i.empty_container() ) {
-                                cont_not_empty = true;
-                                iname = tmp_i.tname( 1U, true );
-                            }
-                            m.add_item_or_charges( p, tmp_i );
-                        }
-                        if( cont_not_empty && !query_yn( liq_cont_msg, iname ) ) {
-                            return false;
-                        }
+                        std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count,
+                                              i == 0 ? empty_filter : filter );
+                        ret.insert( ret.end(), tmp.begin(), tmp.end() );
                     }
                 }
             }
         }
-        if( it.use_from & usage_from::player ) {
-            // "Simulate" consuming items and put them back
-            // not very efficient but should be rare enough not to matter
-            std::list<item> tmp = crafter->use_amount( it.comp.type, real_count, filter );
-            bool cont_not_empty = false;
-            std::string iname;
-            for( item &tmp_i : tmp ) {
-                if( !tmp_i.empty_container() ) {
-                    cont_not_empty = true;
-                    iname = tmp_i.tname( 1U, true );
-                }
-                crafter->i_add_or_drop( tmp_i );
-            }
-            if( cont_not_empty && !query_yn( liq_cont_msg, iname ) ) {
-                return false;
-            }
+        if( it.use_from & usage_from::player && real_count > 0 ) {
+            std::list<item> tmp = crafter->use_amount( it.comp.type, real_count,
+                                  i == 0 ? empty_filter : filter );
+            real_count -= tmp.size();
+            ret.insert( ret.end(), tmp.begin(), tmp.end() );
         }
     }
-    return true;
+    return ret;
 }
 
 item craft_command::create_in_progress_craft()
@@ -315,19 +393,17 @@ item craft_command::create_in_progress_craft()
     const auto filter = rec->get_component_filter( flags );
 
     if( crafter->is_avatar() &&
-        !continue_prompt_liquids( item_selections, crafter, batch_size, filter ) ) {
+        !continue_prompt_liquids( filter ) ) {
         // player cancelled when prompted to unload liquid
         return item();
     }
 
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
+        std::list<item> tmp = sane_consume_items( it, crafter, batch_size, filter );
         for( item &tmp_it : tmp ) {
-            if( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) {
+            if( ( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) || !tmp_it.is_container_empty() ) {
                 item_location tmp_loc( *crafter, &tmp_it );
                 unload_activity_actor::unload( *crafter, tmp_loc );
-            } else if( !tmp_it.is_container_empty() ) {
-                tmp_it.spill_contents( *crafter );
             }
         }
         used.splice( used.end(), tmp );

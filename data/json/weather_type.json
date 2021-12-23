@@ -303,9 +303,6 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "sun_intensity": "light",
-    "condition": {
-      "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
-      "op": "="
-    }
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
   }
 ]

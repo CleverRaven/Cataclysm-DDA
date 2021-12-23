@@ -246,7 +246,6 @@
       { "item": "spray_can", "prob": 50 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
-      { "item": "helmet_lobster", "prob": 2 },
       { "item": "lsd", "prob": 4 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "child_book", "prob": 20 },
