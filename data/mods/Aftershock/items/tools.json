@@ -20,7 +20,8 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3"
+      "MP3",
+      "CALORIES_INTAKE_TRACKER"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -121,7 +122,8 @@
       },
       "CAMERA",
       "MP3",
-      "ROBOTCONTROL"
+      "ROBOTCONTROL",
+      "CALORIES_INTAKE_TRACKER"
     ]
   },
   {
