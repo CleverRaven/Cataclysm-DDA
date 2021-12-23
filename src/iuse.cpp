@@ -5258,6 +5258,8 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     const auto invalid_pos = [&here]( const tripoint & pp, bool can_float ) {
+        std::cout << "VEH HERE: " << here.veh_at( pp ).has_value() << "\n";
+        std::cout << "IMPASSABLE: " << here.impassable( pp ) << "\n";
         return ( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pp ) && !can_float ) ||
                here.veh_at( pp ) || here.impassable( pp );
     };

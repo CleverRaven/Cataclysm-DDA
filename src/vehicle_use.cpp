@@ -971,7 +971,7 @@ bool vehicle::fold_up()
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
-        json.write( parts );
+        json.write( real_parts() );
         bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
