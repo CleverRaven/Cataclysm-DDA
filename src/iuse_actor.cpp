@@ -239,12 +239,14 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        for( const trait_id &mut : p.get_mutations() ) {
-            const mutation_branch &branch = mut.obj();
-            if( branch.conflicts_with_item( tmp ) ) {
-                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                     branch.name() );
-                return cata::nullopt;
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+            for( const trait_id &mut : p.get_mutations() ) {
+                const mutation_branch &branch = mut.obj();
+                if( branch.conflicts_with_item( tmp ) ) {
+                    p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                         branch.name() );
+                    return cata::nullopt;
+                }
             }
         }
     }
