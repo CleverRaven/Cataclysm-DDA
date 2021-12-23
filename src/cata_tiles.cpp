@@ -75,11 +75,10 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
-
-static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
