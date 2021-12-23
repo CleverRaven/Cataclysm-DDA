@@ -4108,7 +4108,12 @@ void mapgen_function_json::generate( mapgendata &md )
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
-        run_mapgen_func( predecessor_md.terrain_type().id().str(), predecessor_md );
+        const std::string function_key = predecessor_md.terrain_type()->get_mapgen_id();
+        bool success = run_mapgen_func( function_key, predecessor_md );
+
+        if( !success ) {
+            debugmsg( "predecessor mapgen with key %s failed", function_key );
+        }
 
         // Now we have to do some rotation shenanigans. We need to ensure that
         // our predecessor is not rotated out of alignment as part of rotating this location,
