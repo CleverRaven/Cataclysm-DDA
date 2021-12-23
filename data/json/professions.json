@@ -1723,7 +1723,7 @@
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [ "army_top", "knit_scarf", "socks", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
+        "items": [ "army_top", "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "compcrossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
