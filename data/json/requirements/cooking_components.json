@@ -30,7 +30,8 @@
         [ "sourdough_bread", 1 ],
         [ "biscuit", 1 ],
         [ "brioche", 1 ],
-        [ "crackers", 1 ]
+        [ "crackers", 1 ],
+        [ "brown_bread", 1]
       ]
     ]
   },
