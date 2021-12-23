@@ -596,10 +596,7 @@
         ]
       },
       { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
-      {
-        "u_add_effect": "incorporeal",
-        "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" }
-      }
+      { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
     ]
   },
   {
