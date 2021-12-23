@@ -517,8 +517,8 @@ void vehicle::thrust( int thd, int z )
             load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
         }
         //make noise and consume fuel
-        noise_and_smoke( load );
-        consume_fuel( load, false );
+        noise_and_smoke( load + alternator_load );
+        consume_fuel( load + alternator_load, false );
         if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
