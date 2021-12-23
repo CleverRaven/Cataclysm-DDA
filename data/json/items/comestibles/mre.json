@@ -14,7 +14,6 @@
     "price": 1250,
     "price_postapoc": 300,
     "volume": "250 ml",
-    "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "looks_like": "mre_beef",
     "fun": -1
@@ -24,6 +23,7 @@
     "id": "mre_chilibeans",
     "copy-from": "mre_entree",
     "name": { "str": "chili & beans entree" },
+    "calories": 289,
     "description": "The chili & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "bean" ],
     "fun": -2
@@ -33,6 +33,7 @@
     "id": "mre_bbqbeef",
     "copy-from": "mre_entree",
     "name": { "str": "BBQ beef entree" },
+    "calories": 293,
     "description": "The BBQ beef entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh" ],
     "fun": 2
@@ -42,6 +43,7 @@
     "id": "mre_chickennoodle",
     "copy-from": "mre_entree",
     "name": { "str": "chicken noodle entree" },
+    "calories": 231,
     "description": "The chicken noodle entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy", "wheat" ],
     "fun": 1
@@ -51,6 +53,7 @@
     "id": "mre_spaghetti",
     "copy-from": "mre_entree",
     "name": { "str": "spaghetti entree" },
+    "calories": 280,
     "description": "The spaghetti entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat" ],
     "fun": 0
@@ -60,7 +63,8 @@
     "id": "mre_chicken",
     "copy-from": "mre_entree",
     "name": { "str": "chicken chunks entree" },
-    "description": "The chicken chunks entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "calories": 238,
+    "description": "The chicken chunks entree from an MRE with an included beef stick.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh" ]
   },
   {
@@ -68,6 +72,7 @@
     "id": "mre_beeftaco",
     "copy-from": "mre_entree",
     "name": { "str": "beef taco entree" },
+    "calories": 273,
     "description": "The beef taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
@@ -77,6 +82,7 @@
     "id": "mre_beef",
     "copy-from": "mre_entree",
     "name": { "str": "beef brisket entree" },
+    "calories": 289,
     "description": "The beef brisket entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh" ],
     "fun": 1
@@ -86,6 +92,7 @@
     "id": "mre_meatball",
     "copy-from": "mre_entree",
     "name": { "str": "meatballs & marinara entree" },
+    "calories": 311,
     "description": "The meatballs & marinara entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "tomato" ],
     "fun": 0
@@ -95,6 +102,7 @@
     "id": "mre_beefstew",
     "copy-from": "mre_entree",
     "name": { "str": "beef stew entree" },
+    "calories": 211,
     "description": "The beef stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
@@ -104,6 +112,7 @@
     "id": "mre_chilimac",
     "copy-from": "mre_entree",
     "name": { "str": "chili & macaroni entree" },
+    "calories": 280,
     "description": "The chili & macaroni entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "wheat", "veggy" ],
     "fun": 1
@@ -113,6 +122,7 @@
     "id": "mre_veggy",
     "copy-from": "mre_entree",
     "name": { "str": "vegetarian taco entree" },
+    "calories": 231,
     "description": "The vegetarian taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "tomato" ],
     "fun": -2
@@ -122,6 +132,7 @@
     "id": "mre_macaronimarinara",
     "copy-from": "mre_entree",
     "name": { "str": "macaroni & marinara entree" },
+    "calories": 223,
     "description": "The macaroni & marinara entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy" ],
     "fun": 0
@@ -131,6 +142,7 @@
     "id": "mre_sfettuccine",
     "copy-from": "mre_entree",
     "name": { "str": "spinach fettuccine entree" },
+    "calories": 219,
     "description": "The creamy spinach fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "milk" ],
     "fun": -2
@@ -140,6 +152,7 @@
     "id": "mre_ratatouille",
     "copy-from": "mre_entree",
     "name": { "str": "ratatouille entree" },
+    "calories": 248,
     "description": "The ratatouille entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "tomato", "wheat" ],
     "fun": 0
@@ -149,6 +162,7 @@
     "id": "mre_cheesetort",
     "copy-from": "mre_entree",
     "name": { "str": "cheese tortellini entree" },
+    "calories": 251,
     "description": "The cheese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "milk" ]
   },
@@ -157,6 +171,7 @@
     "id": "mre_mushroomfettuccine",
     "copy-from": "mre_entree",
     "name": { "str": "mushroom fettuccine entree" },
+    "calories": 239,
     "description": "The mushroom fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "mushroom", "veggy", "wheat" ]
   },
@@ -165,6 +180,7 @@
     "id": "mre_mexicanchickenstew",
     "copy-from": "mre_entree",
     "name": { "str": "Mexican chicken stew entree" },
+    "calories": 214,
     "description": "The Mexican chicken stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "flesh", "bean" ],
     "fun": 1
@@ -174,6 +190,7 @@
     "id": "mre_chickenburritobowl",
     "copy-from": "mre_entree",
     "name": { "str": "chicken burrito bowl entree" },
+    "calories": 264,
     "description": "The chicken burrito bowl entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy", "bean" ],
     "fun": 0
@@ -183,6 +200,7 @@
     "id": "mre_maplesausage",
     "copy-from": "mre_entree",
     "name": { "str": "maple sausage entree" },
+    "calories": 218,
     "description": "The maple sausage entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "junk" ],
     "fun": 1
@@ -192,6 +210,7 @@
     "id": "mre_ravioli",
     "copy-from": "mre_entree",
     "name": { "str": "ravioli entree" },
+    "calories": 293,
     "description": "The ravioli entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat" ],
     "fun": 0
@@ -201,6 +220,7 @@
     "id": "mre_pepperjackbeef",
     "copy-from": "mre_entree",
     "name": { "str": "pepper jack beef entree" },
+    "calories": 148,
     "description": "The pepper jack beef entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "milk" ]
   },
@@ -209,6 +229,7 @@
     "id": "mre_hashbrownbacon",
     "copy-from": "mre_entree",
     "name": { "str": "hash browns & bacon entree" },
+    "calories": 249,
     "description": "The hash browns & bacon entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 2
@@ -218,6 +239,7 @@
     "id": "mre_lemontuna",
     "copy-from": "mre_entree",
     "name": { "str": "lemon pepper tuna entree" },
+    "calories": 136,
     "description": "The lemon pepper tuna entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh" ],
     "fun": 2
@@ -227,6 +249,7 @@
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
     "name": { "str": "asian beef & vegetables entree" },
+    "calories": 247,
     "description": "The Asian beef & vegetables entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 1
@@ -236,6 +259,7 @@
     "id": "mre_chickenpesto",
     "copy-from": "mre_entree",
     "name": { "str": "chicken pesto & pasta entree" },
+    "calories": 264,
     "description": "The chicken pesto & pasta entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat", "veggy" ],
     "fun": 0
@@ -245,6 +269,7 @@
     "id": "mre_southwestbeef",
     "copy-from": "mre_entree",
     "name": { "str": "southwest beef & beans entree" },
+    "calories": 262,
     "description": "The southwest beef & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "bean" ],
     "fun": 2
@@ -254,9 +279,31 @@
     "id": "mre_hotdog",
     "copy-from": "mre_entree",
     "name": { "str": "frankfurters & beans entree" },
+    "calories": 254,
     "description": "The dreaded four fingers of death.  It seems to be several decades old.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "price": 850,
     "material": [ "flesh", "junk", "bean" ],
     "fun": -6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_cheesepizza",
+    "copy-from": "mre_entree",
+    "name": { "str": "cheese pizza entree" },
+    "calories": 261,
+    "description": "The pizza entree from an MRE now in vegetarian form.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "price": 850,
+    "material": [ "wheat", "milk" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_pizza",
+    "copy-from": "mre_entree",
+    "name": { "str": "pepperoni pizza entree" },
+    "calories": 291,
+    "description": "The pizza entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "material": [ "flesh", "wheat", "milk" ],
+    "fun": 3
   }
 ]
