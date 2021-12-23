@@ -1785,6 +1785,19 @@ bool Character::has_two_arms_lifting() const
     return get_limb_score( limb_score_lift, body_part_type::type::arm ) > 0.5f;
 }
 
+int Character::get_working_arm_count() const
+{
+    int limb_count = 0;
+    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        // Broken or overencumbered arms don't count
+        if( !is_limb_broken( part ) &&
+            get_part_encumbrance_data( part ).encumbrance < part->encumbrance_limit ) {
+            limb_count++;
+        }
+    }
+    return limb_count;
+}
+
 // working is defined here as not broken
 int Character::get_working_leg_count() const
 {
@@ -1806,11 +1819,6 @@ bool Character::has_limb( const bodypart_id &limb ) const
         }
     }
     return false;
-}
-
-bool Character::is_limb_disabled( const bodypart_id &limb ) const
-{
-    return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine

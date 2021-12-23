@@ -441,7 +441,8 @@ class bodypart
         float get_wetness_percentage() const;
 
         int get_encumbrance_threshold() const;
-        int get_encumbrance_limit() const;
+        // Check if we're above our encumbrance limit
+        bool is_limb_overencumbered() const;
 
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
