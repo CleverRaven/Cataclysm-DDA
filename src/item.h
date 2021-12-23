@@ -857,11 +857,6 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
-        // checks if the item can have things placed in it
-        bool has_pockets() const {
-            // what has it gots in them, precious
-            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
-        }
         bool has_unrestricted_pockets() const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )

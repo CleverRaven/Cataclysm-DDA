@@ -11,7 +11,7 @@
 #include "sounds.h"
 #include "tileray.h"
 #include "translations.h"
-#include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -143,7 +143,12 @@ bool game::grabbed_veh_move( const tripoint &dp )
         tileray mdir;
 
         mdir.init( dir.xy() );
-        grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+        units::angle turn = normalize( mdir.dir() - grabbed_vehicle->face.dir() );
+        if( grabbed_vehicle->is_on_ramp && turn == 180_degrees ) {
+            add_msg( m_bad, _( "The %s can't be turned around while on a ramp." ), grabbed_vehicle->name );
+            return tripoint_zero;
+        }
+        grabbed_vehicle->turn( turn );
         grabbed_vehicle->face = tileray( grabbed_vehicle->turn_dir );
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
         grabbed_vehicle->pos -= grabbed_vehicle->pivot_displacement();
@@ -153,7 +158,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
                                       grabbed_vehicle->part( grabbed_part ).precalc[ 1 ];
         const tripoint expected_pos = u.pos() + dp + from;
-        const tripoint actual_dir = expected_pos - new_part_pos;
+        const tripoint actual_dir = tripoint( ( expected_pos - new_part_pos ).xy(), 0 );
 
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();

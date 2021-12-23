@@ -369,35 +369,27 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 20 }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 50 }
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
       },
       {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
@@ -455,11 +447,11 @@
     "id": "EOC_absence_capture_attack",
     "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
     "effect": [
-      { "u_location_variable": { "value": "cage", "type": "eoc", "context": "transform", "global": true } },
+      { "u_location_variable": { "value": "portal_cage", "global": true } },
       {
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_transform",
-        "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+        "target_var": { "value": "portal_cage", "global": true }
       },
       {
         "set_queue_effect_on_condition": [
@@ -469,7 +461,7 @@
               {
                 "u_transform_radius": 2,
                 "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+                "target_var": { "value": "portal_cage", "global": true }
               }
             ]
           }

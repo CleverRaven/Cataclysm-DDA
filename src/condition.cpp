@@ -53,15 +53,16 @@ static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHO
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
-    if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
-                            jo.has_array( "possible_values" ) ) ) ) {
+    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                          jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
-    const std::string &type_var = jo.get_string( "type" );
-    const std::string &var_context = jo.get_string( "context" );
-    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+    const std::string &type_var = jo.get_string( "type", "" );
+    const std::string &var_context = jo.get_string( "context", "" );
+    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
+            +
+            var_context ) + "_" + var_basename;
 }
 
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,

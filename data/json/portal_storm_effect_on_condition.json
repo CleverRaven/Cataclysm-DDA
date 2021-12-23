@@ -3,24 +3,16 @@
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm_base",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 10 } ]
-      }
-    ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "=", { "const": 10 } ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 15 } ]
-      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "=", { "const": 15 } ] },
       { "set_queue_effect_on_condition": [ "EOC_CAUSE_PORTAL_STORM" ] },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
-      }
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "=", { "const": 1 } ] }
     ]
   },
   {
@@ -28,33 +20,17 @@
     "id": "scenario_quick_portal_storm",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
-      {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "min_increase", "type": "weather", "context": "ps_time" },
-          "=",
-          { "time": "15 minutes" }
-        ]
-      },
-      {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "max_increase", "type": "weather", "context": "ps_time" },
-          "=",
-          { "time": "30 minutes" }
-        ]
-      },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "min_woc", "type": "weather", "context": "ps_time" }, "=", { "time": "2 days" } ]
-      },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "max_woc", "type": "weather", "context": "ps_time" }, "=", { "time": "4 days" } ]
-      }
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_increase" }, "=", { "time": "15 minutes" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_increase" }, "=", { "time": "30 minutes" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "2 days" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "4 days" } ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence_min": { "name": "min_woc", "type": "weather", "context": "ps_time", "default": "6 days", "global": true },
-    "recurrence_max": { "name": "max_woc", "type": "weather", "context": "ps_time", "default": "9 days", "global": true },
+    "recurrence_min": { "name": "ps_min_woc", "default": "6 days", "global": true },
+    "recurrence_max": { "name": "ps_max_woc", "default": "9 days", "global": true },
     "global": true,
     "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_STORM_WARN" ] } ]
   },
@@ -72,10 +48,7 @@
               "and": [
                 "u_can_see",
                 "u_is_outside",
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-                  "op": "<"
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
               ]
             },
             "effect": [
@@ -97,10 +70,7 @@
               "and": [
                 "u_can_see",
                 { "not": "u_is_outside" },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-                  "op": "<"
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
@@ -111,14 +81,8 @@
               "and": [
                 "u_can_see",
                 "u_is_outside",
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-                  "op": "<"
-                },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-                  "op": ">="
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
               ]
             },
             "effect": [
@@ -140,14 +104,8 @@
               "and": [
                 "u_can_see",
                 { "not": "u_is_outside" },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-                  "op": "<"
-                },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-                  "op": ">="
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
@@ -158,10 +116,7 @@
               "and": [
                 "u_can_see",
                 "u_is_outside",
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-                  "op": ">="
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
               ]
             },
             "effect": [
@@ -183,10 +138,7 @@
               "and": [
                 "u_can_see",
                 { "not": "u_is_outside" },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-                  "op": ">="
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
@@ -214,23 +166,18 @@
       "not": {
         "or": [
           { "is_weather": "portal_storm" },
-          {
-            "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
-            "op": "="
-          }
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
         ]
       }
     },
     "effect": [
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 1 } ]
-      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
       "next_weather",
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "=",
-          { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_base_str" },
           "+",
           { "const": 1 }
         ]
@@ -240,11 +187,8 @@
           {
             "id": "EOC_PORTAL_STORM_INCREASE_BASE_STRENGTH",
             "//": "Cap portal storm base strength at 25",
-            "condition": {
-              "compare_int": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, { "const": 25 } ],
-              "op": "<"
-            },
-            "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str", "type": "weather", "context": "ps" }, "++" ] } ]
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 25 } ], "op": "<" },
+            "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "++" ] } ]
           }
         ]
       },
@@ -263,29 +207,21 @@
     "condition": {
       "or": [
         { "is_weather": "portal_storm" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
-          "op": "="
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
       ]
     },
-    "effect": [
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, "=", { "const": 0 } ]
-      },
-      "next_weather"
-    ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] }, "next_weather" ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STRENGTHEN",
     "//": "Increases the portal storms strength.",
-    "recurrence_min": { "name": "min_increase", "type": "weather", "context": "ps_time", "default": "45 minutes", "global": true },
-    "recurrence_max": { "name": "max_increase", "type": "weather", "context": "ps_time", "default": "75 minutes", "global": true },
+    "recurrence_min": { "name": "ps_min_increase", "default": "45 minutes", "global": true },
+    "recurrence_max": { "name": "ps_max_increase", "default": "75 minutes", "global": true },
     "global": true,
     "condition": { "is_weather": "portal_storm" },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, "++" ] } ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -297,10 +233,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 4 } ],
-          "op": "<="
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<=" }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -336,14 +269,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 4 } ],
-          "op": ">"
-        },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 8 } ],
-          "op": "<="
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 8 } ], "op": "<=" }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -382,10 +309,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 8 } ],
-          "op": ">"
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 8 } ], "op": ">" }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -423,34 +347,22 @@
         "set_queue_effect_on_condition": [
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_1",
-            "condition": {
-              "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-              "op": "<"
-            },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 3 } ], "op": "<" },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_2",
             "condition": {
               "and": [
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-                  "op": "<"
-                },
-                {
-                  "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 3 } ],
-                  "op": ">="
-                }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 6 } ], "op": "<" },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 3 } ], "op": ">=" }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_3",
-            "condition": {
-              "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 6 } ],
-              "op": ">="
-            },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 6 } ], "op": ">=" },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true } ]
           }
         ]
@@ -475,16 +387,14 @@
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_rad_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_rad_str" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 10 }
         ]
       },
-      {
-        "arithmetic": [ { "u_val": "rad" }, "+=", { "global_val": "var", "var_name": "ps_rad_str", "type": "weather", "context": "ps" } ]
-      }
+      { "arithmetic": [ { "u_val": "rad" }, "+=", { "global_val": "var", "var_name": "ps_rad_str" } ] }
     ]
   },
   {
@@ -515,20 +425,18 @@
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_count", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_count" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "/",
           { "const": 3 }
         ]
       },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_shifting_mass_count", "type": "weather", "context": "ps" }, "++" ]
-      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_shifting_mass_count" }, "++" ] },
       {
         "u_set_spawn_monster": "mon_shifting_mass",
-        "real_count": { "name": "ps_shifting_mass_count", "type": "weather", "context": "ps", "default": 1, "global": true },
-        "hallucination_count": { "name": "ps_shifting_mass_count", "type": "weather", "context": "ps", "default": 1, "global": true },
+        "real_count": { "name": "ps_shifting_mass_count", "default": 1, "global": true },
+        "hallucination_count": { "name": "ps_shifting_mass_count", "default": 1, "global": true },
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -609,7 +517,7 @@
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
     "global": true,
     "effect": [
-      { "u_location_variable": { "value": "stuck", "type": "ps", "context": "teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "u_location_variable": { "value": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
       { "u_message": "This moment feels thick as if its not quite over.", "type": "bad" }
     ]
@@ -619,21 +527,13 @@
     "id": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
     "condition": { "x_in_y_chance": { "x": 3, "y": 4 } },
     "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
-    "false_effect": {
-      "u_make_sound": "a loud tearing sound.",
-      "target_var": { "value": "stuck", "type": "ps", "context": "teleport" },
-      "volume": 80,
-      "type": "alert"
-    }
+    "false_effect": { "u_make_sound": "a loud tearing sound.", "target_var": { "value": "stuck_teleport" }, "volume": 80, "type": "alert" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK",
     "effect": [
-      {
-        "u_teleport": { "value": "stuck", "type": "ps", "context": "teleport" },
-        "success_message": "You feel as if you just rewound a few seconds."
-      },
+      { "u_teleport": { "value": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
       {
         "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK_LOOP" ],
         "time_in_future_min": "3 seconds",
@@ -648,9 +548,9 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_light_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_light_str" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "*",
           { "time": "1 minutes" }
         ]
@@ -664,7 +564,7 @@
               {
                 "custom_light_level": 0,
                 "length_min": "1 seconds",
-                "length_max": { "name": "ps_light_str", "type": "weather", "context": "ps", "default": "1 minutes", "global": true }
+                "length_max": { "name": "ps_light_str", "default": "1 minutes", "global": true }
               },
               { "u_message": "The sun is snuffed out like a candle.", "type": "bad" }
             ],
@@ -672,7 +572,7 @@
               {
                 "custom_light_level": 125,
                 "length_min": "1 seconds",
-                "length_max": { "name": "ps_light_str", "type": "weather", "context": "ps", "default": "1 minutes", "global": true }
+                "length_max": { "name": "ps_light_str", "default": "1 minutes", "global": true }
               },
               { "u_message": "Some of the stars grow so bright they hurt to look at.", "type": "bad" }
             ]
@@ -688,9 +588,9 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_incorporeal_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_incorporeal_str" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "*",
           { "time": "1 seconds" }
         ]
@@ -698,7 +598,7 @@
       { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
       {
         "u_add_effect": "incorporeal",
-        "duration": { "name": "ps_incorporeal_str", "type": "weather", "context": "ps", "default": "1 seconds", "global": true }
+        "duration": { "name": "ps_incorporeal_str", "default": "1 seconds", "global": true }
       }
     ]
   },
@@ -709,29 +609,29 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_transform_radius", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_transform_radius" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 5 }
         ]
       },
       {
-        "u_location_variable": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+        "u_location_variable": { "value": "grass_transform", "global": true },
         "min_radius": 1,
         "max_radius": 15,
         "outdoor_only": true
       },
       {
         "u_make_sound": "a high pitched squeal.",
-        "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+        "target_var": { "value": "grass_transform", "global": true },
         "volume": 60,
         "type": "alert"
       },
       {
-        "u_transform_radius": { "name": "ps_transform_radius", "type": "weather", "context": "ps", "global": true, "default": 5 },
+        "u_transform_radius": { "name": "ps_transform_radius", "global": true, "default": 5 },
         "ter_furn_transform": "portal_grass_transform",
-        "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true }
+        "target_var": { "value": "grass_transform", "global": true }
       },
       {
         "set_queue_effect_on_condition": [
@@ -739,13 +639,13 @@
             "id": "EOC_PORTAL_ALIEN_GRASS_CHANGE",
             "effect": [
               {
-                "u_transform_radius": { "name": "ps_transform_radius", "type": "weather", "context": "ps", "global": true, "default": 5 },
+                "u_transform_radius": { "name": "ps_transform_radius", "global": true, "default": 5 },
                 "ter_furn_transform": "portal_alien_grass_transform",
-                "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true }
+                "target_var": { "value": "grass_transform", "global": true }
               },
               {
                 "u_make_sound": "a high pitched squeal.",
-                "target_var": { "value": "grass", "type": "eoc", "context": "transform", "global": true },
+                "target_var": { "value": "grass_transform", "global": true },
                 "volume": 60,
                 "type": "alert"
               }
@@ -773,14 +673,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      {
-        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
-        "min_radius": 3,
-        "max_radius": 10
-      },
+      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_1",
-        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "target_var": { "value": "indoor_voices", "global": true },
         "volume": 40,
         "type": "speech",
         "snippet": true
@@ -793,14 +689,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      {
-        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
-        "min_radius": 3,
-        "max_radius": 10
-      },
+      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_2",
-        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "target_var": { "value": "indoor_voices", "global": true },
         "volume": 60,
         "type": "speech",
         "snippet": true
@@ -813,14 +705,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      {
-        "u_location_variable": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
-        "min_radius": 3,
-        "max_radius": 10
-      },
+      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_3",
-        "target_var": { "value": "voices", "type": "eoc", "context": "indoor", "global": true },
+        "target_var": { "value": "indoor_voices", "global": true },
         "volume": 80,
         "type": "speech",
         "snippet": true
@@ -852,24 +740,13 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      {
-        "u_location_variable": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true },
-        "target_params": { "om_terrain": "field" }
-      },
-      {
-        "mapgen_update": "portal_dungeon",
-        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
-      }
+      { "u_location_variable": { "value": "portal_dungeon", "global": true }, "target_params": { "om_terrain": "field" } },
+      { "mapgen_update": "portal_dungeon", "target_var": { "value": "portal_dungeon", "global": true } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
-    "effect": [
-      {
-        "mapgen_update": "portal_dungeon_undo",
-        "target_var": { "value": "dungeon", "type": "eoc", "context": "transform", "global": true }
-      }
-    ]
+    "effect": [ { "mapgen_update": "portal_dungeon_undo", "target_var": { "value": "portal_dungeon", "global": true } } ]
   }
 ]

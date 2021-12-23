@@ -713,6 +713,7 @@ void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
@@ -758,6 +759,7 @@ effect_map{
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

@@ -2760,7 +2760,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -2889,7 +2891,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -6039,8 +6043,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
-                        pop += string_format( _( "It should take about %d minutes to finish smoking." ),
-                                              minutes_left ) + "\n ";
+                        pop += string_format( n_gettext( "It should take about %d minute to finish smoking.",
+                                                         "It should take about %d minutes to finish smoking.",
+                                                         minutes_left ), minutes_left ) + "\n ";
                     }
                 }
             } else {
