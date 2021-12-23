@@ -466,29 +466,6 @@ static std::string read_var_value( var_type type, std::string name, talker *talk
     return "";
 }
 
-static void write_var_value( var_type type, std::string name, talker *talk, std::string value )
-{
-    global_variables &globvars = get_globals();
-    switch( type ) {
-        case var_type::global:
-            globvars.set_global_value( name, value );
-            break;
-        case var_type::u:
-        case var_type::npc:
-            talk->set_value( name, value );
-            break;
-        case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
-        case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
-    }
-}
-
 struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;

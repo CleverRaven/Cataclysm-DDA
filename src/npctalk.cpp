@@ -133,6 +133,29 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
+static void write_var_value( var_type type, std::string name, talker *talk, std::string value )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            globvars.set_global_value( name, value );
+            break;
+        case var_type::u:
+        case var_type::npc:
+            talk->set_value( name, value );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+}
+
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
     return calc_skill_training_time_char( p, get_player_character(), skill );
