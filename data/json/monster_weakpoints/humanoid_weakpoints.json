@@ -35,7 +35,7 @@
           }
         ],
         "required_effects": [ "grabbing" ],
-        "coverage": 4
+        "coverage": 8
       },
       {
         "id": "leg",
