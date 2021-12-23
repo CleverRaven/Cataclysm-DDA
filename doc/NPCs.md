@@ -578,7 +578,7 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 
 example json:
 ```
-"effect": [ { "u_mod_focus": { "u_val":"test", "type":"debug", "context":"testing", "default": 1 } },
+"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
   "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
 
