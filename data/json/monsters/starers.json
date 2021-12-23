@@ -3,7 +3,7 @@
     "id": "mon_starer_pipe",
     "type": "MONSTER",
     "name": { "str": "starer" },
-    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it breathes, in deep ragged gulps.",
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
     "copy-from": "mon_feral_human_pipe",
     "looks_like": "mon_zombie_scorched",
     "default_faction": "fungus",
@@ -43,7 +43,7 @@
   {
     "id": "mon_starer_crowbar",
     "type": "MONSTER",
-    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it breathes again, in deep ragged gulps.",
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
     "copy-from": "mon_starer_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 6,
@@ -52,7 +52,7 @@
   {
     "id": "mon_starer_axe",
     "type": "MONSTER",
-    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it breathes again, in deep ragged gulps.",
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
     "copy-from": "mon_starer_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 7,
