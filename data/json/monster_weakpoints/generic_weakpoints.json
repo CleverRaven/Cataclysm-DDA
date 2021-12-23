@@ -3,17 +3,27 @@
     "type": "weakpoint_set",
     "id": "wps_natural_armor",
     "weakpoints": [
-      { "name": "a small gap in the thick hide", 
+      {
+        "id": "gap", "name": "a small gap in the thick hide", 
         "coverage": 5,
         "difficulty": { "melee": 4, "ranged": 5 },
         "coverage_mult": { "broad": 0.5 },
         "armor_mult": { "all": 0.25 } 
       },
-      { "name": "a soft fold in the thick hide", 
+      { 
+        "id": "joint","name": "a soft fold in the thick hide", 
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 5 },
         "coverage_mult": { "point": 0.75 },
         "armor_mult": { "all": 0.5 } 
+      },
+      {
+        "id": "hard_hide",
+        "name": "a particularly thick patch of hide",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
       }
     ]
   },
@@ -21,17 +31,29 @@
     "type": "weakpoint_set",
     "id": "wps_bone_armor",
     "weakpoints": [
-      { "name": "a small gap in the bony plates", 
+      { 
+        "id": "gap",
+        "name": "a small gap in the bony plates", 
         "coverage": 5,
         "difficulty": { "melee": 4, "ranged": 5 },
         "coverage_mult": { "broad": 0.5 },
         "armor_mult": { "all": 0.25 } 
       },
-      { "name": "a joint in the bony plates", 
+      { 
+        "id": "joint",
+        "name": "a joint in the bony plates", 
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 7 },
         "coverage_mult": { "ranged": 0.25 },
         "armor_mult": { "all": 0.5 } 
+      },
+      {
+        "id": "hard_point",
+        "name": "a particularly thick patch of bone",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
       }
     ]
   },

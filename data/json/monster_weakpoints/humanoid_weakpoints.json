@@ -358,6 +358,7 @@
         "name": "the helmet",
         "armor_mult": { "physical": 1.5 },
         "crit_mult": { "all": 0.5 },
+        "coverage_mult": { "melee": 0.75 },
         "coverage": 3
       },
       {
@@ -431,6 +432,7 @@
         "//": "the hard part of the helmet is actually the opposite of a weakpoint.",
         "armor_mult": { "physical": 1.5 },
         "crit_mult": { "all": 0.5 },
+        "coverage_mult": { "melee": 0.75 },
         "coverage": 3
       },
       {
