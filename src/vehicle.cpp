@@ -2513,7 +2513,7 @@ cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 
 cata::optional<vpart_reference> vpart_position::part_displayed() const
 {
-    int part_id = vehicle().part_displayed_at( mount() );
+    int part_id = vehicle().part_displayed_at( mount(), true );
     if( part_id == -1 ) {
         return cata::nullopt;
     }
