@@ -220,8 +220,8 @@
     "weakpoints": [
       {
         "id": "arm",
-		"name": "a tear in its turnout gear",
-		"armor_mult": { "physical": 0.5, "acid": 0.5 }, 
+        "name": "a tear in its turnout gear",
+        "armor_mult": { "physical": 0.5, "acid": 0.5 },
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "broad": 0.65 },
         "effects": [
@@ -233,12 +233,12 @@
             "damage_required": [ 31, 100 ]
           }
         ],
-		"coverage": 5 
-	  },
+        "coverage": 5
+      },
       {
         "id": "leg",
         "name": "a tear in its turnout gear",
-		"armor_mult": { "physical": 0.5, "acid": 0.5 }, 
+        "armor_mult": { "physical": 0.5, "acid": 0.5 },
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "broad": 0.55 },
         "effects": [
@@ -491,7 +491,13 @@
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
+          {
+            "effect": "blind",
+            "duration": [ 1, 2 ],
+            "chance": 1,
+            "message": "The %s is blinded!  The goggles, they did nothing!",
+            "damage_required": [ 20, 100 ]
+          }
         ],
         "//": "All right, I'll admit it, I only added this effect so I could make the joke.  What you gonna do about it?"
       }
@@ -509,7 +515,13 @@
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 1, "message": "The %s is blinded!  The goggles, they did nothing!", "damage_required": [ 20, 100 ] }
+          {
+            "effect": "blind",
+            "duration": [ 1, 2 ],
+            "chance": 1,
+            "message": "The %s is blinded!  The goggles, they did nothing!",
+            "damage_required": [ 20, 100 ]
+          }
         ]
       }
     ]

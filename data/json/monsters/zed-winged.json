@@ -33,7 +33,7 @@
         "effects": [ { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 12
       }
-    ]
+    ],
     "harvest": "zombie",
     "special_attacks": [
       { "type": "bite", "cooldown": 5 },
@@ -98,7 +98,7 @@
         "effects": [ { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
         "coverage": 12
       }
-    ]
+    ],
     "harvest": "zombie",
     "special_attacks": [
       { "type": "leap", "cooldown": 2, "max_range": 8 },
