@@ -102,12 +102,20 @@ class snippet_library
         snippet_id migrate_hash_to_id( int hash );
 
     private:
-        std::unordered_map<snippet_id, translation> snippets_by_id;
 
+        struct snippet {
+            translation tran;
+            std::vector<std::string> flags;
+            explicit snippet( translation t ) : tran( t ) {};
+            explicit snippet() = default;
+        };
         struct category_snippets {
             std::vector<snippet_id> ids;
-            std::vector<translation> no_id;
+            std::vector<snippet> no_id;
         };
+
+        std::unordered_map<snippet_id, snippet> snippets_by_id;
+
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 
         cata::optional<std::map<int, snippet_id>> hash_to_id_migration;

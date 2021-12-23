@@ -39,7 +39,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
             if( !entry.read( text ) ) {
                 entry.throw_error( "Error reading snippet from JSON array" );
             }
-            snippets_by_category[category].no_id.emplace_back( text );
+            snippets_by_category[category].no_id.emplace_back( snippet( text ) );
         } else {
             JsonObject jo = entry.get_object();
             add_snippet_from_json( category, jo );
@@ -65,9 +65,11 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
             jo.throw_error( "Duplicate snippet id", "id" );
         }
         snippets_by_category[category].ids.emplace_back( id );
-        snippets_by_id[id] = text;
+        snippets_by_id[id].tran = text;
     } else {
-        snippets_by_category[category].no_id.emplace_back( text );
+        snippets_by_category[category].no_id.emplace_back( snippet( text ) );
+    }
+    if( jo.has_member( "flag" ) ) {
     }
 }
 
@@ -89,7 +91,7 @@ cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id
     if( it == snippets_by_id.end() ) {
         return cata::nullopt;
     }
-    return it->second;
+    return it->second.tran;
 }
 
 const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id ) const
@@ -99,7 +101,7 @@ const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id 
         static const translation empty_translation;
         return empty_translation;
     }
-    return it->second;
+    return it->second.tran;
 }
 
 bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
@@ -171,7 +173,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     if( index < it->second.ids.size() ) {
         return get_snippet_by_id( it->second.ids[index] );
     } else {
-        return it->second.no_id[index - it->second.ids.size()];
+        return it->second.no_id[index - it->second.ids.size()].tran;
     }
 }
 
@@ -180,7 +182,7 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
         for( const auto &id_and_text : snippets_by_id ) {
-            cata::optional<int> hash = id_and_text.second.legacy_hash();
+            cata::optional<int> hash = id_and_text.second.tran.legacy_hash();
             if( hash ) {
                 hash_to_id_migration->emplace( hash.value(), id_and_text.first );
             }
