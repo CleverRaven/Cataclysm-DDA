@@ -7134,7 +7134,7 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
     return found;
 }
 
-static item::cover_type item::get_cover_type( damage_type type )
+item::cover_type item::get_cover_type( damage_type type )
 {
     item::cover_type ctype = item::cover_type::COVER_DEFAULT;
     if( type == damage_type::BULLET ) {

@@ -508,12 +508,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
     }
-
-    if( damaged == item::armor_status::DESTROYED ) {
-        return true;
-    }
-
-    return false;
+    return damaged == item::armor_status::DESTROYED;
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
@@ -576,7 +571,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 
                 // check if the item will break
                 item::armor_status damaged = item::armor_status::UNDAMAGED;
-                if( ablative_armor.find_armor_data()->non_functional != itype_id( "null" ) ) {
+                if( ablative_armor.find_armor_data()->non_functional != itype_id() ) {
                     // if the item transforms on destruction damage it that way
                     // ablative armor is concerned with incoming damage not mitigated damage
                     damaged = ablative_armor.damage_armor_transforms( pre_mitigation );
