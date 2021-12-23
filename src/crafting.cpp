@@ -515,7 +515,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
 bool Character::can_make( const recipe *r, int batch_size )
 {
-    const inventory &crafting_inv = crafting_inventory( r );
+    const inventory &crafting_inv = crafting_inventory();
 
     if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
@@ -567,6 +567,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
+    std::map<itype_id, int> tmp_liq_list;
     // TODO: Add a const overload of all_items_loc() that returns something like
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
@@ -577,9 +578,13 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
                 *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
             }
             continue;
+        } else if( it->is_watertight_container() ) {
+            const int count = it->count_by_charges() ? it->charges : 1;
+            tmp_liq_list[it->typeId()] += count;
         }
         crafting_cache.crafting_inventory->add_item( *it );
     }
+    crafting_cache.crafting_inventory->replace_liq_container_count( tmp_liq_list, true );
 
     for( const item *i : get_pseudo_items() ) {
         *crafting_cache.crafting_inventory += *i;
