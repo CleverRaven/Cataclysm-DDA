@@ -384,7 +384,7 @@
     "type": "martial_art",
     "id": "style_dragon",
     "name": { "str": "Dragon Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damaage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
