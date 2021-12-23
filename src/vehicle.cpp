@@ -7484,13 +7484,14 @@ const vehicle_part &vehicle::part( int part_num ) const
 
 int vehicle::get_non_fake_part( const int part_num )
 {
-    if( part_num < num_parts() ) {
+    if( part_num != -1 && part_num < num_parts() ) {
         if( parts.at( part_num ).is_fake ) {
             return parts.at( part_num ).fake_part_to;
         } else {
             return part_num;
         }
     }
+    std::cout << "Returning -1 for get_non_fake_part.";
     return -1;
 }
 

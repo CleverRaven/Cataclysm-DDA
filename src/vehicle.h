@@ -1194,7 +1194,7 @@ class vehicle
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
         // return the set of all z-levels that the vehicle is on
-	std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1910,12 +1910,12 @@ class vehicle
         tripoint get_abs_diff( const tripoint &one, const tripoint &two ) const;
         bool should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                  const tripoint &neighbor_precalc ) const;
-	/**
-	*  checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
-	* this eliminates edge cases caused by overlapping bike_rack lanes
-	* @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
-	*/
-	void validate_carried_vehicles( std::vector<std::vector<int>> &carried_vehicles );
+        /**
+        *  checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
+        * this eliminates edge cases caused by overlapping bike_rack lanes
+        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
+        */
+        void validate_carried_vehicles( std::vector<std::vector<int>> &carried_vehicles );
 
     public:
         // Number of parts contained in this vehicle
@@ -1971,14 +1971,16 @@ class vehicle
         std::vector<int> steering;         // List of STEERABLE parts NOLINT(cata-serialize)
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;       // NOLINT(cata-serialize)
-        std::vector<int> floating;         // List of parts that provide buoyancy to boats NOLINT(cata-serialize)
+        std::vector<int>
+        floating;         // List of parts that provide buoyancy to boats NOLINT(cata-serialize)
         std::vector<int> batteries;        // List of batteries NOLINT(cata-serialize)
         std::vector<int> fuel_containers;  // List parts with non-null ammo_type NOLINT(cata-serialize)
         std::vector<int> turret_locations; // List of turret parts NOLINT(cata-serialize)
         std::vector<int> mufflers; // List of muffler parts NOLINT(cata-serialize)
         std::vector<int> planters; // List of planter parts NOLINT(cata-serialize)
         std::vector<int> accessories; // List of accessory (power consuming) parts NOLINT(cata-serialize)
-        std::vector<int> fake_parts;       // List of parts that are fakes to fill gaps NOLINT(cata-serialize)
+        std::vector<int>
+        fake_parts;       // List of parts that are fakes to fill gaps NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name
