@@ -86,6 +86,11 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "CALORIE_INTAKE",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie intake."
+  },
+  {
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
