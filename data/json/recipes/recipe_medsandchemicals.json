@@ -1079,7 +1079,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "denat_alcohol", 1000 ] ] ]
+    "components": [ [ [ "methed_alcohol", 1000 ] ] ]
   },
   {
     "type": "recipe",
