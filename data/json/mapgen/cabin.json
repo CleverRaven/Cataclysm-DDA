@@ -943,11 +943,11 @@
         "...%....................",
         "..######$##==#########..",
         "..#R  d#sT#  #A DBBD #..",
-        "..#R  c#  #  #A  BB  $..",
-        "..$R   #> =  =       $..",
-        "..$R   #  #  #########..",
-        "..#R   ####  =  DBBD #..",
-        "..#R   L##A  #A  BB  $..",
+        "..#   c#  #  #A  BB  $..",
+        "..$   R#> =  =       $..",
+        "..$   R#  #  #########..",
+        "..#   R####  =  DBBD #..",
+        "..#RR  L##A  #A  BB  $..",
         "..####=####  #A      $..",
         "..#ttb  uu#  #########..",
         "..$ttb   u#  #a OOO  $..",
@@ -964,10 +964,16 @@
         "........................"
       ],
       "palettes": [ "cabin_palette" ],
-      "set": [ { "point": "trap", "id": "tr_beartrap", "x": 9, "y": 6 } ],
+      "set": [
+        { "point": "trap", "id": "tr_beartrap", "x": 9, "y": 6 },
+        { "point": "trap", "id": "tr_nailboard", "x": 3, "y": 5 },
+        { "point": "trap", "id": "tr_nailboard", "x": 3, "y": 6 },
+        { "point": "trap", "id": "tr_nailboard", "x": 3, "y": 7 },
+        { "point": "trap", "id": "tr_nailboard", "x": 3, "y": 8 }
+      ],
       "terrain": { ">": "t_stairs_down", "$": "t_window_boarded", "=": "t_door_locked" },
       "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 100, "ammo": 90, "magazine": 100 } ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 12, "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 20 ], "y": [ 3, 15 ], "density": 0.1 } ]
     }
   },
   {
@@ -1006,7 +1012,7 @@
         "########################"
       ],
       "palettes": [ "bunker", "empty_bunker_items" ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 12, 16 ], "y": [ 11, 14 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 22 ], "y": [ 10, 19 ], "density": 0.3 } ],
       "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
     }
   }
