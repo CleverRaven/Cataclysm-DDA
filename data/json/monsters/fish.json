@@ -711,7 +711,7 @@
     "id": "mon_mutant_salmon",
     "type": "MONSTER",
     "name": { "str": "giant salmon" },
-    "description": "A mutated salmon, the ssize of a large dog and quite dangerous to the inexperienced angler.",
+    "description": "A mutated salmon, the size of a large dog and quite dangerous to the inexperienced angler.",
     "default_faction": "mutant",
     "bodytype": "fish",
     "species": [ "FISH" ],
