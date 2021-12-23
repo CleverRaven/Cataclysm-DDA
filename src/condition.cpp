@@ -89,11 +89,11 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
 }
 
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                var_type vtype )
+                                var_type vtype, talker *var_source )
 {
     tripoint target_pos = get_map().getabs( target->pos() );
     if( target_var.has_value() ) {
-        std::string value = read_var_value( vtype, target_var.value(), target );
+        std::string value = read_var_value( vtype, target_var.value(), var_source );
         if( !value.empty() ) {
             target_pos = tripoint::from_string( value );
         }
@@ -905,18 +905,18 @@ static tripoint get_tripoint_from_string( std::string type, T &d )
     } else if( type == "npc" ) {
         return get_map().getabs( d.actor( true )->pos() );
     } else if( type.find( "u_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), var_type::u );
+        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), var_type::u, d.actor( false ) );
     } else if( type.find( "npc_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), var_type::npc );
+        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), var_type::npc, d.actor( true ) );
     } else if( type.find( "global_" ) == 0 ) {
         return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::global );
+                                      var_type::global, d.actor( true ) );
     } else if( type.find( "faction_" ) == 0 ) {
         return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::faction );
+                                      var_type::faction, d.actor( true ) );
     } else if( type.find( "party_" ) == 0 ) {
         return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::party );
+                                      var_type::party, d.actor( true ) );
     }
     return tripoint();
 }
