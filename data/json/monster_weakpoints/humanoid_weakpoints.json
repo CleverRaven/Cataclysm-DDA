@@ -21,6 +21,22 @@
         "coverage": 8
       },
       {
+        "id": "part_grabbing",
+        "name": "the arm",
+        "//": "Gives you a higher chance of hitting the arm if the enemy is grabbing you.",
+        "crit_mult": { "all": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 4
+      },
+      {
         "id": "leg",
         "name": "the leg",
         "crit_mult": { "all": 0.75 },
