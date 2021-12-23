@@ -2342,7 +2342,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc]( const dialogue & d ) {
+    function = [iov, transform, target_var, type]( const dialogue & d ) {
         talker *target = d.actor( type == var_type::npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type );
         get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
@@ -3459,7 +3459,6 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         int hallucination_count = iov_hallucination_count.evaluate( d.actor(
                                       iov_hallucination_count.is_npc() ) );
         cata::optional<time_duration> lifespan;
-        talker *target = d.actor( is_npc );
         tripoint target_pos = get_map().getlocal( get_tripoint_from_var( d.actor( type == var_type::npc ),
                               target_var, type ) );
         for( int i = 0; i < hallucination_count; i++ ) {
@@ -3510,7 +3509,6 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
         int radius = iov_radius.evaluate( d.actor( iov_radius.is_npc() ) );
         int intensity = iov_intensity.evaluate( d.actor( iov_intensity.is_npc() ) );
 
-        talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( d.actor( type == var_type::npc ), target_var, type );
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {

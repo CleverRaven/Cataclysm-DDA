@@ -450,8 +450,6 @@ static std::string read_var_value( var_type type, std::string name, talker *talk
             return globvars.get_global_value( name );
             break;
         case var_type::u:
-            return talk->get_value( name );
-            break;
         case var_type::npc:
             return talk->get_value( name );
             break;
@@ -476,8 +474,6 @@ static void write_var_value( var_type type, std::string name, talker *talk, std:
             globvars.set_global_value( name, value );
             break;
         case var_type::u:
-            talk->set_value( name, value );
-            break;
         case var_type::npc:
             talk->set_value( name, value );
             break;
