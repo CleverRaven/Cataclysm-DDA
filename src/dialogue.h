@@ -402,18 +402,19 @@ struct var_info {
     std::string default_val;
 };
 
+// throws an error on failure, so no need to return
 static std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                                      bool check_value = false )
 {
-    if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
-                            jo.has_array( "possible_values" ) ) ) ) {
+    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                          jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
-    const std::string &type_var = jo.get_string( "type" );
-    const std::string &var_context = jo.get_string( "context" );
-    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+    const std::string &type_var = jo.get_string( "type", "" );
+    const std::string &var_context = jo.get_string( "context", "" );
+    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
+            + var_context ) + "_" + var_basename;
 }
 
 static std::string read_var_value( var_type type, std::string name, talker *talk )
