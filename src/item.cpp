@@ -7134,6 +7134,18 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
     return found;
 }
 
+static item::cover_type item::get_cover_type( damage_type type )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( type == damage_type::BASH || type == damage_type::CUT ||
+               type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+    return ctype;
+}
+
 int item::get_avg_coverage( const cover_type &type ) const
 {
     const islot_armor *t = find_armor_data();
@@ -7730,6 +7742,65 @@ bool item::inc_damage( const damage_type dt )
 bool item::inc_damage()
 {
     return inc_damage( damage_type::NONE );
+}
+
+item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
+{
+    // We want armor's own resistance to this type, not the resistance it grants
+    const float armors_own_resist = damage_resist( du.type, true, bp );
+    if( armors_own_resist > 1000.0f ) {
+        // This is some weird type that doesn't damage armors
+        return armor_status::UNDAMAGED;
+    }
+
+    // Scale chance of article taking damage based on the number of parts it covers.
+    // This represents large articles being able to take more punishment
+    // before becoming ineffective or being destroyed.
+    const int num_parts_covered = get_covered_body_parts().count();
+    if( !one_in( num_parts_covered ) ) {
+        return armor_status::UNDAMAGED;
+    }
+
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const float raw_dmg = du.amount;
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return armor_status::UNDAMAGED;
+        }
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( has_flag( flag_STURDY ) || is_power_armor() || !one_in( 200 ) ) {
+            return armor_status::UNDAMAGED;
+        }
+    }
+
+    if( mod_damage( has_flag( flag_FRAGILE ) ?
+                    rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type ) ) {
+        return armor_status::DESTROYED;
+    }
+    return armor_status::DAMAGED;
+}
+
+item::armor_status item::damage_armor_transforms( damage_unit &du )
+{
+    // We want armor's own resistance to this type, not the resistance it grants
+    const float armors_own_resist = damage_resist( du.type, true );
+
+    // plates are rated to survive 3 shots at the caliber they protect
+    // linearly scale off the scale value to find the chance it breaks
+    float break_chance = 33.3 * ( du.amount / armors_own_resist );
+
+    float roll_to_break = rng_float( 0.0, 100.0 );
+
+    if( roll_to_break < break_chance ) {
+        //the plate is broken
+        return armor_status::TRANSFORMED;
+    }
+    return armor_status::UNDAMAGED;
 }
 
 nc_color item::damage_color() const

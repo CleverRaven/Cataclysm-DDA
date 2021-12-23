@@ -1258,6 +1258,28 @@ class item : public visitable
         /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
+        enum class armor_status {
+            UNDAMAGED,
+            DAMAGED,
+            DESTROYED,
+            TRANSFORMED
+        };
+
+        /**
+         * Damage related logic for armor items, wraps mod_damage with needed logic
+         * This version is for items with durability
+         * @return the state of the armor
+         */
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+
+        /**
+         * Damage related logic for armor items that warp and transform instead of degrading.
+         * Items such as ablative plates are considered with this.
+         * @return the state of the armor
+         */
+        armor_status damage_armor_transforms( damage_unit &du );
+
+
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
 
@@ -1857,12 +1879,14 @@ class item : public visitable
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
 
-        enum cover_type {
+        enum class cover_type {
             COVER_DEFAULT,
             COVER_MELEE,
             COVER_RANGED,
             COVER_VITALS
         };
+        static cover_type get_cover_type( damage_type type );
+
         /*
          * Returns the average coverage of each piece of data this item
          */
