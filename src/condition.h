@@ -56,6 +56,8 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
                                      time_duration default_val = 0_seconds );
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, talker *var_source );
+var_info read_var_info(JsonObject jo, bool require_default);
+
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
