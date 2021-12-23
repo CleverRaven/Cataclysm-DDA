@@ -16,7 +16,6 @@
     "epower": -30,
     "size": 300,
     "item": "fridge",
-    "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -46,6 +45,7 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" } ],
+    "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": 0,
     "item": "oven",
     "looks_like": "f_oven",
