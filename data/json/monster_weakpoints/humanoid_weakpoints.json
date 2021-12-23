@@ -34,6 +34,7 @@
             "damage_required": [ 31, 100 ]
           }
         ],
+        "required_effects": [ "grabbing" ],
         "coverage": 4
       },
       {
