@@ -4749,7 +4749,7 @@ std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
 void change_scent_iuse::load( const JsonObject &obj )
 {
     scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
-    if( !scenttypeid.is_valid() ) {
+    if( !scenttypeid.is_null() && !scenttypeid.is_valid() ) {
         obj.throw_error( "Invalid scent type id.", "scent_typeid" );
     }
     if( obj.has_array( "effects" ) ) {
@@ -4759,20 +4759,42 @@ void change_scent_iuse::load( const JsonObject &obj )
     }
     assign( obj, "moves", moves );
     assign( obj, "charges_to_use", charges_to_use );
-    assign( obj, "scent_mod", scent_mod );
     assign( obj, "duration", duration );
     assign( obj, "waterproof", waterproof );
+    assign( obj, "scent_mod", scent_mod );
+
+    if( obj.has_array( "cannot_change" ) ) {
+        JsonArray cannot_change_ja = obj.get_array( "cannot_change" );
+        for( JsonValue s : cannot_change_ja ) {
+            cannot_change.emplace( scenttype_id( s.get_string() ) );
+        }
+    }
+
+    if( scent_mod  < 0 ) {
+        scent_mod = -scent_mod;
+        reduces_scent = true;
+    }
 }
 
 cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const tripoint & ) const
 {
-    p.set_value( "prev_scent", p.get_type_of_scent().c_str() );
+    const scenttype_id current_scent = p.get_type_of_scent();
+
+    p.mod_moves( -moves );
+    if( cannot_change.count( current_scent ) != 0 ) {
+        add_msg( m_info, _( "You try to use the %s to mask your scent, but it doesn't seem to work." ),
+                 it.tname() );
+        return charges_to_use;
+    }
+    p.set_value( "prev_scent", current_scent.c_str() );
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
+    if( reduces_scent ) {
+        p.set_value( "mask_reduces_scent", "true" );
+    }
     p.add_effect( effect_masked_scent, duration, false, scent_mod );
-    p.set_type_of_scent( scenttypeid );
-    p.mod_moves( -moves );
+    p.set_type_of_scent( scenttypeid.is_null() ? current_scent : scenttypeid );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.

@@ -198,7 +198,8 @@
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      { "item": "scent_eliminator_can", "prob": 5, "charges": [ 0, 5 ] }
     ]
   },
   {

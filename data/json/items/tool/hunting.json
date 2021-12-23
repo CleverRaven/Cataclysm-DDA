@@ -1,0 +1,30 @@
+[
+  {
+    "type": "TOOL",
+    "id": "scent_eliminator_can",
+    "name": { "str": "scent eliminator spray bottle" },
+    "description": "A spray bottle of scent eliminator, designed to eliminate human odor at a molecular level.  Commonly used by hunters.",
+    "symbol": ";",
+    "color": "white",
+    "looks_like": "spray_can",
+    "weight": "340 g",
+    "volume": "250 ml",
+    "price": 1500,
+    "price_postapoc": 4000,
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "scent_eliminator_agent": 5 }, "watertight": true, "rigid": true }
+    ],
+    "charges_per_use": 1,
+    "material": [ "plastic" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "use_action": {
+      "type": "change_scent",
+      "scent_typeid": "sc_null",
+      "cannot_change": [ "sc_flower", "sc_fetid" ],
+      "moves": 200,
+      "duration": "1 d",
+      "charges_to_use": 1,
+      "scent_mod": -500
+    }
+  }
+]

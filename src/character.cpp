@@ -2052,7 +2052,11 @@ void Character::process_turn()
         }
 
         //mask from scent altering items;
-        norm_scent += mask_intensity;
+        if( get_value( "mask_reduces_scent" ).empty() ) {
+            norm_scent += mask_intensity;
+        } else {
+            norm_scent = std::max( norm_scent - mask_intensity, 0 );
+        }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -7580,6 +7584,7 @@ void Character::restore_scent()
         set_type_of_scent( scenttype_id( prev_scent ) );
         remove_value( "prev_scent" );
         remove_value( "waterproof_scent" );
+        remove_value( "mask_reduces_scent" );
         add_msg_if_player( m_info, _( "You smell like yourself again." ) );
     }
 }

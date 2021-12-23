@@ -772,5 +772,11 @@
     "id": "coin_dollar",
     "name": "dollar coins",
     "default": "coin_dollar"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "scent_eliminator_agent",
+    "name": "scent eliminator agent",
+    "default": "scent_eliminator_agent"
   }
 ]

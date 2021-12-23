@@ -331,7 +331,9 @@
     "type": "effect_type",
     "id": "masked_scent",
     "name": [ "Masked scent" ],
-    "desc": [ "Your scent is masked by another one." ]
+    "desc": [ "Your scent is masked by another one." ],
+    "max_intensity": 1000,
+    "show_intensity": false
   },
   {
     "type": "effect_type",

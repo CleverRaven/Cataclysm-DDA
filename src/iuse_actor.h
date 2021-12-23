@@ -355,12 +355,15 @@ class change_scent_iuse : public iuse_actor
         int charges_to_use = 1;
         /**Scent value modifier*/
         int scent_mod = 0;
+        /**Does the mask reduce scent intensity?*/
+        bool reduces_scent = false;
         /**How long does the scent stays*/
         time_duration duration;
         /**Is the scent mask waterproof*/
         bool waterproof = false;
         /**Side effect of using the item*/
         std::vector<effect_data> effects;
+        std::set<scenttype_id> cannot_change;
 
         change_scent_iuse() : iuse_actor( "change_scent" ) { }
         ~change_scent_iuse() override = default;

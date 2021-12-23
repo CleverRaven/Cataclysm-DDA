@@ -3423,9 +3423,10 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "change_scent", // Change the scent type of the user.
-    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent.
+    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent. Use 'sc_null' to retain current scent,
+    "cannot_change": [ "sc_flower" ], // Array of scenttype_ids that cannot be changed by this use_action.
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
-    "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
+    "scent_mod": 150, // Modifier added to the scent intensity. Use negative value to decrease the strength of the scent.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
     "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)

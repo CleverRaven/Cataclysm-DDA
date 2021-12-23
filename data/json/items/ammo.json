@@ -1357,5 +1357,18 @@
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
     "ammo_type": "red_pen_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "scent_eliminator_agent",
+    "name": { "str_sp": "scent eliminator agent" },
+    "symbol": "~",
+    "description": "A liquid that eliminates human scent at the molecular level.  Comes in a spray bottle.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "scent_eliminator_agent"
   }
 ]
