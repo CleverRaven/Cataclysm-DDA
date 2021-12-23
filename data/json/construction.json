@@ -3010,7 +3010,7 @@
     "time": "5 m",
     "components": [ [ [ "oven", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance" 
+    "post_special": "done_appliance"
   },
   {
     "id": "app_standing_lamp",
