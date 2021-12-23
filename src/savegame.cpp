@@ -504,6 +504,25 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
     }
 }
 
+/**
+ * Overmap special migration.
+ * Specials that have been removed should be replaced with a null id.
+ */
+static overmap_special_id migrate_omt_special( const overmap_special_id &os_id )
+{
+    if( os_id == overmap_special_id( "Military Outpost" ) ) {
+        return overmap_special_id( "military_outpost" );
+    } else if( os_id == overmap_special_id( "Military Bunker" ) ) {
+        return overmap_special_id( "military_bunker" );
+    } else if( os_id == overmap_special_id( "basin" ) ) {
+        return overmap_special_id();
+    } else if( os_id == overmap_special_id( "bog" ) ) {
+        return overmap_special_id();
+    }
+
+    return os_id;
+}
+
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
@@ -707,7 +726,10 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        s = migrate_omt_special( s );
+                        if( !s.is_null() ) {
+                            is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        }
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -723,9 +745,11 @@ void overmap::unserialize( std::istream &fin )
                                             std::string name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
-                                                overmap_special_placements[p] = s;
-                                                if( is_safe_zone ) {
-                                                    safe_at_worldgen.emplace( p );
+                                                if( !s.is_null() ) {
+                                                    overmap_special_placements[p] = s;
+                                                    if( is_safe_zone ) {
+                                                        safe_at_worldgen.emplace( p );
+                                                    }
                                                 }
                                             }
                                         }
