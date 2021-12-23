@@ -252,7 +252,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_humanoid_body_armour",
+    "id": "wps_humanoid_body_armor",
     "weakpoints": [
       {
         "id": "arm",
@@ -314,7 +314,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_humanoid_light_armour",
+    "id": "wps_humanoid_light_armor",
     "weakpoints": [
       {
         "id": "arm",
