@@ -73,4 +73,4 @@ jobs:
         with:
           message: ${{ steps.spell_check.outputs.comment }}
           proxy-url: ${{ secrets.SPELL_CHECK_ENDPOINT }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.TX_PR_CREATOR }}
