@@ -13,6 +13,7 @@
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flag.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -26,6 +27,8 @@
 #include "uistate.h"
 #include "vpart_range.h"
 #include "visitable.h"
+
+static const itype_id itype_candle( "candle" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -368,6 +371,25 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     return ret;
 }
 
+static bool safe_to_unload( const item &it )
+{
+    // Candle wax from candles should be consumed with the candle
+    if( it.is_container_empty() || it.typeId() == itype_candle ) {
+        return false;
+    }
+
+    // Don't try to unload items that shouldn't be outside their container
+    const itype_id &ammo = it.loaded_ammo().typeId();
+    if( ammo.is_null() ) {
+        return !it.empty_container();
+    } else if( ammo->has_flag( flag_ZERO_WEIGHT ) ||
+               ammo->has_flag( flag_NO_DROP ) ) {
+        return false;
+    }
+
+    return true;
+}
+
 item craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
@@ -401,7 +423,7 @@ item craft_command::create_in_progress_craft()
     for( const auto &it : item_selections ) {
         std::list<item> tmp = sane_consume_items( it, crafter, batch_size, filter );
         for( item &tmp_it : tmp ) {
-            if( ( tmp_it.is_tool() && tmp_it.ammo_remaining() > 0 ) || !tmp_it.is_container_empty() ) {
+            if( safe_to_unload( tmp_it ) ) {
                 item_location tmp_loc( *crafter, &tmp_it );
                 unload_activity_actor::unload( *crafter, tmp_loc );
             }
