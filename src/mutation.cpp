@@ -183,7 +183,7 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     mutation_effect( trait, false );
 
     if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
+        as_avatar()->character_mood_face( true );
     }
 }
 
@@ -1081,7 +1081,7 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 bool Character::mutate_towards( const trait_id &mut )
 {
     if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
+        as_avatar()->character_mood_face( true );
     }
 
     if( has_child_flag( mut ) ) {
@@ -1473,10 +1473,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
         }
     }
 
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
-
     // See if this mutation is canceled by a base trait
     //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
@@ -1635,6 +1631,10 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    mdata.name() );
         }
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->character_mood_face( true );
     }
 
     set_highest_cat_level();

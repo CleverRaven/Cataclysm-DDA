@@ -64,9 +64,16 @@ void mood_face_value::deserialize( JsonIn &jsin )
     load( data );
 }
 
-const mood_face_id &avatar::character_mood_face()
+const mood_face_id &avatar::character_mood_face( bool clear_cache ) const
 {
+    static cata::optional<mood_face_id> mood_face_cache;
+    static bool mood_face_horizontal = false;
     const bool option_horizontal = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
+
+    if( clear_cache ) {
+        mood_face_cache.reset();
+    }
+
     if( mood_face_cache.has_value() && mood_face_horizontal == option_horizontal ) {
         return mood_face_cache.value();
     }
@@ -109,9 +116,4 @@ const mood_face_id &avatar::character_mood_face()
     }
 
     return mood_face_cache.value();
-}
-
-void avatar::clear_mood_face()
-{
-    mood_face_cache.reset();
 }
