@@ -716,6 +716,7 @@ void game::setup()
     follower_ids.clear();
     scent.reset();
     effect_on_conditions::clear( u );
+    u.character_mood_face( true );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
