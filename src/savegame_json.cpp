@@ -640,6 +640,7 @@ void Character::load( const JsonObject &data )
         !data.read( "blood_rh_factor", blood_rh_factor ) ) {
         randomize_blood();
     }
+    data.read("avg_nat_bpm", avg_nat_bpm);
 
     data.read( "custom_profession", custom_profession );
 
@@ -1135,6 +1136,7 @@ void Character::store( JsonOut &json ) const
     json.member( "base_height", init_height );
     json.member_as_string( "blood_type", my_blood_type );
     json.member( "blood_rh_factor", blood_rh_factor );
+    json.member("avg_nat_bpm", avg_nat_bpm);
 
     json.member( "custom_profession", custom_profession );
 

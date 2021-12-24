@@ -8580,7 +8580,7 @@ int Character::heartrate_bpm() const
     int average_heartbeat = avg_nat_bpm * get_heartrate_index();
 
     // minor moment-to-moment variation
-    // average_heartbeat += rng( -5, 5 );
+    average_heartbeat += rng( -5, 5 );
 
     //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
     if( has_trait( trait_CHEMIMBALANCE ) ) {
