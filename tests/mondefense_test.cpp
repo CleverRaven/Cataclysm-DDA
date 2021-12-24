@@ -100,12 +100,12 @@ TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     attacker.add_bionic( bio_power_storage );
+    attacker.set_power_level( attacker.get_max_power_level() );
     attacker.add_bionic( bio_faraday );
-    attacker.mod_power_level( 100_kJ );
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?
-    attacker.activate_bionic( 1 );
+    attacker.activate_bionic( attacker.bionic_at_index( attacker.num_bionics() - 1 ) );
     test_zapback( attacker, false );
 }
 

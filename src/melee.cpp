@@ -304,6 +304,17 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
                                str );
     }
 
+    if( is_using_bionic_weapon() && temp.has_flag( flag_NO_UNWIELD ) ) {
+        if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+            bionic &bio = **bio_opt;
+            if( bio.get_weapon().typeId() == temp.typeId() ) {
+                weapon_bionic_uid = 0;
+                bio.set_weapon( item() );
+                force_bionic_deactivation( bio );
+            }
+        }
+    }
+
     return true;
 }
 
