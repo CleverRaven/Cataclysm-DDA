@@ -1708,7 +1708,7 @@ static void character_edit_menu()
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
                 int morale_level_delta = value - current_morale_level;
-                you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
+                you.add_morale( MORALE_PERM_DEBUG, morale_level_delta, morale_level_delta );
                 you.apply_persistent_morale();
             }
         }
