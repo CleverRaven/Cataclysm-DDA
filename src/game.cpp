@@ -6170,6 +6170,7 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
+                               //~ "P: <Zone Name>" represents a personal zone
                                trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 15 ) );
 
                     //Draw Type name
