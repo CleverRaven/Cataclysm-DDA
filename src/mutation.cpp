@@ -181,10 +181,6 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
-
-    if( is_avatar() ) {
-        as_avatar()->character_mood_face( true );
-    }
 }
 
 void Character::do_mutation_updates()
@@ -1080,10 +1076,6 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    if( is_avatar() ) {
-        as_avatar()->character_mood_face( true );
-    }
-
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1631,10 +1623,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    mdata.name() );
         }
-    }
-
-    if( is_avatar() ) {
-        as_avatar()->character_mood_face( true );
     }
 
     set_highest_cat_level();
