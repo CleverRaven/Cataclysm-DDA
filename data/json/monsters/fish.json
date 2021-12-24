@@ -313,7 +313,7 @@
     "copy-from": "mon_fish_medium",
     "name": { "str": "walleye" },
     "looks_like": "mon_fish_pbass",
-    "description": "A walleye. A green-brown medium-sized fish with a white belly."
+    "description": "A walleye.  A green-brown medium-sized fish with a white belly."
   },
   {
     "id": "mon_fish_sunfish",
@@ -391,7 +391,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str": "warmouth" },
     "looks_like": "mon_fish_sunfish",
-    "description": "A warmouth, similar to a rock bass. This small fish is related to the sunfish."
+    "description": "A warmouth, similar to a rock bass.  This small fish is related to the sunfish."
   },
   {
     "id": "mon_fish_bullhead",
@@ -406,7 +406,7 @@
     "copy-from": "mon_fish_large",
     "name": { "str_sp": "channel catfish" },
     "looks_like": "mon_fish_bullhead",
-    "description": "A channel catfish. It has a forked tail and long whiskers."
+    "description": "A channel catfish.  It has a forked tail and long whiskers."
   },
   {
     "id": "mon_fish_white_catfish",
@@ -414,7 +414,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "white catfish" },
     "looks_like": "mon_fish_bullhead",
-    "description": "A white catfish. A small whiskered fish with a broad head."
+    "description": "A white catfish.  A small whiskered fish with a broad head."
   },
   {
     "id": "mon_fish_pike",
@@ -480,7 +480,7 @@
     "id": "mon_fish_lobster",
     "type": "MONSTER",
     "name": { "str": "lobster" },
-    "description": "A dark greenish crustacean in its natural habitat. These were once considered pests barely worth eating, then some marketing genius started selling them to people as a delicacy and they took off in popularity… and price.",
+    "description": "A dark greenish crustacean in its natural habitat.  These were once considered pests barely worth eating, then some marketing genius started selling them to people as a delicacy and they took off in popularity… and price.",
     "default_faction": "fish",
     "bodytype": "crab",
     "categories": [ "WILDLIFE" ],
