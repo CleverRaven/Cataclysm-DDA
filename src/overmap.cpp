@@ -555,7 +555,7 @@ void overmap_specials::check_consistency()
         if( new_id.is_null() ) {
             debugmsg( "Overmap special id %s has been removed or migrated to a different type." );
         } else if( new_id != os.id ) {
-            debugmsg( "Overmap special id %s has been migrated. Use %s instead.", os.id.c_str(),
+            debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.c_str(),
                       new_id.c_str() );
         }
     }
