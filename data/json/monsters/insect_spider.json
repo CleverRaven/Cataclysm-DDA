@@ -2557,7 +2557,7 @@
     "id": "mon_lady_bug_giant",
     "type": "MONSTER",
     "name": { "str": "giant lady bug" },
-    "description": "The normal-sized version of this red and black beetle is generally considered cute, and is adored by children and associated with good luck. This monster, on the other hand is clearly a ferocious predator capable of killing swarms of ants, aphids, and unprepared humans.",
+    "description": "The normal-sized version of this red and black beetle is generally considered cute, and is adored by children and associated with good luck.  This monster, on the other hand is clearly a ferocious predator capable of killing swarms of ants, aphids, and unprepared humans.",
     "default_faction": "ladybug",
     "bodytype": "insect",
     "species": [ "INSECT" ],
