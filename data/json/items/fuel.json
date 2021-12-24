@@ -20,7 +20,7 @@
   },
   {
     "id": "methed_alcohol",
-    "name": { "str": "methylated spirits" },
+    "name": { "str": "methylated spirits", "str_pl": "methylated spirits" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
