@@ -371,7 +371,7 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     return ret;
 }
 
-static bool safe_to_unload( const item &it )
+bool craft_command::safe_to_unload_comp( const item &it )
 {
     // Candle wax from candles should be consumed with the candle
     if( it.is_container_empty() || it.typeId() == itype_candle ) {
@@ -423,7 +423,7 @@ item craft_command::create_in_progress_craft()
     for( const auto &it : item_selections ) {
         std::list<item> tmp = sane_consume_items( it, crafter, batch_size, filter );
         for( item &tmp_it : tmp ) {
-            if( safe_to_unload( tmp_it ) ) {
+            if( safe_to_unload_comp( tmp_it ) ) {
                 item_location tmp_loc( *crafter, &tmp_it );
                 unload_activity_actor::unload( *crafter, tmp_loc );
             }
