@@ -1350,14 +1350,14 @@ bool game::portal_storm_query(const distraction_type type, const std::string& te
 
     const auto& action = query_popup()
         .preferred_keyboard_mode(keyboard_mode::keycode)
-        .context("CANCEL_ACTIVITY_OR_IGNORE_QUERY")
+        .context("YES_QUERY")
         .message(
             pgettext("yes_query",
                 color_string.c_str()),
             text)
-        .option("YES", allow_key)
-        .option("YES", allow_key)
-        .option("YES", allow_key)
+        .option("YES0", allow_key)
+        .option("YES1", allow_key)
+        .option("YES2", allow_key)
         .query()
         .action;
 

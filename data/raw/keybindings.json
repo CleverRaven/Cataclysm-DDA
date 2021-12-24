@@ -3510,6 +3510,39 @@
   },
   {
     "type": "keybinding",
+    "id": "YES0",
+    "category": "YES_QUERY",
+    "name": "Yes, I will",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES1",
+    "category": "YES_QUERY",
+    "name": "Yes, I must",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES2",
+    "category": "YES_QUERY",
+    "name": "Yes, I shall",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",
