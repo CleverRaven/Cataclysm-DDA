@@ -922,7 +922,7 @@ Multiple death functions can be used. Not all combinations make sense.
 
 Other monster flags.
 
-- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
+- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into one or more copies.  2 minute cooldown enforced with `recently_split_absorbed` effect added to both the original monster and each split.
 - ```ABSORBS``` Consumes objects it moves over. (Modders use this).
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.

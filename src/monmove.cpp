@@ -63,6 +63,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_recently_split_absorbed( "recently_split_absorbed" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
@@ -713,7 +714,7 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
+    if( action == "consume_items"  && !has_effect( effect_recently_split_absorbed ) ) {
         add_msg_if_player_sees( *this,
                                 _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                                 name() );
@@ -726,6 +727,8 @@ void monster::move()
                     if( !spawn ) {
                         break;
                     }
+                    add_effect( effect_recently_split_absorbed, 2_minutes, false, 1, true );
+                    spawn->add_effect( effect_recently_split_absorbed, 2_minutes, false, 1, true );
                     hp -= type->hp;
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
