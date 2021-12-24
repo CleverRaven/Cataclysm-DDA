@@ -7792,7 +7792,7 @@ item::armor_status item::damage_armor_transforms( damage_unit &du )
 
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
-    float break_chance = 33.3 * ( du.amount / armors_own_resist );
+    float break_chance = 33.3f * ( du.amount / armors_own_resist );
 
     float roll_to_break = rng_float( 0.0, 100.0 );
 

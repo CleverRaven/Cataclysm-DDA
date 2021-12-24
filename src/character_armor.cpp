@@ -649,6 +649,7 @@ void Character::describe_damage( damage_unit &du, item &armor ) const
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
+                                //~ %1$s is your armor name, %2$s is a damage verb
                                 _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
@@ -658,7 +659,4 @@ void Character::describe_damage( damage_unit &du, item &armor ) const
                  m_info );
     }
 }
-
-
-
 
