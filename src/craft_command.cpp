@@ -247,7 +247,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         }
 
         // Everything below only occurs for item components that are liquid containers
-        auto empty_filter = [&filter]( const item & it ) {
+        std::function<bool( const item & )> empty_filter = [&filter]( const item & it ) {
             return it.empty_container() && filter( it );
         };
 
@@ -339,7 +339,7 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     }
 
     // Everything below only occurs for item components that are liquid containers
-    auto empty_filter = [&filter]( const item & it ) {
+    std::function<bool( const item & )> empty_filter = [&filter]( const item & it ) {
         return it.empty_container() && filter( it );
     };
 
