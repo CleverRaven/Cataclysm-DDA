@@ -1060,6 +1060,8 @@ class Character : public Creature, public visitable
          * @return true if the armor was completely destroyed.
          */
         bool ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp, int roll );
+        // prints a message related to an item if an item is damaged
+        void describe_damage( damage_unit &du, item &armor ) const;
         /**
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
