@@ -1892,6 +1892,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // Melee skill and reaction score governs if you can react in time
+    // Skill of 4 without relevant encumbrance guarantees a block attempt
+    int melee_skill = get_skill_level( skill_melee );
+    if( !x_in_y( melee_skill * 25 * get_limb_score( limb_score_reaction ), 100 ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
+        return false;
+    }
+
     blocks_left--;
 
     // This bonus absorbs damage from incoming attacks before they land,
@@ -1905,7 +1913,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
 
-    int melee_skill = get_skill_level( skill_melee );
     int unarmed_skill = get_skill_level( skill_unarmed );
 
     // Check if we are going to block with an item. This could
@@ -1922,7 +1929,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( unarmed || force_unarmed ) {
         if( martial_arts_data->can_limb_block( *this ) ) {
             // block_bonus for limb blocks will be added when the limb is decided
-            block_score = get_arm_str() + melee_skill + unarmed_skill;
+            block_score = get_arm_str() + unarmed_skill;
         } else if( has_shield ) {
             // We can still block with a worn item while unarmed. Use higher of melee and unarmed
             block_score = get_arm_str() + block_bonus + std::max( melee_skill, unarmed_skill );
@@ -1931,7 +1938,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             return false;
         }
     } else if( has_shield ) {
-        block_score = str_cur + block_bonus + get_skill_level( skill_melee );
+        block_score = get_arm_str() + block_bonus + melee_skill;
     } else {
         // Can't block with limbs or items (do not block)
         return false;
@@ -1939,9 +1946,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // add martial arts block effectiveness bonus
     block_score += mabuff_block_effectiveness_bonus();
-
-    // multiply by bodypart reaction bonuses
-    block_score *= get_limb_score( limb_score_reaction );
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
@@ -1955,26 +1959,13 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        //Choose which body part to block with, assume left side first
-        if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
-        } else if( martial_arts_data->can_leg_block( *this ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_l" );
-        }
+        bp_hit = select_blocking_part( martial_arts_data->can_arm_block( *this ),
+                                       martial_arts_data->can_leg_block( *this ),
+                                       martial_arts_data->can_nonstandard_block( *this ) );
 
-        // Check if we should actually use the right side to block
-        if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( get_part_hp_cur( bodypart_id( "leg_r" ) ) > get_part_hp_cur( bodypart_id( "leg_l" ) ) ) {
-                bp_hit = bodypart_id( "leg_r" );
-            }
-        } else {
-            if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
-                bp_hit = bodypart_id( "arm_r" );
-            }
-        }
-
+        add_msg_debug( debugmode::DF_MELEE, "Block score before multiplier %d", block_score );
+        block_score *= bp_hit->get_limb_score( limb_score_block );
+        add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
         thing_blocked_with = body_part_name( bp_hit );
     }
 
@@ -1994,6 +1985,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
 
+    add_msg_debug( debugmode::DF_MELEE, "Physical block multiplier %.1f", physical_block_multiplier );
     float total_damage = 0.0f;
     float damage_blocked = 0.0f;
 
@@ -2072,6 +2064,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
                            damage_blocked_description, thing_blocked_with );
+    add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );

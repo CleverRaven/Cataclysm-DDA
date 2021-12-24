@@ -2656,6 +2656,11 @@ bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attac
             hit_roll );
 }
 
+bodypart_id Creature::select_blocking_part( bool arm, bool leg, bool nonstandard ) const
+{
+    return anatomy( get_all_body_parts() ).select_blocking_part( arm, leg, nonstandard );
+}
+
 bodypart_id Creature::random_body_part( bool main_parts_only ) const
 {
     const bodypart_id &bp = get_anatomy()->random_body_part();
