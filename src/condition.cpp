@@ -50,6 +50,21 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
+// throws an error on failure, so no need to return
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value )
+{
+    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                          jo.has_array( "possible_values" ) ) ) {
+        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+    }
+    const std::string &var_basename = jo.get_string( member );
+    const std::string &type_var = jo.get_string( "type", "" );
+    const std::string &var_context = jo.get_string( "context", "" );
+    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
+            + var_context ) + "_" + var_basename;
+}
+
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
                            int default_val )
 {
