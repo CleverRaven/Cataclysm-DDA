@@ -7739,29 +7739,9 @@ bool Character::is_waterproof( const body_part_set &parts ) const
 units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
-        if( pocket->contains_phase( phase_id::SOLID ) ) {
-            for( const item *it : pocket->all_items_top() ) {
-                volume_capacity -= it->volume();
-            }
-        } else if( !pocket->empty() ) {
-            volume_capacity -= pocket->volume_capacity();
-        }
-    }
-    volume_capacity += weapon.check_for_free_space();
+    volume_capacity += weapon.get_remaining_capacity();
     for( const item &w : worn ) {
-        volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
-            if( pocket->contains_phase( phase_id::SOLID ) ) {
-                for( const item *it : pocket->all_items_top() ) {
-                    volume_capacity -= it->volume();
-                }
-            } else if( !pocket->empty() ) {
-                volume_capacity -= pocket->volume_capacity();
-            }
-        }
-        volume_capacity += w.check_for_free_space();
+        volume_capacity += w.get_remaining_capacity();
     }
     return volume_capacity;
 }
