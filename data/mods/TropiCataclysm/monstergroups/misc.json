@@ -5,11 +5,13 @@
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_guinea_fowl", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "monster": "mon_guinea_fowl", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 12 ] },
+      { "monster": "mon_goose", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 12 ] },
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_goat", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
-      { "monster": "mon_quail", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] }
+      { "monster": "mon_quail", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] }
     ]
   },
   {
@@ -18,7 +20,7 @@
     "is_safe": true,
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 598 },
+      { "monster": "mon_null", "weight": 568 },
       { "monster": "mon_bat", "weight": 10 },
       { "monster": "mon_bobcat", "weight": 10 },
       { "monster": "mon_chicken", "weight": 10 },
@@ -31,7 +33,9 @@
       { "monster": "mon_robin", "weight": 10 },
       { "monster": "mon_pigeon", "weight": 10 },
       { "monster": "mon_deer", "weight": 10 },
+      { "monster": "mon_tapir", "weight": 10 },
       { "monster": "mon_duck", "weight": 10 },
+      { "monster": "mon_capybara", "weight": 10 },
       { "monster": "mon_cat", "weight": 1 },
       { "monster": "mon_cat_tabby", "weight": 1 },
       { "monster": "mon_cat_longhair", "weight": 1 },
@@ -79,6 +83,7 @@
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_pig", "weight": 10 },
       { "monster": "mon_sheep", "weight": 10 },
+      { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 }
     ]
   }
