@@ -3,7 +3,7 @@
     "id": "mon_zombie_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal zombie" },
-    "description": "Once alive, then undead, now something else entirely. Fungal tendrils sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "description": "Once alive, then undead, now something else entirely.  Fungal tendrils sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "default_faction": "fungus",
     "bodytype": "human",
     "species": [ "FUNGUS" ],
