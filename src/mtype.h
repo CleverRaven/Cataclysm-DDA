@@ -350,6 +350,9 @@ struct mtype {
         // Pet food category this monster is in
         pet_food_data petfood;
 
+        // Multiplier to chance to apply status effects (only zapped for now)
+        float status_chance_multiplier = 1.0f;
+
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
 

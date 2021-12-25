@@ -438,6 +438,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_elec < 0 ) {
             mon.armor_elec = 0;
         }
+        if( mon.status_chance_multiplier < 0 ) {
+            mon.status_chance_multiplier = 0;
+        }
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
@@ -791,6 +794,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             }
         }
     }
+
+    assign( jo, "status_chance_multiplier", status_chance_multiplier, strict, 0.0f, 5.0f );
 
     if( !was_loaded || jo.has_array( "families" ) ) {
         families.clear();
