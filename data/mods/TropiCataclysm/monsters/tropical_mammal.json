@@ -190,7 +190,7 @@
     "id": "mon_coati",
     "type": "MONSTER",
     "name": { "str": "coati" },
-    "description": "A relative of the raccoon, coaties can be easily distinguised by their long noses and ofent ringed tails.  They live as north as Arizona, and form large family groups.",
+    "description": "A relative of the raccoon, coatis can be easily distinguished by their long noses and often ringed tails.  They live as north as Arizona, and form large family groups.",
     "default_faction": "small_animal",
     "bodytype": "cat",
     "categories": [ "WILDLIFE" ],
