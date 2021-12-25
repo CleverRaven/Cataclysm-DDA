@@ -481,6 +481,7 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "delete": { "weapon_category": [ "AUTOMATIC_RIFLES" ] },
     "barrel_volume": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
