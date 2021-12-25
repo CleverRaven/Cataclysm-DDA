@@ -356,6 +356,17 @@ struct mtype {
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
 
+        /**
+         * The amount of volume in milliliters that this monster needs to absorb to gain 1 HP
+         */
+        int absorption_ml_per_hp = 250;
+
+        /**
+         * The amount of time in seconds that must pass until the monster can split again
+         * with SPLITS_ABSORBS behaviour
+         */
+        int absorb_split_cooldown_seconds = 900;
+
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */

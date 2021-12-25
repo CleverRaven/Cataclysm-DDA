@@ -718,7 +718,8 @@ void monster::move()
         add_msg_if_player_sees( *this,
                                 _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                                 name() );
-        static const auto volume_per_hp = 250_ml;
+        static const units::quantity<int, units::volume_in_milliliter_tag> volume_per_hp =
+            units::from_milliliter( type->absorption_ml_per_hp );
         for( item &elem : here.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) ) {
@@ -727,8 +728,12 @@ void monster::move()
                     if( !spawn ) {
                         break;
                     }
-                    add_effect( effect_recently_split_absorbed, 2_minutes, false, 1, true );
-                    spawn->add_effect( effect_recently_split_absorbed, 2_minutes, false, 1, true );
+                    int cooldown = type->absorb_split_cooldown_seconds;
+                    if( cooldown > 0 ) {
+                        const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
+                        add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                        spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                    }
                     hp -= type->hp;
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
