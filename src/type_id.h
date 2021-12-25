@@ -166,6 +166,9 @@ using overmap_location_id = string_id<overmap_location>;
 class overmap_special;
 using overmap_special_id = string_id<overmap_special>;
 
+struct overmap_special_migration;
+using overmap_special_migration_id = string_id<overmap_special_migration>;
+
 class profession;
 using profession_id = string_id<profession>;
 
