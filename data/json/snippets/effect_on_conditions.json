@@ -257,6 +257,20 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_POPUP",
+    "text": [
+      "Your legs move on their own accord. You need to go outside. NOW.",
+      "This foolishness has lasted too long. It's time to leave and embrace the cosmos.",
+      "Monsters spotted! You need to leave, fast!",
+      "Heard footsteps! Run outside, they're right behind you!",
+      "Heard whump! Your shelter is compromised, vacate it immediately!",
+      "The kevlar hulk is dangerously close! Run outside to escape!",
+      "Ouch, somethings hurts! You must leave the dreaded indoors to find reprieve.",
+      "GE̴T O̸UT GE̶T OU̶T. GE̷T OUT"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_DEPENDENT_MESSAGES_VARIED_GOOD",
     "text": [
       "You suddenly smell the most delicious aroma in the world.",

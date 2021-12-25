@@ -1302,69 +1302,70 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     return false;
 }
 
-bool game::portal_storm_query(const distraction_type type, const std::string& text)
+bool game::portal_storm_query( const distraction_type type, const std::string &text )
 {
-    if (u.has_distant_destination()) {
-        if (cancel_auto_move(u, text)) {
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
             return true;
-        }
-        else {
-            u.set_destination(u.get_auto_move_route(), player_activity(ACT_TRAVELLING));
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
             return false;
         }
     }
-    if (!u.activity || u.activity.is_distraction_ignored(type)) {
+    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    const bool force_uc = get_option<bool>("FORCE_CAPITAL_YN");
-    const auto& allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-        : input_context::allow_all_keys;
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
 
-    const int color_num = rng(0, 5);
+    const int color_num = rng( 0, 6 );
     std::string color;
-    switch (color_num){
-    case 0:
-        color = "light_red";
-        break;
-    case 1:
-        color = "red";
-        break;
-    case 2:
-        color = "green";
-        break;
-    case 3:
-        color = "light_green";
-        break;
-    case 4:
-        color = "blue";
-        break;
-    case 5:
-        color = "light_blue";
-        break;
-    case 6:
-        color = "yellow";
-        break;
+    switch( color_num ) {
+        case 0:
+            color = "light_red";
+            break;
+        case 1:
+            color = "red";
+            break;
+        case 2:
+            color = "green";
+            break;
+        case 3:
+            color = "light_green";
+            break;
+        case 4:
+            color = "blue";
+            break;
+        case 5:
+            color = "light_blue";
+            break;
+        case 6:
+            color = "yellow";
+            break;
     }
 
-    std::string color_string = "<color_" + color + "> %s</color>";
+    std::string color_string = force_uc && !is_keycode_mode_supported()
+                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
+                               : "<color_" + color + "> %s</color>";
 
-    const auto& action = query_popup()
-        .preferred_keyboard_mode(keyboard_mode::keycode)
-        .context("YES_QUERY")
-        .message(
-            pgettext("yes_query",
-                color_string.c_str()),
-            text)
-        .option("YES0", allow_key)
-        .option("YES1", allow_key)
-        .option("YES2", allow_key)
-        .query()
-        .action;
+    const auto &action = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keycode )
+                         .context( "YES_QUERY" )
+                         .message(
+                             pgettext( "yes_query",
+                                       color_string.c_str() ),
+                             text )
+                         .option( "YES0", allow_key )
+                         .option( "YES1", allow_key )
+                         .option( "YES2", allow_key )
+                         .query()
+                         .action;
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
-    u.activity.ignore_distraction(type);
-    for (auto& activity : u.backlog) {
-        activity.ignore_distraction(type);
+    u.activity.ignore_distraction( type );
+    for( auto &activity : u.backlog ) {
+        activity.ignore_distraction( type );
     }
 
     ui_manager::redraw();
