@@ -875,7 +875,6 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.ter_set( you.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
@@ -887,7 +886,6 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
