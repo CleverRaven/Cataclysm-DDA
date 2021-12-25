@@ -78,6 +78,9 @@ TEST_CASE( "repair_vehicle_part" )
         tools.insert( tools.end(), 50, item( "welding_rod_alloy" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         tools.insert( tools.end(), 50, item( "brazing_rod_alloy" ) );
+        tools.insert( tools.end(), 150, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.emplace_back( "hammer" );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -99,6 +102,9 @@ TEST_CASE( "repair_vehicle_part" )
         tools.insert( tools.end(), 50, item( "welding_rod_alloy" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         tools.insert( tools.end(), 50, item( "brazing_rod_alloy" ) );
+        tools.insert( tools.end(), 150, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.emplace_back( "hammer" );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
