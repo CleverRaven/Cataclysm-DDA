@@ -1349,18 +1349,18 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
                                ? "<color_" + color + "> %s</color> (Case Sensitive)"
                                : "<color_" + color + "> %s</color>";
 
-    const auto &action = query_popup()
-                         .preferred_keyboard_mode( keyboard_mode::keycode )
-                         .context( "YES_QUERY" )
-                         .message(
-                             pgettext( "yes_query",
-                                       color_string.c_str() ),
-                             text )
-                         .option( "YES0", allow_key )
-                         .option( "YES1", allow_key )
-                         .option( "YES2", allow_key )
-                         .query()
-                         .action;
+    query_popup()
+    .preferred_keyboard_mode( keyboard_mode::keycode )
+    .context( "YES_QUERY" )
+    .message(
+        pgettext( "yes_query",
+                  color_string.c_str() ),
+        text )
+    .option( "YES0", allow_key )
+    .option( "YES1", allow_key )
+    .option( "YES2", allow_key )
+    .query()
+    .action;
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
     u.activity.ignore_distraction( type );

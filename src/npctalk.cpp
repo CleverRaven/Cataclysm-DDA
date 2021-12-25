@@ -2632,7 +2632,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 g->portal_storm_query( distraction_type::portal_storm_popup,
                                        translated_message );
             } else if( interrupt_type == "default" ) {
-                debugmsg( " Interrupt query called in json without proper interrupt type. " );
+                debugmsg( "Interrupt query called in json without proper interrupt type." );
             }
             // Would probably need an else-if for every possible distraction type, like this:
             //else if (interrupt_type == "hostile_spotted_near"){
