@@ -27,7 +27,8 @@ enum mutation_menu_mode {
 };
 enum mutation_tab_mode {
     active,
-    passive
+    passive,
+    none
 };
 // '!' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -153,7 +154,17 @@ void avatar::power_mutations()
     int list_height = 0;
     int half_list_view_location = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
-    mutation_tab_mode tab_mode = mutation_tab_mode::passive;
+    mutation_tab_mode tab_mode;
+    if (!passive.empty()) {
+        tab_mode = mutation_tab_mode::passive;
+    }
+    else if (!active.empty()){
+        tab_mode = mutation_tab_mode::active;
+    }
+    else {
+        tab_mode = mutation_tab_mode::none;
+    }
+
     const auto recalc_max_scroll_position = [&]() {
         list_height = (menu_mode == mutation_menu_mode::examining ?
             DESCRIPTION_LINE_Y : HEIGHT - 1) - list_start_y;
@@ -438,8 +449,11 @@ void avatar::power_mutations()
                 if (tab_mode == mutation_tab_mode::passive) {
                     lowerlim = passive.size() - 1;
                 }
-                else {
+                else if (tab_mode == mutation_tab_mode::active){
                     lowerlim = active.size() - 1;
+                }
+                else {
+                    continue;
                 }
 
                 if (static_cast<size_t>(cursor) < lowerlim) {
@@ -466,8 +480,11 @@ void avatar::power_mutations()
                 if (tab_mode == mutation_tab_mode::passive) {
                     lim = passive.size() - 1;
                 }
-                else {
+                else if (tab_mode == mutation_tab_mode::active) {
                     lim = active.size() - 1;
+                }
+                else {
+                    continue;
                 }
                 if (cursor > 0) {
                     cursor--;
@@ -488,34 +505,49 @@ void avatar::power_mutations()
                 examine_id = GetTrait(active, passive, cursor, tab_mode);
             }
             else if (action == "NEXT_TAB") {
-                scroll_position = 0;
-                cursor = 0;
-                if (tab_mode == mutation_tab_mode::active) {
+                if (tab_mode == mutation_tab_mode::active && !passive.empty()) {
                     tab_mode = mutation_tab_mode::passive;
+                    examine_id = GetTrait(active, passive, cursor, tab_mode);
+                    scroll_position = 0;
+                    cursor = 0;
+                }
+                else if (tab_mode == mutation_tab_mode::passive && !active.empty()){
+                    tab_mode = mutation_tab_mode::active;
+                    examine_id = GetTrait(active, passive, cursor, tab_mode);
+                    scroll_position = 0;
+                    cursor = 0;
                 }
                 else {
-                    tab_mode = mutation_tab_mode::active;
+                    continue;
                 }
-                examine_id = GetTrait(active, passive, cursor, tab_mode);
             }
             else if (action == "PREV_TAB") {
-                scroll_position = 0;
-                cursor = 0;
-                if (tab_mode == mutation_tab_mode::active) {
+                if (tab_mode == mutation_tab_mode::active && !passive.empty()) {
                     tab_mode = mutation_tab_mode::passive;
+                    examine_id = GetTrait(active, passive, cursor, tab_mode);
+                    scroll_position = 0;
+                    cursor = 0;
+                }
+                else if (tab_mode == mutation_tab_mode::passive && !active.empty()) {
+                    tab_mode = mutation_tab_mode::active;
+                    examine_id = GetTrait(active, passive, cursor, tab_mode);
+                    scroll_position = 0;
+                    cursor = 0;
                 }
                 else {
-                    tab_mode = mutation_tab_mode::active;
+                    continue;
                 }
-                examine_id = GetTrait(active, passive, cursor, tab_mode);
             }
             else if (action == "CONFIRM") {
                 trait_id mut_id;
                 if (tab_mode == mutation_tab_mode::active) {
                     mut_id = active[cursor];
                 }
-                else {
+                else if (tab_mode == mutation_tab_mode::passive){
                     mut_id = passive[cursor];
+                }
+                else {
+                    continue;
                 }
                 if (!mut_id.is_null()) {
                     const mutation_branch& mut_data = mut_id.obj();
