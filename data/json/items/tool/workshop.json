@@ -921,6 +921,35 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "reciprocating_saw",
+    "type": "TOOL",
+    "name": { "str": "reciprocating saw" },
+    "description": "This battery-powered tool, commonly known by the generic trademark Sawzall, uses an electric motor to push a straight sawblade back and forth to rapidly cut wood or metal.  It is useful for heavy demolition and construction work, but is poorly suited to precision tasks.",
+    "weight": "2 kg",
+    "volume": "3 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -3,
+    "bashing": 2,
+    "cutting": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charged_qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 2 ] ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "power_draw": 800000,
+    "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "screwdriver",
     "type": "TOOL",
     "name": { "str": "screwdriver" },

@@ -24,6 +24,7 @@
       { "group": "tools_common", "prob": 100 },
       { "item": "circsaw_off", "prob": 100, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
+      { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "hand_drill", 20 ],
       { "item": "nailgun", "prob": 100, "charges": [ 0, 20 ] },
@@ -42,6 +43,7 @@
       { "item": "kiln", "prob": 40, "charges": [ 0, 1000 ] },
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
+      { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
       { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
@@ -134,6 +136,7 @@
       [ "boxcutter", 20 ],
       { "item": "nailgun", "prob": 15, "charges": [ 0, 20 ] },
       { "item": "circsaw_off", "prob": 25, "charges": [ 0, 500 ] },
+      { "item": "reciprocating_saw", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 45, "charges": [ 0, 500 ] }
     ]
@@ -257,6 +260,7 @@
       { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] },
       [ "magnifying_glass", 20 ],
       { "item": "soldering_iron", "prob": 150, "charges": [ 0, 50 ] },
+      { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
       [ "clamp", 10 ],
@@ -753,6 +757,7 @@
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
+      { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }
