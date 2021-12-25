@@ -362,6 +362,11 @@ struct mtype {
         int absorption_ml_per_hp = 250;
 
         /**
+         * The types of materials this monster can absorb
+         */
+        std::map<std::string, material_type> absorbs_materials;
+
+        /**
          * The amount of time in seconds that must pass until the monster can split again
          * with SPLITS_ABSORBS behaviour
          */
