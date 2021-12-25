@@ -262,6 +262,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
+- ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
+- ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
@@ -271,6 +273,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
+- ```CANT_WEAR``` This item can't be worn directly.
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
@@ -330,6 +333,14 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
+- ```USES_BIONIC_POWER``` If present, items attached to this bionic will inherit the USES_BIONIC_POWER flag automatically.
+
+
+## Bodyparts
+
+-```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+-```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
 
 
 ## Books
@@ -578,6 +589,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FRESH_WATER``` Source of fresh water. Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
@@ -591,9 +603,11 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
+- ```MURKY``` Water taker from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
+- ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
@@ -620,6 +634,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
+- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
@@ -810,11 +825,12 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
+- ```BIONIC_WEAPON``` Cannot wield this item normally. It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage
 - ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
-- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools produced by bionics should have this flag. Such items support unwield as a special case.
+- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools wielded from bionics will automatically have this flag added.
 - ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows performing a reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
@@ -915,6 +931,8 @@ Other monster flags.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters.
+- ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
+- ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
@@ -1195,6 +1213,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```KNOWN_UP``` There's a known way up.
 - ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
+- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This
+  might be because it exists only for testing purposes, or it is part of a
+  partially completed feature where more work is required before it can start spawning.
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs
@@ -1570,6 +1591,9 @@ Gun fault flags:
 - ```NO_SCENT``` You have no scent.
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
+- ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
+- ```MYOPIC``` You are nearsighted - vision range is severly reduced without glasses.
+- ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.

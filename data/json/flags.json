@@ -1,5 +1,17 @@
 [
   {
+    "id": "ABLATIVE_LARGE",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>large</info> armor pockets",
+    "restriction": "Item must be a large ablative plate"
+  },
+  {
+    "id": "ABLATIVE_MEDIUM",
+    "type": "json_flag",
+    "info": "This plate will fit in <info>medium</info> armor pockets",
+    "restriction": "Item must be a medium ablative plate"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -160,6 +172,11 @@
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "info": "This med can't be used by everyone, it requires a special mutation."
+  },
+  {
+    "id": "CANT_WEAR",
+    "type": "json_flag",
+    "info": "This armor can't be worn directly."
   },
   {
     "id": "DIRTY",
@@ -531,6 +548,21 @@
     "id": "OLD_CURRENCY",
     "type": "json_flag",
     "info": "This item used to be legal tender before the Cataclysm."
+  },
+  {
+    "id": "PALS_SMALL",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
+  },
+  {
+    "id": "PALS_MEDIUM",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking an average ammount of space."
+  },
+  {
+    "id": "PALS_LARGE",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> take a <bad>large ammount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -905,6 +937,11 @@
     "//": "items spawned by spells are put in their containers."
   },
   {
+    "id": "SPAWN_WITH_DEATH_DROPS",
+    "type": "json_flag",
+    "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
@@ -1240,7 +1277,9 @@
   },
   {
     "id": "MAG_BULKY",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "This item is <bad>bulky</bad> and may not fit in all magazine pockets.",
+    "restriction": "Item must be a bulky magazine"
   },
   {
     "id": "MAG_EJECT",
@@ -1630,7 +1669,9 @@
   },
   {
     "id": "MAG_COMPACT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "This item has a small profile consistent with a compact magazine.",
+    "restriction": "Item must be a compact magazine"
   },
   {
     "id": "NOGIB",
@@ -1764,5 +1805,15 @@
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."
+  },
+  {
+    "id": "CHOKE",
+    "type": "json_flag"
+  },
+  {
+    "id": "LASER_SIGHT",
+    "type": "json_flag",
+    "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
+    "name": "laser sight"
   }
 ]

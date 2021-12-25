@@ -181,7 +181,8 @@
     "type": "dream",
     "messages": [
       "You have a disturbing dream of undergoing strange medical procedures.",
-      "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
+      "While dreaming, you see yourself dressed in a hospital gown, receiving treatment.",
+      "You dream of a hospital where doctors try out experimental treatments."
     ],
     "category": "MEDICAL",
     "strength": 2
@@ -190,7 +191,8 @@
     "type": "dream",
     "messages": [
       "You have a disturbing dream about running from dogs.",
-      "While dreaming, you see a distinctively rabbit-like reflection of yourself."
+      "While dreaming, you see a distinctively rabbit-like reflection of yourself.",
+      "You dream of digging a hole under a hill to make your home."
     ],
     "category": "RABBIT",
     "strength": 2
@@ -232,14 +234,19 @@
     "type": "dream",
     "messages": [
       "You have a vivid dream of hunting in the woods.",
-      "Whilst dreaming, you see a disturbingly bestial version of yourself."
+      "Whilst dreaming, you see a disturbingly bestial version of yourself.",
+      "You dream of blood and guts.  For some reason, it makes you feel weirdly excited."
     ],
     "category": "BEAST",
     "strength": 2
   },
   {
     "type": "dream",
-    "messages": [ "You dream of foraging in the woods… mouth-first?", "Your dream-reflection is rather bearish." ],
+    "messages": [
+      "You dream of foraging in the woods… mouth-first?",
+      "Your dream-reflection is rather bearish.",
+      "You dream of brushing the fur on your back against a tree."
+    ],
     "category": "URSINE",
     "strength": 2
   },
@@ -254,7 +261,11 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a disturbing dream of someone invading your territory.", "Your dream-self's muzzle looks… wait, muzzle?" ],
+    "messages": [
+      "You have a disturbing dream of someone invading your territory.",
+      "Your dream-self's muzzle looks… wait, muzzle?",
+      "You dream of the moon and feel a sudden urge to howl."
+    ],
     "category": "LUPINE",
     "strength": 2
   },
@@ -271,7 +282,8 @@
     "type": "dream",
     "messages": [
       "You have a dream of working in a hive.",
-      "While dreaming you look into a mirror and see a frighteningly insectoid reflection."
+      "While dreaming you look into a mirror and see a frighteningly insectoid reflection.",
+      "You dream of a feast and excitedly chitter with your pincers… wait, what?"
     ],
     "category": "INSECT",
     "strength": 2
@@ -280,7 +292,8 @@
     "type": "dream",
     "messages": [
       "You have a confusing dream of growing in a garden.",
-      "You are confused by a plantlike image of yourself in a dream."
+      "You are confused by a plantlike image of yourself in a dream.",
+      "You dream of standing still in the rain, drinking in the falling drops… with your feet?"
     ],
     "category": "PLANT",
     "strength": 2
@@ -312,7 +325,11 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a strange dream of spinning webs", "In your dream you see a very spiderlike version of yourself." ],
+    "messages": [
+      "You have a strange dream of spinning webs",
+      "In your dream you see a very spiderlike version of yourself.",
+      "You dream of the buzzing of a fly that you cannot see.  It makes you hungry."
+    ],
     "category": "SPIDER",
     "strength": 2
   },
@@ -329,7 +346,8 @@
     "type": "dream",
     "messages": [
       "You dream of having that success you knew you deserved, back before all this.",
-      "Your dream-self looks competent and in control."
+      "Your dream-self looks competent and in control.",
+      "You dream of a fortress, sheltering humanity from the zombies.  You're in charge, of course."
     ],
     "category": "ALPHA",
     "strength": 2
@@ -390,7 +408,8 @@
     "type": "dream",
     "messages": [
       "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
-      "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+      "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line.",
+      "You dream of cutting yourself with a knife and watch in fascination as it heals in seconds."
     ],
     "category": "MEDICAL",
     "strength": 3

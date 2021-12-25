@@ -68,5 +68,30 @@
     "type": "weapon_category",
     "id": "FENCING_WEAPONRY",
     "name": "FENCING WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BIONIC_WEAPONRY",
+    "name": "BIONIC WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BIONIC_SWORDS",
+    "name": "BIONIC SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "MEDIEVAL_SWORDS",
+    "name": "MEDIEVAL SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "CONSTRUCTED_SWORDS",
+    "name": "CONSTRUCTED SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "JAPANESE_SWORDS",
+    "name": "JAPANESE SWORDS"
   }
 ]

@@ -805,11 +805,13 @@ class game
         bool grabbed_veh_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p ); // Examine nearby terrain  'e'
-        void examine();
+        // Examine nearby terrain 'e', with or without picking up items
+        void examine( const tripoint &p, bool with_pickup = false );
+        void examine( bool with_pickup = true );
 
-        // Pick up items from a single nearby tile, or from all nearby tiles
-        void pickup(); // Pickup nearby items 'g'
+        // Pick up items from a single nearby tile (prompting first)
+        void pickup();
+        // Pick up items from all nearby tiles
         void pickup_all();
 
         void unload_container(); // Unload a container w/ direction  'd'
@@ -840,6 +842,8 @@ class game
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        // Pick up items from the given point
+        void pickup( const tripoint &p );
     private:
         void wield();
         void wield( item_location loc );

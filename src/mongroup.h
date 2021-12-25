@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "io_tags.h"
 #include "mapgen.h"
 #include "monster.h"
@@ -35,6 +36,7 @@ struct MonsterGroupEntry {
     std::vector<std::string> conditions;
     time_duration starts;
     time_duration ends;
+    holiday event;
     bool lasts_forever() const {
         return ends <= 0_turns;
     }
@@ -44,7 +46,7 @@ struct MonsterGroupEntry {
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
-                       const time_duration &new_ends )
+                       const time_duration &new_ends, holiday new_event )
         : name( id )
         , group( mongroup_id() )
         , frequency( new_freq )
@@ -53,12 +55,13 @@ struct MonsterGroupEntry {
         , pack_maximum( new_pack_max )
         , data( new_data )
         , starts( new_starts )
-        , ends( new_ends ) {
+        , ends( new_ends )
+        , event( new_event ) {
     }
 
     MonsterGroupEntry( const mongroup_id &id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
-                       const time_duration &new_ends )
+                       const time_duration &new_ends, holiday new_event )
         : name( mtype_id() )
         , group( id )
         , frequency( new_freq )
@@ -67,7 +70,8 @@ struct MonsterGroupEntry {
         , pack_maximum( new_pack_max )
         , data( new_data )
         , starts( new_starts )
-        , ends( new_ends ) {
+        , ends( new_ends )
+        , event( new_event ) {
     }
 };
 
@@ -96,7 +100,11 @@ struct MonsterGroup {
     mongroup_id new_monster_group;
     time_duration monster_group_time = 0_turns;
     bool is_safe = false; /// Used for @ref mongroup::is_safe()
-    int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
+    int freq_total = 0; // max number to roll for spawns (non-event)
+    std::map<holiday, int> event_freq; // total freq for each event
+    // Get the total frequency of entries that are valid for the specified event.
+    // This includes entries that have an event of "none". By default, use the current holiday.
+    int event_adjusted_freq_total( holiday event = holiday::num_holiday ) const;
 };
 
 struct mongroup {
@@ -214,8 +222,6 @@ class MonsterGroupManager
         static bool monster_is_blacklisted( const mtype_id &m );
 
         static bool is_animal( const mongroup_id &group );
-
-        static void extract_mons_from_subgroups();
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

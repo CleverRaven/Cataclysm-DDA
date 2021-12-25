@@ -6,7 +6,7 @@
     "name": { "str": "stapler" },
     "description": "A stapler for fastening sheets of paper together.",
     "weight": "300 g",
-    "volume": "250 ml",
+    "volume": "150 ml",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel" ],
@@ -62,7 +62,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ]
   },

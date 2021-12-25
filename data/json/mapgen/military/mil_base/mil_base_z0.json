@@ -434,7 +434,7 @@
         { "item": "long_undertop", "x": 58, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_underpants", "x": 57, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "socks", "x": 56, "y": 71, "chance": 75, "repeat": [ 100, 200 ] },
-        { "item": "socks_wool", "x": [ 55, 54 ], "y": 71, "chance": 75, "repeat": [ 250, 500 ] },
+        { "item": "socks_wool", "x": [ 54, 55 ], "y": 71, "chance": 75, "repeat": [ 250, 500 ] },
         { "item": "sports_bra", "x": 53, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boy_shorts", "x": 52, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "briefs", "x": 51, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },

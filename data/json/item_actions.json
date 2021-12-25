@@ -81,6 +81,11 @@
   },
   {
     "type": "item_action",
+    "id": "HOTPLATE_ATOMIC",
+    "name": { "str": "Heat up food (with it)" }
+  },
+  {
+    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": { "str": "Attach as toolmod" }
   },
@@ -223,6 +228,16 @@
     "type": "item_action",
     "id": "holster",
     "name": { "str": "Use holster" }
+  },
+  {
+    "type": "item_action",
+    "id": "attach_molle",
+    "name": { "str": "Attach pockets" }
+  },
+  {
+    "type": "item_action",
+    "id": "detach_molle",
+    "name": { "str": "Remove pockets" }
   },
   {
     "type": "item_action",
@@ -393,26 +408,6 @@
     "type": "item_action",
     "id": "CONTACTS",
     "name": { "str": "Put in eyes" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -1103,5 +1098,10 @@
     "type": "item_action",
     "id": "LUX_METER",
     "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
+    "id": "CALORIES_INTAKE_TRACKER",
+    "name": { "str": "Calories intake tracker" }
   }
 ]

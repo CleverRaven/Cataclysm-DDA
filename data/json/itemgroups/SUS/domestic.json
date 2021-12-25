@@ -306,6 +306,7 @@
       { "item": "stapler", "prob": 25 },
       { "item": "soldering_iron", "prob": 25, "charges": [ 5, 45 ] },
       { "item": "xacto", "prob": 25 },
+      { "item": "kevlar_shears", "prob": 10 },
       { "item": "wristwatch", "prob": 25 },
       { "item": "light_disposable_cell", "count": 4, "prob": 25, "charges": 300 },
       { "item": "old_key", "prob": 20, "count": [ 1, 6 ] },
@@ -651,9 +652,9 @@
     "entries": [
       {
         "distribution": [
-          { "item": "aspirin", "prob": 160, "charges": [ 1, 20 ] },
-          { "item": "codeine", "prob": 30, "charges": [ 1, 10 ] },
-          { "item": "tramadol", "prob": 10, "charges": [ 1, 10 ] }
+          { "item": "aspirin", "prob": 160, "charges": [ 1, 30 ] },
+          { "item": "codeine", "prob": 30, "charges": [ 1, 15 ] },
+          { "item": "tramadol", "prob": 10, "charges": [ 1, 15 ] }
         ],
         "prob": 95
       },
@@ -661,6 +662,8 @@
       { "item": "eyedrops", "prob": 15 },
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
+      { "item": "disinfectant", "prob": 40, "charges-min": 1 },
+      { "item": "alcohol_wipes", "prob": 60, "charges": [ 1, 40 ] },
       {
         "distribution": [
           { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
@@ -670,6 +673,15 @@
       },
       {
         "distribution": [ { "item": "nyquil", "prob": 60, "charges-min": 1 }, { "item": "dayquil", "prob": 20, "charges-min": 1 } ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "adhesive_bandages", "prob": 30, "charges": [ 1, 10 ] },
+          { "item": "bandages", "prob": 30, "charges": [ 1, 6 ] },
+          { "item": "medical_gauze", "prob": 20 },
+          { "group": "full_1st_aid", "prob": 10 }
+        ],
         "prob": 50
       },
       {
@@ -768,19 +780,9 @@
         ],
         "prob": 75
       },
-      {
-        "distribution": [
-          { "item": "adhesive_bandages", "prob": 40, "charges": [ 1, 10 ] },
-          { "item": "bandages", "prob": 20, "charges": [ 1, 3 ] },
-          { "item": "medical_gauze", "prob": 20 },
-          { "group": "full_1st_aid", "prob": 10 }
-        ],
-        "prob": 20
-      },
-      { "item": "disinfectant", "prob": 40, "charges-min": 1 },
-      { "item": "chem_hydrogen_peroxide", "prob": 50, "charges-min": 1 },
       { "item": "mirror", "prob": 25 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 1 },
       {
         "collection": [ { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 }, { "item": "matches", "charges-min": 1 } ],
         "prob": 20

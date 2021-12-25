@@ -2026,7 +2026,13 @@ void vpart_position::form_inventory( inventory &inv )
 
     if( vp_cargo ) {
         const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
-        inv += std::list<item>( items.begin(), items.end() );
+        for( auto &it : items ) {
+            if( it.empty_container() && it.is_watertight_container() ) {
+                const int count = it.count_by_charges() ? it.charges : 1;
+                inv.update_liq_container_count( it.typeId(), count );
+            }
+            inv.add_item( it );
+        }
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
@@ -2046,7 +2052,7 @@ void vpart_position::form_inventory( inventory &inv )
 }
 
 // Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const vpart_position &vp )
+void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
 {
     map &here = get_map();
     avatar &player_character = get_avatar();
@@ -2066,8 +2072,12 @@ void vehicle::interact_with( const vpart_position &vp )
     const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
     const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
     const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
+    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    const bool map_has_items = here.has_items( vp.pos() );
 
     bool is_appliance = has_tag( "APPLIANCE" );
 
@@ -2077,6 +2087,7 @@ void vehicle::interact_with( const vpart_position &vp )
         HANDBRAKE,
         CONTROL,
         CONTROL_ELECTRONICS,
+        GET_ITEMS,
         FOLD_VEHICLE,
         UNLOAD_TURRET,
         RELOAD_TURRET,
@@ -2143,6 +2154,9 @@ void vehicle::interact_with( const vpart_position &vp )
                              ? _( "Deactivate the dishwasher" )
                              : _( "Activate the dishwasher (1.5 hours)" ) );
     }
+    if( with_pickup && ( vp_has_items || map_has_items ) ) {
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
+    }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
@@ -2190,7 +2204,7 @@ void vehicle::interact_with( const vpart_position &vp )
         selectmenu.query();
         choice = selectmenu.ret;
     }
-    if( choice != EXAMINE && choice != TRACK ) {
+    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS ) {
         if( !handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
             return;
         }
@@ -2341,6 +2355,10 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case TRACK: {
             toggle_tracking( );
+            return;
+        }
+        case GET_ITEMS: {
+            g->pickup( vp.pos() );
             return;
         }
         case RELOAD_PLANTER: {

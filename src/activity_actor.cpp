@@ -391,7 +391,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        if( !gun->can_reload_with( *you.ammo_location.get_item(), false ) )
         {
             return false;
         }
@@ -568,6 +568,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
+                it->rand_degradation();
             }
         }
         get_event_bus().send<event_type::exhumes_grave>( who.getID() );
@@ -2900,7 +2901,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {

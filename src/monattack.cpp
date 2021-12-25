@@ -105,6 +105,8 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
+static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -765,10 +767,11 @@ bool mattack::shockstorm( monster *z )
             here.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
-    // 5x5 cloud of electricity at the square hit
-    for( const auto &dest : here.points_in_radius( tarp, 2 ) ) {
-        if( !one_in( 4 ) ) {
-            here.add_field( dest, fd_electricity, rng( 1, 3 ) );
+
+    // 3x3 cloud of electricity at the square hit
+    for( const auto &dest : here.points_in_radius( tarp, 1 ) ) {
+        if( one_in( 3 ) ) {
+            here.add_field( dest, fd_electricity, rng( 4, 10 ) );
         }
     }
 
@@ -1102,6 +1105,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
+// this has been jsonified and isn't used by brutes any longer
 bool mattack::smash( monster *z )
 {
     if( !z->can_act() ) {
@@ -1137,6 +1141,7 @@ bool mattack::smash( monster *z )
 
     // Release the grabbed creature right before the fling
     z->remove_effect( effect_grabbing );
+
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
@@ -2341,15 +2346,18 @@ bool mattack::formblob( monster *z )
     for( const tripoint &dest : pts ) {
         Creature *critter = creatures.creature_at( dest );
         if( critter == nullptr ) {
-            if( z->get_speed_base() > 85 && rng( 0, 250 ) < z->get_speed_base() ) {
+            if( z->get_speed_base() > mon_blob_small->speed + 35 && rng( 0, 250 ) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
-                didit = true;
-                z->set_speed_base( z->get_speed_base() - 15 );
-                if( monster *const blob = g->place_critter_at( mon_blob_small, dest ) ) {
-                    blob->make_ally( *z );
+                shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
+                mon->ammo = mon->type->starting_ammo;
+                if( mon->will_move_to( dest ) ) {
+                    didit = true;
+                    z->set_speed_base( z->get_speed_base() - mon_blob_small->speed );
+                    if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                        blob->make_ally( *z );
+                    }
+                    break;
                 }
-
-                break;
             }
 
             continue;
@@ -2365,24 +2373,47 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( species_SLIME ) ) {
+        if( othermon.type->in_species( species_SLIME ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
-                if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
-                    othermon.heal( z->get_speed_base(), true );
-                    z->set_hp( 0 );
-                    return true;
+                const int othermon_half_hp = othermon.get_hp_max() / 2;
+                if( othermon.get_hp() < othermon_half_hp ) {
+                    const int heal_value = std::min( z->get_speed_base(), othermon_half_hp - othermon.get_hp() );
+                    othermon.heal( heal_value, true );
+                    if( heal_value >= z->get_speed_base() ) {
+                        z->set_speed_base( 0 );
+                        z->set_hp( 0 );
+                        return true;
+                    } else {
+                        didit = true;
+                        z->set_speed_base( z->get_speed_base() - heal_value );
+                    }
                 }
                 continue;
             }
-            didit = true;
-            othermon.set_speed_base( othermon.get_speed_base() + 5 );
-            z->set_speed_base( z->get_speed_base() - 5 );
-            if( othermon.type->id == mon_blob_small && othermon.get_speed_base() >= 60 ) {
-                poly_keep_speed( othermon, mon_blob );
-            } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
-                poly_keep_speed( othermon, mon_blob_large );
+
+            if( z->get_speed_base() > 40 ) {
+                didit = true;
+                othermon.set_speed_base( othermon.get_speed_base() + 5 );
+                z->set_speed_base( z->get_speed_base() - 5 );
+                if( othermon.type->id == mon_blob_small &&
+                    othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob );
+                } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob_large );
+                }
+            } else if( one_in( z->get_speed_base() ) ) {
+                othermon.set_speed_base( othermon.get_speed_base() + z->get_speed_base() );
+                z->set_speed_base( 0 );
+                z->set_hp( 0 );
+                if( othermon.type->id == mon_blob_small &&
+                    othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob );
+                } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob_large );
+                }
+                return true;
             }
         } else if( ( othermon.made_of( material_flesh ) ||
                      othermon.made_of( material_veggy ) ||
@@ -2393,10 +2424,10 @@ bool mattack::formblob( monster *z )
     }
 
     if( didit ) { // We did SOMEthing.
-        if( z->type->id == mon_blob && z->get_speed_base() <= 50 ) {
+        if( z->type->id == mon_blob && z->get_speed_base() <= mon_blob_small->speed ) {
             // We shrank!
             poly_keep_speed( *z, mon_blob_small );
-        } else if( z->type->id == mon_blob_large && z->get_speed_base() <= 70 ) {
+        } else if( z->type->id == mon_blob_large && z->get_speed_base() <= mon_blob->speed ) {
             // We shrank!
             poly_keep_speed( *z, mon_blob );
         }
@@ -2691,9 +2722,9 @@ bool mattack::ranged_pull( monster *z )
         }
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2751,9 +2782,9 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    const int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
@@ -2812,7 +2843,7 @@ bool mattack::grab_drag( monster *z )
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
-    int prev_effect = target->get_effect_int( effect_grabbed );
+    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
@@ -3290,9 +3321,23 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
+
+    const effect &depleted = z->get_effect( effect_eyebot_depleted );
+    const effect &assisted = z->get_effect( effect_eyebot_assisted );
+    const bool is_depleted = !depleted.is_null() &&
+                             depleted.get_intensity() == depleted.get_max_intensity();
+    const bool fully_assisted = !assisted.is_null() &&
+                                assisted.get_intensity() == assisted.get_max_intensity();
+    if( fully_assisted || is_depleted ) {
+        // Only spawn 3 every 6 hours
+        // Or stop once this eyebot has spawned 10 bots
+        return true;
+    }
+
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0,
-                            player_character.global_sm_location() );
+                            0, player_character.global_sm_location() );
+    z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
+    z->add_effect( effect_source::empty(), effect_eyebot_depleted, 1_minutes, true, 0 );
 
     return true;
 }
@@ -3312,7 +3357,24 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
-    if( target == nullptr || target->uncanny_dodge() ) {
+    if( target == nullptr ) {
+        return;
+    };
+
+    /** @EFFECT_DODGE increases chance of dodging a tazer attack */
+    const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( 15, 10 ) < dice( tazer_resistance, 10 );
+
+    if( tazer_was_dodged || target->uncanny_dodge() ) {
+        target->add_msg_if_player( m_bad, _( "The %s attempts to shock you but you dodge." ),
+                                   z->name() );
+        return;
+    }
+
+    if( tazer_was_armored ) {
+        target->add_msg_if_player( m_bad, _( "The %s unsuccessfully attempts to shock you." ),
+                                   z->name() );
         return;
     }
 

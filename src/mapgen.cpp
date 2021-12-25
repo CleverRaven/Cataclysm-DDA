@@ -162,12 +162,15 @@ static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_temple( "temple" );
 static const oter_str_id oter_temple_finale( "temple_finale" );
 static const oter_str_id oter_temple_stairs( "temple_stairs" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
 static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
 static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
+
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
 
 static const relic_procgen_id relic_procgen_data_cult( "cult" );
 static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
@@ -719,6 +722,14 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
     half_open_rectangle<point> bounds( point_zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
+    }
+
+    if( x.valmax < x.val ) {
+        jso.throw_error( "x maximum is less than x minimum" );
+    }
+
+    if( y.valmax < y.val ) {
+        jso.throw_error( "y maximum is less than y minimum" );
     }
 
     if( x.valmax > mapgensize.x - 1 ) {
@@ -1644,10 +1655,12 @@ class jmapgen_field : public jmapgen_piece
         mapgen_value<field_type_id> ftype;
         int intensity;
         time_duration age;
+        bool remove;
         jmapgen_field( const JsonObject &jsi, const std::string &/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
-            , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
+            , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
+            , remove( jsi.get_bool( "remove", false ) ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -1655,8 +1668,12 @@ class jmapgen_field : public jmapgen_piece
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), chosen_id,
-                             intensity, age );
+            if( remove ) {
+                dat.m.remove_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), chosen_id );
+            } else {
+                dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), chosen_id,
+                                 intensity, age );
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters
@@ -2345,8 +2362,10 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         mapgen_value<trap_id> id;
+        bool remove;
         jmapgen_trap( const JsonObject &jsi, const std::string &/*context*/ ) {
             init( jsi.get_member( "trap" ) );
+            remove = jsi.get_bool( "remove", false );
         }
 
         explicit jmapgen_trap( const JsonValue &tid ) {
@@ -2366,7 +2385,11 @@ class jmapgen_trap : public jmapgen_piece
                 return;
             }
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
-            dat.m.trap_set( actual_loc, chosen_id );
+            if( remove ) {
+                dat.m.remove_trap( actual_loc );
+            } else {
+                dat.m.trap_set( actual_loc, chosen_id );
+            }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2440,7 +2463,7 @@ class jmapgen_terrain : public jmapgen_piece
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
-                dat.m.furn_set( point( x.get(), y.get() ), f_null );
+                dat.m.furn_clear( point( x.get(), y.get() ) );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
                 if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
@@ -2762,6 +2785,7 @@ class jmapgen_translate : public jmapgen_piece
             to.check( oter_name, parameters );
         }
 };
+
 /**
  * Place a zone
  */
@@ -2792,6 +2816,98 @@ class jmapgen_zone : public jmapgen_piece
                   ) const override {
             zone_type.check( oter_name, parameters );
             faction.check( oter_name, parameters );
+        }
+};
+
+/**
+ * Removes items
+ */
+class jmapgen_remove_items : public jmapgen_piece
+{
+    public:
+        std::vector<itype_id> items_to_remove;
+        jmapgen_remove_items( const JsonObject &jo, const std::string &/*context*/ ) {
+            for( std::string item_id : jo.get_string_array( "items" ) ) {
+                items_to_remove.emplace_back( itype_id( item_id ) );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                  ) const override {
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
+            std::vector<itype_id> items_to_remove_local = items_to_remove;
+            auto item_filter = [items_to_remove_local]( const item & it ) {
+                if( items_to_remove_local.empty() ) {
+                    return true;
+                }
+                for( const itype_id &item_id : items_to_remove_local ) {
+                    if( it.typeId() == item_id ) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            if( start == end ) {
+                map_selector( get_map().getlocal( start ) ).remove_items_with( item_filter );
+            } else {
+                tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
+                                                 get_map().getlocal( end ) );
+                for( const tripoint &p : range ) {
+                    map_selector( p ).remove_items_with( item_filter );
+                }
+            }
+        };
+
+};
+
+/**
+ * Removes vehicles
+ */
+class jmapgen_remove_vehicles : public jmapgen_piece
+{
+    public:
+        std::vector<vproto_id> vehicles_to_remove;
+        jmapgen_remove_vehicles( const JsonObject &jo, const std::string &/*context*/ ) {
+            for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
+                vehicles_to_remove.emplace_back( vproto_id( item_id ) );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                  ) const override {
+
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
+            if( start == end ) {
+                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( start ) ) ) {
+                    bool remove = vehicles_to_remove.empty();
+                    for( const vproto_id &vpid : vehicles_to_remove ) {
+                        if( vp->vehicle().type == vpid ) {
+                            remove = true;
+                        }
+                    }
+                    if( remove ) {
+                        dat.m.destroy_vehicle( &vp->vehicle() );
+                        get_map().clear_vehicle_level_caches();
+                    }
+                }
+            } else {
+                tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
+                for( const tripoint &p : range ) {
+                    if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
+                        bool remove = vehicles_to_remove.empty();
+                        for( const vproto_id &vpid : vehicles_to_remove ) {
+                            if( vp->vehicle().type == vpid ) {
+                                remove = true;
+                            }
+                        }
+                        if( remove ) {
+                            dat.m.destroy_vehicle( &vp->vehicle() );
+                            get_map().clear_vehicle_level_caches();
+                        }
+                    }
+                }
+            }
         }
 };
 
@@ -3454,6 +3570,8 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
     // with the items entry with refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
@@ -3696,6 +3814,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
     objects.load_objects<jmapgen_spawn_item>( jo, "place_item", context_ );
+    objects.load_objects<jmapgen_remove_items>( jo, "remove_items", context_ );
     objects.load_objects<jmapgen_field>( jo, "place_fields", context_ );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs", context_ );
     objects.load_objects<jmapgen_sign>( jo, "place_signs", context_ );
@@ -3707,6 +3826,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_loot>( jo, "place_loot", context_ );
     objects.load_objects<jmapgen_monster_group>( jo, "place_monsters", context_ );
     objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles", context_ );
+    objects.load_objects<jmapgen_remove_vehicles>( jo, "remove_vehicles", context_ );
     objects.load_objects<jmapgen_trap>( jo, "place_traps", context_ );
     objects.load_objects<jmapgen_furniture>( jo, "place_furniture", context_ );
     objects.load_objects<jmapgen_terrain>( jo, "place_terrain", context_ );
@@ -4067,11 +4187,20 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
  */
 void jmapgen_objects::apply( const mapgendata &dat ) const
 {
+    bool terrain_resolved = false;
     for( const jmapgen_obj &obj : objects ) {
-        const auto &where = obj.first;
-        const auto &what = *obj.second;
+        const jmapgen_place &where = obj.first;
+        const jmapgen_piece &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
+        if( !terrain_resolved && typeid( what ) == typeid( jmapgen_vehicle ) ) {
+            // In order to determine collisions between vehicles and local "terrain" the terrain has to be resolved
+            // This code is based on two assumptions:
+            // 1. The terrain part of a definition is always placed first.
+            // 2. Only vehicles require the terrain to be resolved. The general solution is to use a virtual function.
+            resolve_regional_terrain_and_furniture( dat );
+            terrain_resolved = true;
+        }
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y );
@@ -4193,16 +4322,20 @@ void map::draw_lab( mapgendata &dat )
         rw = 0;
         bw = 0;
         lw = 0;
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) {
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.north(), 2 ) ) {
             tw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) {
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.east(), 3 ) ) {
             rw = EAST_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) {
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.south(), 0 ) ) {
             bw = SOUTH_EDGE + 1;
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) {
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
+            connects_to( dat.west(), 1 ) ) {
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel() == 0 ) { // We're on ground level
@@ -4233,11 +4366,11 @@ void map::draw_lab( mapgendata &dat )
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
-            if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
+            if( dat.east()->get_type_id() == oter_type_road ) {
                 rotate( 1 );
-            } else if( is_ot_match( "road", dat.south(), ot_match_type::type ) ) {
+            } else if( dat.south()->get_type_id() == oter_type_road ) {
                 rotate( 2 );
-            } else if( is_ot_match( "road", dat.west(), ot_match_type::type ) ) {
+            } else if( dat.west()->get_type_id() == oter_type_road ) {
                 rotate( 3 );
             }
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
@@ -5153,7 +5286,7 @@ void map::draw_lab( mapgendata &dat )
 void map::draw_temple( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_temple || terrain_type == oter_temple_stairs ) {
+    if( terrain_type == oter_temple_stairs ) {
         if( dat.zlevel() == 0 ) {
             // Ground floor
             // TODO: More varieties?
@@ -5708,9 +5841,9 @@ void map::draw_slimepit( const mapgendata &dat )
 void map::draw_connections( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( is_ot_match( "subway", terrain_type,
-                     ot_match_type::type ) ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
-        if( is_ot_match( "sewer", dat.north(), ot_match_type::type ) &&
+    if( terrain_type->get_type_id() ==
+        oter_type_subway ) { // FUUUUU it's IF ELIF ELIF ELIF's mini-me =[
+        if( ( dat.north()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 0 ) ) {
             if( connects_to( dat.north(), 2 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5727,7 +5860,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, 3 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 1 ) ) {
             if( connects_to( dat.east(), 3 ) ) {
                 for( int i = SEEX; i < SEEX * 2; i++ ) {
@@ -5744,7 +5877,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX * 2 - 4, SEEY - 1 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 2 ) ) {
             if( connects_to( dat.south(), 0 ) ) {
                 for( int i = SEEX - 2; i < SEEX + 2; i++ ) {
@@ -5761,7 +5894,7 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( SEEX - 1, SEEY * 2 - 4 ), t_door_metal_c );
             }
         }
-        if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_sewer ) &&
             !connects_to( terrain_type, 3 ) ) {
             if( connects_to( dat.west(), 1 ) ) {
                 for( int i = 0; i < SEEX; i++ ) {
@@ -5778,11 +5911,11 @@ void map::draw_connections( const mapgendata &dat )
                 ter_set( point( 3, SEEY - 1 ), t_door_metal_c );
             }
         }
-    } else if( is_ot_match( "sewer", terrain_type, ot_match_type::type ) ) {
+    } else if( terrain_type->get_type_id() == oter_type_sewer ) {
         if( dat.above() == oter_road_nesw_manhole ) {
             ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
         }
-        if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
+        if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5791,7 +5924,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY - 3 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY - 3 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.east(), ot_match_type::type ) &&
+        if( ( dat.east()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 1 ) ) {
             for( int i = SEEX + 3; i < SEEX * 2; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );
@@ -5800,7 +5933,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX + 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 2, SEEY - 1 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.south(), ot_match_type::type ) &&
+        if( ( dat.south()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 2 ) ) {
             for( int j = SEEY + 3; j < SEEY * 2; j++ ) {
                 ter_set( point( SEEX, j ), t_rock_floor );
@@ -5809,7 +5942,7 @@ void map::draw_connections( const mapgendata &dat )
             ter_set( point( SEEX, SEEY + 2 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY + 2 ), t_door_metal_c );
         }
-        if( is_ot_match( "subway", dat.west(), ot_match_type::type ) &&
+        if( ( dat.west()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 3 ) ) {
             for( int i = 0; i < SEEX - 3; i++ ) {
                 ter_set( point( i, SEEY ), t_rock_floor );
@@ -6056,7 +6189,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
                      int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
-        debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
+        debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
     }
     point offset;

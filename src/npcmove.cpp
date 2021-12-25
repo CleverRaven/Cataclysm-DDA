@@ -1177,7 +1177,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            aim();
+            aim( Target_attributes( pos(), tar ) );
             break;
 
         case npc_shoot: {
@@ -1186,13 +1186,13 @@ void npc::execute_action( npc_action action )
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
             }
-            aim();
+            aim( Target_attributes( pos(), tar ) );
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
-                if( cbm_weapon_index >= 0 ) {
+                if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
                 }
             }
@@ -1599,53 +1599,47 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
-    cbm_weapon_index = -1;
+    weapon_bionic_uid = 0;
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return true;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( i.powered ) {
-                return deactivate_bionic( index, eff_only );
+                return deactivate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
@@ -2190,7 +2184,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim()
+void npc::aim( Target_attributes target_attributes )
 {
     const item &weapon = get_wielded_item();
     double aim_amount = aim_per_move( weapon, recoil );
@@ -2198,7 +2192,7 @@ void npc::aim()
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil );
+        aim_amount = aim_per_move( weapon, recoil, target_attributes );
     }
 }
 
@@ -2727,7 +2721,7 @@ void npc::move_pause()
     if( has_effect( effect_onfire ) ) {
         pause();
     } else {
-        aim();
+        aim( Target_attributes() );
         moves = std::min( moves, 0 );
     }
 }

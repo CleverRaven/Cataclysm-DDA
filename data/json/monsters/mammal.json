@@ -7,7 +7,8 @@
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
-    "zombify_into": "mon_zombie"
+    "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
     "id": "mon_bat",
@@ -307,7 +308,7 @@
     "color": "light_gray",
     "melee_cut": 2,
     "dodge": 14,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
@@ -354,7 +355,7 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
@@ -838,7 +839,7 @@
     "species": [ "MAMMAL" ],
     "volume": "30000 ml",
     "weight": "30 kg",
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_lupine",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
@@ -1996,7 +1997,7 @@
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
     "//": "Baby moose don't actually exist (yet), but autumn is their mating season so baby_flags is defined so that they get angry then",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]

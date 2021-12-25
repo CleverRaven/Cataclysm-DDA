@@ -35,7 +35,7 @@ bool move_mode_id::is_valid() const
     return move_mode_factory.is_valid( *this );
 }
 
-static const std::map<std::string, move_mode_type> move_types {
+static const std::unordered_map<std::string, move_mode_type> move_types {
     { "prone",     move_mode_type::PRONE },
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },

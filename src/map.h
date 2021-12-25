@@ -812,6 +812,12 @@ class map
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
+        void furn_clear( const tripoint &p ) {
+            furn_set( p, f_clear );
+        };
+        void furn_clear( const point &p ) {
+            furn_clear( tripoint( p, abs_sub.z ) );
+        }
         std::string furnname( const tripoint &p );
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
@@ -1474,6 +1480,11 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+        /**
+         * Get applicable fd_electricity field type for a given point
+         */
+        const field_type_str_id &get_applicable_electricity_field( const tripoint &p );
 
     private:
         // Is called when field intensity is changed.

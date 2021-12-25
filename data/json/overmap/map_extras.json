@@ -200,6 +200,13 @@
     "autonote": true
   },
   {
+    "id": "mx_Trapdoor_spider_den",
+    "type": "map_extra",
+    "name": { "str": "Trapdoor Spiders" },
+    "description": "Several trapdoor spider nests.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_Trapdoor_spider_den" }
+  },
+  {
     "id": "mx_shia",
     "type": "map_extra",
     "name": { "str": "Shia LaBeouf" },
@@ -258,6 +265,32 @@
     "sym": "p",
     "color": "blue",
     "autonote": true
+  },
+  {
+    "id": "mx_pond_forest",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest" }
+  },
+  {
+    "id": "mx_pond_forest_2",
+    "type": "map_extra",
+    "copy-from": "mx_pond_forest",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" }
+  },
+  {
+    "id": "mx_pond_swamp",
+    "type": "map_extra",
+    "name": { "str": "bog" },
+    "description": "Small bog is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" }
+  },
+  {
+    "id": "mx_pond_swamp_2",
+    "type": "map_extra",
+    "copy-from": "mx_pond_swamp",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" }
   },
   {
     "id": "mx_trees",

@@ -1347,6 +1347,11 @@ void options_manager::add_options_general()
     "ask"
        );
 
+    add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
+         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
+    "off" );
+
     add_empty_line();
 
     add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
@@ -1910,6 +1915,11 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
+
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
         { "color_pixel_darken", to_translation( "Darkened" ) },
@@ -2222,6 +2232,14 @@ void options_manager::add_options_world_default()
          false
        );
 
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
+       );
+
     add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
@@ -2335,6 +2353,13 @@ void options_manager::add_options_android()
          to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
+       );
+
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
@@ -3090,6 +3115,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {

@@ -39,6 +39,9 @@
 
 class overmap_connection;
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
+
 static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
 
 #if defined(__ANDROID__)
@@ -382,8 +385,8 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( old ) );
             const oter_id oter_ground = ter( tripoint_om_omt( pos.xy(), 0 ) );
             const oter_id oter_above = ter( pos + tripoint_above );
-            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) &&
-                !is_ot_match( "bridge_road", oter_above, ot_match_type::type ) ) {
+            if( ( oter_ground->get_type_id() == oter_type_bridge ) &&
+                !( oter_above->get_type_id() == oter_type_bridge_road ) ) {
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
@@ -416,6 +419,10 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
+            ter_set( pos, oter_id( "forest" ) );
+        } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {
+            ter_set( pos, oter_id( "forest_water" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
@@ -700,7 +707,10 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        s = overmap_special_migration::migrate( s );
+                        if( !s.is_null() ) {
+                            is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        }
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -716,9 +726,11 @@ void overmap::unserialize( std::istream &fin )
                                             std::string name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
-                                                overmap_special_placements[p] = s;
-                                                if( is_safe_zone ) {
-                                                    safe_at_worldgen.emplace( p );
+                                                if( !s.is_null() ) {
+                                                    overmap_special_placements[p] = s;
+                                                    if( is_safe_zone ) {
+                                                        safe_at_worldgen.emplace( p );
+                                                    }
                                                 }
                                             }
                                         }

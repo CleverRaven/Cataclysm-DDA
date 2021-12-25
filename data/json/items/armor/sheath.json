@@ -147,7 +147,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scabbard",
@@ -177,8 +177,15 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "sheath",
@@ -207,8 +214,15 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "encumbrance": [ 0, 1 ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [
+      {
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": [ 0, 1 ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "sheath_birchbark",
@@ -237,8 +251,15 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "encumbrance": [ 0, 1 ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": [ 0, 1 ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "spearsling",
@@ -267,6 +288,6 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

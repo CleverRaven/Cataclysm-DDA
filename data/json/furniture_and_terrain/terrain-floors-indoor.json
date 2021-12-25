@@ -360,6 +360,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_warped",
+    "name": "warped stone floor",
+    "description": "A rough stone floor.  Its patterns constantly shift as if your mind can't quite understand what it's really seeing.",
+    "symbol": ".",
+    "color": "magenta",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
     "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a matching roof.",
@@ -414,6 +425,7 @@
     "color": "cyan",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -476,6 +488,7 @@
     "color": "light_red",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -617,6 +630,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {

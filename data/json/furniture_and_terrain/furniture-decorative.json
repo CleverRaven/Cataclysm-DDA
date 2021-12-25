@@ -213,16 +213,7 @@
     "move_cost_mod": 2,
     "required_str": 1,
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 4 ] },
-        { "item": "light_bulb", "count": [ 1, 4 ] },
-        { "item": "steel_lump", "count": 1 },
-        { "item": "pipe_fittings", "count": 1 },
-        { "item": "pipe", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "standing_lamp", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,

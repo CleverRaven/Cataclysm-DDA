@@ -1,3 +1,4 @@
+
 # MAPGEN
 
 * [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
@@ -22,6 +23,7 @@
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -557,6 +559,18 @@ Example 2:
 ```
 This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
 
+## Spawn an entire group of monsters with "place_monsters"
+Using `place_monsters` to spawn a group of monsters works in a similar fashion to `place_monster`. The key difference is that `place_monsters` guarantees that each valid entry in the group is spawned. It is strongly advised that you avoid using this flag with larger monster groups, as the total number of spawns is quite difficult to control.
+
+|Field|Description  |
+|--|--|
+| monster | The ID of the monster group that you wish to spawn |
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
+| repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
+| density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
+
+
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
 
@@ -700,6 +714,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
@@ -803,6 +818,18 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 ]
 ```
 
+### Remove vehicles by type
+
+| Field    | Description
+| ---      | ---
+| vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
+
+```json 
+"remove_vehicles": [ 
+    { "vehicles": ["fire_engine"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific item with "item"
 
 | Field  | Description
@@ -823,6 +850,18 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
+### Remove items by type
+
+| Field    | Description
+| ---      | ---
+| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
+
+```json 
+"remove_items": [ 
+    { "items": ["rock"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -838,7 +877,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 | Field | Description
 | ---   | ---
 | trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
-
+| remove| (optional, bool) If true the given trap will be removed rather than added. Defaults to false.
 
 ### Place furniture with "furniture"
 

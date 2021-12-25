@@ -179,6 +179,14 @@ ifndef PCH
   PCH = 1
 endif
 
+ifndef GOLD
+ifeq ($(LTO), 1)
+  GOLD = 1
+else
+  GOLD = 0
+endif
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
@@ -371,7 +379,9 @@ ifeq ($(RELEASE), 1)
         LTOFLAGS += -flto=full
       endif
     else
-      LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+      ifeq ($(GOLD), 1)
+        LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+      endif
     endif
 
     ifneq ($(CLANG), 0)
@@ -484,7 +494,7 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
-  ifdef GOLD
+  ifeq ($(GOLD), 1)
     CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
@@ -494,7 +504,7 @@ else
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
-    ifdef GOLD
+    ifeq ($(GOLD), 1)
       CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
@@ -956,7 +966,7 @@ $(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
 
 MO_DEPS := \
   $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
-  $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
+  $(shell find data/raw data/json data/mods data/core data/help -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
 	$(MAKE) -C lang
