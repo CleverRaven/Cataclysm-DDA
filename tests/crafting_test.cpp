@@ -44,12 +44,15 @@ static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 
 static const itype_id itype_anvil( "anvil" );
 static const itype_id itype_awl_bone( "awl_bone" );
+static const itype_id itype_candle( "candle" );
+static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_scissors( "scissors" );
+static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -1505,4 +1508,24 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             }
         }
     }
+}
+
+TEST_CASE( "Unloading non-empty components", "[crafting]" )
+{
+    item candle( itype_candle );
+    item cash_card( itype_cash_card );
+    item sewing_kit( itype_sewing_kit );
+    candle.ammo_set( candle.ammo_default(), -1 );
+    cash_card.ammo_set( cash_card.ammo_default(), -1 );
+    sewing_kit.ammo_set( sewing_kit.ammo_default(), -1 );
+    REQUIRE( !candle.is_container_empty() );
+    REQUIRE( !cash_card.is_container_empty() );
+    REQUIRE( !sewing_kit.is_container_empty() );
+
+    // candle -> candle wax: not ok
+    CHECK( craft_command::safe_to_unload_comp( candle ) == false );
+    // cash card -> cents: not ok
+    CHECK( craft_command::safe_to_unload_comp( cash_card ) == false );
+    // sewing kit -> thread: ok
+    CHECK( craft_command::safe_to_unload_comp( sewing_kit ) == true );
 }
