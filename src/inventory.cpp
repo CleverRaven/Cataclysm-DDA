@@ -522,7 +522,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 fire->charges = 1;
             }
         }
-        // Handle any water from infinite map sources.
+        // Handle any water from map sources.
         item water = m.water_from( p );
         if( !water.is_null() ) {
             add_item( water );
@@ -545,8 +545,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ||
-            m.ter( p )->has_examine( iexamine::finite_water_source ) ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
