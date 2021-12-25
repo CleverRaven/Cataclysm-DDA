@@ -136,13 +136,6 @@ static input_event last_input;
 
 static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
-static Uint32 delaydpad =
-    std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay =
-    100;   // Delay in milliseconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
-static int lastdpad = ERR;      // Keeps track of the last dpad press.
-static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
@@ -1592,78 +1585,6 @@ static int end_alt_code()
     return alt_buffer;
 }
 
-static int HandleDPad()
-{
-    // Check if we have a gamepad d-pad event.
-    if( SDL_JoystickGetHat( joystick, 0 ) != SDL_HAT_CENTERED ) {
-        // When someone tries to press a diagonal, they likely will
-        // press a single direction first. Wait a few milliseconds to
-        // give them time to press both of the buttons for the diagonal.
-        int button = SDL_JoystickGetHat( joystick, 0 );
-        int lc = ERR;
-        if( button == SDL_HAT_LEFT ) {
-            lc = JOY_LEFT;
-        } else if( button == SDL_HAT_DOWN ) {
-            lc = JOY_DOWN;
-        } else if( button == SDL_HAT_RIGHT ) {
-            lc = JOY_RIGHT;
-        } else if( button == SDL_HAT_UP ) {
-            lc = JOY_UP;
-        } else if( button == SDL_HAT_LEFTUP ) {
-            lc = JOY_LEFTUP;
-        } else if( button == SDL_HAT_LEFTDOWN ) {
-            lc = JOY_LEFTDOWN;
-        } else if( button == SDL_HAT_RIGHTUP ) {
-            lc = JOY_RIGHTUP;
-        } else if( button == SDL_HAT_RIGHTDOWN ) {
-            lc = JOY_RIGHTDOWN;
-        }
-
-        if( delaydpad == std::numeric_limits<Uint32>::max() ) {
-            delaydpad = SDL_GetTicks() + dpad_delay;
-            queued_dpad = lc;
-        }
-
-        // Okay it seems we're ready to process.
-        if( SDL_GetTicks() > delaydpad ) {
-
-            if( lc != ERR ) {
-                if( dpad_continuous && ( lc & lastdpad ) == 0 ) {
-                    // Continuous movement should only work in the same or similar directions.
-                    dpad_continuous = false;
-                    lastdpad = lc;
-                    return 0;
-                }
-
-                last_input = input_event( lc, input_event_t::gamepad );
-                lastdpad = lc;
-                queued_dpad = ERR;
-
-                if( !dpad_continuous ) {
-                    delaydpad = SDL_GetTicks() + 200;
-                    dpad_continuous = true;
-                } else {
-                    delaydpad = SDL_GetTicks() + 60;
-                }
-                return 1;
-            }
-        }
-    } else {
-        dpad_continuous = false;
-        delaydpad = std::numeric_limits<Uint32>::max();
-
-        // If we didn't hold it down for a while, just
-        // fire the last registered press.
-        if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, input_event_t::gamepad );
-            queued_dpad = ERR;
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
 static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
 {
     switch( key ) {
@@ -2785,9 +2706,6 @@ static void CheckMessages()
     bool quit = false;
     bool text_refresh = false;
     bool is_repeat = false;
-    if( HandleDPad() ) {
-        return;
-    }
 
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
