@@ -3146,7 +3146,6 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
     if( !ui ) {
-        panel_manager::get_manager().init();
         main_ui_adaptor = ui = make_shared_fast<ui_adaptor>();
         ui->on_redraw( []( const ui_adaptor & ) {
             g->draw();
@@ -3383,9 +3382,9 @@ void game::draw_panels( bool force_draw )
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
                 if( panel.always_draw || draw_this_turn ) {
-                    widget *wgt = panel.get_widget();
-                    panel.draw( u, catacurses::newwin( h, panel.get_width(),
-                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ), wgt );
+                    catacurses::window w = catacurses::newwin( h, panel.get_width(),
+                                           point( sidebar_right ? TERMX - panel.get_width() : 0, y ) );
+                    panel.draw( { u, w, panel.get_widget() } );
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();

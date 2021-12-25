@@ -116,7 +116,7 @@ std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
 std::string weight_string( const Character &u );
 
 // Prints a list of nearby monsters
-void print_mon_info( avatar &u, const catacurses::window &, int hor_padding = 0,
+void print_mon_info( const avatar &u, const catacurses::window &, int hor_padding = 0,
                      bool compact = false );
 } // namespace display
 
@@ -129,33 +129,49 @@ void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
 
 bool default_render();
 
+// Arguments to pass into the static draw function (in window_panel::draw)
+// Includes avatar, window, and widget references (._ava, ._win, ._wgt)
+struct draw_args {
+    public:
+        const avatar &_ava;
+        const catacurses::window &_win;
+
+        draw_args( const avatar &a, const catacurses::window &w, const widget_id &wgt ) :
+            _ava( a ), _win( w ), _wgt( wgt ) {}
+
+        widget *get_widget() const {
+            return _wgt.is_null() ? nullptr : const_cast<widget *>( &*_wgt );
+        }
+    private:
+        widget_id _wgt;
+};
+
 // A window_panel is a rectangular region or panel within the sidebar window.
 // It is associated with a draw function (taking avatar and window), along with id and name.
 // The height, width, and default toggle state must be provided to the constructor as well.
 class window_panel
 {
     public:
-        window_panel( const std::function<void( avatar &, const catacurses::window &, widget * )>
-                      &draw_func,
+        window_panel( const std::function<void( const draw_args & )> &draw_func,
                       const std::string &id, const translation &nm, int ht, int wd, bool default_toggle_,
                       const std::function<bool()> &render_func = default_render, bool force_draw = false );
 
-        std::function<void( avatar &, const catacurses::window &, widget * )> draw;
+        std::function<void( const draw_args & )> draw;
         std::function<bool()> render;
 
         int get_height() const;
         int get_width() const;
         const std::string &get_id() const;
         std::string get_name() const;
-        void set_widget( const widget *w );
-        widget *get_widget() const;
+        void set_widget( const widget_id &w );
+        const widget_id &get_widget() const;
         bool toggle;
         bool always_draw;
 
     private:
         int height;
         int width;
-        widget *wgt = nullptr;
+        widget_id wgt;
         std::string id;
         translation name;
 };

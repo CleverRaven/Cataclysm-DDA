@@ -338,10 +338,14 @@ std::string widget::show( const avatar &ava )
     }
 }
 
-// If this widget is not a layout, use its label for the window panel id and name
-// FIXME: Support label for layout widgets too!
-static void custom_draw_func( avatar &u, const catacurses::window &w, widget *wgt )
+// Drawing function, provided as a callback to the window_panel constructor.
+// Handles rendering a widget's content into a window panel.
+static void custom_draw_func( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+    widget *wgt = args.get_widget();
+
     const int width = catacurses::getmaxx( w );
     const int widt = width - 1; // For margin
 
@@ -391,7 +395,7 @@ window_panel widget::get_window_panel( const int width, const int req_height )
     // (or they should allow caller to customize height)
 
     window_panel win( custom_draw_func, _label.translated(), _label, height, width, true );
-    win.set_widget( &this->id.obj() );
+    win.set_widget( this->id );
     return win;
 }
 
