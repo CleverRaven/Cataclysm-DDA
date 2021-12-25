@@ -25,15 +25,13 @@ for message in diff["added"]:
         bold = "**" + typo + "**"
         message = re.sub(re.escape(typo), lambda _: bold, message,
                          flags=re.IGNORECASE)
-        # print(">>", message.replace(""))
-        # message = message.replace(typo, "**{}**".format(typo))
     errors.append(message)
 if errors:
     print("**This is an automated message. Please kindly disregard"
-          " if you think this is inaccurate.**", end="%0A")
-    print(end="%0A")
+          " if you think this is inaccurate.**")
+    print()
     print("Automatic spell checking encountered unrecognized words "
-          "in the following text:", end="%0A")
-    print(end="%0A")
+          "in the following text:")
+    print()
     for err in errors:
-        print("*", err, end="%0A")
+        print("*", err)
