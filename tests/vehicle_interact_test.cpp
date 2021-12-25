@@ -73,14 +73,10 @@ TEST_CASE( "repair_vehicle_part" )
         tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 150, item( "scrap" ) );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
         tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 50, item( "welding_rod_steel" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
-        tools.insert( tools.end(), 50, item( "brazing_rod_bronze" ) );
-        tools.insert( tools.end(), 50, item( "welding_rod_alloy" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
-        tools.insert( tools.end(), 50, item( "brazing_rod_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -97,14 +93,10 @@ TEST_CASE( "repair_vehicle_part" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 150, item( "scrap" ) );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
         tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 50, item( "welding_rod_steel" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
-        tools.insert( tools.end(), 50, item( "brazing_rod_bronze" ) );
-        tools.insert( tools.end(), 50, item( "welding_rod_alloy" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
-        tools.insert( tools.end(), 50, item( "brazing_rod_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
