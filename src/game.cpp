@@ -1359,8 +1359,7 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
     .option( "YES0", allow_key )
     .option( "YES1", allow_key )
     .option( "YES2", allow_key )
-    .query()
-    .action;
+    .query();
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
     u.activity.ignore_distraction( type );
