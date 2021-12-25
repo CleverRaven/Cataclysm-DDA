@@ -173,6 +173,7 @@
         "3": "f_air_compressor",
         "4": "f_drill_press",
         "9": "f_heavy_lathe",
+        "K": "f_beverly_shear",
         "C": "f_crate_c"
       },
       "toilets": { "j": {  } },

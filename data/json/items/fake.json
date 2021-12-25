@@ -178,6 +178,13 @@
     "name": { "str": "electric arc furnace" }
   },
   {
+    "id": "fake_beverly_shear",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "Beverly shear" },
+    "qualities": [ [ "SAW_M", 2 ] ]
+  },
+  {
     "id": "fake_drill_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
