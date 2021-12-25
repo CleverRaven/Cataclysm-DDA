@@ -84,7 +84,7 @@
     "type": "snippet",
     "category": "lab_postit_portal",
     "text": [
-      { "id": "lab_postit_portal_1", "text": "Increase frequencies in odd steps - local discontiuity!" },
+      { "id": "lab_postit_portal_1", "text": "Increase frequencies in odd steps - local discontinuity!" },
       { "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29.1 minutes" },
       { "id": "lab_postit_portal_3", "text": "Sub-plane 117RA likes prime-numbered calibration pings" },
       { "id": "lab_postit_portal_4", "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND" },
@@ -193,7 +193,7 @@
       },
       {
         "id": "lab_file_psych_2",
-        "text": "The Leonardo Project has shown to be a success at dramatically reducing staff stress stemming from vivisection studies.  Outsourcing the act of dissection itself to off-site, unaffiliated professinals and post-facto review of the captured feeds showed a marked increase in the affected staff's wellbeing.  Additional counseling opportunities are to be offered to the technician staff monitoring the feed directly, but it must be noted that they are easier to replace than scientific personnel."
+        "text": "The Leonardo Project has shown to be a success at dramatically reducing staff stress stemming from vivisection studies.  Outsourcing the act of dissection itself to off-site, unaffiliated professionals and post-facto review of the captured feeds showed a marked increase in the affected staff's wellbeing.  Additional counseling opportunities are to be offered to the technician staff monitoring the feed directly, but it must be noted that they are easier to replace than scientific personnel."
       },
       {
         "id": "lab_file_psych_3",
@@ -212,7 +212,7 @@
       },
       {
         "id": "dream_2",
-        "text": "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certanity, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\""
+        "text": "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certainty, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\""
       },
       {
         "id": "dream_3",
@@ -231,7 +231,7 @@
       },
       {
         "id": "lab_file_security_2",
-        "text": "In light of recent incidents the rules of on-site communication have been updated.  Effective immediatley, all current security shift teams are considered final, with rotation between teams requiring explicit approval of the facility's Head of Security and notifying Administration.  Shifts are adjusted to provide an ample buffer for each team to leave their habitation area without contact to the other shifts.  All shift change briefs are to be restricted to writing, with such documentation being submitted for archival.  Verbal contact between teams is to be kept at a minimum, requiring notification of the facility's Head of Security, and any involved parties are to document their exchange independently for archival."
+        "text": "In light of recent incidents the rules of on-site communication have been updated.  Effective immediately, all current security shift teams are considered final, with rotation between teams requiring explicit approval of the facility's Head of Security and notifying Administration.  Shifts are adjusted to provide an ample buffer for each team to leave their habitation area without contact to the other shifts.  All shift change briefs are to be restricted to writing, with such documentation being submitted for archival.  Verbal contact between teams is to be kept at a minimum, requiring notification of the facility's Head of Security, and any involved parties are to document their exchange independently for archival."
       },
       {
         "id": "lab_file_security_3",

@@ -125,7 +125,6 @@ antlion
 anubine
 apatosaurus
 apis
-apocolyptic
 aposematic
 appendices
 applet
@@ -160,7 +159,6 @@ assclown
 assimilator
 asstown
 asswagon
-asymetrical
 atajo
 ategory
 aterial
@@ -171,7 +169,6 @@ atomics
 atompot
 atsv
 attac
-attemps
 attery
 attunements
 attuning
@@ -284,7 +281,6 @@ berettas
 bergson
 betavoltaic
 betavoltaics
-bettle
 betula
 beuk
 bfg
@@ -500,7 +496,6 @@ cecaelia
 cecaelian
 cecalia
 cegamente
-celsieus
 cenobite
 centerdamage
 centinel
@@ -510,7 +505,6 @@ ceratopsian
 ceratosaurus
 cerbearus
 cere
-certanity
 cestus
 ceylon
 cf
@@ -555,7 +549,6 @@ chucklefuck
 chui
 chuk
 churninator
-cicular
 cientista
 cioran
 circlet
@@ -709,7 +702,6 @@ daewoo
 dagnabbit
 daizoom
 dambreaker
-damge
 danceable
 dania
 danio
@@ -784,7 +776,6 @@ diphenyl
 diplodocus
 discoes
 disconcertingly
-discontiuity
 discordia
 discordianism
 discreetely
@@ -796,7 +787,6 @@ dissapears
 dissector
 dissoluted
 distictly
-distilate
 distillate
 distillations
 disulphide
@@ -1049,10 +1039,8 @@ flechettes
 fleshmender
 fletched
 fletching
-flexbility
 flightworthy
 flintknapping
-fliping
 floorplan
 floppies
 floury
@@ -1399,7 +1387,6 @@ imaginifier
 imagos
 imes
 immanuel
-immediatley
 immersions
 immobiliser
 impalers
@@ -2259,15 +2246,11 @@ prizefights
 procedurally
 procompsignathids
 produkt
-proectile
-professinals
 proficiencies
 profusive
-prominant
 promptus
 propyl
 protecteth
-proten
 proudhon
 prowless
 prunus

@@ -613,7 +613,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high quality shatter" },
-    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distilate.  Normal cannabis contains around 20%THC, this shatter should be around 55%THC.",
+    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distillate.  Normal cannabis contains around 20%THC, this shatter should be around 55%THC.",
     "looks_like": "honey_gold",
     "weight": "1 g",
     "volume": "1 ml",
