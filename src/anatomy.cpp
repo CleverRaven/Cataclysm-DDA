@@ -9,6 +9,7 @@
 #include <unordered_set>
 
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -216,11 +217,14 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
 }
 
 
-bodypart_id anatomy::select_blocking_part( bool arm, bool leg, bool nonstandard ) const
-{
-    weighted_float_list<bodypart_id> block_scores;
-    for( const bodypart_id &bp : cached_bps ) {
-        float block_score = bp->get_limb_score( limb_score_block );
+bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bool leg, bool nonstandard ) const
+ {
+     weighted_float_list<bodypart_id> block_scores;
+     for( const bodypart_id &bp : cached_bps ) {
+         float block_score = bp->get_limb_score( limb_score_block );
+       if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
+           block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+      }
         body_part_type::type limb_type = bp->limb_type;
 
         if( block_score == 0 ) {

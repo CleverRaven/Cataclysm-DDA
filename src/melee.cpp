@@ -1893,9 +1893,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     // Melee skill and reaction score governs if you can react in time
-    // Skill of 4 without relevant encumbrance guarantees a block attempt
-    int melee_skill = get_skill_level( skill_melee );
-    if( !x_in_y( melee_skill * 25 * get_limb_score( limb_score_reaction ), 100 ) ) {
+    // Skill of 5 without relevant encumbrance guarantees a block attempt
+    int melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
+    if( !x_in_y( melee_skill * 20 * get_limb_score( limb_score_reaction ), 100 ) ) {
         add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
         return false;
     }
@@ -1912,6 +1912,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool conductive_shield = shield.conductive();
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
+    bool arm_block = martial_arts_data->can_arm_block( *this );
+    bool leg_block = martial_arts_data->can_leg_block( *this );
+    bool nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
 
     int unarmed_skill = get_skill_level( skill_unarmed );
 
@@ -1927,7 +1930,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
     if( unarmed || force_unarmed ) {
-        if( martial_arts_data->can_limb_block( *this ) ) {
+        if( arm_block || leg_block || nonstandard_block ) {
             // block_bonus for limb blocks will be added when the limb is decided
             block_score = get_arm_str() + unarmed_skill;
         } else if( has_shield ) {
@@ -1959,12 +1962,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        bp_hit = select_blocking_part( martial_arts_data->can_arm_block( *this ),
-                                       martial_arts_data->can_leg_block( *this ),
-                                       martial_arts_data->can_nonstandard_block( *this ) );
+        bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
 
         add_msg_debug( debugmode::DF_MELEE, "Block score before multiplier %d", block_score );
-        block_score *= bp_hit->get_limb_score( limb_score_block );
+        block_score *= get_part( bp_hit )->get_limb_score( limb_score_block );
         add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
         thing_blocked_with = body_part_name( bp_hit );
     }
