@@ -16,7 +16,16 @@
 Some parts of the main CDDA sidebar are now moddable, meaning they are data-driven and can be
 customized simply by editing JSON files, without recompiling the game.
 
-You can add the custom sidebar via the Sidebar Options menu `}` by enabling the "Custom" section.
+You can add a custom sidebar section to your regular sidebar via the Sidebar Options menu `}`
+by enabling the "Custom" section from the left-hand column for any of the regular sidebar layouts
+(classic, labels, narrow etc.)
+
+You can also switch to an (almost) completely custom layout, by selecting "custom" from the
+right-hand column. This layout is built directly from the "root_layout" widget, with rows you can
+rearrange according to your preference; see [Root layouts](#root-layouts).
+
+In both cases, you can further customize your sidebar widgets by modifying (or modding) the JSON
+that describes them. This document explains how they work.
 
 
 ## About widgets
@@ -349,15 +358,32 @@ Sound: 8  Focus: 105  Move: 120
 Str: 8  Dex: 9  Int: 7  Per: 11
 ```
 
+
 ### Root layouts
 
 There are two important "root layout" widgets defined in `data/json/ui/sidebar.json`:
 
-- Widget id "root_layout_wide" is used for "labels" and "classic" sidebars
-- Widget id "root_layout_narrow" is used for "compact" and "labels narrow" sidebars
+- Widget id "root_layout_wide" is used for "labels" and "classic" sidebar layouts
+- Widget id "root_layout_narrow" is used for "compact" and "labels narrow" sidebar layouts
 
 Modify or override the root layout widget to define all sub-layouts or child widgets you want to see
-in the custom section of your sidebar.
+in the "Custom" section those legacy sidebar options.
+
+Or, modify the existing "sidebar" widget (or create your own) to fully customize your sidebar
+experience, as described in the next section.
+
+
+## Sidebar widget
+
+The highest-level widget style is "sidebar", which represents the entire display region on the right
+(or left) edge of the screen. It is much like a "layout", but includes a "width" in characters, and
+its list of "widgets" are not rows or columns, but a list of sections that may be rearranged or
+toggled in-game to customize how they are displayed.
+
+Each "layout" in the "sidebar" corresponds to a `panel_layout` instance.
+
+To ensure minimum usability, the "width" this must be at least the width of the "compact" or "labels
+narrow" sidebars, at 32 characters; any smaller value is rounded up to 32.
 
 ## Colors
 
@@ -397,5 +423,4 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
   "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
 }
 ```
-
 

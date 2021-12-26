@@ -807,11 +807,11 @@
     ]
   },
   {
-    "id": "root_layout",
+    "id": "custom_sidebar",
     "type": "widget",
-    "style": "layout",
+    "style": "sidebar",
     "width": 50,
-    "arrange": "rows",
+    "label": "custom",
     "widgets": [ "hitpoints_all_graphs_layout", "sound_fatigue_focus_layout", "stamina_speed_move_layout", "stats_layout" ]
   }
 ]

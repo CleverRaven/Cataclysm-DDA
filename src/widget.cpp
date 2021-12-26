@@ -36,6 +36,11 @@ void widget::reset()
     widget_factory.reset();
 }
 
+const std::vector<widget> &widget::get_all()
+{
+    return widget_factory.get_all();
+}
+
 // Convert widget "var" enums to string equivalents
 namespace io
 {
@@ -185,11 +190,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 
 void widget::finalize()
 {
-    // If any layouts have been deferred for loading...
-    for( auto &l : panel_manager::get_manager().layouts ) {
-        l.second.deferred_load();
-    }
-    panel_manager::get_manager().init();
+    // Nothing to do?
 }
 
 int widget::get_var_max( const avatar &ava )
@@ -346,15 +347,20 @@ static void custom_draw_func( const draw_args &args )
     const catacurses::window &w = args._win;
     widget *wgt = args.get_widget();
 
+    // Get full window width
     const int width = catacurses::getmaxx( w );
-    const int widt = width - 1; // For margin
+    // Leave 1 character space for margin on left and right
+    const int margin = 1;
+    const int widt = width - 2 * margin;
 
+    // Quit if there is nothing to draw or no space to draw it
     if( wgt == nullptr || width <= 0 ) {
         return;
     }
 
     werase( w );
-    if( wgt->_style == "layout" ) {
+    if( wgt->_style == "sidebar" ) {
+    } else if( wgt->_style == "layout" ) {
         if( wgt->_arrange == "rows" ) {
             // Layout widgets in rows
             // FIXME: Be able to handle rows that are themselves more than one line!
@@ -362,21 +368,19 @@ static void custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-                trim_and_print( w, point( 1, row_num ), widt, c_light_gray, row_widget.layout( u,
+                trim_and_print( w, point( margin, row_num ), widt, c_light_gray, row_widget.layout( u,
                                 widt ) );
                 row_num++;
             }
         } else {
             // Layout widgets in columns
             // For now, this is the default when calling layout()
-            // So, just layout self
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            trim_and_print( w, point( 1, 1 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+            // So, just layout self on a single line
+            trim_and_print( w, point( margin, 0 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
         }
     } else {
-        // Just layout self
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        trim_and_print( w, point( 1, 1 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+        // No layout, just a widget - simply layout self on a single line
+        trim_and_print( w, point( margin, 0 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
     }
     wnoutrefresh( w );
 }
@@ -645,6 +649,10 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
 {
     std::string ret;
     if( _style == "layout" ) {
+        // Widgets with "rows" arrangement must be laid out from window_panel
+        if( _arrange == "rows" ) {
+            debugmsg( "widget layout called with rows" );
+        }
         // Divide max_width equally among all widgets
         int child_width = max_width / _widgets.size();
         int remainder = max_width % _widgets.size();

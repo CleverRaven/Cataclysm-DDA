@@ -245,10 +245,8 @@ const widget_id &window_panel::get_widget() const
     return wgt;
 }
 
-panel_layout::panel_layout( const translation &_name,
-                            const std::vector<window_panel> &_panels,
-                            std::vector<window_panel>( *_load_fn )() )
-    : _name( _name ), _panels( _panels ), _load_fn( _load_fn )
+panel_layout::panel_layout( const translation &_name, const std::vector<window_panel> &_panels )
+    : _name( _name ), _panels( _panels )
 {
 }
 
@@ -265,14 +263,6 @@ const std::vector<window_panel> &panel_layout::panels() const
 std::vector<window_panel> &panel_layout::panels()
 {
     return _panels;
-}
-
-void panel_layout::deferred_load()
-{
-    if( _load_fn == nullptr ) {
-        return;
-    }
-    _panels = ( *this->_load_fn )();
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
@@ -3183,24 +3173,23 @@ static void draw_custom_hint( const draw_args &args )
 }
 
 // Initialize custom panels from the "root_layout" widget
-static std::vector<window_panel> initialize_default_custom_panels()
+static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
 {
     std::vector<window_panel> ret;
 
-    // Get the root layout widget
-    widget root = widget_root_layout.obj();
-    // Use its defined width, or at least 32
-    const int width = std::max( root._width, 32 );
+    // Use defined width, or at least 16
+    const int width = std::max( wgt._width, 16 );
 
     // Show hint on configuration
     ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
                                     3, width, true ) );
 
-    // Add each widget from the root layout
-    for( const widget_id &row_wid : root._widgets ) {
+    // Add window panel for each child widget
+    for( const widget_id &row_wid : wgt._widgets ) {
         widget row_widget = row_wid.obj();
         ret.emplace_back( row_widget.get_window_panel( width ) );
     }
+
     // Add message log and map to fill remaining space
     // TODO: Make these into proper widgets
     ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
@@ -3218,15 +3207,21 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     std::map<std::string, panel_layout> ret;
 
     ret.emplace( "classic", panel_layout( to_translation( "classic" ),
-                                          initialize_default_classic_panels(), nullptr ) );
+                                          initialize_default_classic_panels() ) );
     ret.emplace( "compact", panel_layout( to_translation( "compact" ),
-                                          initialize_default_compact_panels(), nullptr ) );
+                                          initialize_default_compact_panels() ) );
     ret.emplace( "labels-narrow", panel_layout( to_translation( "labels narrow" ),
-                 initialize_default_label_narrow_panels(), nullptr ) );
+                 initialize_default_label_narrow_panels() ) );
     ret.emplace( "labels", panel_layout( to_translation( "labels" ),
-                                         initialize_default_label_panels(), nullptr ) );
-    ret.emplace( "custom", panel_layout( to_translation( "custom" ),
-                                         std::vector<window_panel>(), &initialize_default_custom_panels ) );
+                                         initialize_default_label_panels() ) );
+
+    // Add panel layout for each "sidebar" widget
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt._style == "sidebar" ) {
+            ret.emplace( wgt._label.translated(),
+                         panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
+        }
+    }
 
     return ret;
 }
@@ -3234,7 +3229,8 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 panel_manager::panel_manager()
 {
     current_layout_id = "labels";
-    layouts = initialize_default_panel_layouts();
+    // Set empty layouts; these will be populated by load()
+    layouts = std::map<std::string, panel_layout>();
 }
 
 panel_layout &panel_manager::get_current_layout()
@@ -3271,6 +3267,7 @@ int panel_manager::get_width_left()
 
 void panel_manager::init()
 {
+    layouts = initialize_default_panel_layouts();
     load();
     update_offsets( get_current_layout().panels().begin()->get_width() );
 }

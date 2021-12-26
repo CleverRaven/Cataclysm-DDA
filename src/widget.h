@@ -80,6 +80,9 @@ class JsonObject;
 template<typename T>
 class generic_factory;
 
+// Forward declaration, due to codependency on panels.h
+class window_panel;
+
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
 class widget
@@ -131,6 +134,8 @@ class widget
         static void finalize();
         // Reset to defaults using generic widget_factory
         static void reset();
+        // Get all widget instances from the factory
+        static const std::vector<widget> &get_all();
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the

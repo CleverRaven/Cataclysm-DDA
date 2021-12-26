@@ -12,6 +12,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "translations.h"
+#include "widget.h"
 
 class JsonIn;
 class JsonOut;
@@ -130,7 +131,8 @@ void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
 bool default_render();
 
 // Arguments to pass into the static draw function (in window_panel::draw)
-// Includes avatar, window, and widget references (._ava, ._win, ._wgt)
+// Includes public avatar (_ava) and window (_win) references, and private widget reference
+// passed to the constructor, accessible with get_widget().
 struct draw_args {
     public:
         const avatar &_ava;
@@ -146,8 +148,9 @@ struct draw_args {
         widget_id _wgt;
 };
 
-// A window_panel is a rectangular region or panel within the sidebar window.
-// It is associated with a draw function (taking avatar and window), along with id and name.
+// A window_panel is a rectangular region or drawable area within the sidebar window.
+// It corresponds to a section that the player may toggle or rearrange from the in-game sidebar options.
+// It is associated with a draw function (taking draw_args with avatar and window), along with id and name.
 // The height, width, and default toggle state must be provided to the constructor as well.
 class window_panel
 {
@@ -182,24 +185,19 @@ class panel_layout
 {
     public:
         panel_layout( const translation &_name,
-                      const std::vector<window_panel> &_panels,
-                      std::vector<window_panel>( *_load_fn )() );
+                      const std::vector<window_panel> &_panels );
 
         std::string name() const;
         const std::vector<window_panel> &panels() const;
         std::vector<window_panel> &panels();
-        // Do deferred loading of panel layout with _load_fn, if defined (otherwise do nothing)
-        void deferred_load();
     private:
         translation _name;
         std::vector<window_panel> _panels;
-        // Optional callback function to generate window_panel list with deferred load
-        std::vector<window_panel>( *_load_fn )();
 };
 
 // The panel_manager allows the player choose their current panel layout and window panels.
-// The player's selected panel_layout, and which window_panels are toggled on or off, are
-// saved to the PATH_INFO::panel_options() file, typically config/panel_options.json.
+// The player's selected panel_layout, enabled window_panels and what order they appear in,
+// are saved to the PATH_INFO::panel_options() file, typically config/panel_options.json.
 class panel_manager
 {
     public:
