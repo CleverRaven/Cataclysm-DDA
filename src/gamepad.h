@@ -2,8 +2,8 @@
 #ifndef GAMEPAD_H
 #define GAMEPAD_H
 
-#include <SDL.h>
 #include "input.h"
+#include "sdl_wrappers.h"
 
 #define GAMEPAD_SCHEDULER SDL_USEREVENT+1
 
