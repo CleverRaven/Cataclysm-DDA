@@ -1,0 +1,92 @@
+[
+    {
+      "type": "overmap_special",
+      "id": "nether_monster_corpse",
+      "subtype": "mutable",
+      "locations": [ "subterranean_empty" ],
+      "city_distance": [ 15,25 ],
+      "city_sizes": [ 0, 20 ],
+      "occurrences": [ 0, 1 ],
+      "flags": [ "CLASSIC" ],
+      "//":" ensure at least 1 possible entry spot has land",
+      "check_for_locations": [
+        [ [ 6, 1, 0 ], [ "land" ] ],
+        [ [ -6, 1, 0 ], [ "land" ] ],
+        [ [ 6, -1, 0 ], [ "land" ] ],
+        [ [ -6, -1, 0 ], [ "land" ] ],
+        [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ 4, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ 3, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ 2, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ -4, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ -3, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ -2, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, -4, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, -3, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, -2, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, -1, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, 4, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, 3, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, 2, -1 ], [ "subterranean_empty" ] ],
+        [ [ 0, 1, -1 ], [ "subterranean_empty" ] ]
+      ],
+      "joins": [
+        "surface_to_bowels",
+        "microlab_to_microlab",
+        "bowels_mid_to_mid",
+        "bowels_mid_to_edge"
+      ],
+      "overmaps": {
+        "surface": { "overmap": "corpse_surface", "below": "surface_to_bowels", "locations": [ "land" ] },
+        "bowels_mid": {
+          "overmap": "corpse_bowels_mid",
+          "above": { "id": "surface_to_bowels", "type": "available" },
+          "north": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
+          "east": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
+          "south": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
+          "west": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] }
+        },
+        "bowels_empty_edge": {
+          "overmap": "ants_end_south",
+          "north": "bowels_mid_to_edge",
+          "east": { "id": "bowels_mid_to_edge", "type": "available" },
+          "south": { "id": "bowels_mid_to_edge", "type": "available"},
+          "west": { "id": "bowels_mid_to_edge", "type": "available"}
+        },
+        "bowels_tentacle_edge": {
+          "overmap": "ants_food_north",
+          "north": "bowels_mid_to_edge",
+          "east": { "id": "bowels_mid_to_edge", "type": "available" },
+          "south": { "id": "bowels_mid_to_edge", "type": "available"},
+          "west": { "id": "bowels_mid_to_edge", "type": "available"}
+        }
+      },
+      "root": "surface",
+      "phases": [
+        [ { "overmap": "surface", "max": 1 } ],
+        [
+          {
+            "name": "bowels",
+            "chunk": [
+              { "overmap": "bowels_mid", "pos": [ 0, 0, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ 1,  0, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ 1,  1, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ 0,  1, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ -1, 1, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ -1, 0, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ -1, -1, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ 0, -1, 0 ] },
+              { "overmap": "bowels_mid", "pos": [ 1, -1, 0 ] }
+            ],
+            "max": 1
+          }
+        ],
+        [ { "overmap": "bowels_tentacle_edge", "max": { "poisson": 4 }},
+          { "overmap": "bowels_empty_edge", "max": 9 }
+        ]          
+      ]
+    }
+  ]
+  

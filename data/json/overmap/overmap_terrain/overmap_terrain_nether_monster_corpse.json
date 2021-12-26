@@ -1,0 +1,21 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_mid",
+    "name": "monster corpse",
+    "sym": "@",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_surface",
+    "copy-from": "corpse_bowels_mid"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_empty_edge_north",
+    "copy-from": "corpse_bowels_mid"
+  }
+]
