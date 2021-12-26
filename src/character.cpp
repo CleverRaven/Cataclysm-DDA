@@ -211,6 +211,7 @@ static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowing_gas_cover( "glowing_gas_cover" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
@@ -5500,7 +5501,8 @@ float Character::active_light() const
     lumination = std::max( lumination,
                            static_cast<float>( enchantment_cache->modify_value( enchant_vals::mod::LUMINATION, 0 ) ) );
 
-    if( lumination < 5 && ( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ) ) {
+    if( lumination < 5 && ( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ||
+                            has_effect( effect_glowing_gas_cover ) ) ) {
         lumination = 5;
     }
     return lumination;

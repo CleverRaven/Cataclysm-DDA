@@ -172,6 +172,7 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowing_gas_cover( "glowing_gas_cover" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_happy( "happy" );
@@ -5491,6 +5492,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
     bool slime = p->has_effect( effect_slimed );
     bool boom = p->has_effect( effect_boomered );
     bool glow = p->has_effect( effect_glowing );
+    bool glow_gas = p->has_effect( effect_glowing_gas_cover );
     int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
     const std::string name = it ? it->tname() : _( "towel" );
@@ -5508,6 +5510,16 @@ int iuse::towel_common( Character *p, item *it, bool t )
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
+                              name );
+
+        towelUsed = true;
+        if( it && it->typeId() == itype_towel ) {
+            it->set_flag( flag_FILTHY );
+        }
+
+    } else if( glow_gas ) {
+        p->remove_effect( effect_glowing_gas_cover );
+        p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with spores!" ),
                               name );
 
         towelUsed = true;
@@ -6827,6 +6839,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
         { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
         { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
+        { effect_glowing_gas_cover, ef_con( to_translation( " is covered in <color_yellow>glowing spores</color>.  " ) ) },
         { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
         { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
         { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },

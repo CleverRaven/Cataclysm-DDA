@@ -13,7 +13,7 @@
     "id": "corpse_surface",
     "name": "monster corpse",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "REQUIRES_PREDECESSOR"],
     "sym": "T"
   },
   {
@@ -32,7 +32,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_edge",
+    "id": "corpse_bowels_neck_right",
+    "copy-from": "corpse_bowels_empty_edge",
+    "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_neck_left",
     "copy-from": "corpse_bowels_empty_edge",
     "sym": "N"
   },

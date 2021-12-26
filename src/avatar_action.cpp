@@ -61,6 +61,7 @@ class gun_mode;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowing_gas_cover( "glowing_gas_cover" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -594,6 +595,10 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.has_effect( effect_glowing ) ) {
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
+    }
+    if( you.has_effect( effect_glowing_gas_cover ) ) {
+        add_msg( _( "The water washes off the glowing spores!" ) );
+        you.remove_effect( effect_glowing_gas_cover );
     }
 
     g->water_affect_items( you );

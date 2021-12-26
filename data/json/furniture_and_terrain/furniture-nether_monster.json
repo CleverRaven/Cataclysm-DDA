@@ -1,0 +1,32 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_nm_tube",
+    "name": "decaying tube",
+    "description": "A decomposing fleshy stalagmite extends from the ceiling to the floor.",
+    "looks_like": "f_alien_gasper",
+    "symbol": "~",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "str_min": 30, "str_max": 60, "sound": "whump!", "sound_fail": "whump!", "furn_set": "f_nm_tube" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_tube_emitter",
+    "name": "glowing decaying tube",
+    "description": "A decomposing fleshy stalagmite extends from the ceiling to the floor. Countless glowing spores weft from within, coating everything nearby.",
+    "looks_like": "f_alien_gasper",
+    "symbol": "~",
+    "color": "magenta_red",
+    "move_cost_mod": 6,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "emissions": [ "emit_monster_gas_1","emit_monster_gas_2" ],
+    "bash": { "str_min": 30, "str_max": 60, "sound": "whump!", "sound_fail": "whump!", "furn_set": "f_nm_tube_emitter" }
+  }
+]
+  

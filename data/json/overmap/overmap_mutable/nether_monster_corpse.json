@@ -32,7 +32,7 @@
       "head_to_head"
     ],
     "overmaps": {
-      "surface": { "overmap": "corpse_surface", "below": "surface_to_bowels", "locations": [ "land" ] },
+      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land" ] },
       "bowels_center": {
         "overmap": "corpse_bowels_mid",
         "above": "surface_to_bowels",
@@ -68,8 +68,15 @@
         "east": { "id": "bowels_edge_to_edge", "type": "available" },
         "west": { "id": "bowels_edge_to_edge", "type": "available" }
       },
-      "bowels_neck_edge": {
-        "overmap": "corpse_bowels_neck_edge_south",
+      "bowels_neck_left": {
+        "overmap": "corpse_bowels_neck_left_south",
+        "north": "bowels_mid_to_mid",
+        "south": "neck_to_neck",
+        "east": { "id": "bowels_edge_to_edge", "type": "available" },
+        "west": { "id": "bowels_edge_to_edge", "type": "available" }
+      },
+      "bowels_neck_right": {
+        "overmap": "corpse_bowels_neck_right_south",
         "north": "bowels_mid_to_mid",
         "south": "neck_to_neck",
         "east": { "id": "bowels_edge_to_edge", "type": "available" },
@@ -149,9 +156,9 @@
             { "overmap": "bowels_mid", "pos": [ -1, -1, 0 ] },
             { "overmap": "bowels_mid", "pos": [ 0, -1, 0 ] },
             { "overmap": "bowels_mid", "pos": [ 1, -1, 0 ] },
-            { "overmap": "bowels_neck_edge", "pos": [ 1, 2, 0 ] },
+            { "overmap": "bowels_neck_right", "pos": [ 1, 2, 0 ] },
             { "overmap": "bowels_neck_edge_center", "pos": [ 0, 2, 0 ] },
-            { "overmap": "bowels_neck_edge", "pos": [ -1, 2, 0 ] },
+            { "overmap": "bowels_neck_left", "pos": [ -1, 2, 0 ] },
             { "overmap": "bowels_lcorner", "pos": [ -2, 2, 0 ] },
             { "overmap": "bowels_rcorner", "pos": [ 2, 2, 0 ] }
           ],

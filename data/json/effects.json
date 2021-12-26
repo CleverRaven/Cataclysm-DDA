@@ -802,6 +802,19 @@
   },
   {
     "type": "effect_type",
+    "id": "glowing_gas",
+    "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
+    "desc": [ "You've inhaled a lungful of glowing nether parasite spores. Thankfully, they don't seem adapted to the human anatomy." ],
+    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violenty cough.",
+    "rating": "bad",
+    "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
+    "harmful_cough": true,
+    "max_duration": "10 m",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "teargas",
     "name": [ "Tear gas" ],
     "desc": [ "You've been exposed to tear gas!" ],
@@ -830,6 +843,14 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas_cover",
+    "name": [ "Glowing" ],
+    "desc": [ "You are covered in glowing nether spores!" ],
+    "apply_message": "The glowing spores settle on you!",
+    "rating": "bad"
   },
   {
     "type": "effect_type",
