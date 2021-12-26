@@ -824,6 +824,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
     optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
 
+    if( jo.has_member( "absorb_material" ) ) {
+        absorb_material.clear();
+        if( jo.has_array( "absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
+                absorb_material.emplace_back( material_id( mat ) );
+            }
+        } else {
+            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );

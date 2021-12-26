@@ -853,10 +853,11 @@
     "regenerates": 50,
     "regen_morale": true,
     "absorb_split_cooldown_seconds": 5,
-    "absorption_ml_per_hp": 250,
+    "absorb_ml_per_hp": 250,
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
+    "absorb_material": [ "steel", "flesh", "wood" ],
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {
