@@ -258,7 +258,7 @@
   {
     "type": "snippet",
     "category": "PORTAL_STORM_POPUP",
-    "//":"These are just proof of concept popups, would definitely prefer to get some more sophisticated ideas",
+    "//": "These are just proof of concept popups, would definitely prefer to get some more sophisticated ideas",
     "text": [
       "Your legs move on their own accord.  You need to go outside.  NOW.",
       "This foolishness has lasted too long.  It's time to leave and embrace the cosmos.",
