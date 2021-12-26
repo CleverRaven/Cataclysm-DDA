@@ -575,7 +575,9 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
             if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
-                *crafting_cache.crafting_inventory += item( it->typeId(), it->birthday() );
+                item tmp = item( it->typeId(), it->birthday() );
+                tmp.is_favorite = it->is_favorite;
+                *crafting_cache.crafting_inventory += tmp;
             }
             continue;
         } else if( it->is_watertight_container() ) {
