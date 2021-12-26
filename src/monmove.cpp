@@ -720,18 +720,20 @@ void monster::move()
                                 name() );
         static const units::quantity<int, units::volume_in_milliliter_tag> volume_per_hp =
             units::from_milliliter( type->absorption_ml_per_hp );
-        
+
         std::vector<item *> consumed_items;
         // used to stop consuming items if splitting is on cooldown
         bool split_on_cooldown = false;
-         
+
         for( item &elem : here.i_at( pos() ) ) {
             int volume_in_ml = units::to_milliliter( elem.volume() );
-            hp += std::max( volume_in_ml / volume_per_hp.value(), 1 ); // Yeah this means it can get more HP than normal.
+            hp += std::max( volume_in_ml / volume_per_hp.value(),
+                            1 ); // Yeah this means it can get more HP than normal.
             int absorb_move_cost = static_cast<int>( type->absorb_move_cost_per_ml * volume_in_ml );
             absorb_move_cost = std::max( absorb_move_cost, type->absorb_move_cost_min );
             if( type->absorb_move_cost_max != -1 ) {
-                absorb_move_cost = clamp( absorb_move_cost, type->absorb_move_cost_min, type->absorb_move_cost_max );
+                absorb_move_cost = clamp( absorb_move_cost, type->absorb_move_cost_min,
+                                          type->absorb_move_cost_max );
             }
             mod_moves( -absorb_move_cost );
             consumed_items.push_back( &elem );
