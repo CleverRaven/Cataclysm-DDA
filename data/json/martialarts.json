@@ -215,7 +215,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damge reduced by 50% of Strength.",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
@@ -675,7 +675,7 @@
       {
         "id": "buff_karate_onhit",
         "name": "Karate Kata",
-        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damge reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damage reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
