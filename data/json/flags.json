@@ -86,7 +86,7 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
-    "id": "CALORIE_INTAKE",
+    "id": "CALORIES_INTAKE",
     "type": "json_flag",
     "info": "This item enables you to keep track of calorie intake."
   },
