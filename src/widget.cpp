@@ -653,9 +653,18 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         if( _arrange == "rows" ) {
             debugmsg( "widget layout called with rows" );
         }
-        // Divide max_width equally among all widgets
-        int child_width = max_width / _widgets.size();
-        int remainder = max_width % _widgets.size();
+        const int num_widgets = _widgets.size();
+        if( num_widgets == 0 ) {
+            debugmsg( "widget layout has no widgets" );
+        }
+        // Number of spaces between columns
+        const int col_padding = 2;
+        // Subtract column padding to get space available for widgets
+        const int avail_width = max_width - col_padding * ( num_widgets - 1 );
+        // Divide available width equally among all widgets
+        const int child_width = avail_width / num_widgets;
+        // Keep remainder to distribute
+        int remainder = avail_width % num_widgets;
         for( const widget_id &wid : _widgets ) {
             widget cur_child = wid.obj();
             int cur_width = child_width;
@@ -664,11 +673,11 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
                 cur_width += 1;
                 remainder -= 1;
             }
-            // Allow 2 spaces of padding after each column, except last column (full-justified)
+            // Layout child in this column
+            ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+            // Add column padding until we reach the last column
             if( wid != _widgets.back() ) {
-                ret += string_format( "%s  ", cur_child.layout( ava, cur_width == 0 ? cur_width : cur_width - 2 ) );
-            } else {
-                ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+                ret += std::string( col_padding, ' ' );
             }
         }
     } else {
