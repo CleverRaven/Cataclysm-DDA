@@ -922,7 +922,7 @@ Multiple death functions can be used. Not all combinations make sense.
 
 Other monster flags.
 
-- ```ABSORBS_SPLITS``` Consumes objects it moves over to gain HP, and if it gains enough HP it will split into one or more copies. A cooldown can be enforced with `absorb_split_cooldown_seconds` (default 5 seconds). A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorption_ml_per_hp` (default 250 ml). 
+- ```ABSORBS_SPLITS``` Consumes objects it moves over to gain HP, and if it gains enough HP it will split into one or more copies. A cooldown can be enforced with `absorb_split_cooldown_seconds` (default 5 seconds). A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). 
 - ```ABSORBS``` Consumes objects it moves over. (Modders use this).
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.

@@ -718,8 +718,8 @@ void monster::move()
         add_msg_if_player_sees( *this,
                                 _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                                 name() );
-        static const units::quantity<int, units::volume_in_milliliter_tag> volume_per_hp =
-            units::from_milliliter( type->absorption_ml_per_hp );
+        static const units::quantity<int, units::volume_in_milliliter_tag> ml_per_hp =
+            units::from_milliliter( type->absorb_ml_per_hp );
 
         std::vector<item *> consumed_items;
         // used to stop consuming items if splitting is on cooldown
@@ -727,7 +727,7 @@ void monster::move()
 
         for( item &elem : here.i_at( pos() ) ) {
             int volume_in_ml = units::to_milliliter( elem.volume() );
-            hp += std::max( volume_in_ml / volume_per_hp.value(),
+            hp += std::max( volume_in_ml / ml_per_hp.value(),
                             1 ); // Yeah this means it can get more HP than normal.
             int absorb_move_cost = static_cast<int>( type->absorb_move_cost_per_ml * volume_in_ml );
             absorb_move_cost = std::max( absorb_move_cost, type->absorb_move_cost_min );

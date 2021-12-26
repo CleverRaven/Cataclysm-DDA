@@ -357,7 +357,7 @@ struct mtype {
         int bleed_rate = 100;
 
         // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP (default 250)
-        int absorption_ml_per_hp = 250;
+        int absorb_ml_per_hp = 250;
 
         // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 200)
         int split_move_cost = 200;
