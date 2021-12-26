@@ -1649,7 +1649,7 @@
     ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY", "HARD" ],
-    "armor": [ { "encumbrance": 0, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "straw_basket",
