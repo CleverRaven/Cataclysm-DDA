@@ -722,27 +722,33 @@ void monster::move()
             units::from_milliliter( type->absorption_ml_per_hp );
         
         std::vector<item *> consumed_items;
+        // used to stop consuming items if splitting is on cooldown
+        bool split_on_cooldown = false;
          
         for( item &elem : here.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            set_moves( get_moves() - type->absorb_move_cost );
+            mod_moves( -type->absorb_move_cost );
             consumed_items.push_back( &elem );
-            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
-                monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                hp -= type->hp;
-                //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                spawn->make_ally( *this );
-                add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                set_moves( get_moves() - type->split_move_cost );
-                spawn->set_moves( spawn->get_moves() - type->split_move_cost );
-                int cooldown = type->absorb_split_cooldown_seconds;
-                if( cooldown > 0 ) {
-                    const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
-                    add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                    spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+            if( has_flag( MF_ABSORBS_SPLITS ) ) {
+                while( hp / 2 > type->hp ) {
+                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
+                    hp -= type->hp;
+                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                    spawn->make_ally( *this );
+                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
+                    mod_moves( -type->split_move_cost );
+                    spawn->mod_moves( -type->split_move_cost );
+                    int cooldown = type->absorb_split_cooldown_seconds;
+                    if( cooldown > 0 ) {
+                        const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
+                        add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                        spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                        split_on_cooldown = true;
+                        break;
+                    }
                 }
             }
-            if( get_moves() <= 0 ) {
+            if( get_moves() <= 0 || split_on_cooldown ) {
                 break;
             }
         }
