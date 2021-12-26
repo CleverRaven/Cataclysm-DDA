@@ -356,15 +356,17 @@ struct mtype {
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
 
-        /**
-         * The amount of volume in milliliters that this monster needs to absorb to gain 1 HP
-         */
+        // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP
         int absorption_ml_per_hp = 250;
 
-        /**
-         * The types of materials this monster can absorb
-         */
-        std::map<std::string, material_type> absorbs_materials;
+        // The move cost for this monster splitting via SPLITS_ABSORBS flag
+        int split_move_cost = 250;
+
+        // The move cost for a monster absorbing material with the ABSORBS flag
+        int absorb_move_cost = 100;
+
+        // The types of materials this monster can absorb
+        // std::map<std::string, material_type> absorbs_materials;
 
         /**
          * The amount of time in seconds that must pass until the monster can split again

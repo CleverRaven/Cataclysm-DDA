@@ -714,34 +714,41 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items"  && !has_effect( effect_recently_split_absorbed ) ) {
+    if( action == "consume_items" && !has_effect( effect_recently_split_absorbed ) ) {
         add_msg_if_player_sees( *this,
                                 _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                                 name() );
         static const units::quantity<int, units::volume_in_milliliter_tag> volume_per_hp =
             units::from_milliliter( type->absorption_ml_per_hp );
+        
+        std::vector<item *> consumed_items;
+         
         for( item &elem : here.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    if( !spawn ) {
-                        break;
-                    }
-                    int cooldown = type->absorb_split_cooldown_seconds;
-                    if( cooldown > 0 ) {
-                        const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
-                        add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                        spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                    }
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
+            set_moves( get_moves() - type->absorb_move_cost );
+            consumed_items.push_back( &elem );
+            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
+                monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
+                hp -= type->hp;
+                //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                spawn->make_ally( *this );
+                add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
+                set_moves( get_moves() - type->split_move_cost );
+                spawn->set_moves( spawn->get_moves() - type->split_move_cost );
+                int cooldown = type->absorb_split_cooldown_seconds;
+                if( cooldown > 0 ) {
+                    const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
+                    add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                    spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
                 }
             }
+            if( get_moves() <= 0 ) {
+                break;
+            }
         }
-        here.i_clear( pos() );
+        for( item *it : consumed_items ) {
+            here.i_rem( pos(), it );
+        }
     } else if( action == "eat_crop" ) {
         // TODO: Create a special attacks whitelist unordered map instead of an if chain.
         std::map<std::string, mtype_special_attack>::const_iterator attack =
