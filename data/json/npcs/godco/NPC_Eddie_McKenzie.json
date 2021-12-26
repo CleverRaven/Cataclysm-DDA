@@ -1,0 +1,290 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_eddie",
+    "name_unique": "Eddie McKenzie",
+    "name_suffix": "food guard",
+    "class": "NC_godco_eddie",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_Eddie_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_eddie",
+    "name": { "str": "Food guard" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": 4,
+    "worn_override": "GODCO_eddie_worn",
+    "carry_override": "GODCO_eddie_carried",
+    "weapon_override": "GODCO_eddie_wield",
+    "traits": [
+      { "trait": "LOVES_BOOKS" },
+      { "trait": "NIGHTVISION2" },
+      { "trait": "WAKEFUL" },
+      { "group": "Appearance_demographics" }
+    ],
+    "skills": [ { "bonus": 2, "skill": "gun" }, { "bonus": 2, "skill": "shotgun" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_eddie_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "pants" },
+      { "item": "hoodie" },
+      { "item": "mbag" },
+      { "item": "hat_ball" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_eddie_carried",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shot_00", "count": [ 2, 3 ] },
+      { "item": "flashlight", "charges-min": 80 },
+      { "group": "wines_worthy", "prob": 100 },
+      { "item": "icon", "count": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_eddie_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "remington_870_express", "charges": 7 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "beg_godco_eddie"
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Eddie_2",
+      "TALK_GODCO_Eddie_Story",
+      "TALK_GODCO_Eddie_Story1",
+      "TALK_GODCO_Eddie_Story2",
+      "TALK_GODCO_Eddie_Mood",
+      "TALK_GODCO_Eddie_Mood1",
+      "TALK_GODCO_Eddie_Mood2",
+      "TALK_GODCO_Eddie_Theft",
+      "TALK_GODCO_Eddie_Stockpile"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Eddie_Story" },
+      { "text": "How are things up here?", "topic": "TALK_GODCO_Eddie_Mood" },
+      { "text": "So, tell me about these boxes you're guarding.", "topic": "TALK_GODCO_Eddie_Stockpile" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_eddie",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": {
+        "u_has_effect": "beg_godco_eddie",
+        "yes": "I hope your family is doing all right.",
+        "no": "I hope things get better."
+      },
+      "no": { "u_male": true, "yes": "You're not supposed to be up here, sir.", "no": "You're not supposed to be up here, ma'am." }
+    },
+    "responses": [
+      {
+        "text": "So do I, Eddie.  Good to see you again.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_effect": "beg_godco_eddie" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Eddie_2"
+      },
+      {
+        "text": "Don't worry about them, Eddie.  Good to see you again.",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_effect": "beg_godco_eddie" }
+          ]
+        },
+        "topic": "TALK_GODCO_Eddie_2"
+      },
+      {
+        "text": "This must be the stockpile…",
+        "effect": { "u_add_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Eddie_Stockpile"
+      },
+      {
+        "text": "I heard your group can help their fellow man…",
+        "effect": { "u_add_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Eddie_Beg"
+      },
+      {
+        "text": "I'm sorry, I didn't know.  I'll be on my way.",
+        "condition": { "not": { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "…",
+        "condition": { "u_has_var": "u_met_godco_eddie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_2",
+    "dynamic_line": [ "So, what is it?  Why'd you come up here?" ],
+    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Beg",
+    "dynamic_line": {
+      "u_male": true,
+      "yes": "We used to organize charities for the needy, before the Second Flood.  Not anymore.  Our gates have shut, and those who chose not to enter our ark are doomed to live through Hell on Earth.  I'm sorry sir, but we cannot save you now.",
+      "no": "We used to organize charities for the needy, before the Second Flood.  Not anymore.  Our gates have shut, and those who chose not to enter our ark are doomed to live through Hell on Earth.  I'm sorry ma'am, but we cannot save you now."
+    },
+    "responses": [
+      {
+        "text": "I've got money on me.  I think we can work something out.",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "failure": { "topic": "TALK_GODCO_Eddie_Beg_Fail_Bribe", "opinion": { "trust": -2 } },
+        "success": { "topic": "TALK_GODCO_Eddie_Beg_Fail_Bribe", "opinion": { "trust": -1 } }
+      },
+      {
+        "text": "Please sir, I have a family.",
+        "trial": { "type": "LIE", "difficulty": 65, "mod": [ [ "trust", 2 ] ] },
+        "success": { "topic": "TALK_GODCO_Eddie_Beg_Success" },
+        "failure": { "topic": "TALK_GODCO_Eddie_Beg_Fail_Family", "opinion": { "trust": -7 } }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Beg_Success",
+    "speaker_effect": {
+      "effect": [ { "u_spawn_item": "mre_chilibeans_box", "count": 5 }, { "u_add_effect": "beg_godco_eddie", "duration": "PERMANENT" } ]
+    },
+    "dynamic_line": "A family?  Out there in the wastes?  Oh for the love of God, protect them at all costs!  May the Lord have mercy on your people…",
+    "responses": [ { "text": "Thank you, Eddie.  I'll see you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Beg_Fail_Bribe",
+    "dynamic_line": "What?!  Hold your horses, pal!  You can't bribe me, for my principles are carved in stone!",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Beg_Fail_Family",
+    "dynamic_line": "No.  I'm so sorry, but no.  I… I cannot help any more of you.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Mood",
+    "dynamic_line": {
+      "u_male": true,
+      "yes": "I've been a volunteer for the church for a very long time, and I still am.  No need to worry about me, sir, I don't mind the solitude.  Though some of them roaches offer me company on colder nights - so thoughtfully, might I add - I've always found contentment in reading books.",
+      "no": "I've been a volunteer for the church for a very long time, and I still am.  No need to worry about me, ma'am, I don't mind the solitude.  Though some of them roaches offer me company on colder nights - so thoughtfully, might I add - I've always found contentment in reading books."
+    },
+    "responses": [
+      { "text": "Do you have a favorite book?", "topic": "TALK_GODCO_Eddie_Mood1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Mood1",
+    "dynamic_line": "The Bible, of course.",
+    "responses": [
+      { "text": "Do you have a favorite Bible verse?", "topic": "TALK_GODCO_Eddie_Mood2" },
+      { "text": "Fair enough.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Fair enough.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Mood2",
+    "dynamic_line": "For me it would be Deuteronomy 31:6.  It's a verse my mother used to tell.",
+    "responses": [
+      { "text": "Fair enough.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Fair enough.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Stockpile",
+    "dynamic_line": "The Lord saw that the wickedness of man was once again great in the earth, and so did we.  God sent the floodwaters - the Beasts of the Devil - as judgment, a block in the way of humanity’s wickedness that rose out of the grief of His heart.  This commune, this stockpile is our ark.",
+    "responses": [
+      {
+        "text": "Your group has food enough and to spare…",
+        "topic": "TALK_GODCO_Eddie_Beg",
+        "condition": { "not": { "u_has_effect": "beg_godco_eddie" } }
+      },
+      { "text": "Sounds like a hotspot for bandits and thugs.", "topic": "TALK_GODCO_Eddie_Theft" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Story",
+    "dynamic_line": "You're one of them priers, eh?  My story's not worth telling.  I've lived a meek life, and by the grace of God, I'm among the living.",
+    "responses": [
+      {
+        "text": "The NECC put their trust in you by letting you guard their stockpile; is there a story there?",
+        "topic": "TALK_GODCO_Eddie_Story1"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Story1",
+    "dynamic_line": "I'm an old-timer: been a follower since '09.  I suppose that's enough reason to be trusted, ain't it?",
+    "responses": [
+      { "text": "Why did you join the community, if you don't mind me asking?", "topic": "TALK_GODCO_Eddie_Story_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Story2",
+    "dynamic_line": "My mother passed away in '08.  I couldn't fully process the pain of losing her, for a while I thought I never would.  I was her only son, she was my only mom; then, she was just gone…  As to how I joined the community, well, they reached out to me.  Offered me help, guidance, a sense of belonging; and I embraced it.  They are not the monsters some of them joinees paint them to be.  These good people, they saved my life.  For that, I'm eternally grateful.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Eddie_Theft",
+    "dynamic_line": "The Second Flood purged all of them rotten souls from the face of the Earth.  I do not question God's judgment.  My 12-gauge is reserved for the Beasts of the Devil, though I am not afraid to use it if any straggler dares steal from us.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

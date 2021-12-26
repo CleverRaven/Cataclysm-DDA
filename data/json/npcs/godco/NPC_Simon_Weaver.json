@@ -1,0 +1,369 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_simon",
+    "name_unique": "Simon Weaver",
+    "gender": "male",
+    "name_suffix": "follower",
+    "class": "NC_godco_simon",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_Simon_1",
+    "mission_offered": "MISSION_GODCO_SIMON_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_simon",
+    "name": { "str": "Follower" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": 4,
+    "worn_override": "GODCO_simon_worn",
+    "carry_override": "GODCO_simon_carried",
+    "weapon_override": "GODCO_simon_wield",
+    "traits": [
+      { "trait": "ADDICTIVE" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "GOODHEARING" },
+      { "group": "Appearance_Caucasian" }
+    ],
+    "skills": [ { "skill": "cooking", "bonus": 6 }, { "skill": "cutting", "bonus": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_simon_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "briefs" },
+      { "item": "sweatshirt" },
+      { "item": "pants" },
+      { "item": "leather_pouch" },
+      { "item": "jacket_chef" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_simon_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "matches" }, { "item": "icon", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_simon_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_steak" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Simon_2",
+      "TALK_GODCO_Simon_Community",
+      "TALK_GODCO_Simon_Beg_Bribe",
+      "TALK_GODCO_Simon_Beg_Family",
+      "TALK_GODCO_Simon_Story",
+      "TALK_GODCO_Simon_Mood",
+      "TALK_GODCO_Simon_Mood1",
+      "TALK_GODCO_Simon_Currency",
+      "TALK_GODCO_Simon_Trade"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Simon_Story" },
+      { "text": "How are things here?", "topic": "TALK_GODCO_Simon_Mood" },
+      {
+        "text": "Surely you're not a newcomer here, can you tell me about your group?",
+        "topic": "TALK_GODCO_Simon_Community"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_simon",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "Praise the Lord.",
+      "no": {
+        "u_male": true,
+        "yes": "I haven't see you before.  Can I help you, sir?",
+        "no": "I haven't see you before.  Can I help you, ma'am?"
+      }
+    },
+    "responses": [
+      {
+        "text": "This is a tidy kitchen, must be hard keeping it orderly.",
+        "effect": { "u_add_var": "u_met_godco_simon", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_simon", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Simon_Firstmeet"
+      },
+      {
+        "text": "Hey there, good to see you again.",
+        "condition": { "u_has_var": "u_met_godco_simon", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Simon_2"
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": {
+          "or": [
+            { "u_has_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "1" },
+            { "u_has_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "2" }
+          ]
+        },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "Actually, I'm just heading out.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_var": "u_met_godco_simon", "type": "general", "context": "meeting", "value": "yes" } }
+      },
+      {
+        "text": "I'm afraid I can't talk right now.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "u_met_godco_simon", "type": "general", "context": "meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Firstmeet",
+    "dynamic_line": "It ain't so difficult with a little help and experience.  I'm Simon, Simon Weaver.  And you would be…?",
+    "responses": [
+      { "text": "I am an unfortunate who really needs something to eat.", "topic": "TALK_GODCO_Simon_Beg" },
+      {
+        "text": "I'm just a curious traveler, wanting to talk.",
+        "condition": { "not": { "u_has_effect": "godco_joinee" } },
+        "topic": "TALK_GODCO_Simon_2"
+      },
+      {
+        "text": "I'm seeking asylum here.  I just wanted to talk.",
+        "condition": { "u_has_effect": "godco_joinee" },
+        "topic": "TALK_GODCO_Simon_2"
+      },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_2",
+    "dynamic_line": {
+      "u_male": true,
+      "yes": [ "…", "How may I help you, sir?", "Something on your mind?" ],
+      "no": [ "…", "How may I help you, ma'am?", "Something on your mind?" ]
+    },
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Community",
+    "dynamic_line": "*smiles. \"Of course not!  I've been a loyal follower for over fifteen years and counting.  Took part in every mass, gathering, and event without exception.  I helped organize charities, I was there whenever our church was handing out hot soup for the less fortunate.  I completed my quota: I volunteered at a homeless shelter for over five years.\"  His smile fades away. \"But that's all in the past now.  We've been hunkered down here ever since it all came down.  I guess we've shut ourselves off from the world, or what remains of it.  Don't get me wrong, we try to help fellow survivors as much as we can, but we have to look after our own too - and our resources are limited.",
+    "responses": [
+      { "text": "Can you give me something to eat then?", "topic": "TALK_GODCO_Simon_Beg" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Story",
+    "dynamic_line": "It's a long, long story.  For the better part of my life, I wasn't a devout Christian.  I wasn't born into a religious family, nor a stable household - though I don't want to blame my parents for the choices I myself made, because I did make life even tougher for them.  One bad decision led to another, and I ended up on the streets.  I spent a few months in and out of homeless shelters until, as fate would have it, I crossed paths with the congregation that would end up saving my life.  These good people did to me what no amount of government funds could've done: set me back on my feet.  For the very first time, I could hear the word of God - and I was forever a changed man.  For that, I'm eternally grateful.\n\nAll those tragedies, all those tribulations…  I believe they were planned for me.  I feel as though I was predestined to become one with the church and meet Katherine.  It puts me at peace, knowing our Good Shepherd is watching over us.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Mood",
+    "dynamic_line": "I'm not one to complain.  The Lord is merciful: He spared my family - my wife Katherine, and our son Jerry - my good friends and the entire congregation from His judgment.  I wish God was as forgiving to others as to me.",
+    "responses": [
+      { "text": "What about when the stockpile runs out?  Won't that happen eventually?", "topic": "TALK_GODCO_Simon_Mood1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Mood1",
+    "dynamic_line": "I'd like to think our fate is in good hands.  If that's the direction our Good Shepherd wants to lead us, then so be it.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Beg",
+    "dynamic_line": "We are happy to provide you with shelter, but I'm afraid that's the most we can give you.\" He lets out a sigh. \"Long gone are the days when we offered free meals to people such as yourself.  I'm so sorry, but we don't have enough food to take on anyone else.",
+    "responses": [
+      { "text": "I've got money on me.  I think we can work something out.", "topic": "TALK_GODCO_Simon_Beg_Bribe" },
+      { "text": "Please sir, I have a family.", "topic": "TALK_GODCO_Simon_Beg_Family" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Beg_Family",
+    "dynamic_line": {
+      "u_has_effect": "beg_godco_eddie",
+      "yes": "I know that, and I'm praying for them.  Look, I think we're both aware of Eddie's \"soft spot\" for families.  You've got a lot of nerve coming here, pal.",
+      "no": {
+        "u_male": true,
+        "yes": "And I'm praying for them.  Look, I'm a father too.  I know how difficult it is to support a family, and it pains me every time I turn someone like you away, but the last thing we need is another mouth to feed.  I'm sorry, but we cannot save you now.",
+        "no": "And I'm praying for them.  Look, I'm a parent too.  I know how difficult it is to support a family, and it pains me every time I turn someone like you away, but the last thing we need is another mouth to feed.  I'm sorry, but we cannot save you now."
+      }
+    },
+    "responses": [
+      { "text": "What about being a Good Samaritan and all that?", "topic": "TALK_GODCO_Simon_Beg_Family1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Beg_Family1",
+    "dynamic_line": "What does \"being a Good Samaritan\" mean, if not protecting one's neighbors or offering them beds, heating, and medicine when in distress?  How dare you question our efforts.  We could've helped you, pal, but you actively refused us - refused to hear our warnings, refused to donate to our cause, refused to become one with our church.  How could we have helped you, friend, if you yourself chose not to be saved?",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Beg_Bribe",
+    "dynamic_line": "That's… not how it works around these parts, pal.  Whatever old-world currency you might possess has no value to me.",
+    "responses": [
+      { "text": "My money is worthless?", "topic": "TALK_GODCO_Simon_Currency" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Currency",
+    "dynamic_line": "*pulls an icon from his leather pouch. \"You see this?  This is an icon, with masterfully crafted iconography.  That's what we use as currency.  Forget about the dollar; firestarters, that's what they are!  See, that's the problem with you people: you try to solve each and every issue on God's green earth by throwing money at it.  Ain't gonna help you now, pal.\"",
+    "responses": [
+      {
+        "text": "So I can't trade money for food?  Got it.  What can these icons buy me then?",
+        "topic": "TALK_GODCO_Simon_Trade"
+      },
+      {
+        "text": "I'd like to earn some icons then.",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_has_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "3" } }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Simon_Trade",
+    "dynamic_line": "Well, my friend, that depends.  Are you in the market for tanned pelts, wild herbs, or custom-fitted, armored jumpsuits?  Ask around, I'm sure many of us are willing to exchange valuable supplies for your icons.",
+    "responses": [
+      {
+        "text": "I'd like to earn some icons then.",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_has_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "3" } }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_GODCO_SIMON_1",
+    "type": "mission_definition",
+    "name": { "str": "Find five pounds of salt" },
+    "description": "Find five pounds of unseasoned salt and bring them back to Simon, in exchange for the local currency: icons.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "salt",
+    "count": 450,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_SIMON_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I need a supply of salt…",
+      "offer": "If you're really looking to earn some icons I could use your help retrieving some rudimentary preservatives.  Our food reserve is large but not infinite, and without constant replenishment I fear it's going to dry up within a few months.  Thanks to Russell and Darryl we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Could you find about five pounds of salt for me?",
+      "accepted": "Thanks for accepting this task, it'll take a load off my shoulders.  I wish you luck, my friend, may the Lord guide your path.",
+      "rejected": "Changed your mind already?",
+      "advice": "Five pounds is about… five plastic bags of pure household salt.",
+      "inquire": "How is the search going?",
+      "success": "Great, this should hold us over for a while.  As promised, here's your icons - three for now, but I'm willing to increase it later on.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "Quitting already?"
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 3 },
+        { "u_add_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "1" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_SIMON_2",
+    "type": "mission_definition",
+    "name": { "str": "Find three jugs of vinegar" },
+    "description": "Find three gallon jugs of vinegar and bring them back to Simon, in exchange for the local currency: icons.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "vinegar",
+    "count": 720,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_SIMON_3",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I need a supply of vinegar…",
+      "offer": "We can't just store everything in salt.  I have several empty glass jars - most of them were filled when we arrived here - that are ready to preserve perishables for the future.  We could do our own pickling if we had some vinegar.  I could get by with only three jugs for now.",
+      "accepted": "I'll see you soon, hopefully.  Take care out there, may the Lord guide your path.",
+      "rejected": "Come back when you get a chance, we could use some help from people like you.",
+      "advice": "I used to keep mine under the kitchen sink.",
+      "inquire": "How is the search going?",
+      "success": "With these I can finally begin preserving our meat 'n veggies.  Thank you, you're a godsent.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "Quitting already?"
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 4 },
+        { "u_add_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "2" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_SIMON_3",
+    "type": "mission_definition",
+    "name": { "str": "Find a canning pot" },
+    "description": "Find a 25l canning pot and bring it back to Simon, in exchange for the local currency: icons.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 0,
+    "item": "pot_canning",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I need a canning pot…",
+      "offer": "The process of pickling is rather time-consuming and has a narrow ideal temperature range.  We are looking for a method that's a bit less delicate: canning.  If you could obtain me, say, a 25l canning pot, we could do our own canning.",
+      "accepted": "Thank you so much, friend, may the Lord guide your path.",
+      "rejected": "Come back when you get a chance, we could use more people like you.",
+      "advice": "They shouldn't be hard to find, try looting house kitchens.",
+      "inquire": "How is the search going?",
+      "success": "That's one less thing to worry about.  I am grateful for the help you've done, friend.  Don't worry, you won't leave empty-handed.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "Quitting already?"
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 5 },
+        { "u_add_var": "godco_simon_mission", "type": "mission", "context": "flag", "value": "3" }
+      ]
+    }
+  }
+]
