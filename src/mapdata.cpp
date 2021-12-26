@@ -1360,8 +1360,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
-
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
 
     load_symbol( jo );
 

@@ -7,7 +7,8 @@
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
-    "zombify_into": "mon_zombie"
+    "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
     "id": "mon_bat",

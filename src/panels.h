@@ -77,7 +77,7 @@ std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
 std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
-std::pair<std::string, nc_color> morale_face_color( avatar &u );
+std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
 std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const mood_face &face );
 

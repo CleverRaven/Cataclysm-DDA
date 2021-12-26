@@ -894,7 +894,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     if( !get_description().empty() ) {
-        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>", get_description() ) );
+        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
+                           get_description().translated() ) );
     }
 
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -1138,12 +1139,12 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                 contents_header = true;
             }
 
-            const translation &description = contents_item.type->description;
+            const translation &desc = contents_item.type->description;
 
             if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                    contents_item.color_in_inventory() ) );
-                info.emplace_back( vol_to_info( cont_type_str, description + space, contents_item.volume() ) );
+                info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
                 info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                    contents_item.color_in_inventory() ) );
@@ -1778,7 +1779,7 @@ bool item_pocket::is_ablative() const
     return get_pocket_data()->ablative;
 }
 
-std::string item_pocket::get_description() const
+const translation &item_pocket::get_description() const
 {
     return get_pocket_data()->description;
 }

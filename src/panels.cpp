@@ -590,7 +590,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-std::pair<std::string, nc_color> display::morale_face_color( avatar &u )
+std::pair<std::string, nc_color> display::morale_face_color( const avatar &u )
 {
     const mood_face_id &face = u.character_mood_face();
     if( face.is_null() ) {

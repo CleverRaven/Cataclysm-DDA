@@ -1069,7 +1069,10 @@ struct itype {
 
         std::set<weapon_category_id> weapon_category;
 
-        std::map<quality_id, int> qualities; //Tool quality indicators
+        // Tool qualities and levels for those that work even when tool is not charged
+        std::map<quality_id, int> qualities;
+        // Tool qualities that work only when the tool has charges_to_use charges remaining
+        std::map<quality_id, int> charged_qualities;
 
         std::map<std::string, std::string> properties;
 
@@ -1190,6 +1193,7 @@ struct itype {
         /// @{
         int damage_min_ = -1000;
         int damage_max_ = +4000;
+        int degrade_increments_ = 50;
         /// @}
 
     public:
@@ -1223,6 +1227,9 @@ struct itype {
         }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
+        }
+        int degrade_increments() const {
+            return count_by_charges() ? 0 : degrade_increments_;
         }
 
         std::string get_item_type_string() const {

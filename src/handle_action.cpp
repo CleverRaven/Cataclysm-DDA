@@ -134,6 +134,8 @@ static const skill_id skill_melee( "melee" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -612,13 +614,25 @@ static void grab()
         add_msg( _( "Never mind." ) );
         return;
     }
-    const tripoint grabp = *grabp_;
+    tripoint grabp = *grabp_;
 
     if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
         you.grab( object_type::NONE );
         return;
     }
+
+    // Object might not be on the same z level if on a ramp.
+    if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
+            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos() ) ) {
+            grabp.z += 1;
+        } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, grabp ) ||
+                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos() ) ) {
+            grabp.z -= 1;
+        }
+    }
+
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
@@ -1024,7 +1038,9 @@ static void sleep()
         return;
     }
 
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+        !player_character.has_trait( trait_WATERSLEEPER ) &&
+        !player_character.has_trait( trait_WATERSLEEP ) ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
     }

@@ -2232,6 +2232,14 @@ void options_manager::add_options_world_default()
          false
        );
 
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
+       );
+
     add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
@@ -3107,6 +3115,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {

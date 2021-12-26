@@ -688,6 +688,9 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
@@ -713,6 +716,7 @@ void game::setup()
     follower_ids.clear();
     scent.reset();
     effect_on_conditions::clear( u );
+    u.character_mood_face( true );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
@@ -2474,10 +2478,20 @@ void game::death_screen()
     display_faction_epilogues();
 }
 
+// A timestamp that can be used to make unique file names
+// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+static std::string timestamp_now()
+{
+    std::time_t time = std::time( nullptr );
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
+    return date_buffer.str();
+}
+
 void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = PATH_INFO::world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
+    const std::string graveyard_dir = PATH_INFO::graveyarddir() + "/" + timestamp_now() + "/";
     const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -2621,6 +2635,9 @@ bool game::load( const save_t &name )
     // worldoptions
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
 
@@ -4744,13 +4761,13 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
             case 2:
                 add_msg( m_info, _( "The removal fails." ) );
                 add_msg( m_bad, _( "The body is damaged." ) );
-                cyborg->set_damage( damage + 1000 );
+                cyborg->mod_damage( 1000 );
                 break;
             case 3:
             case 4:
                 add_msg( m_info, _( "The removal fails badly." ) );
                 add_msg( m_bad, _( "The body is badly damaged!" ) );
-                cyborg->set_damage( damage + 2000 );
+                cyborg->mod_damage( 2000 );
                 break;
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
@@ -5306,7 +5323,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            vp->vehicle().interact_with( *vp );
+            vp->vehicle().interact_with( *vp, with_pickup );
             return;
         } else {
             add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
@@ -5647,19 +5664,32 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
-    const std::string tile = m.tername( lp );
-    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
-        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
-        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
-    } else {
-        mvwprintz( w_look, point( column, line ), c_white, area_name );
-        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    // Print OMT type and terrain type on first two lines
+    // if can't fit in one line.
+    std::string tile = m.tername( lp );
+    tile[0] = toupper( tile[0] );
+    std::string area =  area_name;
+    area[0] = toupper( area[0] );
+    mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_white, tile );
+    std::string desc = string_format( m.ter( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture on second line if any.
+    // Furniture if any.
     if( m.has_furn( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
+        std::string desc = m.furnname( lp );
+        desc[0] = toupper( desc[0] );
+        mvwprintz( w_look, point( column, line++ ), c_white, desc );
+        desc = string_format( m.furn( lp ).obj().description );
+        lines = foldstring( desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines; i++ ) {
+            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        }
     }
 
     // Cover percentage from terrain and furniture next.
@@ -5667,8 +5697,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                     m.coverage( lp ) );
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
-    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
-    int numlines = lines.size();
+    lines = foldstring( m.features( lp ), max_width );
+    numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
@@ -7010,12 +7040,8 @@ bool game::take_screenshot() const
     assure_dir_exist( map_directory.str() );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-    std::time_t time = std::time( nullptr );
-    std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
     const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               date_buffer.str() );
+                               timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;
@@ -9109,22 +9135,18 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
     const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp ==  u.grab_point;
-        pulling = dp == -u.grab_point;
-    }
-    if( grabbed && dest_loc.z != u.posz() ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        grabbed = false;
-        u.grab( object_type::NONE );
+        pushing = dp.xy() ==  u.grab_point.xy();
+        pulling = dp.xy() == -u.grab_point.xy();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
         if( m.has_furn( u.pos() + u.grab_point ) ) {
@@ -9326,6 +9348,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    }
+
+    if( furniture_move ) {
+        // Adjust the grab_point if player has changed z level.
+        u.grab_point.z -= u.posz() - oldpos.z;
+    }
+
+    if( grabbed_vehicle ) {
+        // Vehicle might be at different z level than the grabbed part.
+        u.grab_point.z = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
@@ -9810,14 +9842,18 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp == -u.grab_point;
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool has_floor = m.has_floor( fdest );
     creature_tracker &creatures = get_creature_tracker();
+    bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_ROAD, fdest );
     return  m.passable( fdest ) &&
             creatures.creature_at<npc>( fdest ) == nullptr &&
             creatures.creature_at<monster>( fdest ) == nullptr &&
             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) &&
+            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
+              is_ramp_or_road ) &&
             !m.has_furn( fdest ) &&
             !m.veh_at( fdest ) &&
             ( !has_floor || m.tr_at( fdest ).is_null() );
@@ -9833,7 +9869,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         return 0;
     }
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
     const bool canmove = can_move_furniture( fdest, dp );
     const furn_t &furntype = m.furn( fpos ).obj();
@@ -9900,11 +9936,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    const bool pushing_furniture = dp ==  u.grab_point;
-    const bool pulling_furniture = dp == -u.grab_point;
+    int ramp_offset = 0;
+    // Furniture could be on a ramp at different time than player so adjust for that.
+    if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = 1;
+    } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = -1;
+    }
+
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    // Intended destination of furniture.
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -10043,6 +10088,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
+    u.grab_point.z += ramp_offset;
+
     if( shifting_furniture ) {
         // We didn't move
         tripoint d_sum = u.grab_point + dp;
@@ -10069,11 +10116,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
 bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 {
     if( u.get_grab_type() == object_type::NONE ) {
-        return false;
-    }
-
-    if( dp.z != 0 ) {
-        // No dragging stuff up/down stairs yet!
         return false;
     }
 
@@ -10819,8 +10861,6 @@ bool game::vertical_shift( const int z_after )
         return false;
     }
 
-    // TODO: Implement dragging stuff up/down
-    u.grab( object_type::NONE );
     scent.reset();
 
     const int z_before = u.posz();

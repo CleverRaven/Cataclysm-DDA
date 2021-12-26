@@ -1283,7 +1283,7 @@
   {
     "id": "MAG_BULKY",
     "type": "json_flag",
-    "info": "This item is <bad>bulky</bad> and may not fit in all magazine pockets",
+    "info": "This item is <bad>bulky</bad> and may not fit in all magazine pockets.",
     "restriction": "Item must be a bulky magazine"
   },
   {
@@ -1675,7 +1675,7 @@
   {
     "id": "MAG_COMPACT",
     "type": "json_flag",
-    "info": "This item has a small profile consistent with a compact magazine",
+    "info": "This item has a small profile consistent with a compact magazine.",
     "restriction": "Item must be a compact magazine"
   },
   {

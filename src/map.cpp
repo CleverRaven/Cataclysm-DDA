@@ -4320,6 +4320,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
 
     new_item.set_damage( damlevel );
+    new_item.rand_degradation();
     for( const flag_id &flag : flags ) {
         new_item.set_flag( flag );
     }
@@ -4695,8 +4696,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish sterilizing items in the %s." ),
-                         to_minutes<int>( time_left ) + 1, cur_veh.name );
+                const int minutes = to_minutes<int>( time_left ) + 1;
+                add_msg( n_gettext( "It should take %1$d minute to finish sterilizing items in the %2$s.",
+                                    "It should take %1$d minutes to finish sterilizing items in the %2$s.", minutes ),
+                         minutes, cur_veh.name );
                 break;
             }
         }
@@ -6615,6 +6618,15 @@ void map::save()
 void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
                 const bool pump_events )
 {
+    map &main_map = get_map();
+    if( this != &main_map ) {
+        // It's unsafe to load a map that overlaps with the primary map;
+        // various caches get confused.  So make sure we're not doing that.
+        if( main_map.inbounds( project_to<coords::ms>( w ) ) ) {
+            debugmsg( "loading non-main map at %s which overlaps with main map (abs_sub = %s) "
+                      "is not supported", w.to_string(), main_map.abs_sub.to_string() );
+        }
+    }
     for( auto &traps : traplocs ) {
         traps.clear();
     }

@@ -249,7 +249,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         if( veh == source_veh && veh->has_part( "FLUIDTANK", false ) ) {
             for( const vpart_reference &vp : veh->get_avail_parts( "FLUIDTANK" ) ) {
                 if( vp.part().get_base().can_reload_with( liquid, true ) ) {
-                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill available tank" ) );
                     actions.emplace_back( [ &, veh]() {
                         target.veh = veh;
                         target.dest_opt = LD_VEH;

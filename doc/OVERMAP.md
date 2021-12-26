@@ -134,6 +134,20 @@ those overmap terrains relative to each other, and some data used to drive the p
 overmap special / city building (e.g. how far from a city, should be it connected to a road, can it
 be placed in a forest/field/river, etc).
 
+When retiring or migrating an overmap special, the id should be defined in a new `overmap_special_migration`,
+usually defined in `data/json/overmap/overmap_special/overmap_special_migration.json` as follows:
+
+```json
+{
+  "type": "overmap_special_migration",
+  "id": "Military Bunker",
+  "new_id": "military_bunker"
+}
+```
+
+Specials that have been removed (not just renamed) should have a blank `new_id`, or just omit
+the `new_id` field altogether.
+
 ### overmap_connection
 
 Speaking of roads, the concept of linear features like roads, sewers, subways, railroads, and

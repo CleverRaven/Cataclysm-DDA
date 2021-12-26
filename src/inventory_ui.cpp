@@ -2746,6 +2746,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     selection_col->prepare_paging();
     count = 0;
+    on_toggle();
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -3312,13 +3313,14 @@ void trade_selector::execute()
             inventory_drop_selector::on_input( input );
             if( input.action == "HELP_KEYBINDINGS" ) {
                 ctxt.display_menu();
-            } else if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
-                       input.entry != nullptr ) {
-                // FIXME: this would be better done in a callback from toggle_entries()
-                _parent->recalc_values_cpane();
             }
         }
     }
+}
+
+void trade_selector::on_toggle()
+{
+    _parent->recalc_values_cpane();
 }
 
 void trade_selector::resize( point const &size, point const &origin )

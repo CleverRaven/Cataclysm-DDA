@@ -169,6 +169,7 @@ parsers = {
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
     "overmap_special": dummy_parser,
+    "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
     "pet_armor": parse_generic,

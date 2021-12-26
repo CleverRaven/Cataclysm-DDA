@@ -348,6 +348,7 @@ static const quality_id qual_LIFT( "LIFT" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
 
+static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -844,9 +845,13 @@ static double modified_sight_speed( double aim_speed_modifier, double effective_
 
 int Character::point_shooting_limit( const item &gun )const
 {
+    // This value is not affected by PER, because the accuracy of aim shooting depends more on muscle memory and skill
     skill_id gun_skill = gun.gun_skill();
-
-    return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    if( gun_skill == skill_archery ) {
+        return 30 + 220 / ( 1 + std::min( get_skill_level( gun_skill ), MAX_SKILL ) );
+    } else {
+        return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+    }
 }
 
 double Character::fastest_aiming_method_speed( const item &gun, double recoil,
@@ -2954,10 +2959,10 @@ bool Character::can_use( const item &it, const item &context ) const
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
-        cata::optional<int> wi;
         // check if "it" is currently wielded fake bionic weapon that can be deactivated
-        if( !( is_wielding( it ) && ( wi = active_bionic_weapon_index() ) &&
-               can_deactivate_bionic( *wi ).success() ) ) {
+        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+        if( !is_wielding( it ) || it.ethereal || !bio_opt ||
+            !can_deactivate_bionic( **bio_opt ).success() ) {
             return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
         }
     }
@@ -5059,17 +5064,13 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
         // Web sleepers can use their webs if better furniture isn't available
         else if( websleep && web >= 3 ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_improvised_shelter ) {
-            comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            comfort += 1 + static_cast<int>( comfort_level::neutral );
         } else if( !trap_at_pos.is_null() ) {
             comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
             comfort -= here.move_cost( p );
+            // Include comfort from terrain, if any
+            comfort += ter_at_pos.obj().comfort;
         }
 
         if( comfort_response.aid == nullptr ) {
@@ -6020,7 +6021,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
-            if( obj->damage() > 0 ) {
+            if( obj->damage() > obj->damage_floor( false ) ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
                 if( rep.empty() ) {
                     add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
@@ -7007,6 +7008,14 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "You can't wield this.  Wielding it would make it impossible to unwield it." ) );
+    }
+    if( it.has_flag( flag_BIONIC_WEAPON ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
+    }
 
     const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
@@ -7054,8 +7063,8 @@ bool Character::unwield()
 
     // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
     if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-        cata::optional<int> wi = active_bionic_weapon_index();
-        return wi && deactivate_bionic( *wi );
+        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+        return bio_opt && can_deactivate_bionic( **bio_opt ).success();
     }
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
@@ -8186,10 +8195,8 @@ int Character::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
     } else if( boardable ) {
         floor_bedding_warmth += boardable->info().floor_bedding_warmth;
-    } else if( ter_at_pos == t_improvised_shelter ) {
-        floor_bedding_warmth -= 500;
     } else {
-        floor_bedding_warmth -= 2000;
+        floor_bedding_warmth += ter_at_pos.obj().floor_bedding_warmth - 2000;
     }
 
     return floor_bedding_warmth;
@@ -8741,6 +8748,9 @@ void Character::on_mutation_gain( const trait_id &mid )
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
     effect_on_conditions::process_reactivate( *this );
+    if( is_avatar() ) {
+        as_avatar()->character_mood_face( true );
+    }
 }
 
 void Character::on_mutation_loss( const trait_id &mid )
@@ -8750,6 +8760,9 @@ void Character::on_mutation_loss( const trait_id &mid )
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
     effect_on_conditions::process_reactivate( *this );
+    if( is_avatar() ) {
+        as_avatar()->character_mood_face( true );
+    }
 }
 
 void Character::on_stat_change( const std::string &stat, int value )

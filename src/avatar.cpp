@@ -211,6 +211,7 @@ void avatar::control_npc( npc &np )
     // center the map on the new avatar character
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
+    character_mood_face( true );
 }
 
 void avatar::control_npc_menu()
@@ -1887,7 +1888,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos == t_improvised_shelter ||
+                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||

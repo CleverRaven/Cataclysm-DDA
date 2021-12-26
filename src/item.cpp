@@ -723,22 +723,48 @@ int item::damage() const
     return damage_;
 }
 
-int item::damage_level() const
+int item::degradation() const
 {
-    if( damage_ == 0 ) {
+    return degradation_;
+}
+
+void item::rand_degradation()
+{
+    degradation_ = damage() <= 0 ? 0 : rng( 0, damage() );
+    degradation_ = degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>
+                   ( degrade_increments() ) ) : 0;
+}
+
+int item::damage_level( int dmg ) const
+{
+    dmg = dmg == INT_MIN ? damage_ : dmg;
+    if( dmg == 0 ) {
         return 0;
     } else if( max_damage() <= 1 ) {
-        return damage_ > 0 ? 4 : damage_;
-    } else if( damage_ < 0 ) {
-        return -( 3 * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
+        return dmg > 0 ? 4 : dmg;
+    } else if( dmg < 0 ) {
+        return -( 3 * ( -dmg - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
-        return 3 * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
+        return 3 * ( dmg - 1 ) / ( max_damage() - 1 ) + 1;
     }
+}
+
+int item::damage_floor( bool allow_negative ) const
+{
+    return std::max( min_damage() + degradation(), allow_negative ? min_damage() : 0 );
 }
 
 item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
+    degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
+    return *this;
+}
+
+item &item::set_degradation( int qty )
+{
+    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
+    damage_ = std::min( std::max( damage_, damage_floor( false ) ), max_damage() );
     return *this;
 }
 
@@ -1228,6 +1254,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( damage_ != rhs.damage_ ) {
+        return false;
+    }
+    if( degradation_ != rhs.degradation_ ) {
         return false;
     }
     if( burnt != rhs.burnt ) {
@@ -2070,6 +2099,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                charges );
             info.emplace_back( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
                                damage_ );
+            info.emplace_back( "BASE", _( "degradation: " ), "", iteminfo::lower_is_better,
+                               degradation_ );
             info.emplace_back( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -2675,19 +2706,26 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     int act_disp = disp.first;
     int eff_disp = disp.second;
     int adj_disp = eff_disp - act_disp;
+    int point_shooting_limit = player_character.point_shooting_limit( *mod );
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
-        info.emplace_back( "GUN", _( "Sight dispersion: " ), "",
-                           iteminfo::no_newline | iteminfo::lower_is_better,
-                           act_disp );
+        if( point_shooting_limit <= eff_disp ) {
+            info.emplace_back( "GUN", _( "Sight dispersion (point shooting): " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better,
+                               point_shooting_limit );
+        } else {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better,
+                               act_disp );
 
-        if( adj_disp ) {
-            info.emplace_back( "GUN", "sight_adj_disp", "",
-                               iteminfo::no_newline | iteminfo::lower_is_better |
-                               iteminfo::no_name | iteminfo::show_plus, adj_disp );
-            info.emplace_back( "GUN", "sight_eff_disp", _( " = <num>" ),
-                               iteminfo::lower_is_better | iteminfo::no_name,
-                               eff_disp );
+            if( adj_disp ) {
+                info.emplace_back( "GUN", "sight_adj_disp", "",
+                                   iteminfo::no_newline | iteminfo::lower_is_better |
+                                   iteminfo::no_name | iteminfo::show_plus, adj_disp );
+                info.emplace_back( "GUN", "sight_eff_disp", _( " = <num>" ),
+                                   iteminfo::lower_is_better | iteminfo::no_name,
+                                   eff_disp );
+            }
         }
     }
 
@@ -4226,28 +4264,53 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
 void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                            bool /*debug*/ ) const
 {
+    // Inline function to emplace a given quality (and its level) onto the info vector
     auto name_quality = [&info]( const std::pair<quality_id, int> &q ) {
         std::string str;
         if( q.first == qual_JACK || q.first == qual_LIFT ) {
-            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and "
-                                    "is rated at <info>%3$d</info> %4$s" ),
+            //~ %1$d is the numeric quality level, and %2$s is the name of the quality.
+            //~ %3$d is the amount of weight the jack can lift, and %4$s is the units of that weight.
+            str = string_format( _( "Level <info>%1$d %2$s</info> quality, "
+                                    "rated at <info>%3$d</info> %4$s" ),
                                  q.second, q.first.obj().name,
                                  static_cast<int>( convert_weight( lifting_quality_to_mass( q.second ) ) ),
                                  weight_units() );
         } else {
-            str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
+            //~ %1$d is the numeric quality level, and %2$s is the name of the quality
+            str = string_format( _( "Level <info>%1$d %2$s</info> quality" ),
                                  q.second, q.first.obj().name );
         }
         info.emplace_back( "QUALITIES", "", str );
     };
 
-    if( parts->test( iteminfo_parts::QUALITIES ) ) {
+    // List all qualities of this item granted by its item type
+    const bool has_any_qualities = !type->qualities.empty() || !type->charged_qualities.empty();
+    if( parts->test( iteminfo_parts::QUALITIES ) && has_any_qualities ) {
         insert_separation_line( info );
-        for( const std::pair<quality_id, int> &q : sorted_lex( type->qualities ) ) {
-            name_quality( q );
+        // List all inherent (unconditional) qualities
+        if( !type->qualities.empty() ) {
+            info.emplace_back( "QUALITIES", "", _( "<bold>Has qualities</bold>:" ) );
+            for( const std::pair<quality_id, int> &q : sorted_lex( type->qualities ) ) {
+                name_quality( q );
+            }
+        }
+        // Tools with "charged_qualities" defined may have additional qualities when charged.
+        // List them, and show whether there is enough charge to use those qualities.
+        if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
+            if( ammo_remaining() >= type->charges_to_use() ) {
+                info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
+            } else {
+                info.emplace_back( "QUALITIES", "",
+                                   string_format( _( "<bad>Needs %d or more charges</bad> for qualities:" ),
+                                                  type->charges_to_use() ) );
+            }
+            for( const std::pair<quality_id, int> &q : sorted_lex( type->charged_qualities ) ) {
+                name_quality( q );
+            }
         }
     }
 
+    // Accumulate and list all qualities of items contained within this item
     if( parts->test( iteminfo_parts::QUALITIES_CONTAINED ) &&
     contents.has_any_with( []( const item & e ) {
     return !e.type->qualities.empty();
@@ -5430,6 +5493,32 @@ std::string item::dirt_symbol() const
     return dirt_symbol;
 }
 
+std::string item::degradation_symbol() const
+{
+    const int inc = max_damage() / 5;
+    const int dgr_lvl = degradation() / ( inc > 0 ? inc : 1 );
+    std::string dgr_symbol;
+
+    switch( dgr_lvl ) {
+        case 0:
+            dgr_symbol = colorize( "\u2588", c_light_green );
+            break;
+        case 1:
+            dgr_symbol = colorize( "\u2587", c_yellow );
+            break;
+        case 2:
+            dgr_symbol = colorize( "\u2585", c_magenta );
+            break;
+        case 3:
+            dgr_symbol = colorize( "\u2583", c_light_red );
+            break;
+        default:
+            dgr_symbol = colorize( "\u2581", c_red );
+            break;
+    }
+    return degrade_increments() == 0 ? "" : dgr_symbol;
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
                          bool with_contents ) const
 {
@@ -5439,8 +5528,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
     unsigned int truncate_override = 0;
 
-    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
-        with_prefix ) {
+    if( ( damage() != 0 || ( degradation() > 0 && degradation() >= max_damage() / 5 ) ||
+          ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
         damtext = durability_indicator();
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             // get the utf8 width of the tags
@@ -6440,8 +6529,6 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
 
 int item::get_quality( const quality_id &id ) const
 {
-    int return_quality = INT_MIN;
-
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
@@ -6449,25 +6536,32 @@ int item::get_quality( const quality_id &id ) const
         return INT_MIN;
     }
 
-    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
-        if( quality.first == id ) {
-            return_quality = quality.second;
-        }
-    }
-    return_quality = std::max( return_quality, contents.best_quality( id ) );
-
-    return return_quality;
+    return get_raw_quality( id );
 }
 
 int item::get_raw_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
 
+    // Check for inherent item quality
     for( const std::pair<const quality_id, int> &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;
         }
     }
+
+    // If tool has charged qualities and enough charge to use at least once
+    if( !type->charged_qualities.empty() && type->charges_to_use() > 0 &&
+        type->charges_to_use() <= ammo_remaining() ) {
+        // see if any charged qualities are better than the current one
+        for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
+            if( quality.first == id ) {
+                return_quality = std::max( return_quality, quality.second );
+            }
+        }
+    }
+
+    // If any contained item has a better quality, use that instead
     return_quality = std::max( return_quality, contents.best_quality( id ) );
 
     return return_quality;
@@ -7042,6 +7136,18 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
     return found;
 }
 
+item::cover_type item::get_cover_type( damage_type type )
+{
+    item::cover_type ctype = item::cover_type::COVER_DEFAULT;
+    if( type == damage_type::BULLET ) {
+        ctype = item::cover_type::COVER_RANGED;
+    } else if( type == damage_type::BASH || type == damage_type::CUT ||
+               type == damage_type::STAB ) {
+        ctype = item::cover_type::COVER_MELEE;
+    }
+    return ctype;
+}
+
 int item::get_avg_coverage( const cover_type &type ) const
 {
     const islot_armor *t = find_armor_data();
@@ -7613,14 +7719,27 @@ int item::max_damage() const
     return type->damage_max();
 }
 
+int item::degrade_increments() const
+{
+    return type->degrade_increments();
+}
+
 float item::get_relative_health() const
 {
     return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
 }
 
+static int get_dmg_lvl_internal( int dmg, int min, int max )
+{
+    const int inc = ( max - min ) / 5;
+    dmg -= min;
+    return inc > 0 ? dmg == 0 ? -1 : ( dmg - 1 ) / inc : 0;
+}
+
 bool item::mod_damage( int qty, damage_type dt )
 {
     bool destroy = false;
+    int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
 
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
@@ -7634,7 +7753,15 @@ bool item::mod_damage( int qty, damage_type dt )
     if( !count_by_charges() ) {
         destroy |= damage_ + qty > max_damage();
 
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
+    }
+
+    if( qty > 0 && !destroy ) {
+        int degrade = std::max( get_dmg_lvl_internal( damage_, min_damage(), max_damage() ) - dmg_lvl, 0 );
+        int incr = degrade_increments();
+        if( incr > 0 ) {
+            degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
+        }
     }
 
     return destroy;
@@ -7653,6 +7780,65 @@ bool item::inc_damage( const damage_type dt )
 bool item::inc_damage()
 {
     return inc_damage( damage_type::NONE );
+}
+
+item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
+{
+    // We want armor's own resistance to this type, not the resistance it grants
+    const float armors_own_resist = damage_resist( du.type, true, bp );
+    if( armors_own_resist > 1000.0f ) {
+        // This is some weird type that doesn't damage armors
+        return armor_status::UNDAMAGED;
+    }
+
+    // Scale chance of article taking damage based on the number of parts it covers.
+    // This represents large articles being able to take more punishment
+    // before becoming ineffective or being destroyed.
+    const int num_parts_covered = get_covered_body_parts().count();
+    if( !one_in( num_parts_covered ) ) {
+        return armor_status::UNDAMAGED;
+    }
+
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const float raw_dmg = du.amount;
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return armor_status::UNDAMAGED;
+        }
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( has_flag( flag_STURDY ) || is_power_armor() || !one_in( 200 ) ) {
+            return armor_status::UNDAMAGED;
+        }
+    }
+
+    if( mod_damage( has_flag( flag_FRAGILE ) ?
+                    rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type ) ) {
+        return armor_status::DESTROYED;
+    }
+    return armor_status::DAMAGED;
+}
+
+item::armor_status item::damage_armor_transforms( damage_unit &du )
+{
+    // We want armor's own resistance to this type, not the resistance it grants
+    const float armors_own_resist = damage_resist( du.type, true );
+
+    // plates are rated to survive 3 shots at the caliber they protect
+    // linearly scale off the scale value to find the chance it breaks
+    float break_chance = 33.3f * ( du.amount / armors_own_resist );
+
+    float roll_to_break = rng_float( 0.0, 100.0 );
+
+    if( roll_to_break < break_chance ) {
+        //the plate is broken
+        return armor_status::TRANSFORMED;
+    }
+    return armor_status::UNDAMAGED;
 }
 
 nc_color item::damage_color() const
@@ -7714,7 +7900,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
+            outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -7738,7 +7924,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
+        outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
         if( include_intact && outputstring == " " ) {
@@ -8714,6 +8900,13 @@ void item::overflow( const tripoint &pos )
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
+
+    if( is_ebook_storage() ) {
+        for( const item *book : ebooks() ) {
+            ret += book->get_book_proficiency_bonuses();
+        }
+    }
+
     if( !type->book ) {
         return ret;
     }
