@@ -19,7 +19,20 @@ status_t monster_oracle_t::items_available( const std::string & ) const
 {
     if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&
         get_map().has_items( subject->pos() ) ) {
-        return status_t::running;
+        std::vector<material_id> absorb_material = subject->get_absorb_material();
+
+        if( absorb_material.empty() ) {
+            return status_t::running;
+        }
+
+        for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( const material_type *mat_type : it.made_of_types() ) {
+                if( std::find( absorb_material.begin(), absorb_material.end(),
+                               mat_type->id ) != absorb_material.end() ) {
+                    return status_t::running;
+                }
+            }
+        }
     }
     return status_t::failure;
 }
