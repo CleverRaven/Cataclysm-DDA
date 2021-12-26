@@ -3813,6 +3813,10 @@ void Item_factory::clear()
     gun_tools.clear();
     repair_actions.clear();
 
+    migrated_ammo.clear();
+    migrated_magazines.clear();
+    migrations.clear();
+
     frozen = false;
 }
 

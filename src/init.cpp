@@ -597,6 +597,7 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
+    MapExtras::clear();
     reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();
