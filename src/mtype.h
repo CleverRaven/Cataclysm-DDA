@@ -359,19 +359,16 @@ struct mtype {
         // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP (default 250)
         int absorption_ml_per_hp = 250;
 
-        // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 250)
+        // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 200)
         int split_move_cost = 200;
 
-        // Move cost per ml of matter consumed for this monster.
+        // Move cost per ml of matter consumed for this monster (default 0.025).
         float absorb_move_cost_per_ml = 0.025f;
 
-        // Minimum move cost for this monster to absorb an item (default 0)
+        // Minimum move cost for this monster to absorb an item (default 1)
         int absorb_move_cost_min = 1;
-        // Maximum move cost for this monster to absorb an item (default 500, -1 for no limit)
+        // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
         int absorb_move_cost_max = -1;
-
-        // The types of materials this monster can absorb
-        // std::map<std::string, material_type> absorbs_materials;
 
         /**
          * The amount of time in seconds that must pass until the monster can split again

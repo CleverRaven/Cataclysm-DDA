@@ -2700,11 +2700,10 @@
     "max_intensity": 10
   },
   {
-    "//": "Limits the number of times a monster can consume items and split to once per 2 minutes",
+    "//": "The monster recently split and cannot currently split again",
     "type": "effect_type",
     "id": "recently_split_absorbed",
     "int_add_val": 1,
-    "max_intensity": 1,
-    "max_duration": "15 minutes"
+    "max_intensity": 1
   }
 ]
