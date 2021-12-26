@@ -1,0 +1,24 @@
+#pragma once
+#ifndef GAMEPAD_H
+#define GAMEPAD_H
+
+#include <SDL.h>
+#include "input.h"
+
+#define GAMEPAD_SCHEDULER SDL_USEREVENT+1
+
+namespace gamepad
+{
+
+void init();
+void quit();
+void handle_axis_event( SDL_Event &event );
+void handle_hat_event( SDL_Event &event );
+void handle_button_event( SDL_Event &event );
+void handle_scheduler_event( SDL_Event &event );
+SDL_GameController *get_controller();
+
+}
+
+#endif // GAMEPAD_H
+

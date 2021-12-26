@@ -48,6 +48,7 @@
 #include "font_loader.h"
 #include "game.h"
 #include "game_ui.h"
+#include "gamepad.h"
 #include "get_version.h"
 #include "hash_utils.h"
 #include "input.h"
@@ -132,7 +133,7 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
-static input_event last_input;
+input_event last_input;
 
 static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
@@ -142,8 +143,6 @@ static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 static bool fullscreen;
 static int scaling_factor;
-
-static SDL_Joystick *joystick; // Only one joystick for now.
 
 using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
@@ -197,9 +196,6 @@ static void InitSDL()
     ret = IMG_Init( IMG_INIT_PNG );
     printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
                   "IMG_Init failed to initialize PNG support, tiles won't work" );
-
-    ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-    printErrorIf( ret != 0, "Initializing joystick subsystem failed" );
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -403,22 +399,8 @@ static void WinCreate()
         SDL_ShowCursor( SDL_ENABLE );
     }
 
-    // Initialize joysticks.
-    int numjoy = SDL_NumJoysticks();
-
-    if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
-        if( numjoy > 1 ) {
-            dbg( D_WARNING ) <<
-                             "You have more than one gamepads/joysticks plugged in, only the first will be used.";
-        }
-        joystick = SDL_JoystickOpen( 0 );
-        printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
-        if( joystick ) {
-            printErrorIf( SDL_JoystickEventState( SDL_ENABLE ) < 0,
-                          "SDL_JoystickEventState(SDL_ENABLE) failed" );
-        }
-    } else {
-        joystick = nullptr;
+    if( get_option<bool>( "ENABLE_JOYSTICK" ) ) {
+        gamepad::init();
     }
 
     // Set up audio mixer.
@@ -442,12 +424,7 @@ static void WinDestroy()
 
     shutdown_sound();
     tilecontext.reset();
-
-    if( joystick ) {
-        SDL_JoystickClose( joystick );
-
-        joystick = nullptr;
-    }
+    gamepad::quit();
     geometry.reset();
     format.reset();
     display_buffer.reset();
@@ -3226,12 +3203,18 @@ static void CheckMessages()
                 text_refresh = true;
             }
             break;
-            case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, input_event_t::keyboard_char );
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERBUTTONUP:
+                gamepad::handle_button_event( ev );
                 break;
-            case SDL_JOYAXISMOTION:
-                // on gamepads, the axes are the analog sticks
-                // TODO: somehow get the "digipad" values from the axes
+            case SDL_JOYHATMOTION:
+                // gamepad::handle_hat_event( ev );
+                break;
+            case SDL_CONTROLLERAXISMOTION:
+                gamepad::handle_axis_event( ev );
+                break;
+            case GAMEPAD_SCHEDULER:
+                gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
@@ -3792,7 +3775,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 bool gamepad_available()
 {
-    return joystick != nullptr;
+    return gamepad::get_controller() != nullptr;
 }
 
 void rescale_tileset( int size )
