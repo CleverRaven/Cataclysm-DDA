@@ -155,10 +155,10 @@
     "sort_rank": 10
   },
   {
-    "id": "documents",
+    "id": "keys",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "DOCUMENTS" },
-    "zone": "LOOT_DOCUMENTS",
+    "name": { "str": "KEYS" },
+    "zone": "LOOT_KEYS",
     "sort_rank": 11
   },
   {

@@ -12,7 +12,7 @@
     "material": [ "plastic" ],
     "weight": "6 g",
     "volume": "5 ml",
-    "category": "documents",
+    "category": "keys",
     "to_hit": -3
   },
   {
@@ -28,7 +28,7 @@
     "material": [ "plastic" ],
     "weight": "6 g",
     "volume": "5 ml",
-    "category": "documents",
+    "category": "keys",
     "to_hit": -3
   },
   {
@@ -45,7 +45,7 @@
     "material": [ "plastic" ],
     "weight": "6 g",
     "volume": "5 ml",
-    "category": "documents",
+    "category": "keys",
     "to_hit": -3
   },
   {
@@ -62,7 +62,7 @@
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
-    "category": "documents",
+    "category": "keys",
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
