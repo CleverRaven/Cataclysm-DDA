@@ -1,6 +1,7 @@
 #pragma once
 #ifndef GAMEPAD_H
 #define GAMEPAD_H
+#if defined(TILES)
 
 #include "input.h"
 #include "sdl_wrappers.h"
@@ -20,5 +21,6 @@ SDL_GameController *get_controller();
 
 }
 
+#endif // TILES
 #endif // GAMEPAD_H
 
