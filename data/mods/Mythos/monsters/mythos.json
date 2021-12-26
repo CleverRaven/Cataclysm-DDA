@@ -383,7 +383,7 @@
     "absorb_split_cooldown_seconds": 0,
     "absorption_ml_per_hp": 250,
     "split_move_cost": 0,
-    "absorb_move_cost": 0,
+    "absorb_move_cost_per_ml": 0.0,
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {

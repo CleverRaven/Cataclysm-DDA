@@ -818,9 +818,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "absorption_ml_per_hp", absorption_ml_per_hp, 250 );
-    optional( jo, was_loaded, "absorb_split_cooldown_seconds", absorb_split_cooldown_seconds, 900 );
-    optional( jo, was_loaded, "split_move_cost", split_move_cost, 250 );
-    optional( jo, was_loaded, "absorb_move_cost", absorb_move_cost, 50 );
+    optional( jo, was_loaded, "absorb_split_cooldown_seconds", absorb_split_cooldown_seconds, 5 );
+    optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );
+    optional( jo, was_loaded, "absorb_move_cost_per_ml", absorb_move_cost_per_ml, 0.025f );
+    optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
+    optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 

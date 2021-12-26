@@ -356,23 +356,28 @@ struct mtype {
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
 
-        // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP
+        // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP (default 250)
         int absorption_ml_per_hp = 250;
 
-        // The move cost for this monster splitting via SPLITS_ABSORBS flag
-        int split_move_cost = 250;
+        // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 250)
+        int split_move_cost = 200;
 
-        // The move cost for a monster absorbing material with the ABSORBS flag
-        int absorb_move_cost = 100;
+        // Move cost per ml of matter consumed for this monster.
+        float absorb_move_cost_per_ml = 0.025f;
+
+        // Minimum move cost for this monster to absorb an item (default 0)
+        int absorb_move_cost_min = 1;
+        // Maximum move cost for this monster to absorb an item (default 500, -1 for no limit)
+        int absorb_move_cost_max = -1;
 
         // The types of materials this monster can absorb
         // std::map<std::string, material_type> absorbs_materials;
 
         /**
          * The amount of time in seconds that must pass until the monster can split again
-         * with SPLITS_ABSORBS behaviour
+         * with SPLITS_ABSORBS behaviour (default 5)
          */
-        int absorb_split_cooldown_seconds = 900;
+        int absorb_split_cooldown_seconds = 5;
 
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions

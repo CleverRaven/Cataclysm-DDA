@@ -726,10 +726,17 @@ void monster::move()
         bool split_on_cooldown = false;
          
         for( item &elem : here.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            mod_moves( -type->absorb_move_cost );
+            int volume_in_ml = units::to_milliliter( elem.volume() );
+            hp += std::max( volume_in_ml / volume_per_hp.value(), 1 ); // Yeah this means it can get more HP than normal.
+            int absorb_move_cost = static_cast<int>( type->absorb_move_cost_per_ml * volume_in_ml );
+            absorb_move_cost = std::max( absorb_move_cost, type->absorb_move_cost_min );
+            if( type->absorb_move_cost_max != -1 ) {
+                absorb_move_cost = clamp( absorb_move_cost, type->absorb_move_cost_min, type->absorb_move_cost_max );
+            }
+            mod_moves( -absorb_move_cost );
             consumed_items.push_back( &elem );
             if( has_flag( MF_ABSORBS_SPLITS ) ) {
+                // loop in case consuming 1 item causes more than 1 split due to amount of HP gained
                 while( hp / 2 > type->hp ) {
                     monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
                     hp -= type->hp;
