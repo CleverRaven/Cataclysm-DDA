@@ -155,11 +155,11 @@
     "sort_rank": 10
   },
   {
-  "id": "documents",
-  "type": "ITEM_CATEGORY",
-  "name": { "str": "DOCUMENTS" },
-  "zone": "LOOT_DOCUMENTS",
-  "sort_rank": 11
+    "id": "documents",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "DOCUMENTS" },
+    "zone": "LOOT_DOCUMENTS",
+    "sort_rank": 11
   },
   {
     "id": "armor",
