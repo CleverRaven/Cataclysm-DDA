@@ -34,8 +34,21 @@
     "type": "overmap_terrain",
     "id": "corpse_bowels_neck_edge",
     "copy-from": "corpse_bowels_empty_edge",
+    "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_neck",
+    "copy-from": "corpse_bowels_empty_edge",
     "color": "red",
     "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_head",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "H"
   },
   {
     "type": "overmap_terrain",
