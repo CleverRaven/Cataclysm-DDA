@@ -714,80 +714,12 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" && !has_effect( effect_recently_split_absorbed ) ) {
-        add_msg_if_player_sees( *this,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                name() );
-        static const units::quantity<int, units::volume_in_milliliter_tag> ml_per_hp =
-            units::from_milliliter( type->absorb_ml_per_hp );
-
-        std::vector<item *> consumed_items;
-        // used to stop consuming items if splitting is on cooldown
-        bool split_on_cooldown = false;
-
-        for( item &elem : here.i_at( pos() ) ) {
-            int volume_in_ml = units::to_milliliter( elem.volume() );
-            hp += std::max( volume_in_ml / ml_per_hp.value(),
-                            1 ); // Yeah this means it can get more HP than normal.
-            int absorb_move_cost = static_cast<int>( type->absorb_move_cost_per_ml * volume_in_ml );
-            absorb_move_cost = std::max( absorb_move_cost, type->absorb_move_cost_min );
-            if( type->absorb_move_cost_max != -1 ) {
-                absorb_move_cost = clamp( absorb_move_cost, type->absorb_move_cost_min,
-                                          type->absorb_move_cost_max );
-            }
-            mod_moves( -absorb_move_cost );
-            consumed_items.push_back( &elem );
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                // loop in case consuming 1 item causes more than 1 split due to amount of HP gained
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                    mod_moves( -type->split_move_cost );
-                    spawn->mod_moves( -type->split_move_cost );
-                    int cooldown = type->absorb_split_cooldown_seconds;
-                    if( cooldown > 0 ) {
-                        const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
-                        add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                        spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                        split_on_cooldown = true;
-                        break;
-                    }
-                }
-            }
-            if( get_moves() <= 0 || split_on_cooldown ) {
-                break;
-            }
-        }
-        for( item *it : consumed_items ) {
-            // check if the item being removed is a corpse so that the items are dropped
-            std::list<item *> corpse_items;
-            std::vector<item> copied_corpse_items;
-            if( it->is_container() ) {
-                corpse_items = it->all_items_top( item_pocket::pocket_type::CONTAINER, true );
-            }
-
-            // TODO: check if there is some better way to copy these
-            for( item *it2 : corpse_items ) {
-                copied_corpse_items.emplace_back( *it2 );
-            }
-
-            here.i_rem( pos(), it );
-
-            for( item &it2 : copied_corpse_items ) {
-                here.add_item( pos(), it2 );
-            }
-        }
-    } else if( action == "eat_crop" ) {
-        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
-        std::map<std::string, mtype_special_attack>::const_iterator attack =
-            type->special_attacks.find( action );
-        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
-            if( special_attacks.count( action ) != 0 ) {
-                reset_special( action );
-            }
+    // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+    std::map<std::string, mtype_special_attack>::const_iterator attack =
+        type->special_attacks.find( action );
+    if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+        if( special_attacks.count( action ) != 0 ) {
+            reset_special( action );
         }
     }
     // record position before moving to put the player there if we're dragging

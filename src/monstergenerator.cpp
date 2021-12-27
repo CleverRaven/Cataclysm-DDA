@@ -504,6 +504,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "CONSUME_ITEMS", mattack::consume_items );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );

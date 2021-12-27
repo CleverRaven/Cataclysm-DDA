@@ -9,7 +9,10 @@
     "type": "behavior",
     "id": "absorb_items",
     "strategy": "sequential",
-    "conditions": [ { "predicate": "monster_not_hallucination" }, { "predicate": "monster_items_available" } ],
+    "conditions": [
+      { "predicate": "monster_special_available", "argument": "EAT_CROP" },
+      { "predicate": "monster_not_hallucination" },
+      { "predicate": "monster_items_available" } ],
     "goal": "consume_items"
   },
   {

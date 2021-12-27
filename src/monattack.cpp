@@ -125,6 +125,7 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_recently_split_absorbed( "recently_split_absorbed" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
@@ -337,6 +338,105 @@ bool mattack::eat_crop( monster *z )
         return true;
     }
     return true;
+}
+
+bool mattack::consume_items( monster *z )
+{
+    if( z->has_effect( effect_recently_split_absorbed ) ) {
+        return false;
+    }
+
+    map &here = get_map();
+
+    if( !here.has_items( z->pos() ) ) {
+        return false;
+    }
+
+    static const units::quantity<int, units::volume_in_milliliter_tag> ml_per_hp =
+        units::from_milliliter( z->type->absorb_ml_per_hp );
+
+    std::vector<item *> consumed_items;
+    std::vector<material_id> absorb_material = z->get_absorb_material();
+    // used to stop consuming items if splitting is on cooldown
+    bool split_on_cooldown = false;
+    bool split_performed = false;
+
+    for( item &elem : here.i_at( z->pos() ) ) {
+        bool any_materials_match = false;
+        for( const material_type *mat_type : elem.made_of_types() ) {
+            if( std::find( absorb_material.begin(), absorb_material.end(),
+                           mat_type->id ) != absorb_material.end() ) {
+                any_materials_match = true;
+            }
+        }
+
+        // make sure we don't absorb the wrong types of items
+        if( !any_materials_match ) {
+            continue;
+        }
+
+        add_msg_if_player_sees( *z,
+                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                                z->name() );
+
+        int volume_in_ml = units::to_milliliter( elem.volume() );
+        // Allows the monster to exceed normal max HP. Split occurs as normal max HP * 2.
+        z->set_hp( z->get_hp() + std::max( volume_in_ml / ml_per_hp.value(), 1 ) );
+        int absorb_move_cost = static_cast<int>( z->type->absorb_move_cost_per_ml * volume_in_ml );
+        absorb_move_cost = std::max( absorb_move_cost, z->type->absorb_move_cost_min );
+        if( z->type->absorb_move_cost_max != -1 ) {
+            absorb_move_cost = clamp( absorb_move_cost, z->type->absorb_move_cost_min,
+                                      z->type->absorb_move_cost_max );
+        }
+        z->mod_moves( -absorb_move_cost );
+        consumed_items.push_back( &elem );
+        if( z->has_flag( MF_ABSORBS_SPLITS ) ) {
+            // loop in case consuming 1 item causes more than 1 split due to amount of HP gained
+            while( z->get_hp() / 2 > z->type->hp ) {
+                monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
+                z->set_hp( z->get_hp() - z->type->hp );
+                //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                spawn->make_ally( *z );
+                add_msg_if_player_sees( *z, _( "The %s splits in two!" ), z->name() );
+                z->mod_moves( -z->type->split_move_cost );
+                spawn->mod_moves( -z->type->split_move_cost );
+                int cooldown = z->type->absorb_split_cooldown_seconds;
+                if( cooldown > 0 ) {
+                    const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
+                    z->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                    spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
+                    split_on_cooldown = true;
+                    break;
+                }
+                split_performed = true;
+            }
+        }
+        if( z->get_moves() <= 0 || split_on_cooldown ) {
+            break;
+        }
+    }
+    for( item *it : consumed_items ) {
+        // check if the item being removed is a corpse so that the items are dropped
+        std::list<item *> corpse_items;
+        std::vector<item> copied_corpse_items;
+        if( it->is_container() ) {
+            // TODO: check to see if there is a different item ref that should be accessed
+            corpse_items = it->all_items_top( item_pocket::pocket_type::CONTAINER, true );
+        }
+
+        // TODO: check if there is some better way to copy these
+        for( item *it2 : corpse_items ) {
+            copied_corpse_items.emplace_back( *it2 );
+        }
+
+        here.i_rem( z->pos(), it );
+
+        for( item &it2 : copied_corpse_items ) {
+            here.add_item( z->pos(), it2 );
+        }
+    }
+
+    return consumed_items.size() > 0 || split_performed;
 }
 
 bool mattack::eat_food( monster *z )
