@@ -48,5 +48,27 @@
     "description": "A power cord sticking out of an appliance.  You need to plug it in a powered grid for the appliance to work properly.",
     "item": "power_cord",
     "flags": [ "NOINSTALL", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
+  },
+  {
+    "id": "ap_standing_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "standing lamp" },
+    "item": "standing_lamp",
+    "symbol": "*",
+    "broken_symbol": "-",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "An electrical device containing an electric lamp that provides illumination.",
+    "epower": -200,
+    "bonus": 200,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
   }
 ]

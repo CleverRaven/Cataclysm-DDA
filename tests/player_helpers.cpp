@@ -235,7 +235,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     }
     REQUIRE( bioindex != -1 );
 
-    const bionic &bio = you.bionic_at_index( bioindex );
+    bionic &bio = you.bionic_at_index( bioindex );
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
@@ -244,7 +244,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );
         }
-        you.activate_bionic( bioindex );
+        you.activate_bionic( bio );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( you.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {

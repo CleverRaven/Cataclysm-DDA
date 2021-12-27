@@ -105,6 +105,8 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
+static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -2371,25 +2373,47 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( species_SLIME ) ) {
+        if( othermon.type->in_species( species_SLIME ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
-                if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
-                    othermon.heal( z->get_speed_base(), true );
-                    z->set_hp( 0 );
-                    return true;
+                const int othermon_half_hp = othermon.get_hp_max() / 2;
+                if( othermon.get_hp() < othermon_half_hp ) {
+                    const int heal_value = std::min( z->get_speed_base(), othermon_half_hp - othermon.get_hp() );
+                    othermon.heal( heal_value, true );
+                    if( heal_value >= z->get_speed_base() ) {
+                        z->set_speed_base( 0 );
+                        z->set_hp( 0 );
+                        return true;
+                    } else {
+                        didit = true;
+                        z->set_speed_base( z->get_speed_base() - heal_value );
+                    }
                 }
                 continue;
             }
-            didit = true;
-            othermon.set_speed_base( othermon.get_speed_base() + 5 );
-            z->set_speed_base( z->get_speed_base() - 5 );
-            if( othermon.type->id == mon_blob_small &&
-                othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
-                poly_keep_speed( othermon, mon_blob );
-            } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
-                poly_keep_speed( othermon, mon_blob_large );
+
+            if( z->get_speed_base() > 40 ) {
+                didit = true;
+                othermon.set_speed_base( othermon.get_speed_base() + 5 );
+                z->set_speed_base( z->get_speed_base() - 5 );
+                if( othermon.type->id == mon_blob_small &&
+                    othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob );
+                } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob_large );
+                }
+            } else if( one_in( z->get_speed_base() ) ) {
+                othermon.set_speed_base( othermon.get_speed_base() + z->get_speed_base() );
+                z->set_speed_base( 0 );
+                z->set_hp( 0 );
+                if( othermon.type->id == mon_blob_small &&
+                    othermon.get_speed_base() >= mon_blob_small->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob );
+                } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= mon_blob->speed + 10 ) {
+                    poly_keep_speed( othermon, mon_blob_large );
+                }
+                return true;
             }
         } else if( ( othermon.made_of( material_flesh ) ||
                      othermon.made_of( material_veggy ) ||
@@ -3341,9 +3365,23 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
+
+    const effect &depleted = z->get_effect( effect_eyebot_depleted );
+    const effect &assisted = z->get_effect( effect_eyebot_assisted );
+    const bool is_depleted = !depleted.is_null() &&
+                             depleted.get_intensity() == depleted.get_max_intensity();
+    const bool fully_assisted = !assisted.is_null() &&
+                                assisted.get_intensity() == assisted.get_max_intensity();
+    if( fully_assisted || is_depleted ) {
+        // Only spawn 3 every 6 hours
+        // Or stop once this eyebot has spawned 10 bots
+        return true;
+    }
+
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0,
-                            player_character.global_sm_location() );
+                            0, player_character.global_sm_location() );
+    z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
+    z->add_effect( effect_source::empty(), effect_eyebot_depleted, 1_minutes, true, 0 );
 
     return true;
 }

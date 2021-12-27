@@ -404,6 +404,24 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "starer_death_drops_axe",
+    "entries": [ { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "starer_death_drops_pipe",
+    "entries": [ { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "starer_death_drops_crowbar",
+    "entries": [ { "item": "crowbar", "prob": 100, "damage": [ 1, 3 ] } ]
+  },
+  {
     "id": "mon_feral_prepper_death_drops",
     "type": "item_group",
     "subtype": "collection",

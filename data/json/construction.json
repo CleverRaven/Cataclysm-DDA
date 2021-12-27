@@ -2922,7 +2922,6 @@
         "firehelmet",
         "helmet_ball",
         "helmet_army",
-        "helmet_lobster",
         "helmet_riot",
         "tac_helmet",
         "miner_hat_on"
@@ -2999,6 +2998,17 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_standing_lamp",
+    "group": "place_standing_lamp",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_lamp", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },

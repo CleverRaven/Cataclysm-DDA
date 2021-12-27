@@ -23,6 +23,7 @@
     "armor_bash": 12,
     "armor_cut": 2,
     "armor_bullet": 1,
+    "armor_elec": 2,
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
@@ -113,6 +114,7 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -175,6 +177,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "armor_elec": 1,
     "vision_day": 2,
     "vision_night": 0,
     "harvest": "zombie",
@@ -217,6 +220,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_cut": 0,
+    "armor_elec": 4,
     "vision_day": 2,
     "vision_night": 2,
     "//": "if you're this close, it can feel you there.",
@@ -265,6 +269,7 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "armor_elec": 2,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -320,6 +325,7 @@
     "armor_cut": 14,
     "armor_bullet": 8,
     "armor_stab": 8,
+    "armor_elec": 2,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -378,6 +384,7 @@
     "armor_bash": 8,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "armor_elec": 2,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -433,6 +440,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 0,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 7,
     "vision_night": 4,
@@ -483,6 +491,7 @@
     "armor_bash": 15,
     "armor_cut": 15,
     "armor_bullet": 15,
+    "armor_elec": 6,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -535,6 +544,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
@@ -582,6 +592,7 @@
     "melee_dice_sides": 5,
     "melee_cut": 0,
     "dodge": 2,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
@@ -632,6 +643,7 @@
     "armor_cut": 4,
     "armor_bullet": 10,
     "armor_stab": 10,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -673,6 +685,7 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "armor_elec": 5,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -722,6 +735,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 3,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie",
@@ -765,6 +779,7 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -802,6 +817,7 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -869,6 +885,7 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 3,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -921,6 +938,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
+    "armor_elec": 2,
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -982,6 +1000,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 1,
     "dodge": 1,
+    "armor_elec": 1,
     "vision_night": 3,
     "harvest": "zombie",
     "path_settings": { "max_dist": 4 },
@@ -1020,6 +1039,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 1,
     "dodge": 1,
+    "armor_elec": 1,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
@@ -1068,6 +1088,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -1113,6 +1134,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 5,
     "dodge": 2,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 8,
@@ -1143,6 +1165,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "armor_elec": 1,
     "vision_day": 3,
     "vision_night": 40,
     "harvest": "zombie",
@@ -1188,6 +1211,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 6,
     "dodge": 4,
+    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "human",
@@ -1221,6 +1245,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
+    "armor_elec": 1,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie",
@@ -1269,6 +1294,7 @@
     "armor_bash": 5,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "armor_elec": 2,
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
@@ -1315,6 +1341,7 @@
     "melee_cut": 2,
     "dodge": 4,
     "armor_fire": 5,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 3,
@@ -1364,6 +1391,7 @@
     "armor_cut": 8,
     "armor_stab": 8,
     "armor_bullet": 10,
+    "armor_elec": 2,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -1422,6 +1450,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 3,
     "dodge": 1,
+    "armor_elec": 1,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
@@ -1467,6 +1496,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
+    "armor_elec": 1,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
@@ -1517,6 +1547,7 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 3,
     "weakpoints": [
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -1569,6 +1600,7 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -1604,6 +1636,7 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "armor_elec": 1,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }

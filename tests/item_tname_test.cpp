@@ -373,24 +373,24 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is one quarter degraded" ) {
             deg_test.set_degradation( deg20 );
             REQUIRE( deg_test.degradation() == deg20 );
-            REQUIRE( deg_test.damage_level() == 1 );
+            REQUIRE( deg_test.damage_level() == 0 );
 
             // yellow bar
             THEN( "it appears slightly degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_yellow>|\\</color><color_c_yellow>\u2587</color>\u00A0baseball" );
+                       "<color_c_light_green>||</color><color_c_yellow>\u2587</color>\u00A0baseball" );
             }
         }
 
         WHEN( "it is half degraded" ) {
             deg_test.set_degradation( deg20 * 2 );
             REQUIRE( deg_test.degradation() == deg20 * 2 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 1 );
 
             // magenta bar
             THEN( "it appears slightly more degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_magenta>\u2585</color>\u00A0baseball" );
+                       "<color_c_yellow>|\\</color><color_c_magenta>\u2585</color>\u00A0baseball" );
             }
         }
 
@@ -409,12 +409,12 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is totally degraded" ) {
             deg_test.set_degradation( deg20 * 4 );
             REQUIRE( deg_test.degradation() == deg20 * 4 );
-            REQUIRE( deg_test.damage_level() == 3 );
+            REQUIRE( deg_test.damage_level() == 2 );
 
             // short red bar
             THEN( "it appears extremely degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_light_red>\\.</color><color_c_red>\u2581</color>\u00A0baseball" );
+                       "<color_c_magenta>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }

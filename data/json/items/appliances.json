@@ -40,5 +40,21 @@
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
     "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "standing_lamp",
+    "name": { "str": "standing lamp" },
+    "description": "An electrical device containing an electric lamp that provides illumination once plugged into a power outlet.",
+    "weight": "2500 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "bashing": 5,
+    "price": 9000,
+    "price_postapoc": 5000,
+    "symbol": "L",
+    "color": "white"
   }
 ]

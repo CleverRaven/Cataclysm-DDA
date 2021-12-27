@@ -589,15 +589,30 @@ std::string diary::get_head_text()
         const int days = to_days<int>( turn_diff );
         const int hours = to_hours<int>( turn_diff ) % 24;
         const int minutes = to_minutes<int>( turn_diff ) % 60;
-        std::string headtext = string_format( _( "Entry: %d/%d, %s, %s" ),
-                                              opened_page + 1, pages.size(),
-                                              to_string( get_page_ptr()->turn ),
-                                              ( opened_page != 0 ) ? string_format( _( "%s%s%d minutes since last entry" ),
-                                                      ( days > 0 ) ? string_format( _( "%d days, " ), days ) : "",
-                                                      ( hours > 0 ) ? string_format( _( "%d hours, " ), hours ) : "",
-                                                      minutes ) : "" );
-
-        return headtext;
+        std::string time_diff_text;
+        if( opened_page != 0 ) {
+            std::string days_text;
+            std::string hours_text;
+            std::string minutes_text;
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
+            }
+            if( hours > 0 ) {
+                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
+            }
+            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
+            //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
+                                            days_text, hours_text, minutes_text );
+        }
+        //~ Head text of a diary page
+        //~ %1$d is the current page number, %2$d is the number of pages in total
+        //~ %3$s is the time point when the current page was created
+        //~ %4$s is time relative to the previous page
+        return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
+                              opened_page + 1, pages.size(),
+                              to_string( get_page_ptr()->turn ),
+                              time_diff_text );
     }
     return "";
 }
