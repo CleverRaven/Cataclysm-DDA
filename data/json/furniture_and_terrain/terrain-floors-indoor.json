@@ -354,7 +354,7 @@
     "color": "light_gray",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },

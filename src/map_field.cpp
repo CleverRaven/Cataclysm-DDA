@@ -638,7 +638,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         return;
     }
 
-    const int spread_intensity_cap = std::max( current_intensity / 2, 3 );
+    const int spread_intensity_cap = 3 + std::max( ( current_intensity - 3 ) / 2, 0 );
 
     std::vector<tripoint> grounded_tiles;
     std::vector<tripoint> tiles_with_creatures;
@@ -670,11 +670,12 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         return;
     }
 
-    int grounded_weight = pd.here.impassable( p ) ? 2 : 6;
-    int creature_weight = pd.here.impassable( p ) ? 8 : 6;
-    int other_weight = pd.here.impassable( p ) ? 0 : 1;
+    const bool here_impassable = pd.here.impassable( p );
+    int grounded_weight = here_impassable ? 2 : 6;
+    int creature_weight = here_impassable ? 8 : 6;
+    int other_weight = here_impassable ? 0 : 1;
 
-    std::vector<tripoint> &target_vector = grounded_tiles;
+    std::vector<tripoint> *target_vector = nullptr;
     while( current_intensity > 0 ) {
         const int vector_choice = bucket_index_from_weight_list( std::vector<int>( {
             grounded_tiles.empty() ? 0 : grounded_weight,
@@ -685,22 +686,23 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         switch( vector_choice ) {
             default:
             case 0:
-                target_vector = grounded_tiles;
+                target_vector = &grounded_tiles;
                 break;
             case 1:
-                target_vector = tiles_with_creatures;
+                target_vector = &tiles_with_creatures;
                 break;
             case 2:
-                target_vector = other_tiles;
+                target_vector = &other_tiles;
                 break;
         }
 
-        if( target_vector.empty() ) {
+        if( target_vector->empty() ) {
             return;
         }
 
-        int vector_index = rng( 0, target_vector.size() - 1 );
-        tripoint &target_point = target_vector[vector_index];
+        int vector_index = rng( 0, target_vector->size() - 1 );
+        auto target_it = target_vector->begin() + vector_index;
+        tripoint target_point = *target_it;
 
         auto &field_type = pd.here.get_applicable_electricity_field( target_point );
 
@@ -709,7 +711,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
             int target_field_intensity = target_field->get_field_intensity();
             target_field->set_field_intensity( ++target_field_intensity );
             if( target_field_intensity >= spread_intensity_cap ) {
-                target_vector.erase( target_vector.begin() + vector_index );
+                target_vector->erase( target_it );
             }
         } else {
             pd.here.add_field( target_point, field_type, 1, cur.get_field_age() + 1_turns );
@@ -2056,8 +2058,10 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
-            z.deal_damage( nullptr, bodypart_id( "torso" ),
-                           damage_instance( damage_type::ELECTRIC, rng( 1, cur.get_field_intensity() ) ) );
+            const int field_dmg = std::max( 1, rng( cur.get_field_intensity() / 2,
+                                                    cur.get_field_intensity() ) );
+            z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
+                           field_dmg ) );
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {

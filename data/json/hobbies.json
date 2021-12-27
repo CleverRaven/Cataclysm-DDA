@@ -453,7 +453,7 @@
     "subtype": "hobby",
     "id": "car_rebuilding",
     "name": "Car Restoration",
-    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pasttime.  You never finished the car, but at least you learned a little over the years.",
+    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pastime.  You never finished the car, but at least you learned a little over the years.",
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ]
   },
