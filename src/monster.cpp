@@ -2307,6 +2307,14 @@ bool monster::special_available( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
 
+bool monster::has_special( const std::string &special_name ) const
+{
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled;
+}
+
+
 void monster::explode()
 {
     // Handled in mondeath::normal

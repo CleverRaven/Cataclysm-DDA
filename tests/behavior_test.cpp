@@ -256,6 +256,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
     SECTION( "Special Attack ABSORB_ITEMS" ) {
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
+        // TODO: remove this, shoggoths will eventually consume all again
         here.add_item( test_monster.pos(), item( "pencil" ) );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.add_item( test_monster.pos(), item( "frame" ) );
@@ -264,18 +265,12 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
     SECTION( "Special Attack SPLIT" ) {
-        test_monster.set_special( "ABSORB_ITEMS", 0 );
         test_monster.set_special( "SPLIT", 0 );
         test_monster.set_hp( test_monster.type->hp * 2 + 2 );
 
-        /**
-         * make sure SPLIT takes priority over ABSORB_ITEMS
-         * this check currently fails if we add the frame because the absorb and split
-         * special attacks are separate and not predicated on each other so once the
-         * shoggoth sees the tasty tasty frame it can't resist and will want to ABSORB_ITEMS
-         */
-
-        // here.add_item( test_monster.pos(), item("frame") );
+        // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        here.add_item( test_monster.pos(), item( "frame" ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
     }

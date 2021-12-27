@@ -17,7 +17,8 @@ status_t monster_oracle_t::not_hallucination( const std::string & ) const
 
 status_t monster_oracle_t::split_possible( const std::string & ) const
 {
-    if( ( subject->get_hp() / 2 ) > subject->get_hp_max() ) {
+    // check if subject has split to support inverting this predicate for absorb monsters without split
+    if( subject->has_special( "SPLIT" ) && ( subject->get_hp() / 2 ) > subject->get_hp_max() ) {
         return status_t::running;
     }
     return status_t::failure;
