@@ -78,6 +78,7 @@
     "item": "chunk_rubber",
     "implement_prompt": "Pad it with rubber",
     "destroy_prompt": "Destroy rubber padding",
+    "restricted": true,
     "mod_value": [
       { "type": "encumbrance", "value": 3 },
       { "type": "encumbrance", "value": 5, "round_up": true, "proportion": [ "coverage" ] },
