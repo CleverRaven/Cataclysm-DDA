@@ -342,10 +342,6 @@ bool mattack::eat_crop( monster *z )
 
 bool mattack::consume_items( monster *z )
 {
-    if( z->has_effect( effect_recently_split_absorbed ) ) {
-        return false;
-    }
-
     map &here = get_map();
 
     if( !here.has_items( z->pos() ) ) {
@@ -357,8 +353,6 @@ bool mattack::consume_items( monster *z )
 
     std::vector<item *> consumed_items;
     std::vector<material_id> absorb_material = z->get_absorb_material();
-    // used to stop consuming items if splitting is on cooldown
-    bool split_on_cooldown = false;
     bool split_performed = false;
 
     for( item &elem : here.i_at( z->pos() ) ) {
@@ -376,8 +370,8 @@ bool mattack::consume_items( monster *z )
         }
 
         add_msg_if_player_sees( *z,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                z->name() );
+                                _( "The %s flows around the %s and it is quickly dissolved!" ),
+                                z->name(), elem.display_name() );
 
         int volume_in_ml = units::to_milliliter( elem.volume() );
         // Allows the monster to exceed normal max HP. Split occurs as normal max HP * 2.
@@ -400,18 +394,10 @@ bool mattack::consume_items( monster *z )
                 add_msg_if_player_sees( *z, _( "The %s splits in two!" ), z->name() );
                 z->mod_moves( -z->type->split_move_cost );
                 spawn->mod_moves( -z->type->split_move_cost );
-                int cooldown = z->type->absorb_split_cooldown_seconds;
-                if( cooldown > 0 ) {
-                    const time_duration cooldown_seconds = time_duration::from_seconds( cooldown );
-                    z->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                    spawn->add_effect( effect_recently_split_absorbed, cooldown_seconds, false, 1, true );
-                    split_on_cooldown = true;
-                    break;
-                }
                 split_performed = true;
             }
         }
-        if( z->get_moves() <= 0 || split_on_cooldown ) {
+        if( z->get_moves() <= 0 ) {
             break;
         }
     }
