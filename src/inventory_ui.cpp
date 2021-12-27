@@ -401,8 +401,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
         std::string text = cells[cell_index].get_text( entry );
         const item &actual_item = *entry.locations.front();
         if( cell_index == 0 && !text.empty() &&
-            entry.get_category_ptr()->get_id() == item_category_ITEMS_WORN &&
-            actual_item.is_worn_by_player() &&
             actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
             const units::volume total_capacity = actual_item.get_total_capacity( true );
             const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
