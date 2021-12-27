@@ -917,8 +917,8 @@
   {
     "result": "steel_chainmail_legs",
     "type": "recipe",
-	"copy-from": "chainmail_legs"
-	},
+    "copy-from": "chainmail_legs"
+  },
   {
     "result": "xl_chainmail_legs",
     "type": "recipe",
@@ -929,8 +929,8 @@
   {
     "result": "xl_steel_chainmail_legs",
     "type": "recipe",
-	"copy-from": "xl_chainmail_legs"
-	},
+    "copy-from": "xl_chainmail_legs"
+  },
   {
     "result": "legguard_bronze",
     "type": "recipe",
