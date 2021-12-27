@@ -446,7 +446,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
@@ -3888,10 +3887,8 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( has_trait( trait_SELFAWARE ) ) {
-        add_msg_if_player( _( "Your current health value is %d." ), current_health );
-    }
 
+    // Illness hides positive health messages
     if( current_health > 0 &&
         ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) ) {
         return;
