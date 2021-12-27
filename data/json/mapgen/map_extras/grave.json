@@ -141,7 +141,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "           g            ",
+        "                        ",
         "                        ",
         "                        ",
         "                        ",
@@ -155,8 +155,14 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "g": "t_null" },
-      "nested": { "g": { "chunks": [ [ "human_corpse", 95 ], [ "pet_corpse", 95 ], [ "grave_easter_egg", 5 ] ] } }
+      "terrain": { " ": "t_null" },
+      "place_nested": [
+        {
+          "chunks": [ [ "human_corpse", 95 ], [ "pet_corpse", 95 ], [ "grave_easter_egg", 5 ] ],
+          "x": [ 0, 22 ],
+          "y": [ 0, 22 ]
+        }
+      ]
     }
   }
 ]
