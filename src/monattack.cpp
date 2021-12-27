@@ -349,7 +349,6 @@ bool mattack::split( monster *z )
     while( z->get_hp() / 2 > z->type->hp ) {
         monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
         if( !spawn ) {
-            std::cout << "Reached the !spawn block\n";
             break;
         }
         split_performed = true;

@@ -162,8 +162,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_ABSORBS: return "ABSORBS";
-        case MF_ABSORBS_SPLITS: return "ABSORBS_SPLITS";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
@@ -817,7 +815,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "absorb_ml_per_hp", absorb_ml_per_hp, 250 );
-    optional( jo, was_loaded, "absorb_split_cooldown_seconds", absorb_split_cooldown_seconds, 5 );
     optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );
     optional( jo, was_loaded, "absorb_move_cost_per_ml", absorb_move_cost_per_ml, 0.025f );
     optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );

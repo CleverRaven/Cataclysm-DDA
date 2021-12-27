@@ -17,7 +17,7 @@ status_t monster_oracle_t::not_hallucination( const std::string & ) const
 
 status_t monster_oracle_t::split_possible( const std::string & ) const
 {
-    if( subject->get_hp() / 2 > subject->get_hp_max() ) {
+    if( ( subject->get_hp() / 2 ) > subject->get_hp_max() ) {
         return status_t::running;
     }
     return status_t::failure;

@@ -1,30 +1,26 @@
 [
   {
     "type": "behavior",
-    "id": "monster_goals",
-    "strategy": "sequential_until_done",
-    "children": [ "absorb_items" ]
-  },
-  {
-    "type": "behavior",
-    "id": "split",
+    "id": "SPLIT",
     "strategy": "sequential",
     "conditions": [
       { "predicate": "monster_split_possible" },
       { "predicate": "monster_special_available", "argument": "SPLIT" },
       { "predicate": "monster_not_hallucination" }
     ],
-    "goal": "split"
+    "goal": "SPLIT"
   },
   {
     "type": "behavior",
-    "id": "absorb_items",
+    "id": "ABSORB_ITEMS",
     "strategy": "sequential",
     "conditions": [
-      { "predicate": "monster_special_available", "argument": "ABSORB_ITEMS" },
       { "predicate": "monster_not_hallucination" },
-      { "predicate": "monster_items_available" } ],
-    "goal": "absorb_items"
+      { "predicate": "monster_split_possible" },
+      { "predicate": "monster_special_available", "argument": "ABSORB_ITEMS" },
+      { "predicate": "monster_items_available" }
+    ],
+    "goal": "ABSORB_ITEMS"
   },
   {
     "type": "behavior",

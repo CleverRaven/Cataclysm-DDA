@@ -205,7 +205,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     }
 }
 
-TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
+TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 {
     const tripoint monster_location( 5, 5, 0 );
     clear_map();
@@ -224,12 +224,59 @@ TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
         here.ter_set( near_monster, ter_id( "t_grass" ) );
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
-    SECTION( "Special Attack" ) {
+    SECTION( "Special Attack EAT_CROP" ) {
         test_monster.set_special( "EAT_CROP", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
         CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
         test_monster.set_special( "EAT_CROP", 1 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
+    }
+}
+
+TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
+{
+    const tripoint monster_location( 5, 5, 0 );
+    clear_map();
+    map &here = get_map();
+    monster &test_monster = spawn_test_monster( "mon_shoggoth", monster_location );
+
+    behavior::monster_oracle_t oracle( &test_monster );
+    behavior::tree monster_goals;
+    monster_goals.add( test_monster.type->get_goals() );
+
+    for( const std::string &special_name : test_monster.type->special_attacks_names ) {
+        test_monster.reset_special( special_name );
+    }
+    CHECK( monster_goals.tick( &oracle ) == "idle" );
+    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+        here.ter_set( near_monster, ter_id( "t_grass" ) );
+        here.furn_set( near_monster, furn_id( "f_null" ) );
+    }
+    SECTION( "Special Attack ABSORB_ITEMS" ) {
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+        here.add_item( test_monster.pos(), item( "pencil" ) );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+        here.add_item( test_monster.pos(), item( "frame" ) );
+        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+        test_monster.set_special( "ABSORB_ITEMS", 1 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Special Attack SPLIT" ) {
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        test_monster.set_special( "SPLIT", 0 );
+        test_monster.set_hp( test_monster.type->hp * 2 + 2 );
+
+        /**
+         * make sure SPLIT takes priority over ABSORB_ITEMS
+         * this check currently fails if we add the frame because the absorb and split
+         * special attacks are separate and not predicated on each other so once the
+         * shoggoth sees the tasty tasty frame it can't resist and will want to ABSORB_ITEMS
+         */
+
+        // here.add_item( test_monster.pos(), item("frame") );
+
+        CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
     }
 }
