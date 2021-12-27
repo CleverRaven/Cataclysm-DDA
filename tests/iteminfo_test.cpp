@@ -1156,8 +1156,7 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
 }
 
 static void expected_armor_values( const item &armor, float bash, float cut, float stab,
-                                   float bullet,
-                                   float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
+                                   float bullet, float acid = 0.0f, float fire = 0.0f, float electric = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
     REQUIRE( armor.bash_resist() == Approx( bash ) );
@@ -1166,14 +1165,15 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
     REQUIRE( armor.bullet_resist() == Approx( bullet ) );
     REQUIRE( armor.acid_resist() == Approx( acid ) );
     REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.electric_resist() == Approx( electric ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
-    expected_armor_values( item( itype_zentai ), 0.2f, 0.2f, 0.16f, 0.2f );
-    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
-    expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_zentai ), 0.2f, 0.2f, 0.16f, 0.2f, 0.0f, 0.0f, 0.4f );
+    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f, 0.0f, 0.0f, 0.2f );
+    expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f, 0.0f, 0.0f, 0.2f );
 }
 
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
@@ -1203,7 +1203,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
         item longshirt( "test_longshirt" );
-        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
+        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f, 0.0f, 0.0f, 0.2f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
         // Protection info displayed on two lines
@@ -1215,6 +1215,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>0.20</color>\n"
                "  Acid: <color_c_yellow>0.00</color>"
                "  Fire: <color_c_yellow>0.00</color>"
+               "  Electric: <color_c_yellow>0.20</color>"
                "  Environmental: <color_c_yellow>0</color>\n" );
     }
 
@@ -1224,7 +1225,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         // 9/1/20 acid/fire/env
         item hazmat( "test_hazmat_suit" );
         REQUIRE( hazmat.get_covered_body_parts().any() );
-        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 20 );
+        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 1, 20 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( hazmat, protection ) ==
@@ -1235,6 +1236,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>4.00</color>\n"
                "  Acid: <color_c_yellow>9.00</color>"
                "  Fire: <color_c_yellow>1.00</color>"
+               "  Electric: <color_c_yellow>1.00</color>"
                "  Environmental: <color_c_yellow>20</color>\n" );
     }
 
@@ -1244,7 +1246,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         // 2/3/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
         item meower_armor( "test_meower_armor" );
-        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 10 );
+        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 0.6, 10 );
 
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
@@ -1254,6 +1256,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>"
                "  Fire: <color_c_yellow>3.00</color>"
+               "  Electric: <color_c_yellow>0.60</color>"
                "  Environmental: <color_c_yellow>10</color>\n" );
     }
 }

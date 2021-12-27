@@ -366,6 +366,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%.2f", worn_item.acid_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
                                     string_format( "%.2f", worn_item.fire_resist() ), width ) );
+    prot.push_back( name_and_value( space + _( "Electric:" ),
+                                    string_format( "%.2f", worn_item.electric_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
