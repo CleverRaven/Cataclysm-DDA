@@ -125,7 +125,6 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
-static const efftype_id effect_recently_split_absorbed( "recently_split_absorbed" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
@@ -340,7 +339,8 @@ bool mattack::eat_crop( monster *z )
     return true;
 }
 
-bool mattack::split( monster *z ) {
+bool mattack::split( monster *z )
+{
     if( !( z->get_hp() / 2 > z->type->hp ) ) {
         return false;
     }

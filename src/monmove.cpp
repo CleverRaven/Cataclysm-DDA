@@ -63,7 +63,6 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
-static const efftype_id effect_recently_split_absorbed( "recently_split_absorbed" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
