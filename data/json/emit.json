@@ -160,16 +160,16 @@
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 20
+    "intensity": 7,
+    "qty": 6
   },
   {
     "id": "emit_shock_cloud_big",
     "type": "emit",
     "//": "Large cloud of lightning (example: supercharged incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 40
+    "intensity": 10,
+    "qty": 12
   },
   {
     "id": "emit_cold_air2_stream",

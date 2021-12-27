@@ -79,6 +79,8 @@ void check_consistency();
 
 void debug_spawn_test();
 
+void clear();
+
 /// This function provides access to all loaded map extras.
 const generic_factory<map_extra> &mapExtraFactory();
 

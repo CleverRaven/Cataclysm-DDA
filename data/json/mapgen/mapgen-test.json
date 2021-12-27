@@ -17,7 +17,7 @@
   {
     "id": "mapgen-test",
     "type": "overmap_terrain",
-    "name": "noname",
+    "name": "no name",
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
     "sym": "%",
     "color": "white",

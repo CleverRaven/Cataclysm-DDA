@@ -243,6 +243,11 @@ const generic_factory<map_extra> &mapExtraFactory()
     return extras;
 }
 
+void clear()
+{
+    extras.reset();
+}
+
 static bool mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );

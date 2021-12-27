@@ -4468,7 +4468,7 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers evrerything you come into contact with but now you can move through slime you didn't create with ease.",
+    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers everything you come into contact with but now you can move through slime you didn't create with ease.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "cancels": [ "WEB_SPINNER" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
