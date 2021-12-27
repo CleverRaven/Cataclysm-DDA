@@ -35,46 +35,47 @@
       "joins": [
         "surface_to_bowels",
         "bowels_mid_to_mid",
-        "bowels_mid_to_edge",
         "bowels_edge_to_edge",
         "bowels_edge_to_neck",
-        "bowels_edge_to_tentacle",
-        "tentacle_to_tentacle"
+        "tentacle_to_tentacle",
+        { "id": "bowels_mid_to_edge", "opposite": "bowels_edge_to_mid" },
+        { "id": "bowels_edge_to_mid", "opposite": "bowels_mid_to_edge" },
+        { "id": "bowels_edge_to_tentacle", "opposite": "bowels_tentacle_to_edge" },
+        { "id": "bowels_tentacle_to_edge", "opposite": "bowels_edge_to_tentacle" }
       ],
       "overmaps": {
         "surface": { "overmap": "corpse_surface", "below": "surface_to_bowels", "locations": [ "land" ] },
         "bowels_mid": {
           "overmap": "corpse_bowels_mid",
           "above": { "id": "surface_to_bowels", "type": "available" },
-          "north": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
-          "east": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
-          "south": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] },
-          "west": { "id": "bowels_mid_to_edge", "alternatives": [ "bowels_mid_to_mid" ] }
+          "north": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
+          "east": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
+          "south": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
+          "west": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] }
         },
         "bowels_empty_edge": {
           "overmap": "corpse_bowels_empty_edge_north",
-          "north": "bowels_mid_to_edge",
+          "north": "bowels_mid_to_mid",
           "east": { "id": "bowels_edge_to_edge", "type": "available" },
-          "south": { "id": "bowels_edge_to_edge", "type": "available"},
           "west": { "id": "bowels_edge_to_edge", "type": "available"}
         },
         "bowels_tentacle_edge": {
           "overmap": "corpse_bowels_tentacle_edge_north",
-          "north": "bowels_mid_to_edge",
+          "north": "bowels_mid_to_mid",
           "east": { "id": "bowels_edge_to_edge", "type": "available" },
           "south": "bowels_edge_to_tentacle",
           "west": { "id": "bowels_edge_to_edge", "type": "available"}
         },
         "bowels_neck_edge": {
           "overmap": "corpse_bowels_neck_edge_north",
-          "north": "bowels_mid_to_edge",
+          "north": "bowels_mid_to_mid",
           "east": { "id": "bowels_edge_to_edge", "type": "available" },
           "south": { "id": "bowels_edge_to_neck", "type": "available" },
           "west": { "id": "bowels_edge_to_edge", "type": "available"}
         },
         "tentacle_mid": {
           "overmap": "corpse_tentacle_ns",
-          "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_edge_to_tentacle" ] },
+          "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
           "south": "tentacle_to_tentacle"
         },
         "tentacle_end":{
@@ -116,11 +117,25 @@
             "max": 1
           }
         ],
-        [ { "overmap": "bowels_tentacle_edge", "max": 2}
-        ],
-        [ { "overmap": "bowels_tentacle_edge", "max": { "poisson": 1 }}
-        ],
-        [ { "overmap": "bowels_empty_edge", "max": 10 }
+        [
+          {
+            "name": "bowels_edge1",
+            "chunk": [
+              { "overmap": "bowels_empty_edge", "pos": [ -1, 0, 0 ] },
+              { "overmap": "bowels_tentacle_edge", "pos": [ 0,  0, 0 ] },
+              { "overmap": "bowels_empty_edge", "pos": [ 1,  0, 0 ] }
+            ],
+            "max": 3, "weight": 3
+          },
+          {
+            "name": "bowels_edge2",
+            "chunk": [
+              { "overmap": "bowels_tentacle_edge", "pos": [ -1, 0, 0 ] },
+              { "overmap": "bowels_empty_edge", "pos": [ 0,  0, 0 ] },
+              { "overmap": "bowels_tentacle_edge", "pos": [ 1,  0, 0 ] }
+            ],
+            "max": 3, "weight": 1
+          }
         ],
         [
           { "overmap": "tentacle_mid", "max": 14 },
