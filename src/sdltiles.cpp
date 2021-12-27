@@ -135,7 +135,6 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // This value is finally returned by input_manager::get_input_event.
 input_event last_input;
 
-static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
@@ -3206,9 +3205,6 @@ static void CheckMessages()
             case SDL_CONTROLLERBUTTONDOWN:
             case SDL_CONTROLLERBUTTONUP:
                 gamepad::handle_button_event( ev );
-                break;
-            case SDL_JOYHATMOTION:
-                // gamepad::handle_hat_event( ev );
                 break;
             case SDL_CONTROLLERAXISMOTION:
                 gamepad::handle_axis_event( ev );

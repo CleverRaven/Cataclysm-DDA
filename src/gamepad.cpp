@@ -5,14 +5,12 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-extern input_event last_input;
-
 namespace gamepad
 {
 
 constexpr int max_triggers = 2;
 constexpr int max_sticks = 2;
-constexpr int max_axis = 6;
+//constexpr int max_axis = 6;
 constexpr int max_buttons = 30;
 
 static int triggers_axis[max_triggers] = {
@@ -26,16 +24,14 @@ static int sticks_axis[max_sticks][2] = {
 
 static int triggers_state[max_triggers] = {0, 0};
 static int sticks_state[max_sticks] = {0, 0};
-static int hat_state = 0;
 
 static int triggers_threshold = 16000;
 static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
-static int sticks_map[max_sticks][16] = {0};
+static int sticks_map[max_sticks][16] = {{0}, {0}};
 static int triggers_map[max_triggers] = {0};
 static int buttons_map[max_buttons] = {0};
-static int hat_map[16] = {0};
 
 struct task_t {
     Uint32 when;
@@ -45,13 +41,11 @@ struct task_t {
 };
 
 constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
-constexpr int buttons_task_index  = 0;
+//constexpr int buttons_task_index  = 0;
 constexpr int sticks_task_index   = max_buttons;
 constexpr int triggers_task_index = max_buttons + max_sticks;
-constexpr int hat_task_index      = max_buttons + max_sticks + max_triggers;
 
 task_t all_tasks[max_tasks];
-task_t &hat_task = all_tasks[hat_task_index];
 
 static int repeat_delay = 400;
 static int repeat_interval = 200;
@@ -61,8 +55,7 @@ static int diagonal_detect_delay = 250;
 SDL_TimerID timer_id;
 SDL_GameController *controller = nullptr;
 
-
-static Uint32 timer_func( Uint32 interval, __attribute__( ( unused ) ) void *param )
+static Uint32 timer_func( Uint32 interval, void * )
 {
     SDL_Event event;
     SDL_UserEvent userevent;
@@ -76,7 +69,7 @@ static Uint32 timer_func( Uint32 interval, __attribute__( ( unused ) ) void *par
     event.user = userevent;
 
     SDL_PushEvent( &event );
-    return( interval );
+    return interval;
 }
 
 void init()
@@ -102,15 +95,6 @@ void init()
 
     triggers_map[0] = JOY_29;
     triggers_map[1] = JOY_30;
-
-    hat_map[0b0001] = JOY_UP;
-    hat_map[0b0010] = JOY_RIGHT;
-    hat_map[0b0100] = JOY_DOWN;
-    hat_map[0b1000] = JOY_LEFT;
-    hat_map[0b0011] = JOY_RIGHTUP;
-    hat_map[0b0110] = JOY_RIGHTDOWN;
-    hat_map[0b1100] = JOY_LEFTDOWN;
-    hat_map[0b1001] = JOY_LEFTUP;
 
     for( int i = 0; i < max_buttons; ++i ) {
         buttons_map[i] = JOY_0 + i;
@@ -142,7 +126,7 @@ void init()
         return;
     }
 
-    timer_id = SDL_AddTimer( 50, timer_func, NULL );
+    timer_id = SDL_AddTimer( 50, timer_func, nullptr );
     printErrorIf( timer_id == 0, "SDL_AddTimer failed" );
 }
 
@@ -163,7 +147,7 @@ SDL_GameController *get_controller()
     return controller;
 }
 
-static int one_of_two( int arr[2], int val )
+static int one_of_two( const int arr[2], int val )
 {
     if( arr[0] == val ) {
         return 0;
@@ -192,15 +176,7 @@ static void send_input( int ibtn, input_event_t itype = input_event_t::gamepad )
     last_input = input_event( ibtn, itype );
 }
 
-/*
-#define STATE_TO_BINARY(state)  \
-  (state & 0b1000 ? '1' : '0'), \
-  (state & 0b0100 ? '1' : '0'), \
-  (state & 0b0010 ? '1' : '0'), \
-  (state & 0b0001 ? '1' : '0')
-*/
-
-static void dpad_changes( task_t &task, int m[16], Uint32 now, int old_state, int new_state )
+static void dpad_changes( task_t &task, const int m[16], Uint32 now, int old_state, int new_state )
 {
     // get rid of unneeded bits
     old_state &= 0b1111;
@@ -239,9 +215,6 @@ static void dpad_changes( task_t &task, int m[16], Uint32 now, int old_state, in
             task.counter += old_state;
             break;
     }
-    //SDL_LogDebug(0, "os=%c%c%c%c ns=%c%c%c%c task={%lu,%i,%i,%c%c%c%c} now=%lu",
-    //             STATE_TO_BINARY(old_state), STATE_TO_BINARY(new_state),
-    //             task.when, task.button, task.counter, STATE_TO_BINARY(task.state), now);
 }
 
 void handle_axis_event( SDL_Event &event )
@@ -307,18 +280,6 @@ void handle_axis_event( SDL_Event &event )
             dpad_changes( task, sticks_map[i], now, old_state, new_state );
         }
     }
-}
-
-void handle_hat_event( SDL_Event &event )
-{
-    if( event.type != SDL_JOYHATMOTION ) {
-        return;
-    }
-
-    int old_state = hat_state;
-    hat_state = event.jhat.value;
-    Uint32 now = event.jhat.timestamp;
-    dpad_changes( hat_task, hat_map, now, old_state, hat_state );
 }
 
 void handle_button_event( SDL_Event &event )
