@@ -21,7 +21,7 @@
     "id": "corpse_bowels_mid",
     "copy-from": "corpse_bowels_empty_edge",
     "flags": [ "NO_ROTATE" ],
-    "sym": "@"
+    "sym": "O"
   },
   {
     "type": "overmap_terrain",
@@ -58,5 +58,23 @@
     "sym": "|",
     "color": "light_blue",
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_surface_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "KNOWN_DOWN" ]
   }
 ]
