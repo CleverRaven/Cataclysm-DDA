@@ -4165,7 +4165,7 @@ void mapgen_function_json::generate( mapgendata &md )
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ) );
 
-    for( auto &elem : setmap_points ) {
+    for( jmapgen_setmap &elem : setmap_points ) {
         elem.apply( md_with_params, point_zero );
     }
 
