@@ -3171,8 +3171,8 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                     const std::string bp_name = piece.second.to_display.translated();
                     // NOLINTNEXTLINE(cata-translate-string-literal)
                     const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
-                    info.emplace_back( bp_cat,
-                                       string_format( _( "%s:" ), bp_name ) + space, "",
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    info.emplace_back( bp_cat, string_format( "<bold>%s</bold>:", bp_name ) + space, "",
                                        ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
                                        piece.second.portion.encumber );
 
@@ -3182,21 +3182,20 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                                            piece.second.portion.max_encumber );
                     }
 
-                    info.emplace_back( bp_cat, string_format( "%s%s", _( "Coverage:" ), space ), "",
-                                       iteminfo::no_newline,
-                                       piece.second.portion.coverage );
-                    //~ (M)elee coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(M):" ), space ), "",
-                                       iteminfo::no_newline,
-                                       piece.second.portion.cover_melee );
-                    //~ (R)anged coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(R):" ), space ), "",
-                                       iteminfo::no_newline,
-                                       piece.second.portion.cover_ranged );
-                    //~ (V)itals coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "(V):" ), space ), "",
-                                       iteminfo::no_flags,
-                                       piece.second.portion.cover_vitals );
+                    //~ Limb-specific coverage (%s = name of limb)
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s coverage</bold>:" ), bp_name ) );
+                    //~ Regular/Default coverage
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
+                                       iteminfo::no_flags, piece.second.portion.coverage );
+                    //~ Melee coverage
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
+                                       iteminfo::no_flags, piece.second.portion.cover_melee );
+                    //~ Ranged coverage
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
+                                       iteminfo::no_flags, piece.second.portion.cover_ranged );
+                    //~ Vitals coverage
+                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
+                                       iteminfo::no_flags, piece.second.portion.cover_vitals );
                 }
             }
         }
@@ -3205,16 +3204,19 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
         info.emplace_back( "ARMOR", _( "Torso:" ) + space, "",
                            iteminfo::no_flags | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
 
-        info.emplace_back( "ARMOR", _( "Coverage:" ) + space, "",
-                           iteminfo::no_newline, get_coverage( body_part_torso.id() ) );
-        //~ (M)elee coverage
-        info.emplace_back( "ARMOR", space + _( "(M):" ) + space, "",
-                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_MELEE ) );
-        //~ (R)anged coverage
-        info.emplace_back( "ARMOR", space + _( "(R):" ) + space, "",
-                           iteminfo::no_newline, get_coverage( body_part_torso.id(), cover_type::COVER_RANGED ) );
-        //~ (V)itals coverage
-        info.emplace_back( "ARMOR", space + _( "(V):" ) + space, "",
+        //~ Limb-specific coverage (for guns strapped to torso)
+        info.emplace_back( "DESCRIPTION", _( "<bold>Torso coverage</bold>:" ) );
+        //~ Regular/Default coverage
+        info.emplace_back( "ARMOR", space + _( "Default:" ) + space, "",
+                           iteminfo::no_flags, get_coverage( body_part_torso.id() ) );
+        //~ Melee coverage
+        info.emplace_back( "ARMOR", space + _( "Melee:" ) + space, "",
+                           iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_MELEE ) );
+        //~ Ranged coverage
+        info.emplace_back( "ARMOR", space + _( "Ranged:" ) + space, "",
+                           iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_RANGED ) );
+        //~ Vitals coverage
+        info.emplace_back( "ARMOR", space + _( "Vitals:" ) + space, "",
                            iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_VITALS ) );
     }
 }
@@ -3229,21 +3231,21 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
-        info.emplace_back( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal, bash_resist() );
-        info.emplace_back( "ARMOR", space + _( "Cut: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal, cut_resist() );
-        info.emplace_back( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                           bullet_resist() );
-        info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal, acid_resist() );
-        info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal, fire_resist() );
-        info.emplace_back( "ARMOR", space + _( "Environmental: " ),
+        info.emplace_back( "DESCRIPTION", _( "<bold>Protection</bold>:" ) );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Bash: " ) ), "",
+                           iteminfo::is_decimal, bash_resist() );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Cut: " ) ), "",
+                           iteminfo::is_decimal, cut_resist() );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Ballistic: " ) ), "",
+                           iteminfo::is_decimal, bullet_resist() );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Acid: " ) ), "",
+                           iteminfo::is_decimal, acid_resist() );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Fire: " ) ), "",
+                           iteminfo::is_decimal, fire_resist() );
+        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Environmental: " ) ),
                            get_base_env_resist( *this ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
-            info.emplace_back( "ARMOR",
-                               _( "<bold>Protection when active</bold>: " ) );
+            info.emplace_back( "ARMOR", _( "<bold>Protection when active</bold>: " ) );
             info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
                                acid_resist( false, get_base_env_resist_w_filter() ) );
