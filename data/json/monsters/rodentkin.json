@@ -97,7 +97,7 @@
   {
     "id": "mon_teke_mouse",
     "type": "MONSTER",
-    "name": { "str": "Mouse of NEMA" },
+    "name": { "str": "Mouse of NEMA", "str_pl": "Mouses of NEMA" },
     "description": "This albino mouse has a humanoid form and walks on it's hind legs some of the time.  You can see eddies of wind around it as it moves and debris is caught in it's wake.",
     "default_faction": "ratkin",
     "//": "High winds surrounding it make bash and bullet's less effective.  Cut and stab are almost unaffected.",

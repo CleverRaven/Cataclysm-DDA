@@ -145,7 +145,7 @@
     "id": "robofac_laser_sight",
     "copy-from": "rail_laser_sight",
     "type": "GUNMOD",
-    "name": { "str": "integral laser designator." },
+    "name": { "str": "integral laser designator" },
     "flags": [ "LASER_SIGHT", "IRREMOVABLE" ]
   },
   {
