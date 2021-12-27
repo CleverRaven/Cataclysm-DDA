@@ -1143,7 +1143,7 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
         return total > 0;
     }
     const int leftover = iter->second - to_use;
-    return leftover < 0 && leftover * -1 < total - iter->second;
+    return leftover < 0 && leftover * -1 <= total - iter->second;
 }
 
 void inventory::replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max )
