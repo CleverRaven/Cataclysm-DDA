@@ -631,7 +631,7 @@ Each element of the array should be an object containing the following members:
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example:
+The old style array should contain 2 elements: the id of the attack (see [SPECIAL_ATTACKS.md](SPECIAL_ATTACKS.md) for a list) and the cooldown for that attack. Example:
 
 ```JSON
 "special_attacks": [ [ "GRAB", 10 ] ]
