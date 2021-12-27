@@ -2381,12 +2381,13 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
-std::vector<bodypart_id> Creature::get_all_body_parts_with_flag (const json_character_flag &flag ) const
+std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
+const
 {
     std::vector<bodypart_id> bodyparts;
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( elem.first->has_flag(flag) ) {
+        if( elem.first->has_flag( flag ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }
