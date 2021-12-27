@@ -96,6 +96,12 @@ Monsters may also have any of these optional properties:
 | `shearing`               | (array of objects) Items produced when the monster is sheared
 | `speed_description`      | (string) ID of a `speed_description` type describing the monster speed string
 | `petfood`                | (object) Data regarding feeding this monster to turn it into a pet
+| `absorb_ml_per_hp`       | (int) For monsters with the `ABSORB_ITEMS` special attack. Determines the amount in milliliters that must be absorbed to gain 1 HP. Default 250.
+| `absorb_move_cost_per_ml`| (float) For monsters with the `ABSORB_ITEMS` special attack. Determines the move cost for absorbing items based on the volume in milliliters of the absorbed items. Default 0.025f.
+| `absorb_move_cost_min`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a minimum movement cost for absorbing items regardless of the volume of the comsumed item. Default 1.
+| `absorb_move_cost_max`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a maximum movement cost for absorbing items regardless of the volume of the comsumed item. -1 for no limit. Default -1.
+| `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
+| `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
 
 Properties in the above tables are explained in more detail in the sections below.
 
