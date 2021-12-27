@@ -79,6 +79,7 @@ class node_t
         const strategy_t *strategy = nullptr;
         using predicate_type = std::function<status_t( const oracle_t *, const std::string & )>;
         std::vector<std::tuple<predicate_type, std::string, bool>> conditions;
+        status_t process_predicates( const oracle_t *subject ) const;
         // TODO: make into an ID?
         std::string _goal;
 };

@@ -32,55 +32,42 @@ void node_t::add_child( const node_t *new_child )
     children.push_back( new_child );
 }
 
+status_t node_t::process_predicates( const oracle_t *subject ) const
+{
+    status_t result = status_t::running;
+
+    for( const std::tuple< predicate_type, std::string, bool > &predicate_tuple : conditions ) {
+        predicate_type pt = std::get<0>( predicate_tuple );
+        std::string pargs = std::get<1>( predicate_tuple );
+        bool pinvert = std::get<2>( predicate_tuple );
+
+        result = pt( subject, pargs );
+
+        if( pinvert ) {
+            if( result == status_t::running ) {
+                result = status_t::failure;
+            } else if( result == status_t::failure ) {
+                result = status_t::running;
+            }
+        }
+
+        if( result != status_t::running ) {
+            break;
+        }
+    }
+
+    return result;
+}
+
 behavior_return node_t::tick( const oracle_t *subject ) const
 {
     if( children.empty() ) {
-        status_t result = status_t::running;
-
-        for( const std::tuple< predicate_type, std::string, bool > &predicate_tuple : conditions ) {
-            predicate_type pt = std::get<0>( predicate_tuple );
-            std::string pargs = std::get<1>( predicate_tuple );
-            bool pinvert = std::get<2>( predicate_tuple );
-
-            result = pt( subject, pargs );
-
-            if( pinvert ) {
-                if( result == status_t::running ) {
-                    result = status_t::failure;
-                } else if( result == status_t::failure ) {
-                    result = status_t::running;
-                }
-            }
-
-            if( result != status_t::running ) {
-                break;
-            }
-        }
+        status_t result = process_predicates( subject );
 
         return { result, this };
     } else {
         cata_assert( strategy != nullptr );
-        status_t result = status_t::running;
-        // TODO: this loop is the same above and below, DRY it up?
-        for( const std::tuple< predicate_type, std::string, bool > &predicate_tuple : conditions ) {
-            predicate_type pt = std::get<0>( predicate_tuple );
-            std::string pargs = std::get<1>( predicate_tuple );
-            bool pinvert = std::get<2>( predicate_tuple );
-
-            result = pt( subject, pargs );
-
-            if( pinvert ) {
-                if( result == status_t::running ) {
-                    result = status_t::failure;
-                } else if( result == status_t::failure ) {
-                    result = status_t::running;
-                }
-            }
-
-            if( result != status_t::running ) {
-                break;
-            }
-        }
+        status_t result = process_predicates( subject );
         if( result == status_t::running ) {
             return strategy->evaluate( subject, children );
         } else {
