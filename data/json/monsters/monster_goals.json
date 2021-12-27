@@ -16,7 +16,6 @@
     "strategy": "sequential",
     "conditions": [
       { "predicate": "monster_not_hallucination" },
-      { "predicate": "monster_split_possible" },
       { "predicate": "monster_special_available", "argument": "ABSORB_ITEMS" },
       { "predicate": "monster_items_available" }
     ],
