@@ -7,13 +7,24 @@
   },
   {
     "type": "behavior",
+    "id": "split",
+    "strategy": "sequential",
+    "conditions": [
+      { "predicate": "monster_split_possible" },
+      { "predicate": "monster_special_available", "argument": "SPLIT" },
+      { "predicate": "monster_not_hallucination" }
+    ],
+    "goal": "split"
+  },
+  {
+    "type": "behavior",
     "id": "absorb_items",
     "strategy": "sequential",
     "conditions": [
-      { "predicate": "monster_special_available", "argument": "EAT_CROP" },
+      { "predicate": "monster_special_available", "argument": "ABSORB_ITEMS" },
       { "predicate": "monster_not_hallucination" },
       { "predicate": "monster_items_available" } ],
-    "goal": "consume_items"
+    "goal": "absorb_items"
   },
   {
     "type": "behavior",

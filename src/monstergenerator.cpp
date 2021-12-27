@@ -379,9 +379,6 @@ void load_monster_adjustment( const JsonObject &jsobj )
 static void build_behavior_tree( mtype &type )
 {
     type.set_strategy();
-    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
-        type.add_goal( "absorb_items" );
-    }
     for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
         if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
             type.add_goal( attack.first );
@@ -504,7 +501,8 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
-    add_hardcoded_attack( "CONSUME_ITEMS", mattack::consume_items );
+    add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
+    add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );

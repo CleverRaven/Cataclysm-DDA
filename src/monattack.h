@@ -8,7 +8,7 @@ class Creature;
 namespace mattack
 {
 bool none( monster *z );
-bool consume_items( monster *z );
+bool absorb_items( monster *z );
 bool eat_crop( monster *z );
 bool eat_food( monster *z );
 bool antqueen( monster *z );
@@ -28,6 +28,7 @@ bool boomer_glow( monster *z );
 bool resurrect( monster *z );
 bool smash( monster *z );
 void smash_specific( monster *z, Creature *target );
+bool split( monster *z );
 bool science( monster *z );
 bool growplants( monster *z );
 bool grow_vine( monster *z );

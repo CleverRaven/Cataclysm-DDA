@@ -15,6 +15,14 @@ status_t monster_oracle_t::not_hallucination( const std::string & ) const
     return subject->is_hallucination() ? status_t::failure : status_t::running;
 }
 
+status_t monster_oracle_t::split_possible( const std::string & ) const
+{
+    if( subject->get_hp() / 2 > subject->get_hp_max() ) {
+        return status_t::running;
+    }
+    return status_t::failure;
+}
+
 status_t monster_oracle_t::items_available( const std::string & ) const
 {
     if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&

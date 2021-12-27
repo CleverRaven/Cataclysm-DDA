@@ -340,7 +340,35 @@ bool mattack::eat_crop( monster *z )
     return true;
 }
 
-bool mattack::consume_items( monster *z )
+bool mattack::split( monster *z ) {
+    if( !( z->get_hp() / 2 > z->type->hp ) ) {
+        return false;
+    }
+
+    bool split_performed = false;
+    while( z->get_hp() / 2 > z->type->hp ) {
+        monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
+        if( !spawn ) {
+            std::cout << "Reached the !spawn block\n";
+            break;
+        }
+        split_performed = true;
+        z->set_hp( z->get_hp() - z->type->hp );
+        //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+        spawn->make_ally( *z );
+        add_msg_if_player_sees( *z, _( "The %s splits in two!" ), z->name() );
+        z->mod_moves( -z->type->split_move_cost );
+        spawn->mod_moves( -z->type->split_move_cost );
+
+        if( z->get_moves() <= 0 ) {
+            break;
+        }
+    }
+
+    return split_performed;
+}
+
+bool mattack::absorb_items( monster *z )
 {
     map &here = get_map();
 
@@ -353,7 +381,6 @@ bool mattack::consume_items( monster *z )
 
     std::vector<item *> consumed_items;
     std::vector<material_id> absorb_material = z->get_absorb_material();
-    bool split_performed = false;
 
     for( item &elem : here.i_at( z->pos() ) ) {
         bool any_materials_match = false;
@@ -384,19 +411,7 @@ bool mattack::consume_items( monster *z )
         }
         z->mod_moves( -absorb_move_cost );
         consumed_items.push_back( &elem );
-        if( z->has_flag( MF_ABSORBS_SPLITS ) ) {
-            // loop in case consuming 1 item causes more than 1 split due to amount of HP gained
-            while( z->get_hp() / 2 > z->type->hp ) {
-                monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
-                z->set_hp( z->get_hp() - z->type->hp );
-                //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                spawn->make_ally( *z );
-                add_msg_if_player_sees( *z, _( "The %s splits in two!" ), z->name() );
-                z->mod_moves( -z->type->split_move_cost );
-                spawn->mod_moves( -z->type->split_move_cost );
-                split_performed = true;
-            }
-        }
+        // stop consuming once we're out of moves
         if( z->get_moves() <= 0 ) {
             break;
         }
@@ -422,7 +437,7 @@ bool mattack::consume_items( monster *z )
         }
     }
 
-    return consumed_items.size() > 0 || split_performed;
+    return consumed_items.size() > 0;
 }
 
 bool mattack::eat_food( monster *z )
