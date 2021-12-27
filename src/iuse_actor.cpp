@@ -4599,8 +4599,9 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
 
     // Go through all discovered repair items and see if we have any of them available
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed, false,
-                                     is_filthy_filter );
+        has_enough[cm.item_string] = cm.item_string->count_by_charges() ? crafting_inv.has_charges(
+                                         cm.item_string, items_needed, is_filthy_filter ) : crafting_inv.has_amount( cm.item_string,
+                                                 items_needed, false, is_filthy_filter );
     }
 
     int mod_count = 0;

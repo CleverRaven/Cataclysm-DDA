@@ -2909,6 +2909,10 @@ void item::io( Archive &archive )
         }
         charges = 0;
     }
+
+    if( is_armor() && has_clothing_mod() ) {
+        update_clothing_mod_val();
+    }
 }
 
 void item::migrate_content_item( const item &contained )

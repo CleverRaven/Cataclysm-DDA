@@ -7673,7 +7673,7 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     return res;
 }
 
-float item::electric_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+float item::electric_resist( bool to_self, int /*base_env_resist*/, const bodypart_id &bp ) const
 {
     if( to_self ) {
         // Currently no items are damaged by electricity
