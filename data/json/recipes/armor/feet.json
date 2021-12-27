@@ -833,11 +833,25 @@
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
+    "result": "steel_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "chainmail_feet",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
     "result": "xl_chainmail_feet",
     "type": "recipe",
     "copy-from": "chainmail_feet",
     "time": "5 h",
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xl_steel_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "chainmail_feet",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "roller_blades",

@@ -450,6 +450,13 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "steel_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "chainmail_arms",
+    "name": { "str": "pair of steel chainmail sleeves", "str_pl": "pairs of steel chainmail sleeves" },
+    "material": [ "steel", "cotton" ]
+  },
+  {
     "id": "xl_chainmail_arms",
     "type": "ARMOR",
     "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
@@ -458,6 +465,13 @@
     "volume": "1050 ml",
     "copy-from": "chainmail_arms",
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_steel_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "chainmail_arms",
+    "name": { "str": "pair of XL steel chainmail sleeves", "str_pl": "pairs of XL steel chainmail sleeves" },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "elbow_pads",

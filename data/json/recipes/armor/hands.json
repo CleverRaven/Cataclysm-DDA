@@ -748,7 +748,21 @@
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
+    "result": "steel_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
     "result": "xl_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xl_steel_chainmail_hands",
     "type": "recipe",
     "copy-from": "chainmail_hands",
     "time": "2 h 15 m",

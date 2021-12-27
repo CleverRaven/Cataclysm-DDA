@@ -148,6 +148,13 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "steel_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "name": { "str": "steel chainmail leggings", "str_pl": "pairs of steel chainmail leggings" },
+    "material": [ "steel", "cotton" ]
+  },
+  {
     "id": "xl_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "chainmail_legs",
@@ -155,6 +162,13 @@
     "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_steel_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "name": { "str": "XL steel chainmail leggings", "str_pl": "pairs of XL steel chainmail leggings" },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "leggings_thessalonian",

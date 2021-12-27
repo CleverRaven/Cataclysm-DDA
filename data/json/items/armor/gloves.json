@@ -60,12 +60,26 @@
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "steel_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hands",
+    "name": { "str": "pair of steel chainmail gloves", "str_pl": "pairs of steel chainmail gloves" },
+    "material": [ "steel", "cotton" ]
+  },
+  {
     "id": "xl_chainmail_hands",
     "type": "ARMOR",
     "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
     "copy-from": "chainmail_hands",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_steel_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_hands",
+    "name": { "str": "pair of XL steel chainmail gloves", "str_pl": "pairs of XL steel chainmail gloves" },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "fire_gauntlets",

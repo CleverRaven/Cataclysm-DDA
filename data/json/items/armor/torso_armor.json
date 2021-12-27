@@ -196,12 +196,26 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
+    "id": "steel_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "chainmail_vest",
+    "name": { "str": "steel chainmail vest" },
+    "material": [ "steel", "cotton" ]
+  },
+  {
     "id": "xl_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL chainmail vest" },
     "copy-from": "chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_steel_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_vest",
+    "name": { "str": "XL steel chainmail vest" },
+    "material": [ "steel", "cotton" ]
   },
   {
     "id": "chestguard_hard",

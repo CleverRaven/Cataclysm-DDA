@@ -768,7 +768,7 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "copy-from": "pot_helmet",
-    "material_thickness": 2,
+	"material_thickness": 2,
     "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   }

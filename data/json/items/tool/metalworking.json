@@ -235,6 +235,14 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "steel_link_sheet",
+    "type": "TOOL",
+    "copy-from": "link_sheet",
+    "name": { "str": "chainmail sheet" },
+    "description": "This is a sheet of riveted steel chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "material": [ "steel" ]
+  },
+  {
     "id": "swage",
     "type": "TOOL",
     "name": { "str": "swage and die set" },
