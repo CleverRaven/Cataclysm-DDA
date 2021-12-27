@@ -343,11 +343,15 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+        int armor_elec = -1;    /** innate armor vs. electricity */
         ::weakpoints weakpoints;
         weakpoint_families families;
 
         // Pet food category this monster is in
         pet_food_data petfood;
+
+        // Multiplier to chance to apply status effects (only zapped for now)
+        float status_chance_multiplier = 1.0f;
 
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;

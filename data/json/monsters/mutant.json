@@ -24,6 +24,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "armor_elec": 1,
     "bleed_rate": 75,
     "vision_day": 25,
     "vision_night": 5,
@@ -70,6 +71,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_elec": 3,
     "bleed_rate": 50,
     "vision_night": 15,
     "harvest": "human_large_fur",
@@ -117,6 +119,7 @@
     "armor_cut": 11,
     "armor_stab": 8,
     "armor_bullet": 5,
+    "armor_elec": 2,
     "bleed_rate": 70,
     "vision_day": 25,
     "vision_night": 8,
@@ -198,6 +201,7 @@
       }
     ],
     "dodge": 9,
+    "armor_elec": 1,
     "vision_night": 15,
     "harvest": "mutant_human_camouflaged",
     "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] }
@@ -283,6 +287,7 @@
     "armor_stab": 30,
     "armor_bullet": 70,
     "armor_fire": 50,
+    "armor_elec": 6,
     "harvest": "mutant_human_mollusk",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] }
@@ -308,6 +313,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 0,
+    "armor_elec": 1,
     "dodge": 5,
     "harvest": "mutant_human",
     "fear_triggers": [ "FIRE" ],
