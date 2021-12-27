@@ -1046,7 +1046,7 @@ Monster physical sizes.
 - ```TINY``` Squirrel
 
 ### Special attacks
-Special attacks have been moved to [SPECIAL_ATTACKS.md](SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
+Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
 
 ## Mutations
 
