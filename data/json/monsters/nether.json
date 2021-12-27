@@ -857,7 +857,7 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "absorb_material": [ "steel" ],
+    "absorb_material": [ "flesh" ],
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {

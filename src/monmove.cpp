@@ -762,7 +762,23 @@ void monster::move()
             }
         }
         for( item *it : consumed_items ) {
+            // check if the item being removed is a corpse so that the items are dropped
+            std::list<item *> corpse_items;
+            std::vector<item> copied_corpse_items;
+            if( it->is_container() ) {
+                corpse_items = it->all_items_top( item_pocket::pocket_type::CONTAINER, true );
+            }
+
+            // TODO: check if there is some better way to copy these
+            for( item *it2 : corpse_items ) {
+                copied_corpse_items.emplace_back( *it2 );
+            }
+
             here.i_rem( pos(), it );
+
+            for( item &it2 : copied_corpse_items ) {
+                here.add_item( pos(), it2 );
+            }
         }
     } else if( action == "eat_crop" ) {
         // TODO: Create a special attacks whitelist unordered map instead of an if chain.
