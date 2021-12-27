@@ -2362,7 +2362,8 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         mapgen_value<trap_id> id;
-        bool remove;
+        bool remove = false;
+
         jmapgen_trap( const JsonObject &jsi, const std::string &/*context*/ ) {
             init( jsi.get_member( "trap" ) );
             remove = jsi.get_bool( "remove", false );
@@ -2371,6 +2372,7 @@ class jmapgen_trap : public jmapgen_piece
         explicit jmapgen_trap( const JsonValue &tid ) {
             if( tid.test_object() ) {
                 JsonObject jo = tid.get_object();
+                remove = jo.get_bool( "remove", false );
                 if( jo.has_member( "trap" ) ) {
                     init( jo.get_member( "trap" ) );
                     return;
@@ -2378,6 +2380,7 @@ class jmapgen_trap : public jmapgen_piece
             }
             init( tid );
         }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             trap_id chosen_id = id.get( dat );
