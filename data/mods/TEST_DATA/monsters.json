@@ -230,5 +230,13 @@
     "description": "This zombie soldier is for testing purposes only.",
     "copy-from": "mon_zombie_soldier",
     "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
+  },
+  {
+    "id": "mon_shoggoth_flesh_only",
+    "type": "MONSTER",
+    "name": { "str": "shoggoth test only" },
+    "description": "This shoggoth is for testing purposes only.",
+    "copy-from": "mon_shoggoth",
+    "absorb_material": [ "flesh" ]
   }
 ]

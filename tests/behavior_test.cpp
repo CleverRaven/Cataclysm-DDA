@@ -28,6 +28,8 @@ static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" )
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water( "water" );
 
+static const string_id<behavior::node_t> behavior__node_t_absorbs_items( "ABSORB_ITEMS" );
+static const string_id<behavior::node_t> behavior__node_t_split( "SPLIT" );
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 namespace behavior
@@ -256,9 +258,6 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
     SECTION( "Special Attack ABSORB_ITEMS" ) {
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        // TODO: remove this, shoggoths will eventually consume all again
-        here.add_item( test_monster.pos(), item( "pencil" ) );
-        CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.add_item( test_monster.pos(), item( "frame" ) );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
         test_monster.set_special( "ABSORB_ITEMS", 1 );
@@ -273,5 +272,46 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         here.add_item( test_monster.pos(), item( "frame" ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
+    }
+}
+TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][behavior]" )
+{
+    const tripoint monster_location( 5, 5, 0 );
+    clear_map();
+    map &here = get_map();
+    monster &test_monster = spawn_test_monster( "mon_shoggoth_flesh_only", monster_location );
+
+    behavior::monster_oracle_t oracle( &test_monster );
+    behavior::tree monster_goals;
+    monster_goals.add( test_monster.type->get_goals() );
+
+    for( const std::string &special_name : test_monster.type->special_attacks_names ) {
+        test_monster.reset_special( special_name );
+    }
+    CHECK( monster_goals.tick( &oracle ) == "idle" );
+    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+        here.ter_set( near_monster, ter_id( "t_grass" ) );
+        here.furn_set( near_monster, furn_id( "f_null" ) );
+    }
+    SECTION( "Special Attack ABSORB_ITEMS" ) {
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+        here.add_item( test_monster.pos(), item( "corpse" ) );
+        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+        test_monster.set_special( "ABSORB_ITEMS", 1 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Special Attack SPLIT" ) {
+        test_monster.set_special( "SPLIT", 0 );
+        test_monster.set_hp( test_monster.type->hp * 2 + 2 );
+
+        // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        here.add_item( test_monster.pos(), item( "corpse" ) );
+
+        CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
+
+        //TODO: see if we can add items to the corpse and simulate absorbing corpse
+        // to make sure the items are left behind
     }
 }
