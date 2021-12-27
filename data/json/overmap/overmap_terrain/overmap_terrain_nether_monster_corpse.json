@@ -1,21 +1,49 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_mid",
-    "name": "monster corpse",
-    "sym": "@",
+    "id": "corpse_bowels_empty_edge",
+    "name": "monster corpse bowels",
+    "sym": "O",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_surface",
-    "copy-from": "corpse_bowels_mid"
+    "name": "monster corpse",
+    "copy-from": "corpse_bowels_empty_edge",
+    "flags": [ "NO_ROTATE" ],
+    "sym": "T"
   },
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_empty_edge_north",
-    "copy-from": "corpse_bowels_mid"
+    "id": "corpse_bowels_mid",
+    "copy-from": "corpse_bowels_empty_edge",
+    "flags": [ "NO_ROTATE" ],
+    "sym": "@"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_tentacle_edge",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "E"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_neck_edge",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "|",
+    "color": "light_blue",
+    "flags": [ "LINEAR" ]
   }
 ]
