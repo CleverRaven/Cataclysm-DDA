@@ -23,6 +23,7 @@ enum class widget_var : int {
     speed,          // Current speed, integer
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     fatigue,        // Current fatigue, integer
+    health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
@@ -45,6 +46,7 @@ enum class widget_var : int {
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
+    health_text,    // Hidden health message, color string
     hunger_text,    // Hunger description text, color string
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
