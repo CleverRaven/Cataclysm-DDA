@@ -1446,6 +1446,14 @@ void options_manager::add_options_interface()
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
