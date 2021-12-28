@@ -1,0 +1,13 @@
+
+Fix potter's cottage
+Fix patch of sand map special
+Add even more sand
+Add bog iron
+Ore veins
+Add research for glass
+Add research for refining steel
+Add research for concreete
+Fix Lighthouse Island
+Fix starts
+Fix start in cave
+Fix trash_forest properly
