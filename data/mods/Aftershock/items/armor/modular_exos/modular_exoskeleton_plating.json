@@ -249,8 +249,8 @@
     "id": "destroyed_exo_arm_vcc_plate",
     "type": "ARMOR",
     "copy-from": "exo_arm_vcc",
-    "name": { "str": "shattered accuum-cast carbide arm plate" },
-    "description": "The remains of a accuum-cast carbide arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "name": { "str": "shattered vacuum-cast carbide arm plate" },
+    "description": "The remains of a vacuum-cast carbide arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_arm_vcc",
     "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
   },
