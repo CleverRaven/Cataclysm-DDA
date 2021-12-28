@@ -97,7 +97,6 @@ class widget
 
     public:
         widget() = default;
-        widget( const widget &wid ) = default;
         explicit widget( const widget_id &id ) : id( id ) {}
 
         // Attributes from JSON

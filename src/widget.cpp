@@ -11,7 +11,7 @@
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
 {
-generic_factory<widget> widget_factory( "widgets" );
+generic_factory<widget> widget_factory( "widget" );
 } // namespace
 
 template<>
@@ -171,6 +171,7 @@ std::string enum_to_string<widget_var>( widget_var data )
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
+    mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "labels", _labels );
     optional( jo, was_loaded, "width", _width, 1 );
@@ -225,32 +226,51 @@ void widget::finalize()
     varlist.reserve( _vars.size() );
     std::copy( _vars.begin(), _vars.end(), varlist.end() );
     if( !varlist.empty() ) {
+        widget &thiswgt = *this;
         // Populate _widgets with children from vars/labels
         // TODO: Move this to a helper function outside finalize()
         for( unsigned int i = 0; i < varlist.size(); ++i ) {
             // Make child a copy of parent
-            widget child( *this );
+            widget child;
             // Give child widget id like parent_id_varname
-            child.id = string_id<widget>( string_format( "%s_%s", id.c_str(),
-                                          io::enum_to_string<widget_var>( varlist[i] ) ) );
+            child.id = widget_id( string_format( "%s_%s", thiswgt.id.c_str(),
+                                                 io::enum_to_string<widget_var>( varlist[i] ) ) );
+            child._arrange = thiswgt._arrange;
+            child._bp_id = thiswgt._bp_id;
+            child._fill = thiswgt._fill;
+            child._symbols = thiswgt._symbols;
+            child._var_max = thiswgt._var_max;
+            child._var_min = thiswgt._var_min;
+            child._width = thiswgt._width;
 
             // Child var/label come from vars/labels lists
             child._var = varlist[i];
-            child._label = _labels[i];
-            // Don't nest vars and labels from parent
-            child._vars.clear();
-            child._labels.clear();
+            child._label = thiswgt._labels[i];
 
             // Child style is the un-pluralized style of parent
-            if( _style == "graphs" ) {
+            if( thiswgt._style == "graphs" ) {
                 child._style = "graph";
             } else { // "numbers"
                 child._style = "number";
             }
-            // Append _widgets to be arranged by layout()
-            _widgets.emplace_back( child.id );
             // Ensure this child can be referenced by find_id in the factory
-            widget_factory.insert( child );
+            widget &tmp = widget_factory.insert( child );
+
+            // Append _widgets to be arranged by layout().
+            // For whatever reason, generic_factory::insert can invalidate the current object.
+            // Find the object again to properly emplace child id.
+            const std::vector<widget> &wlist = widget_factory.get_all();
+            auto iter = std::find_if( wlist.begin(), wlist.end(), [thiswgt]( const widget & w ) {
+                return w.id == thiswgt.id;
+            } );
+            if( iter != wlist.end() ) {
+                thiswgt = *iter;
+                thiswgt._widgets.emplace_back( tmp.id );
+            } else {
+                // There's a problem with the widget list
+                debugmsg( "Widget %s was dropped from widget_factory!", thiswgt.id.c_str() );
+                return;
+            }
         }
     }
 }
