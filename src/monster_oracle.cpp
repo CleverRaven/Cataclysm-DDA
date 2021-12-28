@@ -65,14 +65,14 @@ status_t monster_oracle_t::special_available( const std::string &special_name ) 
     if( special_name.rfind( "!", 0 ) == 0 ) {
         only_if_present = true;
         mspecial_name = special_name.substr( 1 );
-    }
-    else {
+    } else {
         mspecial_name = special_name;
     }
 
     bool has_special = only_if_present ? subject->has_special( mspecial_name ) : true;
 
-    return has_special && subject->special_available( mspecial_name ) ? status_t::running : status_t::failure;
+    return has_special &&
+           subject->special_available( mspecial_name ) ? status_t::running : status_t::failure;
 }
 
 } // namespace behavior

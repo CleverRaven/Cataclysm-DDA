@@ -383,10 +383,15 @@ bool mattack::absorb_items( monster *z )
 
     for( item &elem : here.i_at( z->pos() ) ) {
         bool any_materials_match = false;
-        for( const material_type *mat_type : elem.made_of_types() ) {
-            if( std::find( absorb_material.begin(), absorb_material.end(),
-                           mat_type->id ) != absorb_material.end() ) {
-                any_materials_match = true;
+
+        if( absorb_material.empty() ) {
+            any_materials_match = true;
+        } else {
+            for( const material_type *mat_type : elem.made_of_types() ) {
+                if( std::find( absorb_material.begin(), absorb_material.end(),
+                               mat_type->id ) != absorb_material.end() ) {
+                    any_materials_match = true;
+                }
             }
         }
 
@@ -416,24 +421,12 @@ bool mattack::absorb_items( monster *z )
         }
     }
     for( item *it : consumed_items ) {
-        // check if the item being removed is a corpse so that the items are dropped
-        std::list<item *> corpse_items;
-        std::vector<item> copied_corpse_items;
-        if( it->is_container() ) {
-            // TODO: check to see if there is a different item ref that should be accessed
-            corpse_items = it->all_items_top( item_pocket::pocket_type::CONTAINER, true );
+        // check if the item being removed is a corpse so that the items are dropped.
+        // only do this if the monster is selectively eating flesh
+        if( it->is_container() && !absorb_material.empty() ) {
+            it->spill_contents( z->pos() );
         }
-
-        // TODO: check if there is some better way to copy these
-        for( item *it2 : corpse_items ) {
-            copied_corpse_items.emplace_back( *it2 );
-        }
-
         here.i_rem( z->pos(), it );
-
-        for( item &it2 : copied_corpse_items ) {
-            here.add_item( z->pos(), it2 );
-        }
     }
 
     return consumed_items.size() > 0;
