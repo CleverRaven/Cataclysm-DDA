@@ -20,9 +20,10 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3"
+      "MP3",
+      "CALORIES_INTAKE_TRACKER"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_imager",
@@ -121,7 +122,8 @@
       },
       "CAMERA",
       "MP3",
-      "ROBOTCONTROL"
+      "ROBOTCONTROL",
+      "CALORIES_INTAKE_TRACKER"
     ]
   },
   {
@@ -132,7 +134,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "MP3_ON" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
