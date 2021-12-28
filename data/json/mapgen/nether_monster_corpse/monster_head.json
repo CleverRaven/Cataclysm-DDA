@@ -1,72 +1,72 @@
 [
-    {
-      "type": "mapgen",
-      "method": "json",
-      "om_terrain": "corpse_neck",
-      "object": {
-        "fill_ter": "t_dirt_underground",
-        "rows": [
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "#                       ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #"
-        ],
-        "terrain": { "#": "t_soil" }
-      }
-    },
-    {
-      "type": "mapgen",
-      "method": "json",
-      "om_terrain": "corpse_head",
-      "object": {
-        "fill_ter": "t_dirt_underground",
-        "rows": [
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "#                       ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "                        ",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #",
-          "#                      #"
-        ],
-        "terrain": { "#": "t_soil" }
-      }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_neck",
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "#": "t_soil" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_head",
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "#": "t_soil" }
+    }
+  }
 ]

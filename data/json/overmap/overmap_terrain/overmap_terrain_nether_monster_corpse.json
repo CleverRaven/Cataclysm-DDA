@@ -38,6 +38,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "corpse_bowels_lcorner",
+    "copy-from": "corpse_bowels_empty_edge"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_rcorner",
+    "copy-from": "corpse_bowels_empty_edge"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "corpse_neck",
     "copy-from": "corpse_bowels_empty_edge",
     "color": "red",
