@@ -378,21 +378,11 @@
     ]
   },
   {
-    "result": "steel_chainmail_arms",
-    "type": "recipe",
-    "copy-from": "chainmail_arms"
-  },
-  {
     "result": "xl_chainmail_arms",
     "type": "recipe",
     "copy-from": "chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
-  },
-  {
-    "result": "xl_steel_chainmail_arms",
-    "type": "recipe",
-    "copy-from": "chainmail_arms"
   }
 ]

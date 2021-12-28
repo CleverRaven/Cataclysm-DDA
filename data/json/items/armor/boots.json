@@ -1134,19 +1134,12 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
-  },
-  {
-    "id": "steel_chainmail_feet",
-    "type": "ARMOR",
-    "copy-from": "chainmail_feet",
-    "name": { "str": "pair of steel chainmail chausses", "str_pl": "pairs of steel chainmail chausses" },
-    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_feet",
@@ -1155,13 +1148,6 @@
     "copy-from": "chainmail_feet",
     "proportional": { "weight": 2, "volume": 2 },
     "flags": [ "VARSIZE", "OVERSIZE" ]
-  },
-  {
-    "id": "xl_steel_chainmail_feet",
-    "type": "ARMOR",
-    "copy-from": "xl_chainmail_feet",
-    "name": { "str": "pair of XL steel chainmail chausses", "str_pl": "pairs of XL steel chainmail chausses" },
-    "material": [ "steel", "cotton" ]
   },
   {
     "id": "leg_warmers_xlf",

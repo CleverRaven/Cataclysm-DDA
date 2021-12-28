@@ -1822,26 +1822,12 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "steel_chainmail_vest",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "copy-from": "chainmail_vest",
-    "components": [ [ [ "steel_link_sheet", 7 ] ], [ [ "steel_chain_link", 175 ] ], [ [ "wire", 1 ] ] ]
-  },
-  {
     "result": "xl_chainmail_vest",
     "type": "recipe",
     "copy-from": "chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
-  },
-  {
-    "result": "xl_steel_chainmail_vest",
-    "type": "recipe",
-    "copy-from": "chainmail_vest",
-    "components": [ [ [ "steel_link_sheet", 10 ] ], [ [ "steel_chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "result": "armor_cuirass",

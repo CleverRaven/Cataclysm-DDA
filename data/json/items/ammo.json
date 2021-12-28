@@ -1164,14 +1164,6 @@
   },
   {
     "type": "AMMO",
-    "id": "steel_chain_link",
-    "copy-from": "chain_link",
-    "name": { "str": "steel chain link" },
-    "description": "Small steel rings, suitable for constructing chainmail.",
-    "material": [ "steel" ]
-  },
-  {
-    "type": "AMMO",
     "id": "nitrox",
     "category": "chems",
     "price": 500,

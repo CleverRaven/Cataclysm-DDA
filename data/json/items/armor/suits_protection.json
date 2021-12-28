@@ -476,22 +476,6 @@
     "material": [ { "type": "iron", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
-    "id": "steel_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "steel chainmail hauberk" },
-    "description": "A fully customized steel chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_hauberk",
-    "material": [ "steel", "cotton" ]
-  },
-  {
-    "id": "steel_kevlar_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "steel and kevlar chainmail hauberk" },
-    "description": "A fully customized steel chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_hauberk",
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
-  },
-  {
     "id": "xl_chainmail_hauberk",
     "type": "ARMOR",
     "name": { "str": "XL chainmail hauberk" },
@@ -504,22 +488,6 @@
     "type": "ARMOR",
     "name": { "str": "XL kevlar chainmail hauberk" },
     "copy-from": "kevlar_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xl_steel_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL steel chainmail hauberk" },
-    "copy-from": "steel_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xl_steel_kevlar_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL steel and kevlar chainmail hauberk" },
-    "copy-from": "steel_kevlar_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -539,7 +507,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 30,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
@@ -550,24 +518,6 @@
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_suit",
     "material": [ { "type": "iron", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
-    "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
-  },
-  {
-    "id": "steel_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "steel chainmail armor" },
-    "description": "A fully customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material": [ "steel", "cotton" ]
-  },
-  {
-    "id": "steel_kevlar_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "steel and kevlar chainmail armor" },
-    "description": "A fully customized steel chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
     "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
   },
@@ -586,22 +536,6 @@
     "copy-from": "xl_chainmail_suit"
   },
   {
-    "id": "xl_steel_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "steel chainmail armor" },
-    "description": "A fully customized steel chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material": [ "steel", "cotton" ]
-  },
-  {
-    "id": "xl_steel_kevlar_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "steel and kevlar chainmail armor" },
-    "description": "A fully customized steel chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
-  },
-  {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
     "category": "armor",
@@ -615,7 +549,7 @@
     "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
@@ -626,27 +560,12 @@
     ]
   },
   {
-    "id": "steel_chainmail_suit_faraday",
-    "type": "ARMOR",
-    "copy-from": "chainmail_suit_faraday",
-    "name": { "str": "XL faraday chainmail suit" },
-    "material": [ "steel", "cotton" ]
-  },
-  {
     "id": "xl_chainmail_suit_faraday",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
     "name": { "str": "XL faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xl_steel_chainmail_suit_faraday",
-    "type": "ARMOR",
-    "copy-from": "xl_chainmail_suit_faraday",
-    "name": { "str": "steel faraday chainmail suit" },
-    "description": "A fully customized steel chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
-    "material": [ "steel", "cotton" ]
   },
   {
     "id": "cleansuit",

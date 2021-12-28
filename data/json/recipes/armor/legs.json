@@ -915,21 +915,11 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "steel_chainmail_legs",
-    "type": "recipe",
-    "copy-from": "chainmail_legs"
-  },
-  {
     "result": "xl_chainmail_legs",
     "type": "recipe",
     "copy-from": "chainmail_legs",
     "time": "4 h 30 m",
     "using": [ [ "armor_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
-  },
-  {
-    "result": "xl_steel_chainmail_legs",
-    "type": "recipe",
-    "copy-from": "xl_chainmail_legs"
   },
   {
     "result": "legguard_bronze",

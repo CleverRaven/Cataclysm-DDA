@@ -441,20 +441,13 @@
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "steel_chainmail_arms",
-    "type": "ARMOR",
-    "copy-from": "chainmail_arms",
-    "name": { "str": "pair of steel chainmail sleeves", "str_pl": "pairs of steel chainmail sleeves" },
-    "material": [ "steel", "cotton" ]
   },
   {
     "id": "xl_chainmail_arms",
@@ -465,13 +458,6 @@
     "volume": "1050 ml",
     "copy-from": "chainmail_arms",
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xl_steel_chainmail_arms",
-    "type": "ARMOR",
-    "copy-from": "chainmail_arms",
-    "name": { "str": "pair of XL steel chainmail sleeves", "str_pl": "pairs of XL steel chainmail sleeves" },
-    "material": [ "steel", "cotton" ]
   },
   {
     "id": "elbow_pads",
