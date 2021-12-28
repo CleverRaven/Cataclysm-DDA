@@ -199,7 +199,10 @@
         "time_in_future_min": "4 hours",
         "time_in_future_max": "6 hours"
       },
-      { "u_message": "Reality is breaking.  It is subtle but something deep inside you feels the wrongness." }
+      {
+        "u_message": "Reality is breaking.  It is subtle but something deep inside you feels the wrongness.",
+        "type": "bad"
+      }
     ]
   },
   {
@@ -216,7 +219,7 @@
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
-      { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal." }
+      { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" }
     ]
   },
   {
