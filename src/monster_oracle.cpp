@@ -62,7 +62,7 @@ status_t monster_oracle_t::special_available( const std::string &special_name ) 
     bool only_if_present = false;
     std::string mspecial_name;
 
-    if( special_name.rfind( "!", 0 ) == 0 ) {
+    if( special_name.rfind( '!', 0 ) != std::string::npos ) {
         only_if_present = true;
         mspecial_name = special_name.substr( 1 );
     } else {

@@ -429,7 +429,7 @@ bool mattack::absorb_items( monster *z )
         here.i_rem( z->pos(), it );
     }
 
-    return consumed_items.size() > 0;
+    return !consumed_items.empty();
 }
 
 bool mattack::eat_food( monster *z )

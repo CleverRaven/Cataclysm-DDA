@@ -29,8 +29,6 @@ static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" )
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water( "water" );
 
-static const string_id<behavior::node_t> behavior__node_t_absorbs_items( "ABSORB_ITEMS" );
-static const string_id<behavior::node_t> behavior__node_t_split( "SPLIT" );
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 namespace behavior
