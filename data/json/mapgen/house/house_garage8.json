@@ -72,7 +72,7 @@
         "♦": { "item": { "item": "seed_cucumber", "chance": 100 }, "furniture": "f_plant_seedling" },
         "♣": { "item": { "item": "seed_carrot", "chance": 100 }, "furniture": "f_plant_seedling" }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 5 ], "y": [ 12, 13 ], "chance": 6 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 5 ], "y": [ 12, 13 ], "chance": 14 } ],
       "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 4, "y": 2, "chance": 75, "fuel": 80, "status": 50, "rotation": 270 } ]
     }
   },
