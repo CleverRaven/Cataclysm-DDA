@@ -1397,6 +1397,14 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     const furn_t &old_f = old_id.obj();
     const furn_t &new_f = new_target_furniture.obj();
 
+    if( current_submap->is_open_air( l ) &&
+        !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
+        const ter_id current_ter = current_submap->get_ter( l );
+        debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
+                  "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
+                  new_target_furniture.id().str(), p.to_string(), current_ter.id().str() );
+    }
+
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
