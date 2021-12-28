@@ -75,6 +75,6 @@
     "name": "monster corpse",
     "sym": "M",
     "color": "blue",
-    "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR"]
+    "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
   }
 ]
