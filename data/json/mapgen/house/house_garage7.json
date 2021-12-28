@@ -56,7 +56,7 @@
         { "group": "guns_pistol_common", "x": 3, "y": 20, "chance": 75, "ammo": 95, "magazine": 100 },
         { "item": "television", "x": 13, "y": 7, "chance": 75 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 6 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 14 } ],
       "place_vehicles": [ { "vehicle": "suburban_home", "x": 4, "y": 4, "chance": 75, "fuel": 80, "status": 50, "rotation": 270 } ]
     }
   },
