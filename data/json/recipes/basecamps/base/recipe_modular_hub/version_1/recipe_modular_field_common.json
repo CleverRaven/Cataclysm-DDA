@@ -133,7 +133,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ] ]
+        "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 320 ], [ "withered", 320 ] ] ]
       }
     }
   },
@@ -186,7 +186,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ] ]
+        "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 320 ], [ "withered", 320 ] ] ]
       }
     }
   },
@@ -239,7 +239,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -292,7 +292,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -345,7 +345,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -398,7 +398,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -451,7 +451,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -504,7 +504,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -557,7 +557,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -610,7 +610,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
@@ -663,7 +663,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [  ],
-        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ] ]
+        "components": [ [ [ "2x4", 16 ], [ "stick", 16 ] ], [ [ "straw_pile", 640 ], [ "withered", 640 ] ] ]
       }
     }
   },
