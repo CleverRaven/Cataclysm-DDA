@@ -59,7 +59,20 @@ status_t monster_oracle_t::adjacent_plants( const std::string & ) const
 
 status_t monster_oracle_t::special_available( const std::string &special_name ) const
 {
-    return subject->special_available( special_name ) ? status_t::running : status_t::failure;
+    bool only_if_present = false;
+    std::string mspecial_name;
+
+    if( special_name.rfind( "!", 0 ) == 0 ) {
+        only_if_present = true;
+        mspecial_name = special_name.substr( 1 );
+    }
+    else {
+        mspecial_name = special_name;
+    }
+
+    bool has_special = only_if_present ? subject->has_special( mspecial_name ) : true;
+
+    return has_special && subject->special_available( mspecial_name ) ? status_t::running : status_t::failure;
 }
 
 } // namespace behavior

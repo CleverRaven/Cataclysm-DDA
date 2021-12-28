@@ -256,6 +256,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
     SECTION( "Special Attack ABSORB_ITEMS" ) {
+        test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.add_item( test_monster.pos(), item( "frame" ) );
@@ -294,6 +295,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
     SECTION( "Special Attack ABSORB_ITEMS" ) {
+        test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.add_item( test_monster.pos(), item( "corpse" ) );

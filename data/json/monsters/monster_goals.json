@@ -4,9 +4,9 @@
     "id": "SPLIT",
     "strategy": "sequential",
     "conditions": [
+      { "predicate": "monster_not_hallucination" },
       { "predicate": "monster_split_possible" },
-      { "predicate": "monster_special_available", "argument": "SPLIT" },
-      { "predicate": "monster_not_hallucination" }
+      { "predicate": "monster_special_available", "argument": "SPLIT" }
     ],
     "goal": "SPLIT"
   },
@@ -17,6 +17,7 @@
     "conditions": [
       { "predicate": "monster_not_hallucination" },
       { "predicate": "monster_split_possible", "invert_result": true },
+      { "predicate": "monster_special_available", "argument": "!SPLIT" },
       { "predicate": "monster_special_available", "argument": "ABSORB_ITEMS" },
       { "predicate": "monster_items_available" }
     ],
