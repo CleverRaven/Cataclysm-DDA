@@ -13,6 +13,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "monattack.h"
 #include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
@@ -261,20 +262,35 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         CHECK( monster_goals.tick( &oracle ) == "idle" );
         here.add_item( test_monster.pos(), item( "frame" ) );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
-        test_monster.set_special( "ABSORB_ITEMS", 1 );
+
+        mattack::absorb_items( &test_monster );
+        // test that the frame is removed and no items remain
+        CHECK( here.i_at( test_monster.pos() ).empty() );
+
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+
+        // test that the monster is idle with no items around and not enough HP to split
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
     SECTION( "Special Attack SPLIT" ) {
         test_monster.set_special( "SPLIT", 0 );
-        test_monster.set_hp( test_monster.type->hp * 2 + 2 );
+        int new_hp = test_monster.type->hp * 2 + 2;
+        test_monster.set_hp( new_hp );
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         here.add_item( test_monster.pos(), item( "frame" ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
+
+        mattack::split( &test_monster );
+        
+        // test that the monster returns to absorbing items after the split occurs
+        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+        CHECK( test_monster.get_hp() < new_hp );
     }
 }
+
 TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][behavior]" )
 {
     const tripoint monster_location( 5, 5, 0 );
@@ -298,22 +314,35 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.add_item( test_monster.pos(), item( "corpse" ) );
+
+        item corpse = item( "corpse" );
+        corpse.force_insert_item( item("pencil"), item_pocket::pocket_type::CORPSE );
+
+        here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
-        test_monster.set_special( "ABSORB_ITEMS", 1 );
+
+        mattack::absorb_items( &test_monster );
+
+        // test that the pencil remains after the corpse is absorbed
+        CHECK( ( here.i_at( test_monster.pos() ).begin() )->display_name().rfind( "pencil" ) != std::string::npos );
+
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
     SECTION( "Special Attack SPLIT" ) {
         test_monster.set_special( "SPLIT", 0 );
-        test_monster.set_hp( test_monster.type->hp * 2 + 2 );
+        int new_hp = test_monster.type->hp * 2 + 2;
+        test_monster.set_hp( new_hp );
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
-        test_monster.set_special( "ABSORB_ITEMS", 0 );
         here.add_item( test_monster.pos(), item( "corpse" ) );
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
-        //TODO: see if we can add items to the corpse and simulate absorbing corpse
-        // to make sure the items are left behind
+        mattack::split( &test_monster );
+
+        // test that the monster returns to absorbing after the split occurs
+        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+        CHECK( test_monster.get_hp() < new_hp );
     }
 }
