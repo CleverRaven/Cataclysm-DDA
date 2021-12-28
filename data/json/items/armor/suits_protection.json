@@ -458,7 +458,7 @@
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
@@ -470,10 +470,10 @@
   {
     "id": "kevlar_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "iron chainmail hauberk" },
-    "description": "A fully customized iron chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "name": { "str": "kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_hauberk",
-    "material": [ { "type": "iron", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -502,7 +502,7 @@
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
@@ -517,7 +517,7 @@
     "name": { "str": "kevlar chainmail armor" },
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_suit",
-    "material": [ { "type": "iron", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
     "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
   },
@@ -546,7 +546,7 @@
     "price": 35000,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 3,
