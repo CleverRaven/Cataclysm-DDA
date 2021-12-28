@@ -124,7 +124,7 @@
           "east": { "id": "tentacle_to_tentacle",  "type": "available", "alternatives": [ "tentacle_to_tentacle_tee" ] }
         },
         "tentacle_end_w_entry":{
-          "overmap": "corpse_tentacle_entry_south",
+          "overmap": "corpse_tentacle_entry_north",
           "north": { "id": "tentacle_to_tentacle", "alternatives": [ "tentacle_to_tentacle_tee" ] },
           "above": "tentacle_to_surface"
         },
