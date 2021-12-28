@@ -339,9 +339,50 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
         mattack::split( &test_monster );
+        test_monster.set_special( "SPLIT", 1 );
 
-        // test that the monster returns to absorbing after the split occurs
-        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+        // test that the monster is idle after split since it shouldn't absorb if split is on cooldown
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
         CHECK( test_monster.get_hp() < new_hp );
+    }
+}
+
+TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior]" )
+{
+    // tests a monster with the ABSORB_ITEMS ability but NOT the SPLIT ability
+    const tripoint monster_location( 5, 5, 0 );
+    clear_map();
+    map &here = get_map();
+    monster &test_monster = spawn_test_monster( "mon_shoggoth_absorb_only", monster_location );
+
+    behavior::monster_oracle_t oracle( &test_monster );
+    behavior::tree monster_goals;
+    monster_goals.add( test_monster.type->get_goals() );
+
+    for( const std::string &special_name : test_monster.type->special_attacks_names ) {
+        test_monster.reset_special( special_name );
+    }
+    CHECK( monster_goals.tick( &oracle ) == "idle" );
+    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+        here.ter_set( near_monster, ter_id( "t_grass" ) );
+        here.furn_set( near_monster, furn_id( "f_null" ) );
+    }
+    SECTION( "Special Attack ABSORB_ITEMS" ) {
+        test_monster.set_special( "ABSORB_ITEMS", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+
+        item corpse = item( "corpse" );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
+
+        here.add_item( test_monster.pos(), corpse );
+        CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
+
+        mattack::absorb_items( &test_monster );
+
+        // test that the pencil does not remain after the corpse is absorbed
+        // because this shoggoth absorbs all matter indiscriminately
+        CHECK( here.i_at( test_monster.pos() ).empty() );
+
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
 }

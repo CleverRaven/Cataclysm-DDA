@@ -234,9 +234,17 @@
   {
     "id": "mon_shoggoth_flesh_only",
     "type": "MONSTER",
-    "name": { "str": "shoggoth test only" },
+    "name": { "str": "flesh eating shoggoth test only" },
     "description": "This shoggoth is for testing purposes only.",
     "copy-from": "mon_shoggoth",
     "absorb_material": [ "flesh" ]
+  },
+  {
+    "id": "mon_shoggoth_absorb_only",
+    "type": "MONSTER",
+    "name": { "str": "absorb only shoggoth test only" },
+    "description": "This shoggoth is for testing purposes only.",
+    "copy-from": "mon_shoggoth",
+    "delete": { "special_attacks": [ "SPLIT" ] }
   }
 ]
