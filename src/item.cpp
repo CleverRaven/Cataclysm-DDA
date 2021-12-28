@@ -3074,132 +3074,151 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by ) const
+static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
+                                  int reduce_encumbrance_by, const bodypart_id &bp, bool combine_opposites )
+{
+    if( bp == bodypart_id() || !it.covers( bp ) ) {
+        return;
+    }
+
+    const std::string space = "  ";
+    const Character &c = get_player_character();
+    const translation &to_display = combine_opposites ? bp.obj().name_as_heading_multiple :
+                                    bp.obj().name_as_heading;
+    const int encumb = std::max( 0, it.get_encumber( c, bp ) - reduce_encumbrance_by );
+    const int encumb_max = std::max( 0, it.get_encumber( c, bp,
+                                     item::encumber_flags::assume_full ) - reduce_encumbrance_by );
+    const bool has_max = encumb != encumb_max;
+    const std::string bp_name = to_display.translated();
+
+    // NOLINTNEXTLINE(cata-translate-string-literal)
+    const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+    // NOLINTNEXTLINE(cata-translate-string-literal)
+    info.emplace_back( bp_cat, string_format( "<bold>%s %s</bold>:", bp_name,
+                       _( "Encumbrance" ) ) + space, "",
+                       ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better, encumb );
+    const std::string when_full_message = space + _( "When full:" ) + space;
+    if( has_max ) {
+        info.emplace_back( bp_cat, when_full_message, "", iteminfo::no_flags | iteminfo::lower_is_better,
+                           encumb_max );
+    }
+
+    //~ Limb-specific coverage (%s = name of limb)
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:" ), bp_name ) );
+    //~ Regular/Default coverage
+    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
+                       iteminfo::no_flags, it.get_coverage( bp ) );
+    //~ Melee coverage
+    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
+                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
+    //~ Ranged coverage
+    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
+                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
+    //~ Vitals coverage
+    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
+                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
+}
+
+static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &info )
 {
     std::string format;
-    const std::string space = "  ";
     Character &player_character = get_player_character();
-    const bool sizing_matters = get_sizing( player_character ) != sizing::ignore;
+    const bool sizing_matters = it.get_sizing( player_character ) != item::sizing::ignore;
 
-    if( has_flag( flag_FIT ) ) {
+    if( it.has_flag( flag_FIT ) ) {
         format = _( " <info>(fits)</info>" );
-    } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
+    } else if( it.has_flag( flag_VARSIZE ) && sizing_matters ) {
         format = _( " <bad>(poor fit)</bad>" );
     }
     if( sizing_matters ) {
-        const sizing sizing_level = get_sizing( player_character );
+        const item::sizing sizing_level = it.get_sizing( player_character );
         //If we have the wrong size, we do not fit so alert the player
-        if( sizing_level == sizing::human_sized_small_char ) {
+        if( sizing_level == item::sizing::human_sized_small_char ) {
             format = _( " <bad>(too big)</bad>" );
-        } else if( sizing_level == sizing::big_sized_small_char ) {
+        } else if( sizing_level == item::sizing::big_sized_small_char ) {
             format = _( " <bad>(huge!)</bad>" );
-        } else if( sizing_level == sizing::small_sized_human_char ||
-                   sizing_level == sizing::human_sized_big_char ) {
+        } else if( sizing_level == item::sizing::small_sized_human_char ||
+                   sizing_level == item::sizing::human_sized_big_char ) {
             format = _( " <bad>(too small)</bad>" );
-        } else if( sizing_level == sizing::small_sized_big_char ) {
+        } else if( sizing_level == item::sizing::small_sized_big_char ) {
             format = _( " <bad>(tiny!)</bad>" );
         }
     }
+    if( format.empty() ) {
+        return false;
+    }
 
-    info.emplace_back( "ARMOR", _( "<bold>Encumbrance</bold>:" ) + format );
+    //~ The size or fit of an article of clothing (fits / poor fit)
+    info.emplace_back( "ARMOR", _( "<bold>Size/Fit</bold>:" ) + format );
+    return true;
+}
 
+bool item::armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                   bool header, int reduce_encumbrance_by ) const
+{
+    bool divider_needed = false;
+    const std::string space = "  ";
+    Character &player_character = get_player_character();
+
+    if( header ) {
+        divider_needed = armor_encumb_header_info( *this, info );
+    }
+
+    bool ret = false;
     if( const islot_armor *t = find_armor_data() ) {
-        if( !t->data.empty() ) {
-            struct armor_portion_type {
-                int encumber = 0;
-                int max_encumber = 0;
-                int coverage = 0;
-                int cover_melee = 0;
-                int cover_ranged = 0;
-                int cover_vitals = 0;
+        if( t->data.empty() ) {
+            return ret;
+        }
 
-                bool operator==( const armor_portion_type &other ) {
-                    return encumber == other.encumber
-                           && max_encumber == other.max_encumber
-                           && coverage == other.coverage
-                           && cover_melee == other.cover_melee
-                           && cover_ranged == other.cover_ranged
-                           && cover_vitals == other.cover_vitals;
-                }
-            };
-            struct body_part_display_info {
-                translation to_display;
-                armor_portion_type portion;
-                bool active = false;
-            };
+        struct armor_bp_data {
+            int encumb;
+            int encumb_max;
+            int cover;
+            int cover_m;
+            int cover_r;
+            int cover_v;
+            bool active;
 
-            std::map<bodypart_str_id, body_part_display_info, bodypart_str_id::LexCmp> to_display_data;
-
-            for( const armor_portion_data &piece : t->data ) {
-                if( piece.covers.has_value() ) {
-                    for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                        if( covering_id != bodypart_str_id::NULL_ID() ) {
-                            to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
-                                    std::max( 0, get_encumber( player_character, covering_id ) - reduce_encumbrance_by ),
-                                    std::max( 0, get_encumber( player_character, covering_id, encumber_flags::assume_full ) - reduce_encumbrance_by ),
-                                    piece.coverage, piece.cover_melee, piece.cover_ranged, piece.cover_vitals
-                                }, true
-                            };
-                        }
-                    }
-                }
+            bool operator==( const armor_bp_data &a ) {
+                return encumb == a.encumb &&
+                       encumb_max == a.encumb_max &&
+                       cover == a.cover &&
+                       cover_m == a.cover_m &&
+                       cover_r == a.cover_r &&
+                       cover_v == a.cover_v;
             }
-            // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
-            if( !t->sided ) {
-                for( const armor_portion_data &piece : t->data ) {
-                    for( const bodypart_str_id &bp : *piece.covers ) {
-                        bodypart_str_id opposite = bp->opposite_part;
-                        if( opposite != bp && covers( bp ) && covers( opposite )
-                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).active ) {
-                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).active = false;
-                        }
-                    }
-                }
-            }
-            const std::string when_full_message = space + _( "When full:" ) + space;
-            for( auto &piece : to_display_data ) {
-                if( t->sided ) {
-                    const bodypart_str_id &covering_id = piece.first;
-                    if( !covers( covering_id.id() ) ) {
-                        continue;
-                    }
-                }
-                if( piece.second.active ) {
-                    const bool has_max = piece.second.portion.encumber != piece.second.portion.max_encumber;
-                    const std::string bp_name = piece.second.to_display.translated();
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    info.emplace_back( bp_cat, string_format( "<bold>%s</bold>:", bp_name ) + space, "",
-                                       ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better,
-                                       piece.second.portion.encumber );
+        };
 
-                    if( has_max ) {
-                        info.emplace_back( bp_cat, when_full_message, "",
-                                           iteminfo::no_flags | iteminfo::lower_is_better,
-                                           piece.second.portion.max_encumber );
-                    }
-
-                    //~ Limb-specific coverage (%s = name of limb)
-                    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s coverage</bold>:" ), bp_name ) );
-                    //~ Regular/Default coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
-                                       iteminfo::no_flags, piece.second.portion.coverage );
-                    //~ Melee coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
-                                       iteminfo::no_flags, piece.second.portion.cover_melee );
-                    //~ Ranged coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
-                                       iteminfo::no_flags, piece.second.portion.cover_ranged );
-                    //~ Vitals coverage
-                    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
-                                       iteminfo::no_flags, piece.second.portion.cover_vitals );
-                }
+        std::map<bodypart_str_id, armor_bp_data> adata;
+        for( const armor_portion_data &p : t->data ) {
+            for( const bodypart_str_id &bp : *p.covers ) {
+                adata[bp] = { p.encumber, p.max_encumber, p.coverage, p.cover_melee, p.cover_ranged, p.cover_vitals, true };
             }
         }
+        for( const auto &bp : player_character.get_body() ) {
+            auto iter = adata.find( bp.first );
+            if( !covers( bp.first ) || iter == adata.end() || !iter->second.active ) {
+                continue;
+            }
+            bool combine = false;
+            bodypart_str_id op = bp.first->opposite_part;
+            if( !t->sided && bp.first->part_side != side::BOTH && bp.first != op &&
+                adata[bp.first] == adata[op] ) {
+                adata[op].active = false;
+                combine = true;
+            }
+            if( divider_needed ) {
+                insert_separation_line( info );
+            }
+            armor_encumb_bp_info( *this, info, reduce_encumbrance_by, bp.first, combine );
+            armor_protection_info( info, parts, 0, false, bp.first, combine );
+            ret = true;
+            divider_needed = true;
+        }
     } else if( is_gun() && has_flag( flag_IS_ARMOR ) ) {
+        if( divider_needed ) {
+            insert_separation_line( info );
+        }
         //right now all eligible gunmods (shoulder_strap, belt_clip) have the is_armor flag and use the torso
         info.emplace_back( "ARMOR", _( "Torso:" ) + space, "",
                            iteminfo::no_flags | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) );
@@ -3219,48 +3238,64 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
         info.emplace_back( "ARMOR", space + _( "Vitals:" ) + space, "",
                            iteminfo::no_flags, get_coverage( body_part_torso.id(), cover_type::COVER_VITALS ) );
     }
+
+    return ret;
+}
+
+static void armor_protect_dmg_info( int dmg, std::vector<iteminfo> &info )
+{
+    if( dmg > 0 ) {
+        info.emplace_back( "ARMOR", _( "Protection values are <bad>reduced by damage</bad> and "
+                                       "you may be able to <info>improve them by repairing this "
+                                       "item</info>." ) );
+    }
 }
 
 void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                  int /*batch*/,
-                                  bool /*debug*/ ) const
+                                  int /*batch*/, bool /*debug*/, const bodypart_id &bp, bool combine_opposites ) const
 {
     if( !is_armor() && !is_pet_armor() ) {
         return;
     }
+    std::string bp_name = "";
+    std::string bp_desc = "";
+    if( bp != bodypart_id() ) {
+        bp_name = ( combine_opposites ? bp->name_as_heading_multiple : bp->name_as_heading ).translated();
+        bp_desc = bp_name + " ";
+    }
 
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
-        info.emplace_back( "DESCRIPTION", _( "<bold>Protection</bold>:" ) );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Bash: " ) ), "",
-                           iteminfo::is_decimal, bash_resist() );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Cut: " ) ), "",
-                           iteminfo::is_decimal, cut_resist() );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                           iteminfo::is_decimal, bullet_resist() );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Acid: " ) ), "",
-                           iteminfo::is_decimal, acid_resist() );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Fire: " ) ), "",
-                           iteminfo::is_decimal, fire_resist() );
+        std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+        info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
+                           _( "Protection" ) ) );
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
+                           iteminfo::is_decimal, bash_resist( false, bp ) );
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
+                           iteminfo::is_decimal, cut_resist( false, bp ) );
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
+                           iteminfo::is_decimal, bullet_resist( false, bp ) );
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
+                           iteminfo::is_decimal, acid_resist( false, 0, bp ) );
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
+                           iteminfo::is_decimal, fire_resist( false, 0, bp ) );
         info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Environmental: " ) ),
                            get_base_env_resist( *this ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
-            info.emplace_back( "ARMOR", _( "<bold>Protection when active</bold>: " ) );
-            info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
+            info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
+                               _( "Protection when active:" ) ) );
+            info.emplace_back( bp_cat, space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               acid_resist( false, get_base_env_resist_w_filter() ) );
-            info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
+                               acid_resist( false, get_base_env_resist_w_filter(), bp ) );
+            info.emplace_back( bp_cat, space + _( "Fire: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               fire_resist( false, get_base_env_resist_w_filter() ) );
+                               fire_resist( false, get_base_env_resist_w_filter(), bp ) );
             info.emplace_back( "ARMOR", space + _( "Environmental: " ),
                                get_env_resist( get_base_env_resist_w_filter() ) );
         }
 
-        if( damage() > 0 ) {
-            info.emplace_back( "ARMOR",
-                               _( "Protection values are <bad>reduced by damage</bad> and "
-                                  "you may be able to <info>improve them by repairing this "
-                                  "item</info>." ) );
+        if( bp == bodypart_id() && damage() > 0 ) {
+            armor_protect_dmg_info( damage(), info );
         }
     }
 }
@@ -3427,29 +3462,41 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
             //no need to clutter the ui with inactive versions when the armor is already active
             if( !active ) {
+                bool print_prot = true;
                 if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
-                    tmp.armor_encumbrance_info( info );
+                    print_prot = !tmp.armor_encumbrance_info( info, parts );
                 }
-                tmp.armor_protection_info( info, parts, batch, debug );
+                if( print_prot ) {
+                    tmp.armor_protection_info( info, parts, batch, debug );
+                }
+                armor_protect_dmg_info( tmp.damage(), info );
 
                 insert_separation_line( info );
                 info.emplace_back( "ARMOR", _( "<bold>When active</bold>:" ) );
                 tmp = tmp.convert( itype_id( tmp.typeId().str() + "_on" ) );
             }
 
+            bool print_prot = true;
             if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
                 if( type->get_id() == itype_rm13_armor ) {
-                    tmp.armor_encumbrance_info( info );
+                    print_prot = !tmp.armor_encumbrance_info( info, parts );
                 } else {
-                    tmp.armor_encumbrance_info( info, power_armor_encumbrance_reduction );
+                    print_prot = !tmp.armor_encumbrance_info( info, parts, true, power_armor_encumbrance_reduction );
                 }
             }
-            tmp.armor_protection_info( info, parts, batch, debug );
-        } else {
-            if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
-                armor_encumbrance_info( info );
+            if( print_prot ) {
+                tmp.armor_protection_info( info, parts, batch, debug );
             }
-            armor_protection_info( info, parts, batch, debug );
+            armor_protect_dmg_info( tmp.damage(), info );
+        } else {
+            bool print_prot = true;
+            if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
+                print_prot = !armor_encumbrance_info( info, parts );
+            }
+            if( print_prot ) {
+                armor_protection_info( info, parts, batch, debug );
+            }
+            armor_protect_dmg_info( damage(), info );
         }
     }
 
