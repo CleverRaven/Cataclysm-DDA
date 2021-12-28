@@ -1,12 +1,65 @@
+- [Special Attacks](#special-attacks)
+    - [TODO](#todo)
+    - [Adding "special_attacks" to monsters](#adding-special-attacks-to-monsters)
+    - [Hardcoded Special Attacks](#hardcoded-special-attacks)
+    - [JSON Special Attacks](#json-special-attacks)
+        - ["monster_attack"](#-monster-attack)
+        - ["bite"](#bite)
+        - ["leap"](#leap)
+        - ["gun"](#gun)
+    - [Monster Defense Attacks](#monster-defense-attacks)        
+
 # Special Attacks
 Some special attacks are also valid use actions for tools and weapons.
 See `monsters.json` for examples on how to use these attacks.
 Also see `monster_attacks.json` for more special attacks, for example, impale and scratch.
 
-- [Hardcoded special attacks](#hardcoded-special-attacks)
-- [JSON special attacks](#json-special-attacks)
+## TODO
 
-### Hardcoded Special Attacks
+- Descriptions for `Hardcoded special attacks` could stand to be more descriptive of exactly what the attack does.
+
+## Adding "special_attacks" to monsters
+(array of special attack definitions, optional)
+
+Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
+
+The old style array should contain 2 elements: the id of the attack (see [Hardcoded special attacks](#hardcoded-special-attacks) for a list) and the cooldown for that attack. Example:
+
+```JSON
+"special_attacks": [ [ "GRAB", 10 ] ]
+```
+
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
+
+```JSON
+"special_attacks": [
+    { "type": "leap", "cooldown": 10, "max_range": 4 }
+]
+```
+In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
+
+```JSON
+"special_attacks": [
+    { "id": "impale" }
+]
+```
+
+"special_attacks" may contain any mixture of old and new style entries:
+
+```JSON
+"special_attacks": [
+    [ "GRAB", 10 ],
+    { "type": "leap", "cooldown": 8, "max_range": 4 },
+    { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
+]
+```
+This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
+
+See [JSON special attacks](#json-special-attacks) for a full list.
+
+## Hardcoded Special Attacks
+
+These special attacks are mostly hardcoded in C++ and are generally not configurable with JSON (unless otherwise documented).
 
 - ```ABSORB_ITEMS``` Consumes objects it moves over to gain HP.  A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). A list of materials that the monster can absorb can be specified with `absorb_materials` (can be string or string array, not specified = absorb all materials).
 - ```ABSORB_MEAT``` Absorbs adjacent meat items (maximal absorbable item volume depends on the monster's volume), regenerating health in the process.
@@ -104,16 +157,16 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```VINE``` Attacks with vine.
 - ```ZOMBIE_FUSE``` Absorbs an adjacent creature, healing and becoming less likely to fuse for 10 days.
 
-### JSON Special Attacks
+## JSON Special Attacks
 
-## "monster_attack"
+### "monster_attack"
 
 The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead. All fields beyond `id` are optional.
 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
-| `damage_max_instance` | Array of objects, see ## "melee_damage"
+| `damage_max_instance` | Array of objects, see ### "melee_damage"
 | `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a
 |						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`           | Integer, moves needed to complete special attack. Default 100.
@@ -137,7 +190,7 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `throw_msg_u`		    | String, message for a flinging attack against the player.
 | `throw_msg_npc`		| String, message for a flinging attack against an NPC.
 
-## "bite"
+### "bite"
 
 Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections if the target is grabbed at the same time.
 
@@ -146,7 +199,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 | `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100.
 
 
-## "leap"
+### "leap"
 
 Makes the monster leap a few tiles. It supports the following additional properties:
 
@@ -160,10 +213,9 @@ Makes the monster leap a few tiles. It supports the following additional propert
 | `max_consider_range` | Maximal range to consider for using specific attack.
 
 
-## "gun"
+### "gun"
 
 Fires a gun at a target. If friendly, will avoid harming the player.
-- Moves some existing moon-phase tests to `tests/moon_test.cpp`
 
 | field                       | description
 | ---                         | ---
@@ -190,3 +242,15 @@ Fires a gun at a target. If friendly, will avoid harming the player.
 | `targeting_sound`           | Description of the sound made when targeting.
 | `targeting_volume`          | Volume of the sound made when targeting.
 | `no_ammo_sound`             | Description of the sound made when out of ammo.
+
+## Monster Defense Attacks
+
+A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see a full list below) and the chance for that defense to be actually triggered. Example:
+
+```JSON
+"special_when_hit": [ "ZAPBACK", 100 ]
+```
+
+- ```ACIDSPLASH``` Splashes acid on the attacker
+- ```NONE``` No special attack-back
+- ```ZAPBACK``` Shocks attacker on hit

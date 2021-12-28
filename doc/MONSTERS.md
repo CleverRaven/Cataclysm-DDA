@@ -581,7 +581,7 @@ Decides whether this monster can be tamed. `%s` is the monster name.
 ## "special_when_hit"
 (array, optional)
 
-A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [JSON_FLAGS.md](JSON_FLAGS.md)) and the chance for that defense to be actually triggered. Example:
+A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)) and the chance for that defense to be actually triggered. Example:
 
 ```JSON
 "special_when_hit": [ "ZAPBACK", 100 ]
@@ -664,4 +664,4 @@ In the case of separately defined attacks the object has to contain at least an 
 This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attacks").
+The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
