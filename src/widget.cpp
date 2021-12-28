@@ -221,18 +221,21 @@ void widget::check() const
 
 void widget::finalize()
 {
-    if( !_vars.empty() ) {
+    std::vector<widget_var> varlist;
+    varlist.reserve( _vars.size() );
+    std::copy( _vars.begin(), _vars.end(), varlist.end() );
+    if( !varlist.empty() ) {
         // Populate _widgets with children from vars/labels
         // TODO: Move this to a helper function outside finalize()
-        for( unsigned int i = 0; i < _vars.size(); ++i ) {
+        for( unsigned int i = 0; i < varlist.size(); ++i ) {
             // Make child a copy of parent
-            widget child = widget( *this );
+            widget child( *this );
             // Give child widget id like parent_id_varname
             child.id = string_id<widget>( string_format( "%s_%s", id.c_str(),
-                                          io::enum_to_string<widget_var>( _vars[i] ) ) );
+                                          io::enum_to_string<widget_var>( varlist[i] ) ) );
 
             // Child var/label come from vars/labels lists
-            child._var = _vars[i];
+            child._var = varlist[i];
             child._label = _labels[i];
             // Don't nest vars and labels from parent
             child._vars.clear();
@@ -244,10 +247,10 @@ void widget::finalize()
             } else { // "numbers"
                 child._style = "number";
             }
-            // Ensure this child can be referenced by find_id in the factory
-            widget_factory.insert( child );
             // Append _widgets to be arranged by layout()
             _widgets.emplace_back( child.id );
+            // Ensure this child can be referenced by find_id in the factory
+            widget_factory.insert( child );
         }
     }
 }
