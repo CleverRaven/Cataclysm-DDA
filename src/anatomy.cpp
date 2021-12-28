@@ -12,6 +12,7 @@
 #include "character.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "flag.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -225,6 +226,8 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
         float block_score = bp->get_limb_score( limb_score_block );
         if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
             block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            // Weigh shielded bodyparts higher
+            block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
         }
         body_part_type::type limb_type = bp->limb_type;
 

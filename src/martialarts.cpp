@@ -1255,7 +1255,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if we're skilled enough to block and we have at least one limb ready to block
     if( block_with_skill ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.2f ) {
+            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }

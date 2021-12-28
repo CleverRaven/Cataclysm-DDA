@@ -1912,34 +1912,38 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool conductive_shield = shield.conductive();
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
-    bool arm_block = martial_arts_data->can_arm_block( *this );
-    bool leg_block = martial_arts_data->can_leg_block( *this );
-    bool nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
+    bool arm_block = false;
+    bool leg_block = false;
+    bool nonstandard_block = false;
 
     int unarmed_skill = get_skill_level( skill_unarmed );
 
     // Check if we are going to block with an item. This could
     // be worn equipment with the BLOCK_WHILE_WORN flag.
     const bool has_shield = !shield.is_null();
+    bool worn_shield = has_shield && shield.has_flag( flag_BLOCK_WHILE_WORN );
 
     // boolean check if blocking is being done with unarmed or not
     const bool item_blocking = !force_unarmed && has_shield && !unarmed;
 
     int block_score = 1;
 
+
     /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
-    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
-    if( unarmed || force_unarmed ) {
+    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
+    if( unarmed || force_unarmed || worn_shield ) {
+        arm_block = martial_arts_data->can_arm_block( *this );
+        leg_block = martial_arts_data->can_leg_block( *this );
+        nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
         if( arm_block || leg_block || nonstandard_block ) {
             // block_bonus for limb blocks will be added when the limb is decided
             block_score = get_arm_str() + unarmed_skill;
-        } else if( has_shield ) {
-            // We can still block with a worn item while unarmed. Use higher of melee and unarmed
-            block_score = get_arm_str() + block_bonus + std::max( melee_skill, unarmed_skill );
         } else {
             // We don't have a shield or a technique. How are we blocking?
             return false;
         }
+        // Do we block with a weapon? Worn shields are already filtered out
+        // And weapon blocks are preferred by best_shield
     } else if( has_shield ) {
         block_score = get_arm_str() + block_bonus + melee_skill;
     } else {
@@ -1952,7 +1956,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( !( unarmed || force_unarmed ) && has_shield ) {
+    // Do we block with a weapon? Handle melee wear but leave bp the same
+    if( !( unarmed || force_unarmed || worn_shield ) ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -1962,17 +1967,24 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
+        // Select part to block with, preferring worn blocking armor if applicable
         bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
-
-        add_msg_debug( debugmode::DF_MELEE, "Block score before multiplier %d", block_score );
         block_score *= get_part( bp_hit )->get_limb_score( limb_score_block );
         add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
-        thing_blocked_with = body_part_name( bp_hit );
-    }
+        if( worn_shield && shield.covers( bp_hit ) ) {
+            thing_blocked_with = shield.tname();
+            // TODO: Change this depending on damage blocked
+            float wear_modifier = 1.0f;
+            if( source != nullptr && source->is_hallucination() ) {
+                wear_modifier = 0.0f;
+            }
 
-    if( has_shield ) {
-        // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
+            handle_melee_wear( shield, wear_modifier );
+            block_score += block_bonus;
+
+        } else {
+            thing_blocked_with = body_part_name( bp_hit );
+        }
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
