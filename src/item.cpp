@@ -3257,8 +3257,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     if( !is_armor() && !is_pet_armor() ) {
         return;
     }
-    std::string bp_name = "";
-    std::string bp_desc = "";
+    std::string bp_name;
+    std::string bp_desc;
     if( bp != bodypart_id() ) {
         bp_name = ( combine_opposites ? bp->name_as_heading_multiple : bp->name_as_heading ).translated();
         bp_desc = bp_name + " ";
@@ -3266,6 +3266,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
         info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
                            _( "Protection" ) ) );
@@ -3279,18 +3280,18 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                            iteminfo::is_decimal, acid_resist( false, 0, bp ) );
         info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
                            iteminfo::is_decimal, fire_resist( false, 0, bp ) );
-        info.emplace_back( "ARMOR", string_format( "%s%s", space, _( "Environmental: " ) ),
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
                            get_base_env_resist( *this ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
-                               _( "Protection when active:" ) ) );
+                               _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
                                acid_resist( false, get_base_env_resist_w_filter(), bp ) );
             info.emplace_back( bp_cat, space + _( "Fire: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
                                fire_resist( false, get_base_env_resist_w_filter(), bp ) );
-            info.emplace_back( "ARMOR", space + _( "Environmental: " ),
+            info.emplace_back( bp_cat, space + _( "Environmental: " ),
                                get_env_resist( get_base_env_resist_w_filter() ) );
         }
 
