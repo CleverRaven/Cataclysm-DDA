@@ -724,7 +724,7 @@
     "type": "GENERIC",
     "id": "mace_trench",
     "name": { "str": "trench mace" },
-    "description": "A mace made from a cicular chunk of steel pinned to the end of a stick.  You can feel your inner Trench Raider come alive when you wield it.",
+    "description": "A mace made from a circular chunk of steel pinned to the end of a stick.  You can feel your inner Trench Raider come alive when you wield it.",
     "weight": "1000 g",
     "color": "dark_gray",
     "symbol": "/",

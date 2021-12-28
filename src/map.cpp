@@ -4540,13 +4540,16 @@ item map::water_from( const tripoint &p )
     }
 
     if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
-        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
-        ret.poison = rng( 1, 6 );
-        ret.get_comestible()->parasites = 5;
-        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
-        return ret;
+        for( item &ret : get_map().i_at( p ) ) {
+            if( ret.made_of( phase_id::LIQUID ) ) {
+                ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                          temperatures::cold ) ) );
+                ret.poison = rng( 1, 6 );
+                ret.get_comestible()->parasites = 5;
+                ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
+            }
+            return ret;
+        }
     }
 
     const ter_id terrain_id = ter( p );
@@ -5016,7 +5019,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
     std::list<item> ret;
     // Handle infinite map sources.
     item water = water_from( p );
-    if( water.typeId() == type ) {
+    if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
         ret.push_back( water );
         quantity = 0;
         return ret;
@@ -5117,7 +5120,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     for( const tripoint &p : reachable_pts ) {
         // Handle infinite map sources.
         item water = water_from( p );
-        if( water.typeId() == type ) {
+        if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
             water.charges = quantity;
             ret.push_back( water );
             quantity = 0;

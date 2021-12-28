@@ -23,7 +23,7 @@
     ]
   },
   {
-    "result": "denat_alcohol",
+    "result": "methed_alcohol",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "byproducts": [ [ "water_clean" ] ],
@@ -35,15 +35,7 @@
     "book_learn": [ [ "textbook_chemistry" ], [ "distilling_cookbook" ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [
-      [
-        [ "hard_liquor", 14, "LIST" ],
-        [ "weak_liquor", 10, "LIST" ],
-        [ "wash_liquor", 42, "LIST" ],
-        [ "cheap_wine", 56, "LIST" ],
-        [ "worthy_wine", 40, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "moonshine", 40 ] ] ]
   },
   {
     "result": "biodiesel",
@@ -62,7 +54,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 4 ], [ "water", 4 ] ],
-      [ [ "chem_ethanol", 100 ], [ "chem_methanol", 100 ], [ "denat_alcohol", 100 ] ],
+      [ [ "chem_ethanol", 100 ], [ "chem_methanol", 100 ], [ "denat_alcohol", 100 ], [ "methed_alcohol", 100 ] ],
       [ [ "lye_powder", 8 ] ],
       [
         [ "cooking_oil", 64 ],
