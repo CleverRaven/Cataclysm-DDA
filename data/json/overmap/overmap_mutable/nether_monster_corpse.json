@@ -107,10 +107,7 @@
         "north": "head_to_head",
         "south": "head_to_head"
       },
-      "corpse_head_fin": {
-        "overmap": "corpse_head_fin_north",
-        "north": "head_to_head"
-      },
+      "corpse_head_fin": { "overmap": "corpse_head_fin_north", "north": "head_to_head" },
       "corpse_head_lcorner": { "overmap": "corpse_head_lcorner_north", "north": "head_to_head", "east": "head_to_head" },
       "corpse_head_rcorner": { "overmap": "corpse_head_rcorner_north", "north": "head_to_head", "west": "head_to_head" },
       "corpse_head_neck_l": { "overmap": "corpse_head_neck_l_south", "north": "neck_to_neck", "south": "head_to_head" },
