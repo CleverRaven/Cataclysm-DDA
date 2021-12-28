@@ -3,7 +3,7 @@
     - [Adding "special_attacks" to monsters](#adding-special_attacks-to-monsters)
     - [Hardcoded Special Attacks](#hardcoded-special-attacks)
     - [JSON Special Attacks](#json-special-attacks)
-        - ["monster_attack"](#monster-attack)
+        - ["monster_attack"](#monster_attack)
         - ["bite"](#bite)
         - ["leap"](#leap)
         - ["gun"](#gun)
