@@ -2010,6 +2010,28 @@ class jmapgen_liquid_item : public jmapgen_piece
 };
 
 /**
+ * Place a corpse of a random monster from a monster group into the map.
+ * "group": id of monster group to choose from
+ */
+class jmapgen_corpse : public jmapgen_piece
+{
+    public:
+        mongroup_id group;
+        jmapgen_corpse( const JsonObject &jsi, const std::string &/*context*/ ) :
+            group( jsi.get_member( "group" ) ) {
+        }
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                  ) const override {
+            const std::vector<mtype_id> monster_group = MonsterGroupManager::GetMonstersFromGroup( group,
+                    true );
+            const mtype_id &corpse_type = random_entry_ref( monster_group );
+            item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
+            dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), corpse );
+        }
+};
+
+/**
  * Place items from an item group.
  * "item": id of the item group.
  * "chance": chance of items being placed, see @ref map::place_items
@@ -3579,6 +3601,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings, c );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_corpse>( jo, "corpses", format_placings, c );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings, c );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings, c );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
@@ -3821,6 +3844,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines", context_ );
     objects.load_objects<jmapgen_toilet>( jo, "place_toilets", context_ );
     objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids", context_ );
+    objects.load_objects<jmapgen_corpse>( jo, "place_corpses", context_ );
     objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps", context_ );
     objects.load_objects<jmapgen_item_group>( jo, "place_items", context_ );
     objects.load_objects<jmapgen_loot>( jo, "place_loot", context_ );

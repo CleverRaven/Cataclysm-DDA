@@ -96,35 +96,18 @@ static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
-static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
-static const itype_id itype_crowbar( "crowbar" );
-static const itype_id itype_fedora( "fedora" );
-static const itype_id itype_glasses_eye( "glasses_eye" );
 static const itype_id itype_hatchet( "hatchet" );
-static const itype_id itype_hazmat_suit( "hazmat_suit" );
-static const itype_id itype_holybook_bible1( "holybook_bible1" );
-static const itype_id itype_indoor_volleyball( "indoor_volleyball" );
-static const itype_id itype_jacket_leather( "jacket_leather" );
-static const itype_id itype_katana( "katana" );
 static const itype_id itype_landmine( "landmine" );
-static const itype_id itype_machete( "machete" );
 static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_rag( "rag" );
-static const itype_id itype_remington_870_breacher( "remington_870_breacher" );
 static const itype_id itype_shot_hull( "shot_hull" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_sunglasses( "sunglasses" );
-static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_tire_iron( "tire_iron" );
-static const itype_id itype_touring_suit( "touring_suit" );
-static const itype_id itype_tux( "tux" );
-static const itype_id itype_umbrella( "umbrella" );
-static const itype_id itype_usp_45( "usp_45" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
@@ -135,7 +118,6 @@ static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
-static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
@@ -2801,114 +2783,6 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_grave( map &m, const tripoint &abs_sub )
-{
-    //95% chance to spawn a grave with common people/pets
-    if( !one_in( 20 ) ) {
-        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
-        m.ter_set( corpse_location, t_grave_new );
-        m.furn_set( corpse_location + point_north, f_sign );
-        const std::string text = SNIPPET.random_from_category( "grave_label" ).value_or(
-                                     translation() ).translated();
-        m.set_signage( corpse_location + point_north, text );
-        //Human corpses
-        if( one_in( 2 ) ) {
-            m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
-        } else {
-            //Pets' corpses
-            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS, true );
-            const mtype_id &pet = random_entry_ref( pets );
-            item body = item::make_corpse( pet, calendar::start_of_cataclysm );
-            m.add_item_or_charges( corpse_location, body );
-        }
-        //5% chance to spawn easter egg grave(s)
-    } else {
-        switch( rng( 1, 7 ) ) {
-            //Pair of TWD protagonists
-            case 1: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ),
-                              itype_sw_619 ); //TODO: Replace this with Colt Python if we ever have it in game
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), pgettext( "R as a letter", "R." ) );
-
-                m.ter_set( point( SEEX + 1, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX + 1, SEEY ), itype_katana );
-                m.furn_set( point( SEEX + 1, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX + 1, SEEY - 1, abs_sub.z ), pgettext( "M as a letter", "M." ) );
-                break;
-            }
-            //HL2 protagonist
-            case 2: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_hazmat_suit );
-                m.spawn_item( point( SEEX, SEEY ), itype_crowbar );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "- Man of few words, aren't you?\n- …" ) );
-                break;
-            }
-            //Famous archeologist
-            case 3: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_fedora );
-                m.spawn_item( point( SEEX, SEEY ), itype_jacket_leather );
-                m.spawn_item( point( SEEX, SEEY ), itype_bullwhip );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "Fortune and glory, kid.  Fortune and glory." ) );
-                break;
-            }
-            //Outcast's friend
-            case 4: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_indoor_volleyball );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wilson" ) );
-                break;
-            }
-            //One religious blind man
-            case 5: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_machete );
-                //TODO: Replace this with HK45 if we ever have it in game
-                m.spawn_item( point( SEEX, SEEY ), itype_usp_45 );
-                m.spawn_item( point( SEEX, SEEY ), itype_remington_870_breacher );
-                m.spawn_item( point( SEEX, SEEY ), itype_holybook_bible1 );
-                m.spawn_item( point( SEEX, SEEY ), itype_sunglasses );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "I walk by faith, not by sight." ) );
-                break;
-            }
-            //Post-apocalyptic Buddy
-            case 6: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_katana );
-                m.spawn_item( point( SEEX, SEEY ), itype_acoustic_guitar );
-                m.spawn_item( point( SEEX, SEEY ), itype_umbrella );
-                m.spawn_item( point( SEEX, SEEY ), itype_tux );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "Float away, little butterfly.  Just flutter away.  I got a gig in Vegas.  And the wastelands ain't no place for kids." ) );
-                break;
-            }
-            //The Bride
-            case 7: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_touring_suit );
-                m.spawn_item( point( SEEX, SEEY ), itype_katana );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wiggle your big toe." ) );
-                break;
-            }
-        }
-    }
-
-    return true;
-}
-
 static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 {
     //First, find a city
@@ -2989,7 +2863,6 @@ FunctionMap builtin_functions = {
     { "mx_casings", mx_casings },
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
-    { "mx_grave", mx_grave },
     { "mx_city_trap", mx_city_trap },
     { "mx_reed", mx_reed }
 };
