@@ -284,7 +284,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
         mattack::split( &test_monster );
-        
+
         // test that the monster returns to absorbing items after the split occurs
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
         CHECK( test_monster.get_hp() < new_hp );
@@ -316,7 +316,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item("pencil"), item_pocket::pocket_type::CORPSE );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -324,7 +324,8 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         mattack::absorb_items( &test_monster );
 
         // test that the pencil remains after the corpse is absorbed
-        CHECK( ( here.i_at( test_monster.pos() ).begin() )->display_name().rfind( "pencil" ) != std::string::npos );
+        CHECK( ( here.i_at( test_monster.pos() ).begin() )->display_name().rfind( "pencil" ) !=
+               std::string::npos );
 
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
