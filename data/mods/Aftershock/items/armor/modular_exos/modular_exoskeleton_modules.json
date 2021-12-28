@@ -32,7 +32,7 @@
     "id": "exo_back_gasoline",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "exoskeleton ICE power supply", "str_pl": "exoskeleton ICE power supplies" }, },
+    "name": { "str": "exoskeleton ICE power supply", "str_pl": "exoskeleton ICE power supplies" },
     "description": "Designed to attach to an exoskeleton's back, this is an internal combustion engine generator with an integrated UPS.  This unit is large and occupies the rear hardpoints.",
     "weight": "20 kg",
     "volume": "25 L",
