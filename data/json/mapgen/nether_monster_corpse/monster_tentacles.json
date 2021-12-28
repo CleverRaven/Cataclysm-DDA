@@ -55,6 +55,32 @@
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_h2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "           ###",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_soil" }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
