@@ -757,7 +757,14 @@
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 8 ], [ "material_limestone", 8 ], [ "clay_lump", 8 ] ],
+      [
+        [ "material_quicklime", 4 ],
+        [ "material_limestone", 4 ],
+        [ "clay_lump", 4 ],
+        [ "feces_manure", 2 ],
+        [ "feces_dog", 2 ],
+        [ "feces_cow", 1 ]
+      ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
