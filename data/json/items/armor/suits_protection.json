@@ -351,7 +351,7 @@
     "id": "armor_samurai",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "O-yoroi" },
+    "name": { "str": "o-yoroi" },
     "description": "An ornamental suit of Japanese samurai armor.",
     "weight": "9220 g",
     "volume": "11500 ml",
@@ -367,6 +367,30 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+  },
+  {
+  "id": "xl_armor_samurai",
+  "type": "ARMOR",
+  "name": { "str": "XL o-yoroi" },
+  "copy-from": "armor_samurai",
+  "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+  "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+  "id": "steel_armor_samurai",
+  "type": "ARMOR",
+  "name": { "str": "steel o-yoroi" },
+  "copy-from": "armor_samurai",
+  "material": [ "steel", "leather" ]
+  },
+  {
+  "id": "xl_steel_armor_samurai",
+  "type": "ARMOR",
+  "name": { "str": "XL steel o-yoroi" },
+  "copy-from": "armor_samurai",
+  "material": [ "steel", "leather" ],
+  "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+  "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_scrapsuit",

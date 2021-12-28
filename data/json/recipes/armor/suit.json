@@ -385,6 +385,13 @@
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ], [ [ "rag", 10 ] ] ]
   },
   {
+  "result": "xl_armor_samurai",
+  "type": "recipe",
+  "copy-from": "armor_samurai",
+  "using": [ [ "blacksmithing_standard", 96 ], [ "steel_standard", 24 ] ],
+  "components": [ [ [ "fur", 42 ], [ "tanned_pelt", 9 ], [ "leather", 42 ], [ "tanned_hide", 9 ] ], [ [ "rag", 15 ] ] ]
+  },
+  {
     "result": "armor_scavenger",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
