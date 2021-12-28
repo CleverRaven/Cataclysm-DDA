@@ -208,7 +208,10 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [
+	{ "type": "steel", "portion": 9 },
+	{ "type": "leather", "portion": 1 }
+	],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -303,7 +306,10 @@
     "price_postapoc": 6000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [
+	{ "type": "steel", "portion": 9 },
+	{ "type": "leather", "portion": 1 }
+	],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
