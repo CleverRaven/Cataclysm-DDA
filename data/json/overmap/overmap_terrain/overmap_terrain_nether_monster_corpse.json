@@ -103,6 +103,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "corpse_head_fin",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "H"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "corpse_head_lcorner",
     "copy-from": "corpse_bowels_empty_edge",
     "color": "red",
