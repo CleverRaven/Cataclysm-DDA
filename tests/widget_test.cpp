@@ -22,6 +22,14 @@ namespace cata_curses_test
 #include "cursesport.h"
 #endif
 
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_infected( "infected" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 static const itype_id itype_rad_badge( "rad_badge" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -64,6 +72,8 @@ static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
+static const widget_id widget_test_status_left_arm_text( "test_status_left_arm_text" );
+static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
@@ -479,6 +489,119 @@ TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.run_cost( 100 ) == 167 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
+    }
+}
+
+TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget arm_status_w = widget_test_status_left_arm_text.obj();
+    widget torso_status_w = widget_test_status_torso_text.obj();
+
+    // No ailments
+    CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: --" );
+    CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+
+    // Add various ailments and/or treatments to the left arm, and ensure status is displayed
+    // correctly, while torso status display is unaffected
+
+    WHEN( "bitten" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_yellow>bitten</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding" ) {
+        // low-intensity
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
+        // medium-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red>bleeding</color>" );
+        // high-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red_red>bleeding</color>" );
+        // torso still fine
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bandaged" ) {
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_white>bandaged</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_magenta>broken</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken and splinted" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_magenta>broken</color>"
+               ", <color_c_light_gray>splinted</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "infected" ) {
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "disinfected" ) {
+        ava.add_effect( effect_disinfected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and bleeding" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_light_red>bleeding</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding and infected" ) {
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_light_red>bleeding</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten, bleeding, and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_light_red>bleeding</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 }
 

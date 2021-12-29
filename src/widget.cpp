@@ -105,6 +105,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "activity_text";
         case widget_var::body_temp_text:
             return "body_temp_text";
+        case widget_var::bp_status_text:
+            return "bp_status_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -442,6 +444,7 @@ bool widget::uses_text_function()
     switch( _var ) {
         case widget_var::activity_text:
         case widget_var::body_temp_text:
+        case widget_var::bp_status_text:
         case widget_var::date_text:
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
@@ -476,6 +479,7 @@ bool widget::uses_text_function()
 std::string widget::color_text_function_string( const avatar &ava, unsigned int /*max_width*/ )
 {
     std::string ret;
+    bool apply_color = true;
     std::pair<std::string, nc_color> desc;
     // Give a default color (some widget_vars do not define one)
     desc.second = c_light_gray;
@@ -485,6 +489,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::body_temp_text:
             desc = display::temp_text_color( ava );
+            break;
+        case widget_var::bp_status_text:
+            desc.first = display::colorized_bodypart_status_text( ava, _bp_id );
+            apply_color = false; // Has embedded color already
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -563,7 +571,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
-    ret += colorize( desc.first, desc.second );
+    ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
 
