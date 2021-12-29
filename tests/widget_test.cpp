@@ -24,6 +24,11 @@ namespace cata_curses_test
 
 static const itype_id itype_rad_badge( "rad_badge" );
 
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
 static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
 static const weather_type_id weather_drizzle( "drizzle" );
@@ -48,6 +53,8 @@ static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_int_num( "test_int_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
+static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
+static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
@@ -380,6 +387,24 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( move_w.layout( ava ) == "MOVE: 80" );
         ava.movecounter = 150;
         CHECK( move_w.layout( ava ) == "MOVE: 150" );
+    }
+
+    SECTION( "movement mode" ) {
+        widget mode_letter_w = widget_test_move_mode_letter.obj();
+        widget mode_text_w = widget_test_move_mode_text.obj();
+
+        ava.set_movement_mode( move_mode_walk );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_white>W</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_white>walking</color>" );
+        ava.set_movement_mode( move_mode_run );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_red>R</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_red>running</color>" );
+        ava.set_movement_mode( move_mode_crouch );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_light_blue>C</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_light_blue>crouching</color>" );
+        ava.set_movement_mode( move_mode_prone );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
     }
 
     SECTION( "hit points" ) {

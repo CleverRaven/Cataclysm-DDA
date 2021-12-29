@@ -1479,9 +1479,18 @@ static void draw_stats( const draw_args &args )
     wnoutrefresh( w );
 }
 
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
+// Single-letter move mode (W, R, C, P)
+std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
     const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
+    const nc_color mm_color = u.current_movement_mode()->panel_color();
+    return std::make_pair( mm_text, mm_color );
+}
+
+// Full name of move mode (walking, running, crouching, prone)
+std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
+{
+    const std::string mm_text = u.current_movement_mode()->type_name();
     const nc_color mm_color = u.current_movement_mode()->panel_color();
     return std::make_pair( mm_text, mm_color );
 }
@@ -1495,7 +1504,7 @@ static void draw_stealth( const draw_args &args )
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
 
-    std::pair<std::string, nc_color> move_mode = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode = display::move_mode_letter_color( u );
 
     mvwprintz( w, point( 15 - utf8_width( move_mode.first ), 0 ), move_mode.second, move_mode.first );
     if( u.is_deaf() ) {
@@ -1715,7 +1724,7 @@ static void draw_char_narrow( const draw_args &args )
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
-    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
     std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
                            move_mode_pair.first );
     mvwprintz( w, point( 26, 2 ), move_mode_pair.second, "%s", movecost );
@@ -1755,7 +1764,7 @@ static void draw_char_wide( const draw_args &args )
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
 
-    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
     std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
                            move_mode_pair.first );
     mvwprintz( w, point( 38, 1 ), move_mode_pair.second, "%s", movecost );
@@ -2244,7 +2253,7 @@ static void draw_health_classic( const draw_args &args )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
-        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
         std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_pair.first;
         mvwprintz( w, point( 29, 5 ), move_mode_pair.second, move_string );
     }
