@@ -318,14 +318,14 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
- * Change player eye and skin colour
+ * Change player eye and skin color
  */
 void iexamine::change_appearance( Character &you, const tripoint & )
 {
     uilist amenu;
     amenu.title = _( "Change what?" );
-    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
-    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye color" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin color" ) );
 
     amenu.query();
     if( amenu.ret == 0 ) {
