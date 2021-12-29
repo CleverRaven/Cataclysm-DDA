@@ -99,9 +99,10 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 4,
+    "environmental_protection": 5,
     "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR" ],
     "armor": [
-      { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      { "encumbrance": 5, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
         "//": "skip encumbrance for additional parts of same body part",
         "encumbrance": 0,
@@ -137,6 +138,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 4,
+    "environmental_protection": 5,
     "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR" ],
     "armor": [
       {
@@ -167,6 +169,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 4,
+    "environmental_protection": 5,
     "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
     "armor": [
       {
@@ -190,6 +193,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 4,
+    "environmental_protection": 5,
     "flags": [ "OUTER" ],
     "armor": [
       {
@@ -206,7 +210,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 prototype mantle",
-    "description": "3d printed upper body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed upper body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -215,7 +219,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 kinetic mantle",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ]
   },
   {
@@ -224,7 +228,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 turnout mantle",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ]
   },
   {
@@ -233,7 +237,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
@@ -242,18 +246,8 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 soldier mantle",
-    "description": "3d printed upper body armor, it has a professional finish is lightweight and it seems perfectly designed to move with your body.  This is made of 3d printed hardened and treated aramid with a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
-    "material": [ { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 3 } ],
-    "extend": { "flags": [ "STURDY" ] }
-  },
-  {
-    "//": "Tier 3 mantle",
-    "id": "robofac_explorers_mantle",
-    "type": "ARMOR",
-    "copy-from": "robofac_mantle",
-    "name": "Hub 01 explorers mantle",
-    "description": "3d printed upper body armor, it has a professional finish is lightweight and it seems perfectly designed to move with your body.  This is made of 3d printed ultra high molecular weight polyethylene (UHMWPE) with a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
-    "material": [ { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 3 } ],
+    "description": "3d printed upper body armor, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "thermo_resin", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 2 } ],
     "extend": { "flags": [ "STURDY" ] }
   }
 ]
