@@ -1876,7 +1876,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
     std::string end_message;
     switch( choice ) {
         case customize_appearance_choice::EYES:
-            amenu.text = _( "Choose a new eye colour" );
+            amenu.text = _( "Choose a new eye color" );
             traits = get_mutations_in_type( STATIC( "eye_color" ) );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
@@ -1891,9 +1891,9 @@ void Character::customize_appearance( customize_appearance_choice choice )
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
-            amenu.text = _( "Choose a new skin colour" );
+            amenu.text = _( "Choose a new skin color" );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
-            end_message = _( "Life in the cataclysm seems to have changed you." );
+            end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;
     }
 

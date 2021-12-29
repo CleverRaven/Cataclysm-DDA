@@ -6166,7 +6166,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm,
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
         // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
         if( lootable &&
             !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {

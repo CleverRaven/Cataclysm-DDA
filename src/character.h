@@ -338,10 +338,10 @@ enum class character_stat : char {
 };
 
 enum class customize_appearance_choice : int {
-    EYES, // customize eye colour
+    EYES, // customize eye color
     HAIR, // customize hair
     HAIR_F, // customize facial hair
-    SKIN  // customize skin colour
+    SKIN  // customize skin color
 };
 
 enum class book_mastery {
