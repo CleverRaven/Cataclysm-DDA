@@ -127,5 +127,13 @@
     "copy-from": "egg_reptile",
     "description": "The round egg of a tortoise.  Its covered in dirt",
     "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
   }
 ]
