@@ -2317,6 +2317,9 @@ class Character : public Creature, public visitable
         // Randomizes characters' blood type and Rh
         void randomize_blood();
 
+        int avg_nat_bpm;
+        void randomize_heartrate();
+
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
