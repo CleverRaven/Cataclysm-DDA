@@ -11412,7 +11412,7 @@ void game::autosave()
 void game::start_calendar()
 {
     time_duration initial_days;
-    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
@@ -11426,7 +11426,7 @@ void game::start_calendar()
                                   + 1_hours * scen->start_hour()
                                   + 1_days * scen->start_day();
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
             // That is unacceptable. So lets just jump to same day on next year.
             calendar::start_of_game += calendar::year_length();
         }

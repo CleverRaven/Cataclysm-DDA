@@ -1163,10 +1163,10 @@ struct itype {
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
-        /** Value before cataclysm. Price given is for a default-sized stack. */
+        /** Value before the Cataclysm. Price given is for a default-sized stack. */
         units::money price = 0_cent;
 
-        /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
+        /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
         int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
