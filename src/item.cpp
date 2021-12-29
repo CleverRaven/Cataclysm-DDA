@@ -3382,28 +3382,33 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
         std::string layering = _( "Layer:" );
-        if( has_flag( flag_PERSONAL ) ) {
-            layering += _( " <stat>Personal aura</stat>." );
+        for( const layer_level &ll : get_layer() ) {
+            switch( ll ) {
+                case layer_level::PERSONAL:
+                    layering += _( " <stat>Personal aura</stat>." );
+                    break;
+                case layer_level::UNDERWEAR:
+                    layering += _( " <stat>Close to skin</stat>." );
+                    break;
+                case layer_level::REGULAR:
+                    layering += _( " <stat>Normal</stat>." );
+                    break;
+                case layer_level::WAIST:
+                    layering += _( " <stat>Waist</stat>." );
+                    break;
+                case layer_level::OUTER:
+                    layering += _( " <stat>Outer</stat>." );
+                    break;
+                case layer_level::BELTED:
+                    layering += _( " <stat>Strapped</stat>." );
+                    break;
+                case layer_level::AURA:
+                    layering += _( " <stat>Outer aura</stat>." );
+                    break;
+                default:
+                    layering += _( " Should never see this." );
+            }
         }
-        if( has_flag( flag_SKINTIGHT ) ) {
-            layering += _( " <stat>Close to skin</stat>." );
-        }
-        if( has_flag( flag_BELTED ) ) {
-            layering += _( " <stat>Strapped</stat>." );
-        }
-        if( has_flag( flag_OUTER ) ) {
-            layering += _( " <stat>Outer</stat>." );
-        }
-        if( has_flag( flag_WAIST ) ) {
-            layering += _( " <stat>Waist</stat>." );
-        }
-        if( has_flag( flag_AURA ) ) {
-            layering += _( " <stat>Outer aura</stat>." );
-        }
-        if( layering == "Layer:" ) {
-            layering += _( " <stat>Normal</stat>." );
-        }
-
         info.emplace_back( "ARMOR", layering );
     }
 
@@ -6988,150 +6993,98 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
 std::vector<layer_level> item::get_layer() const
 {
-    std::vector<layer_level> layers;
-
-    if( has_flag( flag_PERSONAL ) ) {
-        layers.push_back( layer_level::PERSONAL );
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() ) {
+            return { layer_level::BELTED };
+        }
+        return std::vector<layer_level>();
     }
-    if( has_flag( flag_SKINTIGHT ) ) {
-        layers.push_back( layer_level::UNDERWEAR );
-    }
-    if( has_flag( flag_WAIST ) ) {
-        layers.push_back( layer_level::WAIST );
-    }
-    if( has_flag( flag_OUTER ) ) {
-        layers.push_back( layer_level::OUTER );
-    }
-    if( has_flag( flag_BELTED ) ) {
-        layers.push_back( layer_level::BELTED );
-    }
-    if( has_flag( flag_AURA ) ) {
-        layers.push_back( layer_level::AURA );
-    }
-    if( layers.empty() ) {
-        layers.push_back( layer_level::REGULAR );
-    }
-    return layers;
+    return armor->all_layers;
 }
 
-layer_level item::get_max_layer() const
+std::vector<layer_level> item::get_layer( bodypart_id bp ) const
 {
-    if( has_flag( flag_AURA ) ) {
-        return layer_level::AURA;
-    } else if( has_flag( flag_BELTED ) ) {
-        return layer_level::BELTED;
-    } else if( has_flag( flag_OUTER ) ) {
-        return layer_level::OUTER;
-    } else if( has_flag( flag_WAIST ) ) {
-        return layer_level::WAIST;
-    } else if( has_flag( flag_SKINTIGHT ) ) {
-        return layer_level::UNDERWEAR;
-    } else if( has_flag( flag_PERSONAL ) ) {
-        return layer_level::PERSONAL;
-    } else {
-        return layer_level::REGULAR;
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() && bp == body_part_torso ) {
+            return { layer_level::BELTED };
+        }
+        return std::vector<layer_level>();
     }
+
+    for( const armor_portion_data &data : t->data ) {
+        if( !data.covers.has_value() ) {
+            continue;
+        }
+        for( const bodypart_str_id &bpid : data.covers.value() ) {
+            if( bp == bpid ) {
+                return data.layers;
+            }
+        }
+    }
+    // body part not covered by this armour
+    return std::vector<layer_level>();
 }
-bool item::has_layer( layer_level ll ) const
+
+std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
 {
-    switch( ll ) {
-        case layer_level::PERSONAL:
-            return has_flag( flag_PERSONAL );
-        case layer_level::UNDERWEAR:
-            return has_flag( flag_SKINTIGHT );
-        case layer_level::WAIST:
-            return has_flag( flag_WAIST );
-        case layer_level::OUTER:
-            return has_flag( flag_OUTER );
-        case layer_level::BELTED:
-            return has_flag( flag_BELTED );
-        case layer_level::AURA:
-            return has_flag( flag_AURA );
-        case layer_level::NUM_LAYER_LEVELS:
-            // should never be seen
-            return false;
-        case layer_level::REGULAR:
-            std::vector<layer_level> layers;
-            if( has_flag( flag_PERSONAL ) ) {
-                layers.push_back( layer_level::PERSONAL );
-            }
-            if( has_flag( flag_SKINTIGHT ) ) {
-                layers.push_back( layer_level::UNDERWEAR );
-            }
-            if( has_flag( flag_WAIST ) ) {
-                layers.push_back( layer_level::WAIST );
-            }
-            if( has_flag( flag_OUTER ) ) {
-                layers.push_back( layer_level::OUTER );
-            }
-            if( has_flag( flag_BELTED ) ) {
-                layers.push_back( layer_level::BELTED );
-            }
-            if( has_flag( flag_AURA ) ) {
-                layers.push_back( layer_level::AURA );
-            }
-            // for regular layer it's the absence of a flag
-            return layers.empty();
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        // additional test for gun straps
+        if( is_gun() && sbp == sub_bodypart_id( "torso_hanging_back" ) ) {
+            return { layer_level::BELTED };
+        }
+        return std::vector<layer_level>();
     }
-    return false;
+
+    for( const armor_portion_data &data : t->sub_data ) {
+        for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
+            if( sbp == bpid ) {
+                return data.layers;
+            }
+        }
+    }
+    // body part not covered by this armour
+    return std::vector<layer_level>();
 }
 
 bool item::has_layer( const std::vector<layer_level> &ll ) const
 {
-    bool found = false;
-    for( layer_level layer : ll ) {
-        switch( layer ) {
-            case layer_level::PERSONAL:
-                found = found || has_flag( flag_PERSONAL );
-                break;
-            case layer_level::UNDERWEAR:
-                found = found || has_flag( flag_SKINTIGHT );
-                break;
-            case layer_level::WAIST:
-                found = found || has_flag( flag_WAIST );
-                break;
-            case layer_level::OUTER:
-                found = found || has_flag( flag_OUTER );
-                break;
-            case layer_level::BELTED:
-                found = found || has_flag( flag_BELTED );
-                break;
-            case layer_level::AURA:
-                found = found || has_flag( flag_AURA );
-                break;
-            case layer_level::NUM_LAYER_LEVELS:
-                // should never happen
-                break;
-            case layer_level::REGULAR:
-                std::vector<layer_level> layers;
-                if( has_flag( flag_PERSONAL ) ) {
-                    layers.push_back( layer_level::PERSONAL );
-                }
-                if( has_flag( flag_SKINTIGHT ) ) {
-                    layers.push_back( layer_level::UNDERWEAR );
-                }
-                if( has_flag( flag_WAIST ) ) {
-                    layers.push_back( layer_level::WAIST );
-                }
-                if( has_flag( flag_OUTER ) ) {
-                    layers.push_back( layer_level::OUTER );
-                }
-                if( has_flag( flag_BELTED ) ) {
-                    layers.push_back( layer_level::BELTED );
-                }
-                if( has_flag( flag_AURA ) ) {
-                    layers.push_back( layer_level::AURA );
-                }
-                // for regular layer it's the absence of a flag
-                found = found || layers.empty();
-                break;
-        }
-        //if they have any matching layers we don't need to keep looking
-        if( found ) {
-            break;
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return false;
+    }
+    for( const layer_level &test_level : ll ) {
+        if( std::count( t->all_layers.begin(), t->all_layers.end(), test_level ) > 0 ) {
+            return true;
         }
     }
-    return found;
+    return false;
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const
+{
+    const std::vector<layer_level> layers = get_layer( bp );
+    for( const layer_level &test_level : ll ) {
+        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const
+{
+    const std::vector<layer_level> layers = get_layer( sbp );
+    for( const layer_level &test_level : ll ) {
+        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 item::cover_type item::get_cover_type( damage_type type )
