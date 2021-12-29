@@ -359,7 +359,7 @@
     "name": [ "Stepped on alkahest" ],
     "desc": [ "You're standing in alkahest!" ],
     "base_mods": { "speed_mod": [ -20 ], "hurt_amount": [ 10 ] },
-    "scaling_mods": { "speed_mod": [ -20 ], "hurt_amount": [ 7 ] },
-    "max_intensity": 3
+    "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 5 ] },
+    "max_intensity": 5
   }
 ]
