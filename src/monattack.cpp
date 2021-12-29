@@ -341,10 +341,6 @@ bool mattack::eat_crop( monster *z )
 
 bool mattack::split( monster *z )
 {
-    if( !( z->get_hp() / 2 > z->type->hp ) ) {
-        return false;
-    }
-
     bool split_performed = false;
     while( z->get_hp() / 2 > z->type->hp ) {
         monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
@@ -370,10 +366,6 @@ bool mattack::split( monster *z )
 bool mattack::absorb_items( monster *z )
 {
     map &here = get_map();
-
-    if( !here.has_items( z->pos() ) ) {
-        return false;
-    }
 
     static const units::quantity<int, units::volume_in_milliliter_tag> ml_per_hp =
         units::from_milliliter( z->type->absorb_ml_per_hp );
