@@ -711,6 +711,14 @@
     "//": "Uses display::weary_malus_text_color"
   },
   {
+    "id": "vehicle_cruise_desc",
+    "type": "widget",
+    "label": "Vehicle Speed",
+    "style": "text",
+    "var": "veh_cruise_text",
+    "//": "Current/target vehicle cruising speed from display::vehicle_cruise_text_color"
+  },
+  {
     "id": "vehicle_azimuth_desc",
     "type": "widget",
     "label": "Azimuth",
