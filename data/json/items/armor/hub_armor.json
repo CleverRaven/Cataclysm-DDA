@@ -1,0 +1,211 @@
+[
+  {
+    "id": "robofac_armor_rig",
+    "type": "ARMOR",
+    "category": "ARMOR",
+    "name": { "str": "Hub 01 modular defense system" },
+    "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explorer.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  Integrating quick access pouches attached to a waist drawstring and two waterproof internal reservoirs it touts plenty of storage.  This poncho also has notable clips just below the waist and around the shoulders, perhaps something attaches there.",
+    "//": "at least 3x thicker than a normal poncho",
+    "weight": "960 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "symbol": "[",
+    "material": [ "nylon", "kevlar" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF" ],
+    "material_thickness": 3,
+    "pocket_data": [
+      {
+        "description": "Watertight internal reservoir",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "watertight": true,
+        "spoil_multiplier": 0.8,
+        "max_contains_weight": "4 kg",
+        "moves": 120
+      },
+      {
+        "description": "Watertight internal reservoir",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "watertight": true,
+        "spoil_multiplier": 0.8,
+        "max_contains_weight": "4 kg",
+        "moves": 120
+      },
+      {
+        "description": "Quick access pouches",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80
+      },
+      {
+        "description": "Quick access pouches",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored mantle",
+        "flag_restriction": [ "ABLATIVE_MANTLE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored skirt",
+        "flag_restriction": [ "ABLATIVE_SKIRT" ]
+      }
+    ],
+    "armor": [
+      { "encumbrance": [ 4, 6 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "Outer", "Belted" ] },
+      {
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
+      },
+      {
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "abstract": "robofac_mantle",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "abstract mantle",
+    "weight": "1 kg",
+    "volume": "1533 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR" ],
+    "armor": [
+      { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "//": "skip encumbrance for additional parts of same body part",
+        "encumbrance": 0,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      },
+      {
+        "encumbrance": 2,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "//": "skip encumbrance for additional parts of same body part",
+        "encumbrance": 0,
+        "coverage": 85,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
+      }
+    ]
+  },
+  {
+    "abstract": "robofac_skirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "abstract armored skirt",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "//": "skip encumbrance for additional parts of same body part",
+        "encumbrance": 0,
+        "coverage": 85,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "abstract": "robofac_vambraces",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "abstract armored vambraces",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_lower_l", "arm_lower_r" ]
+      }
+    ]
+  },
+  {
+    "abstract": "robofac_shinguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "abstract armored shin guards",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r" ]
+      }
+    ]
+  },
+  {
+    "id": "robofac_basic_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "test mantle",
+    "description": "test mantle",
+    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+  }
+]
