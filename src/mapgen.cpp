@@ -1902,6 +1902,9 @@ class jmapgen_toilet : public jmapgen_piece
         jmapgen_toilet( const JsonObject &jsi, const std::string &/*context*/ ) :
             amount( jsi, "amount", 0, 0 ) {
         }
+        mapgen_phase phase() const override {
+            return mapgen_phase::furniture;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const point r( x.get(), y.get() );
@@ -2006,6 +2009,28 @@ class jmapgen_liquid_item : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters
                   ) const override {
             liquid.check( oter_name, parameters );
+        }
+};
+
+/**
+ * Place a corpse of a random monster from a monster group into the map.
+ * "group": id of monster group to choose from
+ */
+class jmapgen_corpse : public jmapgen_piece
+{
+    public:
+        mongroup_id group;
+        jmapgen_corpse( const JsonObject &jsi, const std::string &/*context*/ ) :
+            group( jsi.get_member( "group" ) ) {
+        }
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                  ) const override {
+            const std::vector<mtype_id> monster_group = MonsterGroupManager::GetMonstersFromGroup( group,
+                    true );
+            const mtype_id &corpse_type = random_entry_ref( monster_group );
+            item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
+            dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), corpse );
         }
 };
 
@@ -2362,7 +2387,8 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         mapgen_value<trap_id> id;
-        bool remove;
+        bool remove = false;
+
         jmapgen_trap( const JsonObject &jsi, const std::string &/*context*/ ) {
             init( jsi.get_member( "trap" ) );
             remove = jsi.get_bool( "remove", false );
@@ -2371,6 +2397,7 @@ class jmapgen_trap : public jmapgen_piece
         explicit jmapgen_trap( const JsonValue &tid ) {
             if( tid.test_object() ) {
                 JsonObject jo = tid.get_object();
+                remove = jo.get_bool( "remove", false );
                 if( jo.has_member( "trap" ) ) {
                     init( jo.get_member( "trap" ) );
                     return;
@@ -2378,6 +2405,7 @@ class jmapgen_trap : public jmapgen_piece
             }
             init( tid );
         }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             trap_id chosen_id = id.get( dat );
@@ -3579,6 +3607,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings, c );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_corpse>( jo, "corpses", format_placings, c );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings, c );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings, c );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
@@ -3683,6 +3712,28 @@ void update_mapgen_function_json::finalize_parameters()
 {
     finalize_parameters_common();
 }
+
+struct phase_comparator {
+    mapgen_phase get_phase( mapgen_phase p ) const {
+        return p;
+    }
+
+    mapgen_phase get_phase( const jmapgen_setmap &s ) const {
+        return s.phase();
+    }
+
+    template<typename PiecePtr>
+    mapgen_phase get_phase( const std::pair<jmapgen_place, PiecePtr> &p ) const {
+        return p.second->phase();
+    }
+
+    template<typename T, typename U>
+    bool operator()( const T &l, const U &r ) const {
+        return get_phase( l ) < get_phase( r );
+    }
+};
+
+static const phase_comparator compare_phases{};
 
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
@@ -3821,6 +3872,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines", context_ );
     objects.load_objects<jmapgen_toilet>( jo, "place_toilets", context_ );
     objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids", context_ );
+    objects.load_objects<jmapgen_corpse>( jo, "place_corpses", context_ );
     objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps", context_ );
     objects.load_objects<jmapgen_item_group>( jo, "place_items", context_ );
     objects.load_objects<jmapgen_loot>( jo, "place_loot", context_ );
@@ -3842,6 +3894,8 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
 
     objects.finalize();
+
+    std::stable_sort( setmap_points.begin(), setmap_points.end(), compare_phases );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -3906,10 +3960,7 @@ void mapgen_function_json_base::check_common() const
 
 void jmapgen_objects::finalize()
 {
-    std::stable_sort( objects.begin(), objects.end(),
-    []( const jmapgen_obj & l, const jmapgen_obj & r ) {
-        return l.second->phase() < r.second->phase();
-    } );
+    std::stable_sort( objects.begin(), objects.end(), compare_phases );
 }
 
 void jmapgen_objects::check( const std::string &context, const mapgen_parameters &parameters ) const
@@ -3930,6 +3981,34 @@ void jmapgen_objects::merge_parameters_into( mapgen_parameters &params,
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
 ///// stuff below is the actual in-game map generation (ill)logic
+
+mapgen_phase jmapgen_setmap::phase() const
+{
+    switch( op ) {
+        case JMAPGEN_SETMAP_TER:
+        case JMAPGEN_SETMAP_LINE_TER:
+        case JMAPGEN_SETMAP_SQUARE_TER:
+            return mapgen_phase::terrain;
+        case JMAPGEN_SETMAP_FURN:
+        case JMAPGEN_SETMAP_LINE_FURN:
+        case JMAPGEN_SETMAP_SQUARE_FURN:
+            return mapgen_phase::furniture;
+        case JMAPGEN_SETMAP_TRAP:
+        case JMAPGEN_SETMAP_LINE_TRAP:
+        case JMAPGEN_SETMAP_SQUARE_TRAP:
+        case JMAPGEN_SETMAP_RADIATION:
+        case JMAPGEN_SETMAP_BASH:
+        case JMAPGEN_SETMAP_LINE_RADIATION:
+        case JMAPGEN_SETMAP_SQUARE_RADIATION:
+            return mapgen_phase::default_;
+        case JMAPGEN_SETMAP_OPTYPE_POINT:
+        case JMAPGEN_SETMAP_OPTYPE_LINE:
+        case JMAPGEN_SETMAP_OPTYPE_SQUARE:
+            break;
+    }
+    debugmsg( "Invalid jmapgen_setmap::op %d", static_cast<int>( op ) );
+    return mapgen_phase::default_;
+}
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
@@ -4096,6 +4175,39 @@ bool mapgen_function_json_base::has_vehicle_collision(
     return objects.has_vehicle_collision( dat, offset );
 }
 
+static bool apply_mapgen_in_phases(
+    const mapgendata &md, const std::vector<jmapgen_setmap> &setmap_points,
+    const jmapgen_objects &objects, const point &offset, bool verify = false )
+{
+    if( verify && objects.has_vehicle_collision( md, offset ) ) {
+        return false;
+    }
+
+    // We must apply all the mapgen in phases, but the mapgen is split between
+    // setmap_points and objects.  So we have to make an outer loop over
+    // phases, and apply each type restricted to each phase.
+    auto setmap_point = setmap_points.begin();
+    for( mapgen_phase phase : all_enum_values<mapgen_phase>() ) {
+        for( ; setmap_point != setmap_points.end(); ++setmap_point ) {
+            const jmapgen_setmap &elem = *setmap_point;
+            if( elem.phase() != phase ) {
+                break;
+            }
+            if( verify && elem.has_vehicle_collision( md, offset ) ) {
+                return false;
+            }
+            elem.apply( md, offset );
+        }
+
+        objects.apply( md, phase, offset );
+    }
+    cata_assert( setmap_point == setmap_points.end() );
+
+    resolve_regional_terrain_and_furniture( md );
+
+    return true;
+}
+
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -4108,7 +4220,12 @@ void mapgen_function_json::generate( mapgendata &md )
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
-        run_mapgen_func( predecessor_md.terrain_type().id().str(), predecessor_md );
+        const std::string function_key = predecessor_md.terrain_type()->get_mapgen_id();
+        bool success = run_mapgen_func( function_key, predecessor_md );
+
+        if( !success ) {
+            debugmsg( "predecessor mapgen with key %s failed", function_key );
+        }
 
         // Now we have to do some rotation shenanigans. We need to ensure that
         // our predecessor is not rotated out of alignment as part of rotating this location,
@@ -4141,13 +4258,7 @@ void mapgen_function_json::generate( mapgendata &md )
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ) );
 
-    for( auto &elem : setmap_points ) {
-        elem.apply( md_with_params, point_zero );
-    }
-
-    objects.apply( md_with_params, point_zero );
-
-    resolve_regional_terrain_and_furniture( md_with_params );
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, point_zero );
 
     m->rotate( rotation.get() );
 
@@ -4173,26 +4284,31 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
-    for( const jmapgen_setmap &elem : setmap_points ) {
-        elem.apply( md_with_params, offset );
-    }
-
-    objects.apply( md_with_params, offset );
-
-    resolve_regional_terrain_and_furniture( md_with_params );
+    apply_mapgen_in_phases( md, setmap_points, objects, offset );
 }
 
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void jmapgen_objects::apply( const mapgendata &dat ) const
+void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase ) const
+{
+    apply( dat, phase, point_zero );
+}
+
+void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase, const point &offset ) const
 {
     bool terrain_resolved = false;
-    for( const jmapgen_obj &obj : objects ) {
-        const jmapgen_place &where = obj.first;
+
+    auto range_at_phase = std::equal_range( objects.begin(), objects.end(), phase, compare_phases );
+
+    for( auto it = range_at_phase.first; it != range_at_phase.second; ++it ) {
+        const jmapgen_obj &obj = *it;
+        jmapgen_place where = obj.first;
+        where.offset( -offset );
         const jmapgen_piece &what = *obj.second;
-        // The user will only specify repeat once in JSON, but it may get loaded both
-        // into the what and where in some cases--we just need the greater value of the two.
+
+        cata_assert( what.phase() == phase );
+
         if( !terrain_resolved && typeid( what ) == typeid( jmapgen_vehicle ) ) {
             // In order to determine collisions between vehicles and local "terrain" the terrain has to be resolved
             // This code is based on two assumptions:
@@ -4201,26 +4317,7 @@ void jmapgen_objects::apply( const mapgendata &dat ) const
             resolve_regional_terrain_and_furniture( dat );
             terrain_resolved = true;
         }
-        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
-        for( int i = 0; i < repeat; i++ ) {
-            what.apply( dat, where.x, where.y );
-        }
-    }
-}
 
-void jmapgen_objects::apply( const mapgendata &dat, const point &offset ) const
-{
-    if( offset == point_zero ) {
-        // It's a bit faster
-        apply( dat );
-        return;
-    }
-
-    for( const jmapgen_obj &obj : objects ) {
-        jmapgen_place where = obj.first;
-        where.offset( -offset );
-
-        const jmapgen_piece &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
@@ -4859,7 +4956,16 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    tripoint_range<tripoint> options =
+                    points_in_rectangle( { 6, 6, abs_sub.z },
+                    { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z } );
+                    cata::optional<tripoint> center = random_point(
+                    options, [&]( const tripoint & p ) {
+                        return tr_at( p ).is_null();
+                    } );
+                    if( !center ) {
+                        break;
+                    }
                     std::vector<artifact_natural_property> valid_props = {
                         ARTPROP_BREATHING,
                         ARTPROP_CRACKLING,
@@ -4876,10 +4982,10 @@ void map::draw_lab( mapgendata &dat )
                         }
                         make_rubble( {p, abs_sub.z } );
                         ter_set( p, t_thconc_floor );
-                    }, center.xy(), 4 );
-                    furn_set( center.xy(), f_null );
-                    trap_set( center, tr_portal );
-                    create_anomaly( center, random_entry( valid_props ), false );
+                    }, center->xy(), 4 );
+                    furn_set( center->xy(), f_null );
+                    trap_set( *center, tr_portal );
+                    create_anomaly( *center, random_entry( valid_props ), false );
                     break;
                 }
                 // radioactive accident.
@@ -7289,21 +7395,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
     };
     rotation_guard rot( md_with_params );
 
-    for( const jmapgen_setmap &elem : setmap_points ) {
-        if( verify && elem.has_vehicle_collision( md_with_params, offset ) ) {
-            return false;
-        }
-        elem.apply( md_with_params, offset );
-    }
-
-    if( verify && objects.has_vehicle_collision( md_with_params, offset ) ) {
-        return false;
-    }
-    objects.apply( md_with_params, offset );
-
-    resolve_regional_terrain_and_furniture( md_with_params );
-
-    return true;
+    return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, verify );
 }
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )

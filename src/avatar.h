@@ -344,13 +344,9 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        const mood_face_id &character_mood_face();
-        void clear_mood_face();
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-
-        bool mood_face_horizontal = false;
-        cata::optional<mood_face_id> mood_face_cache;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

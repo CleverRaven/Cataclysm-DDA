@@ -181,10 +181,6 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
 }
 
 void Character::do_mutation_updates()
@@ -1080,10 +1076,6 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
-
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1471,10 +1463,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
-    }
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait

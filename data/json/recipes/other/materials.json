@@ -266,7 +266,7 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "sheet_metal", -1 ] ] ],
     "components": [
-      [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
+      [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ], [ "methed_alcohol", 50 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ],
       [ [ "bleach", 2 ] ],

@@ -218,6 +218,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "armor_elec": 5,
     "vision_day": 50,
     "revert_to_itype": "bot_skitterbot",
     "path_settings": { "max_dist": 5 },

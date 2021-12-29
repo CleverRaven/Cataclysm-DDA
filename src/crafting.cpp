@@ -1537,9 +1537,9 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
     Character &player_character = get_player_character();
-    std::vector<item_comp> player_has;
-    std::vector<item_comp> map_has;
-    std::vector<item_comp> mixed;
+    std::vector<std::pair<item_comp, cata::optional<nc_color>>> player_has;
+    std::vector<std::pair<item_comp, cata::optional<nc_color>>> map_has;
+    std::vector<std::pair<item_comp, cata::optional<nc_color>>> mixed;
 
     comp_selection<item_comp> selected;
 
@@ -1560,19 +1560,19 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 int player_charges = charges_of( type, INT_MAX, filter );
                 bool found = false;
                 if( player_charges >= count ) {
-                    player_has.push_back( component );
+                    player_has.emplace_back( component, cata::nullopt );
                     found = true;
                 }
                 if( map_charges >= count ) {
-                    map_has.push_back( component );
+                    map_has.emplace_back( component, cata::nullopt );
                     found = true;
                 }
                 if( !found && player_charges + map_charges >= count ) {
-                    mixed.push_back( component );
+                    mixed.emplace_back( component, cata::nullopt );
                 }
             } else {
                 if( map_charges >= count ) {
-                    map_has.push_back( component );
+                    map_has.emplace_back( component, cata::nullopt );
                 }
             }
         } else { // Counting by units, not charges
@@ -1583,21 +1583,48 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 const item item_sought( type );
                 if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
                     has_amount( type, count, false, filter ) ) {
-                    player_has.push_back( component );
+                    cata::optional<nc_color> colr = cata::nullopt;
+                    if( !has_amount( type, count, false, [&filter]( const item & it ) {
+                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
+                    } ) ) {
+                        colr = c_magenta;
+                    }
+                    player_has.emplace_back( component, colr );
                     found = true;
                 }
                 if( map_inv.has_components( type, count, filter ) ) {
-                    map_has.push_back( component );
+                    cata::optional<nc_color> colr = cata::nullopt;
+                    if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
+                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
+                    } ) ) {
+                        colr = c_magenta;
+                    }
+                    map_has.emplace_back( component, colr );
                     found = true;
                 }
                 if( !found &&
                     amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
                     map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
-                    mixed.push_back( component );
+                    cata::optional<nc_color> colr = cata::nullopt;
+                    if( amount_of( type, false, std::numeric_limits<int>::max(), [&filter]( const item & it ) {
+                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
+                    } ) + map_inv.amount_of( type, false,
+                    std::numeric_limits<int>::max(), [&filter]( const item & it ) {
+                        return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
+                    } ) < count ) {
+                        colr = c_magenta;
+                    }
+                    mixed.emplace_back( component, colr );
                 }
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
-                    map_has.push_back( component );
+                    cata::optional<nc_color> colr = cata::nullopt;
+                    if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
+                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
+                    } ) ) {
+                        colr = c_magenta;
+                    }
+                    map_has.emplace_back( component, colr );
                 }
             }
         }
@@ -1607,21 +1634,21 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
     if( player_has.size() + map_has.size() + mixed.size() == 1 ) { // Only 1 choice
         if( player_has.size() == 1 ) {
             selected.use_from = usage_from::player;
-            selected.comp = player_has[0];
+            selected.comp = player_has[0].first;
         } else if( map_has.size() == 1 ) {
             selected.use_from = usage_from::map;
-            selected.comp = map_has[0];
+            selected.comp = map_has[0].first;
         } else {
             selected.use_from = usage_from::both;
-            selected.comp = mixed[0];
+            selected.comp = mixed[0].first;
         }
     } else if( is_npc() ) {
         if( !player_has.empty() ) {
             selected.use_from = usage_from::player;
-            selected.comp = player_has[0];
+            selected.comp = player_has[0].first;
         } else if( !map_has.empty() ) {
             selected.use_from = usage_from::map;
-            selected.comp = map_has[0];
+            selected.comp = map_has[0].first;
         } else {
             debugmsg( "Attempted a recipe with no available components!" );
             selected.use_from = usage_from::cancel;
@@ -1699,18 +1726,27 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
             // Index 0-(map_has.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.type,
-                            map_ha.count * batch ) );
+            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.first.type,
+                            map_ha.first.count * batch ) );
+            if( map_ha.second.has_value() ) {
+                cmenu.entries.back().text_color = map_ha.second.value();
+            }
         }
         for( auto &player_ha : player_has ) {
             // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.type,
-                            player_ha.count * batch ) );
+            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.first.type,
+                            player_ha.first.count * batch ) );
+            if( player_ha.second.has_value() ) {
+                cmenu.entries.back().text_color = player_ha.second.value();
+            }
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.type,
-                            component.count * batch ) );
+            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.first.type,
+                            component.first.count * batch ) );
+            if( component.second.has_value() ) {
+                cmenu.entries.back().text_color = component.second.value();
+            }
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
@@ -1741,15 +1777,15 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         size_t uselection = static_cast<size_t>( cmenu.ret );
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
-            selected.comp = map_has[uselection];
+            selected.comp = map_has[uselection].first;
         } else if( uselection < map_has.size() + player_has.size() ) {
             uselection -= map_has.size();
             selected.use_from = usage_from::player;
-            selected.comp = player_has[uselection];
+            selected.comp = player_has[uselection].first;
         } else {
             uselection -= map_has.size() + player_has.size();
             selected.use_from = usage_from::both;
-            selected.comp = mixed[uselection];
+            selected.comp = mixed[uselection].first;
         }
     }
 

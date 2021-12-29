@@ -447,11 +447,11 @@
     "id": "EOC_absence_capture_attack",
     "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
     "effect": [
-      { "u_location_variable": { "value": "portal_cage", "global": true } },
+      { "u_location_variable": { "global_val": "portal_cage" } },
       {
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_transform",
-        "target_var": { "value": "portal_cage", "global": true }
+        "target_var": { "global_val": "portal_cage" }
       },
       {
         "set_queue_effect_on_condition": [
@@ -461,7 +461,7 @@
               {
                 "u_transform_radius": 2,
                 "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "value": "portal_cage", "global": true }
+                "target_var": { "global_val": "portal_cage" }
               }
             ]
           }

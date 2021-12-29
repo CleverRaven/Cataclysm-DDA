@@ -29,8 +29,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence_min": { "name": "ps_min_woc", "default": "6 days", "global": true },
-    "recurrence_max": { "name": "ps_max_woc", "default": "9 days", "global": true },
+    "recurrence_min": { "global_val": "ps_min_woc", "default": "6 days" },
+    "recurrence_max": { "global_val": "ps_max_woc", "default": "9 days" },
     "global": true,
     "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_STORM_WARN" ] } ]
   },
@@ -216,8 +216,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STRENGTHEN",
     "//": "Increases the portal storms strength.",
-    "recurrence_min": { "name": "ps_min_increase", "default": "45 minutes", "global": true },
-    "recurrence_max": { "name": "ps_max_increase", "default": "75 minutes", "global": true },
+    "recurrence_min": { "global_val": "ps_min_increase", "default": "45 minutes" },
+    "recurrence_max": { "global_val": "ps_max_increase", "default": "75 minutes" },
     "global": true,
     "condition": { "is_weather": "portal_storm" },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -435,8 +435,8 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "ps_shifting_mass_count" }, "++" ] },
       {
         "u_set_spawn_monster": "mon_shifting_mass",
-        "real_count": { "name": "ps_shifting_mass_count", "default": 1, "global": true },
-        "hallucination_count": { "name": "ps_shifting_mass_count", "default": 1, "global": true },
+        "real_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
+        "hallucination_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -517,7 +517,7 @@
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
     "global": true,
     "effect": [
-      { "u_location_variable": { "value": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
       { "u_message": "This moment feels thick as if its not quite over.", "type": "bad" }
     ]
@@ -527,13 +527,13 @@
     "id": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
     "condition": { "x_in_y_chance": { "x": 3, "y": 4 } },
     "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
-    "false_effect": { "u_make_sound": "a loud tearing sound.", "target_var": { "value": "stuck_teleport" }, "volume": 80, "type": "alert" }
+    "false_effect": { "u_make_sound": "a loud tearing sound.", "target_var": { "u_val": "stuck_teleport" }, "volume": 80, "type": "alert" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK",
     "effect": [
-      { "u_teleport": { "value": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
+      { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
       {
         "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK_LOOP" ],
         "time_in_future_min": "3 seconds",
@@ -564,7 +564,7 @@
               {
                 "custom_light_level": 0,
                 "length_min": "1 seconds",
-                "length_max": { "name": "ps_light_str", "default": "1 minutes", "global": true }
+                "length_max": { "global_val": "ps_light_str", "default": "1 minutes" }
               },
               { "u_message": "The sun is snuffed out like a candle.", "type": "bad" }
             ],
@@ -572,7 +572,7 @@
               {
                 "custom_light_level": 125,
                 "length_min": "1 seconds",
-                "length_max": { "name": "ps_light_str", "default": "1 minutes", "global": true }
+                "length_max": { "global_val": "ps_light_str", "default": "1 minutes" }
               },
               { "u_message": "Some of the stars grow so bright they hurt to look at.", "type": "bad" }
             ]
@@ -596,10 +596,7 @@
         ]
       },
       { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
-      {
-        "u_add_effect": "incorporeal",
-        "duration": { "name": "ps_incorporeal_str", "default": "1 seconds", "global": true }
-      }
+      { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
     ]
   },
   {
@@ -617,21 +614,21 @@
         ]
       },
       {
-        "u_location_variable": { "value": "grass_transform", "global": true },
+        "u_location_variable": { "global_val": "grass_transform" },
         "min_radius": 1,
         "max_radius": 15,
         "outdoor_only": true
       },
       {
         "u_make_sound": "a high pitched squeal.",
-        "target_var": { "value": "grass_transform", "global": true },
+        "target_var": { "global_val": "grass_transform" },
         "volume": 60,
         "type": "alert"
       },
       {
-        "u_transform_radius": { "name": "ps_transform_radius", "global": true, "default": 5 },
+        "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
         "ter_furn_transform": "portal_grass_transform",
-        "target_var": { "value": "grass_transform", "global": true }
+        "target_var": { "global_val": "grass_transform" }
       },
       {
         "set_queue_effect_on_condition": [
@@ -639,13 +636,13 @@
             "id": "EOC_PORTAL_ALIEN_GRASS_CHANGE",
             "effect": [
               {
-                "u_transform_radius": { "name": "ps_transform_radius", "global": true, "default": 5 },
+                "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
                 "ter_furn_transform": "portal_alien_grass_transform",
-                "target_var": { "value": "grass_transform", "global": true }
+                "target_var": { "global_val": "grass_transform" }
               },
               {
                 "u_make_sound": "a high pitched squeal.",
-                "target_var": { "value": "grass_transform", "global": true },
+                "target_var": { "global_val": "grass_transform" },
                 "volume": 60,
                 "type": "alert"
               }
@@ -673,10 +670,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
+      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_1",
-        "target_var": { "value": "indoor_voices", "global": true },
+        "target_var": { "global_val": "indoor_voices" },
         "volume": 40,
         "type": "speech",
         "snippet": true
@@ -689,10 +686,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
+      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_2",
-        "target_var": { "value": "indoor_voices", "global": true },
+        "target_var": { "global_val": "indoor_voices" },
         "volume": 60,
         "type": "speech",
         "snippet": true
@@ -705,10 +702,10 @@
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": [
-      { "u_location_variable": { "value": "indoor_voices", "global": true }, "min_radius": 3, "max_radius": 10 },
+      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
       {
         "u_make_sound": "PORTAL_STORM_VOICES_3",
-        "target_var": { "value": "indoor_voices", "global": true },
+        "target_var": { "global_val": "indoor_voices" },
         "volume": 80,
         "type": "speech",
         "snippet": true
@@ -740,13 +737,13 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      { "u_location_variable": { "value": "portal_dungeon", "global": true }, "target_params": { "om_terrain": "field" } },
-      { "mapgen_update": "portal_dungeon", "target_var": { "value": "portal_dungeon", "global": true } }
+      { "u_location_variable": { "global_val": "portal_dungeon" }, "target_params": { "om_terrain": "field" } },
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
-    "effect": [ { "mapgen_update": "portal_dungeon_undo", "target_var": { "value": "portal_dungeon", "global": true } } ]
+    "effect": [ { "mapgen_update": "portal_dungeon_undo", "target_var": { "global_val": "portal_dungeon" } } ]
   }
 ]

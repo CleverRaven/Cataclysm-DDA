@@ -1258,6 +1258,28 @@ class item : public visitable
         /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
+        enum class armor_status {
+            UNDAMAGED,
+            DAMAGED,
+            DESTROYED,
+            TRANSFORMED
+        };
+
+        /**
+         * Damage related logic for armor items, wraps mod_damage with needed logic
+         * This version is for items with durability
+         * @return the state of the armor
+         */
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+
+        /**
+         * Damage related logic for armor items that warp and transform instead of degrading.
+         * Items such as ablative plates are considered with this.
+         * @return the state of the armor
+         */
+        armor_status damage_armor_transforms( damage_unit &du );
+
+
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
 
@@ -1843,26 +1865,38 @@ class item : public visitable
         std::vector<layer_level> get_layer() const;
 
         /**
-         * Returns highest layer this clothing covers
+         * Returns clothing layer for body part.
          */
-        layer_level get_max_layer() const;
+        std::vector<layer_level> get_layer( const bodypart_id bp ) const;
 
         /**
-         * Returns true if an item has a given layer level.
+         * Returns clothing layer for sub bodypart .
          */
-        bool has_layer( layer_level ll ) const;
+        std::vector<layer_level> get_layer( const sub_bodypart_id sbp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific part.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific subpart.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const;
 
         /**
          * Returns true if an item has any of the given layer levels.
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
 
-        enum cover_type {
+        enum class cover_type {
             COVER_DEFAULT,
             COVER_MELEE,
             COVER_RANGED,
             COVER_VITALS
         };
+        static cover_type get_cover_type( damage_type type );
+
         /*
          * Returns the average coverage of each piece of data this item
          */
