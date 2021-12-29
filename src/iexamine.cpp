@@ -785,7 +785,7 @@ class atm_menu
             return true;
         }
 
-        //!Deposit pre-cataclysm currency and receive equivalent amount minus fees on a card.
+        //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
             item *dst;
             if( you.activity.id() == ACT_ATM ) {
