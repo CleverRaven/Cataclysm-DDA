@@ -47,8 +47,8 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_sleep( "sleep" );
 
-static const item_category_id item_category_manual( "manual" );
 static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_manual( "manual" );
 
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
