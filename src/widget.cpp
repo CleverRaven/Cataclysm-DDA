@@ -301,7 +301,7 @@ void widget::check() const
 {
     // If the widget style is layout, graphs or numbers, it should have a non-empty list of widgets
     if( ( _style == "layout" || _style == "graphs" || _style == "numbers" ) && _widgets.empty() ) {
-        debugmsg( "Widget id=%s should have a non zero list of widgets, but has none", id.c_str() );
+        debugmsg( "widget id=%s has empty widgets list", id.c_str() );
     }
 }
 
@@ -789,7 +789,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         }
         const int num_widgets = _widgets.size();
         if( num_widgets == 0 ) {
-            debugmsg( "widget layout has no widgets" );
+            debugmsg( "widget id=%s has empty widgets", id.c_str() );
         }
         // Number of spaces between columns
         const int col_padding = 2;
