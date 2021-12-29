@@ -54,6 +54,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -1432,13 +1433,19 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
     return std::make_pair( rad_text, rad_color );
 }
 
-std::string display::vehicle_azimuth_text( const Character &u )
+// Get remotely controlled vehicle, or vehicle character is inside of
+static vehicle *vehicle_driven( const Character &u )
 {
-    // Get remotely controlled vehicle, or vehicle character is inside of
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
+    return veh;
+}
+
+std::string display::vehicle_azimuth_text( const Character &u )
+{
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         return veh->face.to_string_azimuth_from_north();
     }
@@ -2127,11 +2134,6 @@ std::pair<std::string, nc_color> display::weather_text_color( const Character &u
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
-
     werase( w );
 
     // 7x7 minimap
@@ -2165,6 +2167,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
+
+    vehicle *veh = vehicle_driven( u );
 
     if( !veh ) {
         // stats
@@ -2542,11 +2546,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2560,11 +2560,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
