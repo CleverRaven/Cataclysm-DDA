@@ -10,7 +10,7 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
