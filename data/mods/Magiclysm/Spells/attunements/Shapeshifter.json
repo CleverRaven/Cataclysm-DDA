@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "shapeshifter_alkahest",
     "name": "Alkahest",
-    "description": "Release the mana-saturated liquid out your ley lines and cover everything with bioactive solvent.",
+    "description": "Release the mana-saturated liquid out your ley lines and cover everything with bioactive solvent. Sadly you are the only person that have resistance to his effect, so its better to be alone when you cast it.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
