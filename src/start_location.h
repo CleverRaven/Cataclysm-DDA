@@ -59,7 +59,7 @@ class start_location
         /**
          * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */
-        void add_map_extra( const tripoint_abs_omt &omtstart, const std::string &map_extra ) const;
+        void add_map_extra( const tripoint_abs_omt &omtstart, const map_extra_id &map_extra ) const;
 
         void handle_heli_crash( avatar &you ) const;
 

@@ -4352,11 +4352,11 @@ void cata_tiles::do_tile_loading_report()
     oter_types.erase( std::unique( oter_types.begin(), oter_types.end() ), oter_types.end() );
     tile_loading_report_seq_ids( oter_types, TILE_CATEGORY::OVERMAP_TERRAIN );
 
-    std::vector<std::string> map_extra_ids = MapExtras::get_all_function_names();
+    std::vector<map_extra_id> map_extra_ids = MapExtras::get_all_function_names();
     map_extra_ids.erase(
         std::remove_if( map_extra_ids.begin(), map_extra_ids.end(),
-    []( const std::string & id ) {
-        return !string_id<map_extra>( id )->autonote;
+    []( const map_extra_id & id ) {
+        return !id->autonote;
     } ), map_extra_ids.end() );
     tile_loading_report_seq_ids( map_extra_ids, TILE_CATEGORY::MAP_EXTRA );
 

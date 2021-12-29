@@ -2782,10 +2782,10 @@ void debug()
             raise( SIGSEGV );
             break;
         case debug_menu_index::MAP_EXTRA: {
-            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
+            const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            for( const std::string &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra );
+            for( const map_extra_id &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra.str() );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;

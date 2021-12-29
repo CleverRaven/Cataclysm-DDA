@@ -232,7 +232,7 @@ void map::generate( const tripoint &p, const time_point &when )
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
     if( ex.chance > 0 && one_in( ex.chance ) ) {
-        std::string *extra = ex.values.pick();
+        map_extra_id *extra = ex.values.pick();
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
