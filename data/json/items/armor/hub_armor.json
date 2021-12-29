@@ -201,11 +201,59 @@
     ]
   },
   {
+    "//": "Tier 1 mantle",
     "id": "robofac_basic_mantle",
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
-    "name": "test mantle",
-    "description": "test mantle",
+    "name": "Hub 01 prototype mantle",
+    "description": "3d printed upper body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+  },
+  {
+    "//": "Tier 2 mantle",
+    "id": "robofac_rubber_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "Hub 01 kinetic mantle",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ]
+  },
+  {
+    "//": "Tier 2 mantle",
+    "id": "robofac_nomex_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "Hub 01 turnout mantle",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ]
+  },
+  {
+    "//": "Tier 2 mantle",
+    "id": "robofac_kevlar_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "Hub 01 ballistic mantle",
+    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ]
+  },
+  {
+    "//": "Tier 3 mantle",
+    "id": "robofac_military_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "Hub 01 soldier mantle",
+    "description": "3d printed upper body armor, it has a professional finish is lightweight and it seems perfectly designed to move with your body.  This is made of 3d printed hardened and treated aramid with a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 3 } ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "//": "Tier 3 mantle",
+    "id": "robofac_explorers_mantle",
+    "type": "ARMOR",
+    "copy-from": "robofac_mantle",
+    "name": "Hub 01 explorers mantle",
+    "description": "3d printed upper body armor, it has a professional finish is lightweight and it seems perfectly designed to move with your body.  This is made of 3d printed ultra high molecular weight polyethylene (UHMWPE) with a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulder the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "material": [ { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 3 } ],
+    "extend": { "flags": [ "STURDY" ] }
   }
 ]
