@@ -129,7 +129,7 @@
     "name": "monster corpse tentacle",
     "sym": "|",
     "color": "light_blue",
-    "flags": [ "SHOULD_NOT_SPAWN","LINEAR" ]
+    "flags": [ "SHOULD_NOT_SPAWN", "LINEAR" ]
   },
   {
     "type": "overmap_terrain",

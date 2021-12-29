@@ -111,7 +111,6 @@
       [ [ -8, -1, -1 ], [ "subterranean_empty" ] ],
       [ [ -9, -1, -1 ], [ "subterranean_empty" ] ],
       [ [ -10, -1, -1 ], [ "subterranean_empty" ] ]
-      
     ],
     "joins": [
       { "id": "bowels_mid_to_edge", "opposite": "bowels_edge_to_mid" },
@@ -280,8 +279,8 @@
           "weight": 1
         }
       ],
-      [ { "overmap": "bowels_lcorner", "weight": 1 }],
-      [ { "overmap": "bowels_rcorner", "weight": 1 }],
+      [ { "overmap": "bowels_lcorner", "weight": 1 } ],
+      [ { "overmap": "bowels_rcorner", "weight": 1 } ],
       [ { "overmap": "neck_center", "max": 1 } ],
       [ { "overmap": "neck_center", "max": { "poisson": 1.2 } } ],
       [
