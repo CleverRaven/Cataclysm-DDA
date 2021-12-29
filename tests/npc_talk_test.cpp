@@ -47,7 +47,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_sleep( "sleep" );
 
-static const item_category_id item_category_books( "manual" );
+static const item_category_id item_category_manual( "manual" );
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_beer( "beer" );
@@ -615,7 +615,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
@@ -1083,7 +1083,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
