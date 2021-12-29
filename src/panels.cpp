@@ -1335,42 +1335,34 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     if( bp == bodypart_str_id::NULL_ID() ) {
         return c_light_gray;
     }
-    int color_bit = 0;
     nc_color i_color = c_light_gray;
     const int intense = u.get_effect_int( effect_bleed, bp );
-    if( bleed && intense > 0 ) {
-        color_bit += 1;
-    }
-    if( bite && u.has_effect( effect_bite, bp.id() ) ) {
-        color_bit += 10;
-    }
-    if( infect && u.has_effect( effect_infected, bp.id() ) ) {
-        color_bit += 100;
-    }
-    switch( color_bit ) {
-        case 1:
-            i_color = colorize_bleeding_intensity( intense );
-            break;
-        case 10:
-            i_color = c_blue;
-            break;
-        case 100:
-            i_color = c_green;
-            break;
-        case 11:
-            if( intense < 21 ) {
-                i_color = c_magenta;
-            } else {
-                i_color = c_magenta_red;
-            }
-            break;
-        case 101:
-            if( intense < 21 ) {
-                i_color = c_yellow;
-            } else {
-                i_color = c_yellow_red;
-            }
-            break;
+    const bool bleeding = bleed && intense > 0;
+    const bool bitten = bite && u.has_effect( effect_bite, bp.id() );
+    const bool infected = infect && u.has_effect( effect_infected, bp.id() );
+
+    // Handle worst cases first
+    if( bleeding && infected ) {
+        // Red and green make yellow
+        if( intense < 21 ) {
+            i_color = c_yellow;
+        } else {
+            i_color = c_yellow_red;
+        }
+    } else if( bleeding && bitten ) {
+        // Red and blue make magenta
+        if( intense < 21 ) {
+            i_color = c_magenta;
+        } else {
+            i_color = c_magenta_red;
+        }
+    } else if( infected ) {
+        i_color = c_green; // Green is very bad
+    } else if( bitten ) {
+        i_color = c_blue; // Blue is also bad
+    } else if( bleeding ) {
+        // Blood is some shade of red, naturally
+        i_color = colorize_bleeding_intensity( intense );
     }
 
     return i_color;
