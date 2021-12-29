@@ -37,6 +37,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN",
+    "global": true,
     "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on if they are outside",
     "//2": "base portal strength and if its day or night. Then it queues up either itself or the eoc that causes a portal storm.",
     "effect": [
@@ -149,11 +150,12 @@
         "set_queue_effect_on_condition": [
           {
             "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE",
-            "effect": [ { "set_weighted_list_eocs": [ [ "EOC_CAUSE_PORTAL_STORM", 1 ], [ "EOC_PORTAL_STORM_WARN", 3 ] ] } ]
+            "global": true,
+            "effect": [ { "set_weighted_list_eocs": [ [ "EOC_CAUSE_PORTAL_STORM", 1 ], [ "EOC_PORTAL_STORM_WARN", 2 ] ] } ]
           }
         ],
-        "time_in_future_min": "1 hours",
-        "time_in_future_max": "6 hours"
+        "time_in_future_min": "15 minutes",
+        "time_in_future_max": "2 hours"
       }
     ]
   },
@@ -196,6 +198,10 @@
         "set_queue_effect_on_condition": [ "EOC_CANCEL_PORTAL_STORM" ],
         "time_in_future_min": "4 hours",
         "time_in_future_max": "6 hours"
+      },
+      {
+        "u_message": "Reality is breaking.  It is subtle but something deep inside you feels the wrongness.",
+        "type": "bad"
       }
     ]
   },
@@ -210,7 +216,11 @@
         { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
       ]
     },
-    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] }, "next_weather" ]
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
+      "next_weather",
+      { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" }
+    ]
   },
   {
     "type": "effect_on_condition",
