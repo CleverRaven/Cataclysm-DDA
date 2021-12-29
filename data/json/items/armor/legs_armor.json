@@ -143,7 +143,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },

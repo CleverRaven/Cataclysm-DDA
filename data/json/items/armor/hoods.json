@@ -37,7 +37,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
   },
