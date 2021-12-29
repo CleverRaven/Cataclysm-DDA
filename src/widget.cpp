@@ -28,8 +28,8 @@ bool string_id<widget>::is_valid() const
 
 // Temporary map containing the ingredients for building
 // sub-widgets of multi-var widgets:
-//      < "parent id",           < "var index", "child id" > >
-std::map<std::string, std::vector<std::pair<int, std::string>>> _wgt_list;
+//             < "parent id",                   < "var index", "child id" > >
+static std::map<std::string, std::vector<std::pair<widget_var, std::string>>> _wgt_list;
 
 void widget::load_widget( const JsonObject &jo, const std::string &src )
 {
@@ -70,21 +70,18 @@ static void widget_copy( const widget &src, widget &dst )
 
     dst._colors.clear();
     dst._strings.clear();
-    dst._vars.clear();
+    dst._vars_labels.clear();
     dst._widgets.clear();
-    dst._labels.clear();
 
     dst._colors.reserve( src._colors.size() );
     std::copy( src._colors.begin(), src._colors.end(), dst._colors.end() );
     dst._strings.reserve( src._strings.size() );
     std::copy( src._strings.begin(), src._strings.end(), dst._strings.end() );
-    dst._vars.reserve( src._vars.size() );
-    std::copy( src._vars.begin(), src._vars.end(), dst._vars.end() );
     dst._widgets.reserve( src._widgets.size() );
     std::copy( src._widgets.begin(), src._widgets.end(), dst._widgets.end() );
-    // std::copy doesn't work on this vector
-    for( translation t : src._labels ) {
-        dst._labels.emplace_back( t );
+    // translations from _vars_labels can't be copied with std::copy, causes SEGV
+    for( const auto &varlabel : src._vars_labels ) {
+        dst._vars_labels.emplace_back( varlabel.first, varlabel.second );
     }
 }
 
@@ -106,12 +103,14 @@ void widget::widget_create_and_copy()
                 widget tmp;
                 widget_copy( stored, tmp );
                 tmp._widgets.clear();
-                tmp._vars.clear();
-                tmp._labels.clear();
+                tmp._vars_labels.clear();
                 tmp.id = widget_id( wid.second );
-                tmp._var = stored._vars[wid.first];
                 tmp._style = stored._style == "graphs" ? "graph" : "number";
-                tmp._label = stored._labels[wid.first];
+                tmp._var = wid.first;
+                tmp._label = std::find_if( stored._vars_labels.begin(),
+                stored._vars_labels.end(), [&wid]( const std::pair<widget_var, translation> &wpair ) {
+                    return wid.first == wpair.first;
+                } )->second;
                 // Add new sub-widget to factory
                 widget &wnew = widget_factory.insert( tmp );
                 // Get the new parent object and insert the child
@@ -256,7 +255,6 @@ void widget::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "strings", _strings );
-    optional( jo, was_loaded, "labels", _labels );
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
@@ -267,7 +265,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_max", _var_max );
 
     if( jo.has_string( "var" ) ) {
-        _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
+        _var = jo.get_enum_value<widget_var>( "var" );
     }
 
     if( jo.has_string( "bodypart" ) ) {
@@ -286,21 +284,21 @@ void widget::load( const JsonObject &jo, const std::string & )
             _widgets.emplace_back( widget_id( wid ) );
         }
     }
-    // Multi-var widgets have "vars" and "labels" arrays
-    if( jo.has_array( "vars" ) ) {
-        _vars.clear();
-        for( const std::string var_name : jo.get_array( "vars" ) ) {
-            _vars.emplace_back( io::string_to_enum<widget_var>( var_name ) );
+    // Multi-var widgets have a "var" and a "label"
+    if( jo.has_array( "children" ) ) {
+        _vars_labels.clear();
+        for( JsonObject jobj : jo.get_array( "children" ) ) {
+            widget_var wvar;
+            translation wtra;
+            mandatory( jobj, was_loaded, "var", wvar );
+            mandatory( jobj, was_loaded, "label", wtra );
+            _vars_labels.emplace_back( wvar, wtra );
         }
     }
 }
 
 void widget::check() const
 {
-    // If "vars" or "labels" are defined, both lists must have the same length
-    if( ( !_vars.empty() || !_labels.empty() ) && ( _vars.size() != _labels.size() ) ) {
-        debugmsg( "Widget id=%s vars and labels lists cannot have different length", id.c_str() );
-    }
     // If the widget style is layout, graphs or numbers, it should have a non-empty list of widgets
     if( ( _style == "layout" || _style == "graphs" || _style == "numbers" ) && _widgets.empty() ) {
         debugmsg( "Widget id=%s should have a non zero list of widgets, but has none", id.c_str() );
@@ -310,10 +308,11 @@ void widget::check() const
 void widget::finalize()
 {
     // Store child id's and indexes in a map for later processing
-    if( !_vars.empty() ) {
-        for( unsigned int i = 0; i < _vars.size(); ++i ) {
-            _wgt_list[id.str()].emplace_back( i, string_format( "%s_%s", id.c_str(),
-                                              io::enum_to_string<widget_var>( _vars[i] ) ) );
+    if( !_vars_labels.empty() ) {
+        for( auto &child : _vars_labels ) {
+            std::string chid = string_format( "%s_%s", id.c_str(),
+                                              io::enum_to_string<widget_var>( child.first ) );
+            _wgt_list[id.str()].emplace_back( child.first, chid );
         }
     }
 }

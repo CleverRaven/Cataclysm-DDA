@@ -170,15 +170,18 @@
     "id": "test_stat_numbers",
     "type": "widget",
     "style": "numbers",
-    "labels": [ "Str", "Dex", "Int", "Per" ],
-    "vars": [ "stat_str", "stat_dex", "stat_int", "stat_per" ]
+    "children": [
+      { "var": "stat_str", "label": "Str" },
+      { "var": "stat_dex", "label": "Dex" },
+      { "var": "stat_int", "label": "Int" },
+      { "var": "stat_per", "label": "Per" }
+    ]
   },
   {
     "id": "test_sound_move_pain_numbers",
     "type": "widget",
     "style": "numbers",
-    "labels": [ "Sound", "Move", "Pain" ],
-    "vars": [ "sound", "move", "pain" ]
+    "children": [ { "var": "sound", "label": "Sound" }, { "var": "move", "label": "Move" }, { "var": "pain", "label": "Pain" } ]
   },
   {
     "id": "test_hp_head_graph",

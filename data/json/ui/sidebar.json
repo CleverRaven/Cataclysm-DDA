@@ -641,8 +641,12 @@
     "type": "widget",
     "label": "Stats",
     "style": "numbers",
-    "labels": [ "Str", "Dex", "Int", "Per" ],
-    "vars": [ "stat_str", "stat_dex", "stat_int", "stat_per" ]
+    "children": [
+      { "var": "stat_str", "label": "Str" },
+      { "var": "stat_dex", "label": "Dex" },
+      { "var": "stat_int", "label": "Int" },
+      { "var": "stat_per", "label": "Per" }
+    ]
   },
   {
     "id": "str_dex_layout",

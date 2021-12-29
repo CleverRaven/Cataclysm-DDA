@@ -132,8 +132,7 @@ class widget
         std::string _arrange;
 
         // Multi-var widgets: list of vars to bind to, and corresponding labels
-        std::vector<widget_var> _vars;
-        std::vector<translation> _labels;
+        std::vector<std::pair<widget_var, translation>> _vars_labels;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
