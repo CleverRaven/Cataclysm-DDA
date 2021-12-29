@@ -1027,7 +1027,7 @@ void overmap_terrains::finalize()
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
-                  "cataclysm pending.  And not the fun kind." );
+                  "Cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {
