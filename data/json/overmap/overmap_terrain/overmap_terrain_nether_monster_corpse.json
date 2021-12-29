@@ -13,14 +13,14 @@
     "id": "corpse_surface",
     "name": "monster corpse",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "NO_ROTATE" ],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
     "sym": "T"
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_bowels_mid",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "NO_ROTATE" ],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
     "sym": "O"
   },
   {
@@ -138,7 +138,7 @@
     "name": "monster corpse tentacle",
     "sym": "M",
     "color": "blue",
-    "flags": [ "KNOWN_UP" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "KNOWN_UP" ]
   },
   {
     "type": "overmap_terrain",
@@ -147,6 +147,6 @@
     "name": "monster corpse",
     "sym": "M",
     "color": "blue",
-    "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
   }
 ]
