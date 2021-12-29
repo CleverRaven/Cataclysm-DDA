@@ -1516,7 +1516,7 @@
     "type": "material",
     "id": "budget_steel",
     "name": "Budget Steel",
-    "//": "Low/mild carbon steel, no more than 0.3% carbon.  Examples: car parts, residential and light commercial piping.  Easy to work.",
+	"//": "Poorly made steel, retains impurities from original iron."
     "density": 30,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
@@ -1532,6 +1532,18 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ]
+  },
+  {
+  "type: "material",
+  "id": "low_steel",
+  "name": "Low Carbon Steel",
+  "//": "Low carbon steel, between 0.05% and 0.25% carbon.  Examples: Building structures, machine parts, water and gas pipelines, fencing. ",
+  },
+  {
+  "type: "material",
+  "id": "med_steel",
+  "name": "Medium Carbon Steel",
+  "//": "Low/mild carbon steel, between 0.3% and 0.5% carbon.  Harder than low-carbon while remaining ductile.  Examples: shafts, axels, gears, rails, railway wheels/axels.",
   },
   {
     "type": "material",
@@ -1560,7 +1572,7 @@
   "id": "ultra-high steel",
   "name": "Ultra-high Carbon Steel",
   "//": "Ultra-high carbon steel, usually between 1% and 2% carbon. Very hard steel, holds an edge well.  Examples: truck springs, metal-cutting tools, high-end kitchen and consumer knives."
-  }
+  },
   {
     "type": "material",
     "id": "hardsteel",
