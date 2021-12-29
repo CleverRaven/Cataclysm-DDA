@@ -249,7 +249,11 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 soldier mantle",
     "description": "3d printed upper body armor, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
-    "material": [ { "type": "thermo_resin", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar_rigid", "portion": 2 } ],
+    "material": [
+      { "type": "thermo_resin", "portion": 1 },
+      { "type": "steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 2 }
+    ],
     "extend": { "flags": [ "STURDY" ] }
   }
 ]
