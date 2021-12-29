@@ -2,9 +2,19 @@
 
 #include "player_helpers.h"
 #include "morale.h"
+#include "options_helpers.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "widget.h"
 
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const weather_type_id weather_acid_rain( "acid_rain" );
+static const weather_type_id weather_cloudy( "cloudy" );
+static const weather_type_id weather_drizzle( "drizzle" );
+static const weather_type_id weather_portal_storm( "portal_storm" );
+static const weather_type_id weather_snowing( "snowing" );
+static const weather_type_id weather_sunny( "sunny" );
 
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
 static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
@@ -34,6 +44,7 @@ static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
+static const widget_id widget_test_weather_text( "test_weather_text" );
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
@@ -513,3 +524,48 @@ TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
     //     "MOVE: 0        SPEED: 100     FOCUS: 100     MANA: 1000     "
 }
 
+TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
+{
+    widget weather_w = widget_test_weather_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "weather conditions" ) {
+        SECTION( "sunny" ) {
+            scoped_weather_override forecast( weather_sunny );
+            REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+        }
+
+        SECTION( "cloudy" ) {
+            scoped_weather_override forecast( weather_cloudy );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+        }
+
+        SECTION( "drizzle" ) {
+            scoped_weather_override forecast( weather_drizzle );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+        }
+
+        SECTION( "snowing" ) {
+            scoped_weather_override forecast( weather_snowing );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+        }
+
+        SECTION( "acid rain" ) {
+            scoped_weather_override forecast( weather_acid_rain );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+        }
+
+        SECTION( "portal storm" ) {
+            scoped_weather_override forecast( weather_portal_storm );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
+        }
+
+        SECTION( "cannot see weather when underground" ) {
+            ava.setpos( tripoint_below );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+        }
+    }
+}

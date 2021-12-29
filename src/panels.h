@@ -86,7 +86,6 @@ std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const moo
 // Current movement mode (as single letter) and color
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 
-// TODO: Swap text/string order to match previous functions
 std::pair<std::string, nc_color> temp_text_color( const Character &u );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
@@ -96,6 +95,7 @@ std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
 std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
+std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
