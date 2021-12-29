@@ -4375,7 +4375,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( bid->capacity > 0_mJ ) {
         info.emplace_back( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
                            iteminfo::no_newline,
-                           units::to_millijoule( bid->capacity ) );
+                           static_cast<double>( units::to_millijoule( bid->capacity ) ) );
     }
 
     insert_separation_line( info );
@@ -4396,7 +4396,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::no_newline );
         for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->env_protec ) ) {
             info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, element.second );
+                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
         }
     }
 
@@ -4406,7 +4406,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::no_newline );
         for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
             info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, element.second );
+                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
         }
     }
 
@@ -4416,7 +4416,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::no_newline );
         for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
             info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, element.second );
+                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
         }
     }
 
@@ -4425,7 +4425,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::no_newline );
         for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
             info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, element.second );
+                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
         }
     }
 
@@ -4434,7 +4434,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::no_newline );
         for( const auto &element : bid->stat_bonus ) {
             info.emplace_back( "CBM", " " + get_stat_name( element.first ), " <num>",
-                               iteminfo::no_newline, element.second );
+                               iteminfo::no_newline, static_cast<double>( element.second ) );
         }
     }
 

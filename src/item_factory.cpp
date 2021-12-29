@@ -227,7 +227,7 @@ void Item_factory::finalize_pre( itype &obj )
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
                 // To do: read the json file of this item agian and get for each quality a scale number
-                obj.ammo_scale.emplace( u.second, 0 );
+                obj.ammo_scale.emplace( u.second, 0.0f );
             }
         }
     }
@@ -235,11 +235,11 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         emplace_usage( obj.use_methods, func );
-        obj.ammo_scale.emplace( func, 0 );
+        obj.ammo_scale.emplace( func, 0.0f );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
         emplace_usage( obj.use_methods, func );
-        obj.ammo_scale.emplace( func, 0 );
+        obj.ammo_scale.emplace( func, 0.0f );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -343,7 +343,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
             // Patch to fixup shot without shot_damage until I get all the definitions consistent.
             if( obj.ammo->shot_damage.damage_units.empty() ) {
-                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1 );
+                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1f );
             }
             obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
             obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
@@ -4203,7 +4203,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 if( fun.second ) {
                     use_methods.insert( fun );
                     if( obj.has_float( "ammo_scale" ) ) {
-                        ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                        ammo_scale.emplace( fun.first, static_cast<float>( obj.get_float( "ammo_scale" ) ) );
                     }
                 }
             } else if( entry.test_array() ) {
@@ -4211,7 +4211,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 std::string type = curr.get_string( 0 );
                 emplace_usage( use_methods, type );
                 if( curr.has_float( 1 ) ) {
-                    ammo_scale.emplace( type, curr.get_float( 1 ) );
+                    ammo_scale.emplace( type, static_cast<float>( curr.get_float( 1 ) ) );
                 }
             } else {
                 entry.throw_error( "array element is neither string nor object." );
@@ -4227,7 +4227,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             if( fun.second ) {
                 use_methods.insert( fun );
                 if( obj.has_float( "ammo_scale" ) ) {
-                    ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                    ammo_scale.emplace( fun.first, static_cast<float>( obj.get_float( "ammo_scale" ) ) );
                 }
             }
         } else {
