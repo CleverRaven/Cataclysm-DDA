@@ -1452,6 +1452,39 @@ std::string display::vehicle_azimuth_text( const Character &u )
     return "";
 }
 
+std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
+{
+    // Defaults in case no vehicle is found
+    std::string vel_text;
+    nc_color vel_color = c_light_gray;
+
+    // Show target velocity and current velocity, with units.
+    // For example:
+    //     25 < 10 mph : accelerating towards 25 mph
+    //     25 < 25 mph : cruising at 25 mph
+    //     10 < 25 mph : decelerating toward 10
+    // Text color indicates how much the engine is straining beyond its safe velocity.
+    vehicle *veh = vehicle_driven( u );
+    if( veh && veh->cruise_on ) {
+        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+        vel_text = string_format( "%d < %d %s", target, current, units );
+
+        const float strain = veh->strain();
+        if( strain <= 0 ) {
+            vel_color = c_light_blue;
+        } else if( strain <= 0.2 ) {
+            vel_color = c_yellow;
+        } else if( strain <= 0.4 ) {
+            vel_color = c_light_red;
+        } else {
+            vel_color = c_red;
+        }
+    }
+    return std::make_pair( vel_text, vel_color );
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );

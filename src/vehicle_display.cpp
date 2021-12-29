@@ -491,10 +491,12 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
         return;
     }
 
+    // Color is based on how much vehicle is straining beyond its safe velocity
     const float strain = this->strain();
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
+    // Get cruising (target) velocity, and current (actual) velocity
     int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
     int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
     auto ndigits = []( int value ) {
@@ -507,8 +509,11 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
+    // Target cruising velocity in green
     mvwprintz( win, p, c_light_green, "%d", t_speed );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    // Current velocity in color indicating engine strain
     mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }
