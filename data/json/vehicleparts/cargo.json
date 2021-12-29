@@ -40,7 +40,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
     "damage_reduction": { "all": 6 }
@@ -100,7 +104,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "OBSTACLE", "FOLDABLE" ],
     "damage_reduction": { "all": 4 }
@@ -124,7 +132,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "250 s", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
+        "time": "250 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 6 }
