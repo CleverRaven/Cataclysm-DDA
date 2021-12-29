@@ -1833,7 +1833,7 @@
     "result": "chainmail_hood",
     "type": "recipe",
     "copy-from": "chainmail_hood",
-    "components": [ [ [ "steel_link_sheet", 2 ] ], [ [ "steel_chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
     "result": "xl_chainmail_hood",
@@ -1847,7 +1847,7 @@
     "result": "xl_chainmail_hood",
     "type": "recipe",
     "copy-from": "chainmail_hood",
-    "components": [ [ [ "steel_link_sheet", 3 ] ], [ [ "steel_chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
   },
   {
     "result": "pot_xlhelmet",
