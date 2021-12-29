@@ -2121,6 +2121,18 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
     render_wind( u, w, " %s: " );
 }
 
+std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
+{
+    if( u.pos().z < 0 ) {
+        return std::make_pair( _( "Underground" ), c_light_gray );
+    } else {
+        weather_manager &weather = get_weather();
+        std::string weather_text = weather.weather_id->name.translated();
+        nc_color weather_color = weather.weather_id->color;
+        return std::make_pair( weather_text, weather_color );
+    }
+}
+
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
     vehicle *veh = g->remoteveh();

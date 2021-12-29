@@ -2,6 +2,8 @@
 
 #include "player_helpers.h"
 #include "morale.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "widget.h"
 
 static const itype_id itype_rad_badge( "rad_badge" );
@@ -10,6 +12,13 @@ static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
+
+static const weather_type_id weather_acid_rain( "acid_rain" );
+static const weather_type_id weather_cloudy( "cloudy" );
+static const weather_type_id weather_drizzle( "drizzle" );
+static const weather_type_id weather_portal_storm( "portal_storm" );
+static const weather_type_id weather_snowing( "snowing" );
+static const weather_type_id weather_sunny( "sunny" );
 
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
@@ -38,6 +47,7 @@ static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
+static const widget_id widget_test_weather_text( "test_weather_text" );
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
@@ -416,6 +426,46 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     rad_badge.irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "widgets showing environment features", "[widget][environment]" )
+{
+    widget weather_w = widget_test_weather_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "weather conditions" ) {
+        weather_manager &weather = get_weather();
+
+        weather.weather_override = weather_sunny;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+
+        weather.weather_override = weather_cloudy;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+
+        weather.weather_override = weather_drizzle;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+
+        weather.weather_override = weather_snowing;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+
+        weather.weather_override = weather_acid_rain;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+
+        weather.weather_override = weather_portal_storm;
+        weather.set_nextweather( calendar::turn );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
+
+        // Cannot see weather when underground
+        ava.setpos( { 0, 0, -1 } );
+        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+    }
 }
 
 TEST_CASE( "layout widgets", "[widget][layout]" )
