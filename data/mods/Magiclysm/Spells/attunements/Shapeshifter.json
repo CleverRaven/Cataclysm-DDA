@@ -9,7 +9,7 @@
     "effect": "attack",
     "shape": "cone",
     "damage_type": "acid",
-    "max_level": 25,
+    "max_level": 35,
     "min_damage": 5,
     "max_damage": 65,
     "damage_increment": 1.8,
