@@ -28,7 +28,7 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000, "t_sand": 1 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
@@ -442,8 +442,7 @@
           "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500,
-          "mx_sand_deposit": 150
+          "mx_point_burned_ground": 500
         }
       },
       "forest_thick": {
@@ -466,8 +465,7 @@
           "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500,
-          "mx_sand_deposit": 150
+          "mx_point_burned_ground": 500
         }
       },
       "forest_water": {
@@ -485,10 +483,7 @@
           "mx_pond_swamp_2": 240,
           "mx_clay_deposit": 140,
           "mx_point_dead_vegetation": 60,
-          "mx_casings": 60,
-          "mx_corpses": 80,
-          "mx_nest_dermatik": 50,
-          "mx_sand_deposit": 150
+          "mx_nest_dermatik": 50
         }
       },
       "field": {
@@ -505,8 +500,7 @@
           "mx_Trapdoor_spider_den": 4,
           "mx_pond": 20,
           "mx_point_burned_ground": 50,
-          "mx_nest_wasp": 5,
-          "mx_sand_deposit": 150
+          "mx_nest_wasp": 5
         }
       },
       "road": {

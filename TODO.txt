@@ -1,7 +1,5 @@
 
 Fix potter's cottage
-Fix patch of sand map special
-Add even more sand
 Add bog iron
 Ore veins
 Add research for glass
@@ -11,3 +9,5 @@ Fix Lighthouse Island
 Fix starts
 Fix start in cave
 Fix trash_forest properly
+Purge Spider Pit of man-made items
+Purge Bee Hive

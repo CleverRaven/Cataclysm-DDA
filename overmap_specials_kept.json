@@ -81,24 +81,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "basin",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_forest_north" } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 15, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "bog",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_north" } ],
-    "locations": [ "swamp" ],
-    "city_distance": [ 15, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "ws_giant_sinkhole",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_giant_sinkhole_1_north" },
