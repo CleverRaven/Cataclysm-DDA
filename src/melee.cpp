@@ -718,6 +718,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( get_working_arm_count() < 1 ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
+            add_msg_if_player( m_bad, _( "You arms are too damaged or encumbered to fight effectively!" ) );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         // In the case of a weapon like a glaive or a naginata, the wielder
