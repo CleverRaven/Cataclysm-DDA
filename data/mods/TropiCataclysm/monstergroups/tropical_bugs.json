@@ -1,0 +1,20 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUTTERFLY",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_butterfly", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_moth", "weight": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUTTERFLY_GIANT",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_butterfly_giant", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_moth_giant", "weight": 50, "cost_multiplier": 2 }
+    ]
+  }
+]
