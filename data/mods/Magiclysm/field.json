@@ -89,11 +89,11 @@
     ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "SHAPESHIFTER" ] },
-    "underwater_age_speedup": "2 h",
+    "underwater_age_speedup": "8 h",
     "priority": 2,
-    "half_life": "2 h",
+    "half_life": "8 h",
     "phase": "liquid",
     "display_field": true,
-    "looks_like": "fd_sap"
+    "looks_like": "fd_sludge"
   }
 ]
