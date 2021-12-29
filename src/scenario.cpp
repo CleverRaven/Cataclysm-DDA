@@ -121,7 +121,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
-        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
+                                       static_cast<float>( ja.get_float( 1 ) ) );
     }
 }
 

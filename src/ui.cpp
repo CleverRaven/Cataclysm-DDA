@@ -461,7 +461,7 @@ void uilist::calc_data()
         int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
-                autoassign.emplace_back( i );
+                autoassign.emplace_back( static_cast<int>( i ) );
             } else if( entries[i].hotkey.value() != input_event() ) {
                 keymap[entries[i].hotkey.value()] = i;
             }

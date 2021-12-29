@@ -191,7 +191,7 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
         }
 
         if( hit_roll != 0 ) {
-            weight *= std::pow( hit_roll, bp->hit_difficulty );
+            weight *= std::pow( static_cast<float>( hit_roll ), bp->hit_difficulty );
         }
 
         hit_weights.add( bp, weight );
