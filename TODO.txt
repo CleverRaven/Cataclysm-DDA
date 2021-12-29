@@ -1,13 +1,14 @@
 
-Fix potter's cottage
+fix crafting of nail
 Add bog iron
 Ore veins
 Add research for glass
 Add research for refining steel
 Add research for concreete
 Fix Lighthouse Island
-Fix starts
-Fix start in cave
+check start in cave
 Fix trash_forest properly
 Purge Spider Pit of man-made items
 Purge Bee Hive
+Add more withered plants from trees (Tree drops are hardcoded)
+Fix potter's cottage
