@@ -106,5 +106,25 @@
     "ammo_effects": [ "DRAW_LASER_BEAM" ],
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "feral_militia_gun",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "symbol": "R",
+    "color": "dark_gray",
+    "name": { "str": "mad militas' rifle" },
+    "description": "A semi-auto rifle used by a feral militaman. (Made because monster aiming is too lethal.)",
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
+    "ammo": [ "223" ],
+    "clip_size": 1,
+    "longest_side": "25 cm",
+    "weight": "600 g",
+    "volume": "386 ml",
+    "bashing": 2,
+    "dispersion": 3000,
+    "range": 100,
+    "durability": 8,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ]
   }
 ]
