@@ -639,6 +639,22 @@
     "//": "Uses display::get_moon"
   },
   {
+    "id": "move_mode_letter",
+    "type": "widget",
+    "label": "Mode",
+    "style": "text",
+    "var": "move_mode_letter",
+    "//": "Single-letter W/R/C/P, from display::move_mode_letter_color"
+  },
+  {
+    "id": "move_mode_desc",
+    "type": "widget",
+    "label": "Mode",
+    "style": "text",
+    "var": "move_mode_text",
+    "//": "Full movement mode name, from display::move_mode_text_color"
+  },
+  {
     "id": "pain_desc",
     "type": "widget",
     "label": "Pain",
