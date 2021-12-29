@@ -26,6 +26,11 @@ bool string_id<widget>::is_valid() const
     return widget_factory.is_valid( *this );
 }
 
+// Temporary map containing the ingredients for building
+// sub-widgets of multi-var widgets:
+//      < "parent id",           < "var index", "child id" > >
+std::map<std::string, std::vector<std::pair<int, std::string>>> _wgt_list;
+
 void widget::load_widget( const JsonObject &jo, const std::string &src )
 {
     widget_factory.load( jo, src );
@@ -34,6 +39,7 @@ void widget::load_widget( const JsonObject &jo, const std::string &src )
 void widget::reset()
 {
     widget_factory.reset();
+    _wgt_list.clear();
 }
 
 const std::vector<widget> &widget::get_all()
@@ -46,12 +52,89 @@ void widget::check_consistency()
     widget_factory.check();
 }
 
+// Does a full copy except for the id.
+// generic_factory::finalize expects the default constructor
+// which interferes with a custom copy constructor.
+static void widget_copy( const widget &src, widget &dst )
+{
+    dst._arrange = src._arrange;
+    dst._bp_id = src._bp_id;
+    dst._fill = src._fill;
+    dst._label = src._label;
+    dst._style = src._style;
+    dst._symbols = src._symbols;
+    dst._var = src._var;
+    dst._var_max = src._var_max;
+    dst._var_min = src._var_min;
+    dst._width = src._width;
+
+    dst._colors.clear();
+    dst._strings.clear();
+    dst._vars.clear();
+    dst._widgets.clear();
+    dst._labels.clear();
+
+    dst._colors.reserve( src._colors.size() );
+    std::copy( src._colors.begin(), src._colors.end(), dst._colors.end() );
+    dst._strings.reserve( src._strings.size() );
+    std::copy( src._strings.begin(), src._strings.end(), dst._strings.end() );
+    dst._vars.reserve( src._vars.size() );
+    std::copy( src._vars.begin(), src._vars.end(), dst._vars.end() );
+    dst._widgets.reserve( src._widgets.size() );
+    std::copy( src._widgets.begin(), src._widgets.end(), dst._widgets.end() );
+    // std::copy doesn't work on this vector
+    for( translation t : src._labels ) {
+        dst._labels.emplace_back( t );
+    }
+}
+
+void widget::widget_create_and_copy()
+{
+    for( auto &wlist : _wgt_list ) {
+        // Get the initial parent widget
+        auto iter = std::find_if( widget_factory.get_all().begin(),
+        widget_factory.get_all().end(), [&wlist]( const widget & wid ) {
+            return wid.id.str() == wlist.first;
+        } );
+        if( iter != widget_factory.get_all().end() ) {
+            // Copy parent vars into a temporary object
+            // (parent will be invalidated by generic_factory::insert)
+            widget stored;
+            widget_copy( *iter, stored );
+            // Populate _widgets with children from vars/labels
+            for( const auto &wid : wlist.second ) {
+                widget tmp;
+                widget_copy( stored, tmp );
+                tmp._widgets.clear();
+                tmp._vars.clear();
+                tmp._labels.clear();
+                tmp.id = widget_id( wid.second );
+                tmp._var = stored._vars[wid.first];
+                tmp._style = stored._style == "graphs" ? "graph" : "number";
+                tmp._label = stored._labels[wid.first];
+                // Add new sub-widget to factory
+                widget &wnew = widget_factory.insert( tmp );
+                // Get the new parent object and insert the child
+                auto iter_new = std::find_if( widget_factory.get_all().begin(),
+                widget_factory.get_all().end(), [&wlist]( const widget & wid ) {
+                    return wid.id.str() == wlist.first;
+                } );
+                const_cast<widget *>( &*iter_new )->_widgets.emplace_back( wnew.id );
+            }
+        }
+    }
+}
+
 void widget::finalize_all()
 {
     widget_factory.finalize();
+    // First pass: insert new widget id's and indexes into _wgt_list
     for( const widget &wid : widget_factory.get_all() ) {
         const_cast<widget &>( wid ).finalize();
     }
+    // Second pass: create and insert new sub-widgets into
+    // widget_factory and add them to their parent widgets.
+    widget_create_and_copy();
 }
 
 // Convert widget "var" enums to string equivalents
@@ -218,59 +301,19 @@ void widget::check() const
     if( ( !_vars.empty() || !_labels.empty() ) && ( _vars.size() != _labels.size() ) ) {
         debugmsg( "Widget id=%s vars and labels lists cannot have different length", id.c_str() );
     }
+    // If the widget style is layout, graphs or numbers, it should have a non-empty list of widgets
+    if( ( _style == "layout" || _style == "graphs" || _style == "numbers" ) && _widgets.empty() ) {
+        debugmsg( "Widget id=%s should have a non zero list of widgets, but has none", id.c_str() );
+    }
 }
 
 void widget::finalize()
 {
-    std::vector<widget_var> varlist;
-    varlist.reserve( _vars.size() );
-    std::copy( _vars.begin(), _vars.end(), varlist.end() );
-    if( !varlist.empty() ) {
-        widget &thiswgt = *this;
-        // Populate _widgets with children from vars/labels
-        // TODO: Move this to a helper function outside finalize()
-        for( unsigned int i = 0; i < varlist.size(); ++i ) {
-            // Make child a copy of parent
-            widget child;
-            // Give child widget id like parent_id_varname
-            child.id = widget_id( string_format( "%s_%s", thiswgt.id.c_str(),
-                                                 io::enum_to_string<widget_var>( varlist[i] ) ) );
-            child._arrange = thiswgt._arrange;
-            child._bp_id = thiswgt._bp_id;
-            child._fill = thiswgt._fill;
-            child._symbols = thiswgt._symbols;
-            child._var_max = thiswgt._var_max;
-            child._var_min = thiswgt._var_min;
-            child._width = thiswgt._width;
-
-            // Child var/label come from vars/labels lists
-            child._var = varlist[i];
-            child._label = thiswgt._labels[i];
-
-            // Child style is the un-pluralized style of parent
-            if( thiswgt._style == "graphs" ) {
-                child._style = "graph";
-            } else { // "numbers"
-                child._style = "number";
-            }
-            // Ensure this child can be referenced by find_id in the factory
-            widget &tmp = widget_factory.insert( child );
-
-            // Append _widgets to be arranged by layout().
-            // For whatever reason, generic_factory::insert can invalidate the current object.
-            // Find the object again to properly emplace child id.
-            const std::vector<widget> &wlist = widget_factory.get_all();
-            auto iter = std::find_if( wlist.begin(), wlist.end(), [thiswgt]( const widget & w ) {
-                return w.id == thiswgt.id;
-            } );
-            if( iter != wlist.end() ) {
-                thiswgt = *iter;
-                thiswgt._widgets.emplace_back( tmp.id );
-            } else {
-                // There's a problem with the widget list
-                debugmsg( "Widget %s was dropped from widget_factory!", thiswgt.id.c_str() );
-                return;
-            }
+    // Store child id's and indexes in a map for later processing
+    if( !_vars.empty() ) {
+        for( unsigned int i = 0; i < _vars.size(); ++i ) {
+            _wgt_list[id.str()].emplace_back( i, string_format( "%s_%s", id.c_str(),
+                                              io::enum_to_string<widget_var>( _vars[i] ) ) );
         }
     }
 }

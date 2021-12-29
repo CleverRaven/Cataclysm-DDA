@@ -95,6 +95,9 @@ class widget
         widget_id id;
         bool was_loaded = false;
 
+        // Loads multi-var sub-widgets into parent widgets
+        static void widget_create_and_copy();
+
     public:
         widget() = default;
         explicit widget( const widget_id &id ) : id( id ) {}

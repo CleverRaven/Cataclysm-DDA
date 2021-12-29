@@ -579,6 +579,7 @@ TEST_CASE( "multi-number widgets", "[widget][numbers]" )
 
     avatar &ava = get_avatar();
     clear_avatar();
+    ava.movecounter = 150;
 
     CHECK( stats_w.layout( ava, 32 ) == "Str: 8  Dex: 8  Int: 8  Per:   8" );
     CHECK( sound_move_pain_w.layout( ava, 32 ) == "Sound:  0  Move: 150  Pain:    0" );
