@@ -9,10 +9,18 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+
+static const gun_mode_id gun_mode_MELEE( "MELEE" );
+
+static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+static const mtype_id mon_zomborg( "mon_zomborg" );
+
 static void test_zapback( Creature &attacker, const bool expect_damage,
                           const dealt_projectile_attack *proj = nullptr )
 {
-    monster defender( mtype_id( "mon_zombie_electric" ) );
+    monster defender( mon_zombie_electric );
     int prev_hp = attacker.get_hp();
     mdefense::zapback( defender, &attacker, proj );
 
@@ -83,7 +91,7 @@ TEST_CASE( "zapback_npc_meleeattack_ranged_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     item ranged_reach_weapon( "reach_bow" );
-    REQUIRE( ranged_reach_weapon.gun_set_mode( gun_mode_id( "MELEE" ) ) );
+    REQUIRE( ranged_reach_weapon.gun_set_mode( gun_mode_MELEE ) );
     attacker.wield( ranged_reach_weapon );
     test_zapback( attacker, true );
 }
@@ -91,18 +99,18 @@ TEST_CASE( "zapback_npc_meleeattack_ranged_reach_weapon", "[mondefense]" )
 TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    attacker.add_bionic( bionic_id( "bio_power_storage" ) );
-    attacker.add_bionic( bionic_id( "bio_faraday" ) );
-    attacker.mod_power_level( 100_kJ );
+    attacker.add_bionic( bio_power_storage );
+    attacker.set_power_level( attacker.get_max_power_level() );
+    attacker.add_bionic( bio_faraday );
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?
-    attacker.activate_bionic( 1 );
+    attacker.activate_bionic( attacker.bionic_at_index( attacker.num_bionics() - 1 ) );
     test_zapback( attacker, false );
 }
 
 TEST_CASE( "zapback_monster", "[mondefense]" )
 {
-    monster attacker( mtype_id( "mon_zombie" ) );
+    monster attacker( mon_zomborg );
     test_zapback( attacker, true );
 }

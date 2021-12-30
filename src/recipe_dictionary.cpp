@@ -27,6 +27,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
+
 recipe_dictionary recipe_dict;
 
 namespace
@@ -77,6 +79,12 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 {
     auto iter = recipe_dict.uncraft.find( recipe_id( id.str() ) );
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
+}
+
+const recipe &recipe_dictionary::get_craft( const itype_id &id )
+{
+    auto iter = recipe_dict.recipes.find( recipe_id( id.str() ) );
+    return iter != recipe_dict.recipes.end() ? iter->second : null_recipe;
 }
 
 // searches for left-anchored partial match in the relevant recipe requirements set
@@ -154,13 +162,20 @@ std::vector<const recipe *> recipe_subset::search(
         }
         switch( key ) {
             case search_type::name:
-                return lcmatch( r->result_name( /*decorated=*/true ), txt );
+                return lcmatch( r->result_name(), txt );
 
             case search_type::exclude_name:
-                return !lcmatch( r->result_name( /*decorated=*/true ), txt );
+                return !lcmatch( r->result_name(), txt );
 
-            case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
+            case search_type::skill: {
+                if( r->skill_used && lcmatch( r->skill_used->name(), txt ) ) {
+                    return true;
+                }
+                const auto &skills = r->required_skills;
+                return std::any_of( skills.begin(), skills.end(), [&]( const std::pair<skill_id, int> &e ) {
+                    return lcmatch( e.first->name(), txt );
+                } );
+            }
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );
@@ -182,8 +197,12 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                if( r->is_practice() ) {
+                    return lcmatch( r->description.translated(), txt );
+                } else {
+                    const item result = r->create_result();
+                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                }
             }
 
             case search_type::proficiency:
@@ -375,6 +394,11 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
     load( jo, src, recipe_dict.uncraft );
 }
 
+void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
 recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
@@ -392,6 +416,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    r.was_loaded = true;
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -420,6 +445,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
@@ -529,7 +555,7 @@ void recipe_dictionary::finalize()
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
-            bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
+            bk.requirements_ = *requirement_data_uncraft_book * pages;
             // TODO: allow specifying time in requirement_data
             bk.time = pages * 10;
         }
@@ -580,9 +606,9 @@ void recipe_dictionary::check_consistency()
     for( auto &e : recipe_dict.recipes ) {
         recipe &r = e.second;
 
-        if( !r.blueprint.empty() && !has_update_mapgen_for( r.blueprint ) ) {
+        if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
-                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint );
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint.str() );
         }
     }
 }

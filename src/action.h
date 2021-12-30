@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
 namespace cata
@@ -66,6 +67,8 @@ enum action_id : int {
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -102,12 +105,15 @@ enum action_id : int {
     ACTION_CLOSE,
     /** Smash something */
     ACTION_SMASH,
-    /** Examine or pick up items from adjacent square */
+    /** Examine adjacent terrain or furniture */
     ACTION_EXAMINE,
-    /** Pick up items from current/adjacent squares */
+    /** Examine adjacent terrain or furniture, or pick up items.
+     *  Deprecated UX flow but still supported (for now). */
+    ACTION_EXAMINE_AND_PICKUP,
+    /** Pick up items from one current/adjacent square */
     ACTION_PICKUP,
-    /** Pick up items from current square. Auto pickup if only one item */
-    ACTION_PICKUP_FEET,
+    /** Pick up items from all current/adjacent squares */
+    ACTION_PICKUP_ALL,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -176,6 +182,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Unload container in a given direction */
+    ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -252,6 +260,8 @@ enum action_id : int {
     ACTION_MESSAGES,
     /** Display help screen */
     ACTION_HELP,
+    /** Display Diary window*/
+    ACTION_DIARY,
     /** Display main menu */
     ACTION_MAIN_MENU,
     /** Display keybindings list */
@@ -612,8 +622,9 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  * @ref can_interact_at()
  *
  * @param p Point to perform the test at
+ * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint &p );
+bool can_examine_at( const tripoint &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

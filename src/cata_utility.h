@@ -4,13 +4,18 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
+
+#include "enums.h"
+#include "json.h"
 
 class JsonIn;
 class JsonOut;
@@ -389,11 +394,21 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
+           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
+           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -603,5 +618,38 @@ class restore_on_out_of_scope
         restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
         restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
 
 #endif // CATA_SRC_CATA_UTILITY_H

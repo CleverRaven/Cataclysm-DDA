@@ -135,7 +135,7 @@ class quantity
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 
     private:
         value_type value_;
@@ -913,27 +913,24 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 } // namespace units
 
-template<typename T>
-T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+namespace detail
 {
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
 
-    const std::string s = jsin.get_string();
+template<typename T, typename Error>
+T read_from_json_string_common( const std::string &s,
+                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+{
+    size_t i = 0;
     // returns whether we are at the end of the string
     const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
+        while( i < s.size() && s[ i ] == ' ' ) {
             ++i;
         }
         return i >= s.size();
     };
     const auto get_unit = [&]() {
         if( skip_spaces() ) {
-            error( "invalid quantity string: missing unit" );
+            error( "invalid quantity string: missing unit", i );
         }
         for( const auto &pair : units ) {
             const std::string &unit = pair.first;
@@ -942,33 +939,51 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit" );
+        error( "invalid quantity string: unknown unit", i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {
-        error( "invalid quantity string: empty string" );
+        error( "invalid quantity string: empty string", i );
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw std::string( "Exceptionally impossible" );
     }
     T result{};
     do {
         int sign_value = +1;
-        if( s[i] == '-' ) {
+        if( s[ i ] == '-' ) {
             sign_value = -1;
             ++i;
-        } else if( s[i] == '+' ) {
+        } else if( s[ i ] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid quantity string: number expected" );
+        if( i >= s.size() || !isdigit( s[ i ] ) ) {
+            error( "invalid quantity string: number expected", i );
+            // above always throws but lambdas cannot be marked [[noreturn]]
+            throw std::string( "Exceptionally impossible" );
         }
         int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
+        for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
+            value = value * 10 + ( s[ i ] - '0' );
         }
         result += sign_value * value * get_unit();
     } while( !skip_spaces() );
     return result;
+}
+
+} // namespace detail
+
+template<typename T>
+T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+{
+    const auto error = [&]( const char *const msg, size_t offset ) {
+        jv.throw_error( msg, offset );
+    };
+
+    const std::string s = jv;
+
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>

@@ -162,6 +162,8 @@
       "To wear a piece of clothing, press <press_wear>, then the appropriate letter.  Armor reduces damage, and can help you resist things like smoke.  To take off an item, press <press_take_off>, then the appropriate letter.  Clothing and armor are worn in distinct layers, and provide different coverage, protection and warmth.  Each piece has its own encumbrance, and wearing too much on any given layer can significantly hamper your movement and other abilities, especially during combat.  You can view and sort worn items by pressing <press_sort_armor>.",
       "Your clothing can sit in one of five layers on your body: next-to-skin, standard, waist, over, and belted.  You can wear one item from each layer on a body part without incurring an encumbrance penalty for too many worn items.  Any items beyond the first on each layer add the encumbrance of the additional article(s) of clothing to the body part's encumbrance.  The layering penalty applies a minimum of 2 and a maximum of 10 encumbrance per article of clothing.",
       "For example, on her torso, a character might wear a leather corset (next-to-skin), a leather touring suit (standard), a trenchcoat (over), and a survivor's runner pack (belted).  Her encumbrance penalty is 0.  If she put on a tank top it would conflict with the leather touring suit and add the minimum encumbrance penalty of 2.",
+      "Items can be damaged through various means, whether intentional or not.  Indicators such as <color_yellow>|\\</color> show the item's current state.  You may be able to repair the item using specific tools, which are listed in the item's information screen.",
+      "Items are also subject to degradation, which represents the item's structural integrity over its lifetime.  Items that suffer serious damage can become more degraded, which limits how well the item can be repaired.  The higher the degradation, the less you'll be able to repair it.",
       "In the View Nearby Items menu (press <press_listitems> to open), you can filter or prioritize items.  You can enter item names, or use various advanced filter strings: {<token>:<search param>}",
       "Some available tokens:\n    c = category (books, food, etc)    | {c:books}\n    m = material (cotton, Kevlar, etc) | {m:iron}"
     ]
@@ -244,6 +246,22 @@
   {
     "type": "help",
     "order": 17,
+    "name": "<s|S>: Skills and proficiencies",
+    "messages": [
+      "SKILLS",
+      "Each character has a collection of skills they may learn over time.  These are grouped into four categories: Melee, Ranged, Crafting, and Interaction.  Each skill begins at level 0 and increases with study and practice up to a maximum of level 10.  Each level is harder to attain than the one before, but each level also increases the character's ability to do things using that skill, and may unlock crafting recipes or other actions gated by skill level.  Reaching level 10 in any skill represents true mastery, near the limit of human capability.",
+      "The lower left column of the <press_player_data> screen displays all skills and their current levels, along with percentage progress toward the next level.  Skills highlighted in light red represent those where the character's knowledge has exceeded their practical experience.  This may occur when learning skills primarily from books, without practicing activities or crafts that also exercise those skills.",
+      "Combat skills in the Melee and Ranged categories are quite specialized, focused on specific damage types and firearm flavors.  The Crafting and Interaction categories are more general, each covering a potentially wide range of techniques and abilities.",
+      "PROFICIENCIES",
+      "Separate from Skills, Proficiencies represent a more granular level of character talents.  They are generally mastered over a shorter time span, and their names and purviews tend to be more concrete and specific than those of skills.",
+      "Proficiencies are often defined as a tree of knowledge, where beginners must first master the basic principles before moving onto more advanced topics.  For instance, before a character learns \"Blacksmithing\", they must first acquire \"Principles of Metalworking\".  Once they have learned \"Blacksmithing\", they may dive deeper into \"Armorsmithing\", \"Bladesmithing\", or \"Manual Tooling\".",
+      "The lower right column of the <press_player_data> screen shows each Proficiency, starting in white with those fully learned, followed in grey by those partially learned, and their current progress.  Partially learned proficiencies give some benefit, gradually reducing penalties until they are fully learned.  Once fully learned, proficiencies are considered mastered, and are not forgotten.",
+      "Many crafting recipes involve one or more proficiencies.  Trying to craft these recipes without the necessary skill set is a long and arduous process with a high rate of failure.  Learning the missing proficiencies offers a bonus to time and to chance of success.  The effect of missing proficiencies are multiplied when several proficiencies are involved, making some advanced recipes extremely time-consuming and error-prone without appropriate knowledge.  For this reason, it's recommended to learn at least some of the proficiencies with easier recipes before moving onto more advanced multiple-proficiency recipes.  Books may also grant a portion of the proficiency bonus."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 18,
     "name": "<1>: List of item types and data",
     "messages": [
       "~       Liquid\n%%       Food\n!       Medication\nThese are all consumed by using <press_eat>.  They may provide a certain amount of nutrition, may quench your thirst, may be a stimulant or a depressant, and may provide (or reduce!) morale.  There may also be more subtle effects.",
@@ -258,7 +276,7 @@
   },
   {
     "type": "help",
-    "order": 18,
+    "order": 19,
     "name": "<2>: Description of map symbols",
     "messages": [
       "MAP SYMBOLS:",
@@ -286,7 +304,7 @@
   },
   {
     "type": "help",
-    "order": 19,
+    "order": 20,
     "name": "<3>: Description of gun types",
     "messages": [
       "<color_light_gray>( Handguns</color>\nHandguns are small weapons held in one or both hands.  They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy.  However, their small size makes them appropriate for short-range combat.  They are also relatively quick to reload and use a very wide variety of ammunition.  Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next as their ammo is spent.",
@@ -302,7 +320,7 @@
   },
   {
     "type": "help",
-    "order": 20,
+    "order": 21,
     "name": "<4>: FAQ (contains spoilers!)",
     "messages": [
       "Q: What is Safe Mode, and why does it prevent me from moving?\nA: Safe Mode is a way to guarantee that you won't die by holding a movement key down.  When a monster comes into view, your movement will be ignored until Safe Mode is turned off with the <press_safemode> key.  This ensures that the sudden appearance of a monster won't catch you off guard.",

@@ -7,7 +7,8 @@
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
-    "zombify_into": "mon_zombie"
+    "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
     "id": "mon_bat",
@@ -84,6 +85,7 @@
     "melee_cut": 4,
     "dodge": 3,
     "armor_bash": 2,
+    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -124,7 +126,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zombeaver",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_black_rat",
@@ -307,17 +309,22 @@
     "color": "light_gray",
     "melee_cut": 2,
     "dodge": 14,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
@@ -349,18 +356,23 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "CLIMBS",
       "PATH_AVOID_DANGER_1",
       "WARM",
@@ -610,6 +622,7 @@
     "symbol": "T",
     "morale": 60,
     "melee_dice": 3,
+    "armor_elec": 1,
     "dodge": 2,
     "zombify_into": "mon_ziger"
   },
@@ -647,7 +660,8 @@
     "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_cow",
@@ -671,6 +685,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_cut": 6,
+    "armor_elec": 1,
     "dodge": 2,
     "armor_bash": 2,
     "starting_ammo": { "milk_raw": 40 },
@@ -680,23 +695,13 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "zombify_into": "mon_zow",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "PET_MOUNTABLE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_coyote",
@@ -726,7 +731,7 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
@@ -837,7 +842,7 @@
     "species": [ "MAMMAL" ],
     "volume": "30000 ml",
     "weight": "30 kg",
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_lupine",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
@@ -860,9 +865,15 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -914,9 +925,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -955,7 +972,12 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_pitbullmix",
@@ -975,9 +997,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1018,7 +1046,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_beagle",
@@ -1037,9 +1070,15 @@
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HARDTOSHOOT",
       "PET_MOUNTABLE",
@@ -1083,7 +1122,24 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie",
@@ -1101,10 +1157,16 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "CLIMBS",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1145,7 +1207,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_boxer",
@@ -1197,9 +1264,15 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "GROUP_MORALE",
       "HEARS",
@@ -1231,9 +1304,15 @@
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "HARDTOSHOOT",
       "HEARS",
       "HIT_AND_RUN",
@@ -1274,7 +1353,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_dachshund",
@@ -1294,9 +1378,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "HARDTOSHOOT",
       "HEARS",
       "PET_MOUNTABLE",
@@ -1339,7 +1429,24 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "STUMBLES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd",
@@ -1357,7 +1464,23 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "PET_MOUNTABLE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd_pup",
@@ -1389,7 +1512,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gpyrenees",
@@ -1412,9 +1540,15 @@
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1455,7 +1589,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_rottweiler",
@@ -1478,9 +1617,15 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1521,7 +1666,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_auscattle",
@@ -1541,10 +1691,16 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
-      "CLIMBS",
       "DOGFOOD",
+      "CLIMBS",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1585,7 +1741,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_samoyed",
@@ -1639,7 +1800,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS" ]
   },
   {
     "id": "mon_fox_red",
@@ -1717,7 +1878,7 @@
     "morale": -5,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_rabbit",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
@@ -1742,6 +1903,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 12,
     "melee_cut": 0,
+    "armor_elec": 1,
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -1751,17 +1913,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_zombie_horse",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_lemming",
@@ -1814,7 +1967,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS" ]
   },
   {
     "id": "mon_moose",
@@ -1842,13 +1995,14 @@
     "armor_bash": 4,
     "armor_cut": 1,
     "armor_bullet": 1,
+    "armor_elec": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
     "//": "Baby moose don't actually exist (yet), but autumn is their mating season so baby_flags is defined so that they get angry then",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
@@ -1907,9 +2061,10 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 1,
     "vision_day": 0,
     "vision_night": 0,
-    "harvest": "mutant_mammal_large_leather",
+    "harvest": "mutant_mammal_molerat_leather",
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 1 ], { "type": "bite", "cooldown": 6 }, [ "impale", 10 ] ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
@@ -1970,7 +2125,7 @@
     "dodge": 4,
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_pig_piglet",
@@ -2003,7 +2158,8 @@
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_pig",
@@ -2062,9 +2218,10 @@
     "melee_cut": 0,
     "dodge": 6,
     "reproduction": { "baby_monster": "mon_rabbit", "baby_count": 3, "baby_timer": 55 },
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_rabbit",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM" ]
   },
   {
     "id": "mon_raccoon",
@@ -2212,7 +2369,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_squirrel",
@@ -2316,7 +2474,7 @@
     "dodge": 4,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
@@ -2346,6 +2504,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "dodge": 5,
+    "armor_elec": 1,
     "vision_night": 13,
     "harvest": "mammal_large_leather",
     "path_settings": { "max_dist": 14 },

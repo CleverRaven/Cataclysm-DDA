@@ -322,7 +322,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::mass> ( *obj.get_raw( name ), units::mass_units );
+            out = read_from_json_string<units::mass> ( obj.get_member( name ), units::mass_units );
             return true;
         }
         return false;
@@ -388,7 +388,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::length
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::length>( *obj.get_raw( name ), units::length_units );
+            out = read_from_json_string<units::length>( obj.get_member( name ), units::length_units );
             return true;
         }
         return false;
@@ -454,7 +454,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::money>( *obj.get_raw( name ), units::money_units );
+            out = read_from_json_string<units::money>( obj.get_member( name ), units::money_units );
             return true;
         }
         return false;
@@ -525,7 +525,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::energy>( *obj.get_raw( name ), units::energy_units );
+            out = read_from_json_string<units::energy>( obj.get_member( name ), units::energy_units );
             return true;
         }
         return false;
@@ -611,7 +611,7 @@ read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T
         return true;
     } else if( jo.has_string( name ) ) {
         // JSON contained a time duration string -> no factor
-        val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
+        val = read_from_json_string<time_duration>( jo.get_member( name ), time_duration::units );
         return true;
     }
     return false;

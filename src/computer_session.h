@@ -10,7 +10,7 @@
 #include "computer.h"
 #include "cursesdef.h"
 
-class player;
+class Character;
 
 class computer_session
 {
@@ -32,7 +32,7 @@ class computer_session
 
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player &p, int Security = -1 );
+        bool hack_attempt( Character &you, int Security = -1 );
 
         /**
          * Checks whether the specified action can be activated (has any effect)
@@ -107,7 +107,10 @@ class computer_session
         void action_map_subway();
         void action_maps();
         void action_miss_disarm();
+        void action_miss_launch();
         void action_open();
+        void action_open_gate();
+        void action_close_gate();
         void action_open_disarm();
         void action_portal();
         void action_radio_archive();

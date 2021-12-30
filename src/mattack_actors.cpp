@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,8 +26,8 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -36,13 +37,16 @@
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+
+static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
@@ -65,13 +69,13 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() || !z.move_effects( false ) ) {
+    if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint_abs_ms target_abs = z.get_dest();
+    const float best_float = rl_dist( z.get_location(), target_abs );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -83,6 +87,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
+    const tripoint target = here.getlocal( target_abs );
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
@@ -185,7 +190,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     std::string target_name;
-    if( const Creature *target_monster = g->critter_at( target ) ) {
+    if( const Creature *target_monster = get_creature_tracker().creature_at( target ) ) {
         target_name = target_monster->disp_name();
     }
 
@@ -228,6 +233,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
+
+    optional( obj, was_loaded, "hitsize_min", hitsize_min, -1 );
+    optional( obj, was_loaded, "hitsize_max", hitsize_max, -1 );
+    optional( obj, was_loaded, "attack_upper", attack_upper, true );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -328,7 +337,7 @@ bool melee_actor::call( monster &z ) const
 
     // Pick body part
     bodypart_str_id bp_hit = body_parts.empty() ?
-                             target->select_body_part( &z, hitspread ).id() :
+                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
                              *body_parts.pick();
 
     bodypart_id bp_id = bodypart_id( bp_hit );
@@ -356,9 +365,46 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
+
+        z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
         target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
+
+        // Items strapped to you may fall off as you hit the ground
+        // when you break out of a grab you have a chance to lose some things from your pockets
+        // that are hanging off your character
+        if( target->is_avatar() ) {
+            std::vector<item_pocket *> pd;
+            for( item &i : target->as_character()->worn ) {
+                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+                if( i.has_ripoff_pockets() ) {
+                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                            pd.push_back( pocket );
+                        }
+                    }
+                }
+            }
+            // if we have items that can be pulled off
+            if( !pd.empty() ) {
+                // choose an item to be ripped off
+                int index = rng( 0, pd.size() - 1 );
+                // the chance the monster knocks an item off
+                int chance = rng( 0, z.type->melee_sides * z.type->melee_dice );
+                // the chance the pocket resists
+                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+                // the item is ripped off your character
+                if( sturdiness < chance ) {
+                    float path_distance = rng_float( 0, 1.0 );
+                    tripoint vector = target->pos() - z.pos();
+                    vector = tripoint( vector.x * path_distance, vector.y * path_distance, vector.z * path_distance );
+                    pd[index]->spill_contents( z.pos() + vector );
+                    add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                    popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                }
+            }
+        }
     }
 
     return true;
@@ -369,7 +415,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+        sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
                                  Creature::Attitude::FRIENDLY ?
@@ -491,24 +537,30 @@ std::unique_ptr<mattack_actor> gun_actor::clone() const
     return std::make_unique<gun_actor>( *this );
 }
 
+int gun_actor::get_max_range()  const
+{
+    int max_range = 0;
+    for( const auto &e : ranges ) {
+        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+    }
+    return max_range;
+}
+
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
 
     if( z.friendly ) {
-        int max_range = 0;
-        for( const auto &e : ranges ) {
-            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
-        }
+        int max_range = get_max_range();
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
             if( hostiles > 0 ) {
                 add_msg_if_player_sees( z, m_warning,
-                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                  hostiles ),
+                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                   hostiles ),
                                         z.name(), hostiles );
             }
             return false;
@@ -524,20 +576,22 @@ bool gun_actor::call( monster &z ) const
     int dist = rl_dist( z.pos(), target->pos() );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            shoot( z, *target, e.second );
+            if( try_target( z, *target ) ) {
+                shoot( z, target->pos(), e.second );
+            }
             return true;
         }
     }
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
+bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player_sees( z, failure_msg.translated(), z.name() );
         }
-        return;
+        return false;
     }
 
     const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
@@ -563,9 +617,22 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         }
 
         z.moves -= targeting_cost;
-        return;
+        return false;
     }
 
+    if( require_targeting ) {
+        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
+    }
+    if( laser_lock ) {
+        // To prevent spamming laser locks when the player can tank that stuff somehow
+        target.add_effect( effect_was_laserlocked, 5_turns );
+    }
+    return true;
+}
+
+void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                       int inital_recoil ) const
+{
     z.moves -= move_cost;
 
     item gun( gun_type );
@@ -606,25 +673,25 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.worn.emplace_back( "backpack" );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-    tmp.recoil = 0; // no need to aim
 
+    tmp.recoil = inital_recoil; // set inital recoil
+    bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
+        throwing |= pr.first == skill_throw;
     }
 
-    tmp.weapon = gun;
+    tmp.set_wielded_item( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(), tmp.weapon.tname() );
+    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
+                            tmp.get_wielded_item().tname() );
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
-
-    if( require_targeting ) {
-        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
-    }
-
-    if( laser_lock ) {
-        // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5_turns );
+    if( throwing ) {
+        tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );
+        z.ammo[ammo]--;
+    } else {
+        z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }
+

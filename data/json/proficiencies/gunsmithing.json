@@ -29,7 +29,7 @@
     "default_time_multiplier": 2.5,
     "default_fail_multiplier": 1.3,
     "time_to_learn": "10 h",
-    "required_proficiencies": [ "prof_metalworking" ]
+    "required_proficiencies": [ "prof_metalworking", "prof_gunsmithing_basic" ]
   },
   {
     "type": "proficiency",

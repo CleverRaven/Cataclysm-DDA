@@ -63,19 +63,6 @@ foreach (LANG ${LANGUAGES})
             COMMAND ${CMAKE_COMMAND} -E
                     make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    if (${LANG} STREQUAL en)
-        # English is special: we do not actually need translation for English, but
-        # due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
-        # gettext would be extremely slow on MinGW targets if we do not compile a
-        # .mo file.
-        add_custom_command(
-                TARGET translations_prepare
-                PRE_BUILD
-                COMMAND lang/update_pot.sh
-                COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot
-                        --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    endif ()
     add_custom_command(
             TARGET translations_compile
             PRE_BUILD

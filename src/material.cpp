@@ -65,6 +65,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
@@ -118,6 +119,11 @@ void material_type::check() const
     }
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
+    }
+
+    if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
+        debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
+                  id.str() );
     }
 }
 
@@ -222,6 +228,11 @@ int material_type::density() const
     return _density;
 }
 
+cata::optional<int> material_type::wind_resist() const
+{
+    return _wind_resist;
+}
+
 bool material_type::edible() const
 {
     return _edible;
@@ -305,9 +316,8 @@ void fuel_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
 }
 
-void fuel_data::deserialize( JsonIn &jsin )
+void fuel_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
@@ -326,8 +336,7 @@ void fuel_explosion_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "fiery", fiery_explosion );
 }
 
-void fuel_explosion_data::deserialize( JsonIn &jsin )
+void fuel_explosion_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }

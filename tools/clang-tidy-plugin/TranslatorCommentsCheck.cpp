@@ -237,7 +237,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasName( "ngettext" ) ) ),
+            callee( functionDecl( hasName( "n_gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound ),
             hasImmediateArgument( 1, stringLiteralArgumentUnbound )
         ),

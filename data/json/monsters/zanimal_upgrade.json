@@ -3,7 +3,7 @@
     "id": "mon_dog_skeleton",
     "type": "MONSTER",
     "name": { "str": "skeletal dog" },
-    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
+    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  This walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "species": [ "ZOMBIE" ],
@@ -25,10 +25,11 @@
     "armor_bullet": 12,
     "armor_stab": 30,
     "armor_acid": 3,
+    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
@@ -48,13 +49,14 @@
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
+      "armor_elec": 1,
       "vision_night": 1
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
+      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
@@ -63,7 +65,7 @@
     "type": "MONSTER",
     "name": { "str": "hulking horror" },
     "copy-from": "mon_dog_zombie_brute",
-    "description": "A four-legged canine body now grotesquely swollen, with arms as wide as a trash can and massive exposed teeth.",
+    "description": "What may once have been a dog is now a grotesquely swollen monstrosity, standing on four limbs as wide as trash cans and showing massive, jagged teeth.",
     "diff": 5,
     "volume": "440 L",
     "weight": "100 kg",
@@ -73,6 +75,7 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "armor_elec": 4,
     "bleed_rate": 0,
     "upgrades": {  },
     "special_attacks": [
@@ -95,10 +98,15 @@
     "armor_bullet": 24,
     "armor_bash": 12,
     "armor_acid": 1,
+    "armor_elec": 2,
     "bleed_rate": 0,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 66, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      { "id": "smash", "attack_upper": false, "throw_strength": 66, "cooldown": 45 },
+      {
+        "id": "scratch",
+        "attack_upper": false,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
+      }
     ]
   },
   {
@@ -167,6 +175,7 @@
     "armor_bullet": 12,
     "armor_stab": 30,
     "armor_acid": 3,
+    "armor_elec": 3,
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
@@ -219,6 +228,7 @@
     "armor_bullet": 32,
     "armor_stab": 30,
     "armor_acid": 3,
+    "armor_elec": 3,
     "bleed_rate": 0,
     "vision_day": 10,
     "harvest": "mr_bones",

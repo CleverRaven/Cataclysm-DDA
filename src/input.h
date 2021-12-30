@@ -190,21 +190,15 @@ struct input_event {
 
 #if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
-    int shortcut_last_used_action_counter;
+    int shortcut_last_used_action_counter = 0;
 #endif
 
     input_event() : edit_refresh( false ) {
         type = input_event_t::error;
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( int s, input_event_t t )
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
@@ -213,18 +207,6 @@ struct input_event {
     void add_input( const int input ) {
         sequence.push_back( input );
     }
-
-#if defined(__ANDROID__)
-    input_event &operator=( const input_event &other ) {
-        type = other.type;
-        modifiers = other.modifiers;
-        sequence = other.sequence;
-        mouse_pos = other.mouse_pos;
-        text = other.text;
-        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
-        return *this;
-    }
-#endif
 
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
@@ -355,6 +337,10 @@ class input_manager
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
         input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode );
+        /**
+         * Resize & refresh if necessary, process all pending window events, and ignore keypresses
+         */
+        void pump_events();
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,

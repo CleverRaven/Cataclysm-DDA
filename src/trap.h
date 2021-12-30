@@ -133,8 +133,7 @@ struct trap {
         int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
-        // a valid overmap id, for map_regen action traps
-        std::string map_regen;
+        update_mapgen_id map_regen;
         trap_function act;
         translation name_;
 
@@ -196,7 +195,7 @@ struct trap {
         // Implemented for historical reasons in iexamine.cpp
         void examine( const tripoint &examp ) const;
 
-        std::string  map_regen_target() const;
+        update_mapgen_id map_regen_target() const;
 
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is

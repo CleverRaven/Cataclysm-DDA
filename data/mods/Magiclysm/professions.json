@@ -381,11 +381,22 @@
     ],
     "items": {
       "both": {
-        "items": [ "copper_circlet", "robe", "bastsandals", "pocketwatch" ],
+        "items": [
+          "copper_circlet",
+          "cloak",
+          "dress_shoes",
+          "socks_wool",
+          "beret_wool",
+          "gloves_liner",
+          "gloves_light",
+          "dress_shirt",
+          "knit_scarf",
+          "pocketwatch"
+        ],
         "entries": [ { "item": "q_staff", "custom-flags": [ "auto_wield" ] } ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_briefs", "pants" ],
+      "female": [ "bra", "panties", "skirt" ]
     },
     "traits": [ "MAGUS" ]
   },

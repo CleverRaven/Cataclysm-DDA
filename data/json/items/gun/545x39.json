@@ -37,14 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ak74mag", "rpk74mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag" ] } ]
   }
 ]

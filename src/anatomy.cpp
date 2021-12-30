@@ -20,6 +20,9 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+
 namespace
 {
 
@@ -92,17 +95,6 @@ void anatomy::check() const
         debugmsg( "Invalid size_sum calculation for anatomy %s", id.c_str() );
     }
 
-    for( size_t i = 0; i < 3; i++ ) {
-        const float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
-        const bodypart_id & bp ) {
-            return acc + bp->hit_size_relative[i];
-        } );
-        if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
-                      static_cast<int>( i ) - 1 );
-        }
-    }
-
     std::unordered_set<bodypart_str_id> all_parts( unloaded_bps.begin(), unloaded_bps.end() );
     std::unordered_set<bodypart_str_id> root_parts;
 
@@ -137,6 +129,14 @@ std::vector<bodypart_id> anatomy::get_bodyparts() const
     return cached_bps;
 }
 
+anatomy::anatomy( const std::vector<bodypart_id> &parts )
+{
+    for( const bodypart_id &part : parts ) {
+        add_body_part( part.id() );
+        unloaded_bps.push_back( part.id() );
+    }
+}
+
 void anatomy::add_body_part( const bodypart_str_id &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
@@ -162,18 +162,36 @@ bodypart_id anatomy::random_body_part() const
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
-bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
+bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                       int hit_roll ) const
 {
-    const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+
     weighted_float_list<bodypart_id> hit_weights;
     for( const bodypart_id &bp : cached_bps ) {
-        float weight = bp->hit_size_relative[size_diff_index];
-        if( weight <= 0.0f ) {
+        float weight = bp->hit_size;
+        //Filter out too-large or too-small bodyparts
+        if( weight < min_hit || ( max_hit > -1 && weight > max_hit ) ) {
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "BP %s discarded - hitsize %.1f( min %d max %d )",
+                           body_part_name( bp ), weight, min_hit, max_hit );
             continue;
         }
 
+        if( !can_attack_high ) {
+            if( bp->has_flag( json_flag_LIMB_UPPER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, we can't attack upper limbs",
+                               body_part_name( bp ) );
+                continue;
+            }
+            if( bp->has_flag( json_flag_LIMB_LOWER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP,
+                               "limb %s's weight tripled for short attackers",
+                               body_part_name( bp ) );
+                weight *= 3;
+            }
+        }
+
         if( hit_roll != 0 ) {
-            weight *= std::pow( hit_roll, bp->hit_difficulty );
+            weight *= std::pow( static_cast<float>( hit_roll ), bp->hit_difficulty );
         }
 
         hit_weights.add( bp, weight );

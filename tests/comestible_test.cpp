@@ -23,6 +23,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
+
 struct all_stats {
     statistics<int> calories;
 };
@@ -139,18 +141,18 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             }
             // Make the range of acceptable average calories of permutations, using result's calories
             const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
-                                                default_calories * 0.8 );
+                                                default_calories * 0.75 );
             const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
-                                                default_calories * 1.2 );
+                                                default_calories * 1.25 );
             CHECK( mystats.calories.min() >= 0 );
             CHECK( lower_bound <= mystats.calories.avg() );
             CHECK( mystats.calories.avg() <= upper_bound );
             if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
                 mystats.calories.avg() > upper_bound ) {
-                printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.0f"
+                printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.1f, Stddev %.1f"
                         "\nAverage recipe Calories must fall within this range, derived from default Calories: %.0f-%.0f\n\n",
                         recipe_pair.first.c_str(), default_calories,
-                        mystats.calories.min(), mystats.calories.max(), mystats.calories.avg(),
+                        mystats.calories.min(), mystats.calories.max(), mystats.calories.avg(), mystats.calories.stddev(),
                         lower_bound, upper_bound );
             }
         }
@@ -162,13 +164,12 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     // This test verifies that predicted calorie ranges properly take into
     // account the "RAW"/"COOKED" flags.
     const item veggy_wild_cooked( "veggy_wild_cooked" );
-    const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
     const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =
-        u.compute_nutrient_range( veggy_wild_cooked, veggy_wild_cooked_recipe );
+        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked );
 
     CHECK( default_nutrition.kcal() == predicted_nutrition.first.kcal() );
     CHECK( default_nutrition.kcal() == predicted_nutrition.second.kcal() );

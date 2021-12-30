@@ -1123,8 +1123,8 @@ TEST_CASE( "colony splice", "[colony]" )
             }
         }
 
-        test_colony_1.erase( --( test_colony_1.end() ) );
-        test_colony_2.erase( --( test_colony_2.end() ) );
+        test_colony_1.erase( --test_colony_1.end() );
+        test_colony_2.erase( --test_colony_2.end() );
 
         // splice should swap the order at this point due to differences in numbers of unused elements at end of final group in each colony
         test_colony_1.splice( test_colony_2 );

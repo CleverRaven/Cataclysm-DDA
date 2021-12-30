@@ -41,3 +41,16 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
     REQUIRE( a );
     CHECK( *a == 5 );
 }
+
+TEST_CASE( "optional_swap", "[optional]" )
+{
+    cata::optional<int> a = GENERATE( cata::optional<int>(), cata::optional<int>( 1 ) );
+    cata::optional<int> b = GENERATE( cata::optional<int>(), cata::optional<int>( 2 ) );
+    cata::optional<int> a_orig = a;
+    cata::optional<int> b_orig = b;
+    REQUIRE( a == a_orig );
+    REQUIRE( b == b_orig );
+    std::swap( a, b );
+    CHECK( a == b_orig );
+    CHECK( b == a_orig );
+}

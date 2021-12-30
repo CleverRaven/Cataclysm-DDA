@@ -18,7 +18,7 @@
     "time_to_learn": "4 h",
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.2,
-    "required_proficiencies": [ "prof_alchemy" ]
+    "required_proficiencies": [ "prof_alchemy", "prof_metalworking" ]
   },
   {
     "type": "proficiency",

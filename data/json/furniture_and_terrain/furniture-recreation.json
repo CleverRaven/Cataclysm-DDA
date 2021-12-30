@@ -10,6 +10,7 @@
     "coverage": 35,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_exercise_machine",
     "examine_action": "workout",
     "deconstruct": {
       "items": [
@@ -48,6 +49,26 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_parkour_bars",
+    "name": "parkour bars",
+    "looks_like": "t_monkey_bars",
+    "description": "A complicated set of monkey bars, to be used by adults to train parkour.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "crafting_pseudo_item": "parkour_practice",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crack!",
+      "sound_fail": "ping.",
+      "items": [ { "item": "pipe", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -263,6 +284,7 @@
     "required_str": 8,
     "looks_like": "f_ergometer",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_ergometer_mechanical",
     "deconstruct": {
       "items": [
         { "item": "foot_crank", "count": [ 1, 1 ] },
@@ -341,6 +363,7 @@
     "required_str": 12,
     "looks_like": "f_treadmill",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
+    "crafting_pseudo_item": "pseudo_treadmill_mechanical",
     "deconstruct": {
       "items": [
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
@@ -375,7 +398,8 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 10,
-    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "crafting_pseudo_item": "pseudo_punching_bag",
     "examine_action": "workout",
     "bash": {
       "str_min": 15,

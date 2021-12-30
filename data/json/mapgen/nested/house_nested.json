@@ -1578,7 +1578,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "terrain": {
-        "|": "t_wall_metal",
+        "|": "t_wall_metal_corrugated",
         "+": "t_door_metal_pickable",
         " ": "t_thconc_floor",
         "S": "t_thconc_floor",

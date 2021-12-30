@@ -20,9 +20,65 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3"
+      "MP3",
+      "CALORIES_INTAKE_TRACKER"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
+  },
+  {
+    "id": "afs_imager",
+    "type": "TOOL",
+    "name": { "str": "structural imager" },
+    "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be activated to reveal a small conical area around you.",
+    "weight": "1060 g",
+    "volume": "350 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_plasma_torch",
+    "type": "TOOL",
+    "name": { "str": "377-UASTA plasma torch", "str_pl": "377-UASTA plasma torches" },
+    "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  It is an indispensable tool for construction or demolition work, and is sometimes transformed into weapon by mining & salvage outfits of questionable repute.",
+    "weight": "4200 g",
+    "volume": "4500 ml",
+    "longest_side": "60 cm",
+    "price": "350 USD",
+    "price_postapoc": "350 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "afs_shydrogen" ],
+    "charges_per_use": 1,
+    "use_action": [ "OXYTORCH" ],
+    "qualities": [ [ "WELD", 2 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "120 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_40g_plasma_civ" ]
+      }
+    ]
   },
   {
     "id": "afs_atomic_smartphone_music",
@@ -66,7 +122,8 @@
       },
       "CAMERA",
       "MP3",
-      "ROBOTCONTROL"
+      "ROBOTCONTROL",
+      "CALORIES_INTAKE_TRACKER"
     ]
   },
   {
@@ -77,7 +134,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "MP3_ON" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -124,7 +181,7 @@
     "looks_like": "circsaw_off",
     "color": "light_red",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
@@ -139,7 +196,7 @@
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
     "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -159,7 +216,7 @@
     "looks_like": "circsaw_off",
     "color": "yellow",
     "ammo": [ "gasoline" ],
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
@@ -175,7 +232,7 @@
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -188,17 +245,8 @@
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "WAIST", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
+    "material": [ "aluminum", "plastic" ],
     "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
-    "id": "adv_UPS_off",
-    "type": "TOOL_ARMOR",
-    "copy-from": "adv_UPS_off",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
-    "sided": true,
-    "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "bionic_maintenance_toolkit",
@@ -259,10 +307,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -306,10 +352,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]

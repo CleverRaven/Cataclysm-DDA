@@ -1,0 +1,33 @@
+[
+  {
+    "type": "SPELL",
+    "id": "shapeshifter_alkahest",
+    "name": "Alkahest",
+    "description": "Release a spray of mana-saturated bioactive solvent.  Your ley lines give you a resistance to this acid due to your mana signature, but others beware!",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "cone",
+    "damage_type": "acid",
+    "max_level": 35,
+    "min_damage": 5,
+    "max_damage": 65,
+    "damage_increment": 1.8,
+    "min_range": 3,
+    "max_range": 16,
+    "range_increment": 0.4,
+    "min_aoe": 80,
+    "max_aoe": 360,
+    "aoe_increment": 8,
+    "difficulty": 10,
+    "field_id": "fd_alkahest",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "base_casting_time": 1200,
+    "final_casting_time": 100,
+    "casting_time_increment": -35,
+    "energy_source": "MANA",
+    "base_energy_cost": 350
+  }
+]

@@ -309,7 +309,7 @@
         "..^...",
         "qq..qq"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "furniture": { "^": [ [ "f_vent_hot_air2_blast", 30 ], [ "f_vent_hot_air2_stream", 30 ] ] },
       "items": { "q": [ { "item": "supplies_reagents_lab", "chance": 50 } ] }
     }

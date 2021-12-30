@@ -53,6 +53,12 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 ![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
 
+#### Code::Blocks
+
+If you are using Code::Blocks the IDE includes an astyle plugin and a command to format the selected text in the context sensitive menu. This has a tendency to underperform when used on only a section of code so best practice is to select all your source code first. In `Settings` - `Editor` - `Keyboard shortcuts` - `Plugins` you can set up a convenient keybinding to run astyle, such as `ctrl`+`alt`+`a` to mesh with `ctrl`+`a` (select all).
+
+The CataclysmWin.cbp will not configure the astyle formatter for you. `Settings` - `Editor` - `Source formatter` holds the settings for astyle and you can find the the relevant commands by opening `.astylerc` in a text editor. One caveat is that in the first tab 1TBS is easily overlooked as the font disguises the number `1`, looking instead like `ITBS`. 
+
 ## JSON style
 
 See the [JSON style guide](JSON_STYLE.md).

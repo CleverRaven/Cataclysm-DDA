@@ -21,13 +21,15 @@
 #include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 2.25;
+static constexpr double moonlight_per_quarter = 1.5;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 const time_duration calendar::INDEFINITELY_LONG_DURATION(
     time_duration::from_turns( std::numeric_limits<int>::max() ) );
 static bool is_eternal_season = false;
+static bool is_eternal_night = false;
+static bool is_eternal_day = false;
 static int cur_season_length = 1;
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
@@ -36,17 +38,10 @@ time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
 // The solar altitudes at which light changes in various ways
-static constexpr units::angle min_sun_angle_for_day = -12_degrees;
-static constexpr units::angle max_sun_angle_for_night = 0_degrees;
-static constexpr units::angle min_sun_angle_for_twilight = -18_degrees;
-static constexpr units::angle max_sun_angle_for_twilight = 1_degrees;
-
-static_assert( min_sun_angle_for_day <= max_sun_angle_for_night, "day and night must overlap" );
-static_assert( min_sun_angle_for_day <= max_sun_angle_for_twilight,
-               "day and twilight must overlap" );
-static_assert( min_sun_angle_for_twilight <= max_sun_angle_for_night,
-               "twilight and night must overlap" );
-static_assert( min_sun_angle_for_twilight <= max_sun_angle_for_twilight, "twilight must exist" );
+static constexpr units::angle astronomical_dawn = -18_degrees;
+static constexpr units::angle nautical_dawn = -12_degrees;
+static constexpr units::angle civil_dawn = -6_degrees;
+static constexpr units::angle sunrise_angle = -1_degrees;
 
 double default_daylight_level()
 {
@@ -75,8 +70,7 @@ std::string enum_to_string<moon_phase>( moon_phase phase_num )
         case moon_phase::MOON_WANING_GIBBOUS: return "MOON_WANING_GIBBOUS";
         case moon_phase::MOON_PHASE_MAX: break;
     }
-    debugmsg( "Invalid moon_phase %d", phase_num );
-    abort();
+    cata_fatal( "Invalid moon_phase %d", phase_num );
 }
 // *INDENT-ON*
 } // namespace io
@@ -210,7 +204,14 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
 
     // Azimuth is from the South, turning positive to the west
     const units::angle azimuth = normalize( -atan2( horizontal.xy() ) + 180_degrees );
-    const units::angle altitude = units::asin( horizontal.z );
+    units::angle altitude = units::asin( horizontal.z );
+
+    if( calendar::eternal_day() ) {
+        altitude = 90_degrees;
+    }
+    if( calendar::eternal_night() ) {
+        altitude = astronomical_dawn - 10_degrees;
+    }
 
     /*printf(
         "\n"
@@ -234,7 +235,7 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
     units::angle azimuth;
     units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
-    if( altitude <= 0_degrees ) {
+    if( altitude <= sunrise_angle ) {
         // Sun below horizon
         return cata::nullopt;
     }
@@ -305,38 +306,38 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
 
 time_point sunrise( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, location_boston.longitude, p, false );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, location_boston.longitude, p, true );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, true );
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, false );
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, false );
 }
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= min_sun_angle_for_day;
+    return sun_altitude( p ) <= nautical_dawn;
 }
 
 bool is_day( const time_point &p )
 {
-    return sun_altitude( p ) >= 0_degrees;
+    return sun_altitude( p ) >= sunrise_angle;
 }
 
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= min_sun_angle_for_twilight && altitude <= max_sun_angle_for_twilight;
+    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
@@ -364,21 +365,23 @@ static float moon_light_at( const time_point &p )
 float sun_light_at( const time_point &p )
 {
     const units::angle solar_alt = sun_altitude( p );
-    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes.
-    // These values yield roughly that range (see sun_test.cpp)
-    static constexpr double light_at_zero_altitude = 60;
-    static constexpr double max_light = 125;
 
-    if( solar_alt < min_sun_angle_for_twilight ) {
+    if( solar_alt < astronomical_dawn ) {
         return 0;
-    } else if( solar_alt <= max_sun_angle_for_night ) {
-        // Sunlight rises exponentially from 0 to 60 as sun rises from -18° to 0°
-        return light_at_zero_altitude *
-               ( std::exp2( 1 - solar_alt / min_sun_angle_for_twilight ) - 1 );
+    } else if( solar_alt <= nautical_dawn ) {
+        // Sunlight rises exponentially from 0 to 3.7f as sun rises from -18° to -12°
+        return 3.7f * ( std::exp2( to_degrees( solar_alt - astronomical_dawn ) / 6.f ) - 1 );
+    } else if( solar_alt <= civil_dawn ) {
+        // Sunlight rises exponentially from 3.7f to 5.0f as sun rises from -12° to -6°
+        return ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) + 3.7f;
+    } else if( solar_alt <= sunrise_angle ) {
+        // Sunlight rises exponentially from 5.0f to 60 as sun rises from -6° to -1°
+        return ( 60 - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 5.f ) - 1 ) + 5.0f;
+    } else if( solar_alt <= 60_degrees ) {
+        // Linear increase from -1° to 60° degrees light increases from 60 to 125 brightness.
+        return ( 65.f / 61 ) * to_degrees( solar_alt ) + 65.f / 61  + 60;
     } else {
-        // Linear increase from 0° to 70° degrees light increases from 60 to 125 brightness.
-        const double lerp_param = solar_alt / 70_degrees;
-        return lerp_clamped( light_at_zero_altitude, max_light, lerp_param );
+        return 125.f;
     }
 }
 
@@ -404,19 +407,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d second", "%d seconds", num ), num );
+                    return string_format( n_gettext( "%d second", "%d seconds", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d minute", "%d minutes", num ), num );
+                    return string_format( n_gettext( "%d minute", "%d minutes", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hour", "%d hours", num ), num );
+                    return string_format( n_gettext( "%d hour", "%d hours", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
+                    return string_format( n_gettext( "%d week", "%d weeks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d season", "%d seasons", num ), num );
+                    return string_format( n_gettext( "%d season", "%d seasons", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d year", "%d years", num ), num );
+                    return string_format( n_gettext( "%d year", "%d years", num ), num );
             }
         case clipped_align::right:
             switch( type ) {
@@ -426,25 +429,25 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     return _( "    forever" );
                 case clipped_unit::second:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  second", "%3d seconds", num ), num );
+                    return string_format( n_gettext( "%3d  second", "%3d seconds", num ), num );
                 case clipped_unit::minute:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  minute", "%3d minutes", num ), num );
+                    return string_format( n_gettext( "%3d  minute", "%3d minutes", num ), num );
                 case clipped_unit::hour:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    hour", "%3d   hours", num ), num );
+                    return string_format( n_gettext( "%3d    hour", "%3d   hours", num ), num );
                 case clipped_unit::day:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                    return string_format( n_gettext( "%3d     day", "%3d    days", num ), num );
                 case clipped_unit::week:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
+                    return string_format( n_gettext( "%3d    week", "%3d   weeks", num ), num );
                 case clipped_unit::season:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
+                    return string_format( n_gettext( "%3d  season", "%3d seasons", num ), num );
                 case clipped_unit::year:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
+                    return string_format( n_gettext( "%3d    year", "%3d   years", num ), num );
             }
         case clipped_align::compact:
             switch( type ) {
@@ -452,19 +455,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d sec", "%d secs", num ), num );
+                    return string_format( n_gettext( "%d sec", "%d secs", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d min", "%d mins", num ), num );
+                    return string_format( n_gettext( "%d min", "%d mins", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hr", "%d hrs", num ), num );
+                    return string_format( n_gettext( "%d hr", "%d hrs", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d wk", "%d wks", num ), num );
+                    return string_format( n_gettext( "%d wk", "%d wks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d seas", "%d seas", num ), num );
+                    return string_format( n_gettext( "%d seas", "%d seas", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d yr", "%d yrs", num ), num );
+                    return string_format( n_gettext( "%d yr", "%d yrs", num ), num );
             }
     }
 }
@@ -609,7 +612,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
+    const int second = to_seconds<int>( time_past_midnight( p ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
@@ -666,6 +669,16 @@ bool calendar::eternal_season()
     return is_eternal_season;
 }
 
+bool calendar::eternal_night()
+{
+    return is_eternal_night;
+}
+
+bool calendar::eternal_day()
+{
+    return is_eternal_day;
+}
+
 time_duration calendar::year_length()
 {
     return season_length() * 4;
@@ -678,6 +691,14 @@ time_duration calendar::season_length()
 void calendar::set_eternal_season( bool is_eternal )
 {
     is_eternal_season = is_eternal;
+}
+void calendar::set_eternal_night( bool is_eternal )
+{
+    is_eternal_night = is_eternal;
+}
+void calendar::set_eternal_day( bool is_eternal )
+{
+    is_eternal_day = is_eternal;
 }
 void calendar::set_season_length( const int dur )
 {

@@ -33,6 +33,7 @@
         "|||||||||||±||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPTIAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
     }
   },
@@ -70,6 +71,7 @@
         "|||||||||||±||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPTIAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
     }
   }

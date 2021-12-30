@@ -23,8 +23,10 @@
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
@@ -50,7 +52,6 @@
 #include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -64,12 +65,21 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const flag_id json_flag_FIT( "FIT" );
+
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
 static const mtype_id mon_generator( "mon_generator" );
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -107,7 +117,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( const point &a, const point &b, const point &c )
 {
-    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+    int cross = ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
@@ -156,7 +166,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster, cons
 
 static void swap_pos( Creature &caster, const tripoint &target )
 {
-    Creature *const critter = g->critter_at<Creature>( target );
+    Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
     critter->setpos( caster.pos() );
     caster.setpos( target );
     //update map in case a monster swapped positions with the player
@@ -165,8 +175,8 @@ static void swap_pos( Creature &caster, const tripoint &target )
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
 {
-    player *p = caster.as_player();
-    if( p == nullptr ) {
+    Character *you = caster.as_character();
+    if( you == nullptr ) {
         return;
     }
     sp.make_sound( caster.pos() );
@@ -174,7 +184,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : you->get_body() ) {
         if( elem.first == bodypart_str_id::NULL_ID() ) {
             continue;
         }
@@ -182,7 +192,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
         total_hp += elem.second.get_hp_cur();
     }
     const int hp_each = total_hp / num_limbs;
-    p->set_all_parts_hp_cur( hp_each );
+    you->set_all_parts_hp_cur( hp_each );
 }
 
 static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
@@ -468,8 +478,9 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     const int dur_moves = sp.duration();
     const time_duration dur_td = time_duration::from_moves( dur_moves );
 
-    Creature *const critter = g->critter_at<Creature>( target );
-    Character *const guy = g->critter_at<Character>( target );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *const critter = creatures.creature_at<Creature>( target );
+    Character *const guy = creatures.creature_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
 
@@ -490,6 +501,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &target : targets ) {
         if( !sp.is_valid_target( caster, target ) ) {
             continue;
@@ -499,7 +511,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
         }
-        Creature *const cr = g->critter_at<Creature>( target );
+        Creature *const cr = creatures.creature_at<Creature>( target );
         if( !cr ) {
             continue;
         }
@@ -551,7 +563,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                    if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
                         break;
@@ -572,7 +584,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
-        if( caster.as_player() ) {
+        if( caster.as_character() ) {
             victim.friendly = -1;
         } else {
             victim.make_ally( *caster.as_monster() );
@@ -583,7 +595,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
 void spell_effect::targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target )
 {
     //we only target monsters for now.
-    if( monster *const victim = g->critter_at<monster>( target ) ) {
+    if( monster *const victim = get_creature_tracker().creature_at<monster>( target ) ) {
         if( victim->get_hp() < sp.damage() ) {
             magical_polymorph( *victim, caster, sp );
             return;
@@ -726,7 +738,7 @@ static void spell_move( const spell &sp, const Creature &caster,
     const bool can_target_creature = can_target_self || can_target_ally || can_target_hostile;
 
     if( can_target_creature ) {
-        if( Creature *victim = g->critter_at<Creature>( from ) ) {
+        if( Creature *victim = get_creature_tracker().creature_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( get_player_character() );
             bool valid = cr_att != Creature::Attitude::FRIENDLY && can_target_hostile;
             if( victim == &caster ) {
@@ -824,6 +836,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
         targets_ordered_by_range.emplace( sign * rl_dist( pt, caster.pos() ), pt );
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     for( const std::pair<const int, tripoint> &pair : targets_ordered_by_range ) {
         const tripoint &push_point = pair.second;
         const units::angle angle = coord_to_angle( caster.pos(), target );
@@ -841,13 +854,13 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
         calc_ray_end( angle, push_distance, push_point, push_dest );
         const std::vector<tripoint> push_vec = line_to( push_point, push_dest );
 
-        const Creature *critter = g->critter_at<Creature>( push_point );
+        const Creature *critter = creatures.creature_at<Creature>( push_point );
         if( critter != nullptr ) {
             const Creature::Attitude attitude_to_target =
-                caster.attitude_to( *g->critter_at<Creature>( push_point ) );
+                caster.attitude_to( *creatures.creature_at<Creature>( push_point ) );
 
-            monster *mon = g->critter_at<monster>( push_point );
-            npc *guy = g->critter_at<npc>( push_point );
+            monster *mon = creatures.creature_at<monster>( push_point );
+            npc *guy = creatures.creature_at<npc>( push_point );
 
             if( ( sp.is_valid_target( spell_target::self ) && push_point == caster.pos() ) ||
                 ( attitude_to_target == Creature::Attitude::FRIENDLY &&
@@ -855,7 +868,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                 ( ( attitude_to_target == Creature::Attitude::HOSTILE ||
                     attitude_to_target == Creature::Attitude::NEUTRAL ) &&
                   sp.is_valid_target( spell_target::hostile ) ) ) {
-                if( g->critter_at<avatar>( push_point ) ) {
+                if( creatures.creature_at<avatar>( push_point ) ) {
                     // defer this because this absolutely must be done last in order not to mess up our calculations
                     player_pushed = true;
                     pushed_distance = push_distance;
@@ -910,7 +923,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( flag_id( "FIT" ) );
+        granted.set_flag( json_flag_FIT );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {
@@ -931,35 +944,34 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     // this spell is not appropriate for healing
     const int healing = sp.damage();
     const std::string energy_source = sp.effect_data();
-    // TODO: Change to Character
     // current limitation is that Character does not have stamina or power_level members
-    player *p = g->critter_at<player>( target );
-    if( !p ) {
+    Character *you = get_creature_tracker().creature_at<Character>( target );
+    if( !you ) {
         return;
     }
 
     if( energy_source == "MANA" ) {
-        p->magic->mod_mana( *p, healing );
+        you->magic->mod_mana( *you, healing );
     } else if( energy_source == "STAMINA" ) {
-        p->mod_stamina( healing );
+        you->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
-        p->mod_fatigue( -healing );
+        you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->mod_power_level( units::from_kilojoule( healing ) );
+            you->mod_power_level( units::from_kilojoule( healing ) );
         } else {
-            p->mod_stamina( healing );
+            you->mod_stamina( healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
         if( sp.has_flag( spell_flag::PAIN_NORESIST ) ) {
-            p->mod_pain_noresist( -healing );
+            you->mod_pain_noresist( -healing );
         } else {
-            p->mod_pain( -healing );
+            you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        p->mod_healthy( healing );
+        you->mod_healthy( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
@@ -1029,7 +1041,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
-    spawned_mon.no_extra_death_drops = true;
+    spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     return true;
 }
 
@@ -1048,7 +1060,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
             num_mons--;
             sp.make_sound( *iter );
         } else {
-            add_msg( m_bad, "failed to place monster" );
+            debugmsg( "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
@@ -1109,17 +1121,23 @@ void spell_effect::noise( const spell &sp, Creature &, const tripoint &target )
 void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        Character *const ch = g->critter_at<Character>( potential_target );
+        Character *const ch = creatures.creature_at<Character>( potential_target );
         if( !ch ) {
             continue;
         }
         sp.make_sound( target );
         ch->vomit();
     }
+}
+
+void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const tripoint &target )
+{
+    caster.longpull( sp.name(), target );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
@@ -1136,11 +1154,12 @@ void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        Creature *critter = g->critter_at<Creature>( potential_target );
+        Creature *critter = creatures.creature_at<Creature>( potential_target );
         if( !critter ) {
             continue;
         }
@@ -1173,10 +1192,11 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
                   sp.effect_data() );
         return;
     }
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
-        player *player_target;
+        Character *player_target;
         if( !( sp.is_valid_target( caster, potential_target ) &&
-               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
+               ( player_target = creatures.creature_at<Character>( potential_target ) ) ) ) {
             continue;
         }
         player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
@@ -1188,11 +1208,12 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
 void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        monster *mon = g->critter_at<monster>( potential_target );
+        monster *mon = creatures.creature_at<monster>( potential_target );
         if( !mon ) {
             continue;
         }
@@ -1228,8 +1249,9 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
 void spell_effect::upgrade( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &aoe : area ) {
-        monster *mon = g->critter_at<monster>( aoe );
+        monster *mon = creatures.creature_at<monster>( aoe );
         if( mon != nullptr && rng( 1, 10000 ) < sp.damage() ) {
             mon->allow_upgrade();
             mon->try_upgrade( false );
@@ -1244,8 +1266,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         // only monsters cause the guilt morale effect
         return;
     }
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &aoe : area ) {
-        Character *guilt_target = g->critter_at<Character>( aoe );
+        Character *guilt_target = creatures.creature_at<Character>( aoe );
         if( guilt_target == nullptr ) {
             continue;
         }
@@ -1278,9 +1301,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( ( guy.has_trait_flag( json_flag_PRED1 ) ) ||
-                   ( guy.has_trait_flag( json_flag_PRED2 ) ) ) {
-            msg = ( _( "Culling the weak is distasteful, but necessary." ) );
+        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
+                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+            msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {
@@ -1316,8 +1339,9 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 void spell_effect::remove_effect( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &aoe : area ) {
-        if( Creature *critter = g->critter_at( aoe ) ) {
+        if( Creature *critter = creatures.creature_at( aoe ) ) {
             critter->remove_effect( efftype_id( sp.effect_data() ) );
         }
     }
@@ -1334,7 +1358,7 @@ void spell_effect::emit( const spell &sp, Creature &caster, const tripoint &targ
 void spell_effect::fungalize( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
-    fungal_effects fe( *g, get_map() );
+    fungal_effects fe;
     for( const tripoint &aoe : area ) {
         fe.fungalize( aoe, &caster, sp.damage() / 10000.0 );
     }
@@ -1343,11 +1367,12 @@ void spell_effect::fungalize( const spell &sp, Creature &caster, const tripoint 
 void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        Character *guy = g->critter_at<Character>( potential_target );
+        Character *guy = creatures.creature_at<Character>( potential_target );
         if( !guy ) {
             continue;
         }
@@ -1384,7 +1409,7 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
 
 void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const tripoint &source = caster.pos();
+    const tripoint source = caster.pos();
     const std::vector<tripoint> trajectory_local = line_to( source, target );
     ::map &here = get_map();
     // uses abs() coordinates
@@ -1400,9 +1425,10 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     // save the amount of moves the caster has so we can restore them after the dash
     const int cur_moves = caster.moves;
+    creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
-            if( g->critter_at( here.getlocal( *walk_point ) ) ||
+            if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
                 --walk_point;
                 break;
@@ -1439,12 +1465,13 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
 
     std::vector<monster *> target_mons;
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
         // you can't banish npcs.
-        monster *mon = g->critter_at<monster>( potential_target );
+        monster *mon = creatures.creature_at<monster>( potential_target );
         if( mon != nullptr ) {
             target_mons.push_back( mon );
         }
@@ -1500,5 +1527,99 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &caster );
+    }
+}
+
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Creature *victim = creatures.creature_at<Creature>( potential_target );
+        dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
+{
+    sp.make_sound( target );
+    int mass = caster.get_speed_base();
+    monster *caster_monster = dynamic_cast<monster *>( &caster );
+    if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
+        mass += mass;
+    }
+    const int radius = sp.aoe();
+    std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
+    std::vector<monster *> summoned_slimes;
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
+    // Make sure the creature has enough mass to create new slimes
+    if( mass >= mon_blob_small->speed / 2 ) {
+        for( const tripoint &dest : pts ) {
+            // Fall back to small slimes if no bigger smile is chosen
+            mtype_id slime_id = mon_blob_small;
+            if( mass > mon_blob_large->speed + 20 && one_in( 3 ) ) {
+                // 33% chance of spawning a big slime if enough mass
+                slime_id = mon_blob_large;
+            } else if( mass > mon_blob->speed + 20 && one_in( 2 ) ) {
+                // 50% chance of spawning a slime if enough mass
+                slime_id = mon_blob;
+            }
+
+            shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
+            mon->ammo = mon->type->starting_ammo;
+            if( mon->will_move_to( dest ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                    sp.make_sound( dest );
+                    if( !permanent ) {
+                        blob->set_summon_time( sp.duration_turns() );
+                    }
+                    if( caster_monster ) {
+                        blob->make_ally( *caster_monster );
+                    }
+                    const int used_mass = std::min( mass, slime_id->speed - 15 );
+                    mass -= used_mass;
+                    blob->set_speed_base( used_mass );
+                    blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+                    summoned_slimes.push_back( mon.get() );
+                    if( mass < mon_blob_small->speed / 2 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Divide remaining mass between summoned slimes
+    if( mass > 0 && !summoned_slimes.empty() ) {
+        const int mass_per_mob = mass / summoned_slimes.size();
+        for( monster *slime : summoned_slimes ) {
+            slime->set_speed_base( slime->get_speed_base() + mass_per_mob );
+            mass -= mass_per_mob;
+        }
+    }
+
+    // Last resort: Find a slime nearby that will absorb part of this mass
+    if( mass > 3 ) {
+        for( const tripoint &dest : pts ) {
+            if( monster *mon = get_creature_tracker().creature_at<monster>( dest ) ) {
+                if( mon->type->in_species( species_SLIME ) ) {
+                    // The mass discarded here should prevent issues when surrounded
+                    // by big blobs that keep trading mass and spawning medium slimes
+                    // over and over.
+                    mon->set_speed_base( mon->get_speed_base() + mass - 3 );
+                    return;
+                }
+            }
+        }
     }
 }

@@ -8,25 +8,44 @@
 #include "character.h"
 #include "mutation.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
-static std::string get_mutations_as_string( const player &p );
+static const morale_type morale_perm_debug( "morale_perm_debug" );
+
+static const mutation_category_id mutation_category_ANY( "ANY" );
+static const mutation_category_id mutation_category_FELINE( "FELINE" );
+static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
+static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
+static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
+static const mutation_category_id mutation_category_RAT( "RAT" );
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
+
+static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
+static const trait_id trait_GROWL( "GROWL" );
+static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
+static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
+static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
+static const trait_id trait_TEST_TRIGGER_active( "TEST_TRIGGER_active" );
+static const trait_id trait_UGLY( "UGLY" );
+static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
+
+static std::string get_mutations_as_string( const Character &you );
 
 // Mutate player toward every mutation in a category (optionally including post-threshold mutations)
 //
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-static void give_all_mutations( player &p, const mutation_category_trait &category,
+static void give_all_mutations( Character &you, const mutation_category_trait &category,
                                 const bool include_postthresh )
 {
-    p.set_body();
+    you.set_body();
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first
     if( include_postthresh && !category.threshold_mut.is_empty() ) {
-        p.set_mutation( category.threshold_mut );
+        you.set_mutation( category.threshold_mut );
     }
 
     for( const trait_id &mut : category_mutations ) {
@@ -34,10 +53,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
         if( include_postthresh || ( !mut_data.threshold && mut_data.threshreq.empty() ) ) {
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
-            while( mutation_attempts > 0 && p.mutation_ok( mut, false, false ) ) {
-                INFO( "Current mutations: " << get_mutations_as_string( p ) );
+            while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
+                INFO( "Current mutations: " << get_mutations_as_string( you ) );
                 INFO( "Mutating towards " << mut.c_str() );
-                if( !p.mutate_towards( mut ) ) {
+                if( !you.mutate_towards( mut ) ) {
                     --mutation_attempts;
                 }
             }
@@ -46,10 +65,10 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
 }
 
 // Return total strength of all mutation categories combined
-static int get_total_category_strength( const player &p )
+static int get_total_category_strength( const Character &you )
 {
     int total = 0;
-    for( const std::pair<const mutation_category_id, int> &cat : p.mutation_category_level ) {
+    for( const std::pair<const mutation_category_id, int> &cat : you.mutation_category_level ) {
         total += cat.second;
     }
 
@@ -57,10 +76,10 @@ static int get_total_category_strength( const player &p )
 }
 
 // Returns the list of mutations a player has as a string, for debugging
-std::string get_mutations_as_string( const player &p )
+std::string get_mutations_as_string( const Character &you )
 {
     std::ostringstream s;
-    for( trait_id &m : p.get_mutations() ) {
+    for( trait_id &m : you.get_mutations() ) {
         s << static_cast<std::string>( m ) << " ";
     }
     return s.str();
@@ -92,55 +111,55 @@ std::string get_mutations_as_string( const player &p )
 //
 TEST_CASE( "mutation category strength based on current mutations", "[mutations][category]" )
 {
-    const mutation_category_id lupine( "LUPINE" );
-    const mutation_category_id feline( "FELINE" );
-    const mutation_category_id raptor( "RAPTOR" );
-    const mutation_category_id ursine( "URSINE" );
-    const mutation_category_id mouse( "MOUSE" );
-    const mutation_category_id rat( "RAT" );
-
     npc dummy;
 
     // With no mutations, no category is the highest
     CHECK( dummy.get_highest_category().str().empty() );
     // All categories are at level 0
-    CHECK( dummy.mutation_category_level[lupine] == 0 );
-    CHECK( dummy.mutation_category_level[feline] == 0 );
-    CHECK( dummy.mutation_category_level[raptor] == 0 );
-    CHECK( dummy.mutation_category_level[ursine] == 0 );
-    CHECK( dummy.mutation_category_level[mouse] == 0 );
-    CHECK( dummy.mutation_category_level[rat] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_FELINE] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_RAPTOR] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_URSINE] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_MOUSE] == 0 );
+    CHECK( dummy.mutation_category_level[mutation_category_RAT] == 0 );
 
     // SMELLY mutation: Common to LUPINE, FELINE, and MOUSE
-    const trait_id smelly( "SMELLY" );
-    REQUIRE( dummy.mutate_towards( smelly ) );
+    REQUIRE( dummy.mutate_towards( trait_SMELLY ) );
     // No category should be highest
     CHECK( dummy.get_highest_category().str().empty() );
     // All levels should be equal
-    CHECK( dummy.mutation_category_level[lupine] == dummy.mutation_category_level[feline] );
-    CHECK( dummy.mutation_category_level[lupine] == dummy.mutation_category_level[mouse] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] ==
+           dummy.mutation_category_level[mutation_category_FELINE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] ==
+           dummy.mutation_category_level[mutation_category_MOUSE] );
 
     // UGLY mutation: Common to LUPINE, FELINE, and RAPTOR
-    const trait_id ugly( "UGLY" );
-    REQUIRE( dummy.mutate_towards( ugly ) );
+    REQUIRE( dummy.mutate_towards( trait_UGLY ) );
     // Still no highest, since LUPINE and FELINE should be tied
     CHECK( dummy.get_highest_category().str().empty() );
     // LUPINE and FELINE should be equal level, and both stronger than MOUSE or RAPTOR
-    CHECK( dummy.mutation_category_level[lupine] == dummy.mutation_category_level[feline] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[mouse] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[raptor] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] ==
+           dummy.mutation_category_level[mutation_category_FELINE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_MOUSE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_RAPTOR] );
 
     // GROWL mutation: Common to LUPINE, RAT, and URSINE
-    const trait_id growl( "GROWL" );
-    REQUIRE( dummy.mutate_towards( growl ) );
+    REQUIRE( dummy.mutate_towards( trait_GROWL ) );
     // LUPINE has the most mutations now, and should now be the strongest category
     CHECK( dummy.get_highest_category().str() == "LUPINE" );
     // LUPINE category level should be strictly higher than any other
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[feline] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[mouse] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[raptor] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[ursine] );
-    CHECK( dummy.mutation_category_level[lupine] > dummy.mutation_category_level[rat] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_FELINE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_MOUSE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_RAPTOR] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_URSINE] );
+    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
+           dummy.mutation_category_level[mutation_category_RAT] );
 }
 
 // If character has all available mutations in a category (pre- or post-threshold), that should be
@@ -204,7 +223,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
          mutation_category_trait::get_all() ) {
         const mutation_category_trait &cur_cat = cat.second;
         const mutation_category_id &cat_id = cur_cat.id;
-        if( cat_id == mutation_category_id( "ANY" ) ) {
+        if( cat_id == mutation_category_ANY ) {
             continue;
         }
         // Unfinished mutation category.
@@ -235,25 +254,25 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
     clear_avatar();
 
     WHEN( "character has Scout trait" ) {
-        dummy.toggle_trait( trait_id( "EAGLEEYED" ) );
+        dummy.toggle_trait( trait_EAGLEEYED );
         THEN( "they have increased overmap sight range" ) {
             CHECK( dummy.mutation_value( "overmap_sight" ) == 5 );
         }
         // Regression test for #42853
-        THEN( "the Self-Aware trait does not affect overmap sight range" ) {
-            dummy.toggle_trait( trait_id( "SELFAWARE" ) );
+        THEN( "having another trait does not cancel the Scout trait" ) {
+            dummy.toggle_trait( trait_SMELLY );
             CHECK( dummy.mutation_value( "overmap_sight" ) == 5 );
         }
     }
 
     WHEN( "character has Topographagnosia trait" ) {
-        dummy.toggle_trait( trait_id( "UNOBSERVANT" ) );
+        dummy.toggle_trait( trait_UNOBSERVANT );
         THEN( "they have reduced overmap sight range" ) {
             CHECK( dummy.mutation_value( "overmap_sight" ) == -10 );
         }
         // Regression test for #42853
-        THEN( "the Self-Aware trait does not affect overmap sight range" ) {
-            dummy.toggle_trait( trait_id( "SELFAWARE" ) );
+        THEN( "having another trait does not cancel the Topographagnosia trait" ) {
+            dummy.toggle_trait( trait_SMELLY );
             CHECK( dummy.mutation_value( "overmap_sight" ) == -10 );
         }
     }
@@ -263,13 +282,13 @@ static void check_test_mutation_is_triggered( const Character &dummy, bool trigg
 {
     if( trigger_on ) {
         THEN( "the mutation turns on" ) {
-            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
-            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+            CHECK( dummy.has_trait( trait_TEST_TRIGGER_active ) );
+            CHECK( !dummy.has_trait( trait_TEST_TRIGGER ) );
         }
     } else {
         THEN( "the mutation turns off" ) {
-            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
-            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+            CHECK( !dummy.has_trait( trait_TEST_TRIGGER_active ) );
+            CHECK( dummy.has_trait( trait_TEST_TRIGGER ) );
         }
     }
 }
@@ -281,10 +300,10 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     clear_avatar();
 
     WHEN( "character has OR test trigger mutation" ) {
-        dummy.toggle_trait( trait_id( "TEST_TRIGGER" ) );
+        dummy.toggle_trait( trait_TEST_TRIGGER );
 
         WHEN( "character is happy" ) {
-            dummy.add_morale( morale_type( "morale_perm_debug" ), 21 );
+            dummy.add_morale( morale_perm_debug, 21 );
             dummy.apply_persistent_morale();
             dummy.process_turn();
             check_test_mutation_is_triggered( dummy, true );
@@ -377,7 +396,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     clear_avatar();
 
     WHEN( "character has AND test trigger mutation" ) {
-        dummy.toggle_trait( trait_id( "TEST_TRIGGER_2" ) );
+        dummy.toggle_trait( trait_TEST_TRIGGER_2 );
 
         WHEN( "it is the full moon but character is not in pain" ) {
             static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
@@ -386,8 +405,8 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             dummy.process_turn();
 
             THEN( "the mutation stays turned off" ) {
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+                CHECK( !dummy.has_trait( trait_TEST_TRIGGER_2_active ) );
+                CHECK( dummy.has_trait( trait_TEST_TRIGGER_2 ) );
             }
         }
 
@@ -396,8 +415,8 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             dummy.process_turn();
 
             THEN( "the mutation turns on" ) {
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+                CHECK( dummy.has_trait( trait_TEST_TRIGGER_2_active ) );
+                CHECK( !dummy.has_trait( trait_TEST_TRIGGER_2 ) );
             }
         }
 
@@ -406,8 +425,8 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             dummy.process_turn();
 
             THEN( "the mutation turns off" ) {
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+                CHECK( !dummy.has_trait( trait_TEST_TRIGGER_2_active ) );
+                CHECK( dummy.has_trait( trait_TEST_TRIGGER_2 ) );
             }
         }
     }

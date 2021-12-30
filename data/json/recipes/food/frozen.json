@@ -234,6 +234,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "20 m",
+    "tools": [ [ [ "bag_plastic", 2 ] ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
@@ -258,8 +259,7 @@
         [ "irradiated_blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
-      [ [ "salt", 30 ] ],
-      [ [ "bag_plastic", 2 ] ]
+      [ [ "salt", 5 ] ]
     ]
   },
   {
@@ -268,6 +268,7 @@
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "copy-from": "icecream_from_bags",
     "type": "recipe",
+    "tools": [ [ [ "bag_plastic", 2 ] ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
@@ -292,8 +293,7 @@
         [ "irradiated_blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
-      [ [ "salt", 30 ] ],
-      [ [ "bag_plastic", 2 ] ]
+      [ [ "salt", 5 ] ]
     ]
   },
   {

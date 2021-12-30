@@ -23,6 +23,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const ammotype ammo_test_9mm( "test_9mm" );
+
 // Pocket Tests
 // ------------
 //
@@ -57,6 +59,7 @@ static void expect_can_contain( const item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
     const ret_val<item_pocket::contain_code> rate_can = pocket.can_contain( it );
+    INFO( rate_can.str() );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
     CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
@@ -299,7 +302,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "test_9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -344,7 +347,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "test_9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
@@ -523,9 +526,9 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
-                expect_cannot_contain( pocket_belt, rag, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
-                expect_cannot_contain( pocket_belt, rock, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rock, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
             }
         }
@@ -1331,7 +1334,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "nato_assault_rifle" );
+    item m4a1( "m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );

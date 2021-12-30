@@ -34,7 +34,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 1 ] ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ]
   },
   {
     "id": "hoe",
@@ -54,6 +54,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ]
   },
   {
@@ -124,7 +125,8 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "shovel",
@@ -205,7 +207,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
   },
   {
     "id": "trimmer_off",
@@ -224,7 +227,7 @@
     "symbol": "/",
     "color": "green",
     "ammo": [ "gasoline" ],
-    "max_charges": 600,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
     "use_action": [ "TRIMMER_OFF" ],
     "flags": [ "NONCONDUCTIVE" ]

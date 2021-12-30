@@ -30,12 +30,20 @@ then
     # We need to fetch enough commits to be able to compute the merge-base
     # between this PR and master
     commits_to_fetch=10
+    fetch_limit=10000
     while [ -z "$( git merge-base "$base" HEAD^2 2>/dev/null )" ]
     do
         git fetch -q --deepen=$commits_to_fetch origin "$GITHUB_BASE_REF" HEAD
         (( commits_to_fetch *= 2 ))
+        if [ "$commits_to_fetch" -gt "$fetch_limit" ]
+        then
+            printf '%s\n' "Already fetched over $fetch_limit commits" \
+                'Giving up on trying to find merge-base' >&2
+            exit 1
+        fi
     done
     files_list "$( git merge-base "$base" HEAD^2 )..HEAD^2"
 else
+    echo 'Neither $TRAVIS nor $GITHUB_BASE_REF was defined' >&2
     exit 1
 fi
