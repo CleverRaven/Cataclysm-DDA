@@ -4,8 +4,9 @@
 #include "morale.h"
 #include "widget.h"
 
-// test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
+static const itype_id itype_rad_badge( "rad_badge" );
 
+// test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -22,6 +23,7 @@ static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
+static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
@@ -357,6 +359,38 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
     }
+}
+
+TEST_CASE( "radiation badge widget", "[widget][radiation]" )
+{
+    widget rads_w = widget_test_rad_badge_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    // No indicator when character has no radiation badge
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
+
+    // Acquire and wear a radiation badge
+    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.emplace_back( rad_badge );
+
+    // Color indicator is shown when character has radiation badge
+    rad_badge.irradiation = 0;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
+    // Any positive value turns it blue
+    rad_badge.irradiation = 1;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 29;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 31;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
+    rad_badge.irradiation = 61;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
+    rad_badge.irradiation = 121;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
+    rad_badge.irradiation = 241;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
 TEST_CASE( "layout widgets", "[widget][layout]" )
