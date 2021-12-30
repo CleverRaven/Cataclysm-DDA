@@ -105,6 +105,12 @@
     "monsters": [ { "monster": "mon_tortoise", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_TERMITE",
+    "type": "monstergroup",
+    "default": "mon_termite_nymph",
+    "monsters": [ { "monster": "mon_termite_nymph", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_BUTTERFLY",
     "type": "monstergroup",
     "default": "mon_caterpillar",
