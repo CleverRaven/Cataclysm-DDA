@@ -158,6 +158,7 @@ class item_pocket
         void set_usability( bool show );
 
         const translation &get_description() const;
+        void set_description( translation description );
 
         const pocket_data *get_pocket_data() const;
 
@@ -461,6 +462,8 @@ class pocket_data
 
         // a description of the pocket
         translation description;
+
+        void set_description( translation description );
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

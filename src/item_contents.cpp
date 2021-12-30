@@ -1504,6 +1504,10 @@ void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;
     for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+        // if the pocket didn't have a description make the description the name of the original item
+        if( i_pocket->get_description().empty() ) {
+            i_pocket->set_description()
+        }
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
         total_nonrigid_volume += i_pocket->max_contains_volume();
