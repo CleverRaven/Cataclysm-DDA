@@ -15,5 +15,19 @@
       [ [ "scrap", 1 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ], [ "lye_powder", 20 ] ]
     ]
+  },
+  {
+    "result": "cattail_jelly",
+    "byproducts": [ [ "plant_fibre" ] ],
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cattail_stalk", 4 ] ] ]
   }
 ]

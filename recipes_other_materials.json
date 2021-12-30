@@ -17,5 +17,33 @@
     "tools": [ [ [ "bloomery", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "iron_ore", 68 ] ], [ [ "charcoal", 165 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "glass_shard",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "result_mult": 4,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ] ],
+      [ [ "forge", 25 ] ],
+      [ [ "surface_heat", 15, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "material_sand", 10 ] ],
+      [ [ "ammonia", 1 ] ],
+      [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
+      [ [ "material_quicklime", 2 ], [ "bone_meal_any", 1, "LIST" ] ]
+    ]
   }
 ]

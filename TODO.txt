@@ -1,11 +1,8 @@
- -- Glass --
- - Add research for glass
-
 Add research for concreete
 Do a readme
 
 --- Less important ---
-Ore spawn from mined rock
+Add iron ore to mined rock dropps
 Purge Spider Pit of man-made items
 Purge Bee Hive of man-made items
 
@@ -22,3 +19,6 @@ Fix a more realistic source of ammonia
 research for ammonia?
 research for duct tape
 research for refining steel
+research for cattail jelly
+Make an item with "bandages_power" available
+Make healthcare training craftable somehow
