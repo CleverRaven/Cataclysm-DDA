@@ -2,7 +2,7 @@
   {
     "id": "exo_back_battery_rechargable",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton power supply unit" },
     "description": "Designed to attach to an exoskeleton's back, this is a large rechargable battery with an integrated UPS.",
     "weight": "15 kg",
@@ -31,7 +31,7 @@
   {
     "id": "exo_back_gasoline",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton ICE power supply", "str_pl": "exoskeleton ICE power supplies" },
     "description": "Designed to attach to an exoskeleton's back, this is an internal combustion engine generator with an integrated UPS.  This unit is large and occupies the rear hardpoints.",
     "weight": "20 kg",
@@ -66,7 +66,7 @@
   {
     "id": "exo_large_aux_power",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton auxiliary battery", "str_pl": "exoskeleton auxiliary batteries" },
     "description": "This is a large rechargable auxiliary power unit that attaches to an exoskeleton hardpoint.",
     "weight": "5 kg",
@@ -82,7 +82,7 @@
   {
     "id": "exo_small_aux_power",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton small auxiliary battery", "str_pl": "exoskeleton small auxiliary batteries" },
     "description": "This is a small rechargable auxiliary power unit that attaches to an exoskeleton hardpoint.",
     "weight": "2 kg",
@@ -98,7 +98,7 @@
   {
     "id": "exo_large_carry",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton large load support module (off)", "str_pl": "exoskeleton large load support modules (off)" },
     "description": "This module significantly increases the exoskeleton's weight bearing at the cost of increased power consumption.",
     "weight": "10 kg",
@@ -125,7 +125,7 @@
   {
     "id": "exo_large_carry_on",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton large load support module (on)", "str_pl": "exoskeleton large load support modules (on)" },
     "description": "This module significantly increases the exoskeleton's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
     "weight": "10 kg",
@@ -152,7 +152,7 @@
   {
     "id": "exo_small_carry",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton small load support module (off)", "str_pl": "exoskeleton small load support modules (off)" },
     "description": "This module increases the exoskeleton's weight bearing at the cost of increased power consumption.",
     "weight": "2 kg",
@@ -179,7 +179,7 @@
   {
     "id": "exo_small_carry_on",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "exoskeleton small load support module (on)", "str_pl": "exoskeleton small load support modules (on)" },
     "description": "This module increases the exoskeleton's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
     "weight": "2 kg",
@@ -206,7 +206,7 @@
   {
     "id": "exo_flashlight",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
     "description": "This is a light that can be secured to an exoskeleton hardpoint.  It has two levels of brightness.",
     "weight": "500 g",
@@ -261,7 +261,7 @@
   {
     "id": "exo_hearing",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str_sp": "audio protection (off)" },
     "description": "This is an audio protection exoskeleton module.  While active, it also protects your hearing from loud noises.",
     "weight": "500 g",
@@ -300,7 +300,7 @@
   {
     "id": "exo_recoil",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "recoil mitigation system (off)", "str_pl": "recoil mitigation systems (off)" },
     "description": "This module takes partial control of the exoskeleton while firing, damping recoil.  Activate before firing.",
     "weight": "500 g",
@@ -345,7 +345,7 @@
   {
     "id": "exo_optics",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "symbol": "8",
     "color": "light_gray",
     "name": { "str_sp": "exoskeleton enhanced optics (off)" },
