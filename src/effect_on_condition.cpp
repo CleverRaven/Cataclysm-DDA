@@ -121,9 +121,6 @@ void effect_on_conditions::load_new_character( Character &you )
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
-    effect_on_conditions::process_effect_on_conditions( you );
-    effect_on_conditions::clear( you );
-
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, get_talker_for( you ).get() )};
@@ -314,8 +311,6 @@ void effect_on_conditions::clear( Character &you )
         g->queued_global_effect_on_conditions.pop();
     }
     g->inactive_global_effect_on_condition_vector.clear();
-
-
 }
 
 void effect_on_conditions::write_eocs_to_file( Character &you )

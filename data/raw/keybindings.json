@@ -2868,6 +2868,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ADD_PERSONAL_ZONE",
+    "category": "ZONES_MANAGER",
+    "name": "Add personal zone",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "p" },
+      { "input_method": "keyboard_char", "key": "P" },
+      { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "REMOVE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Remove zone",
@@ -2926,6 +2937,28 @@
       { "input_method": "keyboard_any", "key": "d" },
       { "input_method": "keyboard_char", "key": "D" },
       { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_PERSONAL_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Enable personal zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "z" },
+      { "input_method": "keyboard_char", "key": "Z" },
+      { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_PERSONAL_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Disable personal zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "x" },
+      { "input_method": "keyboard_char", "key": "X" },
+      { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
     ]
   },
   {

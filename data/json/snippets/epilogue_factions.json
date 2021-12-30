@@ -3,10 +3,10 @@
     "type": "snippet",
     "category": "epilogue_factions",
     "text": [
-      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the cataclysm…" },
+      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the Cataclysm…" },
       {
         "id": "epilogue_faction_your_followers_0",
-        "text": "    You are forgotten among the billions lost in the cataclysm…"
+        "text": "    You are forgotten among the billions lost in the Cataclysm…"
       },
       {
         "id": "epilogue_faction_old_guard_0",
@@ -14,7 +14,7 @@
       },
       {
         "id": "epilogue_faction_old_guard_150",
-        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
+        "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
       },
       {
         "id": "epilogue_faction_free_merchants_0",
@@ -22,7 +22,7 @@
       },
       {
         "id": "epilogue_faction_free_merchants_150",
-        "text": "    The Free Merchants struggled for years to keep themselves fed but their once profitable trade routes were plundered by bandits and thugs.  In squalor and filth the first generations born after the cataclysm are told stories of the old days when food was abundant and the children were allowed to play in the sun…"
+        "text": "    The Free Merchants struggled for years to keep themselves fed but their once profitable trade routes were plundered by bandits and thugs.  In squalor and filth the first generations born after the Cataclysm are told stories of the old days when food was abundant and the children were allowed to play in the sun…"
       },
       {
         "id": "epilogue_faction_tacoma_commune_0",
@@ -38,7 +38,7 @@
       },
       {
         "id": "epilogue_faction_wasteland_scavengers_150",
-        "text": "    The scavengers who flourished in the opening days of the cataclysm found an ever increasing challenge in finding and maintaining equipment from the old world.  Enormous hordes made cities impossible to enter while new eldritch horrors appeared mysteriously near old research labs.  But on the fringes of where civilization once ended, bands of hunter-gatherers began to adopt agrarian lifestyles in fortified enclaves…"
+        "text": "    The scavengers who flourished in the opening days of the Cataclysm found an ever increasing challenge in finding and maintaining equipment from the old world.  Enormous hordes made cities impossible to enter while new eldritch horrors appeared mysteriously near old research labs.  But on the fringes of where civilization once ended, bands of hunter-gatherers began to adopt agrarian lifestyles in fortified enclaves…"
       },
       {
         "id": "epilogue_faction_hells_raiders_0",

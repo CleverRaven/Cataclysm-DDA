@@ -631,51 +631,96 @@ void field_processor_fd_flame_burst( const tripoint &p, field_entry &cur, field_
 static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         field_proc_data &pd )
 {
-    // 4 in 5 chance to spread
-    if( !one_in( 5 ) ) {
-        std::vector<tripoint> valid;
-        // We're grounded
-        if( pd.here.impassable( p ) && cur.get_field_intensity() > 1 ) {
-            int tries = 0;
-            tripoint pnt;
-            pnt.z = p.z;
-            while( tries < 10 && cur.get_field_age() < 5_minutes && cur.get_field_intensity() > 1 ) {
-                pnt.x = p.x + rng( -1, 1 );
-                pnt.y = p.y + rng( -1, 1 );
-                if( pd.here.passable( pnt ) ) {
-                    pd.here.add_field( pnt, fd_electricity, 1, cur.get_field_age() + 1_turns );
-                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                    tries = 0;
-                } else {
-                    tries++;
-                }
+    // Higher chance of spreading for intense fields
+    int current_intensity = cur.get_field_intensity();
+    if( one_in( current_intensity * 2 ) ) {
+        return;
+    }
+
+    const int spread_intensity_cap = 3 + std::max( ( current_intensity - 3 ) / 2, 0 );
+
+    std::vector<tripoint> grounded_tiles;
+    std::vector<tripoint> tiles_with_creatures;
+    std::vector<tripoint> other_tiles;
+
+    bool valid_candidates = false;
+    for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+        // Skip tiles with intense fields
+        auto &field_type = pd.here.get_applicable_electricity_field( dst );
+        if( field_entry *field = pd.here.get_field( dst, field_type ) ) {
+            if( field->get_field_intensity() >= spread_intensity_cap ) {
+                continue;
             }
-            // We're not grounded; attempt to ground
+        }
+
+        if( pd.here.impassable( dst ) ) {
+            grounded_tiles.push_back( dst );
         } else {
-            for( const tripoint &dst : points_in_radius( p, 1 ) ) {
-                // Grounded tiles first
-                if( pd.here.impassable( dst ) ) {
-                    valid.push_back( dst );
-                }
+            if( get_creature_tracker().creature_at( dst ) ) {
+                tiles_with_creatures.push_back( dst );
+            } else {
+                other_tiles.push_back( dst );
             }
-            // Spread to adjacent space, then
-            if( valid.empty() ) {
-                tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
-                field_entry *elec = pd.here.get_field( dst, fd_electricity );
-                if( pd.here.passable( dst ) && elec != nullptr &&
-                    elec->get_field_intensity() < 3 ) {
-                    pd.here.mod_field_intensity( dst, fd_electricity, 1 );
-                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                } else if( pd.here.passable( dst ) ) {
-                    pd.here.add_field( dst, fd_electricity, 1, cur.get_field_age() + 1_turns );
-                }
-                cur.set_field_intensity( cur.get_field_intensity() - 1 );
+        }
+        valid_candidates = true;
+    }
+
+    if( !valid_candidates ) {
+        return;
+    }
+
+    const bool here_impassable = pd.here.impassable( p );
+    int grounded_weight = here_impassable ? 2 : 6;
+    int creature_weight = here_impassable ? 8 : 6;
+    int other_weight = here_impassable ? 0 : 1;
+
+    std::vector<tripoint> *target_vector = nullptr;
+    while( current_intensity > 0 ) {
+        const int vector_choice = bucket_index_from_weight_list( std::vector<int>( {
+            grounded_tiles.empty() ? 0 : grounded_weight,
+            tiles_with_creatures.empty() ? 0 : creature_weight,
+            other_tiles.empty() ? 0 : other_weight
+        } ) );
+
+        switch( vector_choice ) {
+            default:
+            case 0:
+                target_vector = &grounded_tiles;
+                break;
+            case 1:
+                target_vector = &tiles_with_creatures;
+                break;
+            case 2:
+                target_vector = &other_tiles;
+                break;
+        }
+
+        if( target_vector->empty() ) {
+            return;
+        }
+
+        int vector_index = rng( 0, target_vector->size() - 1 );
+        auto target_it = target_vector->begin() + vector_index;
+        tripoint target_point = *target_it;
+
+        auto &field_type = pd.here.get_applicable_electricity_field( target_point );
+
+        // Intensify target field if it exists, create a new one otherwise
+        if( field_entry *target_field = pd.here.get_field( target_point, field_type ) ) {
+            int target_field_intensity = target_field->get_field_intensity();
+            target_field->set_field_intensity( ++target_field_intensity );
+            if( target_field_intensity >= spread_intensity_cap ) {
+                target_vector->erase( target_it );
             }
-            while( !valid.empty() && cur.get_field_intensity() > 1 ) {
-                const tripoint target = random_entry_removed( valid );
-                pd.here.add_field( target, fd_electricity, 1, cur.get_field_age() + 1_turns );
-                cur.set_field_intensity( cur.get_field_intensity() - 1 );
-            }
+        } else {
+            pd.here.add_field( target_point, field_type, 1, cur.get_field_age() + 1_turns );
+        }
+
+        cur.set_field_intensity( --current_intensity );
+
+        if( one_in( current_intensity * 2 ) ) {
+            // Weaker fields have a harder time spreading
+            break;
         }
     }
 }
@@ -1621,7 +1666,7 @@ void map::player_in_field( Character &you )
                 int total_damage = 0;
                 for( const bodypart_id &bp :
                      you.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                    const int dmg = rng( 1, cur.get_field_intensity() );
+                    const int dmg = rng( 1, std::max( cur.get_field_intensity(), 4 ) );
                     total_damage += you.deal_damage( nullptr, bp, damage_instance( damage_type::ELECTRIC,
                                                      dmg ) ).total_damage();
                 }
@@ -1983,8 +2028,10 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
-            z.deal_damage( nullptr, bodypart_id( "torso" ),
-                           damage_instance( damage_type::ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
+            const int field_dmg = std::max( 1, rng( cur.get_field_intensity() / 2,
+                                                    cur.get_field_intensity() ) );
+            z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
+                           field_dmg ) );
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
@@ -2238,7 +2285,7 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     if( ft.id == fd_flame_burst ) {
         processors.push_back( &field_processor_fd_flame_burst );
     }
-    if( ft.id == fd_electricity ) {
+    if( ft.id == fd_electricity || ft.id == fd_electricity_unlit ) {
         processors.push_back( &field_processor_fd_electricity );
     }
     if( ft.id == fd_push_items ) {
@@ -2261,4 +2308,9 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
 
     return processors;
+}
+
+const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p )
+{
+    return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
 }

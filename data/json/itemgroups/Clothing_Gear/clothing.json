@@ -178,6 +178,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "loaded_lbv", "prob": 40 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -230,6 +231,7 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "loaded_lbv", "prob": 40 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -1156,7 +1158,8 @@
       { "item": "hot_pants_fur", "prob": 5 },
       { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
-      { "group": "pants_mens", "prob": 10 }
+      { "group": "pants_mens", "prob": 10 },
+      { "group": "christmas_pants_male", "prob": 150, "event": "christmas" }
     ]
   },
   {
@@ -1306,7 +1309,19 @@
       [ "hakama", 4 ],
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ],
-      [ "camera_bag", 5 ]
+      [ "camera_bag", 5 ],
+      [ "santa_jacket", 1 ],
+      [ "santa_jacket_short", 1 ],
+      [ "santa_shorts", 1 ],
+      [ "santa_pants", 1 ],
+      [ "santa_gloves", 1 ],
+      [ "gloves_white", 5 ],
+      [ "santa_hat", 1 ],
+      [ "santa_belt", 1 ],
+      [ "santa_beard", 1 ],
+      [ "santa_dress", 1 ],
+      [ "santa_dress_long", 1 ],
+      [ "santa_dress_short", 1 ]
     ]
   },
   {
@@ -1357,8 +1372,16 @@
       [ "postman_shorts", 5 ],
       [ "b_shorts", 15 ],
       [ "kilt", 2 ],
-      [ "nanoskirt", 10 ]
+      [ "nanoskirt", 10 ],
+      { "group": "costume_pants", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_pants",
+    "//": "pants for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [ { "item": "santa_pants", "prob": 10 }, { "item": "santa_shorts", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -1404,8 +1427,16 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
-      [ "apron_leather", 1 ]
+      [ "apron_leather", 1 ],
+      { "group": "costume_jackets", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_jackets",
+    "//": "jackets for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [ { "item": "santa_jacket", "prob": 10 }, { "item": "santa_jacket_short", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -1464,7 +1495,19 @@
       [ "tights", 20 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
-      [ "balclava", 15 ]
+      [ "balclava", 15 ],
+      [ "santa_jacket", 1 ],
+      [ "santa_jacket_short", 1 ],
+      [ "santa_shorts", 1 ],
+      [ "santa_pants", 1 ],
+      [ "santa_gloves", 1 ],
+      [ "gloves_white", 1 ],
+      [ "santa_hat", 1 ],
+      [ "santa_belt", 1 ],
+      [ "santa_beard", 1 ],
+      [ "santa_dress", 1 ],
+      [ "santa_dress_long", 1 ],
+      [ "santa_dress_short", 1 ]
     ]
   },
   {
@@ -1556,7 +1599,8 @@
       [ "kippah", 30 ],
       [ "eboshi", 30 ],
       [ "balclava", 20 ],
-      [ "porkpie", 30 ]
+      [ "porkpie", 30 ],
+      { "group": "christmas_hats", "prob": 850, "event": "christmas" }
     ]
   },
   {
@@ -1864,7 +1908,19 @@
       { "item": "kimono", "prob": 2 },
       { "item": "yukata", "prob": 4 },
       { "item": "haori", "prob": 1 },
-      { "item": "hakama", "prob": 2 }
+      { "item": "hakama", "prob": 2 },
+      { "item": "santa_jacket", "prob": 1 },
+      { "item": "santa_jacket_short", "prob": 1 },
+      { "item": "santa_shorts", "prob": 1 },
+      { "item": "santa_pants", "prob": 1 },
+      { "item": "santa_gloves", "prob": 1 },
+      { "item": "gloves_white", "prob": 5 },
+      { "item": "santa_hat", "prob": 1 },
+      { "item": "santa_belt", "prob": 1 },
+      { "item": "santa_beard", "prob": 1 },
+      { "item": "santa_dress", "prob": 1 },
+      { "item": "santa_dress_long", "prob": 1 },
+      { "item": "santa_dress_short", "prob": 1 }
     ]
   },
   {
@@ -2176,7 +2232,6 @@
       [ "cloak_wool", 5 ],
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
-      [ "helmet_lobster", 2 ],
       [ "apron_leather", 2 ],
       [ "tool_belt", 5 ],
       [ "bootsheath", 8 ],
@@ -2454,7 +2509,6 @@
       [ "tac_helmet", 22 ],
       [ "helmet_riot", 18 ],
       [ "tac_fullhelmet", 8 ],
-      [ "helmet_lobster", 8 ],
       [ "helmet_larmor", 14 ],
       [ "pickelhaube", 1 ],
       [ "firehelmet", 2 ],
@@ -2737,7 +2791,19 @@
       [ "linuxtshirt", 20 ],
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
-      [ "robe", 50 ]
+      [ "robe", 50 ],
+      [ "santa_jacket", 1 ],
+      [ "santa_jacket_short", 1 ],
+      [ "santa_shorts", 1 ],
+      [ "santa_pants", 1 ],
+      [ "santa_gloves", 1 ],
+      [ "gloves_white", 5 ],
+      [ "santa_hat", 1 ],
+      [ "santa_belt", 1 ],
+      [ "santa_beard", 1 ],
+      [ "santa_dress", 1 ],
+      [ "santa_dress_long", 1 ],
+      [ "santa_dress_short", 1 ]
     ]
   },
   {
@@ -2752,8 +2818,10 @@
       { "item": "gloves_winter", "prob": 10 },
       { "item": "gloves_fingerless", "prob": 15 },
       { "item": "gloves_liner", "prob": 15 },
+      { "item": "gloves_white", "prob": 10 },
       { "item": "mittens", "prob": 5 },
-      { "item": "thermal_gloves", "prob": 2 }
+      { "item": "thermal_gloves", "prob": 2 },
+      { "group": "christmas_common_gloves", "prob": 70, "event": "christmas" }
     ]
   },
   {
@@ -2772,7 +2840,9 @@
       [ "copper_bracelet", 10 ],
       [ "sunglasses", 25 ],
       [ "tieclip", 15 ],
-      [ "hairpin", 15 ]
+      [ "hairpin", 15 ],
+      [ "santa_beard", 5 ],
+      [ "santa_hat", 4 ]
     ]
   },
   {
@@ -2844,7 +2914,20 @@
       },
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
-      { "item": "hat_ball", "prob": 50 }
+      { "item": "hat_ball", "prob": 50 },
+      { "group": "costume_hats_unisex", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_hats_unisex",
+    "//": "hats for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "santa_hat", "prob": 10 },
+      { "item": "hat_sombrero", "prob": 5 },
+      { "item": "cowboy_hat", "prob": 5 },
+      { "item": "tricorne", "prob": 1 }
     ]
   },
   {
@@ -2853,12 +2936,25 @@
     "//": "unisex masks for domestic locations",
     "subtype": "distribution",
     "items": [
-      { "item": "bondage_mask", "prob": 10 },
+      { "item": "bondage_mask", "prob": 5 },
       { "item": "mask_dust", "prob": 15 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
-      { "item": "mask_hockey", "prob": 15 },
+      { "item": "mask_guy_fawkes", "prob": 1 },
+      { "item": "mask_hockey", "prob": 10 },
       { "item": "mouthpiece", "prob": 5 },
-      { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] }
+      { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
+      { "group": "costume_masks_unisex", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_masks_unisex",
+    "//": "masks for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "santa_beard", "prob": 10 },
+      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_hockey", "prob": 10 },
+      { "item": "bondage_mask", "prob": 5 }
     ]
   },
   {
@@ -3049,7 +3145,19 @@
       { "item": "gloves_golf", "prob": 10 },
       { "item": "wetsuit_gloves", "prob": 5 },
       { "item": "gloves_fur", "prob": 5 },
-      { "item": "thermal_gloves", "prob": 2 }
+      { "item": "thermal_gloves", "prob": 2 },
+      { "group": "costume_gloves_unisex", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_gloves_unisex",
+    "//": "gloves for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_white", "prob": 10 },
+      { "item": "santa_gloves", "prob": 5 },
+      { "item": "gloves_leather", "prob": 5 }
     ]
   },
   {
@@ -3145,10 +3253,22 @@
     "id": "dresses_womens",
     "subtype": "distribution",
     "entries": [
-      { "item": "dress", "prob": 5 },
-      { "item": "sundress", "prob": 5 },
-      { "item": "gown", "prob": 2 },
-      { "item": "dress_wedding", "prob": 1 }
+      { "item": "dress", "prob": 10 },
+      { "item": "sundress", "prob": 10 },
+      { "item": "gown", "prob": 4 },
+      { "item": "dress_wedding", "prob": 2 },
+      { "group": "costume_dresses_womens", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_dresses_womens",
+    "//": "dresses for costumes, cosplay and costume parties ",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "santa_dress", "prob": 10 },
+      { "item": "santa_dress_short", "prob": 5 },
+      { "item": "santa_dress_long", "prob": 1 }
     ]
   },
   {
@@ -3274,7 +3394,8 @@
           { "item": "blazer", "prob": 70 }
         ],
         "prob": 40
-      }
+      },
+      { "group": "christmas_coats_unisex", "prob": 80, "event": "christmas" }
     ]
   },
   {
@@ -3423,7 +3544,7 @@
   {
     "id": "accessory_cat",
     "type": "item_group",
-    "//": "accessories that some say were the cause of the cataclysm.",
+    "//": "accessories that some say were the cause of the Cataclysm.",
     "subtype": "distribution",
     "items": [
       { "item": "faux_fur_cat_ears", "prob": 80 },

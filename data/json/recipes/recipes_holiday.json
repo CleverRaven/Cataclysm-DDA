@@ -9,7 +9,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "book_learn": [ [ "plastics_book", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
@@ -31,7 +31,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "pine_bough", 4 ] ], [ [ "duct_tape", 10 ], [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -44,7 +44,7 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "pumpkin", 12 ], [ "irradiated_pumpkin", 12 ] ], [ [ "candle", 1 ] ] ]
   }
 ]

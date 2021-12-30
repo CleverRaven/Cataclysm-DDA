@@ -27,10 +27,10 @@ struct diary_page {
     std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
-    /*mission ids for completed/active and faild missions*/
+    /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;
-    std::vector<int> mission_faild;
+    std::vector<int> mission_failed;
     /*monster id and kill count of Killed monster*/
     std::map<mtype_id, int> kills;
     /*names of killed npc`s*/

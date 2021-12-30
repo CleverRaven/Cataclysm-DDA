@@ -502,7 +502,7 @@
       {
         "id": "m231pfw",
         "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slighly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
+        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slightly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
       }
     ],
     "dispersion": 350,

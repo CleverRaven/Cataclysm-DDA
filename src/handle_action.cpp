@@ -134,6 +134,8 @@ static const skill_id skill_melee( "melee" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -612,13 +614,25 @@ static void grab()
         add_msg( _( "Never mind." ) );
         return;
     }
-    const tripoint grabp = *grabp_;
+    tripoint grabp = *grabp_;
 
     if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
         you.grab( object_type::NONE );
         return;
     }
+
+    // Object might not be on the same z level if on a ramp.
+    if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
+            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos() ) ) {
+            grabp.z += 1;
+        } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, grabp ) ||
+                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos() ) ) {
+            grabp.z -= 1;
+        }
+    }
+
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
@@ -781,11 +795,8 @@ static void smash()
                 }
             }
             for( const trait_id &mut : player_character.get_mutations() ) {
-                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
-                    if( res.first == bp.id() ) {
-                        tmp_bash_armor += std::floor( res.second.type_resist( damage_type::BASH ) );
-                    }
-                }
+                const resistances &res = mut->damage_resistance( bp );
+                tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
@@ -1027,7 +1038,11 @@ static void sleep()
         return;
     }
 
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+        !player_character.has_trait( trait_WATERSLEEPER ) &&
+        !player_character.has_trait( trait_WATERSLEEP ) &&
+        boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
     }
@@ -1171,6 +1186,11 @@ static void loot()
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
     const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
+
+    // cache should only happen if we have personal zones defined
+    if( mgr.has_personal_zones() ) {
+        mgr.cache_data();
+    }
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())

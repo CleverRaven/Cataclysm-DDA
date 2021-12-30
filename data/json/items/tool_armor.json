@@ -2766,15 +2766,44 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 3,
+    "warmth": 15,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 80,
+        "encumbrance": 5,
+        "layers": [ "Outer" ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 50,
+        "encumbrance": 2,
+        "layers": [ "Outer" ]
+      }
+    ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
+    "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
     "id": "helmet_riot_raised",
@@ -2790,15 +2819,24 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 3,
+    "warmth": 15,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
+    "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
     "id": "helmet_sallet",
@@ -3207,7 +3245,7 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "nomex" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",

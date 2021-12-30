@@ -173,13 +173,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bow_hunter",
-    "entries": [ { "item": "arrow_cf", "charges": 8 } ]
+    "entries": [ { "item": "arrow_cf", "charges": 10 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_crossbow_hunter",
-    "entries": [ { "item": "bolt_metal", "charges": 9 } ]
+    "entries": [ { "item": "bolt_steel", "charges": 4 } ]
   },
   {
     "type": "item_group",
@@ -1759,7 +1759,7 @@
     "id": "bow_hunter",
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
@@ -1772,12 +1772,13 @@
           "pants_cargo",
           "jacket_flannel",
           "bow_sling",
+          "bow_sight_pin",
           "hat_hunting",
           "wristwatch"
         ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "recurbow", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1790,8 +1791,8 @@
     "type": "profession",
     "id": "crossbow_hunter",
     "name": "Crossbow Hunter",
-    "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
+    "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
@@ -1810,7 +1811,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           {
-            "item": "crossbow",
+            "item": "compcrossbow",
             "ammo-item": "bolt_metal",
             "charges": 1,
             "contents-item": "shoulder_strap",

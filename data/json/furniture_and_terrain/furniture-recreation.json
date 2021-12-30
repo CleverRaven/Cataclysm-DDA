@@ -53,6 +53,26 @@
   },
   {
     "type": "furniture",
+    "id": "f_parkour_bars",
+    "name": "parkour bars",
+    "looks_like": "t_monkey_bars",
+    "description": "A complicated set of monkey bars, to be used by adults to train parkour.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "crafting_pseudo_item": "parkour_practice",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crack!",
+      "sound_fail": "ping.",
+      "items": [ { "item": "pipe", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_pool_table",
     "name": "pool table",
     "symbol": "#",

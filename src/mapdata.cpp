@@ -249,6 +249,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
+        case ter_furn_flag::TFLAG_MURKY: return "MURKY";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -278,6 +279,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "CLAY",                     TERCONN_CLAY },
         { "DIRT",                     TERCONN_DIRT },
         { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
+        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
         { "WOODFLOOR",               TERCONN_WOODFLOOR },
     }
@@ -1080,7 +1082,6 @@ void set_ter_ids()
     t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
     t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
-
     for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
@@ -1359,8 +1360,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
-
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
 
     load_symbol( jo );
 

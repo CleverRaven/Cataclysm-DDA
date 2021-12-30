@@ -590,6 +590,8 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        bool is_open_air( const tripoint & ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -1480,6 +1482,11 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+        /**
+         * Get applicable fd_electricity field type for a given point
+         */
+        const field_type_str_id &get_applicable_electricity_field( const tripoint &p );
 
     private:
         // Is called when field intensity is changed.

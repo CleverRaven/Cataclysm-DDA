@@ -20,7 +20,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+      }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
@@ -48,5 +52,27 @@
     "description": "A power cord sticking out of an appliance.  You need to plug it in a powered grid for the appliance to work properly.",
     "item": "power_cord",
     "flags": [ "NOINSTALL", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
+  },
+  {
+    "id": "ap_standing_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "standing lamp" },
+    "item": "standing_lamp",
+    "symbol": "*",
+    "broken_symbol": "-",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "An electrical device containing an electric lamp that provides illumination.",
+    "epower": -200,
+    "bonus": 200,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
   }
 ]

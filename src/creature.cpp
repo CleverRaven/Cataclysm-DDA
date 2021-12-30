@@ -1208,10 +1208,19 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             }
             break;
 
-        case damage_type::ELECTRIC:
+        case damage_type::ELECTRIC: {
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            double multiplier = 1.0;
+            if( monster *mon = as_monster() ) {
+                multiplier = mon->type->status_chance_multiplier;
+            }
+            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+            if( x_in_y( chance, 100 ) ) {
+                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+                add_effect( source, effect_zapped, 1_turns * duration );
+            }
             break;
+        }
 
         case damage_type::ACID:
             // Acid damage and acid burns are more painful

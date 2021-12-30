@@ -145,7 +145,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -239,12 +238,14 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        for( const trait_id &mut : p.get_mutations() ) {
-            const mutation_branch &branch = mut.obj();
-            if( branch.conflicts_with_item( tmp ) ) {
-                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                     branch.name() );
-                return cata::nullopt;
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+            for( const trait_id &mut : p.get_mutations() ) {
+                const mutation_branch &branch = mut.obj();
+                if( branch.conflicts_with_item( tmp ) ) {
+                    p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                         branch.name() );
+                    return cata::nullopt;
+                }
             }
         }
     }
@@ -674,6 +675,15 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         return cata::nullopt;
     }
     veh->set_owner( p );
+    // Set damage and degradation based on source item.
+    // This is to preserve the item's state if it has
+    // never been unfolded (no saved parts data).
+    for( int i = 0; i < veh->part_count(); i++ ) {
+        item vp = veh->part( i ).get_base();
+        vp.set_damage( it.damage() );
+        vp.set_degradation( it.degradation() );
+        veh->part( i ).set_base( vp );
+    }
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -696,7 +706,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( vpr.part(), tmp );
+            veh->set_hp( vpr.part(), tmp, true, it.degradation() );
         }
     } else {
         try {
@@ -710,7 +720,7 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
-                veh->set_hp( dst, src.hp() );
+                veh->set_hp( dst, src.hp(), true, it.degradation() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -1133,7 +1143,10 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return cata::nullopt;
     }
-
+    if( here.has_items( pnt ) ) {
+        p.add_msg_if_player( m_info, _( "Before deploying furniture, you need to clear the tile." ) );
+        return cata::nullopt;
+    }
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
@@ -1348,10 +1361,13 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
+        const int minutes = moves / to_moves<int>( 1_minutes );
         p.add_msg_if_player( m_info, need_sunlight ?
-                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
-                             _( "At your skill level, it will take around %d minutes to light a fire." ),
-                             moves / to_moves<int>( 1_minutes ) );
+                             n_gettext( "If the current weather holds, it will take around %d minute to light a fire.",
+                                        "If the current weather holds, it will take around %d minutes to light a fire.", minutes ) :
+                             n_gettext( "At your skill level, it will take around %d minute to light a fire.",
+                                        "At your skill level, it will take around %d minutes to light a fire.", minutes ),
+                             minutes );
     } else if( moves < to_moves<int>( 2_turns ) && get_map().is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
@@ -2952,11 +2968,11 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         return true;
     }
 
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.damage_floor( false ) ) {
         return true;
     }
 
-    if( fix.damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.damage_floor( true ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname() );
@@ -3025,7 +3041,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > 0 ) {
+    if( fix.damage() > fix.damage_floor( false ) ) {
         return RT_REPAIR;
     }
 
@@ -3052,7 +3068,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_UPSIZING;
     }
 
-    if( fix.damage() > fix.min_damage() ) {
+    if( fix.damage() > fix.damage_floor( true ) && fix.damage_floor( true ) < 0 ) {
         return RT_REINFORCE;
     }
 
@@ -3161,7 +3177,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            fix->mod_damage( -std::min( static_cast<int>( itype::damage_scale ), damage ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
@@ -3578,8 +3594,7 @@ static bodypart_id pick_part_to_heal(
     const bool bleed = bleed_stop > 0;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
+    const bool precise = &healer == &patient ? false :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
                          ( ( healer.get_skill_level( skill_firstaid ) +
@@ -4031,6 +4046,82 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void molle_attach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "size", size );
+    assign( jo, "moves", moves );
+}
+
+cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+        const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+
+
+    item_location loc = game_menus::inv::molle_attach( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.get_item();
+    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+
+    it.get_contents().add_pocket( obj );
+
+    // the item has been added to the vest it should no longer exist in the world
+    loc.remove_item();
+
+
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
+{
+    return std::make_unique<molle_attach_actor>( *this );
+}
+
+cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
+        const tripoint & ) const
+{
+
+    std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
+    uilist prompt;
+    prompt.text = _( "Remove which accessory?" );
+
+    for( size_t i = 0; i != items_attached.size(); ++i ) {
+        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+    }
+
+    prompt.query();
+
+
+    if( prompt.ret >= 0 ) {
+        p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
+        p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
+        return 0;
+    }
+
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
+{
+    return std::make_unique<molle_detach_actor>( *this );
+}
+
+void molle_detach_actor::load( const JsonObject &jo )
+{
+    assign( jo, "moves", moves );
 }
 
 cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,

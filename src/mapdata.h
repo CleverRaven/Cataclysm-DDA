@@ -293,6 +293,7 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
+    TFLAG_MURKY,
 
     NUM_TFLAG_FLAGS
 };
@@ -326,6 +327,7 @@ enum ter_connects : int {
     TERCONN_CLAY,
     TERCONN_DIRT,
     TERCONN_ROCKFLOOR,
+    TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
 };
@@ -487,6 +489,9 @@ struct map_data_common_t {
         int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // Warmth provided by the terrain (for sleeping, etc.)
+        int floor_bedding_warmth = 0;
+        int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -619,8 +624,6 @@ struct furn_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
-    int comfort = 0;
-    int floor_bedding_warmth = 0;
     /** Emissions of furniture */
     std::set<emit_id> emissions;
 

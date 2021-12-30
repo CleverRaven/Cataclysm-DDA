@@ -561,6 +561,25 @@ class overmap_special
         mapgen_parameters mapgen_params_;
 };
 
+struct overmap_special_migration {
+    public:
+        static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static void check();
+        // Check if the given overmap special should be migrated
+        static bool migrated( const overmap_special_id &os_id );
+        // Get the migrated id. Returns null id if the special was removed,
+        // or the same id if no migration is necessary
+        static overmap_special_id migrate( const overmap_special_id &old_id );
+
+    private:
+        bool was_loaded = false;
+        overmap_special_migration_id id;
+        overmap_special_id new_id;
+        friend generic_factory<overmap_special_migration>;
+};
+
 namespace overmap_terrains
 {
 

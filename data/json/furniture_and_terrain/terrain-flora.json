@@ -309,7 +309,7 @@
     "id": "t_tree_dead",
     "name": "dead tree",
     "looks_like": "t_tree",
-    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldy.  You could cut it down with the right tools.",
+    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldly.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "brown",
     "move_cost": 0,

@@ -155,7 +155,7 @@
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
         "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "rock", 64 ] ] ]
       }
     }
@@ -212,7 +212,7 @@
       "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
         "components": [
           [ [ "2x4", 4 ] ],
           [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],

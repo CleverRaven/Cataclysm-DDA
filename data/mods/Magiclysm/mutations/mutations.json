@@ -158,7 +158,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slighly impede your movement.",
+    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
     "valid": false,
     "types": [ "LEGS" ],
     "category": [ "DRAGON_BLACK" ],

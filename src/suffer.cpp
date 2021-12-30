@@ -602,6 +602,7 @@ void suffer::from_schizophrenia( Character &you )
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
+        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -623,8 +624,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( you.get_wielded_item().damage() >= you.get_wielded_item().max_damage() / 3 &&
-                   one_turn_in( 1_hours ) ) {
+        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
+                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -1519,8 +1520,8 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < get_bionics().size(); i++ ) {
-        process_bionic( i );
+    for( bionic &bio : *my_bionics ) {
+        process_bionic( bio );
     }
 
     for( const trait_id &mut_id : get_mutations() ) {

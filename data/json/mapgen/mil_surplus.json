@@ -154,7 +154,8 @@
               { "item": "elbow_pads", "prob": 1 },
               { "item": "legpouch_large", "prob": 1 },
               { "item": "gloves_tactical", "prob": 1 },
-              { "item": "molle_pack", "prob": 1 }
+              { "item": "molle_pack", "prob": 1 },
+              { "group": "loaded_lbv", "prob": 1 }
             ]
           },
           "repeat": [ 1, 3 ],
