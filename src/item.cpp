@@ -3109,14 +3109,20 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );
     //~ Melee coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
+    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_MELEE ) ) {
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
+    }
     //~ Ranged coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
+    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_MELEE ) ) {
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
+    }
     //~ Vitals coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
+    if( it.get_coverage( bp, item::cover_type::COVER_VITALS ) > 0 ) {
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
+    }
 }
 
 static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &info )
@@ -3268,20 +3274,45 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         const std::string space = "  ";
         // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+
+        bool printed_any = false;
+
         info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
                            _( "Protection" ) ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
-                           iteminfo::is_decimal, bash_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
-                           iteminfo::is_decimal, cut_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                           iteminfo::is_decimal, bullet_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                           iteminfo::is_decimal, acid_resist( false, 0, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
-                           iteminfo::is_decimal, fire_resist( false, 0, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
-                           get_base_env_resist( *this ) );
+        if( bash_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
+                               iteminfo::is_decimal, bash_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( cut_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
+                               iteminfo::is_decimal, cut_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( bullet_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
+                               iteminfo::is_decimal, bullet_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( acid_resist( false, 0, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
+                               iteminfo::is_decimal, acid_resist( false, 0, bp ) );
+            printed_any = true;
+        }
+        if( fire_resist( false, 0, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
+                               iteminfo::is_decimal, fire_resist( false, 0, bp ) );
+            printed_any = true;
+        }
+        if( get_base_env_resist( *this ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
+                               get_base_env_resist( *this ) );
+            printed_any = true;
+        }
+        // if we haven't printed any armor data acknowlege that
+        if( !printed_any ) {
+            info.emplace_back( bp_cat, string_format( "%s", _( "Negligable Protection" ) ) );
+        }
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
                                _( "Protection when active" ) ) );
