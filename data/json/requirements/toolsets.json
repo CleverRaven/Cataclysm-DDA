@@ -43,7 +43,7 @@
     "tools": [
       [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ],
       [ [ "metal_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ], [ "tongs", -1 ] ]
+      [ [ "metalworking_tongs", -1 ] ]
     ]
   },
   {
