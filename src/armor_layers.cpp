@@ -226,25 +226,25 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             {
                 switch( layer ) {
                     case layer_level::PERSONAL:
-                        outstring.append( _( "in your <color_light_blue>personal aura</color> " ) );
+                        outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
                         break;
                     case layer_level::UNDERWEAR:
-                        outstring.append( _( "<color_light_blue>close to your skin</color> " ) );
+                        outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
                         break;
                     case layer_level::REGULAR:
-                        outstring.append( _( "of <color_light_blue>normal</color> clothing " ) );
+                        outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
                         break;
                     case layer_level::WAIST:
-                        outstring.append( _( "on your <color_light_blue>waist</color> " ) );
+                        outstring.append( _( "on your <color_light_blue>waist</color>" ) );
                         break;
                     case layer_level::OUTER:
-                        outstring.append( _( "of <color_light_blue>outer</color> clothing " ) );
+                        outstring.append( _( "of <color_light_blue>outer</color> clothing" ) );
                         break;
                     case layer_level::BELTED:
-                        outstring.append( _( "<color_light_blue>strapped</color> to you " ) );
+                        outstring.append( _( "<color_light_blue>strapped</color> to you" ) );
                         break;
                     case layer_level::AURA:
-                        outstring.append( _( "an <color_light_blue>aura</color> around you " ) );
+                        outstring.append( _( "an <color_light_blue>aura</color> around you" ) );
                         break;
                     default:
                         break;
