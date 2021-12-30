@@ -3108,18 +3108,18 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
     //~ Regular/Default coverage
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );
-    //~ Melee coverage
     if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_MELEE ) ) {
+        //~ Melee coverage
         info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
                            iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
     }
-    //~ Ranged coverage
     if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_RANGED ) ) {
+        //~ Ranged coverage
         info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
                            iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
     }
-    //~ Vitals coverage
     if( it.get_coverage( bp, item::cover_type::COVER_VITALS ) > 0 ) {
+        //~ Vitals coverage
         info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
                            iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
     }
