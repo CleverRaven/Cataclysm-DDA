@@ -2482,10 +2482,20 @@ void game::death_screen()
     display_faction_epilogues();
 }
 
+// A timestamp that can be used to make unique file names
+// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+static std::string timestamp_now()
+{
+    std::time_t time = std::time( nullptr );
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
+    return date_buffer.str();
+}
+
 void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = PATH_INFO::world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
+    const std::string graveyard_dir = PATH_INFO::graveyarddir() + "/" + timestamp_now() + "/";
     const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -5890,13 +5900,19 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+                            _( "<Z>-Enable personal" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<X>-Disable personal" ) );
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+                            _( "<+-> Move up/down" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+
+    tmpx = 1;
+    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) );
+    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
 
     wnoutrefresh( w_info );
 }
@@ -5949,7 +5965,7 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int zone_ui_height = 12;
+    const int zone_ui_height = 13;
     const int zone_options_height = 7;
 
     const int width = 45;
@@ -6005,6 +6021,8 @@ void game::zones_manager()
     ctxt.register_action( "SHOW_ZONE_ON_MAP" );
     ctxt.register_action( "ENABLE_ZONE" );
     ctxt.register_action( "DISABLE_ZONE" );
+    ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
+    ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -6167,7 +6185,8 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
-                               trim_by_length( zone.get_name(), 15 ) );
+                               //~ "P: <Zone Name>" represents a personal zone
+                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 15 ) );
 
                     //Draw Type name
                     mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
@@ -6400,6 +6419,36 @@ void game::zones_manager()
                 zones[active_index].get().set_enabled( false );
 
                 stuff_changed = true;
+            } else if( action == "ENABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( true );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
+            } else if( action == "DISABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( !zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( false );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
             }
         }
 
@@ -7034,12 +7083,8 @@ bool game::take_screenshot() const
     assure_dir_exist( map_directory.str() );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-    std::time_t time = std::time( nullptr );
-    std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
     const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               date_buffer.str() );
+                               timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;
@@ -11413,7 +11458,7 @@ void game::autosave()
 void game::start_calendar()
 {
     time_duration initial_days;
-    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
@@ -11427,7 +11472,7 @@ void game::start_calendar()
                                   + 1_hours * scen->start_hour()
                                   + 1_days * scen->start_day();
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
             // That is unacceptable. So lets just jump to same day on next year.
             calendar::start_of_game += calendar::year_length();
         }

@@ -338,10 +338,10 @@ enum class character_stat : char {
 };
 
 enum class customize_appearance_choice : int {
-    EYES, // customize eye colour
+    EYES, // customize eye color
     HAIR, // customize hair
     HAIR_F, // customize facial hair
-    SKIN  // customize skin colour
+    SKIN  // customize skin color
 };
 
 enum class book_mastery {
@@ -2319,6 +2319,9 @@ class Character : public Creature, public visitable
         bool blood_rh_factor = false;
         // Randomizes characters' blood type and Rh
         void randomize_blood();
+
+        int avg_nat_bpm;
+        void randomize_heartrate();
 
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );

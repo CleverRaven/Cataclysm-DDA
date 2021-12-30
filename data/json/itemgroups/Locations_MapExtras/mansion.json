@@ -92,7 +92,7 @@
               { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
               { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
               { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] },
-              { "group": "corpse_male" }
+              { "group": "corpse_male", "damage": 4 }
             ]
           },
           {
@@ -163,7 +163,7 @@
                   }
                 ]
               },
-              { "group": "corpse_female" }
+              { "group": "corpse_female", "damage": 4 }
             ]
           },
           {
@@ -173,7 +173,7 @@
               { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
               { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
               { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] },
-              { "group": "corpse_child" }
+              { "group": "corpse_child", "damage": 4 }
             ]
           }
         ]

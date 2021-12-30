@@ -905,7 +905,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
-            string_id<map_extra> mx;
+            map_extra_id mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
