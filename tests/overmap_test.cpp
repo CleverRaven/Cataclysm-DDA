@@ -247,7 +247,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
         int successes = 0;
 
         for( int i = 0; i < num_trials_per_overmap; ++i ) {
-            tripoint_om_omt try_pos( rng( 15, OMAPX - 16 ), rng( 15, OMAPY - 16 ), 0 );
+            tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
 
             // This test can get very spammy, so abort once an error is
             // observed
