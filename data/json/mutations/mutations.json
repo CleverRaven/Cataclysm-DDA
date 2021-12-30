@@ -758,17 +758,6 @@
   },
   {
     "type": "mutation",
-    "id": "SELFAWARE",
-    "name": { "str": "Self-Aware" },
-    "points": 1,
-    "description": "You get to see your exact amount of HP remaining and health, instead of having only a vague idea of whether you're in good condition or not.",
-    "starting_trait": true,
-    "valid": false,
-    "active": true,
-    "category": [ "MEDICAL" ]
-  },
-  {
-    "type": "mutation",
     "id": "MASOCHIST",
     "name": { "str": "Masochist" },
     "points": 1,

@@ -680,14 +680,20 @@ void Item_factory::finalize_post( itype &obj )
                             // for overall coverage we need to scale coverage by that
                             float scale = sub_armor.max_coverage( bp ) / 100.0;
 
+                            float it_scale = it.max_coverage( bp ) / 100.0;
+
                             it.coverage += sub_armor.coverage * scale;
                             it.cover_melee += sub_armor.cover_melee * scale;
                             it.cover_ranged += sub_armor.cover_ranged * scale;
                             it.cover_vitals += sub_armor.cover_vitals;
 
-                            it.avg_thickness += sub_armor.avg_thickness;
-                            it.env_resist += sub_armor.env_resist;
-                            it.env_resist_w_filter += sub_armor.env_resist_w_filter;
+                            // these values need to be averaged based on proportion covered
+                            it.avg_thickness = ( sub_armor.avg_thickness * scale + it.avg_thickness * it_scale ) /
+                                               ( scale + it_scale );
+                            it.env_resist = ( sub_armor.env_resist * scale + it.env_resist * it_scale ) /
+                                            ( scale + it_scale );
+                            it.env_resist_w_filter = ( sub_armor.env_resist_w_filter * scale + it.env_resist_w_filter *
+                                                       it_scale ) / ( scale + it_scale );
 
                             // add layers that are covered by sublimbs
                             for( const layer_level &ll : sub_armor.layers ) {

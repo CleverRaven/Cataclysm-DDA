@@ -162,8 +162,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_ABSORBS: return "ABSORBS";
-        case MF_ABSORBS_SPLITS: return "ABSORBS_SPLITS";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
@@ -379,9 +377,6 @@ void load_monster_adjustment( const JsonObject &jsobj )
 static void build_behavior_tree( mtype &type )
 {
     type.set_strategy();
-    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
-        type.add_goal( "absorb_items" );
-    }
     for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
         if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
             type.add_goal( attack.first );
@@ -504,6 +499,8 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
+    add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
@@ -814,6 +811,23 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "families" ) ) {
                 families.remove( tmp.get_array( "families" ) );
             }
+        }
+    }
+
+    optional( jo, was_loaded, "absorb_ml_per_hp", absorb_ml_per_hp, 250 );
+    optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );
+    optional( jo, was_loaded, "absorb_move_cost_per_ml", absorb_move_cost_per_ml, 0.025f );
+    optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
+    optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
+
+    if( jo.has_member( "absorb_material" ) ) {
+        absorb_material.clear();
+        if( jo.has_array( "absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
+                absorb_material.emplace_back( material_id( mat ) );
+            }
+        } else {
+            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
         }
     }
 
