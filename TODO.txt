@@ -1,14 +1,24 @@
+ -- Glass --
+ - Add research for glass
 
-fix crafting of nail
-Add bog iron
-Ore veins
-Add research for glass
-Add research for refining steel
 Add research for concreete
+Do a readme
+
+--- Less important ---
+Ore spawn from mined rock
+Purge Spider Pit of man-made items
+Purge Bee Hive of man-made items
+
+--- Non critical -----
+Gems?
+Ore veins
+More different types of ore? (Lead, copper, tin, sulphur, lapis...)
 Fix Lighthouse Island
 check start in cave
 Fix trash_forest properly
-Purge Spider Pit of man-made items
-Purge Bee Hive
 Add more withered plants from trees (Tree drops are hardcoded)
 Fix potter's cottage
+Fix a more realistic source of ammonia
+research for ammonia?
+research for duct tape
+research for refining steel
