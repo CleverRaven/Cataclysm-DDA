@@ -1180,7 +1180,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Negligible Protection" );
+               "  Negligible Protection\n" );
     }
 
     SECTION( "moderate protection from physical and environmental damage" ) {
