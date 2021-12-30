@@ -138,7 +138,7 @@
     "id": "mon_caterpillar",
     "type": "MONSTER",
     "name": { "str": "caterpillar" },
-    "description": "Caterpillars are the larval stage of butterflies and moths.  This one seems newly hatched from an egg but even then its as large as a cat.",
+    "description": "Caterpillars are the larval stage of butterflies and moths.  This one seems newly hatched from an egg but even now it is as large as a cat.",
     "default_faction": "ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
