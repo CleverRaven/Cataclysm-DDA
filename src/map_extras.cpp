@@ -2090,9 +2090,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
         }
-        m.furn_set( loc, f_ash );
-        if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+        if( !m.is_open_air( loc ) ) {
+            m.furn_set( loc, f_ash );
+            if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+            }
         }
     }
 
