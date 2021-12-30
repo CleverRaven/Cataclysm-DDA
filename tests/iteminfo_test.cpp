@@ -458,7 +458,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
                    "<color_c_white>R. Leg Coverage</color>:\n"
-                   "  Default:  <color_c_yellow>5</color>\n"
+                   "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
@@ -466,7 +466,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>2</color>  "
                    "When full:  <color_c_yellow>15</color>\n"
                    "<color_c_white>Torso Coverage</color>:\n"
-                   "  Default:  <color_c_yellow>30</color>\n"
+                   "  Default:  <color_c_yellow>30</color>\n" );
 
             // quiver has no volume, only an implicit volume via ammo
             CHECK( item_info_str( quiver, encumbrance ) ==
