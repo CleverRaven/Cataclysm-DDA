@@ -31,7 +31,7 @@
     "id": "armguard_demonchitin",
     "copy-from": "armguard_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
+    "name": { "str": "pair of demon chitin arm guards", "str_pl": "XL pairs of demon chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
     "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
