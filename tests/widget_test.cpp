@@ -29,6 +29,8 @@ static const widget_id widget_test_color_graph_widget( "test_color_graph_widget"
 static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
 static const widget_id widget_test_dex_num( "test_dex_num" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
+static const widget_id widget_test_health_num( "test_health_num" );
+static const widget_id widget_test_health_text( "test_health_text" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_int_num( "test_int_num" );
@@ -37,6 +39,8 @@ static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
 static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
+static const widget_id widget_test_pain_num( "test_pain_num" );
+static const widget_id widget_test_pain_text( "test_pain_text" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
@@ -355,6 +359,33 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
     }
 
+    SECTION( "health" ) {
+        widget health_num_w = widget_test_health_num.obj();
+        widget health_text_w = widget_test_health_text.obj();
+
+        ava.set_healthy( 120 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: 120" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_light_green>Excellent</color>" );
+        ava.set_healthy( 80 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: 80" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_green>Very good</color>" );
+        ava.set_healthy( 40 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: 40" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_white>Good</color>" );
+        ava.set_healthy( 0 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: 0" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_light_gray>OK</color>" );
+        ava.set_healthy( -40 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: -40" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_yellow>Bad</color>" );
+        ava.set_healthy( -80 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: -80" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_light_red>Very bad</color>" );
+        ava.set_healthy( -120 );
+        CHECK( health_num_w.layout( ava ) == "HEALTH: -120" );
+        CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_red>Horrible</color>" );
+    }
+
     SECTION( "hit points" ) {
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
@@ -375,6 +406,45 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_num_w.layout( ava ) == "HEAD: 0" );
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
+    }
+
+    SECTION( "pain" ) {
+        widget pain_num_w = widget_test_pain_num.obj();
+        widget pain_text_w = widget_test_pain_text.obj();
+
+        ava.set_pain( 0 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 0" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_white></color>" );
+        // FIXME: Is it possible for "No pain" to be displayed?
+        //CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_white>No pain</color>" );
+
+        ava.set_pain( 1 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 1" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_yellow>Minimal pain</color>" );
+        ava.set_pain( 10 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 10" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_yellow>Minimal pain</color>" );
+        ava.set_pain( 20 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 20" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_yellow>Mild pain</color>" );
+        ava.set_pain( 30 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 30" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_yellow>Moderate pain</color>" );
+        ava.set_pain( 40 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 40" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_light_red>Distracting pain</color>" );
+        ava.set_pain( 50 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 50" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_light_red>Distressing pain</color>" );
+        ava.set_pain( 60 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 60" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_red>Unmanageable pain</color>" );
+        ava.set_pain( 70 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 70" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_red>Intense pain</color>" );
+        ava.set_pain( 80 );
+        CHECK( pain_num_w.layout( ava ) == "PAIN: 80" );
+        CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_red>Severe pain</color>" );
     }
 
     SECTION( "weariness" ) {

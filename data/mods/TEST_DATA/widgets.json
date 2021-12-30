@@ -65,6 +65,20 @@
     "style": "number"
   },
   {
+    "id": "test_health_num",
+    "type": "widget",
+    "label": "HEALTH",
+    "var": "health",
+    "style": "number"
+  },
+  {
+    "id": "test_health_text",
+    "type": "widget",
+    "label": "HEALTH",
+    "var": "health_text",
+    "style": "text"
+  },
+  {
     "id": "test_mana_num",
     "type": "widget",
     "label": "MANA",
@@ -83,6 +97,20 @@
     "type": "widget",
     "label": "RADIATION",
     "var": "rad_badge_text",
+    "style": "text"
+  },
+  {
+    "id": "test_pain_num",
+    "type": "widget",
+    "label": "PAIN",
+    "var": "pain",
+    "style": "number"
+  },
+  {
+    "id": "test_pain_text",
+    "type": "widget",
+    "label": "PAIN",
+    "var": "pain_text",
     "style": "text"
   },
   {
