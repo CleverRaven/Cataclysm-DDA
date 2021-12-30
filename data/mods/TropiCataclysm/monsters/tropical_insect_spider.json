@@ -91,7 +91,7 @@
     "id": "mon_moth",
     "type": "MONSTER",
     "name": { "str": "mutated moth" },
-    "description": "An oversized moth with its typical wooden motiffs.  Its as peacefull as the mutated butterflies found in the day.",
+    "description": "An oversized moth with its typical wood-like motifs.  It is as peaceful as the mutated butterflies found during the day.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "default_faction": "insect",
