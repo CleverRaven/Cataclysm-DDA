@@ -158,7 +158,6 @@ class item_pocket
         void set_usability( bool show );
 
         const translation &get_description() const;
-        void set_description( translation description );
 
         const pocket_data *get_pocket_data() const;
 
@@ -358,6 +357,9 @@ class item_pocket
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
+
+        // should the name of this pocket be used as a description
+        bool name_as_description = false; // NOLINT(cata-serialize)
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -463,7 +465,9 @@ class pocket_data
         // a description of the pocket
         translation description;
 
-        void set_description( translation description );
+        // the name of the item the pocket belongs to
+        // this can be used as a fallback description if needed
+        translation name;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

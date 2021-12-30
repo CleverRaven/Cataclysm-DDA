@@ -209,11 +209,6 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            moves == rhs.moves;
 }
 
-void pocket_data::set_description( translation new_description )
-{
-    description = new_description;
-}
-
 const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
 {
     return flag_restrictions;
@@ -1787,11 +1782,6 @@ bool item_pocket::is_ablative() const
 const translation &item_pocket::get_description() const
 {
     return get_pocket_data()->description;
-}
-
-void item_pocket::set_description( translation description ) const
-{
-    get_pocket_data()->set_description( description );
 }
 
 bool item_pocket::holster_full() const
