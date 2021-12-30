@@ -160,7 +160,7 @@
     "id": "mon_caterpillar_giant",
     "type": "MONSTER",
     "name": { "str": "giant caterpillar" },
-    "description": "This caterpillar has reached the size of a person and it looks close to get into the cocoon phase.  You can only imagine the size of the insect that will come out of it.",
+    "description": "This caterpillar has reached the size of a person and it looks close to reaching the pupa life stage.  You can only imagine the size of the insect that will emerge.",
     "copy-from": "mon_caterpillar",
     "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
     "symbol": "C",
