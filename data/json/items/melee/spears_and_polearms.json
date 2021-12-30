@@ -209,6 +209,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS" ]
