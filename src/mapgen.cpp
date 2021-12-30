@@ -4285,7 +4285,7 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
-    apply_mapgen_in_phases( md, setmap_points, objects, offset );
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset );
 }
 
 /*
