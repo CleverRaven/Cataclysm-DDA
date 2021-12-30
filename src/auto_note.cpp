@@ -46,7 +46,7 @@ bool auto_note_settings::save()
         jout.member( "enabled" );
 
         jout.start_array();
-        for( const string_id<map_extra> &entry : autoNoteEnabled ) {
+        for( const map_extra_id &entry : autoNoteEnabled ) {
             jout.write( entry.str() );
         }
         jout.end_array();
@@ -54,7 +54,7 @@ bool auto_note_settings::save()
         jout.member( "discovered" );
 
         jout.start_array();
-        for( const string_id<map_extra> &entry : discovered ) {
+        for( const map_extra_id &entry : discovered ) {
             jout.write( entry.str() );
         }
         jout.end_array();
@@ -62,7 +62,7 @@ bool auto_note_settings::save()
         if( !custom_symbols.empty() ) {
             jout.member( "custom_symbols" );
             jout.start_array();
-            for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
+            for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
                  custom_symbols ) {
                 jout.start_object();
 
@@ -99,13 +99,13 @@ void auto_note_settings::load()
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    autoNoteEnabled.insert( string_id<map_extra> {entry} );
+                    autoNoteEnabled.insert( map_extra_id {entry} );
                 }
             } else if( name == "discovered" ) {
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    discovered.insert( string_id<map_extra> {entry} );
+                    discovered.insert( map_extra_id {entry} );
                 }
             } else if( name == "custom_symbols" ) {
                 jin.start_array();
@@ -117,7 +117,7 @@ void auto_note_settings::load()
                     custom_symbol sym;
                     sym.set_symbol( custom_symbol_str );
                     sym.set_color( custom_color );
-                    custom_symbols.insert( std::make_pair( string_id<map_extra> {entry}, sym ) );
+                    custom_symbols.insert( std::make_pair( map_extra_id {entry}, sym ) );
                 }
             } else {
                 jin.skip_value();
@@ -143,12 +143,12 @@ void auto_note_settings::default_initialize()
     }
 }
 
-void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
+void auto_note_settings::set_discovered( const map_extra_id &mapExtId )
 {
     discovered.insert( mapExtId );
 }
 
-bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
+bool auto_note_settings::was_discovered( const map_extra_id &mapExtId ) const
 {
     return discovered.count( mapExtId ) != 0;
 }
@@ -163,12 +163,12 @@ void auto_note_settings::show_gui()
     }
 }
 
-bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
+bool auto_note_settings::has_auto_note_enabled( const map_extra_id &mapExtId ) const
 {
     return autoNoteEnabled.count( mapExtId ) != 0;
 }
 
-void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
+void auto_note_settings::set_auto_note_status( const map_extra_id &mapExtId,
         const bool enabled )
 {
     if( enabled ) {
@@ -179,14 +179,14 @@ void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapEx
 }
 
 cata::optional<custom_symbol> auto_note_settings::get_custom_symbol(
-    const string_id<map_extra> &mapExtId ) const
+    const map_extra_id &mapExtId ) const
 {
     auto entry = custom_symbols.find( mapExtId );
     return entry == custom_symbols.end() ? cata::nullopt
            : cata::optional<custom_symbol>( entry->second );
 }
 
-void auto_note_settings::set_custom_symbol( const string_id<map_extra> &mapExtId,
+void auto_note_settings::set_custom_symbol( const map_extra_id &mapExtId,
         const custom_symbol &symbol )
 {
     custom_symbols.emplace( mapExtId, symbol );
@@ -231,13 +231,13 @@ void auto_note_manager_gui::fill_custom_symbols_cache()
     const auto_note_settings &settings = get_auto_notes_settings();
     custom_symbol_cache.clear();
 
-    for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
+    for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
          settings.custom_symbols ) {
         custom_symbol_cache.emplace( symbol_entry.first, symbol_entry.second );
     }
 }
 
-void auto_note_manager_gui::set_cached_custom_symbol( const string_id<map_extra> &mapExtId,
+void auto_note_manager_gui::set_cached_custom_symbol( const map_extra_id &mapExtId,
         const custom_symbol &symbol )
 {
     auto found = custom_symbol_cache.find( mapExtId );
@@ -377,7 +377,7 @@ void auto_note_manager_gui::show()
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
 
             for( int i = startPosition; i < endPosition; ++i ) {
-                const string_id<map_extra> &displayCacheEntry = displayCache[i];
+                const map_extra_id &displayCacheEntry = displayCache[i];
                 const auto &cacheEntry = mapExtraCache[displayCacheEntry];
 
                 const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
@@ -436,7 +436,7 @@ void auto_note_manager_gui::show()
             continue;
         }
 
-        const string_id<map_extra> &currentItem = displayCache[currentLine];
+        const map_extra_id &currentItem = displayCache[currentLine];
         std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
         const int scroll_rate = cacheSize > 20 ? 10 : 3;
 

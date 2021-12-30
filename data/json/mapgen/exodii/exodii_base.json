@@ -864,8 +864,7 @@
         { "id": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "id": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
-      "terrain": { ".": "t_open_air", "[": "t_open_air" },
-      "furniture": { "[": "f_scrap_bridge" }
+      "terrain": { ".": "t_open_air", "[": "t_bridge" }
     }
   }
 ]

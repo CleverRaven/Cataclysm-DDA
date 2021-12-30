@@ -214,7 +214,7 @@ struct overmap_ravine_settings {
 
 struct map_extras {
     unsigned int chance;
-    weighted_int_list<std::string> values;
+    weighted_int_list<map_extra_id> values;
 
     map_extras() : chance( 0 ) {}
     explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}

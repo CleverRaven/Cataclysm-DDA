@@ -21,7 +21,6 @@ def sanitize_message(message):
 
 
 def spell_check(message):
-    words = Tokenizer.findall(sanitize_message(message))
-    unknowns = filter(lambda w: is_english(w) and not_in_known_words(w),
-                      Speller.unknown(words))
+    words = filter(is_english, Tokenizer.findall(sanitize_message(message)))
+    unknowns = filter(not_in_known_words, Speller.unknown(words))
     return list(unknowns)

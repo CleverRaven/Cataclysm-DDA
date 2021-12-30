@@ -796,7 +796,7 @@
     "type": "GENERIC",
     "category": "tools",
     "id": "casserole",
-    "name": { "str": "casserole" },
+    "name": { "str": "casserole pot" },
     "description": "A ceramic pot made for both cooking and serving, particularly one-pot dinners.",
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],

@@ -147,6 +147,13 @@
     "description": "Destination for maps."
   },
   {
+    "id": "LOOT_KEYS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Keys",
+    "can_be_personal": true,
+    "description": "Destination for keys."
+  },
+  {
     "id": "LOOT_CURRENCY",
     "type": "LOOT_ZONE",
     "name": "Loot: Currency",
