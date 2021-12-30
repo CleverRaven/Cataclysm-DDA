@@ -159,6 +159,9 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke( "mininuke" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 
+static const limb_score_id limb_score_grip( "grip" );
+static const limb_score_id limb_score_reaction( "reaction" );
+
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
@@ -913,10 +916,11 @@ bool mattack::pull_metal_weapon( monster *z )
             // It takes a while
             z->moves -= att_cost_pull;
             int success = 100;
-            ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
+            ///\Grip strength increases resistance to pull_metal_weapon special attack
             if( foe->str_cur > min_str ) {
                 ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ),
+                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                                        limb_score_grip ) ) - ( 6 * wp_skill ),
                                     0.0f );
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
@@ -5509,13 +5513,14 @@ bool mattack::bio_op_disarm( monster *z )
     int my_roll = dice( 3, 2 * mon_stat );
     my_roll += dice( 3, z->type->melee_skill );
 
-    /** @EFFECT_STR increases chance to avoid disarm, primary stat */
+    /** @ARM_STR increases chance to avoid disarm, primary stat */
     /** @EFFECT_DEX increases chance to avoid disarm, secondary stat */
-    /** @EFFECT_PER increases chance to avoid disarm, secondary stat */
+    /** Grip and reaction scores increase the  chance to avoid/ resist disarm */
     /** @EFFECT_MELEE increases chance to avoid disarm */
-    int their_roll = dice( 3, 2 * foe->get_str() + foe->get_dex() );
-    their_roll += dice( 3, foe->get_per() );
+    int their_roll = dice( 3, foe->get_limb_score( limb_score_grip ) * ( foe->get_arm_str() +
+                           foe->get_dex() ) );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
+    their_roll *= foe->get_limb_score( limb_score_reaction );
 
     item &it = foe->get_wielded_item();
 
