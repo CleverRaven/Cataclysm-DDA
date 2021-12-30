@@ -68,7 +68,7 @@
     "id": "mon_butterfly_giant",
     "type": "MONSTER",
     "name": { "str": "giant butterfly", "str_pl": "giant butterflies" },
-    "description": "A mutated butterfly larger than a human.  Despite its size is very lightweight and feeds mainly from the nectar produced by triffid flowers.",
+    "description": "A mutated butterfly larger than a human.  Despite its size it is very lightweight and feeds mainly on the nectar produced by triffid flowers.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "default_faction": "insect",
