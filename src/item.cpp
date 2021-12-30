@@ -3311,7 +3311,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         }
         // if we haven't printed any armor data acknowlege that
         if( !printed_any ) {
-            info.emplace_back( bp_cat, string_format( "%s", _( "Negligable Protection" ) ) );
+            info.emplace_back( bp_cat, string_format( "%s", _( "Negligible Protection" ) ) );
         }
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
