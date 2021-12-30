@@ -16,5 +16,24 @@
       { "monster": "mon_butterfly_giant", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_moth_giant", "weight": 50, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITE_ALATE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_king", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_termite_queen", "weight": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_soldier", "weight": 35, "cost_multiplier": 2 },
+      { "monster": "mon_termite_shooter", "weight": 35, "cost_multiplier": 2 },
+      { "monster": "mon_termite_alate", "weight": 30, "cost_multiplier": 2 }
+    ]
   }
 ]
