@@ -2,6 +2,7 @@
   {
     "id": "book_icef",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Internal Combustion Fundamentals", "str_pl": "copies of Internal Combustion Fundamentals" },
     "description": "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
     "weight": "1587 g",
@@ -23,6 +24,7 @@
     "id": "mag_fieldrepair",
     "copy-from": "book_magazine",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "army improvised field repairs manual" },
     "price_postapoc": 500,
     "description": "A compact manual with faded print detailing a number of improvised field repairs that can be made to vehicles.",
@@ -31,6 +33,7 @@
   {
     "id": "mag_mechanics",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Popular Mechanics", "str_pl": "issues of Popular Mechanics" },
     "description": "A magazine about mechanical innovations.  Full of entertaining articles and advertisements for esoteric gadgets.",
     "weight": "70 g",
@@ -49,6 +52,7 @@
   {
     "id": "manual_mechanics",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Under the Hood", "str_pl": "copies of Under the Hood" },
     "description": "An advanced mechanics manual, covering all sorts of topics.",
     "weight": "454 g",
@@ -76,6 +80,7 @@
   {
     "id": "book_nonf_soft_mechnic_hotrod",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Hot Rod Chassis & Suspension Handbook", "str_pl": "copies of Hot Rod Handbook" },
     "description": "By learning the fundamentals of chassis building and suspension design you will gain the critical knowledge needed to hot rod properly.",
     "weight": "500 g",
@@ -97,6 +102,7 @@
   {
     "id": "textbook_mechanics",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Mechanical Mastery", "str_pl": "copies of Mechanical Mastery" },
     "description": "An advanced guide on mechanics and welding, covering topics like \"Grinding off rust\" and \"Making cursive E's\".",
     "weight": "1587 g",
