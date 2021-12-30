@@ -1508,7 +1508,8 @@ void item_contents::add_pocket( const item &pocket_item )
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
         // these pockets should fallback to using the item name as a description
-        contents.rbegin()[1].name_as_description = true;
+        // need to update it once it's stored in the contents list
+        ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
     additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;

@@ -158,6 +158,7 @@ class item_pocket
         void set_usability( bool show );
 
         const translation &get_description() const;
+        const translation &get_name() const;
 
         const pocket_data *get_pocket_data() const;
 
