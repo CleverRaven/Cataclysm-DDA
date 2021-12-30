@@ -1506,7 +1506,7 @@ void item_contents::add_pocket( const item &pocket_item )
     for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
         // if the pocket didn't have a description make the description the name of the original item
         if( i_pocket->get_description().empty() ) {
-            i_pocket->set_description()
+            i_pocket->set_description( pocket_item.nname() );
         }
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
