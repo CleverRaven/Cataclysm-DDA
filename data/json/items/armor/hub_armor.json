@@ -100,7 +100,7 @@
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 4,
+    "material_thickness": 8,
     "environmental_protection": 5,
     "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR", "OUTER" ],
     "armor": [
@@ -109,12 +109,14 @@
         "//": "skip encumbrance for additional parts of same body part",
         "encumbrance": 0,
         "coverage": 60,
+        "cover_vitals": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       },
       {
         "encumbrance": 2,
         "coverage": 95,
+        "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
@@ -122,6 +124,7 @@
         "//": "skip encumbrance for additional parts of same body part",
         "encumbrance": 0,
         "coverage": 85,
+        "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
       }
@@ -139,13 +142,14 @@
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 4,
+    "material_thickness": 8,
     "environmental_protection": 5,
     "flags": [ "ABLATIVE_SKIRT", "CANT_WEAR", "OUTER" ],
     "armor": [
       {
         "encumbrance": 2,
         "coverage": 100,
+        "cover_vitals": 90,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
@@ -153,6 +157,7 @@
         "//": "skip encumbrance for additional parts of same body part",
         "encumbrance": 0,
         "coverage": 85,
+        "cover_vitals": 90,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
@@ -170,13 +175,14 @@
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 4,
+    "material_thickness": 6,
     "environmental_protection": 5,
     "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
     "armor": [
       {
         "encumbrance": 3,
         "coverage": 95,
+        "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_lower_l", "arm_lower_r" ]
       }
@@ -194,13 +200,14 @@
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 4,
+    "material_thickness": 6,
     "environmental_protection": 5,
     "flags": [ "OUTER" ],
     "armor": [
       {
         "encumbrance": 3,
         "coverage": 95,
+        "cover_vitals": 90,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r" ]
       }
@@ -266,7 +273,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 prototype skirt",
-    "description": "3d printed lower body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed segmented armored skirt, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the waist and near the knees the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -275,7 +282,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 kinetic skirt",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed segmented armored skirt, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the waist and near the knees the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -285,7 +292,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 turnout skirt",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed segmented armored skirt, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the waist and near the knees the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -295,7 +302,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed segmented armored skirt, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the waist and near the knees the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -305,7 +312,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 soldier skirt",
-    "description": "3d printed upper body armor, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed segmented armored skirt, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the waist and near the knees the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
       { "type": "steel", "portion": 1 },
@@ -320,7 +327,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": "Hub 01 prototype vambraces",
-    "description": "3d printed lower body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed arm guards, despite its rough finish it's still lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -329,7 +336,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": "Hub 01 kinetic vambraces",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -339,7 +346,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": "Hub 01 turnout vambraces",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -349,7 +356,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": "Hub 01 ballistic vambraces",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -359,7 +366,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 soldier greaves",
-    "description": "3d printed upper body armor, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed arm guards, it has a professional finish, is lightweight and is perfectly balanced.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
       { "type": "steel", "portion": 1 },
@@ -374,7 +381,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 prototype greaves",
-    "description": "3d printed lower body armor, despite its rough finish it's still lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed leg guards, despite its rough finish it's still lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -383,7 +390,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 kinetic greaves",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed leg guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -393,7 +400,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 turnout greaves",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed leg guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -403,7 +410,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 ballistic greaves",
-    "description": "3d printed upper body armor, it is well finished, lightweight and it seems a lot of thought went into the ergonomics.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed leg guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -413,7 +420,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": "Hub 01 soldier greaves",
-    "description": "3d printed upper body armor, it has a professional finish, is lightweight and it seems perfectly designed to move with your body.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.  Designed to clip to the chest and shoulders the interior side reads ATTACH TO MODULAR DEFENSE SYSTEM.",
+    "description": "3d printed leg guards, it has a professional finish, is lightweight and is perfectly balanced.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
       { "type": "steel", "portion": 1 },
