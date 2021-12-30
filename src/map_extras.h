@@ -16,6 +16,7 @@
 
 class JsonObject;
 class map;
+class mapgendata;
 struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
@@ -45,14 +46,16 @@ class map_extra
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
 
+        bool is_valid_for( const mapgendata & ) const;
+
         std::string get_symbol() const {
             return utf32_to_utf8( symbol );
         }
         std::string name() const {
-            return _name.translated();
+            return name_.translated();
         }
         std::string description() const {
-            return _description.translated();
+            return description_.translated();
         }
 
         // Used by generic_factory
@@ -60,8 +63,9 @@ class map_extra
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
     private:
-        translation _name;
-        translation _description;
+        translation name_;
+        translation description_;
+        cata::optional<std::pair<int, int>> min_max_zlevel_;
 };
 
 namespace MapExtras

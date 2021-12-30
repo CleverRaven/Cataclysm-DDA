@@ -230,7 +230,8 @@ void map::generate( const tripoint &p, const time_point &when )
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+    map_extras ex = region_settings_map["default"].
+                    region_extras[terrain_type->get_extras()].filtered_by( dat );
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
         if( extra == nullptr ) {
