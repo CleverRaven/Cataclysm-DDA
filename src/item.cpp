@@ -3114,7 +3114,7 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
                            iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
     }
     //~ Ranged coverage
-    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_MELEE ) ) {
+    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_RANGED ) ) {
         info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
                            iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
     }
@@ -3311,7 +3311,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         }
         // if we haven't printed any armor data acknowlege that
         if( !printed_any ) {
-            info.emplace_back( bp_cat, string_format( "%s", space, _( "Negligible Protection" ) ) );
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
