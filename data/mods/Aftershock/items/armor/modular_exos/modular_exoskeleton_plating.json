@@ -2,7 +2,7 @@
   {
     "id": "exo_helmet_steel",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "steel helmet plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's helmet, this is a sturdy plate of steel.",
     "weight": "12880 g",
@@ -19,7 +19,7 @@
   {
     "id": "exo_helmet_plastic",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_helmet_steel",
     "name": { "str": "plastic helmet plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's helmet, this is a plate of plastic.",
@@ -41,7 +41,7 @@
   {
     "id": "exo_helmet_vcc",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_helmet_steel",
     "name": { "str": "carbide helmet plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's helmet, this is a plate of vacuum-cast carbide.",
@@ -63,7 +63,7 @@
   {
     "id": "exo_torso_steel",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "steel torso plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's torso, this is a sturdy plate of steel.",
     "weight": "34347 g",
@@ -80,7 +80,7 @@
   {
     "id": "exo_torso_plastic",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "plastic torso plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's torso, this is a plate of plastic.",
@@ -103,7 +103,7 @@
   {
     "id": "exo_torso_vcc",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "carbide torso plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's torso, this is a sturdy plate of vacuum-cast carbide.",
@@ -124,7 +124,7 @@
   {
     "id": "exo_psu_steel",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "steel PSU plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's power supply unit, this is a sturdy plate of steel.",
     "weight": "42933 g",
@@ -141,7 +141,7 @@
   {
     "id": "exo_psu_plastic",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_psu_steel",
     "name": { "str": "plastic PSU plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's power supply unit, this is a plate of plastic.",
@@ -163,7 +163,7 @@
   {
     "id": "exo_psu_vcc",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_psu_steel",
     "name": { "str": "carbide PSU plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's power supply unit, this is a sturdy plate of vacuum-cast carbide.",
@@ -185,7 +185,7 @@
   {
     "id": "exo_arm_steel",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "steel arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of steel.",
     "weight": "30 g",
@@ -211,7 +211,7 @@
   {
     "id": "exo_arm_plastic",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_arm_steel",
     "name": { "str": "plastic arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are plates of plastic.",
@@ -233,7 +233,7 @@
   {
     "id": "exo_arm_vcc",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_arm_steel",
     "name": { "str": "carbide arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of vacuum-cast carbide.",
@@ -254,7 +254,7 @@
   {
     "id": "exo_leg_steel",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "name": { "str": "steel leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of steel.",
     "weight": "33000 g",
@@ -280,7 +280,7 @@
   {
     "id": "exo_leg_plastic",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_leg_steel",
     "name": { "str": "plastic leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are plates of plastic.",
@@ -301,7 +301,7 @@
   {
     "id": "exo_leg_vcc",
     "type": "ARMOR",
-    "category": "armor",
+    "category": "exosuit",
     "copy-from": "exo_leg_steel",
     "name": { "str": "carbide leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of vacuum-cast carbide.",
