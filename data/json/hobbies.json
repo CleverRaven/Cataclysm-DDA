@@ -756,7 +756,7 @@
     "id": "meditation",
     "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
-    "points": 2,
-    "traits": [ "SELFAWARE", "SPIRITUAL" ]
+    "points": 3,
+    "traits": [ "OPTIMISTIC", "SPIRITUAL" ]
   }
 ]

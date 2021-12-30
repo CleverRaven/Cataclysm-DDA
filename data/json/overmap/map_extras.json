@@ -374,6 +374,7 @@
     "name": { "str": "Burned Ground (Point)" },
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "light_gray",
     "autonote": true

@@ -11,6 +11,7 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "map_extras.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
@@ -1014,6 +1015,18 @@ void overmap_lake_settings::finalize()
             continue;
         }
     }
+}
+
+map_extras map_extras::filtered_by( const mapgendata &dat ) const
+{
+    map_extras result( chance );
+    for( const weighted_object<int, map_extra_id> &obj : values ) {
+        const map_extra_id &extra_id = obj.obj;
+        if( extra_id->is_valid_for( dat ) ) {
+            result.values.add( extra_id, obj.weight );
+        }
+    }
+    return result;
 }
 
 void region_terrain_and_furniture_settings::finalize()
