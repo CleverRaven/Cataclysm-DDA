@@ -721,5 +721,29 @@
     "copy-from": "BOSS_No_Others_01",
     "name": { "str": "Other survivors story" },
     "description": "Lapin 01"
+  },
+  {
+    "type": "mutation",
+    "//": "This is a unique background story trait that should not be given out randomly.",
+    "id": "BOSS_NC_FARMER_01",
+    "copy-from": "BOSS_No_Others_01",
+    "name": { "str": "Other survivors story" },
+    "description": "Farmer 01"
+  },
+  {
+    "type": "mutation",
+    "//": "This is a unique background story trait that should not be given out randomly.",
+    "id": "BOSS_NC_SURVIVOR_CHEF_01",
+    "copy-from": "BOSS_No_Others_01",
+    "name": { "str": "Other survivors story" },
+    "description": "Survivor Chef 01"
+  },
+  {
+    "type": "mutation",
+    "//": "This is a unique background story trait that should not be given out randomly.",
+    "id": "BOSS_Brigitte_LaCroix_01",
+    "copy-from": "BOSS_No_Others_01",
+    "name": { "str": "Other survivors story" },
+    "description": "Brigitte LaCroix 01"
   }
 ]
