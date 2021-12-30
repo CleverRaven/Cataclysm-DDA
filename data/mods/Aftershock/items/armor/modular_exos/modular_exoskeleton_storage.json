@@ -11,8 +11,7 @@
     "flags": [ "WATER_FRIENDLY", "NO_QUICKDRAW", "EXO_LARGE_GADGET" ],
     "symbol": "[",
     "looks_like": "slingpack",
-    "color": "light_gray",
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "color": "light_gray"
   },
   {
     "id": "exo_melee_storage",
@@ -28,8 +27,7 @@
     "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "bscabbard",
-    "color": "light_gray",
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "color": "light_gray"
   },
   {
     "id": "exo_large_storage",
@@ -43,8 +41,7 @@
     "material": [ "kevlar", "plastic" ],
     "flags": [ "WATER_FRIENDLY", "EXO_LARGE_GADGET" ],
     "symbol": "[",
-    "looks_like": "backpack",
-    "armor": [ { "encumbrance": [ 10, 55 ], "coverage": 50, "covers": [ "torso" ] } ]
+    "looks_like": "backpack"
   },
   {
     "id": "exo_medium_storage",
@@ -89,8 +86,7 @@
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
-    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 0 } ]
+    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ]
   },
   {
     "id": "exo_small_ammo_pouch",
@@ -100,7 +96,6 @@
     "description": "A set of pouches that attach to a hardpoint.",
     "symbol": "[",
     "color": "dark_gray",
-    "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_r", "leg_upper_l" ] } ]
+    "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ]
   }
 ]
