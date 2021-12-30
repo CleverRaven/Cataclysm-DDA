@@ -1,0 +1,16 @@
+[
+  {
+    "id": "BOSS_NC_FARMER_Story1",
+    "type": "talk_topic",
+    "dynamic_line": "Actually,  I ran into another survivor once - survivalist, total nutcase.  He was headed for a military bunker to try and loot it, guessing that didn't go well.  Anyway,  he mentioned a pack of survivors who camped out at a farm around here, some of them actually knew about farming.  There's a chance they're still out there, could be worth looking for.",
+    "responses": [
+      {
+        "text": "Let's see how to get there and go check on them.",
+        "topic": "BOSS_NC_FARMER_Story2",
+        "condition": { "npc_has_trait": "BOSS_No_Others_02" }
+      },
+      { "text": "<done_conversation>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]
