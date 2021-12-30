@@ -670,6 +670,18 @@
   },
   {
     "type": "mutation",
+    "id": "BGSS_METEOROLOGIST",
+    "name": { "str": "Survivor Story" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
     "//": "This is a unique background story trait that should not be given out randomly.",
     "id": "BGSS_pizzaiolo",
     "name": { "str": "Survivor Story" },
@@ -698,7 +710,7 @@
     "type": "mutation",
     "//": "This is a unique background story trait that should not be given out randomly.",
     "id": "BOSS_No_Others_02",
-	"copy-from": "BOSS_No_Others_01",
+    "copy-from": "BOSS_No_Others_01",
     "name": { "str": "Other survivors story" },
     "description": "No others 02"
   },
@@ -706,7 +718,7 @@
     "type": "mutation",
     "//": "This is a unique background story trait that should not be given out randomly.",
     "id": "BOSS_Lapin_01",
-	"copy-from": "BOSS_No_Others_01",
+    "copy-from": "BOSS_No_Others_01",
     "name": { "str": "Other survivors story" },
     "description": "Lapin 01"
   }
