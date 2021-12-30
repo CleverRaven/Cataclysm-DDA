@@ -1122,7 +1122,8 @@ std::string martialart::get_initiate_npc_message() const
 // Player stuff
 
 // technique
-std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap ) const
+std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap,
+        const Character &u ) const
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
@@ -1131,6 +1132,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
     // and martial art techniques
     const auto &style = style_selected.obj();
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
+    // And limb techniques
+    const auto &limb_techs = u.get_limb_techs();
+    tecs.insert( tecs.end(), limb_techs.begin(), limb_techs.end() );
 
     return tecs;
 }
@@ -1141,7 +1145,8 @@ static ma_technique get_valid_technique( const Character &owner, bool ma_techniq
 {
     const auto &ma_data = owner.martial_arts_data;
 
-    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_item() ) ) {
+    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_item(),
+            owner ) ) {
         ma_technique candidate = candidate_id.obj();
 
         if( candidate.*purpose && candidate.is_valid_character( owner ) ) {

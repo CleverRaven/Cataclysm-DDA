@@ -120,7 +120,7 @@ Bonuses must be written in the correct order.
 Tokens of `useless` type will not cause an error, but will not have any effect.
 For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).
 
-Currently extra elemental damage is not applied, but extra elemental armor is (after regular armor).
+Flat bonuses are applied after multiplicative bonuses.
 
 Examples:
 Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs:

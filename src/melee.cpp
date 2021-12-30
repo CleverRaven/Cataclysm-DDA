@@ -1416,7 +1416,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
         float other_dam = mabuff_damage_bonus( type_name ) + weap.damage_melee( type_name );
 
         // No negative damage!
-        if( other_dam > 0 ) {
+        if( other_dam >= 0 ) {
             float other_mul = 1.0f * mabuff_damage_mult( type_name );
             float armor_mult = 1.0f;
 
@@ -1429,7 +1429,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
                                     bool crit, bool dodge_counter, bool block_counter )
 {
 
-    const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap );
+    const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
     std::vector<matec_id> possible;
 
@@ -1696,13 +1696,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     print_damage_info( di );
 
     for( damage_unit &du : di.damage_units ) {
-        // TODO: Allow techniques to add more damage types to attacks
-        if( du.amount <= 0 ) {
-            continue;
-        }
 
-        du.amount += technique.damage_bonus( *this, du.type );
         du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
+        du.amount += technique.damage_bonus(*this, du.type);
         du.res_pen += technique.armor_penetration( *this, du.type );
     }
 

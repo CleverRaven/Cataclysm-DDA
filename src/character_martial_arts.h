@@ -87,7 +87,7 @@ class character_martial_arts
         /** Returns true if the current style forces unarmed attack techniques */
         bool is_force_unarmed() const;
 
-        std::vector<matec_id> get_all_techniques( const item &weap ) const;
+        std::vector<matec_id> get_all_techniques( const item &weap, const Character &u ) const;
         std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;
