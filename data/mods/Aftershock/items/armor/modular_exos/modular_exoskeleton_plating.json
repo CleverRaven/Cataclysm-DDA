@@ -188,8 +188,8 @@
     "category": "armor",
     "name": { "str": "steel arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of steel.",
-    "weight": "25760 g",
-    "volume": "5500 ml",
+    "weight": "30 g",
+    "volume": "6500 ml",
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "armguard_lightplate",
@@ -199,13 +199,12 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],
     "armor": [
       {
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
         "encumbrance": 16,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 95,
-        "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
+        "cover_vitals": 90
       }
     ]
   },
@@ -216,8 +215,8 @@
     "copy-from": "exo_arm_steel",
     "name": { "str": "plastic arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are plates of plastic.",
-    "weight": "2574 g",
-    "volume": "5500 ml",
+    "weight": "3000 g",
+    "volume": "1500 ml",
     "material": [ "plastic" ],
     "material_thickness": 3,
     "non_functional": "destroyed_exo_arm_plastic_plate"
@@ -229,8 +228,7 @@
     "name": { "str": "shattered plastic arm plate (exosuit)" },
     "description": "The remains of a plastic arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_arm_plastic",
-    "material_thickness": 3,
-    "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
+    "material_thickness": 3
   },
   {
     "id": "exo_arm_vcc",
@@ -239,8 +237,8 @@
     "copy-from": "exo_arm_steel",
     "name": { "str": "carbide arm plate (exosuit)" },
     "description": "Designed to attach to an exoskeleton's arms, these are sturdy plates of vacuum-cast carbide.",
-    "weight": "33000 g",
-    "volume": "5500 ml",
+    "weight": "38000 g",
+    "volume": "1500 ml",
     "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
     "non_functional": "destroyed_exo_arm_vcc_plate"
@@ -251,70 +249,7 @@
     "copy-from": "exo_arm_vcc",
     "name": { "str": "shattered carbide arm plate (exosuit)" },
     "description": "The remains of a vacuum-cast carbide arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_arm_vcc",
-    "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "exo_glove_steel",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "steel glove plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's glove, this is a sturdy plate of steel.",
-    "weight": "4293 g",
-    "volume": "1 ml",
-    "material": [ "steel" ],
-    "symbol": "[",
-    "looks_like": "gloves_plate",
-    "color": "light_gray",
-    "warmth": 20,
-    "sided": true,
-    "material_thickness": 6,
-    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
-    "id": "exo_glove_plastic",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_glove_steel",
-    "name": { "str": "plastic glove plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's glove, this is a plate of plastic.",
-    "weight": "429 g",
-    "volume": "1 ml",
-    "material": [ "plastic" ],
-    "material_thickness": 3,
-    "non_functional": "destroyed_exo_glove_plastic_plate"
-  },
-  {
-    "id": "destroyed_exo_glove_plastic_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_glove_plastic",
-    "name": { "str": "shattered plastic leg plate (exosuit)" },
-    "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_glove_plastic",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
-    "id": "exo_glove_vcc",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_arm_steel",
-    "name": { "str": "carbide glove plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's glove, this is a sturdy plate of vacuum-cast carbide .",
-    "weight": "5500 g",
-    "volume": "1 ml",
-    "material": [ "vacuum_carbide" ],
-    "material_thickness": 6,
-    "non_functional": "destroyed_exo_glove_vcc_plate"
-  },
-  {
-    "id": "destroyed_exo_glove_vcc_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_glove_vcc",
-    "name": { "str": "shattered carbide glove plate (exosuit)" },
-    "description": "The remains of a vacuum-cast carbide glove plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_glove_vcc",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "looks_like": "exo_arm_vcc"
   },
   {
     "id": "exo_leg_steel",
@@ -322,8 +257,8 @@
     "category": "armor",
     "name": { "str": "steel leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of steel.",
-    "weight": "30053 g",
-    "volume": "8 L",
+    "weight": "33000 g",
+    "volume": "10 L",
     "material": [ "steel" ],
     "symbol": "L",
     "looks_like": "legguard_lightplate",
@@ -333,13 +268,12 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_LEG_PLATE" ],
     "armor": [
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "leg_l", "leg_r" ],
         "encumbrance": 8,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 95,
-        "cover_vitals": 90,
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
+        "cover_vitals": 90
       }
     ]
   },
@@ -350,8 +284,8 @@
     "copy-from": "exo_leg_steel",
     "name": { "str": "plastic leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are plates of plastic.",
-    "weight": "3003 g",
-    "volume": "8 L",
+    "weight": "6000 g",
+    "volume": "10 L",
     "material": [ "plastic" ],
     "material_thickness": 3,
     "non_functional": "destroyed_exo_leg_plastic_plate"
@@ -362,8 +296,7 @@
     "copy-from": "exo_leg_plastic",
     "name": { "str": "shattered plastic leg plate (exosuit)" },
     "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_leg_plastic",
-    "armor": [ { "encumbrance": 16, "coverage": 0, "covers": [ "torso" ] } ]
+    "looks_like": "exo_leg_plastic"
   },
   {
     "id": "exo_leg_vcc",
@@ -372,8 +305,8 @@
     "copy-from": "exo_leg_steel",
     "name": { "str": "carbide leg plating (exosuit)" },
     "description": "Designed to attach to an exoskeleton's legs, these are sturdy plates of vacuum-cast carbide.",
-    "weight": "38500 g",
-    "volume": "8 L",
+    "weight": "41000 g",
+    "volume": "10 L",
     "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
     "non_functional": "destroyed_exo_leg_vcc_plate"
@@ -384,67 +317,6 @@
     "copy-from": "exo_leg_vcc",
     "name": { "str": "shattered carbide leg plate (exosuit)" },
     "description": "The remains of a vacuum-cast carbide leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_leg_vcc",
-    "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "exo_boot_steel",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "steel boot plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's boot, this is a sturdy plate of steel.",
-    "weight": "30053 g",
-    "volume": "3250 ml",
-    "material": [ "steel" ],
-    "symbol": "[",
-    "looks_like": "boots_plate",
-    "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 6,
-    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_BOOT_PLATE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
-  },
-  {
-    "id": "exo_boot_plastic",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_boot_steel",
-    "name": { "str": "plastic boot plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's boot, this is a plate of plastic.",
-    "weight": "3003 g",
-    "volume": "3250 ml",
-    "material": [ "plastic" ],
-    "material_thickness": 3,
-    "non_functional": "destroyed_exo_boot_plastic_plate"
-  },
-  {
-    "id": "destroyed_exo_boot_plastic_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_boot_plastic",
-    "name": { "str": "shattered plastic leg plate (exosuit)" },
-    "description": "The remains of a plastic leg plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "foot_l", "foot_r" ] } ]
-  },
-  {
-    "id": "exo_boot_vcc",
-    "type": "ARMOR",
-    "category": "armor",
-    "copy-from": "exo_boot_steel",
-    "name": { "str": "carbide boot plate (exosuit)" },
-    "description": "Designed to attach to an exoskeleton's boot, this is a sturdy plate of vacuum-cast carbide.",
-    "weight": "38500 g",
-    "volume": "3250 ml",
-    "material": [ "vacuum_carbide" ],
-    "material_thickness": 6,
-    "non_functional": "destroyed_exo_boot_vcc_plate"
-  },
-  {
-    "id": "destroyed_exo_boot_vcc_plate",
-    "type": "ARMOR",
-    "copy-from": "exo_boot_vcc",
-    "name": { "str": "shattered carbide boot plate (exosuit)" },
-    "description": "The remains of a carbide boot plate after taking a strong impact.  No longer provides functional protection, just weight.",
-    "looks_like": "exo_boot_vcc",
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "foot_l", "foot_r" ] } ]
+    "looks_like": "exo_leg_vcc"
   }
 ]
