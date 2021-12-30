@@ -44,7 +44,7 @@
     "id": "mon_butterfly",
     "type": "MONSTER",
     "name": { "str": "mutated butterfly", "str_pl": "mutated butterflies" },
-    "description": "An oversized butterfly with vibrant color markings.  Unlike the other big insects of the cataclysm this is a very peacefull nectivore.",
+    "description": "An oversized butterfly with vibrant colored markings.  Unlike the other big insects of the Cataclysm this is a very peaceful nectivore.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "default_faction": "insect",
