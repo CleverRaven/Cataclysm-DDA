@@ -112,6 +112,7 @@
     "type": "GUN",
     "symbol": "R",
     "color": "dark_gray",
+    "copy_from": "pistol_base",
     "name": { "str": "mad militias' rifle" },
     "description": "A semi-auto rifle used by feral militiamen. (Made because monster aiming is too lethal.)",
     "material": [ "steel", "plastic" ],
