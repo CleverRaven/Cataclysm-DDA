@@ -232,8 +232,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
     const overmap_special &special =
-        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab",
-                                       "nether_monster_corpse" ) );
+        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab" ) );
     const city cit;
 
     constexpr int num_overmaps = 100;
