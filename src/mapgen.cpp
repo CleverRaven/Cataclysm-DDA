@@ -3996,11 +3996,12 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
+            return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
         case JMAPGEN_SETMAP_LINE_RADIATION:
         case JMAPGEN_SETMAP_SQUARE_RADIATION:
-            return mapgen_phase::default_;
+            return mapgen_phase::transform;
         case JMAPGEN_SETMAP_OPTYPE_POINT:
         case JMAPGEN_SETMAP_OPTYPE_LINE:
         case JMAPGEN_SETMAP_OPTYPE_SQUARE:
