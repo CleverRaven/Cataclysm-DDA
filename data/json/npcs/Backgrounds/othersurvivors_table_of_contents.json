@@ -20,6 +20,24 @@
         "topic": "BOSS_Lapin_01_Story1",
         "condition": { "or": { "npc_has_trait": "BOSS_Lapin_01", "npc_has_trait": "BOSS_Lapin_01b" } },
         "switch": true
+      },
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_NC_FARMER_Story1",
+        "condition": { "or": { "npc_has_trait": "BOSS_NC_FARMER_01", "npc_has_trait": "BOSS_NC_FARMER_01b" } },
+        "switch": true
+      },
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_NC_SURVIVOR_CHEF_Story1",
+        "condition": { "or": { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01", "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01b" } },
+        "switch": true
+      },
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_Brigitte_LaCroix_Story1",
+        "condition": { "or": { "npc_has_trait": "BOSS_Brigitte_LaCroix_01", "npc_has_trait": "BOSS_Brigitte_LaCroix_01b" } },
+        "switch": true
       }
     ]
   }
