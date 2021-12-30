@@ -711,6 +711,14 @@
     "//": "Uses display::weary_malus_text_color"
   },
   {
+    "id": "vehicle_azimuth_desc",
+    "type": "widget",
+    "label": "Azimuth",
+    "style": "text",
+    "var": "veh_azimuth_text",
+    "//": "Uses display::vehicle_azimuth_text"
+  },
+  {
     "id": "vehicle_cruise_desc",
     "type": "widget",
     "label": "Vehicle Speed",
@@ -719,12 +727,12 @@
     "//": "Current/target vehicle cruising speed from display::vehicle_cruise_text_color"
   },
   {
-    "id": "vehicle_azimuth_desc",
+    "id": "vehicle_fuel_desc",
     "type": "widget",
-    "label": "Azimuth",
+    "label": "Vehicle Fuel",
     "style": "text",
-    "var": "veh_azimuth_text",
-    "//": "Uses display::vehicle_azimuth_text"
+    "var": "veh_fuel_text",
+    "//": "Current/max fuel for active vehicle engine from display::vehicle_fuel_text_color"
   },
   {
     "id": "weariness_desc",
