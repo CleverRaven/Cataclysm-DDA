@@ -1567,7 +1567,8 @@
   },
   {
     "id": "storage_line",
-    "type": "ARMOR",
+    "type": "GENERIC",
+    "category": "container",
     "name": { "str": "storage line" },
     "description": "A four foot long collection of carabiners for hanging items while camping.  Could be tied around your torso but it would be a bit uncomfortable.  It also might clip to a backpack.",
     "weight": "127 g",
@@ -1647,9 +1648,7 @@
         "activity_noise": { "volume": 8, "chance": 60 }
       }
     ],
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY", "HARD" ],
-    "armor": [ { "encumbrance": 0, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "flags": [ "WATER_FRIENDLY", "HARD" ]
   },
   {
     "id": "straw_basket",
