@@ -123,7 +123,13 @@
         "moves": 60
       }
     ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
