@@ -8,6 +8,10 @@
 
 static const itype_id itype_rad_badge( "rad_badge" );
 
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_infected( "infected" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
@@ -48,6 +52,8 @@ static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
+static const widget_id widget_test_status_left_arm_text( "test_status_left_arm_text" );
+static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
@@ -406,6 +412,69 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_num_w.layout( ava ) == "HEAD: 0" );
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
+    }
+
+    SECTION( "bodypart status" ) {
+        bodypart_id arm( "arm_l" );
+        bodypart_id torso( "torso" );
+        widget arm_status_w = widget_test_status_left_arm_text.obj();
+        widget torso_status_w = widget_test_status_torso_text.obj();
+
+        // No ailments
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_gray>--</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+
+        // Add various ailments to the left arm, and ensure status is displayed correctly,
+        // while torso status display is unaffected
+
+        WHEN( "bitten" ) {
+            ava.add_effect( effect_bite, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_blue>bitten</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "bleeding" ) {
+            ava.add_effect( effect_bleed, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "infected" ) {
+            ava.add_effect( effect_infected, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_green>infected</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "bitten and bleeding" ) {
+            ava.add_effect( effect_bite, 1_minutes, arm );
+            ava.add_effect( effect_bleed, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_magenta>bitten, bleeding</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "bitten and infected" ) {
+            ava.add_effect( effect_bite, 1_minutes, arm );
+            ava.add_effect( effect_infected, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_green>bitten, infected</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "bleeding and infected" ) {
+            ava.add_effect( effect_bleed, 1_minutes, arm );
+            ava.add_effect( effect_infected, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) ==
+                   "LEFT ARM STATUS: <color_c_yellow>bleeding, infected</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
+
+        WHEN( "bitten, bleeding, and infected" ) {
+            ava.add_effect( effect_bite, 1_minutes, arm );
+            ava.add_effect( effect_bleed, 1_minutes, arm );
+            ava.add_effect( effect_infected, 1_minutes, arm );
+            CHECK( arm_status_w.layout( ava ) ==
+                   "LEFT ARM STATUS: <color_c_yellow>bitten, bleeding, infected</color>" );
+            CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
+        }
     }
 
     SECTION( "pain" ) {

@@ -1435,6 +1435,45 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
     return std::make_pair( rad_text, rad_color );
 }
 
+std::string display::bodypart_status( const Character &u, const bodypart_id &bp )
+{
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return "";
+    }
+    std::string bp_status;
+    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = u.has_effect( effect_bite, bp.id() );
+    const bool infected = u.has_effect( effect_infected, bp.id() );
+
+    std::vector<std::string> ailments;
+    if( bitten ) {
+        ailments.emplace_back( "bitten" );
+    }
+    if( bleeding ) {
+        ailments.emplace_back( "bleeding" );
+    }
+    if( infected ) {
+        ailments.emplace_back( "infected" );
+    }
+    // TODO: Include bandage/antiseptic quality, broken limbs, splints
+    if( ailments.empty() ) {
+        bp_status = "--";
+    } else {
+        bp_status = join( ailments, ", " );
+    }
+
+    return bp_status;
+}
+
+std::pair<std::string, nc_color> display::bodypart_status_text_color( const Character &u,
+        const bodypart_id &bp )
+{
+    std::string bp_stat_text = display::bodypart_status( u, bp );
+    nc_color bp_stat_color = display::limb_color( u, bp, true, true, true );
+    return std::make_pair( bp_stat_text, bp_stat_color );
+}
+
 // Get remotely controlled vehicle, or vehicle character is inside of
 static vehicle *vehicle_driven( const Character &u )
 {

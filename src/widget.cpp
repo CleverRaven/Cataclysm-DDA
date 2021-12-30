@@ -98,6 +98,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "activity_text";
         case widget_var::body_temp_text:
             return "body_temp_text";
+        case widget_var::bp_status_text:
+            return "bp_status_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -346,6 +348,7 @@ bool widget::uses_text_function()
     switch( _var ) {
         case widget_var::activity_text:
         case widget_var::body_temp_text:
+        case widget_var::bp_status_text:
         case widget_var::date_text:
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
@@ -391,6 +394,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::body_temp_text:
             desc = display::temp_text_color( ava );
+            break;
+        case widget_var::bp_status_text:
+            desc = display::bodypart_status_text_color( ava, _bp_id );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();

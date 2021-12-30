@@ -93,6 +93,9 @@ std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const moo
 // Current movement mode and color, as single letter or full word
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
+// Current body part status (bleeding, bitten, infected) phrase and color
+std::pair<std::string, nc_color> bodypart_status_text_color( const Character &u,
+        const bodypart_id &bp );
 
 std::pair<std::string, nc_color> temp_text_color( const Character &u );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
@@ -110,6 +113,9 @@ nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
 // Returns color which this limb would have in healing menus
 nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
                      bool infect );
+// Returns status phrase for status of body part (bleeding, bitten, and/or infected)
+std::string bodypart_status( const Character &u, const bodypart_id &bp );
+
 // Color for displaying the given encumbrance level
 nc_color encumb_color( const int level );
 
