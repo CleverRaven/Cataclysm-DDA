@@ -13,7 +13,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "categories": [ "hull" ],
@@ -54,7 +54,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "categories": [ "hull" ],
@@ -116,7 +116,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 30 }
@@ -136,7 +136,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "welding_alloys", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_alloys", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_alloys", 1 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 7 }

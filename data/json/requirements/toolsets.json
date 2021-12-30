@@ -87,9 +87,9 @@
     "type": "requirement",
     "//": "Repair of steel/iron items",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ],
+      [ [ "welding_rod_steel", 6 ], [ "welding_wire_steel", 6 ], [ "brazing_rod_bronze", 6 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
     ]
   },
@@ -98,9 +98,9 @@
     "type": "requirement",
     "//": "Repair items made of aluminium alloy",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ],
+      [ [ "welding_rod_alloy", 6 ], [ "welding_wire_alloy", 6 ], [ "brazing_rod_alloy", 6 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
   },
