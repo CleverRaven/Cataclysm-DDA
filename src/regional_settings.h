@@ -218,6 +218,8 @@ struct map_extras {
 
     map_extras() : chance( 0 ) {}
     explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
+
+    map_extras filtered_by( const mapgendata & ) const;
 };
 
 struct region_terrain_and_furniture_settings {

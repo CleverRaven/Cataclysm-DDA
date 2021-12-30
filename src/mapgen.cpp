@@ -230,7 +230,8 @@ void map::generate( const tripoint &p, const time_point &when )
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+    map_extras ex = region_settings_map["default"].
+                    region_extras[terrain_type->get_extras()].filtered_by( dat );
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
         if( extra == nullptr ) {
@@ -3996,11 +3997,12 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
+            return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
         case JMAPGEN_SETMAP_LINE_RADIATION:
         case JMAPGEN_SETMAP_SQUARE_RADIATION:
-            return mapgen_phase::default_;
+            return mapgen_phase::transform;
         case JMAPGEN_SETMAP_OPTYPE_POINT:
         case JMAPGEN_SETMAP_OPTYPE_LINE:
         case JMAPGEN_SETMAP_OPTYPE_SQUARE:
@@ -4284,7 +4286,7 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
-    apply_mapgen_in_phases( md, setmap_points, objects, offset );
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset );
 }
 
 /*
