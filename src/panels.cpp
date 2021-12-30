@@ -3162,12 +3162,12 @@ static void draw_custom_hint( const draw_args &args )
 
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Custom moddable sidebar" ) );
+    mvwprintz( w, point( 1, 0 ), c_white, _( "Custom sidebar" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "Edit data/json/ui/sidebar.json to customize" ) );
+               _( "Edit sidebar.json to adjust." ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See doc/SIDEBAR_MOD.md for help" ) );
+               _( "See SIDEBAR_MOD.md for help." ) );
 
     wnoutrefresh( w );
 }
