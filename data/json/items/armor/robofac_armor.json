@@ -354,7 +354,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": { "str_sp": "Hub 01 turnout vambraces" },
-    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
+    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with printed nomex and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -364,7 +364,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
     "name": { "str_sp": "Hub 01 ballistic vambraces" },
-    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic with an unhardened metal core to give some reinforcement.",
+    "description": "3d printed arm guards, it is well finished, lightweight and secure.  This is made of 3d printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
