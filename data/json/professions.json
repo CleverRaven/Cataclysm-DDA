@@ -1812,7 +1812,7 @@
           { "group": "charged_smart_phone" },
           {
             "item": "compcrossbow",
-            "ammo-item": "bolt_metal",
+            "ammo-item": "bolt_steel",
             "charges": 1,
             "contents-item": "shoulder_strap",
             "custom-flags": [ "no_auto_equip" ]
