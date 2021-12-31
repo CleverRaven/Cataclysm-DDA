@@ -1,10 +1,13 @@
-Add research for concreete
+--- Important ---
 Do a readme
-
---- Less important ---
-Add iron ore to mined rock dropps
 Purge Spider Pit of man-made items
 Purge Bee Hive of man-made items
+Make fabric cutting 1 available before metalworking
+make concrete available
+
+--- Less important ---
+Add iron ore to mined rock drops
+make misc repair kit available
 
 --- Non critical -----
 Gems?
@@ -15,10 +18,21 @@ check start in cave
 Fix trash_forest properly
 Add more withered plants from trees (Tree drops are hardcoded)
 Fix potter's cottage
-Fix a more realistic source of ammonia
-research for ammonia?
+Make dogbane more useful? More like cotton?
+Make different qualities of iron and steel? Expand steel production?
+Consider making primitive items spawn in caves?
+
+--- Potential inclutions into the main game ---
+Beekeeping
+Add more natural map specials
+Make man-made map specials have a MAN_MADE tag and blacklist it instead of the current solution
+Tag EXONII map extras
+A more realistic source of ammonia
+Cultivate wild plants, including buckwheat and dogbane
+
+--- Potential stasndalone research mod ---
+research for ammonia
 research for duct tape
 research for refining steel
 research for cattail jelly
-Make an item with "bandages_power" available
-Make healthcare training craftable somehow
+research for concreete
