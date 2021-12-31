@@ -5,16 +5,22 @@ from ..write_text import write_text
 
 def parse_generic(json, origin):
     name = ""
+    comment = []
+    if "//" in json:
+        comment.append(json["//"])
+    if "//isbn13" in json:
+        comment.append("ISBN {}".format(json["//isbn13"]))
+
     if "name" in json:
         name = get_singular_name(json["name"])
-        write_text(json["name"], origin, comment="Item name",
+        write_text(json["name"], origin, comment=comment + ["Item name"],
                    plural=True, c_format=False)
     elif "id" in json:
         name = json["id"]
 
     if "description" in json:
         write_text(json["description"], origin, c_format=False,
-                   comment="Description of \"{}\"".format(name))
+                   comment=comment + ["Description of \"{}\"".format(name)])
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
