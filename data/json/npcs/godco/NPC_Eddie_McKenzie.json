@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "godco_eddie",
     "name_unique": "Eddie McKenzie",
+    "gender": "male",
     "name_suffix": "food guard",
     "class": "NC_godco_eddie",
     "attitude": 0,
