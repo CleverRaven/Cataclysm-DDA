@@ -2,6 +2,7 @@
 
 #include "player_helpers.h"
 #include "morale.h"
+#include "options_helpers.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "widget.h"
@@ -567,7 +568,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
-TEST_CASE( "widgets showing environment features", "[widget][environment]" )
+TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
 {
     widget weather_w = widget_test_weather_text.obj();
 
@@ -575,35 +576,41 @@ TEST_CASE( "widgets showing environment features", "[widget][environment]" )
     clear_avatar();
 
     SECTION( "weather conditions" ) {
-        weather_manager &weather = get_weather();
+        SECTION( "sunny" ) {
+            scoped_weather_override forecast( weather_sunny );
+            REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+        }
 
-        weather.weather_override = weather_sunny;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+        SECTION( "cloudy" ) {
+            scoped_weather_override forecast( weather_cloudy );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+        }
 
-        weather.weather_override = weather_cloudy;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+        SECTION( "drizzle" ) {
+            scoped_weather_override forecast( weather_drizzle );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+        }
 
-        weather.weather_override = weather_drizzle;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+        SECTION( "snowing" ) {
+            scoped_weather_override forecast( weather_snowing );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+        }
 
-        weather.weather_override = weather_snowing;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+        SECTION( "acid rain" ) {
+            scoped_weather_override forecast( weather_acid_rain );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+        }
 
-        weather.weather_override = weather_acid_rain;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+        SECTION( "portal storm" ) {
+            scoped_weather_override forecast( weather_portal_storm );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
+        }
 
-        weather.weather_override = weather_portal_storm;
-        weather.set_nextweather( calendar::turn );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
-
-        // Cannot see weather when underground
-        ava.setpos( { 0, 0, -1 } );
-        CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+        SECTION( "cannot see weather when underground" ) {
+            ava.setpos( tripoint_below );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+        }
     }
 }
 
