@@ -284,15 +284,16 @@ void widget::load( const JsonObject &jo, const std::string & )
             _widgets.emplace_back( widget_id( wid ) );
         }
     }
-    // Multi-var widgets have a "var" and a "label"
+    // Multi-var widgets have a list of "children" with "var" and "label"
+    // Read each one and populate _vars_labels with widget_var and translation
     if( jo.has_array( "children" ) ) {
         _vars_labels.clear();
         for( JsonObject jobj : jo.get_array( "children" ) ) {
-            widget_var wvar;
-            translation wtra;
-            mandatory( jobj, was_loaded, "var", wvar );
-            mandatory( jobj, was_loaded, "label", wtra );
-            _vars_labels.emplace_back( wvar, wtra );
+            widget_var c_var;
+            translation c_label;
+            mandatory( jobj, was_loaded, "var", c_var );
+            mandatory( jobj, was_loaded, "label", c_label );
+            _vars_labels.emplace_back( c_var, c_label );
         }
     }
 }
