@@ -488,6 +488,28 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
       },
       {
+        "text": "What was your person wearing?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK"
+      },
+      {
+        "text": "I found this in the facility with the other data is it of any value to you're people?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_items": { "item": "template_armor", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK"
+      },
+      {
         "text": "So, about that protective gear?",
         "condition": {
           "and": [
@@ -534,6 +556,68 @@
     "type": "talk_topic",
     "dynamic_line": "I guess the lab can do without some of this stuff.",
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "Oh that, we have been working on specialized gear for our agents in the field….  It seems we still have some work to do.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_armor"
+    },
+    "responses": [
+      { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
+      {
+        "text": "[int 10] The armor seemed warped.  Whatever you are using to reinforce the core of the pieces isn't strong enough.",
+        "condition": { "u_has_intelligence": 10 },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "We'll need at least a day to verify what is on the disk.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_armor"
+    },
+    "responses": [
+      { "text": "very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll see you then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL",
+    "type": "talk_topic",
+    "dynamic_line": "[You hear a short, muffled conversation from across the intercom] understood.  [the microphone squeals as the voice gets close again] As an additional reward for helping us please keep the modular defense system.  Recently we have been developing some additional pieces and would be happy to trade for some.  Please let us know how they perform in the field.",
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I've always wanted to be a lab rat.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
+    "type": "talk_topic",
+    "dynamic_line": "We've solved that issue with our more recent proto - types… [there is a brief pause] To gather additional field data here are the additional pieces to complete that prototype set.  The core armor platform is solid and we have been iterating on additional pieces we would be happy to trade for.  Any feedback on performance would be appreciated.",
+    "responses": [
+      {
+        "text": "Thanks!",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "Hope it serves me better than the last guy.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "…",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",

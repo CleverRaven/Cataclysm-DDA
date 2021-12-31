@@ -42,6 +42,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "700 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "270 mm",
         "moves": 80
       },
       {
@@ -49,6 +50,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "700 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "270 mm",
         "moves": 80
       },
       {
@@ -93,6 +95,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract mantle",
+    "repairs_like": "armor_lightplate",
     "weight": "1 kg",
     "volume": "1533 ml",
     "price": 60000,
@@ -135,6 +138,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract armored skirt",
+    "repairs_like": "armor_lightplate",
     "weight": "800 g",
     "volume": "900 ml",
     "price": 60000,
@@ -168,6 +172,8 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "abstract armored vambraces" },
+    "looks_like": "armguard_hard",
+    "repairs_like": "armguard_hard",
     "weight": "500 g",
     "volume": "900 ml",
     "price": 60000,
@@ -193,6 +199,8 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "abstract armored greaves" },
+    "looks_like": "legguard_hard",
+    "repairs_like": "legguard_hard",
     "weight": "500 g",
     "volume": "900 ml",
     "price": 60000,
