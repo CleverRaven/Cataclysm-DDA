@@ -19,8 +19,13 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const quality_id qual_HOSE( "HOSE" );
 
+// Width of the entire set of windows. 60 is sufficient for
+// all tested cases while remaining within the 80x24 limit.
+// TODO: make this dynamic in the future.
 static const int win_width = 60;
 
+// uilist_callback whose sole responsibility is to draw the
+// connecting borders between the uilist and the info window.
 class app_uilist_handler : public uilist_callback
 {
         void refresh( uilist *imenu ) override {
@@ -40,6 +45,7 @@ player_activity veh_app_interact::run( vehicle &veh, const point &p )
     return ap.act;
 }
 
+// Registers general appliance actions from keybindings
 veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     : a_point( p ), veh( &veh ), ctxt( "APP_INTERACT", keyboard_mode::keycode )
 {
@@ -78,11 +84,13 @@ void veh_app_interact::init_ui_windows()
     const int width_input = win_width;
     const int height = height_info + height_input + 2;
 
+    // Center the UI
     point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - height / 2 );
     w_border = catacurses::newwin( height, win_width, topleft );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
+    // Setup modifications to the uilist to integrate it into the UI
     imenu.w_width_setup = width_input;
     imenu.w_x_setup = topleft.x;
     imenu.w_y_setup = topleft.y + height_info;
@@ -182,6 +190,7 @@ void veh_app_interact::draw_info()
 bool veh_app_interact::can_refill()
 {
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        // No batteries
         if( vpr.part().can_reload() && vpr.part().ammo_current() != fuel_type_battery ) {
             return true;
         }
@@ -201,6 +210,8 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
+// Helper function for selecting a part in the parts list.
+// If only one part is available, don't prompt the player.
 static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
                                 const std::string &query_msg )
 {
@@ -241,6 +252,7 @@ void veh_app_interact::refill()
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        // No batteries
         if( vpr.part().can_reload() && vpr.part().ammo_current() != fuel_type_battery ) {
             ptlist.emplace_back( &vpr.part() );
         }
@@ -272,6 +284,7 @@ void veh_app_interact::refill()
         return false;
     };
 
+    // Setup the refill activity
     item_location target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt->name() ),
                            1 );
     if( !msg.empty() ) {
@@ -310,6 +323,7 @@ void veh_app_interact::siphon()
         return;
     }
 
+    // Setup liquid handling activity
     const item &base = pt->get_base();
     const int idx = veh->find_part( base );
     item liquid( base.legacy_front() );
