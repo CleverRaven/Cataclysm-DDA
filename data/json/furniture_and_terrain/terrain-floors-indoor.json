@@ -1110,7 +1110,7 @@
     "type": "terrain",
     "id": "t_floor_brood_wasp",
     "name": "paper brood cap",
-    "description": "A thin paper floor, protecting the pupatig wasp larva until it's ready to emerge.",
+    "description": "A thin paper floor, protecting the pupating wasp larva until it's ready to emerge.",
     "looks_like": "t_floor_paper",
     "symbol": ".",
     "color": "white",
