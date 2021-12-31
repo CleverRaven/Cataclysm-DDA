@@ -824,7 +824,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
         !has_flag( json_flag_PARAIMMUNE ) ) {
-        add_consequence( string_format( _( "Eating this %s probably isn't very healthy." ), food.tname() ),
+        add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ), food.tname() ),
                          PARASITES );
     }
 
