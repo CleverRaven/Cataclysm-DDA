@@ -2560,28 +2560,6 @@ static void draw_overmap( const draw_args &args )
     wnoutrefresh( w );
 }
 
-// Custom moddable sidebar
-static void draw_mod_sidebar( const draw_args &args, const std::string layout_name,
-                              const int width )
-{
-    const avatar &u = args._ava;
-    const catacurses::window &w = args._win;
-
-    werase( w );
-
-    // Render each row of the root layout widget
-    widget root = widget_id( layout_name ).obj();
-    int row_num = 0;
-    for( const widget_id &row_wid : root._widgets ) {
-        widget row_widget = row_wid.obj();
-        trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
-                        width - 1 ) ) );
-        row_num++;
-    }
-
-    wnoutrefresh( w );
-}
-
 static void draw_veh_compact( const draw_args &args )
 {
     const avatar &u = args._ava;
