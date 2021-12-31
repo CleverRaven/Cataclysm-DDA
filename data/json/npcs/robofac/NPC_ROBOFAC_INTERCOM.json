@@ -510,6 +510,11 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK"
       },
       {
+        "text": "I'm here to check on a prototype.",
+        "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
+      },
+      {
         "text": "So, about that protective gear?",
         "condition": {
           "and": [
@@ -558,6 +563,22 @@
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "We'll need at least a day to verify what is on the disk.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_faction_trust": 2 },
+        { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
+        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" }
+      ]
+    },
+    "responses": [
+      { "text": "very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll see you then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",
     "type": "talk_topic",
     "dynamic_line": "Oh that, we have been working on specialized gear for our agents in the field….  It seems we still have some work to do.",
@@ -572,19 +593,6 @@
         "condition": { "u_has_intelligence": 10 },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
       }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
-    "type": "talk_topic",
-    "dynamic_line": "We'll need at least a day to verify what is on the disk.",
-    "speaker_effect": {
-      "effect": { "npc_add_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" },
-      "sentinel": "told_about_armor"
-    },
-    "responses": [
-      { "text": "very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "I'll see you then.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -665,6 +673,96 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING",
+    "//": "default response to any project that isn't completed",
+    "type": "talk_topic",
+    "dynamic_line": "Sorry progress on that is still ongoing.",
+    "responses": [
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "Sure what project would you like to know about?",
+    "responses": [
+      {
+        "text": "How goes work on the armor disk?",
+        "condition": { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "2 d" },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "The armor disk should be complete by now right?",
+        "condition": { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "2 d" },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
+      },
+      {
+        "text": "[ 6 HGC ] I'd like to buy the rest of the armor set",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
+            { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 6 },
+          { "u_spawn_item": "robofac_military_skirt" },
+          { "u_spawn_item": "robofac_military_vambraces" },
+          { "u_spawn_item": "robofac_military_greaves" },
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "no" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "Lets talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH",
+    "//": "armor reward blurb after waiting",
+    "type": "talk_topic",
+    "dynamic_line": "Yes we've made great progress!  I'll spare you the details but we've developed much more resiliant materials for our armors while sacrificing no maneuvrability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable ammount of high end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.",
+    "responses": [
+      {
+        "text": "[ 6 HGC ] I'll take it now.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 6 },
+          { "u_spawn_item": "robofac_military_skirt" },
+          { "u_spawn_item": "robofac_military_vambraces" },
+          { "u_spawn_item": "robofac_military_greaves" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "What about another project?",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
+      },
+      {
+        "text": "I want to talk about something else.",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
