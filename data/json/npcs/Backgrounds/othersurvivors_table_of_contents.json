@@ -18,7 +18,7 @@
       {
         "text": "<BOSS_intro_question>",
         "topic": "BOSS_Lapin_01_Story1",
-        "condition": { "or": { "npc_has_trait": "BOSS_Lapin_01" } },
+        "condition": { "npc_has_trait": "BOSS_Lapin_01" },
         "switch": true
       },
       {
