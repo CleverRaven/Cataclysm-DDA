@@ -743,7 +743,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH",
     "//": "armor reward blurb after waiting",
     "type": "talk_topic",
-    "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuvrability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
+    "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuverability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
     "responses": [
       {
         "text": "[ 6 HGC ] I'll take it now.",
