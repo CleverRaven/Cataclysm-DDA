@@ -11,7 +11,6 @@
       { "group": "robofac_basic_robots", "prob": 100 },
       { "group": "robofac_id_cards", "prob": 100 },
       { "group": "robofac_basic_grenades", "prob": 100 },
-      { "group": "robofac_armor_pieces", "prob": 100 },
       { "group": "cop_armory", "prob": 100 },
       { "group": "ammo_any_batteries_full", "prob": 100 }
     ]
@@ -50,7 +49,8 @@
       [ "robofac_kevlar_vambraces", 25 ],
       [ "robofac_rubber_greaves", 25 ],
       [ "robofac_nomex_greaves", 25 ],
-      [ "robofac_kevlar_greaves", 25 ]
+      [ "robofac_kevlar_greaves", 25 ],
+      [ "robofac_armor_rig", 25 ]
     ]
   },
   {
@@ -68,5 +68,13 @@
     "container-item": "robofac_armor_rig",
     "subtype": "collection",
     "entries": [ { "item": "robofac_basic_skirt" }, { "item": "robofac_basic_mantle" } ]
+  },
+  {
+    "id": "nano_templates",
+    "type": "item_group",
+    "//": "a group of nano templates for one of the missions",
+    "container-item": "box_small_wood",
+    "subtype": "collection",
+    "entries": [ { "item": "template_armor" }, { "item": "template_photonics" } ]
   }
 ]

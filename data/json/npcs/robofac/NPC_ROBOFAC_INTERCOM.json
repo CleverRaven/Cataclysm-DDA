@@ -30,7 +30,10 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ] } ]
+    "entries": [
+      { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 },
+      { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -500,7 +503,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK"
       },
       {
-        "text": "I found this in the facility with the other data is it of any value to you're people?",
+        "text": "I found this in the facility with the other data is it of any value to your people?",
         "condition": {
           "and": [
             { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
@@ -570,7 +573,8 @@
       "effect": [
         { "u_add_faction_trust": 2 },
         { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
-        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" }
+        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_sell_item": "template_armor", "count": 1 }
       ]
     },
     "responses": [
@@ -693,12 +697,26 @@
     "responses": [
       {
         "text": "How goes work on the armor disk?",
-        "condition": { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "2 d" },
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
       },
       {
         "text": "The armor disk should be complete by now right?",
-        "condition": { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "2 d" },
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
       },
       {
@@ -725,12 +743,13 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH",
     "//": "armor reward blurb after waiting",
     "type": "talk_topic",
-    "dynamic_line": "Yes we've made great progress!  I'll spare you the details but we've developed much more resiliant materials for our armors while sacrificing no maneuvrability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable ammount of high end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.",
+    "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuvrability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
     "responses": [
       {
         "text": "[ 6 HGC ] I'll take it now.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
         "effect": [
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_sell_item": "RobofacCoin", "count": 6 },
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
@@ -743,6 +762,7 @@
         "text": "What about another project?",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
@@ -751,6 +771,7 @@
         "text": "I want to talk about something else.",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -759,6 +780,7 @@
         "text": "I'll check in later.",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_DONE"
