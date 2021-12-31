@@ -13,7 +13,7 @@
               "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 1 } ],
               "op": "="
             },
-            { "npc_has_trait": "BOSS_No_Others_02" },
+            { "npc_has_trait": "BOSS_NC_FARMER_01" },
             { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "farmer" } }
           ]
         },
