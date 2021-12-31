@@ -932,7 +932,11 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 26 ] ] ]
+    "components": [ [ [ "rag", 26 ] ] ],
+    "proficiencies": [
+        { "proficiency": "prof_articulation" },
+        { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "k_gambeson",
@@ -946,7 +950,12 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ],
+    "proficiencies": [
+        { "proficiency": "prof_articulation" },
+        { "proficiency": "prof_closures" },
+        { "proficiency": "prof_polymerworking" }
+    ]
   },
   {
     "result": "xl_gambeson",
