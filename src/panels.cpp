@@ -83,8 +83,6 @@ static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 
-static const widget_id widget_root_layout( "root_layout" );
-
 // constructor
 window_panel::window_panel(
     const std::function<void( const draw_args & )> &draw_func,
@@ -2584,16 +2582,6 @@ static void draw_mod_sidebar( const draw_args &args, const std::string layout_na
     wnoutrefresh( w );
 }
 
-static void draw_mod_sidebar_narrow( const draw_args &args )
-{
-    draw_mod_sidebar( args, "root_layout_narrow", 31 );
-}
-
-static void draw_mod_sidebar_wide( const draw_args &args )
-{
-    draw_mod_sidebar( args, "root_layout_wide", 43 );
-}
-
 static void draw_veh_compact( const draw_args &args )
 {
     const avatar &u = args._ava;
@@ -2955,8 +2943,6 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
-                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2999,8 +2985,6 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     5, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
-                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -3052,8 +3036,6 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     5, 32, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
-                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -3109,8 +3091,6 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
-                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -3138,7 +3118,7 @@ static void draw_custom_hint( const draw_args &args )
     wnoutrefresh( w );
 }
 
-// Initialize custom panels from the "root_layout" widget
+// Initialize custom panels from a given "sidebar" style widget
 static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
 {
     std::vector<window_panel> ret;

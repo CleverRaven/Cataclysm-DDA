@@ -852,36 +852,6 @@
     "widgets": [ "place_desc", "date_desc", "time_desc" ]
   },
   {
-    "id": "root_layout_wide",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "widgets": [
-      "hitpoint_graphs_top_layout",
-      "hitpoint_graphs_bottom_layout",
-      "sound_fatigue_focus_layout",
-      "stamina_speed_move_layout",
-      "stats_layout"
-    ]
-  },
-  {
-    "id": "root_layout_narrow",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "widgets": [
-      "hitpoints_head_torso_layout",
-      "hitpoints_arms_layout",
-      "hitpoints_legs_layout",
-      "move_speed_layout",
-      "safe_sound_layout",
-      "stamina_speed_layout",
-      "mood_focus_layout",
-      "str_dex_layout",
-      "int_per_layout"
-    ]
-  },
-  {
     "id": "custom_sidebar",
     "type": "widget",
     "style": "sidebar",
