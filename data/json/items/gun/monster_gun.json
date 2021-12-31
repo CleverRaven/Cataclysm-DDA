@@ -113,7 +113,7 @@
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str": "mad militias' rifle" },
-    "description": "A semi-auto rifle used by feral militiamen. (Made because monster aiming is too lethal.)",
+    "description": "A fake semi-auto rifle for feral militiamen (because monster aiming is too lethal).",
     "material": [ "steel", "plastic" ],
     "skill": "rifle",
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
