@@ -705,7 +705,7 @@ std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    const bodypart_id &current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
