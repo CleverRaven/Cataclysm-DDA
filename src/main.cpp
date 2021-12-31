@@ -218,7 +218,7 @@ void printVersionMessage()
             "data dir: %s\nuser dir: %s\n",
             getVersionString(),
             hasTiles ? '+' : '-',
-            hasSound ? '+' : '-' ,
+            hasSound ? '+' : '-',
             PATH_INFO::datadir().c_str(),
             PATH_INFO::user_dir().c_str() );
 }
