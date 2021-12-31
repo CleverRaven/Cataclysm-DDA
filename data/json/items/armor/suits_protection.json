@@ -200,9 +200,10 @@
     "id": "armor_lightplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "plate armor" },
-    "description": "A suit of Gothic plate armor.",
-    "weight": "11 kg",
+    "name": { "str": "light plate armor" },
+	"//": "Hardened medium carbon steel typical of late 1500s suits.",
+    "description": "A light suit of plate armor. Offers protection without weighing you down.",
+    "weight": "15 kg",
     "volume": "17500 ml",
     "price": 60000,
     "price_postapoc": 12000,
@@ -214,15 +215,165 @@
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 4,
+    "material_thickness": 2,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+	"armor_data": {
+      "armor": [
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+  }
   },
   {
     "id": "xl_armor_lightplate",
     "type": "ARMOR",
     "name": { "str": "XL plate armor" },
     "copy-from": "armor_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_medium_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plate armor" },
+	"//": "Hardened medium carbon steel typical of late 1500s suits. Upper range of thickness for infantry use.",
+    "description": "A light suit of plate armor. Offers protection without weighing you down.",
+    "weight": "20 kg",
+    "volume": "20 L",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+	"armor_data": {
+      "armor": [
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 4.0 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 1.5 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 1.5 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+  }
+  },
+  {
+    "id": "xl_armor_medium_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL plate armor" },
+    "copy-from": "armor_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "heavy plate armor" },
+	"//": "Hardened medium carbon steel, extremely thick plating. 6mm was used as early as 1585 for mounted units.",
+    "description": "An extremely heavy suit of armor made with hardened steel.  Pushing the limits of practicality, this armor is thick enough to turn away bullets but will quickly tire the wearer.",
+    "weight": "25 kg",
+    "volume": "22500 ml",
+    "price": 780000,
+    "price_postapoc": 6000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER" ],
+	"armor_data": {
+      "armor": [
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 6.0 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 30
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+		  { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 },
+		  { "type": "leather", "covered_by_mat": 5, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+  }
+  },
+  {
+    "id": "xl_armor_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL ornamental plate armor" },
+    "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -288,36 +439,6 @@
     "type": "ARMOR",
     "name": { "str": "XL plated leather armor" },
     "copy-from": "armor_plarmor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_plate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ornamental plate armor" },
-    "description": "An extremely heavy suit of ornamental armor.",
-    "weight": "18 kg",
-    "volume": "30 L",
-    "price": 780000,
-    "price_postapoc": 6000,
-    "to_hit": -5,
-    "bashing": 8,
-    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
-    "symbol": "[",
-    "looks_like": "armor_lightplate",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "xl_armor_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL ornamental plate armor" },
-    "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -458,20 +579,36 @@
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_hauberk",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
     "id": "xl_chainmail_hauberk",
     "type": "ARMOR",
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail hauberk" },
+    "copy-from": "kevlar_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -486,14 +623,24 @@
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 30,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail armor" },
+    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_suit",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
   },
   {
     "id": "xl_chainmail_suit",
@@ -502,6 +649,12 @@
     "copy-from": "chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail armor" },
+    "copy-from": "xl_chainmail_suit"
   },
   {
     "id": "chainmail_suit_faraday",
@@ -514,10 +667,10 @@
     "price": 35000,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
@@ -526,6 +679,14 @@
         "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "xl_chainmail_suit_faraday",
+    "type": "ARMOR",
+    "copy-from": "chainmail_suit_faraday",
+    "name": { "str": "XL faraday chainmail suit" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "cleansuit",
