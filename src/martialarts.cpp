@@ -166,6 +166,29 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
         }
 };
 
+tech_effect_data load_tech_effect_data( const JsonObject &e )
+{
+    return tech_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+                             e.get_bool( "permanent", false ), e.get_bool( "on_damage", true ),
+                             e.get_int( "chance", 100 ) );
+}
+
+class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
+{
+    public:
+        tech_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
+            return load_tech_effect_data( e );
+        }
+        template<typename C>
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
+            reader_detail::handler<C>().erase_if( container, [&id]( const tech_effect_data & e ) {
+                return e.id == id;
+            } );
+        }
+};
+
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
@@ -231,6 +254,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -711,6 +735,7 @@ std::string ma_requirements::get_description( bool buff ) const
 
     return dump;
 }
+
 
 ma_technique::ma_technique()
 {

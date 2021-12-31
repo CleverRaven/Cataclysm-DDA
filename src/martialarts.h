@@ -99,6 +99,20 @@ struct ma_requirements {
     void load( const JsonObject &jo, const std::string &src );
 };
 
+struct tech_effect_data {
+    efftype_id id;
+    int duration;
+    bool permanent;
+    bool on_damage;
+    int chance;
+
+    tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
+                      int nchance ) :
+        id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
+        chance( nchance ) {}
+    tech_effect_data load_tech_effect_data( const JsonObject &e );
+};
+
 class ma_technique
 {
     public:
@@ -159,6 +173,8 @@ class ma_technique
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
+
+        std::vector<tech_effect_data> tech_effects;
 
         float damage_bonus( const Character &u, damage_type type ) const;
         float damage_multiplier( const Character &u, damage_type type ) const;

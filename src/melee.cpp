@@ -1698,7 +1698,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     for( damage_unit &du : di.damage_units ) {
 
         du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
-        du.amount += technique.damage_bonus(*this, du.type);
+        du.amount += technique.damage_bonus( *this, du.type );
         du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
@@ -1707,6 +1707,15 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     move_cost *= technique.move_cost_multiplier( *this );
     move_cost += technique.move_cost_penalty( *this );
+
+    if( !technique.tech_effects.empty() ) {
+        for( const tech_effect_data &eff : technique.tech_effects ) {
+            // Add the tech's effects if it rolls the chance and either did damage or ignores it
+            if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0  || !eff.on_damage ) ) {
+                t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+            }
+        }
+    }
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
