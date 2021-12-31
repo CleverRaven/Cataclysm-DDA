@@ -33,7 +33,6 @@ static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
-static const widget_id widget_test_three_widget_layout( "test_three_widget_layout" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
