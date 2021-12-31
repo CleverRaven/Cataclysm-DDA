@@ -109,26 +109,6 @@ static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
     return input;
 }
 
-static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
-                            point bottom_right )
-{
-    // corners
-    mvwaddch( w, top_left, LINE_OXXO );
-    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
-    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
-    mvwaddch( w, bottom_right, LINE_XOOX );
-
-    for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
-        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
-    }
-
-    for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
-        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
-    }
-}
-
 std::pair<std::string, nc_color> display::str_text_color( const Character &p )
 {
     nc_color clr;
@@ -2570,29 +2550,15 @@ static void draw_compass_padding_compact( const draw_args &args )
     wnoutrefresh( w );
 }
 
-static void draw_overmap_narrow( const draw_args &args )
+static void draw_overmap( const draw_args &args )
 {
     const avatar &u = args._ava;
     const catacurses::window &w = args._win;
 
     werase( w );
     const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 31, 13 ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 30, 12 );
-    wnoutrefresh( w );
-}
-
-static void draw_overmap_wide( const draw_args &args )
-{
-    const avatar &u = args._ava;
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 43, 19 ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 42, 18 );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point_zero, getmaxx( w ) - 1, getmaxy( w ) - 1 );
     wnoutrefresh( w );
 }
 
@@ -2985,7 +2951,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 44, false ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
@@ -3031,7 +2997,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_compass_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 32, true ) );
-    ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
                                     8, 32, false ) );
@@ -3084,7 +3050,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 32, false ) );
-    ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
                                     8, 32, false ) );
@@ -3141,7 +3107,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 44, false ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
                                     8, 44, false ) );
@@ -3190,7 +3156,7 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
         ret.emplace_back( row_widget.get_window_panel( width ) );
     }
 
-    // Add message log and map to fill remaining space
+    // Add compass, message log, and map to fill remaining space
     // TODO: Make these into proper widgets
     ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
                                     -2, width, true ) );
@@ -3198,6 +3164,11 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
+                                    to_translation( "Compass" ),
+                                    5, width, true ) );
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
+                                    7, width, false ) );
 
     return ret;
 }
