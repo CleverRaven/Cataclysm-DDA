@@ -8,11 +8,13 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ],
-    "check_for_locations_area": {
-      "type": ["subterranean_empty"],
-      "from": [ -10, -10, -1],
-      "to": [ 10, 10, -1]
-    },
+    "check_for_locations_area": [
+      {
+        "type": ["subterranean_empty"],
+        "from": [ -14, -14, -1],
+        "to": [ 14, 14, -1]
+      }
+    ],
     "check_for_locations": [
     ],
     "joins": [

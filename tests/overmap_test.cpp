@@ -232,11 +232,12 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
     const overmap_special &special =
-        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab", "nether_monster_corpse"));
+        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab",
+                                       "nether_monster_corpse" ) );
     const city cit;
 
     constexpr int num_overmaps = 100;
-    constexpr int num_trials_per_overmap = 15;
+    constexpr int num_trials_per_overmap = 8;
 
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
