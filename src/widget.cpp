@@ -63,6 +63,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst";
         case widget_var::fatigue:
             return "fatigue";
+        case widget_var::health:
+            return "health";
         case widget_var::weariness_level:
             return "weariness_level";
         case widget_var::mana:
@@ -102,6 +104,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "env_temp_text";
         case widget_var::fatigue_text:
             return "fatigue_text";
+        case widget_var::health_text:
+            return "health_text";
         case widget_var::hunger_text:
             return "hunger_text";
         case widget_var::lighting_text:
@@ -116,6 +120,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
+        case widget_var::rad_badge_text:
+            return "rad_badge_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::style_text:
@@ -261,6 +267,9 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::fatigue:
             value = ava.get_fatigue();
             break;
+        case widget_var::health:
+            value = ava.get_healthy();
+            break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
             break;
@@ -328,6 +337,7 @@ bool widget::uses_text_function()
         case widget_var::date_text:
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
+        case widget_var::health_text:
         case widget_var::hunger_text:
         case widget_var::lighting_text:
         case widget_var::mood_text:
@@ -335,6 +345,7 @@ bool widget::uses_text_function()
         case widget_var::pain_text:
         case widget_var::place_text:
         case widget_var::power_text:
+        case widget_var::rad_badge_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
         case widget_var::thirst_text:
@@ -372,6 +383,9 @@ std::string widget::color_text_function_string( const avatar &ava )
         case widget_var::fatigue_text:
             desc = display::fatigue_text_color( ava );
             break;
+        case widget_var::health_text:
+            desc = display::health_text_color( ava );
+            break;
         case widget_var::hunger_text:
             desc = display::hunger_text_color( ava );
             break;
@@ -392,6 +406,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );
+            break;
+        case widget_var::rad_badge_text:
+            desc = display::rad_badge_text_color( ava );
             break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );

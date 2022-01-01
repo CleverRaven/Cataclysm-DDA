@@ -159,6 +159,9 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke( "mininuke" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 
+static const limb_score_id limb_score_grip( "grip" );
+static const limb_score_id limb_score_reaction( "reaction" );
+
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
@@ -337,6 +340,91 @@ bool mattack::eat_crop( monster *z )
         return true;
     }
     return true;
+}
+
+bool mattack::split( monster *z )
+{
+    bool split_performed = false;
+    while( z->get_hp() / 2 > z->type->hp ) {
+        monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
+        if( !spawn ) {
+            break;
+        }
+        split_performed = true;
+        z->set_hp( z->get_hp() - z->type->hp );
+        //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+        spawn->make_ally( *z );
+        add_msg_if_player_sees( *z, _( "The %s splits in two!" ), z->name() );
+        z->mod_moves( -z->type->split_move_cost );
+        spawn->mod_moves( -z->type->split_move_cost );
+
+        if( z->get_moves() <= 0 ) {
+            break;
+        }
+    }
+
+    return split_performed;
+}
+
+bool mattack::absorb_items( monster *z )
+{
+    map &here = get_map();
+
+    static const units::quantity<int, units::volume_in_milliliter_tag> ml_per_hp =
+        units::from_milliliter( z->type->absorb_ml_per_hp );
+
+    std::vector<item *> consumed_items;
+    std::vector<material_id> absorb_material = z->get_absorb_material();
+
+    for( item &elem : here.i_at( z->pos() ) ) {
+        bool any_materials_match = false;
+
+        if( absorb_material.empty() ) {
+            any_materials_match = true;
+        } else {
+            for( const material_type *mat_type : elem.made_of_types() ) {
+                if( std::find( absorb_material.begin(), absorb_material.end(),
+                               mat_type->id ) != absorb_material.end() ) {
+                    any_materials_match = true;
+                }
+            }
+        }
+
+        // make sure we don't absorb the wrong types of items
+        if( !any_materials_match ) {
+            continue;
+        }
+
+        add_msg_if_player_sees( *z,
+                                _( "The %s flows around the %s and it is quickly dissolved!" ),
+                                z->name(), elem.display_name() );
+
+        int volume_in_ml = units::to_milliliter( elem.volume() );
+        // Allows the monster to exceed normal max HP. Split occurs as normal max HP * 2.
+        z->set_hp( z->get_hp() + std::max( volume_in_ml / ml_per_hp.value(), 1 ) );
+        int absorb_move_cost = static_cast<int>( z->type->absorb_move_cost_per_ml * volume_in_ml );
+        absorb_move_cost = std::max( absorb_move_cost, z->type->absorb_move_cost_min );
+        if( z->type->absorb_move_cost_max != -1 ) {
+            absorb_move_cost = clamp( absorb_move_cost, z->type->absorb_move_cost_min,
+                                      z->type->absorb_move_cost_max );
+        }
+        z->mod_moves( -absorb_move_cost );
+        consumed_items.push_back( &elem );
+        // stop consuming once we're out of moves
+        if( z->get_moves() <= 0 ) {
+            break;
+        }
+    }
+    for( item *it : consumed_items ) {
+        // check if the item being removed is a corpse so that the items are dropped.
+        // only do this if the monster is selectively eating flesh
+        if( it->is_container() && !absorb_material.empty() ) {
+            it->spill_contents( z->pos() );
+        }
+        here.i_rem( z->pos(), it );
+    }
+
+    return !consumed_items.empty();
 }
 
 bool mattack::eat_food( monster *z )
@@ -828,10 +916,11 @@ bool mattack::pull_metal_weapon( monster *z )
             // It takes a while
             z->moves -= att_cost_pull;
             int success = 100;
-            ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
+            ///\Grip strength increases resistance to pull_metal_weapon special attack
             if( foe->str_cur > min_str ) {
                 ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ),
+                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                                        limb_score_grip ) ) - ( 6 * wp_skill ),
                                     0.0f );
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
@@ -5424,13 +5513,14 @@ bool mattack::bio_op_disarm( monster *z )
     int my_roll = dice( 3, 2 * mon_stat );
     my_roll += dice( 3, z->type->melee_skill );
 
-    /** @EFFECT_STR increases chance to avoid disarm, primary stat */
+    /** @ARM_STR increases chance to avoid disarm, primary stat */
     /** @EFFECT_DEX increases chance to avoid disarm, secondary stat */
-    /** @EFFECT_PER increases chance to avoid disarm, secondary stat */
+    /** Grip and reaction scores increase the  chance to avoid/ resist disarm */
     /** @EFFECT_MELEE increases chance to avoid disarm */
-    int their_roll = dice( 3, 2 * foe->get_str() + foe->get_dex() );
-    their_roll += dice( 3, foe->get_per() );
+    int their_roll = dice( 3, foe->get_limb_score( limb_score_grip ) * ( foe->get_arm_str() +
+                           foe->get_dex() ) );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
+    their_roll *= foe->get_limb_score( limb_score_reaction );
 
     item &it = foe->get_wielded_item();
 

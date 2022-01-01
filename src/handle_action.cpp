@@ -700,11 +700,11 @@ static void smash()
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
-        smashskill = player_character.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
+        smashskill = player_character.get_arm_str() + mon->mech_str_addition() + mon->type->melee_dice *
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.get_wielded_item().damage_melee(
+        smashskill = player_character.get_arm_str() + player_character.get_wielded_item().damage_melee(
                          damage_type::BASH );
     }
 
@@ -1038,9 +1038,11 @@ static void sleep()
         return;
     }
 
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
         !player_character.has_trait( trait_WATERSLEEPER ) &&
-        !player_character.has_trait( trait_WATERSLEEP ) ) {
+        !player_character.has_trait( trait_WATERSLEEP ) &&
+        boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
     }

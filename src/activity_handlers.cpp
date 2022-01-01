@@ -1827,7 +1827,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
@@ -2138,7 +2138,12 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
-                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                    point int_p( act->values[ 2 ], act->values[ 3 ] );
+                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                        g->exam_appliance( vp->vehicle(), int_p );
+                    } else {
+                        g->exam_vehicle( vp->vehicle(), int_p );
+                    }
                 }
                 return;
             } else {

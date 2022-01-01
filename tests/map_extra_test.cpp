@@ -75,7 +75,7 @@ TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
         tinymap tm;
         tm.load( project_combine( om.pos(), project_to<coords::sm>( center ) ), false );
 
-        const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield.str() );
+        const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield );
 
         return mx_func( tm, tm.get_abs_sub() );
     };
