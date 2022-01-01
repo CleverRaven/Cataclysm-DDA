@@ -7570,5 +7570,35 @@
     "city_sizes": [ 3, 20 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bunker shop",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bunker_shop_g_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_shop_b_south" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "gas station bunker",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_south" },
+      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_south" },
+      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_south" },
+      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_south" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE" ]
   }
 ]
