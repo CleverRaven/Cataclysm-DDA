@@ -9,14 +9,10 @@
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ],
     "check_for_locations_area": [
-      {
-        "type": ["subterranean_empty"],
-        "from": [ -14, -14, -1],
-        "to": [ 14, 14, -1]
-      }
+      { "type": [ "subterranean_empty" ], "from": [ -11, -5, -1 ], "to": [ 11, 5, -1 ] },
+      { "type": [ "subterranean_empty" ], "from": [ -5, -11, -1 ], "to": [ 5, 11, -1 ] }
     ],
-    "check_for_locations": [
-    ],
+    "check_for_locations": [  ],
     "joins": [
       { "id": "bowels_mid_to_edge", "opposite": "bowels_edge_to_mid" },
       { "id": "bowels_edge_to_mid", "opposite": "bowels_mid_to_edge" },

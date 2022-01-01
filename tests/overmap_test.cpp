@@ -237,7 +237,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     const city cit;
 
     constexpr int num_overmaps = 100;
-    constexpr int num_trials_per_overmap = 8;
+    constexpr int num_trials_per_overmap = 15;
 
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
