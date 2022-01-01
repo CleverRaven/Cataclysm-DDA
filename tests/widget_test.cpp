@@ -254,7 +254,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
     }
 }
 
-TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+TEST_CASE( "stats widgets", "[widget][avatar][stats]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -275,6 +275,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( int_w.layout( ava ) == "INT: 7" );
         CHECK( per_w.layout( ava ) == "PER: 13" );
     }
+}
+
+TEST_CASE( "stamina widget", "[widget][avatar][stamina]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "stamina" ) {
         widget stamina_num_w = widget_test_stamina_num.obj();
@@ -298,8 +304,15 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( stamina_num_w.layout( ava ) == "STAMINA: 10000" );
         CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ##########" );
     }
+}
 
-    SECTION( "speed pool" ) {
+TEST_CASE( "speed widget", "[widget][avatar][speed]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+
+    SECTION( "speed number" ) {
         widget speed_w = widget_test_speed_num.obj();
 
         ava.set_speed_base( 90 );
@@ -307,8 +320,15 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.set_speed_base( 240 );
         CHECK( speed_w.layout( ava ) == "SPEED: 240" );
     }
+}
 
-    SECTION( "focus pool" ) {
+TEST_CASE( "focus widget", "[widget][avatar][focus]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+
+    SECTION( "focus number" ) {
         widget focus_w = widget_test_focus_num.obj();
 
         ava.set_focus( 75 );
@@ -316,8 +336,15 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.set_focus( 120 );
         CHECK( focus_w.layout( ava ) == "FOCUS: 120" );
     }
+}
 
-    SECTION( "mana pool" ) {
+TEST_CASE( "mana widget", "[widget][avatar][mana]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+
+    SECTION( "mana number" ) {
         widget mana_w = widget_test_mana_num.obj();
 
         ava.magic->set_mana( 150 );
@@ -325,8 +352,14 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.magic->set_mana( 450 );
         CHECK( mana_w.layout( ava ) == "MANA: 450" );
     }
+}
 
-    SECTION( "morale" ) {
+TEST_CASE( "morale widget", "[widget][avatar][morale]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "morale number" ) {
         widget morale_w = widget_test_morale_num.obj();
 
         ava.clear_morale();
@@ -338,8 +371,14 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
+}
 
-    SECTION( "move counter" ) {
+TEST_CASE( "move counter widget", "[widget][avatar][move]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "move counter number" ) {
         widget move_w = widget_test_move_num.obj();
 
         ava.movecounter = 80;
@@ -347,6 +386,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.movecounter = 150;
         CHECK( move_w.layout( ava ) == "MOVE: 150" );
     }
+}
+
+TEST_CASE( "movement mode widget", "[widget][avatar][move_mode]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "movement mode" ) {
         widget mode_letter_w = widget_test_move_mode_letter.obj();
@@ -365,6 +410,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
         CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
     }
+}
+
+TEST_CASE( "health widget", "[widget][avatar][health]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "health" ) {
         widget health_num_w = widget_test_health_num.obj();
@@ -392,6 +443,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( health_num_w.layout( ava ) == "HEALTH: -120" );
         CHECK( health_text_w.layout( ava ) == "HEALTH: <color_c_red>Horrible</color>" );
     }
+}
+
+TEST_CASE( "hit points widget", "[widget][avatar][hp]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "hit points" ) {
         bodypart_id head( "head" );
@@ -414,6 +471,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
     }
+}
+
+TEST_CASE( "bodypart status widget", "[widget][avatar][bodypart]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "bodypart status" ) {
         bodypart_id arm( "arm_l" );
@@ -477,6 +540,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
             CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: <color_c_light_gray>--</color>" );
         }
     }
+}
+
+TEST_CASE( "pain widget", "[widget][avatar][pain]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "pain" ) {
         widget pain_num_w = widget_test_pain_num.obj();
@@ -516,6 +585,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( pain_num_w.layout( ava ) == "PAIN: 80" );
         CHECK( pain_text_w.layout( ava ) == "PAIN: <color_c_red>Severe pain</color>" );
     }
+}
+
+TEST_CASE( "weariness widget", "[widget][avatar][weariness]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "weariness" ) {
         widget weariness_w = widget_test_weariness_num.obj();
@@ -523,6 +598,12 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
         // TODO: Check weariness set to other levels
     }
+}
+
+TEST_CASE( "wetness widget", "[widget][avatar][wetness]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "wetness" ) {
         widget head_wetness_w = widget_test_bp_wetness_head_num.obj();
