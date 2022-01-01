@@ -1404,6 +1404,27 @@
   },
   {
     "type": "keybinding",
+    "id": "REFILL",
+    "category": "APP_INTERACT",
+    "name": "Refill tank/battery",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SIPHON",
+    "category": "APP_INTERACT",
+    "name": "Siphon from tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RENAME",
+    "category": "APP_INTERACT",
+    "name": "Rename appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
