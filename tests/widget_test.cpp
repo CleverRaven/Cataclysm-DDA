@@ -7,11 +7,11 @@
 #include "weather_type.h"
 #include "widget.h"
 
-static const itype_id itype_rad_badge( "rad_badge" );
-
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
+
+static const itype_id itype_rad_badge( "rad_badge" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
