@@ -33,8 +33,6 @@
 // - Character::set_cardio_acc
 // - avatar::update_cardio_acc <-- Critical
 
-static const efftype_id effect_winded( "winded" );
-
 static const move_mode_id move_mode_run( "run" );
 
 static const skill_id skill_swimming( "swimming" );
@@ -72,17 +70,17 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
     REQUIRE( here.ter( right ) == terrain );
     // Count how many steps (1-tile moves) it takes to become winded
     int steps = 0;
+    int turns = 0;
     const int STOP_STEPS = 1000; // Safe exit in case of Superman
     // Track changes to moves and stamina
     int last_moves = they.get_speed();
     int last_stamina = they.get_stamina_max();
-
     // Take a deep breath and start running
     they.moves = last_moves;
     they.set_stamina( last_stamina );
     they.set_movement_mode( move_mode_run );
-    // Run until out of stamina or winded (should happen at the same time)
-    while( they.get_stamina() > 0 && !they.has_effect( effect_winded ) && steps < STOP_STEPS ) {
+    // Run as long as possible
+    while( they.can_run() && steps < STOP_STEPS ) {
         // Step right on even steps, left on odd steps
         if( steps % 2 == 0 ) {
             REQUIRE( they.pos() == left );
@@ -101,18 +99,20 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
             // Get "speed" moves back each turn
             they.moves += they.get_speed();
             calendar::turn += 1_turns;
+            turns += 1;
+
+            // Update body for stamina regen
+            they.update_body();
+            const int stamina_cost = last_stamina - they.get_stamina();
+            // Total stamina must also be decreasing; if not, quit
+            CAPTURE( turns );
+            CAPTURE( steps );
+            CAPTURE( move_cost );
+            CAPTURE( stamina_cost );
+            REQUIRE( they.get_stamina() < last_stamina );
+            last_stamina = they.get_stamina();
         }
         last_moves = they.moves;
-
-        // Update body for stamina regen
-        they.update_body();
-        // NOTE: Stamina cost is always 100, 101, 120, or 121 ??
-        const int stamina_cost = last_stamina - they.get_stamina();
-        // Total stamina must also be decreasing; if not, quit
-        CAPTURE( move_cost );
-        CAPTURE( stamina_cost );
-        REQUIRE( they.get_stamina() < last_stamina );
-        last_stamina = they.get_stamina();
     }
     // Reset to starting position
     they.setpos( left );
@@ -137,6 +137,31 @@ static void check_trait_cardio_stamina_run( Character &they, std::string trait_n
     }
 }
 
+
+// Baseline character with default attributes and no traits
+TEST_CASE( "base cardio", "[cardio][base]" )
+{
+    verify_default_cardio_options();
+    Character &they = get_player_character();
+
+    clear_map();
+    clear_avatar();
+
+    // Ensure no initial effects that would affect cardio
+    REQUIRE( they.get_healthy() == 0 );
+    REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
+    // Ensure base_bmr and starting cardio are what we expect
+    REQUIRE( they.base_bmr() == base_bmr );
+    REQUIRE( they.get_cardiofit() == base_cardio );
+    REQUIRE( 2 * they.get_cardio_acc() == base_bmr );
+
+    SECTION( "Base character with no traits" ) {
+        // pre-Cardio, could run 96 steps
+        // post-Cardio, can run 84 steps in-game, test case reached 87
+        // correctly counting moves/steps instead of turns, test case reaches 83
+        check_trait_cardio_stamina_run( they, "", base_cardio, base_stamina, 83 );
+    }
+}
 
 // Trait Modifiers
 // ---------------
@@ -184,8 +209,6 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
 
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps
-        // post-Cardio, can run 84 steps in-game, test case reached 87
-        // correctly counting moves/steps instead of turns, test case reaches 83
         check_trait_cardio_stamina_run( they, "", base_cardio, base_stamina, 83 ); //96
     }
 
@@ -193,10 +216,10 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
     SECTION( "Traits affecting body size" ) {
         // Body size determines BMR, which affects base cardio fitness
         // Pre-Cardio, body size did not affect how many steps you could run
-        check_trait_cardio_stamina_run( they, "SMALL2", 1088, 6764, 83 ); //97
+        check_trait_cardio_stamina_run( they, "SMALL2", 1088, 6764, 84 ); //97
         // FIXME: But why the heck can SMALL2 run further than SMALL?
-        check_trait_cardio_stamina_run( they, "SMALL", 1376, 7628, 77 ); //97
-        check_trait_cardio_stamina_run( they, "LARGE", 2162, 9986, 92 ); //97
+        check_trait_cardio_stamina_run( they, "SMALL", 1376, 7628, 78 ); //97
+        check_trait_cardio_stamina_run( they, "LARGE", 2162, 9986, 93 ); //97
         check_trait_cardio_stamina_run( they, "HUGE", 2663, 11489, 106 ); //97
     }
 
@@ -205,7 +228,7 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
         // maximum stamina. Now that cardio fitness is actually implemented, these traits
         // directly affect total cardio fitness, and thus maximum stamina (and running distance).
         // Languorous
-        check_trait_cardio_stamina_run( they, "BADCARDIO", 0.7 * base_cardio, 7148, 67 ); //70
+        check_trait_cardio_stamina_run( they, "BADCARDIO", 0.7 * base_cardio, 7148, 66 ); //70
         // Indefatigable
         check_trait_cardio_stamina_run( they, "GOODCARDIO", 1.3 * base_cardio, 10277, 103 ); //126
         // Hyperactive
@@ -219,7 +242,7 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
         // Very Fast Metabolism
         check_trait_cardio_stamina_run( they, "HUNGER2", 2608, 11324, 108 ); //87
         // Extreme Metabolism
-        check_trait_cardio_stamina_run( they, "HUNGER3", 3477, 13931, 132 ); //107
+        check_trait_cardio_stamina_run( they, "HUNGER3", 3477, 13931, 133 ); //107
     }
 
     // FIXME: These traits need a significant nerf (-20) to reach their pre-Cardio balance
