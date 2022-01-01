@@ -647,6 +647,14 @@
     "//": "Uses display::pain_text_color"
   },
   {
+    "id": "rad_badge_desc",
+    "type": "widget",
+    "label": "Radiation",
+    "style": "text",
+    "var": "rad_badge_text",
+    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+  },
+  {
     "id": "thirst_desc",
     "type": "widget",
     "label": "Thirst",
