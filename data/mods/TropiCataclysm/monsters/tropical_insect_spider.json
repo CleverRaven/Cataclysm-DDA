@@ -300,7 +300,7 @@
     "id": "mon_termite_alate",
     "type": "MONSTER",
     "name": { "str": "termite alate" },
-    "description": "An enormous winged termite dedicated to spreading new colonies.  They arent violent but will respond to aggresion if molested.",
+    "description": "An enormous winged termite dedicated to spreading new colonies.  They are not violent but will respond to aggression if molested.",
     "default_faction": "termite",
     "copy-from": "base_ant",
     "bodytype": "insect",
