@@ -22,7 +22,14 @@
         "components": [
           [ [ "2x4", 300 ] ],
           [ [ "cattail_stalk", 80 ], [ "dogbane", 80 ], [ "pine_bough", 80 ], [ "straw_pile", 80 ] ],
-          [ [ "clay_lump", 80 ], [ "feces_cow", 20 ], [ "feces_dog", 40 ], [ "feces_manure", 40 ], [ "material_limestone", 80 ], [ "material_quicklime", 80 ] ],
+          [
+            [ "clay_lump", 80 ],
+            [ "feces_cow", 20 ],
+            [ "feces_dog", 40 ],
+            [ "feces_manure", 40 ],
+            [ "material_limestone", 80 ],
+            [ "material_quicklime", 80 ]
+          ],
           [ [ "material_sand", 200 ], [ "pebble", 200 ] ],
           [ [ "nail", 500 ] ],
           [ [ "water", 100 ], [ "water_clean", 100 ] ],
@@ -54,7 +61,14 @@
         "components": [
           [ [ "2x4", 185 ] ],
           [ [ "cattail_stalk", 52 ], [ "dogbane", 52 ], [ "pine_bough", 52 ], [ "straw_pile", 52 ] ],
-          [ [ "clay_lump", 52 ], [ "feces_cow", 13 ], [ "feces_dog", 26 ], [ "feces_manure", 26 ], [ "material_limestone", 52 ], [ "material_quicklime", 52 ] ],
+          [
+            [ "clay_lump", 52 ],
+            [ "feces_cow", 13 ],
+            [ "feces_dog", 26 ],
+            [ "feces_manure", 26 ],
+            [ "material_limestone", 52 ],
+            [ "material_quicklime", 52 ]
+          ],
           [ [ "material_sand", 130 ], [ "pebble", 130 ] ],
           [ [ "nail", 352 ] ],
           [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
@@ -92,7 +106,14 @@
         "components": [
           [ [ "2x4", 315 ] ],
           [ [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ], [ "straw_pile", 36 ] ],
-          [ [ "clay_lump", 36 ], [ "feces_cow", 9 ], [ "feces_dog", 18 ], [ "feces_manure", 18 ], [ "material_limestone", 36 ], [ "material_quicklime", 36 ] ],
+          [
+            [ "clay_lump", 36 ],
+            [ "feces_cow", 9 ],
+            [ "feces_dog", 18 ],
+            [ "feces_manure", 18 ],
+            [ "material_limestone", 36 ],
+            [ "material_quicklime", 36 ]
+          ],
           [ [ "material_sand", 90 ], [ "pebble", 90 ] ],
           [ [ "nail", 704 ] ],
           [ [ "rock", 40 ] ],
@@ -127,7 +148,14 @@
           [ [ "2x4", 172 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
           [ [ "cattail_stalk", 40 ], [ "dogbane", 40 ], [ "pine_bough", 40 ], [ "straw_pile", 40 ] ],
-          [ [ "clay_lump", 40 ], [ "feces_cow", 10 ], [ "feces_dog", 20 ], [ "feces_manure", 20 ], [ "material_limestone", 40 ], [ "material_quicklime", 40 ] ],
+          [
+            [ "clay_lump", 40 ],
+            [ "feces_cow", 10 ],
+            [ "feces_dog", 20 ],
+            [ "feces_manure", 20 ],
+            [ "material_limestone", 40 ],
+            [ "material_quicklime", 40 ]
+          ],
           [ [ "material_sand", 100 ], [ "pebble", 100 ] ],
           [ [ "nail", 312 ] ],
           [ [ "water", 50 ], [ "water_clean", 50 ] ],
@@ -176,7 +204,14 @@
         "components": [
           [ [ "2x4", 260 ] ],
           [ [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ], [ "straw_pile", 96 ] ],
-          [ [ "clay_lump", 96 ], [ "feces_cow", 24 ], [ "feces_dog", 48 ], [ "feces_manure", 48 ], [ "material_limestone", 96 ], [ "material_quicklime", 96 ] ],
+          [
+            [ "clay_lump", 96 ],
+            [ "feces_cow", 24 ],
+            [ "feces_dog", 48 ],
+            [ "feces_manure", 48 ],
+            [ "material_limestone", 96 ],
+            [ "material_quicklime", 96 ]
+          ],
           [ [ "material_sand", 240 ], [ "pebble", 240 ] ],
           [ [ "nail", 454 ] ],
           [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
@@ -213,7 +248,14 @@
           [ [ "anvil", 1 ] ],
           [ [ "cattail_stalk", 80 ], [ "dogbane", 80 ], [ "pine_bough", 80 ], [ "straw_pile", 80 ] ],
           [ [ "chain", 4 ] ],
-          [ [ "clay_lump", 80 ], [ "feces_cow", 20 ], [ "feces_dog", 40 ], [ "feces_manure", 40 ], [ "material_limestone", 80 ], [ "material_quicklime", 80 ] ],
+          [
+            [ "clay_lump", 80 ],
+            [ "feces_cow", 20 ],
+            [ "feces_dog", 40 ],
+            [ "feces_manure", 40 ],
+            [ "material_limestone", 80 ],
+            [ "material_quicklime", 80 ]
+          ],
           [ [ "material_sand", 200 ], [ "pebble", 200 ] ],
           [ [ "metal_tank", 2 ] ],
           [ [ "nail", 880 ] ],
