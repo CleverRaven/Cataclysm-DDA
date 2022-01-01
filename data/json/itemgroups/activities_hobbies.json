@@ -181,6 +181,7 @@
       [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
+      [ "storage_line", 20 ],
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],

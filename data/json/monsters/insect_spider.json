@@ -20,6 +20,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_cut": 4,
+    "armor_elec": 3,
     "dodge": 4,
     "armor_bash": 6,
     "bleed_rate": 60,
@@ -51,6 +52,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "meatslug",
     "death_function": {
@@ -471,6 +473,7 @@
     "weight": "815 kg",
     "melee_dice": 3,
     "dodge": 2,
+    "armor_elec": 1,
     "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -664,6 +667,7 @@
       }
     ],
     "dodge": 0,
+    "armor_elec": 1,
     "proportional": { "vision_day": 0.5, "vision_night": 0.5 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede_mom",
@@ -712,6 +716,7 @@
     "armor_bullet": 45,
     "armor_cut": 35,
     "armor_stab": 15,
+    "armor_elec": 3,
     "bleed_rate": 60,
     "vision_day": 12,
     "vision_night": 7,
@@ -898,6 +903,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 40, "armor_penetration": 20 } ]
       }
     ],
+    "armor_elec": 2,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
@@ -1128,6 +1134,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_acid": 3,
+    "armor_elec": 1,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -1192,6 +1199,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "armor_elec": 1,
     "death_function": {
       "effect": { "id": "death_explosion_mon_spider_jumping_mega", "hit_self": true },
       "corpse_type": "NO_CORPSE",
@@ -1312,6 +1320,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "armor_elec": 1,
     "special_attacks": [ [ "GRAB", 5 ] ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1676,6 +1685,7 @@
     "name": { "str": "wasp queen" },
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
+    "armor_elec": 3,
     "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
     "upgrades": { "half_life": 30, "into": "mon_wasp_mega" }
@@ -1743,6 +1753,7 @@
     "copy-from": "mon_wasp",
     "aggression": 4,
     "melee_skill": 9,
+    "armor_elec": 2,
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] }
   },
@@ -1787,6 +1798,7 @@
     "armor_cut": 30,
     "armor_stab": 18,
     "armor_bullet": 22,
+    "armor_elec": 4,
     "bleed_rate": 60,
     "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
@@ -2026,6 +2038,7 @@
     "armor_bash": 5,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_elec": 1,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -2072,6 +2085,7 @@
     "armor_bash": 6,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_elec": 2,
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 14, "into": "mon_ant_acid_soldier" },
@@ -2133,6 +2147,7 @@
     "armor_bash": 8,
     "armor_cut": 16,
     "armor_bullet": 13,
+    "armor_elec": 4,
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_acid_queen",
@@ -2164,6 +2179,7 @@
     "armor_bash": 12,
     "armor_cut": 14,
     "armor_bullet": 11,
+    "armor_elec": 1,
     "bleed_rate": 80,
     "vision_day": 5,
     "vision_night": 5,
@@ -2222,6 +2238,7 @@
     "armor_bash": 6,
     "armor_cut": 14,
     "armor_bullet": 11,
+    "armor_elec": 3,
     "harvest": "arachnid",
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -2253,6 +2270,7 @@
     "armor_bash": 10,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "armor_elec": 2,
     "bleed_rate": 80,
     "vision_day": 5,
     "vision_night": 5,
@@ -2272,6 +2290,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "armor_elec": 4,
     "bleed_rate": 60,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
@@ -2317,6 +2336,7 @@
     "armor_bash": 3,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "armor_elec": 1,
     "vision_day": 10,
     "harvest": "arachnid_flying",
     "reproduction": { "baby_egg": "egg_locust", "baby_count": 5, "baby_timer": 10 },
@@ -2338,6 +2358,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "armor_elec": 3,
     "special_attacks": [
       { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true },
       [ "EAT_CROP", 3 ],
@@ -2438,6 +2459,7 @@
     "volume": "60 L",
     "weight": "80 kg",
     "melee_cut": 8,
+    "armor_elec": 1,
     "delete": {
       "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -2469,6 +2491,7 @@
     "armor_bash": 10,
     "armor_cut": 16,
     "armor_bullet": 13,
+    "armor_elec": 2,
     "vision_day": 8,
     "vision_night": 4,
     "harvest": "arachnid",
@@ -2498,6 +2521,7 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 15.0, "armor_penetration": 16 } ],
     "dodge": 2,
+    "armor_elec": 3,
     "attack_cost": 25,
     "special_attacks": [
       {
@@ -2543,6 +2567,7 @@
     "armor_bash": 15,
     "armor_cut": 18,
     "armor_bullet": 20,
+    "armor_elec": 2,
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
@@ -2578,6 +2603,7 @@
     "armor_bash": 7,
     "armor_cut": 20,
     "armor_bullet": 30,
+    "armor_elec": 3,
     "vision_day": 20,
     "vision_night": 5,
     "harvest": "arachnid",

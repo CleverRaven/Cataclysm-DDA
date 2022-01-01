@@ -47,8 +47,8 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_sleep( "sleep" );
 
-static const item_category_id item_category_books( "books" );
 static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_manual( "manual" );
 
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -615,7 +615,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
@@ -728,22 +728,22 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
     CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
-    CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
-    CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
+    CHECK( d.responses[5].text == "This is a u_has_item_category manuals test response." );
+    CHECK( d.responses[6].text == "This is a u_has_item_category manuals count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
     CHECK( d.responses[0].success.next_topic.item_type == itype_manual_speech );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
-    CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[0].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[0].success.next_topic.item_type == itype_beer );
-    CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[1].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[1].success.next_topic.item_type == itype_dnd_handbook );
-    CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[2].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[2].success.next_topic.item_type == itype_manual_speech );
-    CHECK( d.responses[3].text == "This is a repeated category books test response" );
+    CHECK( d.responses[3].text == "This is a repeated category manuals test response" );
     CHECK( d.responses[3].success.next_topic.item_type == itype_dnd_handbook );
-    CHECK( d.responses[4].text == "This is a repeated category books test response" );
+    CHECK( d.responses[4].text == "This is a repeated category manuals test response" );
     CHECK( d.responses[4].success.next_topic.item_type == itype_manual_speech );
     CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
     CHECK( d.responses[5].success.next_topic.item_type == itype_bottle_glass );
@@ -1083,7 +1083,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );

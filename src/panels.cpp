@@ -81,7 +81,6 @@ static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 // constructor
 window_panel::window_panel(
@@ -590,7 +589,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-std::pair<std::string, nc_color> display::morale_face_color( avatar &u )
+std::pair<std::string, nc_color> display::morale_face_color( const avatar &u )
 {
     const mood_face_id &face = u.character_mood_face();
     if( face.is_null() ) {
@@ -706,7 +705,7 @@ std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    const bodypart_id &current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
@@ -858,7 +857,6 @@ std::pair<std::string, nc_color> display::safe_mode_text_color( const bool class
 static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_id bp )
 {
     const bool no_feeling = u.has_trait( trait_NOPAIN );
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -875,7 +873,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-            if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+            if( u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
             } else if( !no_feeling ) {
@@ -896,7 +894,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
     const int hp_max = u.get_part_hp_max( bp );
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
-    if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+    if( u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
     } else if( no_feeling ) {
         if( hp_cur < hp_max / 2 ) {
@@ -1080,7 +1078,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
             std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
             std::forward_as_tuple( effect_hunger_blank, "", c_white ),
             std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Hungry" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very hungry" ), c_yellow ),
             std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
             std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
             std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
@@ -1207,6 +1205,37 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
+std::pair<std::string, nc_color> display::health_text_color( const Character &u )
+{
+    std::string h_string;
+    nc_color h_color = c_light_gray;
+
+    int current_health = u.get_healthy();
+    if( current_health < -100 ) {
+        h_string = "Horrible";
+        h_color = c_red;
+    } else if( current_health < -50 ) {
+        h_string = "Very bad";
+        h_color = c_light_red;
+    } else if( current_health < -10 ) {
+        h_string = "Bad";
+        h_color = c_yellow;
+    } else if( current_health < 10 ) {
+        h_string = "OK";
+        h_color = c_light_gray;
+    } else if( current_health < 50 ) {
+        h_string = "Good";
+        h_color = c_white;
+    } else if( current_health < 100 ) {
+        h_string = "Very good";
+        h_color = c_green;
+    } else {
+        h_string = "Excellent";
+        h_color = c_light_green;
+    }
+    return std::make_pair( _( h_string ), h_color );
+}
+
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
 {
     float scale = c.get_perceived_pain() / 10.f;
@@ -1250,8 +1279,7 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( u.has_trait( trait_SELFAWARE ) || u.has_effect( effect_got_checked ) ) &&
-        perceived_pain > 0 ) {
+    if( u.has_effect( effect_got_checked ) && perceived_pain > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), perceived_pain );
     } else if( perceived_pain > 0 ) {
         pain_string = pain.first;

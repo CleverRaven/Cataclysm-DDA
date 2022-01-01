@@ -263,7 +263,7 @@
     "id": "mon_turret_riot",
     "type": "MONSTER",
     "name": { "str": "riot control platform" },
-    "description": "These TALON-derived riot control platforms were widely publicized a few years before the Cataclysm as a new semi-autonomous device that could fire less-lethal beanbag projectiles with far more accuracy than a human, ensuring safer hits against a target's limbs.  They were quickly adopted by prisons and inner-city police forces, where they demonstrated that 'less lethal' does not mean 'non-lethal'.  In the days before the Cataclysm, massive stockrooms of these things were put into circulation.  On the bright side, although it shoots autonomously, it requires a human operator to relocate, so it's not mobile anymore.",
+    "description": "These TALON-derived riot control platforms were widely publicized a few years before the Cataclysm as a new semi-autonomous device that could fire less-lethal rounds with far more accuracy than a human, ensuring safer hits against a target's limbs.  They were quickly adopted by prisons and inner-city police forces, where they demonstrated that 'less lethal' does not mean 'non-lethal'.  In the days before the Cataclysm, massive stockrooms of these things were put into circulation.  On the bright side, although it shoots autonomously, it requires a human operator to relocate, so it's not mobile anymore.",
     "default_faction": "cop_bot",
     "looks_like": "mon_turret",
     "species": [ "ROBOT" ],

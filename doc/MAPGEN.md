@@ -1068,6 +1068,25 @@ The code excerpt above will place chunks as follows:
 * `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
 
 
+### Place monster corpse from a monster group with "place_corpses"
+
+Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+
+| Field  | Description
+| ---    | ---
+| group | (required, string) a monster group id from which random monster will be selected
+
+Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
+
+```json
+"corpses": {
+    "g": { "group": "GROUP_PETS" }
+},
+"place_corpses": [
+    { "group": "GROUP_PETS", "x": 3, "y": 5 }
+],
+```
+
 ## Mapgen values
 
 A *mapgen value* can be used in various places where a specific id is expected.

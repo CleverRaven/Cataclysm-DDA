@@ -23,6 +23,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "armor_elec": 1,
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -75,6 +76,7 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "armor_stab": 4,
+    "armor_elec": 2,
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0 }, "coverage": 18 },
       { "name": "the arm", "armor_mult": { "physical": 0 }, "coverage": 9 },
@@ -128,6 +130,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "armor_elec": 3,
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
       { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },

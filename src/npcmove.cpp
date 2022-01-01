@@ -1192,7 +1192,7 @@ void npc::execute_action( npc_action action )
             } else {
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
-                if( cbm_weapon_index >= 0 ) {
+                if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
                 }
             }
@@ -1599,53 +1599,47 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
-    cbm_weapon_index = -1;
+    weapon_bionic_uid = 0;
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return true;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( i.powered ) {
-                return deactivate_bionic( index, eff_only );
+                return deactivate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
@@ -3169,7 +3163,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_wgt ) {
-            rWgt.emplace_back( wgt_ratio, i );
+            rWgt.emplace_back( wgt_ratio, static_cast<int>( i ) );
         }
         for( size_t j = 0; j < rVol.size() && !added_vol; j++ ) {
             if( vol_ratio > rVol[j].ratio ) {
@@ -3178,7 +3172,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_vol ) {
-            rVol.emplace_back( vol_ratio, i );
+            rVol.emplace_back( vol_ratio, static_cast<int>( i ) );
         }
     }
 

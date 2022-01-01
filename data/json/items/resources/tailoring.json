@@ -201,7 +201,7 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -212,9 +212,7 @@
     "material": [ "leather" ],
     "weight": "600 g",
     "volume": "1500 ml",
-    "category": "spare_parts",
-    "count": 1,
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -233,7 +231,7 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",
@@ -244,9 +242,7 @@
     "material": [ "fur" ],
     "weight": "684 g",
     "volume": "1500 ml",
-    "category": "spare_parts",
-    "count": 1,
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
     "id": "sheet_cotton",

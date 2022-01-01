@@ -1830,11 +1830,23 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
+    "result": "chainmail_hood",
+    "type": "recipe",
+    "copy-from": "chainmail_hood",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "xl_chainmail_hood",
     "type": "recipe",
     "copy-from": "chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "chainmail_hood",
     "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
   },
   {
