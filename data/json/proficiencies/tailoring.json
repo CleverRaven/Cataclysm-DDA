@@ -142,7 +142,7 @@
     "type": "proficiency",
     "id": "prof_chitinworking",
     "name": { "str": "Chitinworking" },
-    "description": "It seems unlikely that anyone prior to the cataclysm knew how to work with the shells of giant bugs as well as you do now.",
+    "description": "It seems unlikely that anyone prior to the Cataclysm knew how to work with the shells of giant bugs as well as you do now.",
     "//": "Given that nobody has ever written a guide for this, it should be particularly tough to master.",
     "can_learn": true,
     "default_time_multiplier": 2,

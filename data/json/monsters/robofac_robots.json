@@ -41,7 +41,7 @@
     "description": "A white and brown quadcopter drone mounting what looks to be a camera dome and a large antenna array.  It calmly hovers a comfortable distance above the ground, surveilling its surroundings with cold indifference.",
     "default_faction": "robofac_spy",
     "tracking_distance": 10,
-    "aggression": 50,
+    "aggression": -99,
     "special_attacks": [ [ "DEPART", 34560 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },

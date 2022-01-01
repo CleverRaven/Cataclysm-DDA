@@ -108,6 +108,8 @@ enum class proficiency_bonus_type : int;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+using bionic_uid = unsigned int;
+
 constexpr int MAX_CLAIRVOYANCE = 40;
 
 /// @brief type of conditions that effect vision
@@ -336,10 +338,10 @@ enum class character_stat : char {
 };
 
 enum class customize_appearance_choice : int {
-    EYES, // customize eye colour
+    EYES, // customize eye color
     HAIR, // customize hair
     HAIR_F, // customize facial hair
-    SKIN  // customize skin colour
+    SKIN  // customize skin color
 };
 
 enum class book_mastery {
@@ -462,6 +464,8 @@ class Character : public Creature, public visitable
 
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
+        // Strength modified by limb lifting score
+        int get_arm_str() const;
         // Defines distance from which CAMOUFLAGE mobs are visible
         int get_eff_per() const override;
 
@@ -805,6 +809,8 @@ class Character : public Creature, public visitable
         void try_remove_crushed();
         void try_remove_webs();
         void try_remove_impeding_effect();
+        // Calculate generic trap escape chance
+        bool can_escape_trap( int difficulty, bool manip );
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
@@ -1058,6 +1064,8 @@ class Character : public Creature, public visitable
          * @return true if the armor was completely destroyed.
          */
         bool ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp, int roll );
+        // prints a message related to an item if an item is damaged
+        void describe_damage( damage_unit &du, item &armor ) const;
         /**
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
@@ -1173,11 +1181,10 @@ class Character : public Creature, public visitable
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
+        int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         bool has_limb( const bodypart_id &limb ) const;
-        /** Returns true if the limb is disabled(12.5% or less hp)*/
-        bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -1353,12 +1360,14 @@ class Character : public Creature, public visitable
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
+        bool activate_bionic( bionic &bio, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
         void invalidate_pseudo_items();
-        /** Returns amount of Storage CBMs in the corpse **/
-        std::pair<int, int> amount_of_storage_bionics() const;
+        /** Finds the highest UID for installed bionics and caches the next valid UID **/
+        void update_last_bionic_uid() const;
+        /** Returns the next valid UID for a bionic installation **/
+        bionic_uid generate_bionic_uid() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -1388,18 +1397,19 @@ class Character : public Creature, public visitable
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
+        bool is_using_bionic_weapon() const;
+        bionic_uid get_weapon_bionic_uid() const;
 
         /** Handles bionic effects over time of the entered bionic */
-        void process_bionic( int b );
-        /** finds the index of the bionic that corresponds to the currently wielded fake item
-         *  i.e. bionic is `BIONIC_WEAPON` and weapon.typeId() == bio.info().fake_item */
-        cata::optional<int> active_bionic_weapon_index() const;
+        void process_bionic( bionic &bio );
         /** Checks if bionic can be deactivated (e.g. it's not incapacitated and power level is sufficient)
          *  returns either success or failure with log message */
-        ret_val<bool> can_deactivate_bionic( int b, bool eff_only = false ) const;
+        ret_val<bool> can_deactivate_bionic( bionic &bio, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
-        bool deactivate_bionic( int b, bool eff_only = false );
+        bool deactivate_bionic( bionic &bio, bool eff_only = false );
+        /* Forces bionic deactivation */
+        void force_bionic_deactivation( bionic &bio );
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns the bionic at a given index in my_bionics[] */
@@ -1420,10 +1430,14 @@ class Character : public Creature, public visitable
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
+        /** Finds the first bionic instance that matches the bionic_id */
+        cata::optional<bionic *> find_bionic_by_type( const bionic_id &b ) const;
+        /** Finds the bionic with specified UID */
+        cata::optional<bionic *> find_bionic_by_uid( bionic_uid bio_uid ) const;
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic( const bionic_id &b );
+        void remove_bionic( const bionic &bio );
         /** Adds a bionic to my_bionics[] */
-        void add_bionic( const bionic_id &b );
+        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0 );
         /**Calculate skill bonus from tiles in radius*/
         float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
@@ -1441,7 +1455,7 @@ class Character : public Creature, public visitable
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
-        void perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty, int success,
+        void perform_install( const bionic_id &bid, bionic_uid upbio_uid, int difficulty, int success,
                               int pl_skill, const std::string &installer_name,
                               const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
         void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
@@ -1493,13 +1507,13 @@ class Character : public Creature, public visitable
                     int base_cost = INVENTORY_HANDLING_PENALTY,
                     item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Success or failure of removal happens here*/
-        void perform_uninstall( const bionic_id &bid, int difficulty, int success, int pl_skill );
+        void perform_uninstall( const bionic &bio, int difficulty, int success, int pl_skill );
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
@@ -1507,7 +1521,7 @@ class Character : public Creature, public visitable
         void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
+        bool uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
@@ -1551,16 +1565,16 @@ class Character : public Creature, public visitable
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
         /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( int b );
+        void passive_power_gen( const bionic &bio );
         /**Find fuel used by remote powered bionic*/
         material_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
-        void heat_emission( int b, int fuel_energy );
+        void heat_emission( const bionic &bio, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
-        float get_effective_efficiency( int b, float fuel_efficiency );
+        float get_effective_efficiency( const bionic &bio, float fuel_efficiency );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
@@ -2305,6 +2319,9 @@ class Character : public Creature, public visitable
         bool blood_rh_factor = false;
         // Randomizes characters' blood type and Rh
         void randomize_blood();
+
+        int avg_nat_bpm;
+        void randomize_heartrate();
 
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
@@ -3330,11 +3347,11 @@ class Character : public Creature, public visitable
          * Automatically turn bionic on or off according to remaining fuel and
          * user settings, and return info of the first burnable fuel.
          */
-        auto_toggle_bionic_result auto_toggle_bionic( int b, bool start );
+        auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
         /**
          *Convert fuel to bionic power
          */
-        void burn_fuel( int b, const auto_toggle_bionic_result &result );
+        void burn_fuel( bionic &bio, const auto_toggle_bionic_result &result );
 
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.
@@ -3395,6 +3412,10 @@ class Character : public Creature, public visitable
         mutable bool pseudo_items_valid = false;
         mutable std::vector<const item *> pseudo_items;
     protected:
+        // Bionic IDs are unique only within a character. Used to unambiguously identify bionics in a character
+        bionic_uid weapon_bionic_uid = 0;
+        mutable bionic_uid next_bionic_uid = 0;  // NOLINT(cata-serialize)
+
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
 

@@ -47,13 +47,20 @@
     "type": "ITEM_CATEGORY",
     "name": { "str": "FOOD" },
     "//": "zone is hardcoded",
-    "sort_rank": -17
+    "sort_rank": -18
   },
   {
     "id": "drugs",
     "type": "ITEM_CATEGORY",
     "name": { "str": "DRUGS" },
     "zone": "LOOT_DRUGS",
+    "sort_rank": -17
+  },
+  {
+    "id": "manuals",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MANUALS" },
+    "zone": "LOOT_MANUALS",
     "sort_rank": -16
   },
   {
@@ -153,6 +160,13 @@
     "name": { "str": "ARTIFACTS" },
     "zone": "LOOT_ARTIFACTS",
     "sort_rank": 10
+  },
+  {
+    "id": "keys",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "KEYS" },
+    "zone": "LOOT_KEYS",
+    "sort_rank": 11
   },
   {
     "id": "armor",

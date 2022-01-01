@@ -82,8 +82,8 @@ class character_martial_arts
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */
         bool can_arm_block( const Character &owner ) const;
-        /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block( const Character &owner ) const;
+        /** Returns true if you can block with nonstandard limbs */
+        bool can_nonstandard_block( const Character &owner ) const;
         /** Returns true if the current style forces unarmed attack techniques */
         bool is_force_unarmed() const;
 

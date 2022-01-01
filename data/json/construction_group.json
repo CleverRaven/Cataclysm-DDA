@@ -1091,6 +1091,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_standing_lamp",
+    "name": "Place Standing Lamp"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },

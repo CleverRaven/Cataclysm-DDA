@@ -179,8 +179,8 @@ class overmapbuffer
         void delete_note( const tripoint_abs_omt &p );
         void mark_note_dangerous( const tripoint_abs_omt &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint_abs_omt &p );
-        const string_id<map_extra> &extra( const tripoint_abs_omt &p );
-        void add_extra( const tripoint_abs_omt &p, const string_id<map_extra> &id );
+        const map_extra_id &extra( const tripoint_abs_omt &p );
+        void add_extra( const tripoint_abs_omt &p, const map_extra_id &id );
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
@@ -397,7 +397,7 @@ class overmapbuffer
         t_notes_vector find_notes( int z, const std::string &pattern ) {
             return get_notes( z, &pattern ); // filter with pattern
         }
-        using t_point_with_extra = std::pair<point_abs_omt, string_id<map_extra>>;
+        using t_point_with_extra = std::pair<point_abs_omt, map_extra_id>;
         using t_extras_vector = std::vector<t_point_with_extra>;
         t_extras_vector get_all_extras( int z ) {
             return get_extras( z, nullptr ); // NULL => don't filter extras

@@ -2,9 +2,18 @@
 #ifndef CATA_SRC_GLOBAL_VARS_H
 #define CATA_SRC_GLOBAL_VARS_H
 #include "json.h"
+
+enum class var_type : int {
+    u,
+    npc,
+    global,
+    faction,
+    party,
+    last
+};
+
 class global_variables
 {
-
     public:
         // Methods for setting/getting misc key/value pairs.
         void set_global_value( const std::string &key, const std::string &value ) {

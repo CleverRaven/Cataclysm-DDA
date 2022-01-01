@@ -29,6 +29,7 @@ template <typename E> struct enum_traits;
 enum class recipe_filter_flags : int {
     none = 0,
     no_rotten = 1,
+    no_favorite = 2,
 };
 
 enum class recipe_time_flag : int {

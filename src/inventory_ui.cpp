@@ -400,27 +400,34 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else if( entry.is_item() ) {
         std::string text = cells[cell_index].get_text( entry );
         const item &actual_item = *entry.locations.front();
-        if( cell_index == 0 && !text.empty() &&
-            entry.get_category_ptr()->get_id() == item_category_ITEMS_WORN &&
-            actual_item.is_worn_by_player() &&
-            actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
-            const units::volume total_capacity = actual_item.get_total_capacity( true );
-            const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
-            const units::length max_containable_length = actual_item.max_containable_length( true );
+        const std::string info_display = get_option<std::string>( "DETAILED_CONTAINERS" );
+        // if we want no additional info skip this
+        if( info_display != "NONE" ) {
+            // if we want additional info for all items or it is worn then add the additional info
+            if( info_display == "ALL" || ( info_display == "WORN" &&
+                                           entry.get_category_ptr()->get_id() == item_category_ITEMS_WORN &&
+                                           actual_item.is_worn_by_player() ) ) {
+                if( cell_index == 0 && !text.empty() &&
+                    actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
+                    const units::volume total_capacity = actual_item.get_total_capacity( true );
+                    const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
+                    const units::length max_containable_length = actual_item.max_containable_length( true );
 
-            const units::volume actual_capacity = actual_item.get_total_contained_volume( true );
-            const units::mass actual_capacity_weight = actual_item.get_total_contained_weight( true );
+                    const units::volume actual_capacity = actual_item.get_total_contained_volume( true );
+                    const units::mass actual_capacity_weight = actual_item.get_total_contained_weight( true );
 
-            container_data container_data = {
-                actual_capacity,
-                total_capacity,
-                actual_capacity_weight,
-                total_capacity_weight,
-                max_containable_length
-            };
-            std::string formatted_string = container_data.to_formatted_string( false );
+                    container_data container_data = {
+                        actual_capacity,
+                        total_capacity,
+                        actual_capacity_weight,
+                        total_capacity_weight,
+                        max_containable_length
+                    };
+                    std::string formatted_string = container_data.to_formatted_string( false );
 
-            text = text + string_format( " %s", formatted_string );
+                    text = text + string_format( " %s", formatted_string );
+                }
+            }
         }
         return text;
     } else if( cell_index != 0 ) {
@@ -2746,6 +2753,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     selection_col->prepare_paging();
     count = 0;
+    on_toggle();
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -3312,13 +3320,14 @@ void trade_selector::execute()
             inventory_drop_selector::on_input( input );
             if( input.action == "HELP_KEYBINDINGS" ) {
                 ctxt.display_menu();
-            } else if( input.action == "TOGGLE_ENTRY" or input.action == "MARK_WITH_COUNT" or
-                       input.entry != nullptr ) {
-                // FIXME: this would be better done in a callback from toggle_entries()
-                _parent->recalc_values_cpane();
             }
         }
     }
+}
+
+void trade_selector::on_toggle()
+{
+    _parent->recalc_values_cpane();
 }
 
 void trade_selector::resize( point const &size, point const &origin )
