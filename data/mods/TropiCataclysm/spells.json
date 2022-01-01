@@ -13,7 +13,7 @@
     "min_range": 4,
     "max_range": 4,
     "effect": "attack",
-    "extra_effects": [ "id": "spread_glue" ],
+    "extra_effects": [ { "id": "spread_glue" } ],
     "shape": "cone",
     "field_id": "fd_sludge",
     "field_chance": 2,
