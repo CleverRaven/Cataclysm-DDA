@@ -669,12 +669,23 @@ void Character::sort_armor()
             }
 
             std::string worn_armor_name = tmp_worn[itemindex]->tname();
+            // Get storage capacity in user's preferred units
+            units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
+            double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
+
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, bp );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            // Show armor name and storage capacity (if any)
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
+            if( worn_armor_storage > 0 ) {
+                // two digits, accurate to 1% of preferred storage unit
+                right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
+                             string_format( "%.2f", worn_armor_storage ) );
+            }
+
             if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
                 wprintz( w_sort_left, c_cyan, _( " H" ) );
