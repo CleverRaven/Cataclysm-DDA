@@ -550,7 +550,7 @@
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",
-    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3d printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3D printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
