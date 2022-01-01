@@ -755,8 +755,14 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
+
+            std::string specialmsg;
             // Handles speed penalties to monster & us, etc
-            std::string specialmsg = melee_special_effects( t, d, *cur_weapon );
+            if( technique.attack_override ) {
+                specialmsg = melee_special_effects( t, d, null_item_reference() );
+            } else {
+                specialmsg = melee_special_effects( t, d, *cur_weapon );
+            }
 
             // gets overwritten with the dealt damage values
             dealt_damage_instance dealt_dam;
@@ -820,7 +826,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
-                melee_train( *this, 5, std::min( 10, skill_training_cap ), *cur_weapon );
+                if( technique.attack_override ) {
+                    melee_train( *this, 5, std::min( 10, skill_training_cap ), null_item_reference() );
+                } else {
+                    melee_train( *this, 5, std::min( 10, skill_training_cap ), *cur_weapon );
+                }
             }
 
             // Treat monster as seen if we see it before or after the attack
@@ -1695,6 +1705,12 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
 
+    // Keep the technique definitons shorter
+    if( technique.attack_override ) {
+        di.mult_damage( 0 );
+        move_cost = 0;
+    }
+
     for( damage_unit &du : di.damage_units ) {
 
         du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
@@ -2140,7 +2156,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     std::string target = t.disp_name();
 
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
-        ( !is_armed() || weapon.conductive() ) ) {
+        ( weap.is_null() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
         d.add_damage( damage_type::ELECTRIC, rng( 2, 10 ) );
 
@@ -2151,7 +2167,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
+    if( has_active_bionic( bio_heat_absorb ) && weap.is_null() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( damage_type::COLD, 3 );
         if( is_avatar() ) {
@@ -2161,7 +2177,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( weapon.has_flag( flag_FLAMING ) ) {
+    if( weap.has_flag( flag_FLAMING ) ) {
         d.add_damage( damage_type::HEAT, rng( 1, 8 ) );
 
         if( is_avatar() ) {

@@ -210,6 +210,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "forbidden_buffs_any", forbid_buffs_any, string_id_reader<::ma_buff> {} );
 
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
+    optional( jo, was_loaded, "required_char_flags", req_char_flags );
+    optional( jo, was_loaded, "forbidden_char_flags", forbidden_char_flags );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -228,6 +230,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
@@ -589,6 +592,30 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
+            return false;
+        }
+    }
+
+    if( !req_char_flags.empty() ) {
+        bool has_flag = false;
+        for( const json_character_flag &flag : req_char_flags ) {
+            if( u.has_flag( flag ) ) {
+                has_flag = true;
+            }
+        }
+        if( !has_flag ) {
+            return false;
+        }
+    }
+
+    if( !forbidden_char_flags.empty() ) {
+        bool has_flag = false;
+        for( const json_character_flag &flag : forbidden_char_flags ) {
+            if( u.has_flag( flag ) ) {
+                has_flag = true;
+            }
+        }
+        if( has_flag ) {
             return false;
         }
     }

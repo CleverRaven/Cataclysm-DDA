@@ -11,6 +11,7 @@
 
 #include "bonuses.h"
 #include "calendar.h"
+#include "flat_set.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -81,6 +82,8 @@ struct ma_requirements {
 
 
     std::set<flag_id> req_flags; // any item flags required for this technique
+    cata::flat_set<json_character_flag> req_char_flags; // Character flags required
+    cata::flat_set<json_character_flag> forbidden_char_flags; // Character flags disabling the technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -143,6 +146,7 @@ class ma_technique
         bool dummy = false;
         bool crit_tec = false;
         bool crit_ok = false;
+        bool attack_override = false; // The attack replaces the one it triggered off of
 
         ma_requirements reqs;
 

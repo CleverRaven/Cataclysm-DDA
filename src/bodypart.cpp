@@ -342,6 +342,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
     optional( jo, was_loaded, "techniques", techniques );
+    optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -564,9 +565,11 @@ bool bodypart::is_limb_overencumbered() const
 
 std::set<matec_id> bodypart::get_limb_techs() const
 {
+    std::set<matec_id> result;
     if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) ) {
-        return id->techniques;
+        result.insert( id->techniques.begin(), id->techniques.end() );
     }
+    return result;
 }
 
 float bodypart::wound_adjusted_limb_value( const float val ) const

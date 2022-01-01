@@ -244,7 +244,7 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
-        int technique_enc_limit;
+        int technique_enc_limit = 50;
 
 
         // return a random sub part from the weighted list of subparts
