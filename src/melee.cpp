@@ -1151,7 +1151,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
-    int melee_bonus = get_skill_level(skill_melee);
+    int melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
