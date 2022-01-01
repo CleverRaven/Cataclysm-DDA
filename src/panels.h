@@ -72,12 +72,13 @@ std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
+std::pair<std::string, nc_color> health_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
 std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
-std::pair<std::string, nc_color> morale_face_color( avatar &u );
+std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
 std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const mood_face &face );
 
@@ -102,6 +103,13 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
                      bool infect );
 // Color for displaying the given encumbrance level
 nc_color encumb_color( const int level );
+
+// Color name for given irradiation level, used for radiation badge description
+std::string rad_badge_color_name( const int rad );
+// Color for displaying the given irradiation level
+nc_color rad_badge_color( const int rad );
+// Highlighted badge color for character's radiation badge, if they have one
+std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
 
 // Functions returning colorized string
 // gets the string that describes your weight

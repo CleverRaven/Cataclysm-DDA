@@ -354,6 +354,11 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    if( jo.has_object( "armor" ) ) {
+        armor = resistances();
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
+
     mandatory( jo, was_loaded, "side", part_side );
 
     optional( jo, was_loaded, "sub_parts", sub_parts );
@@ -436,6 +441,16 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::damage_resistance( const damage_type &dt ) const
+{
+    return armor.type_resist( dt );
+}
+
+float body_part_type::damage_resistance( const damage_unit &du ) const
+{
+    return armor.get_effective_resist( du );
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
@@ -541,9 +556,9 @@ int bodypart::get_encumbrance_threshold() const
     return id->encumbrance_threshold;
 }
 
-int bodypart::get_encumbrance_limit() const
+bool bodypart::is_limb_overencumbered() const
 {
-    return id->encumbrance_limit;
+    return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
 }
 
 float bodypart::wound_adjusted_limb_value( const float val ) const
@@ -561,7 +576,7 @@ float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
     int enc = get_encumbrance_data().encumbrance;
     // Check if we're over our encumbrance limit, return 0 if so
-    if( enc >= get_encumbrance_limit() ) {
+    if( is_limb_overencumbered() ) {
         return 0;
     }
     // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0

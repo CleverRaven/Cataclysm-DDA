@@ -46,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -107,11 +108,11 @@ static const efftype_id effect_winded( "winded" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -602,6 +603,7 @@ void suffer::from_schizophrenia( Character &you )
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
+        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -623,8 +625,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( you.get_wielded_item().damage() >= you.get_wielded_item().max_damage() / 3 &&
-                   one_turn_in( 1_hours ) ) {
+        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
+                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -1519,8 +1521,8 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < get_bionics().size(); i++ ) {
-        process_bionic( i );
+    for( bionic &bio : *my_bionics ) {
+        process_bionic( bio );
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
@@ -1600,9 +1602,9 @@ bool Character::irradiate( float rads, bool bypass )
         int rads_max = roll_remainder( rads );
         mod_rad( rng( 0, rads_max ) );
 
-        // Apply rads to any radiation badges.
+        // Apply rads to any radiation badges that are exposed (worn or wielded)
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != itype_rad_badge ) {
+            if( !it->has_flag( json_flag_RAD_DETECT ) ) {
                 continue;
             }
 
@@ -1623,13 +1625,14 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irradiation );
+            const std::string &col_before = display::rad_badge_color_name( before );
+            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
 
-            add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
+            //~ %1$s = previous badge color, %2%s = current badge color
+            add_msg_if_player( m_bad, _( "Your radiation badge changes from %1$s to %2$s!" ),
                                col_before, col_after );
         }
 

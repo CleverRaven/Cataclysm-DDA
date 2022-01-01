@@ -81,6 +81,7 @@
     "melee_cut": 1,
     "dodge": 2,
     "armor_bash": 4,
+    "armor_elec": 1,
     "harvest": "mutant_animal_large_noskin_frog",
     "path_settings": { "max_dist": 5 },
     "upgrades": { "half_life": 50, "into": "mon_frog_mother" },
@@ -134,7 +135,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -197,6 +198,7 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mutant_animal_large_reptile_noskin",

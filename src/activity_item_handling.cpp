@@ -660,7 +660,8 @@ static bool vehicle_activity( Character &you, const tripoint &src_loc, int vpind
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
         const vehicle_part part = veh->part( vpindex );
-        time_to_take = vp.repair_time( you ) * part.damage() / part.max_damage();
+        time_to_take = vp.repair_time( you ) * ( part.damage() - part.degradation() ) /
+                       ( part.max_damage() - part.degradation() );
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( you );
     }
@@ -1152,10 +1153,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 item base( vpinfo.base_item );
-                if( base.is_wheel() ) {
-                    // no wheel removal yet
-                    continue;
-                }
                 const units::mass max_lift = you.best_nearby_lifting_assist( src_loc );
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
@@ -1182,7 +1179,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                if( part_elem->is_broken() || part_elem->damage() <= part_elem->degradation() ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
@@ -2293,7 +2290,7 @@ static int chop_moves( Character &you, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -2335,7 +2332,8 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     }
     int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
     if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( you.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+        moves += ( ( MAX_STAT + 4 ) - std::min( you.get_arm_str(),
+                                                MAX_STAT ) ) * to_moves<int>( 5_minutes );
     }
     if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier

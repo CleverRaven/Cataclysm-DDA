@@ -286,6 +286,13 @@ class item : public visitable
         item &set_damage( int qty );
 
         /**
+         * Filter setting degradation constrained by 0 and @ref max_damage
+         * @note this method also sets the damage to qty if damage is less than qty
+         * @return same instance to allow method chaining
+         */
+        item &set_degradation( int qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -349,6 +356,11 @@ class item : public visitable
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
+
+        /**
+         * Returns a symbol indicating the current degradation of the item.
+         */
+        std::string degradation_symbol() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -445,7 +457,7 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug ) const;
+                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -543,14 +555,14 @@ class item : public visitable
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price( bool practical ) const;
 
         /**
          * Returns the monetary value of an item by itself.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price_no_contents( bool practical ) const;
@@ -845,11 +857,6 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
-        // checks if the item can have things placed in it
-        bool has_pockets() const {
-            // what has it gots in them, precious
-            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
-        }
         bool has_unrestricted_pockets() const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
@@ -895,8 +902,17 @@ class item : public visitable
         void add_rain_to_container( bool acid, int charges = 1 );
         /*@}*/
 
+        /**
+         * Return the level of a given quality the tool may have, or INT_MIN if it
+         * does not have that quality, or lacks enough charges to have that quality.
+         */
         int get_quality( const quality_id &id ) const;
         int get_raw_quality( const quality_id &id ) const;
+
+        /**
+         * Return true if this item's type is counted by charges
+         * (true for stackable, ammo, or comestible)
+         */
         bool count_by_charges() const;
 
         /**
@@ -1175,6 +1191,12 @@ class item : public visitable
         /** How much damage has the item sustained? */
         int damage() const;
 
+        /** How much degradation has the item accumulated? */
+        int degradation() const;
+
+        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        void rand_degradation();
+
         /**
          * Scale item damage to the given number of levels. This function is
          * here mostly for back-compatibility. It should not be used when
@@ -1188,14 +1210,27 @@ class item : public visitable
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
+         *
+         * @param dmg If specified, get the damage level of "dmg" instead of
+         * this item's current damage.
          */
-        int damage_level() const;
+        int damage_level( int dmg = INT_MIN ) const;
+
+        /**
+         * Get the minimum possible damage this item can be repaired to,
+         * accounting for degradation.
+         * @param allow_negative If true, get the damage floor for reinforcement
+         */
+        int damage_floor( bool allow_negative ) const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
 
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
+
+        /** Number of degradation increments before the item is destroyed */
+        int degrade_increments() const;
 
         /**
          * Relative item health.
@@ -1222,6 +1257,28 @@ class item : public visitable
         bool inc_damage( damage_type dt );
         /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
+
+        enum class armor_status {
+            UNDAMAGED,
+            DAMAGED,
+            DESTROYED,
+            TRANSFORMED
+        };
+
+        /**
+         * Damage related logic for armor items, wraps mod_damage with needed logic
+         * This version is for items with durability
+         * @return the state of the armor
+         */
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+
+        /**
+         * Damage related logic for armor items that warp and transform instead of degrading.
+         * Items such as ablative plates are considered with this.
+         * @return the state of the armor
+         */
+        armor_status damage_armor_transforms( damage_unit &du );
+
 
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
@@ -1805,14 +1862,41 @@ class item : public visitable
         /**
          * Returns clothing layer for item.
          */
-        layer_level get_layer() const;
+        std::vector<layer_level> get_layer() const;
 
-        enum cover_type {
+        /**
+         * Returns clothing layer for body part.
+         */
+        std::vector<layer_level> get_layer( const bodypart_id bp ) const;
+
+        /**
+         * Returns clothing layer for sub bodypart .
+         */
+        std::vector<layer_level> get_layer( const sub_bodypart_id sbp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific part.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific subpart.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const;
+
+        /**
+         * Returns true if an item has any of the given layer levels.
+         */
+        bool has_layer( const std::vector<layer_level> &ll ) const;
+
+        enum class cover_type {
             COVER_DEFAULT,
             COVER_MELEE,
             COVER_RANGED,
             COVER_VITALS
         };
+        static cover_type get_cover_type( damage_type type );
+
         /*
          * Returns the average coverage of each piece of data this item
          */
@@ -2460,8 +2544,10 @@ class item : public visitable
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
-        /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** returns a list of pointers to all top-level items
+         *  if unloading is true it ignores items in pockets that are flagged to not unload
+         */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -2541,7 +2627,9 @@ class item : public visitable
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
-        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
+        /** Returns true if protection info was printed as well */
+        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
 
     public:
         enum class sizing : int {
@@ -2690,6 +2778,7 @@ class item : public visitable
         // The faction that previously owned this item
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
+        int degradation_ = 0;
         light_emission light = nolight;
         mutable cata::optional<float> cached_relative_encumbrance;
 

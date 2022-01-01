@@ -111,7 +111,7 @@
     "threshreq": [ "THRESH_SYLVAN" ],
     "category": [ "SYLVAN" ],
     "cancels": [ "BADCARDIO" ],
-    "max_stamina_modifier": 1.5,
+    "cardio_multiplier": 1.8,
     "stamina_regen_modifier": 0.25
   }
 ]

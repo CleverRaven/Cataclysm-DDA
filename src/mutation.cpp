@@ -83,7 +83,6 @@ static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -181,10 +180,6 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
 }
 
 void Character::do_mutation_updates()
@@ -715,10 +710,6 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
-    } else if( mut == trait_SELFAWARE ) {
-        print_health();
-        tdata.powered = false;
-        return;
     } else if( mut == trait_TREE_COMMUNION ) {
         tdata.powered = false;
         if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
@@ -1080,10 +1071,6 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
-
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1471,10 +1458,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
-    }
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait
@@ -1888,7 +1871,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
     std::string end_message;
     switch( choice ) {
         case customize_appearance_choice::EYES:
-            amenu.text = _( "Choose a new eye colour" );
+            amenu.text = _( "Choose a new eye color" );
             traits = get_mutations_in_type( STATIC( "eye_color" ) );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
@@ -1903,9 +1886,9 @@ void Character::customize_appearance( customize_appearance_choice choice )
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
-            amenu.text = _( "Choose a new skin colour" );
+            amenu.text = _( "Choose a new skin color" );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
-            end_message = _( "Life in the cataclysm seems to have changed you." );
+            end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;
     }
 

@@ -1827,7 +1827,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
@@ -2138,7 +2138,12 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
-                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                    point int_p( act->values[ 2 ], act->values[ 3 ] );
+                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                        g->exam_appliance( vp->vehicle(), int_p );
+                    } else {
+                        g->exam_vehicle( vp->vehicle(), int_p );
+                    }
                 }
                 return;
             } else {
@@ -2392,6 +2397,11 @@ struct weldrig_hack {
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
+    ::repair_item_finish( act, you, false );
+}
+
+void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+{
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2468,11 +2478,16 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
+                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
+            if( no_menu ) {
+                act->set_to_null();
+                return;
+            }
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2581,8 +2596,12 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
-                you->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+            if( repeat == repeat_type::FULL &&
+                fix.damage() <= fix.damage_floor( false ) ) {
+                const char *msg = fix.damage_level() > 0 ?
+                                  _( "Your %s is repaired as much as possible, considering the degradation." ) :
+                                  _( "Your %s is already fully repaired." );
+                you->add_msg_if_player( m_info, msg, fix.tname() );
                 repeat = repeat_type::INIT;
             }
         } while( repeat == repeat_type::INIT );
@@ -3105,10 +3124,10 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     /**
     - values[0]: Difficulty
     - values[1]: success
-    - values[2]: max_power_level
+    - values[2]: bionic UID when uninstalling
     - values[3]: pl_skill
     - str_values[0]: install/uninstall
-    - str_values[1]: bionic_id
+    - str_values[1]: bionic_id when installing
     - str_values[2]: installer_name
     - str_values[3]: bool autodoc
     */
@@ -3193,10 +3212,11 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( you->has_bionic( bid ) ) {
-                you->perform_uninstall( bid, act->values[0], act->values[1], act->values[3] );
+            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+                you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
-                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
+                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
+                          act->values[2] );
                 you->remove_effect( effect_under_operation );
                 act->set_to_null();
             }
@@ -3207,7 +3227,13 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
 
             if( bid.is_valid() ) {
                 const bionic_id upbid = bid->upgraded_bionic;
-                you->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
+                // TODO: Let the user pick bionic to upgrade if multiple candidates exist
+                bionic_uid upbio_uid = 0;
+                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                    upbio_uid = ( *bio )->get_uid();
+                }
+
+                you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
                                       act->str_values[installer_name], bid->canceled_mutations, you->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );

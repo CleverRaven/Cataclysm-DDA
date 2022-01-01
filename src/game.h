@@ -723,6 +723,9 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
+        /** open appliance interaction screen */
+        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 

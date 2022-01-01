@@ -1394,15 +1394,15 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     current_submap->set_furn( l, new_target_furniture );
 
     // Set the dirty flags
-    const furn_t &old_t = old_id.obj();
-    const furn_t &new_t = new_target_furniture.obj();
+    const furn_t &old_f = old_id.obj();
+    const furn_t &new_f = new_target_furniture.obj();
 
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
         !furn_reset &&
-        player_character.pos() + player_character.grab_point == p && !new_t.is_movable() ) {
-        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
+        player_character.pos() + player_character.grab_point == p && !new_f.is_movable() ) {
+        add_msg( _( "The %s you were grabbing is destroyed!" ), old_f.name() );
         player_character.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
@@ -1412,26 +1412,26 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
             c->remove_effect( effect_crushed );
         }
     }
-    if( !new_t.emissions.empty() ) {
+    if( !new_f.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
-    if( old_t.transparent != new_t.transparent ) {
+    if( old_f.transparent != new_f.transparent ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
 
-    if( old_t.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_t.has_flag(
+    if( old_f.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_f.has_flag(
             ter_furn_flag::TFLAG_INDOORS ) ) {
         set_outside_cache_dirty( p.z );
     }
 
-    if( old_t.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) != new_t.has_flag(
+    if( old_f.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) != new_f.has_flag(
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
 
-    if( old_t.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_t.has_flag(
+    if( old_f.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_f.has_flag(
             ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
         set_floor_cache_dirty( p.z + 1 );
     }
@@ -1852,6 +1852,19 @@ bool map::is_wall_adjacent( const tripoint &center ) const
         }
     }
     return false;
+}
+
+bool map::is_open_air( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+    point l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        return false;
+    }
+    return current_submap->is_open_air( l );
 }
 
 // Move cost: 3D
@@ -2619,10 +2632,12 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
             ter_set( p, floor_type );
         }
 
-        furn_set( p, rubble_type );
+        if( !is_open_air( p ) ) {
+            furn_set( p, rubble_type );
+        }
     }
 
-    if( !items ) {
+    if( !items || is_open_air( p ) ) {
         return;
     }
 
@@ -4320,6 +4335,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
 
     new_item.set_damage( damlevel );
+    new_item.rand_degradation();
     for( const flag_id &flag : flags ) {
         new_item.set_flag( flag );
     }
@@ -4539,13 +4555,16 @@ item map::water_from( const tripoint &p )
     }
 
     if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
-        item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
-        ret.poison = rng( 1, 6 );
-        ret.get_comestible()->parasites = 5;
-        ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
-        return ret;
+        for( item &ret : get_map().i_at( p ) ) {
+            if( ret.made_of( phase_id::LIQUID ) ) {
+                ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
+                                          temperatures::cold ) ) );
+                ret.poison = rng( 1, 6 );
+                ret.get_comestible()->parasites = 5;
+                ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
+            }
+            return ret;
+        }
     }
 
     const ter_id terrain_id = ter( p );
@@ -4695,8 +4714,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish sterilizing items in the %s." ),
-                         to_minutes<int>( time_left ) + 1, cur_veh.name );
+                const int minutes = to_minutes<int>( time_left ) + 1;
+                add_msg( n_gettext( "It should take %1$d minute to finish sterilizing items in the %2$s.",
+                                    "It should take %1$d minutes to finish sterilizing items in the %2$s.", minutes ),
+                         minutes, cur_veh.name );
                 break;
             }
         }
@@ -5013,7 +5034,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
     std::list<item> ret;
     // Handle infinite map sources.
     item water = water_from( p );
-    if( water.typeId() == type ) {
+    if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
         ret.push_back( water );
         quantity = 0;
         return ret;
@@ -5114,7 +5135,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     for( const tripoint &p : reachable_pts ) {
         // Handle infinite map sources.
         item water = water_from( p );
-        if( water.typeId() == type ) {
+        if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
             water.charges = quantity;
             ret.push_back( water );
             quantity = 0;
@@ -5225,8 +5246,9 @@ const trap &map::tr_at( const tripoint &p ) const
         return tr_null.obj();
     }
 
-    if( current_submap->get_ter( l ).obj().trap != tr_null ) {
-        return current_submap->get_ter( l ).obj().trap.obj();
+    const trap_id &builtin_trap = current_submap->get_ter( l )->trap;
+    if( builtin_trap != tr_null ) {
+        return *builtin_trap;
     }
 
     return current_submap->get_trap( l ).obj();
@@ -5289,13 +5311,14 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to set trap at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to set trap at %s but the submap is not loaded", l.to_string() );
         return;
     }
     const ter_t &ter = current_submap->get_ter( l ).obj();
     if( ter.trap != tr_null ) {
-        debugmsg( "set trap %s on top of terrain %s which already has a built-in trap",
-                  type.obj().name(), ter.name() );
+        debugmsg( "set trap %s (%s) at %s on top of terrain %s (%s) which already has a "
+                  "built-in trap", type.id().str(), type->name(), p.to_string(),
+                  ter.id.str(), ter.name() );
         return;
     }
 
@@ -6615,6 +6638,15 @@ void map::save()
 void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
                 const bool pump_events )
 {
+    map &main_map = get_map();
+    if( this != &main_map ) {
+        // It's unsafe to load a map that overlaps with the primary map;
+        // various caches get confused.  So make sure we're not doing that.
+        if( main_map.inbounds( project_to<coords::ms>( w ) ) ) {
+            debugmsg( "loading non-main map at %s which overlaps with main map (abs_sub = %s) "
+                      "is not supported", w.to_string(), main_map.abs_sub.to_string() );
+        }
+    }
     for( auto &traps : traplocs ) {
         traps.clear();
     }
@@ -6896,7 +6928,7 @@ void map::saven( const tripoint &grid )
     }
     if( submap_to_save->get_ter( point_zero ) == t_null ) {
         // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid (%d,%d,%d) uninitialized!", grid.x, grid.y, grid.z );
+        debugmsg( "map::saven grid %s uninitialized!", grid.to_string() );
         return;
     }
 
@@ -8361,7 +8393,9 @@ void map::draw_rough_circle_ter( const ter_id &type, const point &p, int rad )
 void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
-        this->furn_set( q, type );
+        if( !is_open_air( tripoint( q, abs_sub.z ) ) ) {
+            this->furn_set( q, type );
+        }
     }, p, rad );
 }
 

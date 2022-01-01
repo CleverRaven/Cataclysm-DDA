@@ -622,9 +622,14 @@ void zone_manager::cache_data()
 {
     area_cache.clear();
 
-    for( const zone_data &elem : zones ) {
+    for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
+        }
+
+        // update the current cached locations for each personal zone
+        if( elem.get_is_personal() ) {
+            elem.update_cached_shift();
         }
 
         const std::string &type_hash = elem.get_type_hash();
@@ -758,10 +763,11 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
+const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type,
+        bool cached ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where ) && zone.get_type() == type ) {
+        if( zone.has_inside( where, cached ) && zone.get_type() == type ) {
             return &zone;
         }
     }
@@ -777,7 +783,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
+    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM, true );
     if( !zone || !it ) {
         return false;
     }
@@ -793,7 +799,6 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
-
     for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
@@ -1222,6 +1227,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "enabled", enabled );
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
+    json.member( "cached_shift", cached_shift );
     json.member( "start", start );
     json.member( "end", end );
     options->serialize( json );
@@ -1248,8 +1254,10 @@ void zone_data::deserialize( const JsonObject &data )
     }
     if( data.has_member( "is_personal" ) ) {
         data.read( "is_personal", is_personal );
+        data.read( "cached_shift", cached_shift );
     } else {
         is_personal = false;
+        cached_shift = tripoint_zero;
     }
     //Legacy support
     if( data.has_member( "start_x" ) ) {

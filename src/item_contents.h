@@ -94,7 +94,8 @@ class item_contents
 
     public:
         /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** if unloading is true it ignores items in pockets that are flagged to not unload */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 

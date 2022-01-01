@@ -189,6 +189,8 @@
       { "monster": "mon_dog_zombie_rot", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer", "weight": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
+      { "monster": "mon_feral_prepper", "weight": 1, "cost_multiplier": 2, "starts": "10 days" },
+      { "monster": "mon_feral_survivalist", "weight": 1, "cost_multiplier": 2, "starts": "29 days" },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25, "starts": "30 days" },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" }
     ]
@@ -200,8 +202,11 @@
     "monsters": [
       { "monster": "mon_zombie", "weight": 400, "cost_multiplier": 0 },
       { "monster": "mon_zombie_tough", "weight": 180, "cost_multiplier": 0 },
+      { "monster": "mon_feral_prepper", "weight": 180, "cost_multiplier": 5 },
+      { "monster": "mon_feral_survivalist", "weight": 180, "cost_multiplier": 10 },
+      { "monster": "mon_feral_militia", "weight": 150, "cost_multiplier": 10, "starts": "540 hours" },
       { "monster": "mon_zombie_survivor", "weight": 400, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 20, "cost_multiplier": 25, "starts": "540 hours" }
+      { "monster": "mon_zombie_survivor_elite", "weight": 150, "cost_multiplier": 10, "starts": "540 hours" }
     ]
   },
   {
@@ -528,6 +533,9 @@
     "name": "FERAL_HUMANS",
     "type": "monstergroup",
     "monsters": [
+      { "monster": "mon_feral_prepper", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
+      { "monster": "mon_feral_survivalist", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
+      { "monster": "mon_feral_militia", "weight": 14, "cost_multiplier": 2, "starts": "60 days" },
       { "monster": "mon_feral_human_pipe", "weight": 840 },
       { "monster": "mon_feral_human_pipe", "weight": 100, "pack_size": [ 3, 8 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 6 ] },

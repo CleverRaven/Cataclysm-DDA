@@ -10,6 +10,7 @@
 
 class JsonObject;
 class anatomy;
+class Creature;
 
 using anatomy_id = string_id<anatomy>;
 
@@ -41,6 +42,8 @@ class anatomy
         bodypart_id random_body_part() const;
         // Returns a random bodypart determined by the attacks hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
+        bodypart_id select_blocking_part( const Creature *blocker, bool arm, bool leg,
+                                          bool nonstandard ) const;
 
         std::vector<bodypart_id> get_bodyparts() const;
         void add_body_part( const bodypart_str_id &new_bp );

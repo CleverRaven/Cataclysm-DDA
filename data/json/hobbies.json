@@ -71,7 +71,7 @@
     "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
-    "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffiene fix will be much harder now.",
+    "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
     "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
@@ -91,7 +91,7 @@
     "subtype": "hobby",
     "id": "lockpicking",
     "name": "Lockpicking",
-    "description": "Whether it was for fun, innocent utilty, or criminal intent, you learned the basics of how to silently pick locks.  Now, being able to get into secured places just got a lot more useful.",
+    "description": "Whether it was for fun, innocent utility, or criminal intent, you learned the basics of how to silently pick locks.  Now, being able to get into secured places just got a lot more useful.",
     "points": 1,
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 1, "name": "traps" } ]
@@ -453,7 +453,7 @@
     "subtype": "hobby",
     "id": "car_rebuilding",
     "name": "Car Restoration",
-    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pasttime.  You never finished the car, but at least you learned a little over the years.",
+    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pastime.  You never finished the car, but at least you learned a little over the years.",
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ]
   },
@@ -756,7 +756,7 @@
     "id": "meditation",
     "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
-    "points": 2,
-    "traits": [ "SELFAWARE", "SPIRITUAL" ]
+    "points": 3,
+    "traits": [ "OPTIMISTIC", "SPIRITUAL" ]
   }
 ]

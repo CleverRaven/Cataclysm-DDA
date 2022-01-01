@@ -168,6 +168,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -240,6 +241,10 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+
+static const limb_score_id limb_score_footing( "footing" );
+static const limb_score_id limb_score_grip( "grip" );
+static const limb_score_id limb_score_lift( "lift" );
 
 static const material_id material_glass( "glass" );
 
@@ -688,6 +693,9 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
@@ -713,6 +721,7 @@ void game::setup()
     follower_ids.clear();
     scent.reset();
     effect_on_conditions::clear( u );
+    u.character_mood_face( true );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
@@ -2474,10 +2483,20 @@ void game::death_screen()
     display_faction_epilogues();
 }
 
+// A timestamp that can be used to make unique file names
+// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+static std::string timestamp_now()
+{
+    std::time_t time = std::time( nullptr );
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
+    return date_buffer.str();
+}
+
 void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = PATH_INFO::world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
+    const std::string graveyard_dir = PATH_INFO::graveyarddir() + "/" + timestamp_now() + "/";
     const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -2621,6 +2640,9 @@ bool game::load( const save_t &name )
     // worldoptions
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
 
@@ -4744,13 +4766,13 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
             case 2:
                 add_msg( m_info, _( "The removal fails." ) );
                 add_msg( m_bad, _( "The body is damaged." ) );
-                cyborg->set_damage( damage + 1000 );
+                cyborg->mod_damage( 1000 );
                 break;
             case 3:
             case 4:
                 add_msg( m_info, _( "The removal fails badly." ) );
                 add_msg( m_bad, _( "The body is badly damaged!" ) );
-                cyborg->set_damage( damage + 2000 );
+                cyborg->mod_damage( 2000 );
                 break;
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
@@ -4763,6 +4785,15 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
 
     }
 
+}
+
+void game::exam_appliance( vehicle &veh, const point &c )
+{
+    player_activity act = veh_app_interact::run( veh, c );
+    if( act ) {
+        u.moves = 0;
+        u.assign_activity( act );
+    }
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
@@ -5306,7 +5337,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            vp->vehicle().interact_with( *vp );
+            vp->vehicle().interact_with( *vp, with_pickup );
             return;
         } else {
             add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
@@ -5647,19 +5678,32 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
-    const std::string tile = m.tername( lp );
-    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
-        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
-        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
-    } else {
-        mvwprintz( w_look, point( column, line ), c_white, area_name );
-        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    // Print OMT type and terrain type on first two lines
+    // if can't fit in one line.
+    std::string tile = m.tername( lp );
+    tile[0] = toupper( tile[0] );
+    std::string area =  area_name;
+    area[0] = toupper( area[0] );
+    mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_white, tile );
+    std::string desc = string_format( m.ter( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture on second line if any.
+    // Furniture if any.
     if( m.has_furn( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
+        std::string desc = m.furnname( lp );
+        desc[0] = toupper( desc[0] );
+        mvwprintz( w_look, point( column, line++ ), c_white, desc );
+        desc = string_format( m.furn( lp ).obj().description );
+        lines = foldstring( desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines; i++ ) {
+            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        }
     }
 
     // Cover percentage from terrain and furniture next.
@@ -5667,8 +5711,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                     m.coverage( lp ) );
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
-    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
-    int numlines = lines.size();
+    lines = foldstring( m.features( lp ), max_width );
+    numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
@@ -5866,13 +5910,19 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+                            _( "<Z>-Enable personal" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<X>-Disable personal" ) );
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+                            _( "<+-> Move up/down" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+
+    tmpx = 1;
+    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) );
+    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
 
     wnoutrefresh( w_info );
 }
@@ -5925,7 +5975,7 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int zone_ui_height = 12;
+    const int zone_ui_height = 13;
     const int zone_options_height = 7;
 
     const int width = 45;
@@ -5981,6 +6031,8 @@ void game::zones_manager()
     ctxt.register_action( "SHOW_ZONE_ON_MAP" );
     ctxt.register_action( "ENABLE_ZONE" );
     ctxt.register_action( "DISABLE_ZONE" );
+    ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
+    ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -6143,7 +6195,8 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
-                               trim_by_length( zone.get_name(), 15 ) );
+                               //~ "P: <Zone Name>" represents a personal zone
+                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 15 ) );
 
                     //Draw Type name
                     mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
@@ -6376,6 +6429,36 @@ void game::zones_manager()
                 zones[active_index].get().set_enabled( false );
 
                 stuff_changed = true;
+            } else if( action == "ENABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( true );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
+            } else if( action == "DISABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( !zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( false );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
             }
         }
 
@@ -7010,12 +7093,8 @@ bool game::take_screenshot() const
     assure_dir_exist( map_directory.str() );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-    std::time_t time = std::time( nullptr );
-    std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
     const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               date_buffer.str() );
+                               timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;
@@ -8684,6 +8763,10 @@ void game::reload_weapon( bool try_everything )
     [this]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();
         const item *bp = b.get_item();
+        // Non gun/magazines are sorted last and later ignored.
+        if( !ap->is_magazine() && !ap->is_gun() ) {
+            return false;
+        }
         // Current wielded weapon comes first.
         if( this->u.is_wielding( *bp ) ) {
             return false;
@@ -8707,6 +8790,9 @@ void game::reload_weapon( bool try_everything )
                ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
+        if( !candidate.get_item()->is_magazine() && !candidate.get_item()->is_gun() ) {
+            continue;
+        }
         std::vector<item::reload_option> ammo_list;
         u.list_ammo( *candidate.get_item(), ammo_list, false );
         if( !ammo_list.empty() ) {
@@ -9102,22 +9188,18 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
     const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp ==  u.grab_point;
-        pulling = dp == -u.grab_point;
-    }
-    if( grabbed && dest_loc.z != u.posz() ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        grabbed = false;
-        u.grab( object_type::NONE );
+        pushing = dp.xy() ==  u.grab_point.xy();
+        pulling = dp.xy() == -u.grab_point.xy();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
         if( m.has_furn( u.pos() + u.grab_point ) ) {
@@ -9319,6 +9401,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    }
+
+    if( furniture_move ) {
+        // Adjust the grab_point if player has changed z level.
+        u.grab_point.z -= u.posz() - oldpos.z;
+    }
+
+    if( grabbed_vehicle ) {
+        // Vehicle might be at different z level than the grabbed part.
+        u.grab_point.z = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
@@ -9803,14 +9895,18 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp == -u.grab_point;
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool has_floor = m.has_floor( fdest );
     creature_tracker &creatures = get_creature_tracker();
+    bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_ROAD, fdest );
     return  m.passable( fdest ) &&
             creatures.creature_at<npc>( fdest ) == nullptr &&
             creatures.creature_at<monster>( fdest ) == nullptr &&
             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) &&
+            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
+              is_ramp_or_road ) &&
             !m.has_furn( fdest ) &&
             !m.veh_at( fdest ) &&
             ( !has_floor || m.tr_at( fdest ).is_null() );
@@ -9826,7 +9922,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         return 0;
     }
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
     const bool canmove = can_move_furniture( fdest, dp );
     const furn_t &furntype = m.furn( fpos ).obj();
@@ -9852,12 +9948,14 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    //ARM_STR affects dragging furniture
+    int str = u.get_arm_str();
 
     const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) { // NOLINT(bugprone-branch-clone)
         return 50 * weary_mult;
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - ( str_req - u.get_str() ), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - ( str_req - str ), 2 ) ) ) {
         return 100 * weary_mult;
     } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         return 50 * weary_mult;
@@ -9865,10 +9963,10 @@ int game::grabbed_furn_move_time( const tripoint &dp )
     int moves_total = 0;
     moves_total = str_req * 10;
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 moves_total += std::max( 3000, move_penalty * 10 ) * weary_mult;
             } else {
                 moves_total += 100 * weary_mult;
@@ -9893,11 +9991,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    const bool pushing_furniture = dp ==  u.grab_point;
-    const bool pulling_furniture = dp == -u.grab_point;
+    int ramp_offset = 0;
+    // Furniture could be on a ramp at different time than player so adjust for that.
+    if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = 1;
+    } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = -1;
+    }
+
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    // Intended destination of furniture.
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -9934,19 +10041,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    int str = u.get_arm_str();
 
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         return true;
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 40 &&
+    } else if( str_req > str && u.get_perceived_pain() > 40 &&
                !u.has_trait( trait_CENOBITE ) && !u.has_trait( trait_MASOCHIST ) &&
                !u.has_trait( trait_MASOCHIST_MED ) ) {
         add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
         return true;
 
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
+    } else if( str_req > str && u.get_perceived_pain() > 50 &&
                ( u.has_trait( trait_MASOCHIST ) || u.has_trait( trait_MASOCHIST_MED ) ) ) {
         add_msg( m_bad,
                  _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
@@ -9954,8 +10062,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
 
         ///\EFFECT_STR determines ability to drag furniture
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - str_req - str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
         u.mod_pain( 1 ); // Hurt ourselves.
@@ -9966,10 +10074,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
 
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
                     add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
@@ -10036,6 +10144,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
+    u.grab_point.z += ramp_offset;
+
     if( shifting_furniture ) {
         // We didn't move
         tripoint d_sum = u.grab_point + dp;
@@ -10062,11 +10172,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
 bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 {
     if( u.get_grab_type() == object_type::NONE ) {
-        return false;
-    }
-
-    if( dp.z != 0 ) {
-        // No dragging stuff up/down stairs yet!
         return false;
     }
 
@@ -10812,8 +10917,6 @@ bool game::vertical_shift( const int z_after )
         return false;
     }
 
-    // TODO: Implement dragging stuff up/down
-    u.grab( object_type::NONE );
     scent.reset();
 
     const int z_before = u.posz();
@@ -11365,7 +11468,7 @@ void game::autosave()
 void game::start_calendar()
 {
     time_duration initial_days;
-    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
@@ -11379,7 +11482,7 @@ void game::start_calendar()
                                   + 1_hours * scen->start_hour()
                                   + 1_days * scen->start_day();
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
             // That is unacceptable. So lets just jump to same day on next year.
             calendar::start_of_game += calendar::year_length();
         }
@@ -11568,6 +11671,11 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     climb /= wet_penalty;
+
+    // Apply limb score penalties - grip, arm strength and footing are all relevant
+
+    climb *= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
+                   limb_score_lift ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6 ;
 
     // Being weighed down makes it easier for you to slip.
     const double weight_ratio = u.weight_carried() / u.weight_capacity();

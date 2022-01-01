@@ -24,7 +24,9 @@
       "ants_larvae",
       "ants_larvae_acid",
       "ants_queen",
-      "ants_queen_acid"
+      "ants_queen_acid",
+      "pond_forest",
+      "pond_swamp"
     ]
   }
 ]
