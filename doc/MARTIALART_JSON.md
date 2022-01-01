@@ -49,8 +49,12 @@
 "required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
 "forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
 "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
+"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligable for the technique
+"required_char_flags": [ "" ]    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
+"forbidden_char_flags": [ "" ]    // List of character flags disabling this technique
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
+"attack_override": false    // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
 "downed_target": true,      // Technique only works on a downed target
 "stunned_target": true,     // Technique only works on a stunned target
 "human_target": true,       // Technique only works on a human-like target
@@ -73,7 +77,22 @@
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
 ]
-"movecost_mult" : 0.3       // Any bonuses, as described below
+"mult_bonuses" : <array>     // Any bonuses, as described below
+"flat_bonuses": <array>
+"tech_effects": <array>      // List of effects applied by this technique, see below
+```
+
+### Tech effects
+```JSON
+"tech_effects": [
+    {
+        "id": "tec_expl",    // id
+        "chance": 100,       // Percent chance to apply the effect on this attack
+        "permanent": false,  // If true the effect won't decay (default false)
+        "duration": 15,      // Duration of the effect in turns
+        "on_damage": true    // If true the effect will only be applied if the 
+    }
+]
 ```
 
 ### Buffs
