@@ -104,6 +104,13 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
 // Color for displaying the given encumbrance level
 nc_color encumb_color( const int level );
 
+// Color name for given irradiation level, used for radiation badge description
+std::string rad_badge_color_name( const int rad );
+// Color for displaying the given irradiation level
+nc_color rad_badge_color( const int rad );
+// Highlighted badge color for character's radiation badge, if they have one
+std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
+
 // Functions returning colorized string
 // gets the string that describes your weight
 std::string weight_string( const Character &u );

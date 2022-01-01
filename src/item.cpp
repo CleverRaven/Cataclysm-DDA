@@ -78,6 +78,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
@@ -204,29 +205,6 @@ static const std::string flag_SILENT( "SILENT" );
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
-
-std::string rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
 
 light_emission nolight = {0, 0, 0};
 
@@ -3730,7 +3708,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( typeId() == itype_rad_badge && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* The film strip on the badge is %s." ),
-                                          rad_badge_color( irradiation ) ) );
+                                          display::rad_badge_color_name( irradiation ) ) );
     }
 }
 

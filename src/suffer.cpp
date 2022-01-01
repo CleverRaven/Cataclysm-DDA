@@ -46,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -1624,13 +1625,14 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irradiation );
+            const std::string &col_before = display::rad_badge_color_name( before );
+            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
 
-            add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
+            //~ %1$s = previous badge color, %2%s = current badge color
+            add_msg_if_player( m_bad, _( "Your radiation badge changes from %1$s to %2$s!" ),
                                col_before, col_after );
         }
 
