@@ -388,7 +388,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 }
 
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
-                                    const std::string &map_extra ) const
+                                    const map_extra_id &map_extra ) const
 {
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;

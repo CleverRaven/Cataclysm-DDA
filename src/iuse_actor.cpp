@@ -145,7 +145,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -3595,8 +3594,7 @@ static bodypart_id pick_part_to_heal(
     const bool bleed = bleed_stop > 0;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
+    const bool precise = &healer == &patient ? false :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
                          ( ( healer.get_skill_level( skill_firstaid ) +

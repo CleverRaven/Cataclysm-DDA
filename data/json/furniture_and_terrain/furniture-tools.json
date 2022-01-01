@@ -576,7 +576,7 @@
     "type": "furniture",
     "id": "f_firefly_terrarium",
     "name": "firefly terrarium",
-    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the Cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
     "symbol": "#",
     "color": "light_green",
     "move_cost_mod": 3,

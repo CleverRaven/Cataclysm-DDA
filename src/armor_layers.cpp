@@ -71,8 +71,6 @@ struct item_penalties {
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
-    std::vector<layer_level> layer = worn_item_it->get_layer();
-
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
@@ -84,37 +82,47 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
+        std::set<std::string> bad_items_within;
         // if no subparts do the old way
         if( bp->sub_parts.empty() ) {
+            std::vector<layer_level> layer = worn_item_it->get_layer( bp );
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
             [layer, bp]( const item & i ) {
-                return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+                return i.has_layer( layer, bp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
             } );
             if( num_items > 1 ) {
                 body_parts_with_stacking_penalty.push_back( bp );
+            }
+            for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                if( it->get_layer( bp ) > layer && it->covers( bp ) ) {
+                    bad_items_within.insert( it->type_name() );
+                }
             }
         } else {
             for( const auto &sbp : bp->sub_parts ) {
                 if( !worn_item_it->covers( sbp ) ) {
                     continue;
                 }
+                std::vector<layer_level> layer = worn_item_it->get_layer( sbp );
                 const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
                 [layer, bp, sbp]( const item & i ) {
-                    return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                    return i.has_layer( layer, sbp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
                            i.covers( sbp );
                 } );
                 if( num_items > 1 ) {
                     body_parts_with_stacking_penalty.push_back( bp );
                 }
+                for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
+                        bad_items_within.insert( it->type_name() );
+                    }
+                }
             }
+
         }
 
-        std::set<std::string> bad_items_within;
-        for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-            if( it->get_layer() > layer && it->covers( bp ) ) {
-                bad_items_within.insert( it->type_name() );
-            }
-        }
+
+
         if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
             lists_of_bad_items_within.push_back( bad_items_within );
@@ -218,28 +226,28 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             {
                 switch( layer ) {
                     case layer_level::PERSONAL:
-                        outstring.append( _( "in your <color_light_blue>personal aura</color> " ) );
+                        outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
                         break;
                     case layer_level::UNDERWEAR:
-                        outstring.append( _( "<color_light_blue>close to your skin</color> " ) );
+                        outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
                         break;
                     case layer_level::REGULAR:
-                        outstring.append( _( "of <color_light_blue>normal</color> clothing " ) );
+                        outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
                         break;
                     case layer_level::WAIST:
-                        outstring.append( _( "on your <color_light_blue>waist</color> " ) );
+                        outstring.append( _( "on your <color_light_blue>waist</color>" ) );
                         break;
                     case layer_level::OUTER:
-                        outstring.append( _( "of <color_light_blue>outer</color> clothing " ) );
+                        outstring.append( _( "of <color_light_blue>outer</color> clothing" ) );
                         break;
                     case layer_level::BELTED:
-                        outstring.append( _( "<color_light_blue>strapped</color> to you " ) );
+                        outstring.append( _( "<color_light_blue>strapped</color> to you" ) );
                         break;
                     case layer_level::AURA:
-                        outstring.append( _( "an <color_light_blue>aura</color> around you " ) );
+                        outstring.append( _( "an <color_light_blue>aura</color> around you" ) );
                         break;
                     default:
-                        return _( "Unexpected layer" );
+                        break;
                 }
             }
             return outstring ;

@@ -3544,7 +3544,7 @@
   {
     "id": "accessory_cat",
     "type": "item_group",
-    "//": "accessories that some say were the cause of the cataclysm.",
+    "//": "accessories that some say were the cause of the Cataclysm.",
     "subtype": "distribution",
     "items": [
       { "item": "faux_fur_cat_ears", "prob": 80 },

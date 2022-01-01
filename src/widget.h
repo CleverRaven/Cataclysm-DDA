@@ -23,6 +23,7 @@ enum class widget_var : int {
     speed,          // Current speed, integer
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     fatigue,        // Current fatigue, integer
+    health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
@@ -37,14 +38,15 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
-    cardio_fit,
-    cardio_acc,
+    cardio_fit,     // Cardio fitness, integer near BMR
+    cardio_acc,     // Cardio accumulator, integer
     // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
+    health_text,    // Hidden health message, color string
     hunger_text,    // Hunger description text, color string
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
@@ -52,6 +54,7 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    rad_badge_text, // Color indicator for radiation badge
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string

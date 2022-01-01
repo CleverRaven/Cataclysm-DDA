@@ -135,8 +135,6 @@ enum m_flag : int {
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
-    MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
@@ -355,6 +353,23 @@ struct mtype {
 
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
+
+        // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP (default 250)
+        int absorb_ml_per_hp = 250;
+
+        // The type of material this monster can absorb. Leave unspecified for all materials.
+        std::vector<material_id> absorb_material;
+
+        // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 200)
+        int split_move_cost = 200;
+
+        // Move cost per ml of matter consumed for this monster (default 0.025).
+        float absorb_move_cost_per_ml = 0.025f;
+
+        // Minimum move cost for this monster to absorb an item (default 1)
+        int absorb_move_cost_min = 1;
+        // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
+        int absorb_move_cost_max = -1;
 
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions

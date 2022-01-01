@@ -1446,6 +1446,14 @@ void options_manager::add_options_interface()
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -2208,12 +2216,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the Cataclysm the player spawns.  Day 0 is the day of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
