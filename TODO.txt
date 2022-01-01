@@ -1,7 +1,5 @@
 --- Important ---
 Do a readme
-Purge Spider Pit of man-made items
-Purge Bee Hive of man-made items
 Make fabric cutting 1 available before metalworking
 make concrete available
 
@@ -21,14 +19,17 @@ Fix potter's cottage
 Make dogbane more useful? More like cotton?
 Make different qualities of iron and steel? Expand steel production?
 Consider making primitive items spawn in caves?
+deal with mon_beekeeper
 
---- Potential inclutions into the main game ---
+--- Potential improvements to the main game ---
 Beekeeping
 Add more natural map specials
 Make man-made map specials have a MAN_MADE tag and blacklist it instead of the current solution
 Tag EXONII map extras
 A more realistic source of ammonia
 Cultivate wild plants, including buckwheat and dogbane
+Standardize and .jsonify log chopping results
+Add more cool loot to spider pits
 
 --- Potential stasndalone research mod ---
 research for ammonia
