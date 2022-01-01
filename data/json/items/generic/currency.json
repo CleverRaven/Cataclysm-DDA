@@ -11,11 +11,9 @@
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
     "type": "GENERIC",
@@ -29,11 +27,9 @@
     "weight": "28 g",
     "volume": "2ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "yellow",
     "symbol": "$",
-    "material": [ "gold" ],
-    "ammo_type": "currency"
+    "material": [ "gold" ]
   },
   {
     "type": "GENERIC",
@@ -46,11 +42,9 @@
     "weight": "18 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "brown",
     "symbol": "$",
-    "material": [ "copper" ],
-    "ammo_type": "currency"
+    "material": [ "copper" ]
   },
   {
     "type": "GENERIC",
@@ -63,11 +57,9 @@
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
     "type": "GENERIC",
@@ -80,11 +72,9 @@
     "weight": "1 g",
     "volume": "2 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
     "type": "GENERIC",
@@ -96,13 +86,11 @@
     "volume": "1 ml",
     "price": 1,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_penny"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -114,13 +102,11 @@
     "volume": "1 ml",
     "price": 5,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_nickel"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -132,13 +118,11 @@
     "volume": "1 ml",
     "price": 10,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_dime"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -150,13 +134,11 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_quarter"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -168,13 +150,11 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_half_dollar"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -186,13 +166,11 @@
     "volume": "1 ml",
     "price": 100,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_dollar"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -204,12 +182,10 @@
     "volume": "1 ml",
     "price": 2300,
     "price_postapoc": 310,
-    "stack_size": 1,
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "currency"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "GENERIC",
@@ -221,16 +197,14 @@
     "volume": "1 ml",
     "price": 175000,
     "price_postapoc": 600,
-    "stack_size": 1,
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "currency"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "id": "coin_wrapper",
-    "type": "MAGAZINE",
+    "type": "GENERIC",
     "category": "currency",
     "name": { "str": "coin wrapper" },
     "description": "A coin wrapper capable of holding between twenty and fifty coins, depending on denomination, in accordance with American Banking Standards.",
@@ -238,17 +212,15 @@
     "volume": "1 ml",
     "price": 1,
     "price_postapoc": 0,
-    "reload_time": 120,
     "material": [ "paper" ],
     "symbol": "$",
     "color": "dark_gray",
-    "ammo_type": [ "coin_penny", "coin_nickel", "coin_dime", "coin_quarter", "coin_half_dollar", "coin_dollar" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE",
         "rigid": false,
-        "magazine_well": "0 ml",
-        "ammo_restriction": { "coin_penny": 50, "coin_nickel": 40, "coin_dime": 50, "coin_quarter": 40, "coin_half_dollar": 20, "coin_dollar": 25 }
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "200 g",
+        "item_restriction": [ "coin_penny", "coin_nickel", "coin_dime", "coin_quarter", "coin_half_dollar", "coin_dollar" ]
       }
     ]
   },
@@ -266,8 +238,7 @@
     "symbol": "$",
     "color": "green",
     "to_hit": -3,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -280,8 +251,7 @@
     "symbol": "$",
     "price": 200,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -294,8 +264,7 @@
     "symbol": "$",
     "price": 500,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -308,8 +277,7 @@
     "symbol": "$",
     "price": 1000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -322,8 +290,7 @@
     "symbol": "$",
     "price": 2000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -336,8 +303,7 @@
     "symbol": "$",
     "price": 5000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -350,8 +316,7 @@
     "symbol": "$",
     "price": 10000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
