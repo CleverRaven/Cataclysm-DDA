@@ -386,7 +386,7 @@
     "id": "rupture",
     "type": "SPELL",
     "name": "Rupture",
-    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, leylines to become muddled, and electronics to overcharge.  Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
+    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, ley lines becoming muddled, and electronics overcharging.  Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
