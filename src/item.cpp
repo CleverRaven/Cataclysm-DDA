@@ -3257,29 +3257,35 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
         info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
                            _( "Protection" ) ) );
-        if( bash_resist( false, bp ) >= 1 ) {
+        // gather all the protection data
+        // the rolls are basically a perfect hit for protection and a
+        // worst possible
+        resistances worst_res = resistances( *this, false, 100, bp );
+        resistances best_res = resistances( *this, false, 0, bp );
+
+        if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
-                               iteminfo::is_decimal, bash_resist( false, bp ) );
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::BASH ) );
             printed_any = true;
         }
-        if( cut_resist( false, bp ) >= 1 ) {
+        if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
-                               iteminfo::is_decimal, cut_resist( false, bp ) );
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::CUT ) );
             printed_any = true;
         }
-        if( bullet_resist( false, bp ) >= 1 ) {
+        if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                               iteminfo::is_decimal, bullet_resist( false, bp ) );
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::BULLET ) );
             printed_any = true;
         }
-        if( acid_resist( false, 0, bp ) >= 1 ) {
+        if( best_res.type_resist( damage_type::ACID ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                               iteminfo::is_decimal, acid_resist( false, 0, bp ) );
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
             printed_any = true;
         }
-        if( fire_resist( false, 0, bp ) >= 1 ) {
+        if( best_res.type_resist( damage_type::HEAT ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
-                               iteminfo::is_decimal, fire_resist( false, 0, bp ) );
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
             printed_any = true;
         }
         if( get_base_env_resist( *this ) >= 1 ) {

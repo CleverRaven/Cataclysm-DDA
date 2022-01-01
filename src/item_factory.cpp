@@ -803,6 +803,40 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            // go through each material and contribute its values
+            float tempbest = 1;
+            float tempworst = 1;
+            for( part_material mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                int cover_invert = 1 - mat.cover;
+
+                tempbest *= mat.cover;
+                tempworst *= cover_invert;
+            }
+
+            armor_data.best_protection_chance = tempbest;
+            armor_data.worst_protection_chance = tempworst;
+        }
+
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+            // go through each material and contribute its values
+            float tempbest = 1;
+            float tempworst = 1;
+            for( part_material mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                int cover_invert = 1 - mat.cover;
+
+                tempbest *= mat.cover;
+                tempworst *= cover_invert;
+            }
+
+            armor_data.best_protection_chance = tempbest;
+            armor_data.worst_protection_chance = tempworst;
+        }
+
         // create the vector of all layers
         if( obj.has_flag( flag_PERSONAL ) ) {
             obj.armor->all_layers.push_back( layer_level::PERSONAL );

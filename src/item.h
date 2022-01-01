@@ -1206,6 +1206,7 @@ class item : public visitable
                              const sub_bodypart_id &bp, int roll = 0 ) const;
 
 
+
         /**
          * Returns resistance to being damaged by attack against the item itself.
          * Calculated from item's materials.

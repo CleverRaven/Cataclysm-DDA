@@ -277,6 +277,14 @@ struct armor_portion_data {
     // What layer does it cover if any
     std::vector<layer_level> layers;
 
+    // the chance that every material applies to an attack
+    // this is primarily used as a chached value for UI
+    int best_protection_chance = 100;
+
+    // the chance that the smallest number of materials possible applies to an attack
+    // this is primarily used as a chached value for UI
+    int worst_protection_chance = 0;
+
     /**
      * Returns the amount all sublocations this item covers could possibly
      * cover the specific body part.
