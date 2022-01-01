@@ -88,7 +88,32 @@
     "armor_bash": 15,
     "armor_cut": 3,
     "armor_bullet": 16,
+    "death_drops": "ratkin_death_drops_teke",
     "special_attacks": [ { "id": "teke_push" } ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
+  },
+  {
+    "id": "mon_mausketeer",
+    "type": "MONSTER",
+    "name": { "str": "Mausketeer" },
+    "description": "This hominid rat is dressed like it's going to a renfaire in an imitation of Ancien Regime light cavalry and armed with a sword.",
+    "default_faction": "ratkin",
+    "copy-from": "mon_big_rat",
+    "volume": "20 L",
+    "weight": "30 kg",
+    "hp": 75,
+    "speed": 80,
+    "symbol": "r",
+    "color": "green",
+    "melee_dice": 6,
+    "melee_dice_sides": 4,
+    "melee_cut": 6,
+    "dodge": 4,
+    "armor_bash": 10,
+    "armor_cut": 10,
+    "armor_bullet": 3,
+    "death_drops": "ratkin_death_drops_mausketeer",
+    "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
   }
 ]
