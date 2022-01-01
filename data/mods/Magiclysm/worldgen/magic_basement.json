@@ -39,9 +39,9 @@
         { "item": "corpse", "x": 2, "y": 6, "chance": 100 },
         { "item": "translocate_spellbook", "x": 2, "y": 6, "chance": 100 },
         { "item": "robe", "x": 2, "y": 6, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 5, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 6, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 7, "chance": 100 }
+        { "item": "candle", "x": 3, "y": 5, "chance": 100, "ammo": 100 },
+        { "item": "candle", "x": 3, "y": 6, "chance": 100, "ammo": 100 },
+        { "item": "candle", "x": 3, "y": 7, "chance": 100, "ammo": 100 }
       ],
       "terrain": {
         "~": "t_thconc_floor",
