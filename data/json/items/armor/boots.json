@@ -166,7 +166,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of EOD foot protectors", "str_pl": "pairs of EOD foot protectors" },
-    "description": "Armored foot protectors constructed from steel and nomex for use by explosive ordnance disposal technicians.",
+    "description": "Armored foot protectors constructed from steel and Nomex for use by explosive ordnance disposal technicians.",
     "weight": "1220 g",
     "volume": "3 L",
     "price": 50000,
