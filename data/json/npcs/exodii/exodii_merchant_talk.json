@@ -729,7 +729,7 @@
       { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
-    ]	
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodus2",
