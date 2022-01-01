@@ -90,7 +90,7 @@
   {
     "id": "mon_butterfly_titan",
     "type": "MONSTER",
-    "name": { "str": "emperor butterfly" },
+    "name": { "str": "emperor butterfly", "str_pl": "emperor butterflies" },
     "description": "An enormous butterfly with regal looking wings.  This giant of the sky flies cheerfuly under the sun, leaving dust as it passes.",
     "copy-from": "mon_caterpillar",
     "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
