@@ -896,6 +896,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     if( !get_description().empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
                            get_description().translated() ) );
+    } else if( name_as_description ) {
+        // fallback to the original items name as a description
+        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
+                           get_name().translated() ) );
     }
 
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -1782,6 +1786,11 @@ bool item_pocket::is_ablative() const
 const translation &item_pocket::get_description() const
 {
     return get_pocket_data()->description;
+}
+
+const translation &item_pocket::get_name() const
+{
+    return get_pocket_data()->name;
 }
 
 bool item_pocket::holster_full() const
