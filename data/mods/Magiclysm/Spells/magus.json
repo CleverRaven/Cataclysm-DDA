@@ -424,8 +424,8 @@
     "damage_increment": 4.0,
     "damage_type": "pure",
     "min_range": 5,
-    "max_range": 75,
-    "range_increment": 2.5,
+    "max_range": 50,
+    "range_increment": 1.5,
     "min_aoe": 5,
     "max_aoe": 0,
     "aoe_increment": -0.5,
@@ -433,6 +433,6 @@
     "base_casting_time": 500,
     "base_energy_cost": 400,
     "energy_source": "MANA",
-    "difficulty": 6
+    "difficulty": 8
   }
 ]
