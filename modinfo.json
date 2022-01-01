@@ -5,7 +5,7 @@
     "name": "Untouched Lands",
     "authors": [ "Lightwave" ],
     "maintainers": [ "Lightwave" ],
-    "description": "An untouched land that mankind has yet to reach. Disables most traces of civilization.",
+    "description": "An untouched land that mankind has yet to reach. Disables most traces of civilization for that 'innawood' experience.",
     "category": "content",
     "dependencies": [ "dda" ],
     "obsolete": false
