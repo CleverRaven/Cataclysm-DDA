@@ -578,6 +578,11 @@
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
+    "id": "RAD_DETECT",
+    "type": "json_flag",
+    "info": "This item can <good>detect</good> dangerous levels of <info>radiation</info>."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "info": "This clothing <good>completely protects</good> you from <info>radiation</info>.",

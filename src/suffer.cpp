@@ -107,11 +107,11 @@ static const efftype_id effect_winded( "winded" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -1601,9 +1601,9 @@ bool Character::irradiate( float rads, bool bypass )
         int rads_max = roll_remainder( rads );
         mod_rad( rng( 0, rads_max ) );
 
-        // Apply rads to any radiation badges.
+        // Apply rads to any radiation badges that are exposed (worn or wielded)
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != itype_rad_badge ) {
+            if( !it->has_flag( json_flag_RAD_DETECT ) ) {
                 continue;
             }
 
