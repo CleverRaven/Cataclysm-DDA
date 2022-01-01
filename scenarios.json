@@ -61,10 +61,7 @@
     "name": "Ambush",
     "points": -3,
     "description": "It is the winter after zero hour.  As you were scavenging for food and a warm place to stay at, you heard the sound of lots of movement nearby.",
-    "allowed_locs": [
-      "sloc_field",
-      "sloc_forest"
-    ],
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
@@ -78,10 +75,7 @@
     "name": "The Next Summer",
     "points": 0,
     "description": "A little over a year has passed since the apocalypse started, and you're about to face your second summer in Hell.",
-    "allowed_locs": [
-      "sloc_field",
-      "sloc_forest"
-    ],
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "summer", "year": 2 },
@@ -92,7 +86,7 @@
     "type": "scenario",
     "id": "last_flight",
     "name": "Last Flight",
-    "//":  "Doesn't seem to spawn the helicopter without a road nearby",
+    "//": "Doesn't seem to spawn the helicopter without a road nearby",
     "points": 2,
     "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  During your flight you got lost and had to land on an empty field.",
     "start_name": "Emergency Landing Site",

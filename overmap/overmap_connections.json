@@ -2,9 +2,7 @@
   {
     "type": "overmap_connection",
     "id": "local_road",
-    "subtypes": [
-      { "terrain": "road", "locations": [ "railroad" ] }
-    ]
+    "subtypes": [ { "terrain": "road", "locations": [ "railroad" ] } ]
   },
   {
     "type": "overmap_connection",
@@ -22,16 +20,12 @@
   {
     "type": "overmap_connection",
     "id": "forest_trail",
-    "subtypes": [
-      { "terrain": "forest_trail", "locations": [ "railroad" ], "basic_cost": 0 }
-    ]
+    "subtypes": [ { "terrain": "forest_trail", "locations": [ "railroad" ], "basic_cost": 0 } ]
   },
   {
     "type": "overmap_connection",
     "id": "local_railroad",
-    "subtypes": [
-      { "terrain": "railroad", "locations": [ "railroad" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] }
-    ]
+    "subtypes": [ { "terrain": "railroad", "locations": [ "railroad" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] } ]
   },
   {
     "type": "overmap_connection",

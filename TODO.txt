@@ -1,9 +1,13 @@
 --- Important ---
 Make fabric cutting 1 available before metalworking
+Re-sort starting scenarios
+Get some screenshots for the pull request
+Rebalance starting scenario point costs
 
 --- Less important ---
 Add iron ore to mined rock drops
 make misc repair kit available
+paper resources from paper walls?
 
 --- Non critical -----
 Gems?
@@ -21,6 +25,7 @@ deal with mon_beekeeper
 Add more cool loot to spider pits
 copper and bronze working?
 make concrete available. Craftable primitive concrete mixer?
+Consider ressurrecting and integrating More_Survival_Tools from https://github.com/ymber/Cataclysm-DDA/tree/4ffe1a28eccac6dcc3b0bc14167352ac7d087c28/data/mods/More_Survival_Tools
 
 --- Potential improvements to the main game ---
 Beekeeping

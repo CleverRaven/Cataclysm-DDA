@@ -503,15 +503,7 @@
           "mx_nest_wasp": 5
         }
       },
-      "road": {
-        "chance": 750,
-        "extras": {
-          "mx_bandits_block": 80,
-          "mx_portal": 5,
-          "mx_crater": 10,
-          "mx_portal_in": 4
-        }
-      },
+      "road": { "chance": 750, "extras": { "mx_bandits_block": 80, "mx_portal": 5, "mx_crater": 10, "mx_portal_in": 4 } },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
@@ -521,16 +513,9 @@
       "shop_sigma": 0,
       "park_radius": 0,
       "park_sigma": 0,
-      "houses": {
-        "house_w_1": 50
-      },
-      "parks": {
-        "small_wooded_trail": 300
-      },
-      "shops": {
-        "s_gas": 700
-      }
-      
+      "houses": { "house_w_1": 50 },
+      "parks": { "small_wooded_trail": 300 },
+      "shops": { "s_gas": 700 }
     },
     "weather": {
       "base_temperature": 6.5,

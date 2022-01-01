@@ -71,8 +71,6 @@
     "type": "item_group",
     "id": "hive",
     "subtype": "distribution",
-    "entries": [
-      { "item": "honeycomb", "prob": 100000 }
-    ]
+    "entries": [ { "item": "honeycomb", "prob": 100000 } ]
   }
 ]
