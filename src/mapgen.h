@@ -499,7 +499,8 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &md, const point &offset ) const;
+        void nest( const mapgendata &md, const point &offset,
+                   const std::string &outer_context ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 

@@ -1372,23 +1372,24 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
 {
     if( !inbounds( p ) ) {
-        return;
+        debugmsg( "map::furn_set %s out of bounds", p.to_string() );
+        return false;
     }
 
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return;
+        return false;
     }
     const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
         // Nothing changed
-        return;
+        return true;
     }
 
     current_submap->set_furn( l, new_target_furniture );
@@ -1397,12 +1398,15 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     const furn_t &old_f = old_id.obj();
     const furn_t &new_f = new_target_furniture.obj();
 
+    bool result = true;
+
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
                   "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
                   new_target_furniture.id().str(), p.to_string(), current_ter.id().str() );
+        result = false;
     }
 
     avatar &player_character = get_avatar();
@@ -1456,6 +1460,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    return result;
 }
 
 bool map::can_move_furniture( const tripoint &pos, Character *you )

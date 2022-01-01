@@ -2447,12 +2447,14 @@ class jmapgen_furniture : public jmapgen_piece
             return mapgen_phase::furniture;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const std::string &/*context*/ ) const override {
+                    const std::string &context ) const override {
             furn_id chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            dat.m.furn_set( point( x.get(), y.get() ), chosen_id );
+            if( !dat.m.furn_set( point( x.get(), y.get() ), chosen_id ) ) {
+                debugmsg( "Problem setting furniture in %s", context );
+            }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -3096,7 +3098,7 @@ class jmapgen_nested : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const std::string &/*context*/ ) const override {
+                    const std::string &context ) const override {
             const mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
             if( val == nullptr ) {
                 return;
@@ -3120,7 +3122,7 @@ class jmapgen_nested : public jmapgen_piece
                 return;
             }
 
-            ( *ptr )->nest( dat, point( x.get(), y.get() ) );
+            ( *ptr )->nest( dat, point( x.get(), y.get() ), context );
         }
         void check( const std::string &oter_name, const mapgen_parameters &parameters
                   ) const override {
@@ -4280,14 +4282,18 @@ mapgen_parameters mapgen_function_json::get_mapgen_params( mapgen_parameter_scop
     return parameters.params_for_scope( scope );
 }
 
-void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset ) const
+void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset,
+                                        const std::string &outer_context ) const
 {
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
-    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_ );
+    std::string context = context_;
+    context += " in ";
+    context += outer_context;
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context );
 }
 
 /*
