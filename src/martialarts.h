@@ -131,6 +131,11 @@ class ma_technique
         bool crit_ok = false;
 
         ma_requirements reqs;
+                
+        // What way is the technique delivered to the target?
+        
+        std::vector<std::string> attack_vectors; // by priority
+        std::vector<std::string> attack_vectors_random; // randomly
 
         int down_dur = 0;
         int stun_dur = 0;

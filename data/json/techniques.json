@@ -227,7 +227,8 @@
     "disarms": true,
     "down_dur": 1,
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
+	"attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -297,7 +298,8 @@
     "name": "Cross",
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+	"attack_vectors": [ "HAND", "FOOT" ]
   },
   {
     "type": "technique",
@@ -327,7 +329,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+	"attack_vectors": [ "TORSE", "PEI" ]
   },
   {
     "type": "technique",
@@ -338,7 +341,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+	"attack_vectors": [  ]
   },
   {
     "type": "technique",

@@ -565,25 +565,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
-    // If no weapon is selected, use highest layer of gloves instead.
-    bool unarmed_flag_set = false;
-    if( cur_weapon->is_null() ) {
-        for( item &worn_item : worn ) {
-            // Uses enum layer_level to make distinction for top layer.
-            if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
-                  worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
-                if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
-                    cur_weapon = &worn_item;
-                    cur_weapon->set_flag( flag_UNARMED_WEAPON );
-                    unarmed_flag_set = true;
-                }
-
-            }
-        }
-    }
-
-    int move_cost = attack_speed( cur_weapon->has_flag( flag_UNARMED_WEAPON ) ?
-                                  null_item_reference() : *cur_weapon );
+    int move_cost = attack_speed( *cur_weapon );
 
     if( cur_weapon->attack_time() > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -686,8 +668,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // select target body part
         const bodypart_id &target_bp = t.select_body_part( -1, -1, can_attack_high(),
                                        hit_spread );
-        damage_instance d;
-        roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
 
         const bool has_force_technique = !force_technique.str().empty();
 
@@ -701,9 +681,64 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             technique_id = tec_none;
         }
 
-        // if you have two broken arms you aren't doing any martial arts
-        // and your hits are not going to hurt very much
-        if( get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
+        std::string attack_vector;
+
+        // Failsafe for tec_none
+        if( technique_id == tec_none ) {
+            attack_vector = "HANDS";
+        }
+        else {
+            attack_vector = martial_arts_data->get_valid_attack_vector( *this, technique_id.obj().attack_vectors );
+
+            if( attack_vector == "NONE" ) {
+                std::vector<std::string> shuffled_attack_vectors = technique_id.obj().attack_vectors_random;
+                std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );
+                attack_vector = martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors );
+            }   
+        }
+
+        // If no weapon is selected, use highest layer of gloves instead.
+        if( attack_vector != "WEAPON" ) {
+            for( item &worn_item : worn ) {
+                bool covers;
+
+                if( attack_vector == "HAND" || attack_vector == "GRAPPLE" || attack_vector == "THROW" ) {
+                    covers = worn_item.covers( bodypart_id( "hand_l" ) ) &&
+                        worn_item.covers( bodypart_id( "hand_r" ) );
+                }
+                else if( attack_vector == "ARM" ) {
+                    covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
+                        worn_item.covers( bodypart_id( "arm_r" ) );
+                }
+                else if( attack_vector == "FOOT" ) {
+                    covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
+                        worn_item.covers( bodypart_id( "foot_r" ) );
+                }
+                else if( attack_vector == "LEG" ) {
+                    covers = worn_item.covers( bodypart_id( "leg_l" ) ) &&
+                        worn_item.covers( bodypart_id( "leg_r" ) );
+                }
+                else if( attack_vector == "HEAD" ) {
+                    covers = worn_item.covers( bodypart_id( "head" ) );
+                }
+                else if( attack_vector == "TORSO" ) {
+                    covers = worn_item.covers( bodypart_id( "torso" ) );
+                }
+
+                // Uses enum layer_level to make distinction for top layer.
+                if( covers ) {
+                    if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
+                        cur_weapon = &worn_item;
+                    }
+                }
+            }
+        }
+        
+        damage_instance d;
+        roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
+                
+        // your hits are not going to hurt very much if you can't use martial arts due to broken limbs
+        if( attack_vector == "HANDS" && get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }
@@ -1510,6 +1545,14 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         if( tec.weighting < 0 && !one_in( std::abs( tec.weighting ) ) ) {
             continue;
         }
+
+        // Does the player have a functional attack vector to deliver the technique?
+        std::vector<std::string> shuffled_attack_vectors = tec.attack_vectors_random;
+        std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );
+        if( martial_arts_data->get_valid_attack_vector( *this, tec.attack_vectors ) == "NONE" && martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
+            continue;
+        }
+
 
         if( tec.is_valid_character( *this ) ) {
             possible.push_back( tec.id );
