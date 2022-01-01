@@ -3,6 +3,7 @@
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
     "scenarios": [
+      "evacuee",
       "medieval",
       "migo_prisoner",
       "mutant",
