@@ -232,12 +232,11 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
     const overmap_special &special =
-        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab",
-                                       "nether_monster_corpse" ) );
+        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab" ) );
     const city cit;
 
     constexpr int num_overmaps = 100;
-    constexpr int num_trials_per_overmap = 15;
+    constexpr int num_trials_per_overmap = 100;
 
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
@@ -248,7 +247,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
         int successes = 0;
 
         for( int i = 0; i < num_trials_per_overmap; ++i ) {
-            tripoint_om_omt try_pos( rng( 10, OMAPX - 11 ), rng( 10, OMAPY - 11 ), 0 );
+            tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
 
 
             if( om->can_place_special( special, try_pos, dir, false ) ) {
