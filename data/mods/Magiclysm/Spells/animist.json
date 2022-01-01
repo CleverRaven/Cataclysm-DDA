@@ -387,7 +387,7 @@
     "type": "SPELL",
     "name": "Rupture",
     "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, ley lines becoming muddled, and electronics overcharging.  Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
-    "//": "rewrited it, so now it low-damage dot spell that transform to high-damage without dot"
+    "//": "rewrited it, so now it low-damage dot spell that transform to high-damage without dot",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
