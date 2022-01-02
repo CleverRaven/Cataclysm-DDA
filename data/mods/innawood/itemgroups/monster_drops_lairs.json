@@ -46,7 +46,8 @@
       { "item": "rock", "prob": 40 },
       { "item": "rock_large", "prob": 5 },
       { "item": "stick", "prob": 95 },
-      { "item": "honey_ant", "prob": 30 }
+      { "item": "honey_ant", "prob": 30 },
+      { "item": "honeydew", "prob": 30 }
     ]
   },
   {
