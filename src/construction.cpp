@@ -1328,10 +1328,17 @@ void construct::done_appliance( const tripoint &p )
         return;
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    veh->install_part( point_zero, vpart );
+    if( vpart.is_valid() ) {
+        veh->install_part( point_zero, vpart );
+        veh->name = vpart->name();
+    } else {
+        veh->install_part( point_zero, vpart_from_item( itype_id( "wall_wiring" ) ) );
+        veh->name = _( "wall wiring" );
+    }
+
     veh->add_tag( flag_APPLIANCE );
 
-    veh->name = vpart->name();
+
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );

@@ -102,5 +102,19 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
+  },
+  {
+    "id": "ap_wall_wiring",
+    "type": "vehicle_part",
+    "name": { "str": "wall wiring" },
+    "item": "wall_wiring",
+    "symbol": "_",
+    "broken_symbol": "/",
+    "color": "white",
+    "broken_color": "red",
+    "durability": 20,
+    "description": "Electric wires embedded in the wall.",
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] } ],
+    "flags": [ "APPLIANCE" ]
   }
 ]
