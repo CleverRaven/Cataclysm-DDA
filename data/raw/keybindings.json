@@ -1749,6 +1749,20 @@
   },
   {
     "type": "keybinding",
+    "id": "WIELD",
+    "category": "INVENTORY",
+    "name": "Wield",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "WEAR",
+    "category": "INVENTORY",
+    "name": "Wear",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EXAMINE_CONTENTS",
     "category": "INVENTORY",
     "name": "Examine Contents",
