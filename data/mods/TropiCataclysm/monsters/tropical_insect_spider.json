@@ -286,6 +286,19 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
+        ],
+        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
+        "infection_chance": 50
+      }
+    ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -319,6 +332,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
+    "special_attacks": [ { "id": "spread_glue", "message": "The %1$s shoots sticky chemicals from its head!" } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
