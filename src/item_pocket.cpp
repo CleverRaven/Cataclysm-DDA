@@ -637,6 +637,7 @@ int item_pocket::ammo_consume( int qty )
             need -= it->charges;
             used += it->charges;
             it = contents.erase( it );
+            it++;
         } else {
             it->charges -= need;
             used = need;
