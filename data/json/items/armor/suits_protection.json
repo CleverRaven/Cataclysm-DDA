@@ -245,7 +245,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY" ],
     "armor_data": {
       "armor": [
         {
@@ -493,7 +493,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY" ],
     "armor_data": {
       "armor": [
         {
@@ -741,7 +741,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY" ],
     "armor_data": {
       "armor": [
         {
