@@ -2,8 +2,8 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "ratkin_death_drops_teke",
-    "entries": [ { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] }, { "group": "ratkin_mausketeer_clothes", "prob": 100 } ]
+    "id": "ratkin_death_drops_mausketeer",
+    "entries": [ { "group": "mausketeer_swords", "prob": 100, "damage": [ 2, 4 ] }, { "group": "ratkin_mausketeer_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -14,7 +14,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth for a fancy feral",
+    "//": "contains cloth for mausketeer",
     "id": "ratkin_mausketeer_clothes",
     "entries": [
       { "group": "mausketeer_coats", "damage": [ 0, 3 ], "prob": 60 },
@@ -28,7 +28,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth for a fancy feral",
+    "//": "contains cloth for a telekinetic rat",
     "id": "ratkin_teke_clothes",
     "entries": [
       { "item": "coat_lab", "damage": [ 0, 4 ], "prob": 60 },
