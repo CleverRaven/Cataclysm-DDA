@@ -1253,7 +1253,7 @@
     "warmth": 30,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kevlar_chainmail_suit",
