@@ -177,7 +177,7 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
-| `hitsize_min`         | Integer, upper bound of limb size this attack can target.
+| `hitsize_max`         | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.

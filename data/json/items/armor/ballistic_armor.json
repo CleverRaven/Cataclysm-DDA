@@ -255,7 +255,7 @@
     "id": "ballistic_vest_heavy_legs",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_heavy",
-    "name": { "str": "sleevless heavy ballistic vest" },
+    "name": { "str": "sleeveless heavy ballistic vest" },
     "description": "Heavy ballistic armor with specialized pockets on the front, back and sides for armored plates.  This configuration adds groin and neck protection.",
     "weight": "5 kg",
     "volume": "7 L",

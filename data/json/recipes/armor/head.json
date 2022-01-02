@@ -1830,12 +1830,6 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "chainmail_hood",
-    "type": "recipe",
-    "copy-from": "chainmail_hood",
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
-  },
-  {
     "result": "xl_chainmail_hood",
     "type": "recipe",
     "copy-from": "chainmail_hood",

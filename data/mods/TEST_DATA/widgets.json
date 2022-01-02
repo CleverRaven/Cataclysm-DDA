@@ -79,6 +79,13 @@
     "style": "number"
   },
   {
+    "id": "test_rad_badge_text",
+    "type": "widget",
+    "label": "RADIATION",
+    "var": "rad_badge_text",
+    "style": "text"
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",

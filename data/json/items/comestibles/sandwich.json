@@ -673,7 +673,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 220,
-    "description": "An 'open-faced sandwich' consisting of sliced wheat-free bread, a healthy crust-to-crust slathering of butter, and sprinkles.  A wheat-free alterntive to a staple of birthday parties in Australia.",
+    "description": "An 'open-faced sandwich' consisting of sliced wheat-free bread, a healthy crust-to-crust slathering of butter, and sprinkles.  A wheat-free alternative to a staple of birthday parties in Australia.",
     "price": 85,
     "price_postapoc": 300,
     "material": [ "junk", "veggy" ],

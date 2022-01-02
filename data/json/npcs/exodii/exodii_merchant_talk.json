@@ -747,7 +747,7 @@
     ]
   },
   {
-    "id": "TALK_EXODII_MERCHANT_Talk_Exodus3",
+    "id": "TALK_EXODII_MERCHANT_Exodus3",
     "type": "talk_topic",
     "dynamic_line": "Just so, aye.  Again an' again, this'n has seen it.  Too many times.",
     "responses": [
@@ -851,7 +851,6 @@
         "text": "Who is benzete?",
         "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
       },
-      { "text": ".", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2" },
       {
         "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"

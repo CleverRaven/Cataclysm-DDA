@@ -282,7 +282,7 @@
     "id": "mon_shrieker_thorny",
     "type": "MONSTER",
     "name": { "str": "forest screamer" },
-    "description": "The plant growth on this slender zombie make it look like some kind of forest aparition.  It looks like it could throw a curse at you at any moment.",
+    "description": "The plant growth on this slender zombie make it look like some kind of forest apparition.  It looks like it could throw a curse at you at any moment.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "PLANT" ],

@@ -2552,6 +2552,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
+    const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
+    std::string interrupt_type = jo.get_string( "interrupt_type", "default" );
     game_message_type type = m_neutral;
     std::string type_string = jo.get_string( "type", "neutral" );
     if( type_string == "good" ) {
@@ -2579,6 +2581,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     }
 
     function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+                         popup_w_interrupt_query_msg, interrupt_type,
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
@@ -2623,6 +2626,20 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+        }
+        if( popup_w_interrupt_query_msg ) {
+            if( interrupt_type == "portal_storm_popup" ) {
+                g->portal_storm_query( distraction_type::portal_storm_popup,
+                                       translated_message );
+            } else if( interrupt_type == "default" ) {
+                debugmsg( "Interrupt query called in json without proper interrupt type." );
+            }
+            // Would probably need an else-if for every possible distraction type, like this:
+            //else if (interrupt_type == "hostile_spotted_near"){
+            //    g->cancel_activity_or_ignore_query(distraction_type::hostile_spotted_near, "sample message");
+            //}
+            // I leave this to contributors who might actually wish to implement such interrupts,
+            // so as to not overcomplicate the code.
         } else {
             target->add_msg_if_player( type, translated_message );
         }

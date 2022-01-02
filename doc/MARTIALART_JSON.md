@@ -14,6 +14,7 @@
                             // Total chance to learn a style from a single read of the book is equal to one in (10 + learn_difficulty - primary_skill)
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
+"nonstandard_block": 99     // Unarmed skill level at which blocking with "nonstandard" mutated limbs is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
