@@ -1115,7 +1115,10 @@ void sfx::do_ambient()
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
           !is_channel_playing( channel::outdoors_rain_env ) &&
           !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) )
+          !is_channel_playing( channel::outdoor_blizzard ) &&
+          !is_channel_playing( channel::outdoors_clear_env ) &&
+          !is_channel_playing( channel::outdoors_sunny_env )  &&
+          !is_channel_playing( channel::outdoors_cloudy_env ) )
         || ( !is_sheltered &&
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
@@ -1150,6 +1153,18 @@ void sfx::do_ambient()
             case weather_sound_category::portal_storm:
                 play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str, heard_volume,
                                             channel::outdoors_portal_storm_env, 1000 );
+                break;
+            case weather_sound_category::clear:
+                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str, heard_volume,
+                                            channel::outdoors_clear_env, 1000 );
+                break;
+            case weather_sound_category::sunny:
+                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str, heard_volume,
+                                            channel::outdoors_sunny_env, 1000 );
+                break;
+            case weather_sound_category::cloudy:
+                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str, heard_volume,
+                                            channel::outdoors_cloudy_env, 1000 );
                 break;
             case weather_sound_category::last:
                 debugmsg( "Invalid weather sound category." );
