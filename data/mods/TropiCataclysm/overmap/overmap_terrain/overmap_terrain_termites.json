@@ -36,7 +36,7 @@
     "id": "termites_shaft",
     "name": "termite ventilation shaft",
     "sym": ">",
-    "color": "light_gray",
+    "color": "brown",
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
   },
@@ -45,7 +45,7 @@
     "id": "termites_chimney",
     "name": "termite chimney",
     "sym": ">",
-    "color": "light_gray",
+    "color": "brown",
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
   },
@@ -54,7 +54,7 @@
     "id": "termites_water",
     "copy-from": "termite_food",
     "name": "termite reservoir",
-    "color": "white"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
