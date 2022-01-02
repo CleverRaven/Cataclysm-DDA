@@ -1,0 +1,44 @@
+--- Important ---
+Make fabric cutting 1 available before metalworking
+Rebalance starting scenario point costs
+
+--- Less important ---
+Add iron ore to mined rock drops
+make misc repair kit available
+paper resources from paper walls?
+
+--- Non critical -----
+Gems?
+Ore veins
+More different types of ore? (Lead, copper, tin, sulfur, lapis...)
+check start in cave
+Fix trash_forest properly
+Add more withered plants from trees (Tree drops are hardcoded)
+Create an untouched version of potter's cottage
+Create an untouched version of Lighthouse Island
+Make dogbane more useful? More like cotton?
+Make different qualities of iron and steel? Expand steel production?
+Consider making primitive items spawn in caves?
+Remove mon_beekeeper from beehives?
+Add more cool yet natural loot to spider pits
+copper and bronze working?
+make concrete available. Craftable primitive concrete mixer?
+Consider ressurrecting and integrating More_Survival_Tools from https://github.com/ymber/Cataclysm-DDA/tree/4ffe1a28eccac6dcc3b0bc14167352ac7d087c28/data/mods/More_Survival_Tools
+
+--- Potential improvements to the main game ---
+Beekeeping
+More natural map specials
+Make man-made map specials have a MAN_MADE tag and blacklist it instead of the current solution
+Tag EXONII map extras
+A more realistic source of ammonia
+Cultivate wild plants, including buckwheat and dogbane
+Standardize and .jsonify log chopping results
+
+--- Potential standalone research mod ---
+research for ammonia
+research for duct tape
+research for refining steel
+research for cattail jelly
+research for concrete
+
+

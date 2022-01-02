@@ -1,0 +1,8 @@
+[
+  {
+    "id": "bloomery",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "bloomery" }
+  }
+]
