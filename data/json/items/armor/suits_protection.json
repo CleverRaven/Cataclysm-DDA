@@ -928,7 +928,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "tempered 6 mm plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection. ",
     "material": [ { "type": "tempered_steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "armor_data": {
       "armor": [
