@@ -3547,6 +3547,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             bash_ter_furn( below, params_below );
         }
 
+        furn_set( p, f_null );
         ter_set( p, t_open_air );
     }
 
