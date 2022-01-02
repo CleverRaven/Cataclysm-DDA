@@ -167,6 +167,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -176,6 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -185,6 +187,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -194,6 +197,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
