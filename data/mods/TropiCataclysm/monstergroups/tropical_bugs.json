@@ -2,39 +2,39 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
-    "is_animal": true,
+    "default": "mon_butterfly",
     "monsters": [
-      { "monster": "mon_butterfly", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_moth", "weight": 50, "cost_multiplier": 2 }
+      { "monster": "mon_butterfly", "weight": 50 },
+      { "monster": "mon_moth", "weight": 50  }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BUTTERFLY_GIANT",
-    "is_animal": true,
+    "default": "mon_butterfly_giant",
     "monsters": [
-      { "monster": "mon_butterfly_giant", "weight": 45, "cost_multiplier": 2 },
+      { "monster": "mon_butterfly_giant", "weight": 45 },
       { "monster": "mon_butterfly_titan", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_moth_giant", "weight": 45, "cost_multiplier": 2 },
+      { "monster": "mon_moth_giant", "weight": 45 },
       { "monster": "mon_moth_titan", "weight": 5, "cost_multiplier": 2 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TERMITE_ALATE",
-    "is_animal": true,
+    "default": "mon_termite_queen",
     "monsters": [
-      { "monster": "mon_termite_king", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_termite_queen", "weight": 50, "cost_multiplier": 2 }
+      { "monster": "mon_termite_king", "weight": 50 },
+      { "monster": "mon_termite_queen", "weight": 50 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TERMITE",
-    "is_animal": true,
+    "default": "mon_termite_soldier",
     "monsters": [
-      { "monster": "mon_termite_soldier", "weight": 35, "cost_multiplier": 2 },
-      { "monster": "mon_termite_shooter", "weight": 35, "cost_multiplier": 2 },
+      { "monster": "mon_termite_soldier", "weight": 35 },
+      { "monster": "mon_termite_shooter", "weight": 35 },
       { "monster": "mon_termite_alate", "weight": 30, "cost_multiplier": 2 }
     ]
   }
