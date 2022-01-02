@@ -74,7 +74,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_sub_station" ],
+    "om_terrain": [ [ "microlab_sub_station" ], [ "microlab_sub_station_ratkin" ] ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_strconc_floor",
