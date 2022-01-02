@@ -113,7 +113,6 @@ struct tech_effect_data {
                       int nchance ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
         chance( nchance ) {}
-    tech_effect_data load_tech_effect_data( const JsonObject &e );
 };
 
 class ma_technique
@@ -353,6 +352,7 @@ class ma_style_callback : public uilist_callback
         ~ma_style_callback() override = default;
 };
 
+tech_effect_data load_tech_effect_data( const JsonObject &e );
 void load_technique( const JsonObject &jo, const std::string &src );
 void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();

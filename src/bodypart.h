@@ -297,7 +297,7 @@ struct body_part_type {
         }
 
         float damage_resistance( const damage_type &dt ) const;
-        float damage_resistance( const damage_unit &du ) const;        
+        float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
         // limb score values
