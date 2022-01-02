@@ -92,7 +92,7 @@
       { "item": "heatpack" },
       {
         "distribution": [
-          { "item": "can_cheese", "charges": 10, "container-item": "mre_bag_small", "sealed": true },
+          { "item": "can_cheese", "charges": 8, "container-item": "mre_bag_small", "sealed": true },
           { "item": "spread_peanutbutter", "charges": 1, "container-item": "mre_bag_small", "sealed": true }
         ]
       },
