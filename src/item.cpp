@@ -3250,7 +3250,6 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
-        const std::string percent = "%";
         // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
 
@@ -3268,8 +3267,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
         if( percent_worst > 0 ) {
             info.emplace_back( "DESCRIPTION",
-                               string_format( "<bold>%s%s</bold>: <bad>%d%s</bad>, <good>%d%s</good>", bp_desc, _( "Protection" ),
-                                              percent_worst, percent, percent_best, percent ) );
+                               string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", bp_desc, _( "Protection" ),
+                                              percent_worst, percent_best ) );
         } else {
             info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
                                _( "Protection" ) ) );

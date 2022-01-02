@@ -279,11 +279,11 @@ struct armor_portion_data {
 
     // the chance that every material applies to an attack
     // this is primarily used as a chached value for UI
-    int best_protection_chance = 100;
+    int best_protection_chance = 100; // NOLINT(cata-serialize)
 
     // the chance that the smallest number of materials possible applies to an attack
     // this is primarily used as a chached value for UI
-    int worst_protection_chance = 0;
+    int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
