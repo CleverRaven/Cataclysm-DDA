@@ -7,4 +7,3 @@ minimum_perc = 0
 source_file = lang/po/cataclysm-dda.pot
 source_lang = en
 type = PO
-

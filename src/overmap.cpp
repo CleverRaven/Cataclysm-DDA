@@ -313,6 +313,7 @@ generic_factory<overmap_land_use_code> land_use_codes( "overmap land use codes" 
 generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 generic_factory<overmap_special> specials( "overmap special" );
+generic_factory<overmap_special_migration> migrations( "overmap special migration" );
 
 } // namespace
 
@@ -546,7 +547,18 @@ void overmap_specials::check_consistency()
                   actual_count, max_count );
     }
 
+    overmap_special_migration::check();
     specials.check();
+
+    for( const overmap_special &os : specials.get_all() ) {
+        overmap_special_id new_id = overmap_special_migration::migrate( os.id );
+        if( new_id.is_null() ) {
+            debugmsg( "Overmap special id %s has been removed or migrated to a different type." );
+        } else if( new_id != os.id ) {
+            debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.c_str(),
+                      new_id.c_str() );
+        }
+    }
 }
 
 void overmap_specials::reset()
@@ -1015,7 +1027,7 @@ void overmap_terrains::finalize()
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
-                  "cataclysm pending.  And not the fun kind." );
+                  "Cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {
@@ -3024,9 +3036,9 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
     return false;
 }
 
-const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
+const map_extra_id &overmap::extra( const tripoint_om_omt &p ) const
 {
-    static const string_id<map_extra> fallback{};
+    static const map_extra_id fallback{};
 
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         return fallback;
@@ -3041,7 +3053,7 @@ const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
     return ( it != std::end( extras ) ) ? it->id : fallback;
 }
 
-void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id )
+void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
 {
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", p.z() );
@@ -3065,7 +3077,7 @@ void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &i
 
 void overmap::delete_extra( const tripoint_om_omt &p )
 {
-    add_extra( p, string_id<map_extra>::NULL_ID() );
+    add_extra( p, map_extra_id::NULL_ID() );
 }
 
 std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string &text )
@@ -6385,4 +6397,48 @@ std::string oter_get_rotation_string( const oter_id &oter )
         }
     }
     return "";
+}
+
+void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src )
+{
+    migrations.load( jo, src );
+}
+
+void overmap_special_migration::reset()
+{
+    migrations.reset();
+}
+
+void overmap_special_migration::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    optional( jo, was_loaded, "new_id", new_id, overmap_special_id() );
+}
+
+void overmap_special_migration::check()
+{
+    for( const overmap_special_migration &mig : migrations.get_all() ) {
+        if( !mig.new_id.is_null() && !mig.new_id.is_valid() ) {
+            debugmsg( "Invalid new_id \"%s\" for overmap special migration \"%s\"", mig.new_id.c_str(),
+                      mig.id.c_str() );
+        }
+    }
+}
+
+bool overmap_special_migration::migrated( const overmap_special_id &os_id )
+{
+    std::vector<overmap_special_migration> migs = migrations.get_all();
+    return std::find_if( migs.begin(), migs.end(), [&os_id]( overmap_special_migration & m ) {
+        return os_id == overmap_special_id( m.id.str() );
+    } ) != migs.end();
+}
+
+overmap_special_id overmap_special_migration::migrate( const overmap_special_id &old_id )
+{
+    for( const overmap_special_migration &mig : migrations.get_all() ) {
+        if( overmap_special_id( mig.id.str() ) == old_id ) {
+            return mig.new_id;
+        }
+    }
+    return old_id;
 }

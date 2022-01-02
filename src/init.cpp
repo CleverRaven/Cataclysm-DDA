@@ -401,6 +401,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add( "overmap_special_migration", &overmap_special_migration::load_migrations );
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
 
@@ -580,6 +581,7 @@ void DynamicDataLoader::unload_data()
     overmap_land_use_codes::reset();
     overmap_locations::reset();
     overmap_specials::reset();
+    overmap_special_migration::reset();
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
@@ -595,6 +597,7 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
+    MapExtras::clear();
     reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();

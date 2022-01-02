@@ -41,6 +41,8 @@ static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
+static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
 static const limb_score_id limb_score_block( "block" );
 
@@ -342,6 +344,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
+    optional( jo, was_loaded, "nonstandard_block", nonstandard_block, 99 );
 
     optional( jo, was_loaded, "arm_block_with_bio_armor_arms", arm_block_with_bio_armor_arms, false );
     optional( jo, was_loaded, "leg_block_with_bio_armor_legs", leg_block_with_bio_armor_legs, false );
@@ -1175,14 +1178,20 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.get_working_leg_count() >= 1 ) {
-        if( unarmed_skill >= ma.leg_block ) {
-            return true;
-        }
-        if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
-            return true;
+    // Do we have boring human anatomy? Use the basic calculation
+    // Legs are harder to block with, so the score thresholds stay the same
+    if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
+        return owner.get_limb_score( limb_score_block, body_part_type::type::leg ) >= 0.5f;
+    } else {
+        // Check all standard legs for the score threshold
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
+            if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                return true;
+            }
         }
     }
+
     // if not above, can't block.
     return false;
 }
@@ -1203,21 +1212,56 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 1.0f ) {
-        if( unarmed_skill >= ma.arm_block ) {
-            return true;
-        }
-        if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
-            return true;
+    // Do we have boring human anatomy? Use the basic calculation
+    if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
+        return owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 0.5f;
+    } else {
+        // Check all standard arms for the score threshold
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                return true;
+            }
         }
     }
     // if not above, can't block.
     return false;
 }
 
-bool character_martial_arts::can_limb_block( const Character &owner ) const
+bool character_martial_arts::can_nonstandard_block( const Character &owner ) const
 {
-    return can_arm_block( owner ) || can_leg_block( owner );
+    // No nonstandard limb that blocks
+    if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) && !owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
+        return false;
+    }
+
+    const martialart &ma = style_selected.obj();
+    // Bionic combatives won't help with nonstandard anatomy
+    const int unarmed_skill = owner.get_skill_level(
+                                  skill_unarmed );
+    const bool block_with_skill = unarmed_skill >= ma.nonstandard_block;
+
+    // Filter out the case where the flagged BP is overencumbered/broken but blocking score is contributed by arms/legs
+
+    // Success conditions
+    // Return true if the limbs which would always block can block
+    if( owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_ALWAYS_BLOCK ) ) {
+            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                return true;
+            }
+        }
+    }
+    // Return true if we're skilled enough to block and we have at least one limb ready to block
+    if( block_with_skill ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
+            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool character_martial_arts::is_force_unarmed() const
@@ -1675,7 +1719,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buffer += "--\n";
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
-            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99  ||
+            ma.nonstandard_block != 99 ) {
             Character &u = get_player_character();
             int unarmed_skill =  u.get_skill_level( skill_unarmed );
             if( u.has_active_bionic( bio_cqb ) ) {
@@ -1697,6 +1742,12 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 buffer += string_format(
                               _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
                               unarmed_skill, ma.leg_block );
+                buffer += "\n";
+            }
+            if( ma.nonstandard_block != 99 ) {
+                buffer += string_format(
+                              _( "You can <info>block with mutated limbs</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.nonstandard_block );
                 buffer += "\n";
             }
             buffer += "--\n";

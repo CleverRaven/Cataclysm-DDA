@@ -2109,8 +2109,9 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     uilist selectmenu;
 
 
+    selectmenu.addentry( EXAMINE, true, 'e',
+                         is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
         selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
@@ -2350,7 +2351,11 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case EXAMINE: {
-            g->exam_vehicle( *this );
+            if( is_appliance ) {
+                g->exam_appliance( *this );
+            } else {
+                g->exam_vehicle( *this );
+            }
             return;
         }
         case TRACK: {

@@ -37,6 +37,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN",
+    "global": true,
     "//": "This runs eocs that will check if the user can see, if they can, it will show messages depending on if they are outside",
     "//2": "base portal strength and if its day or night. Then it queues up either itself or the eoc that causes a portal storm.",
     "effect": [
@@ -149,11 +150,12 @@
         "set_queue_effect_on_condition": [
           {
             "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE",
-            "effect": [ { "set_weighted_list_eocs": [ [ "EOC_CAUSE_PORTAL_STORM", 1 ], [ "EOC_PORTAL_STORM_WARN", 3 ] ] } ]
+            "global": true,
+            "effect": [ { "set_weighted_list_eocs": [ [ "EOC_CAUSE_PORTAL_STORM", 1 ], [ "EOC_PORTAL_STORM_WARN", 2 ] ] } ]
           }
         ],
-        "time_in_future_min": "1 hours",
-        "time_in_future_max": "6 hours"
+        "time_in_future_min": "15 minutes",
+        "time_in_future_max": "2 hours"
       }
     ]
   },
@@ -196,6 +198,10 @@
         "set_queue_effect_on_condition": [ "EOC_CANCEL_PORTAL_STORM" ],
         "time_in_future_min": "4 hours",
         "time_in_future_max": "6 hours"
+      },
+      {
+        "u_message": "Reality is breaking.  It is subtle but something deep inside you feels the wrongness.",
+        "type": "bad"
       }
     ]
   },
@@ -210,7 +216,11 @@
         { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
       ]
     },
-    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] }, "next_weather" ]
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
+      "next_weather",
+      { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -332,7 +342,9 @@
               [ "EOC_PORTAL_MESSAGE", 5 ]
             ]
           },
-          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ] ] }
+          "false_effect": {
+            "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_POPUP", 1 ] ]
+          }
         }
       ]
     }
@@ -708,6 +720,20 @@
         "target_var": { "global_val": "indoor_voices" },
         "volume": 80,
         "type": "speech",
+        "snippet": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_POPUP",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 120 } } ] },
+    "effect": [
+      {
+        "u_message": "PORTAL_STORM_POPUP",
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "portal_storm_popup",
         "snippet": true
       }
     ]

@@ -590,6 +590,8 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        bool is_open_air( const tripoint & ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */

@@ -9,6 +9,12 @@
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
+    "id": "hitpoint_num",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
     "id": "encumbrance_graph",
     "type": "widget",
     "style": "graph",
@@ -87,6 +93,54 @@
     "var": "bp_hp",
     "bodypart": "leg_r",
     "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_head_num",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_torso_num",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_left_arm_num",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_right_arm_num",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_left_leg_num",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_right_leg_num",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_num"
   },
   {
     "id": "warmth_head_num",
@@ -368,14 +422,14 @@
     "style": "number"
   },
   {
-    "id": "hitpoints_top_layout",
+    "id": "hitpoint_graphs_top_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "hp_left_arm_graph", "hp_head_graph", "hp_right_arm_graph" ]
   },
   {
-    "id": "hitpoints_bottom_layout",
+    "id": "hitpoint_graphs_bottom_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
@@ -401,6 +455,22 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "hp_left_leg_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "hitpoint_nums_top_layout",
+    "type": "widget",
+    "label": "HP Nums Top",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_num", "hp_head_num", "hp_right_arm_num" ]
+  },
+  {
+    "id": "hitpoint_nums_bottom_layout",
+    "type": "widget",
+    "label": "HP Nums Bottom",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_num", "hp_torso_num", "hp_right_leg_num" ]
   },
   {
     "id": "encumbrance_top_layout",
@@ -577,6 +647,14 @@
     "//": "Uses display::pain_text_color"
   },
   {
+    "id": "rad_badge_desc",
+    "type": "widget",
+    "label": "Radiation",
+    "style": "text",
+    "var": "rad_badge_text",
+    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+  },
+  {
     "id": "thirst_desc",
     "type": "widget",
     "label": "Thirst",
@@ -693,8 +771,8 @@
     "style": "layout",
     "arrange": "rows",
     "widgets": [
-      "hitpoints_top_layout",
-      "hitpoints_bottom_layout",
+      "hitpoint_graphs_top_layout",
+      "hitpoint_graphs_bottom_layout",
       "sound_fatigue_focus_layout",
       "stamina_speed_move_layout",
       "stats_layout"
