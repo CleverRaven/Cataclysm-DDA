@@ -20,14 +20,14 @@
   {
     "type": "overmap_terrain",
     "id": "termites_larvae",
-    "copy-from": "termite_food",
+    "copy-from": "termites_food",
     "name": "termite nymph nursery",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": "termites_queen",
-    "copy-from": "termite_food",
+    "copy-from": "termites_food",
     "name": "termite royal chamber",
     "color": "red"
   },
@@ -52,7 +52,7 @@
   {
     "type": "overmap_terrain",
     "id": "termites_water",
-    "copy-from": "termite_food",
+    "copy-from": "termites_food",
     "name": "termite reservoir",
     "color": "blue"
   },
