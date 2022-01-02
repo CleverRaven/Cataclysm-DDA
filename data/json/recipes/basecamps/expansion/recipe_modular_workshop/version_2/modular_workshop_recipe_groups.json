@@ -47,6 +47,8 @@
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
+      { "id": "metal_file", "description": " Craft: Metal Fileset" },
+      { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
       { "id": "tongs", "description": " Craft: Metal Tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
