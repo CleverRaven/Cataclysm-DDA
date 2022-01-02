@@ -236,7 +236,7 @@ struct part_material {
 struct armor_portion_data {
 
     // The base volume for an item
-    const units::volume volume_per_encumbrance = 250_ml;
+    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
 
     // How much this piece encumbers the player.
     int encumber = 0;
