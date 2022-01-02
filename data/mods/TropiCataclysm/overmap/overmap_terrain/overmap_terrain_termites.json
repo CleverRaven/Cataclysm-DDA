@@ -33,6 +33,31 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "termites_shaft",
+    "name": "termite ventilation shaft",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "termites_chimney",
+    "name": "termite chimney",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "termites_water",
+    "copy-from": "termite_food",
+    "name": "termite reservoir",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "termites",
     "name": "termite tunnel",
     "color": "brown",
