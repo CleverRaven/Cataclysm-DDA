@@ -1115,7 +1115,10 @@ void sfx::do_ambient()
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
           !is_channel_playing( channel::outdoors_rain_env ) &&
           !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) )
+          !is_channel_playing( channel::outdoor_blizzard ) &&
+          !is_channel_playing( channel::outdoors_clear_env ) &&
+          !is_channel_playing( channel::outdoors_sunny_env )  &&
+          !is_channel_playing( channel::outdoors_cloudy_env ) )
         || ( !is_sheltered &&
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
