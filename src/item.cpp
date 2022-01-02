@@ -3250,42 +3250,89 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
+        const std::string percent = "%";
         // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
 
         bool printed_any = false;
 
-        info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
-                           _( "Protection" ) ) );
         // gather all the protection data
         // the rolls are basically a perfect hit for protection and a
         // worst possible
-        resistances worst_res = resistances( *this, false, 100, bp );
+        resistances worst_res = resistances( *this, false, 99, bp );
         resistances best_res = resistances( *this, false, 0, bp );
 
+        const armor_portion_data *portion = portion_for_bodypart( bp );
+        int percent_best = portion->best_protection_chance;
+        int percent_worst = portion->worst_protection_chance;
+
+        if( percent_worst > 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( "<bold>%s%s</bold>: <bad>%d%s</bad>, <good>%d%s</good>", bp_desc, _( "Protection" ),
+                                              percent_worst, percent, percent_best, percent ) );
+        } else {
+            info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
+                               _( "Protection" ) ) );
+        }
+
         if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::BASH ) );
+            if( percent_worst > 0 ) {
+                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                   _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
+                                   best_res.type_resist( damage_type::BASH ) ), "",
+                                   iteminfo::no_flags );
+            } else {
+                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( damage_type::BASH ) );
+            }
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::CUT ) );
+            if( percent_worst > 0 ) {
+                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                   _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
+                                   best_res.type_resist( damage_type::CUT ) ), "",
+                                   iteminfo::no_flags );
+            } else {
+                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( damage_type::CUT ) );
+            }
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::BULLET ) );
+            if( percent_worst > 0 ) {
+                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                   _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
+                                   best_res.type_resist( damage_type::BULLET ) ), "",
+                                   iteminfo::no_flags );
+            } else {
+                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( damage_type::BULLET ) );
+            }
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::ACID ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
+            if( percent_worst > 0 ) {
+                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                   _( "Acid: " ), worst_res.type_resist( damage_type::ACID ),
+                                   best_res.type_resist( damage_type::ACID ) ), "",
+                                   iteminfo::no_flags );
+            } else {
+                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
+            }
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::HEAT ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
+            if( percent_worst > 0 ) {
+                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                   _( "Heat: " ), worst_res.type_resist( damage_type::HEAT ),
+                                   best_res.type_resist( damage_type::HEAT ) ), "",
+                                   iteminfo::no_flags );
+            } else {
+                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Heat: " ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
+            }
             printed_any = true;
         }
         if( get_base_env_resist( *this ) >= 1 ) {
@@ -8102,17 +8149,17 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp, 
             // But they provide 0 protection from them
             return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BASH:
-            return bash_resist( to_self, bp );
+            return bash_resist( to_self, bp, roll );
         case damage_type::CUT:
-            return cut_resist( to_self, bp );
+            return cut_resist( to_self, bp, roll );
         case damage_type::ACID:
             return acid_resist( to_self, 0, bp );
         case damage_type::STAB:
-            return stab_resist( to_self, bp );
+            return stab_resist( to_self, bp, roll );
         case damage_type::HEAT:
             return fire_resist( to_self, 0, bp );
         case damage_type::BULLET:
-            return bullet_resist( to_self, bp );
+            return bullet_resist( to_self, bp, roll );
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }
@@ -8139,11 +8186,11 @@ float item::damage_resist( damage_type dt, bool to_self, const sub_bodypart_id &
         case damage_type::CUT:
             return cut_resist( bp, to_self, roll );
         case damage_type::ACID:
-            return acid_resist( bp, to_self, roll );
+            return acid_resist( bp, to_self );
         case damage_type::STAB:
             return stab_resist( bp, to_self, roll );
         case damage_type::HEAT:
-            return fire_resist( bp, to_self, roll );
+            return fire_resist( bp, to_self );
         case damage_type::BULLET:
             return bullet_resist( bp, to_self, roll );
         default:
