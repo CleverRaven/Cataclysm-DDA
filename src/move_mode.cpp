@@ -135,7 +135,7 @@ std::string move_mode::type_name() const
             return "running";
         default:
             // Shouldn't happen, but make it visible if it does
-            return "ERROR";
+            return "bugging out";
     }
 }
 
