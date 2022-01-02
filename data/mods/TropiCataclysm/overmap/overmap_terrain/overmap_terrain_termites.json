@@ -15,7 +15,7 @@
     "sym": "O",
     "color": "green",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_ANT", "population": [ 6, 10 ], "chance": 100 }
+    "spawns": { "group": "GROUP_TERMITES", "population": [ 6, 10 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +62,7 @@
     "name": "termite tunnel",
     "color": "brown",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_ANT", "population": [ 4, 6 ], "chance": 100 },
+    "spawns": { "group": "GROUP_TERMITES", "population": [ 4, 6 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   }
 ]
