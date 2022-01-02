@@ -897,7 +897,9 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
+        void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Fold up the vehicle
         bool fold_up();
