@@ -3311,27 +3311,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::ACID ) >= 1 ) {
-            if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Acid: " ), worst_res.type_resist( damage_type::ACID ),
-                                   best_res.type_resist( damage_type::ACID ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
-            }
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::HEAT ) >= 1 ) {
-            if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Heat: " ), worst_res.type_resist( damage_type::HEAT ),
-                                   best_res.type_resist( damage_type::HEAT ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Heat: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
-            }
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Heat: " ) ), "",
+                               iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
             printed_any = true;
         }
         if( get_base_env_resist( *this ) >= 1 ) {
