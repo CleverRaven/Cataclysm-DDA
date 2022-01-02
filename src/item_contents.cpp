@@ -1804,8 +1804,10 @@ float item_contents::relative_encumbrance() const
         if( pocket.rigid() ) {
             continue;
         }
-        nonrigid_volume += pocket.contains_volume();
-        nonrigid_max_volume += pocket.max_contains_volume();
+        // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
+        float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
+        nonrigid_volume += pocket.contains_volume() * modifier;
+        nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         debugmsg( "volume exceeds capacity (%sml > %sml)",
