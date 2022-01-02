@@ -178,7 +178,7 @@
     "vision_day": 15,
     "dodge": 2,
     "harvest": "arachnid",
-    "upgrades": { "half_life": 15, "into": "GROUP_BUTTERFLY" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY" },
     "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
@@ -191,7 +191,7 @@
     "symbol": "C",
     "volume": "60 L",
     "weight": "75 kg",
-    "upgrades": { "half_life": 15, "into": "GROUP_BUTTERFLY_GIANT" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY_GIANT" }
   },
   {
     "id": "mon_termite_nymph",
@@ -251,7 +251,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "upgrades": { "half_life": 15, "into": "GROUP_TERMITE" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TERMITE" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -374,7 +374,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 15, "into": "GROUP_TERMITE_ALATE" },
+    "upgrades": { "half_life": 15, "into_group": "GROUP_TERMITE_ALATE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "GROUP_MORALE", "HARDTOSHOOT" ]
   },
   {
@@ -456,7 +456,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
-    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_Small" }
+    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" }
   },
   {
     "id": "mon_diving_beetle_small",
