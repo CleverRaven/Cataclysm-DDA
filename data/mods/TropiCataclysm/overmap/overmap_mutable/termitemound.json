@@ -28,9 +28,9 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
-        "overmap": "ants_nesw",
+        "overmap": "termites_nesw",
         "above": "tunnel_to_surface",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
@@ -38,19 +38,19 @@
         "west": "tunnel_to_tunnel"
       },
       "crossroads": {
-        "overmap": "ants_nesw",
+        "overmap": "termites_nesw",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
-      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
-      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
-      "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
-      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
-      "queen": { "overmap": "ants_queen_north", "north": "tunnel_to_tunnel" },
-      "larvae": { "overmap": "ants_larvae_north", "north": "tunnel_to_tunnel" },
-      "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
+      "tee": { "overmap": "termites_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "termites_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "termites_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "termites_end_south", "north": "tunnel_to_tunnel" },
+      "queen": { "overmap": "termites_queen_north", "north": "tunnel_to_tunnel" },
+      "larvae": { "overmap": "termites_larvae_north", "north": "tunnel_to_tunnel" },
+      "food": { "overmap": "termites_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
     "phases": [
