@@ -1209,7 +1209,7 @@
     "warmth": 30,
     "material_thickness": 6,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kevlar_chainmail_hauberk",
