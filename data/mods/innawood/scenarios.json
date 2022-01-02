@@ -61,7 +61,7 @@
     "id": "bordered",
     "name": "Challenge - Bordered",
     "points": -2,
-    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in a wilderness.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "flags": [ "CHALLENGE", "BORDERED" ]
