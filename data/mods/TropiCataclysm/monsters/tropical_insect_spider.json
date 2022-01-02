@@ -332,7 +332,14 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "special_attacks": [ { "id": "spread_glue", "message": "The %1$s shoots sticky chemicals from its head!" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spread_glue" },
+        "cooldown": 20,
+        "monster_message": "The termite sprays a sticky chemical out of its head!"
+      }
+    ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
