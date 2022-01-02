@@ -3,10 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
     "default": "mon_butterfly",
-    "monsters": [
-      { "monster": "mon_butterfly", "weight": 50 },
-      { "monster": "mon_moth", "weight": 50  }
-    ]
+    "monsters": [ { "monster": "mon_butterfly", "weight": 50 }, { "monster": "mon_moth", "weight": 50 } ]
   },
   {
     "type": "monstergroup",
@@ -23,10 +20,7 @@
     "type": "monstergroup",
     "name": "GROUP_TERMITE_ALATE",
     "default": "mon_termite_queen",
-    "monsters": [
-      { "monster": "mon_termite_king", "weight": 50 },
-      { "monster": "mon_termite_queen", "weight": 50 }
-    ]
+    "monsters": [ { "monster": "mon_termite_king", "weight": 50 }, { "monster": "mon_termite_queen", "weight": 50 } ]
   },
   {
     "type": "monstergroup",
