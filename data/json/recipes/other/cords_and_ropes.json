@@ -171,7 +171,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
 	"tools":[[["spinwheelitem",-1]]],
