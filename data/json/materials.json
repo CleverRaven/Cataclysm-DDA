@@ -1624,7 +1624,7 @@
     "type": "material",
     "id": "tempered_steel",
     "name": "Tempered Carbon Steel",
-    "//": "Quench/tempering based on .6 carbon steel with a 1.5 multiplier.",
+    "//": "Quench/tempering based on .6 carbon steel with a 1.5 multiplier. ",
     "density": 8,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
