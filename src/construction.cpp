@@ -1323,12 +1323,14 @@ void construct::done_appliance( const tripoint &p )
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
+    static vehicle_part nullpart;
+
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    if( vpart.is_valid() ) {
+    if( vpart != nullpart.info().get_id() ) {
         veh->install_part( point_zero, vpart );
         veh->name = vpart->name();
     } else {
