@@ -1786,8 +1786,10 @@ std::set<matec_id> Character::get_limb_techs() const
 {
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
-        result.insert( part_tech.begin(), part_tech.end() );
+        if( !natural_attack_restricted_on( part ) ) {
+            std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
+            result.insert( part_tech.begin(), part_tech.end() );
+        }
     }
     return result;
 }

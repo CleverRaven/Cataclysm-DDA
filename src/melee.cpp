@@ -1226,7 +1226,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         }
         float dam = 0.0f;
         float ap = 0.0f;
-        // Your unarmed damage is the average of all your hands
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( bp->unarmed_bonus && !natural_attack_restricted_on( bp ) ) {
                 dam += bp->unarmed_damage( damage_type::BASH );
@@ -1334,7 +1333,6 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         }
         float dam = 0.0f;
         float ap = 0.0f;
-        // Your unarmed damage is the average of all your hands
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( bp->unarmed_bonus && !natural_attack_restricted_on( bp ) ) {
                 dam += bp->unarmed_damage( damage_type::CUT );
@@ -1760,12 +1758,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     // Keep the technique definitons shorter
     if( technique.attack_override ) {
-        di.mult_damage( 0 );
         move_cost = 0;
     }
 
     for( damage_unit &du : di.damage_units ) {
 
+        if( technique.attack_override ) {
+            du.amount = 0;
+        }
         du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
         du.amount += technique.damage_bonus( *this, du.type );
         du.res_pen += technique.armor_penetration( *this, du.type );
