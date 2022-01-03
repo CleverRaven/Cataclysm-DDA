@@ -332,7 +332,7 @@
     "id": "f_spinwheel",
     "name": "spinning wheel",
     "looks_like": "f_table",
-    "description": "One of the consequences of the industrial revolution, but this time a good one.",
+    "description": "Large wooden device with a mechanical wheel used to combine fibers together into a stronger material.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
