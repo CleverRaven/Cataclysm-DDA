@@ -3049,9 +3049,21 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
     cata::optional<int_or_var> max;
     if( jo.has_member( "min" ) ) {
         min = get_int_or_var( jo, "min" );
+    } else if( jo.has_member( "min_time" ) ) {
+        int_or_var value;
+        time_duration min_time;
+        mandatory( jo, false, "min_time", min_time );
+        value.int_val = to_turns<int>( min_time );
+        min = value;
     }
     if( jo.has_member( "max" ) ) {
         max = get_int_or_var( jo, "max" );
+    } else if( jo.has_member( "max_time" ) ) {
+        int_or_var value;
+        time_duration max_time;
+        mandatory( jo, false, "max_time", max_time );
+        value.int_val = to_turns<int>( max_time );
+        max = value;
     }
     std::string op = "none";
     std::string result = "none";
