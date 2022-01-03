@@ -1029,6 +1029,7 @@ void complete_construction( Character *you )
         return;
     }
     const construction &built = pc->id.obj();
+    you->activity.str_values.push_back( built.id.id().c_str() );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
@@ -1109,6 +1110,7 @@ void complete_construction( Character *you )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
+
     // npcs will automatically resume backlog, players wont.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -1330,12 +1332,14 @@ void construct::done_appliance( const tripoint &p )
         return;
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    if( vpart != nullpart.info().get_id() ) {
-        veh->install_part( point_zero, vpart );
-        veh->name = vpart->name();
-    } else {
+    const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
+
+    if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
         veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
         veh->name = _( "wall wiring" );
+    } else {
+        veh->install_part( point_zero, vpart );
+        veh->name = vpart->name();
     }
 
     veh->add_tag( flag_APPLIANCE );
