@@ -105,6 +105,18 @@ float damage_instance::type_damage( damage_type dt ) const
     }
     return ret;
 }
+
+float damage_instance::type_arpen( damage_type dt ) const
+{
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret += elem.res_pen;
+        }
+    }
+    return ret;
+}
+
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
 float damage_instance::total_damage() const
 {

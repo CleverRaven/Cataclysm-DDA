@@ -245,6 +245,7 @@ struct body_part_type {
         // Limb-specific attacks
         std::set<matec_id> techniques;
         int technique_enc_limit = 50;
+        bool unarmed_bonus = false;
 
 
         // return a random sub part from the weighted list of subparts
@@ -296,12 +297,17 @@ struct body_part_type {
             return bionic_slots_;
         }
 
+        float unarmed_damage( const damage_type &dt ) const;
+        float unarmed_arpen( const damage_type &dt ) const;
+        float unarmed_damage( const damage_unit &du ) const;
+
         float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
         // limb score values
         std::vector<bp_limb_score> limb_scores;
+        damage_instance damage;
         // Protection from various damage types
         resistances armor;
 };

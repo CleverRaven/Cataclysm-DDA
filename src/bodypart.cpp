@@ -356,6 +356,12 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    if( jo.has_array( "unarmed_damage" ) ) {
+        unarmed_bonus = true;
+        damage = damage_instance();
+        damage = load_damage_instance( jo.get_array( "unarmed_damage" ) );
+    }
+
     if( jo.has_object( "armor" ) ) {
         armor = resistances();
         armor = load_resistances_instance( jo.get_object( "armor" ) );
@@ -443,6 +449,21 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::unarmed_damage( const damage_type &dt ) const
+{
+    return damage.type_damage( dt );
+}
+
+float body_part_type::unarmed_arpen( const damage_type &dt ) const
+{
+    return damage.type_arpen( dt );
+}
+
+float body_part_type::unarmed_damage( const damage_unit &du ) const
+{
+    return damage.total_damage();
 }
 
 float body_part_type::damage_resistance( const damage_type &dt ) const
