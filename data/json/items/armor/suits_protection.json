@@ -336,7 +336,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "high steel 2 mm plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection. ",
     "armor_data": {
       "armor": [
         {
