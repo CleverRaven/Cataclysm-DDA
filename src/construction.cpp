@@ -99,6 +99,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 static bool finalized = false;
 
@@ -1337,6 +1338,7 @@ void construct::done_appliance( const tripoint &p )
     if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
         veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
         veh->name = _( "wall wiring" );
+        veh->add_tag( flag_CANT_DRAG );
     } else {
         veh->install_part( point_zero, vpart );
         veh->name = vpart->name();
