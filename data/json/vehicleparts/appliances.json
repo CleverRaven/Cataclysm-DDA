@@ -107,10 +107,11 @@
   {
     "id": "ap_wall_wiring",
     "type": "vehicle_part",
-    "name": { "str": "wall wiring" },
+    "name": { "str": "wall wirings" },
     "item": "wall_wiring",
     "location": "structure",
     "symbol": "_",
+    "categories": [ "other" ],
     "broken_symbol": "/",
     "color": "white",
     "broken_color": "red",
