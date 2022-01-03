@@ -153,6 +153,13 @@
     "style": "number"
   },
   {
+    "id": "test_weather_text",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text"
+  },
+  {
     "id": "test_weariness_num",
     "type": "widget",
     "label": "WEARINESS",

@@ -841,7 +841,7 @@
     "label": "Environment",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "lighting_desc", "moon_phase_desc", "wind_desc", "env_temp_desc" ]
+    "widgets": [ "lighting_desc", "moon_phase_desc", "weather_desc", "wind_desc", "env_temp_desc" ]
   },
   {
     "id": "place_date_time_layout",
