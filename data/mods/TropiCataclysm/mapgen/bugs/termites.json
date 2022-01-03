@@ -564,9 +564,7 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_soil" },
-      "*": "t_water_sh",
-      "~": "t_water_dp",
+      "terrain": { "#": "t_soil", "*": "t_water_sh", "~": "t_water_dp" },
       "place_nested": [
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
@@ -659,8 +657,10 @@
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
       ],
-      "place_monster": [ { "monster": "mon_termite_queen", "x": [ 6, 17 ], "y": [ 6, 22 ] } ],
-      "place_monster": [ { "monster": "mon_termite_king", "x": [ 6, 18 ], "y": [ 6, 22 ] } ]
+      "place_monster": [
+        { "monster": "mon_termite_queen", "x": [ 6, 17 ], "y": [ 6, 22 ] },
+        { "monster": "mon_termite_king", "x": [ 6, 18 ], "y": [ 6, 22 ] }
+      ]
     }
   }
 ]
