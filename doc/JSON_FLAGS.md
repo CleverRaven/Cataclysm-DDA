@@ -651,6 +651,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 - ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
+- ```WIRED_WALL``` This terrain is a wall with electric wires inside. Allows the `Reveal wall wirings` construction.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 

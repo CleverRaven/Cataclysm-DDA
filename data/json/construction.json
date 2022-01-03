@@ -3032,7 +3032,7 @@
     "time": "0 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "pliers", -1 ] ] ],
-    "pre_flags": "WALL",
+    "pre_flags": "WIRED_WALL",
     "post_special": "done_appliance"
   },
   {
