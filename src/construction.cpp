@@ -1332,7 +1332,7 @@ void construct::done_appliance( const tripoint &p )
         veh->install_part( point_zero, vpart );
         veh->name = vpart->name();
     } else {
-        veh->install_part( point_zero, vpart_from_item( itype_id( "wall_wiring" ) ) );
+        veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
         veh->name = _( "wall wiring" );
     }
 
