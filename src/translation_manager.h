@@ -16,6 +16,9 @@ class TranslationManager
         class Impl;
         pimpl<Impl> impl;
     public:
+        TranslationManager() = default;
+        TranslationManager( const TranslationManager & ) = delete;
+        TranslationManager( TranslationManager && ) = delete;
         static TranslationManager &GetInstance();
         std::unordered_set<std::string> GetAvailableLanguages();
         void SetLanguage( const std::string &language_code );
