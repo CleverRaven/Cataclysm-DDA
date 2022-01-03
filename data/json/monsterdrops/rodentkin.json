@@ -3,7 +3,10 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "ratkin_death_drops_mausketeer",
-    "entries": [ { "group": "mausketeer_swords", "prob": 100, "damage": [ 2, 4 ] }, { "group": "ratkin_mausketeer_clothes", "prob": 100 } ]
+    "entries": [
+      { "group": "mausketeer_swords", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "ratkin_mausketeer_clothes", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
