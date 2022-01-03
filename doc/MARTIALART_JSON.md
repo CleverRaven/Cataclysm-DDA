@@ -70,7 +70,7 @@
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
-"weighting": 2,             // Affects likelihood this technique will be selected when many are available
+"weighting": 2,             // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
 "defensive": true,          // Game won't try to select this technique when attacking
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
@@ -86,11 +86,11 @@
 ```JSON
 "tech_effects": [
     {
-        "id": "tec_expl",    // id
+        "id": "eff_expl",    // id
         "chance": 100,       // Percent chance to apply the effect on this attack
         "permanent": false,  // If true the effect won't decay (default false)
         "duration": 15,      // Duration of the effect in turns
-        "on_damage": true    // If true the effect will only be applied if the 
+        "on_damage": true    // If true the effect will only be applied if the attack succeeded in doing damage (default true)
     }
 ]
 ```

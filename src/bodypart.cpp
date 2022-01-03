@@ -461,11 +461,6 @@ float body_part_type::unarmed_arpen( const damage_type &dt ) const
     return damage.type_arpen( dt );
 }
 
-float body_part_type::unarmed_damage( const damage_unit &du ) const
-{
-    return damage.total_damage();
-}
-
 float body_part_type::damage_resistance( const damage_type &dt ) const
 {
     return armor.type_resist( dt );

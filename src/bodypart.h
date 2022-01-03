@@ -299,7 +299,6 @@ struct body_part_type {
 
         float unarmed_damage( const damage_type &dt ) const;
         float unarmed_arpen( const damage_type &dt ) const;
-        float unarmed_damage( const damage_unit &du ) const;
 
         float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
