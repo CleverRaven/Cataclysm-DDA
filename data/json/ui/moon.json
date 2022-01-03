@@ -1,0 +1,10 @@
+[
+  {
+    "id": "moon_phase_desc",
+    "type": "widget",
+    "label": "Moon",
+    "style": "text",
+    "var": "moon_phase_text",
+    "//": "Uses display::get_moon"
+  }
+]
