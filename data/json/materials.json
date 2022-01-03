@@ -1536,7 +1536,7 @@
     "type": "material",
     "id": "low_steel",
     "name": "Low Carbon Steel",
-    "//": "SAE 1010/UNS 10100, assumes .1% carbon content and zero slag. ",
+    "//": "SAE 1010/UNS 10100, assumes .1% carbon content and zero slag.",
     "density": 8,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
