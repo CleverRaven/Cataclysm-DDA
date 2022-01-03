@@ -713,8 +713,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
             time_duration time_a = get_time_left( lhs.any_item() );
             time_duration time_b = get_time_left( rhs.any_item() );
-            int order_a = get_order( lhs.any_item());
-            int order_b = get_order( rhs.any_item());
+            int order_a = get_order( lhs.any_item(), time_a);
+            int order_b = get_order( rhs.any_item(), time_b);
 
             return order_a < order_b
                    || ( order_a == order_b && time_a < time_b )
@@ -723,14 +723,16 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
     protected:
-        int get_order( const item_location &loc) const {
+        int get_order( const item_location &loc, const time_duration &time) const {
             if( loc->rotten() ) {
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
-            } else if (loc.has_parent() && loc.parent_item()->all_pockets_sealed() &&
+            } else if( time == 0_turns ) {
+                return 4;
+            }else if (loc.has_parent() && loc.parent_item()->all_pockets_sealed() &&
                        loc.parent_item()->get_all_contained_pockets().value().front()->spoil_multiplier() == 0.0f) {
                 return 3;
             } else {
