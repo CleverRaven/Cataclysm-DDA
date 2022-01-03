@@ -118,7 +118,7 @@
         "specifically_covers": [ "torso_lower" ]
       },
       {
-        "encumbrance": 3,
+        "encumbrance": 2,
         "coverage": 95,
         "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ],
@@ -153,7 +153,7 @@
     "flags": [ "ABLATIVE_SKIRT", "CANT_WEAR", "OUTER" ],
     "armor": [
       {
-        "encumbrance": 3,
+        "encumbrance": 2,
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "leg_l", "leg_r" ],
