@@ -69,6 +69,13 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_int_or_var( jo, "default", false );
+    if( jo.has_member( "default_time" ) ) {
+        int_or_var value;
+        time_duration max_time;
+        mandatory( jo, false, "default_time", max_time );
+        value.int_val = to_turns<int>( max_time );
+        default_val = value;
+    }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
