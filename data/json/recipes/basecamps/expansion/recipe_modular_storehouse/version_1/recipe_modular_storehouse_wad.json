@@ -21,7 +21,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 216 ], [ "stick", 288 ] ],
-          [ [ "material_quicklime", 96 ], [ "material_limestone", 96 ], [ "clay_lump", 96 ] ],
+          [
+            [ "clay_lump", 96 ],
+            [ "feces_cow", 24 ],
+            [ "feces_dog", 48 ],
+            [ "feces_manure", 48 ],
+            [ "material_limestone", 96 ],
+            [ "material_quicklime", 96 ]
+          ],
           [ [ "pebble", 240 ], [ "material_sand", 240 ] ],
           [ [ "straw_pile", 96 ], [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ] ],
           [ [ "water", 120 ], [ "water_clean", 120 ] ],
@@ -54,7 +61,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 216 ], [ "stick", 288 ] ],
-          [ [ "material_quicklime", 96 ], [ "material_limestone", 96 ], [ "clay_lump", 96 ] ],
+          [
+            [ "clay_lump", 96 ],
+            [ "feces_cow", 24 ],
+            [ "feces_dog", 48 ],
+            [ "feces_manure", 48 ],
+            [ "material_limestone", 96 ],
+            [ "material_quicklime", 96 ]
+          ],
           [ [ "pebble", 240 ], [ "material_sand", 240 ] ],
           [ [ "straw_pile", 96 ], [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ] ],
           [ [ "water", 120 ], [ "water_clean", 120 ] ],
@@ -87,7 +101,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 77 ], [ "stick", 106 ] ],
-          [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
+          [
+            [ "clay_lump", 36 ],
+            [ "feces_cow", 9 ],
+            [ "feces_dog", 18 ],
+            [ "feces_manure", 18 ],
+            [ "material_limestone", 36 ],
+            [ "material_quicklime", 36 ]
+          ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
           [ [ "water", 45 ], [ "water_clean", 45 ] ],
@@ -120,7 +141,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 77 ], [ "stick", 106 ] ],
-          [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
+          [
+            [ "clay_lump", 36 ],
+            [ "feces_cow", 9 ],
+            [ "feces_dog", 18 ],
+            [ "feces_manure", 18 ],
+            [ "material_limestone", 36 ],
+            [ "material_quicklime", 36 ]
+          ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
           [ [ "water", 45 ], [ "water_clean", 45 ] ],
@@ -153,7 +181,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 77 ], [ "stick", 106 ] ],
-          [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
+          [
+            [ "clay_lump", 36 ],
+            [ "feces_cow", 9 ],
+            [ "feces_dog", 18 ],
+            [ "feces_manure", 18 ],
+            [ "material_limestone", 36 ],
+            [ "material_quicklime", 36 ]
+          ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
           [ [ "water", 45 ], [ "water_clean", 45 ] ],
@@ -186,7 +221,14 @@
         "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 77 ], [ "stick", 106 ] ],
-          [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
+          [
+            [ "clay_lump", 36 ],
+            [ "feces_cow", 9 ],
+            [ "feces_dog", 18 ],
+            [ "feces_manure", 18 ],
+            [ "material_limestone", 36 ],
+            [ "material_quicklime", 36 ]
+          ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
           [ [ "water", 45 ], [ "water_clean", 45 ] ],
@@ -220,7 +262,14 @@
         "components": [
           [ [ "2x4", 278 ] ],
           [ [ "nail", 48 ] ],
-          [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
+          [
+            [ "clay_lump", 40 ],
+            [ "feces_cow", 10 ],
+            [ "feces_dog", 20 ],
+            [ "feces_manure", 20 ],
+            [ "material_limestone", 40 ],
+            [ "material_quicklime", 40 ]
+          ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
           [ [ "straw_pile", 40 ], [ "cattail_stalk", 40 ], [ "dogbane", 40 ], [ "pine_bough", 40 ] ],
           [ [ "water", 50 ], [ "water_clean", 50 ] ],
@@ -255,7 +304,14 @@
         "components": [
           [ [ "2x4", 278 ] ],
           [ [ "nail", 48 ] ],
-          [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
+          [
+            [ "clay_lump", 40 ],
+            [ "feces_cow", 10 ],
+            [ "feces_dog", 20 ],
+            [ "feces_manure", 20 ],
+            [ "material_limestone", 40 ],
+            [ "material_quicklime", 40 ]
+          ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
           [ [ "straw_pile", 40 ], [ "cattail_stalk", 40 ], [ "dogbane", 40 ], [ "pine_bough", 40 ] ],
           [ [ "water", 50 ], [ "water_clean", 50 ] ],
