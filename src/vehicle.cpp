@@ -120,6 +120,8 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
@@ -1257,7 +1259,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     //First part in an empty square MUST be a structural part or be an appliance
     if( parts_in_square.empty() &&  part.location != part_location_structure &&
-        !part.has_flag( "APPLIANCE" ) ) {
+        !part.has_flag( flag_APPLIANCE ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.

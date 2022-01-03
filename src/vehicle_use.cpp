@@ -95,6 +95,8 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -2125,7 +2127,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
     const bool map_has_items = here.has_items( vp.pos() );
 
-    bool is_appliance = has_tag( "APPLIANCE" );
+    bool is_appliance = has_tag( flag_APPLIANCE );
 
     enum {
         EXAMINE,

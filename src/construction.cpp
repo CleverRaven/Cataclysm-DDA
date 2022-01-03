@@ -98,6 +98,7 @@ static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_APPLIANCE( "APPLIANCE" );
 
 static bool finalized = false;
 
@@ -1328,7 +1329,7 @@ void construct::done_appliance( const tripoint &p )
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
     veh->install_part( point_zero, vpart );
-    veh->add_tag( "APPLIANCE" );
+    veh->add_tag( flag_APPLIANCE );
 
     veh->name = vpart->name();
     // Update the vehicle cache immediately,
@@ -1341,7 +1342,7 @@ void construct::done_appliance( const tripoint &p )
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( "APPLIANCE" ) ) {
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
             veh->connect( p, trip );
         }
     }
