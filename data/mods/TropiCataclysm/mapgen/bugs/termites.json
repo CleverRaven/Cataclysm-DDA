@@ -529,7 +529,7 @@
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
       ],
-      "items": { " ": { "item": "ant_food", "chance": 4 } }
+      "items": { " ": { "item": "termite_food", "chance": 4 } }
     }
   },
   {
@@ -616,6 +616,7 @@
         { "chunks": [ "termite_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
       ],
       "place_monster": [ { "monster": "mon_termite_queen", "x": [ 6, 17 ], "y": [ 6, 22 ] } ]
+      "place_monster": [ { "monster": "mon_termite_king", "x": [ 6, 18 ], "y": [ 6, 22 ] } ]
     }
   }
 ]
