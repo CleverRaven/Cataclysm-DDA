@@ -857,7 +857,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 
     item cord = init_cord( source_pos );
     map &here = get_map();
-    Character &p = get_player_character();
 
     const optional_vpart_position target_vp = here.veh_at( target_pos );
     const optional_vpart_position source_vp = here.veh_at( source_pos );
