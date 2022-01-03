@@ -7291,7 +7291,7 @@ void vehicle::add_tag( std::string tag )
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag )
+bool vehicle::has_tag( std::string tag ) const
 {
     return tags.count( tag ) > 0;
 }

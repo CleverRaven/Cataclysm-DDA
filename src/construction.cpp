@@ -1335,12 +1335,14 @@ void construct::done_appliance( const tripoint &p )
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 
-    VehicleList adjacent_vehicles = here.get_vehicles( tripoint( p.x - 1, p.y + 1, p.z ),
-                                    tripoint( p.x + 1, p.y - 1,
-                                            p.z ) );
-    for( const wrapped_vehicle vehicle : adjacent_vehicles ) {
-        if( vehicle.v->has_tag( "APPLIANCE" ) ) {
-            veh->connect( p, vehicle.pos );
+    for( const tripoint trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( "APPLIANCE" ) ) {
+            veh->connect( p, trip );
         }
     }
 }

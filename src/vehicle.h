@@ -1925,7 +1925,7 @@ class vehicle
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( std::string tag );
-        bool has_tag( std::string tag );
+        bool has_tag( std::string tag ) const;
 
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
