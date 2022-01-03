@@ -52,7 +52,7 @@ static const oter_type_str_id oter_type_ravine_floor_edge( "ravine_floor_edge" )
 static const oter_type_str_id oter_type_rock_border( "rock_border" );
 static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
 static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
-static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b11" );
+static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
 static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
 static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
