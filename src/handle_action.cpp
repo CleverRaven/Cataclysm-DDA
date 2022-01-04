@@ -58,6 +58,7 @@
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "messages.h"
