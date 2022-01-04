@@ -35,6 +35,7 @@ alembic
 alexandrites
 alienis
 alient
+alkahest
 alkalis
 alkyl
 alleghaniensis
@@ -392,7 +393,6 @@ cyberdog
 cyberterror
 cybug
 cyphers
-cysts
 d
 dagnabbit
 dambreaker
@@ -826,6 +826,7 @@ isable
 isassembled
 issions
 itemname
+iterating
 ixed
 j
 jabberwock
@@ -1456,6 +1457,7 @@ sealable
 secubot
 segmentata
 seguiram
+semiaquatic
 sendin
 sendo
 serendipitously
@@ -1748,6 +1750,7 @@ unfermented
 unflavored
 unfoldable
 ungraspable
+unhardened
 unharvested
 unhidden
 unhomogenized

@@ -1219,7 +1219,7 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
-         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
          false
        );
 
@@ -1440,7 +1440,7 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),

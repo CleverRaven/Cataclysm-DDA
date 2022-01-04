@@ -1424,7 +1424,10 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->has_flag( flag_CASING ) ) {
                     continue;
                 }
-                if( !loaded->can_combine( ammo ) ) {
+                // This is a *very* cut down version of item::stacks_with()
+                bool cant_combine = loaded->type != ammo.type || loaded->active != ammo.active ||
+                                    loaded->made_of( phase_id::LIQUID ) != ammo.made_of( phase_id::LIQUID );
+                if( cant_combine ) {
                     return false;
                 }
             }

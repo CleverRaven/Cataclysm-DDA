@@ -2014,7 +2014,7 @@ void Character::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if( activity.targets.empty() ) {
+    if( activity.targets.empty() && activity.do_drop_invalid_inventory() ) {
         drop_invalid_inventory();
     }
     process_items();
@@ -6315,7 +6315,7 @@ void Character::update_stamina( int turns )
     }
 
     // Roll to determine actual stamina recovery over this period
-    int recover_amount = roll_remainder( stamina_recovery * turns );
+    int recover_amount = std::ceil( stamina_recovery * turns );
     mod_stamina( recover_amount );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina recovery: %d", recover_amount );
 
