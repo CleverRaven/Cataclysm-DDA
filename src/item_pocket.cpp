@@ -260,6 +260,29 @@ void item_pocket::restack()
     }
 }
 
+void item_pocket::restack_preserve_order()
+{
+    if( contents.size() <= 1 ) {
+        return;
+    }
+    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ) {
+        if( !outer_iter->count_by_charges() ) {
+            continue;
+        }
+
+        auto next = std::next( outer_iter, 1 );
+        if( next == contents.end() ) {
+            break;
+        }
+
+        if( outer_iter->combine( *next ) ) {
+            outer_iter = contents.erase( next );
+        } else {
+            ++outer_iter;
+        }
+    }
+}
+
 item *item_pocket::restack( /*const*/ item *it )
 {
     item *ret = it;
@@ -1775,6 +1798,7 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
         if( is_type( item_pocket::pocket_type::MAGAZINE ) && !it.made_of( phase_id::LIQUID ) ) {
             // Put ammo in front so they are shot out in reverse reload order
             contents.push_front( it );
+            restack_preserve_order();
         } else {
             contents.push_back( it );
             restack();
