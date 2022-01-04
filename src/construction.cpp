@@ -1111,7 +1111,6 @@ void complete_construction( Character *you )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
-
     // npcs will automatically resume backlog, players wont.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -1326,8 +1325,6 @@ void construct::done_appliance( const tripoint &p )
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
-    static vehicle_part nullpart;
-
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
@@ -1345,7 +1342,6 @@ void construct::done_appliance( const tripoint &p )
     }
 
     veh->add_tag( flag_APPLIANCE );
-
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
