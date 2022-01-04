@@ -1434,7 +1434,9 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->made_of( phase_id::LIQUID ) || ammo.made_of( phase_id::LIQUID ) ) {
                     bool cant_combine = !loaded->made_of( phase_id::LIQUID ) || !ammo.made_of( phase_id::LIQUID ) ||
                                         loaded->type != ammo.type;
-                    return false;
+                    if( cant_combine ) {
+                        return false;
+                    }
                 }
             }
 
