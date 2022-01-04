@@ -435,7 +435,7 @@
     "id": "mon_zombull",
     "type": "MONSTER",
     "name": { "str": "zombull" },
-    "description": "This enormous, terrifyingly fast creature with oily black eyes and dreadful horns was once a domestic bull.  While living bulls can certainly be tempermental, unbridled rage is now this one's only emotion.",
+    "description": "This enormous, terrifyingly fast creature with oily black eyes and dreadful horns was once a domestic bull.  While live bulls can be temperamental, unbridled rage is now this one's only emotion.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
