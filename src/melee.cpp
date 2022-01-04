@@ -710,13 +710,29 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
                         worn_item.covers( bodypart_id( "arm_r" ) );
                 }
+                else if( attack_vector == "ELBOW" ) {
+                    covers = worn_item.covers( bodypart_id( "arm_elbow_l" ) ) &&
+                        worn_item.covers( bodypart_id( "arm_elbow_r" ) );
+                }
+                else if( attack_vector == "SHOULDER" ) {
+                    covers = worn_item.covers( bodypart_id( "arm_shoulder_l" ) ) &&
+                        worn_item.covers( bodypart_id( "arm_shoulder_r" ) );
+                }
                 else if( attack_vector == "FOOT" ) {
                     covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
                         worn_item.covers( bodypart_id( "foot_r" ) );
                 }
-                else if( attack_vector == "LEG" ) {
-                    covers = worn_item.covers( bodypart_id( "leg_l" ) ) &&
-                        worn_item.covers( bodypart_id( "leg_r" ) );
+                else if( attack_vector == "LOWER_LEG" ) {
+                    covers = worn_item.covers( bodypart_id( "leg_lower_l" ) ) &&
+                        worn_item.covers( bodypart_id( "leg_lower_r" ) );
+                }
+                else if( attack_vector == "KNEE" ) {
+                    covers = worn_item.covers( bodypart_id( "leg_knee_l" ) ) &&
+                        worn_item.covers( bodypart_id( "leg_knee_r" ) );
+                }
+                else if( attack_vector == "HIP" ) {
+                    covers = worn_item.covers( bodypart_id( "leg_hip_l" ) ) &&
+                        worn_item.covers( bodypart_id( "leg_hip_r" ) );
                 }
                 else if( attack_vector == "HEAD" ) {
                     covers = worn_item.covers( bodypart_id( "head" ) );
@@ -735,6 +751,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
         
         damage_instance d;
+        //bool unarmed = attack_vector == "WEAPON";
         roll_all_damage( critical_hit, d, false, *cur_weapon, &t, target_bp );
                 
         // your hits are not going to hurt very much if you can't use martial arts due to broken limbs
@@ -1552,7 +1569,6 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         if( martial_arts_data->get_valid_attack_vector( *this, tec.attack_vectors ) == "NONE" && martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
             continue;
         }
-
 
         if( tec.is_valid_character( *this ) ) {
             possible.push_back( tec.id );

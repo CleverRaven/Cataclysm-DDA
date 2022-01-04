@@ -132,8 +132,7 @@ class ma_technique
 
         ma_requirements reqs;
                 
-        // What way is the technique delivered to the target?
-        
+        // What way is the technique delivered to the target?        
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
 
