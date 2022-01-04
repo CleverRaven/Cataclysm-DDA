@@ -2728,9 +2728,6 @@ void item::io( Archive &archive )
         convert( item_controller->migrate_id( orig ) );
     };
 
-    const auto load_curammo = [this]( const std::string & id ) {
-        curammo = item::find_type( item_controller->migrate_id( itype_id( id ) ) );
-    };
     const auto load_corpse = [this]( const std::string & id ) {
         if( itype_id( id ).is_null() ) {
             // backwards compatibility, nullptr should not be stored at all
@@ -2784,10 +2781,6 @@ void item::io( Archive &archive )
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
-    archive.template io<const itype>( "curammo", curammo, load_curammo,
-    []( const itype & i ) {
-        return i.get_id().str();
-    } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
