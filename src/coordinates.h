@@ -190,6 +190,14 @@ class coord_point
             return coord_point( l.raw() + r );
         }
 
+        friend inline coord_point operator+( const point &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
+        friend inline coord_point operator+( const tripoint &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
         friend inline coord_point operator-( const coord_point &l, const point &r ) {
             return coord_point( l.raw() - r );
         }
