@@ -33,6 +33,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "do_turn.h"
 #include "event.h"
 #include "event_bus.h"
