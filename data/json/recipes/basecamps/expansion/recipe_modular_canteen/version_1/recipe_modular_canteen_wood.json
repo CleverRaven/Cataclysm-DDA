@@ -12,16 +12,7 @@
     "blueprint_name": "build the wood panel central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_0" } ],
     "blueprint_provides": [ { "id": "fbmk_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center" } ],
-    "blueprint_needs": {
-      "time": "1 d 12 h 45 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 185 ] ], [ [ "nail", 806 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 3 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center" } ]
   },
   {
     "type": "recipe",
@@ -36,16 +27,7 @@
     "blueprint_name": "finish the wood panel central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_center" } ],
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center2" } ],
-    "blueprint_needs": {
-      "time": "2 d 45 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 229 ] ], [ [ "nail", 1102 ] ], [ [ "wood_panel", 52 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center2" } ]
   },
   {
     "type": "recipe",
@@ -60,16 +42,7 @@
     "blueprint_name": "build a wood panel roofed area for smoking racks",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_needs": {
-      "time": "1 d 6 h 25 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 240 ] ], [ [ "nail", 688 ] ], [ [ "wood_panel", 34 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ]
   },
   {
     "type": "recipe",
@@ -84,16 +57,7 @@
     "blueprint_name": "build a wood panel pantry",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_needs": {
-      "time": "3 d 1 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 330 ] ], [ [ "glass_sheet", 2 ] ], [ [ "nail", 1660 ] ], [ [ "wood_panel", 80 ], [ "wood_sheet", 40 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ]
   },
   {
     "type": "recipe",
@@ -108,16 +72,7 @@
     "blueprint_name": "build W wood wall",
     "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_needs": {
-      "time": "1 d 12 h 36 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 0 ] ],
-      "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 182 ] ], [ [ "nail", 806 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 2 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ]
   },
   {
     "type": "recipe",
@@ -132,16 +87,7 @@
     "blueprint_name": "build E wood wall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_needs": {
-      "time": "2 d 2 h 5 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 229 ] ], [ [ "nail", 1080 ] ], [ [ "glass_sheet", 3 ] ], [ [ "wood_sheet", 24 ], [ "wood_panel", 48 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ]
   },
   {
     "type": "recipe",
@@ -156,15 +102,6 @@
     "blueprint_name": "build center of the dining hall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_needs": {
-      "time": "2 d 5 h 55 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 193 ] ], [ [ "nail", 1106 ] ], [ [ "wood_panel", 53 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 1 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ]
   }
 ]
