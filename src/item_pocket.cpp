@@ -1417,8 +1417,8 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
             // Reloading is refused if
             // Pocket is full of ammo (casings are ignored)
-			// Ammos are of different ammo type
-			// If either of ammo is liquid while the other is not or they are different types
+            // Ammos are of different ammo type
+            // If either of ammo is liquid while the other is not or they are different types
 
             if( full( false ) ) {
                 return false;
@@ -1428,13 +1428,14 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->has_flag( flag_CASING ) ) {
                     continue;
                 }
-				if( loaded->ammo_type() != ammo.ammo_type() ){
-					return false;
-				}
-                if( loaded->made_of( phase_id::LIQUID ) || ammo.made_of( phase_id::LIQUID ) ){
-					bool cant_combine = !loaded->made_of( phase_id::LIQUID ) || !ammo.made_of( phase_id::LIQUID ) || loaded->type != ammo.type;
-					return false;
-				}
+                if( loaded->ammo_type() != ammo.ammo_type() ) {
+                    return false;
+                }
+                if( loaded->made_of( phase_id::LIQUID ) || ammo.made_of( phase_id::LIQUID ) ) {
+                    bool cant_combine = !loaded->made_of( phase_id::LIQUID ) || !ammo.made_of( phase_id::LIQUID ) ||
+                                        loaded->type != ammo.type;
+                    return false;
+                }
             }
 
             return true;
@@ -1767,16 +1768,16 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
     const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
-    
-	
-	if( ret.success() ){
-		if( is_type( item_pocket::pocket_type::MAGAZINE ) && !it.made_of( phase_id::LIQUID ) ) {
-			contents.push_front( it );
-		} else {
-			contents.push_back( it );
-			restack();
-		}
-	}
+
+
+    if( ret.success() ) {
+        if( is_type( item_pocket::pocket_type::MAGAZINE ) && !it.made_of( phase_id::LIQUID ) ) {
+            contents.push_front( it );
+        } else {
+            contents.push_back( it );
+            restack();
+        }
+    }
     return ret;
 }
 
