@@ -1,6 +1,19 @@
 [
   {
     "type": "item_group",
+    "id": "CODY_MILLER_trade",
+    "subtype": "collection",
+    "entries": [
+      { "group": "sca_smith_manuals", "count": [ 0, 1 ], "prob": 100 },
+      { "group": "sca_smith_armor", "count": [ 1, 3 ], "prob": 100 },
+      { "group": "sca_smith_ranged", "count": [ 0, 1 ], "prob": 100 },
+      { "group": "sca_smith_weapons", "count": [ 0, 1 ], "prob": 100 },
+      { "group": "sca_smith_accessories", "count": [ 0, 1 ], "prob": 100 },
+      { "group": "sca_smith_ammo", "count": [ 2, 5 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sca_smith_armor",
     "subtype": "distribution",
     "entries": [
@@ -131,7 +144,7 @@
   {
     "type": "item_group",
     "id": "gunsmith_basic_ammo",
-    "//": "basic ammo that the gunsmith will trade to start"
+    "//": "basic ammo that the gunsmith will trade to start",
     "subtype": "distribution",
     "entries": [
       { "item": "9mm", "prob": 1 },
@@ -149,7 +162,7 @@
   {
     "type": "item_group",
     "id": "gunsmith_repack_ammo",
-    "//": "repacked ammo that the gunsmith will trade to start"
+    "//": "repacked ammo that the gunsmith will trade to start",
     "subtype": "distribution",
     "entries": [
       { "item": "reloaded_9mm", "prob": 1 },

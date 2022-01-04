@@ -32,11 +32,10 @@
         "......................%G"
       ],
       "palettes": [ "farm_house" ],
-      "terrain": {
-        "G": "t_pit_spiked"
-      },
+      "terrain": { "G": "t_pit_spiked" },
       "place_loot": [ { "item": "television", "x": 10, "y": 10, "chance": 100 } ],
-      "place_npcs": [ { "class": "jay_ruckers", "x": 4, "y": 16 } ]
+      "place_npcs": [ { "class": "jay_ruckers", "x": 4, "y": 16 } ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -54,11 +53,11 @@
         "G%...vr  +   S|      #..",
         "G%...|rrr|cc u|+|||  #..",
         "G%...|||||||    1n|7 #..",
-        "G%...|k d@@|d     v7 #..",
-        "G%...|kh @@|d     v7 #..",
-        "G%...vk    |d     |  #..",
-        "G%...|y   g|d     v  |,,",
-        "G%...||||+||n     v   ,,",
+        "G%...|k d@@|n     v7 #..",
+        "G%...|kh @@|n     v7 #..",
+        "G%...vk    |n     |  #..",
+        "G%...|y   g|n     v  |,,",
+        "G%...||||+||1     v   ,,",
         "G%...+            |   ,,",
         "G%...||||+||D  y  ||+||.",
         "G%...|@@  8||+||     7v.",
@@ -72,17 +71,17 @@
         "GGGGGGGGGGGGGGGGGGGGGGGG"
       ],
       "palettes": [ "farm_house" ],
-      "furniture": {
-        "d": "f_displaycase"
-      },
-      "terrain": {
-        "G": "t_pit_spiked"
-      },
-      "place_monster": [
-        { "monster": "mon_turret_artisans", "x": 16, "y": 12, "chance": 100 },
+      "furniture": { "d": "f_chest" },
+      "terrain": { "G": "t_pit_spiked" },
+      "place_monster": [ { "monster": "mon_turret_artisans", "x": 17, "y": 10, "chance": 100 } ],
+      "place_loot": [
+        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 8 },
+        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 9 },
+        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 10 },
+        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 11 }
       ],
-      "place_loot": [ { "item": "television", "x": 12, "y": [ 9, 12 ], "chance": 100 } ],
-      "place_npcs": [ { "class": "cody_miller", "x": 16, "y": 13 } ]
+      "place_npcs": [ { "class": "cody_miller", "x": 12, "y": 12 } ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -117,21 +116,16 @@
         "G.......................",
         "G......................."
       ],
-      "terrain": {
-        "G": "t_pit_spiked",
-        "j": "t_pit_covered",
-        "d": "t_dirt"
-      },
-      "place_vehicles": [
-        { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 }
-      ],
+      "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_dirt" },
+      "place_vehicles": [ { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
       "place_monster": [
         { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 16, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 23, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 2, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 23, "y": 2, "chance": 100 }
-      ]
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -192,7 +186,8 @@
         { "monster": "mon_turret_artisans", "x": 1, "y": 21, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 21, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 21, "y": 21, "chance": 100 }
-      ]
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -228,7 +223,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "_": "t_shingle_flat_roof" }
+      "terrain": { "_": "t_shingle_flat_roof" },
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -264,7 +260,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "_": "t_shingle_flat_roof" }
+      "terrain": { "_": "t_shingle_flat_roof" },
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   }
 ]
