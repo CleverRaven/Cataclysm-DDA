@@ -2369,7 +2369,17 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
+        bool shifted = false;
+        tripoint_abs_omt origin = get_avatar().global_omt_location();
+        if( !get_map().inbounds( get_map().getlocal( target_pos ) ) ) {
+            const tripoint_abs_ms abs_ms( target_pos );
+            g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+            shifted = true;
+        }
         get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
+        if( shifted ) {
+            g->place_player_overmap( origin );
+        }
     };
 }
 
