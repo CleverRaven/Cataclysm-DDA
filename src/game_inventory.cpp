@@ -732,8 +732,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
             } else if( time == 0_turns ) {
                 return 4;
-            } else if( loc.has_parent() && loc.parent_item()->all_pockets_sealed() &&
-                       loc.parent_item()->get_all_contained_pockets().value().front()->spoil_multiplier() == 0.0f ) {
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
