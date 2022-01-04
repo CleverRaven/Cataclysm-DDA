@@ -897,7 +897,9 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
+        void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Fold up the vehicle
         bool fold_up();
@@ -1923,7 +1925,7 @@ class vehicle
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( std::string tag );
-        bool has_tag( std::string tag );
+        bool has_tag( std::string tag ) const;
 
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
