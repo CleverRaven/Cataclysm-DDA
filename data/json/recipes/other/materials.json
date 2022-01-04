@@ -285,7 +285,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 16 ] ], [ [ "filament", 2, "LIST" ] ] ]
+    "components": [ [ [ "sheet_cotton", 6 ] ], [ [ "filament", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -370,7 +370,7 @@
     "time": "60 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 7 ] ]
+    "using": [ [ "tailoring_cotton", 6 ] ]
   },
   {
     "type": "recipe",
@@ -428,7 +428,7 @@
     "charges": 4,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "filament", 15, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",

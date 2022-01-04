@@ -1289,7 +1289,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 10 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_bags", 4 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 12 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_bags", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
