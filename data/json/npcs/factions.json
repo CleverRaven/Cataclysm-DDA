@@ -330,8 +330,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_tacoma_commune_0" },
-      { "power_max": 150, "id": "epilogue_faction_tacoma_commune_150" }
+      { "power_min": 0, "id": "epilogue_faction_isolated_road_0" },
+      { "power_max": 150, "id": "epilogue_faction_isolated_road_150" }
     ],
     "description": "A couple of talented artisans in the country."
   },
