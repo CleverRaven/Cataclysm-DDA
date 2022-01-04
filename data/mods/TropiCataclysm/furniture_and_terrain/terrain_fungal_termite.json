@@ -1,0 +1,20 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_fungus_termite",
+    "name": "fungal mat",
+    "description": "A dense layer of mutated underground fungus grown by the termites.  Completely unrelated to the alien fungus found in the surface.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "NOCOLLIDE" ],
+    "bash": {
+      "sound": "smash",
+      "//": "muffled because fungus",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50
+    }
+  }
+]
