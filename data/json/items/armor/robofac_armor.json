@@ -56,7 +56,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "max_contains_volume": "1600 ml",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle",
@@ -65,7 +65,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "max_contains_volume": "1600 ml",
+        "max_contains_volume": "4000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt",
