@@ -50,6 +50,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "id_artisan_member",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "co-op badge" },
+    "description": "A manually encoded badge giving you access to the artisans workshop.  It even has your name written on the back.",
+    "price": 120000,
+    "flags": [ "COOP_CARD" ],
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "id_science_visitor_1",
     "symbol": ",",
     "color": "blue",

@@ -25,21 +25,13 @@
         "%,vn      X   c  uv...%G",
         "%,vh  Q   X  Qc  Sv...%G",
         "%,|       X      o|...%G",
-        "%,|yYY 888X hncfuu|...%G",
+        "%,|yYa 888X hncfuu|...%G",
         "%,||v|+||||vvv|||||...%G",
         "%,,,,,,...............%G",
         "%H%%%%%%%%%%%%%%%%%%%%%G",
         "......................%G"
       ],
-      "palettes": [ "farm_house" ],
-      "terrain": { "G": "t_pit_spiked",
-    "Q": "t_floor_olight" },
-      "furniture": {
-        "!": "f_generator_broken",
-        "*": "f_console",
-        "X": "f_curtain",
-        "d": "f_utility_shelf"
-       },
+      "palettes": [ "artisans" ],
       "place_monster": [ { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
       { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 } ],
       "place_loot": [
@@ -68,20 +60,20 @@
         "G%..............b....%..",
         "G%...................H..",
         "G%...||||||vv|| |####|..",
-        "G%...|rrr|fouu|      #..",
+        "G%...|rrr|fouu|   q  #..",
         "G%...vr  + Q S|      #..",
         "G%...|rrr|cc u|+|||  #..",
         "G%...|||||||    1n|7 #..",
-        "G%...|k d@@|d     v7 #..",
-        "G%...|kh @@|d     v7 #..",
-        "G%...vk    |d  Q  |  #..",
-        "G%...|y   g|d     v  |,,",
-        "G%...||||+||1     v   ,,",
+        "G%...|     |d     v7 #..",
+        "G%...|     |d     v7 #..",
+        "G%...|     |d  Q  |  #..",
+        "G%...|     |d     v  |,,",
+        "G%...|||Z-||1     v   ,,",
         "G%...+            |   ,,",
         "G%...||||+||D  y  ||+||.",
         "G%...|@@  8||+||     7v.",
         "G%...v@@  8|t D|8    7v.",
-        "G%...|d Q 8|   |8    7v.",
+        "G%...|z Q 8|   |8    7v.",
         "G%...|D  1 |BBS|8YYYa||.",
         "G%...|||kkk|||||||v|||..",
         "G%.....|vvv|.........%..",
@@ -89,14 +81,7 @@
         "G%%%%%%%%%%%%%%%%%%%%%%%",
         "GGGGGGGGGGGGGGGGGGGGGGGG"
       ],
-      "palettes": [ "farm_house" ],
-      "furniture": {
-        "d": "f_utility_shelf"
-       },
-      "terrain": {
-        "G": "t_pit_spiked",
-      "Q": "t_floor_olight"
-    },
+      "palettes": [ "artisans" ],
       "place_monster": [ { "monster": "mon_turret_artisans", "x": 17, "y": 10, "chance": 100 } ],
       "place_loot": [
         { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 8 },
