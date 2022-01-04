@@ -75,7 +75,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
