@@ -53,6 +53,7 @@ static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_int_num( "test_int_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
+static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
 static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
 static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
@@ -389,24 +390,6 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( move_w.layout( ava ) == "MOVE: 150" );
     }
 
-    SECTION( "movement mode" ) {
-        widget mode_letter_w = widget_test_move_mode_letter.obj();
-        widget mode_text_w = widget_test_move_mode_text.obj();
-
-        ava.set_movement_mode( move_mode_walk );
-        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_white>W</color>" );
-        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_white>walking</color>" );
-        ava.set_movement_mode( move_mode_run );
-        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_red>R</color>" );
-        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_red>running</color>" );
-        ava.set_movement_mode( move_mode_crouch );
-        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_light_blue>C</color>" );
-        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_light_blue>crouching</color>" );
-        ava.set_movement_mode( move_mode_prone );
-        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
-        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
-    }
-
     SECTION( "hit points" ) {
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
@@ -445,6 +428,57 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         ava.drench( 100, { body_part_head, body_part_torso }, false );
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+    }
+}
+
+TEST_CASE( "widgets showing movement mode", "[widget][move_mode]" )
+{
+    widget mode_letter_w = widget_test_move_mode_letter.obj();
+    widget mode_text_w = widget_test_move_mode_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_movement_mode( move_mode_walk );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_white>W</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_white>walking</color>" );
+    ava.set_movement_mode( move_mode_run );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_red>R</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_red>running</color>" );
+    ava.set_movement_mode( move_mode_crouch );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_light_blue>C</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_light_blue>crouching</color>" );
+    ava.set_movement_mode( move_mode_prone );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
+}
+
+TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
+{
+    widget cost_num_w = widget_test_move_cost_num.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "without shoes" ) {
+        REQUIRE_FALSE( ava.is_wearing_shoes() );
+        // Having no shoes adds +8 per foot to base run cost
+        REQUIRE( ava.run_cost( 100 ) == 116 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 116" );
+    }
+    SECTION( "wearing sneakers" ) {
+        // Sneakers eliminate the no-shoes penalty
+        ava.wear_item( item( "sneakers" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 100 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 100" );
+    }
+    SECTION( "wearing swim fins" ) {
+        // Swim fins multiply cost by 1.5
+        ava.wear_item( item( "swim_fins" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 167 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
     }
 }
 

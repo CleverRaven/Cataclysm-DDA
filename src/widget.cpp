@@ -54,6 +54,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "hunger";
         case widget_var::move:
             return "move";
+        case widget_var::move_cost:
+            return "move_cost";
         case widget_var::mood:
             return "mood";
         case widget_var::pain:
@@ -277,6 +279,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::move:
             value = ava.movecounter;
+            break;
+        case widget_var::move_cost:
+            value = ava.run_cost( 100 );
             break;
         case widget_var::pain:
             value = ava.get_perceived_pain();

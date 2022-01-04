@@ -125,6 +125,13 @@
     "style": "number"
   },
   {
+    "id": "test_move_cost_num",
+    "type": "widget",
+    "label": "MOVE COST",
+    "var": "move_cost",
+    "style": "number"
+  },
+  {
     "id": "test_move_mode_text",
     "type": "widget",
     "label": "MODE",
