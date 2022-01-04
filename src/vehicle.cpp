@@ -2953,6 +2953,22 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
     }
 }
 
+void vehicle::connect_appliance_to_neighbours()
+{
+    map &here = get_map();
+
+    for( const tripoint trip : here.points_in_radius( sm_pos, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
+            connect( sm_pos, trip );
+        }
+    }
+}
+
 int vehicle::part_at( const point &dp ) const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
