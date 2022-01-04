@@ -2260,15 +2260,14 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
+            [ "null", 10 ],
             [ "roof_2x2_infrastructure", 80 ],
             [ "roof_2x2_infrastructure_2", 40 ],
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 7, 22 ],
-          "y": [ 6, 22 ]
+          "x": [ 7, 18 ],
+          "y": [ 6, 18 ]
         }
       ]
     }
@@ -2310,20 +2309,7 @@
       "rotation": 0,
       "palettes": [ "megastore" ],
       "terrain": { " ": "t_flat_roof" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
-          ],
-          "x": [ 1, 22 ],
-          "y": [ 6, 22 ]
-        }
-      ]
+      "place_nested": [ { "chunks": [ [ "null", 160 ], [ "roof_16x16_help", 5 ] ], "x": [ 1, 8 ], "y": [ 6, 8 ] } ]
     }
   },
   {
@@ -2367,14 +2353,13 @@
         {
           "chunks": [
             [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
             [ "roof_2x2_infrastructure", 80 ],
             [ "roof_2x2_infrastructure_2", 40 ],
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 6, 22 ],
-          "y": [ 7, 22 ]
+          "x": [ 6, 18 ],
+          "y": [ 7, 18 ]
         }
       ]
     }
@@ -2429,8 +2414,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 16, 18 ]
         }
       ]
     }
@@ -2475,8 +2460,8 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 20 ], [ "roof_2x2_infrastructure_2", 20 ], [ "roof_2x2_utilities", 20 ] ],
-          "x": [ 1, 22 ],
-          "y": [ 1, 6 ]
+          "x": [ 1, 18 ],
+          "y": [ 0, 2 ]
         }
       ]
     }
@@ -2527,8 +2512,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 16, 18 ]
         }
       ]
     }
@@ -2573,7 +2558,7 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 1, 22 ],
+          "x": [ 5, 22 ],
           "y": [ 18, 22 ]
         }
       ]
@@ -2625,8 +2610,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 7, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 7, 18 ]
         }
       ]
     }

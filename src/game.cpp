@@ -69,6 +69,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
+#include "diary.h"
 #include "editmap.h"
 #include "effect_on_condition.h"
 #include "enums.h"
