@@ -14,6 +14,15 @@
   },
   {
     "type": "item_group",
+    "id": "JAY_RUCKERS_trade",
+    "subtype": "collection",
+    "entries": [
+      { "group": "gunsmith_basic_ammo", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "gunsmith_repack_ammo", "count": [ 1, 4 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sca_smith_armor",
     "subtype": "distribution",
     "entries": [
@@ -153,9 +162,10 @@
       { "item": "57mm", "prob": 1 },
       { "item": "shot_00", "prob": 2 },
       { "item": "shot_slug", "prob": 1 },
-      { "item": "3006", "prob": 2 },
-      { "item": "762_m87", "prob": 1 },
+      { "item": "3006", "prob": 1 },
+      { "item": "762_m87", "prob": 2 },
       { "item": "556", "prob": 2 },
+      { "item": "545", "prob": 2 },
       { "item": "762_51", "prob": 1 }
     ]
   },
@@ -170,9 +180,10 @@
       { "item": "reloaded_45_acp", "prob": 1 },
       { "item": "reloaded_57mm", "prob": 1 },
       { "item": "reloaded_shot_00", "prob": 2 },
-      { "item": "reloaded_3006", "prob": 2 },
-      { "item": "reloaded_762_m87", "prob": 1 },
+      { "item": "reloaded_3006", "prob": 1 },
+      { "item": "reloaded_762_m87", "prob": 2 },
       { "item": "reloaded_556", "prob": 2 },
+      { "item": "reloaded_545", "prob": 2 },
       { "item": "reloaded_762_51", "prob": 1 }
     ]
   }
