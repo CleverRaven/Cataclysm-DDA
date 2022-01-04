@@ -405,5 +405,19 @@
       "INTERIOR_AMMO",
       "STUN_IMMUNE"
     ]
+  },
+  {
+    "id": "mon_turret_artisans",
+    "type": "MONSTER",
+    "name": { "str": "custom plated turret" },
+    "looks_like": "mon_turret",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  This one is fitted with a M249 and reinforced with heavy plating.",
+    "default_faction": "isolated_artisans",
+    "copy-from": "mon_turret_rifle",
+    "aggression": -10,
+    "armor_bash": 25,
+    "armor_cut": 25,
+    "armor_bullet": 25,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
   }
 ]
