@@ -1769,9 +1769,9 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
     const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
-
     if( ret.success() ) {
         if( is_type( item_pocket::pocket_type::MAGAZINE ) && !it.made_of( phase_id::LIQUID ) ) {
+            // Put ammo in front so they are shot out in reverse reload order
             contents.push_front( it );
         } else {
             contents.push_back( it );
