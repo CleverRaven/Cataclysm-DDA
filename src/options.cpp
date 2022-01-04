@@ -2216,7 +2216,7 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the Cataclysm endeded.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
