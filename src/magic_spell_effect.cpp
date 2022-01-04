@@ -815,7 +815,7 @@ static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, Creat
                 caster.add_effect( effect_teleglow, 1_hours );
                 break;
             case 2:
-                caster.add_msg_if_player( m_good, _( "The %s dissapates." ), intensity_name );
+                caster.add_msg_if_player( m_good, _( "The %s dissipates." ), intensity_name );
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
@@ -842,7 +842,7 @@ void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoi
             if( fd.first.id() == fd_fatigue ) {
                 handle_remove_fd_fatigue_field( field_removed, caster );
             } else {
-                caster.add_msg_if_player( m_neutral, _( "The %s suddenly dissapates." ),
+                caster.add_msg_if_player( m_neutral, _( "The %s dissipates." ),
                                           fd.second.get_intensity_level().name );
             }
         }
