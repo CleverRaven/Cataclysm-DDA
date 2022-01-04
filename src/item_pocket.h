@@ -344,8 +344,6 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
-        /** stacks like items inside the pocket while preserving their order. */
-        void restack_preserve_order();
         /** same as restack(), except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;

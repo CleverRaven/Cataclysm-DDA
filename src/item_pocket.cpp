@@ -241,44 +241,41 @@ void item_pocket::restack()
     if( contents.size() <= 1 ) {
         return;
     }
-    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
-        if( !outer_iter->count_by_charges() ) {
-            continue;
-        }
-        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
-            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
-                ++inner_iter;
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        // Restack magazine contents in a way that preserves order of items
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            if( !iter->count_by_charges() ) {
                 continue;
             }
-            if( outer_iter->combine( *inner_iter ) ) {
-                inner_iter = contents.erase( inner_iter );
-                outer_iter = contents.begin();
+
+            auto next = std::next( iter, 1 );
+            if( next == contents.end() ) {
+                break;
+            }
+
+            if( iter->combine( *next ) ) {
+                iter = contents.erase( next );
             } else {
-                ++inner_iter;
+                ++iter;
             }
         }
-    }
-}
-
-void item_pocket::restack_preserve_order()
-{
-    if( contents.size() <= 1 ) {
-        return;
-    }
-    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ) {
-        if( !outer_iter->count_by_charges() ) {
-            continue;
-        }
-
-        auto next = std::next( outer_iter, 1 );
-        if( next == contents.end() ) {
-            break;
-        }
-
-        if( outer_iter->combine( *next ) ) {
-            outer_iter = contents.erase( next );
-        } else {
-            ++outer_iter;
+    } else {
+        for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+            if( !outer_iter->count_by_charges() ) {
+                continue;
+            }
+            for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+                if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                    ++inner_iter;
+                    continue;
+                }
+                if( outer_iter->combine( *inner_iter ) ) {
+                    inner_iter = contents.erase( inner_iter );
+                    outer_iter = contents.begin();
+                } else {
+                    ++inner_iter;
+                }
+            }
         }
     }
 }
@@ -1795,14 +1792,8 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {
-        if( is_type( item_pocket::pocket_type::MAGAZINE ) && !it.made_of( phase_id::LIQUID ) ) {
-            // Put ammo in front so they are shot out in reverse reload order
-            contents.push_front( it );
-            restack_preserve_order();
-        } else {
-            contents.push_back( it );
-            restack();
-        }
+        contents.push_front( it );
+        restack();
     }
     return ret;
 }
