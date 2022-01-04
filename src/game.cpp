@@ -429,7 +429,6 @@ void game::load_static_data()
     fullscreen = false;
     was_fullscreen = false;
     show_panel_adm = false;
-    panel_manager::get_manager().init();
 
     // These functions do not load stuff from json.
     // The content they load/initialize is hardcoded into the program.
@@ -677,8 +676,9 @@ void game::setup()
 
         load_core_data( ui );
     }
-
     load_world_modfiles( ui );
+    // Panel manager needs JSON data to be loaded before init
+    panel_manager::get_manager().init();
 
     m = map();
 
@@ -1299,6 +1299,77 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+
+    ui_manager::redraw();
+    refresh_display();
+
+    return false;
+}
+
+bool game::portal_storm_query( const distraction_type type, const std::string &text )
+{
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
+            return false;
+        }
+    }
+    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
+
+    const int color_num = rng( 0, 6 );
+    std::string color;
+    switch( color_num ) {
+        case 0:
+            color = "light_red";
+            break;
+        case 1:
+            color = "red";
+            break;
+        case 2:
+            color = "green";
+            break;
+        case 3:
+            color = "light_green";
+            break;
+        case 4:
+            color = "blue";
+            break;
+        case 5:
+            color = "light_blue";
+            break;
+        case 6:
+            color = "yellow";
+            break;
+    }
+
+    std::string color_string = force_uc && !is_keycode_mode_supported()
+                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
+                               : "<color_" + color + "> %s</color>";
+
+    query_popup()
+    .preferred_keyboard_mode( keyboard_mode::keycode )
+    .context( "YES_QUERY" )
+    .message(
+        pgettext( "yes_query",
+                  color_string.c_str() ),
+        text )
+    .option( "YES0", allow_key )
+    .option( "YES1", allow_key )
+    .option( "YES2", allow_key )
+    .query();
+
+    // ensure it never happens again during this activity - shouldn't be an issue anyway
+    u.activity.ignore_distraction( type );
+    for( auto &activity : u.backlog ) {
+        activity.ignore_distraction( type );
     }
 
     ui_manager::redraw();
@@ -2488,9 +2559,20 @@ void game::death_screen()
 static std::string timestamp_now()
 {
     std::time_t time = std::time( nullptr );
-    std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
-    return date_buffer.str();
+    std::tm *timedate = std::gmtime( &time );
+    std::string date_buffer( 32, '\0' );
+#if defined(_WIN32)
+    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S", timedate );
+    TIME_ZONE_INFORMATION tz_info;
+    if( GetTimeZoneInformation( &tz_info ) == TIME_ZONE_ID_INVALID ) {
+        return string_format( "%sZ", date_buffer );
+    }
+    const int bias = -static_cast<int>( tz_info.Bias );
+    return string_format( "%s%+.2d%02d", date_buffer, bias / 60, std::abs( bias ) % 60 );
+#else
+    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S%z", timedate );
+#endif
+    return date_buffer;
 }
 
 void game::move_save_to_graveyard()
@@ -3291,25 +3373,30 @@ void game::draw_panels( bool force_draw )
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
+    // Total up height used by all panels, and see what is left over for log
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
+        // The panel with height -2 is the message log panel
         if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
+    // Draw each panel having render() true
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
+            // The panel with height -2 is the message log panel
             if( h == -2 ) {
                 h = log_height;
             }
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
                 if( panel.always_draw || draw_this_turn ) {
-                    panel.draw( u, catacurses::newwin( h, panel.get_width(),
-                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
+                    catacurses::window w = catacurses::newwin( h, panel.get_width(),
+                                           point( sidebar_right ? TERMX - panel.get_width() : 0, y ) );
+                    panel.draw( { u, w, panel.get_widget() } );
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();
@@ -10216,7 +10303,7 @@ void game::on_move_effects()
         if( !u.can_run() ) {
             u.toggle_run_mode();
         }
-        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
+        if( u.get_stamina() <= 0 ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }

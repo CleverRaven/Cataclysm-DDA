@@ -1,5 +1,6 @@
 #include "bodypart.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "character_modifier.h"
 #include "damage.h"
 #include "magic_enchantment.h"

@@ -342,7 +342,9 @@
               [ "EOC_PORTAL_MESSAGE", 5 ]
             ]
           },
-          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ] ] }
+          "false_effect": {
+            "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_POPUP", 1 ] ]
+          }
         }
       ]
     }
@@ -718,6 +720,20 @@
         "target_var": { "global_val": "indoor_voices" },
         "volume": 80,
         "type": "speech",
+        "snippet": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_POPUP",
+    "global": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 120 } } ] },
+    "effect": [
+      {
+        "u_message": "PORTAL_STORM_POPUP",
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "portal_storm_popup",
         "snippet": true
       }
     ]

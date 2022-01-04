@@ -9568,7 +9568,8 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
                               .query().action;
             if( res == "FRIENDS" ) {
                 if( fcount > 1 ) {
-                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                    add_msg( n_gettext( "You and your %d friend start playing.",
+                                        "You and your %d friends start playing.", fcount ), fcount );
                 } else {
                     add_msg( _( "You and your friend start playing." ) );
                 }

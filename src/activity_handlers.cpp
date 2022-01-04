@@ -3621,11 +3621,13 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
     map &here = get_map();
     if( planks > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
+                                planks ), planks );
     }
     if( scraps > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
+                                scraps ), scraps );
     }
     if( planks < max_planks / 2 ) {
         you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
