@@ -56,7 +56,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "max_contains_volume": "1600 ml",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle",
@@ -65,7 +65,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "max_contains_volume": "1600 ml",
+        "max_contains_volume": "4000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt",
@@ -96,8 +96,8 @@
     "category": "armor",
     "name": "abstract mantle",
     "repairs_like": "armor_lightplate",
-    "weight": "1 kg",
-    "volume": "1533 ml",
+    "weight": "2 kg",
+    "volume": "4500 ml",
     "price": 60000,
     "price_postapoc": 5000,
     "material": [ "ceramic" ],
@@ -105,6 +105,7 @@
     "color": "dark_gray",
     "material_thickness": 8,
     "environmental_protection": 5,
+    "warmth": 15,
     "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR", "OUTER" ],
     "armor": [
       { "encumbrance": 5, "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
@@ -139,8 +140,8 @@
     "category": "armor",
     "name": "abstract armored skirt",
     "repairs_like": "armor_lightplate",
-    "weight": "800 g",
-    "volume": "900 ml",
+    "weight": "1800 g",
+    "volume": "3500 ml",
     "price": 60000,
     "price_postapoc": 5000,
     "material": [ "ceramic" ],
@@ -148,6 +149,7 @@
     "color": "dark_gray",
     "material_thickness": 8,
     "environmental_protection": 5,
+    "warmth": 15,
     "flags": [ "ABLATIVE_SKIRT", "CANT_WEAR", "OUTER" ],
     "armor": [
       {
@@ -174,8 +176,8 @@
     "name": { "str_sp": "abstract armored vambraces" },
     "looks_like": "armguard_hard",
     "repairs_like": "armguard_hard",
-    "weight": "500 g",
-    "volume": "900 ml",
+    "weight": "1750 g",
+    "volume": "4000 ml",
     "price": 60000,
     "price_postapoc": 5000,
     "material": [ "ceramic" ],
@@ -183,6 +185,7 @@
     "color": "dark_gray",
     "material_thickness": 6,
     "environmental_protection": 5,
+    "warmth": 20,
     "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
     "armor": [
       {
@@ -201,8 +204,8 @@
     "name": { "str_sp": "abstract armored greaves" },
     "looks_like": "legguard_hard",
     "repairs_like": "legguard_hard",
-    "weight": "500 g",
-    "volume": "900 ml",
+    "weight": "1750 g",
+    "volume": "5000 ml",
     "price": 60000,
     "price_postapoc": 5000,
     "material": [ "ceramic" ],
@@ -210,6 +213,7 @@
     "color": "dark_gray",
     "material_thickness": 6,
     "environmental_protection": 5,
+    "warmth": 20,
     "flags": [ "OUTER" ],
     "armor": [
       {
