@@ -8,7 +8,7 @@
     "difficulty": 5,
     "time": "36 m",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 1 ], [ "water", 1 ] ],
