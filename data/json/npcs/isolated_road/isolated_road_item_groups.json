@@ -5,11 +5,11 @@
     "subtype": "collection",
     "entries": [
       { "group": "sca_smith_manuals", "count": [ 0, 1 ], "prob": 100 },
-      { "group": "sca_smith_armor", "count": [ 1, 3 ], "prob": 100 },
+      { "group": "sca_smith_armor", "count": [ 1, 2 ], "prob": 100 },
       { "group": "sca_smith_ranged", "count": [ 0, 1 ], "prob": 100 },
       { "group": "sca_smith_weapons", "count": [ 0, 1 ], "prob": 100 },
       { "group": "sca_smith_accessories", "count": [ 0, 1 ], "prob": 100 },
-      { "group": "sca_smith_ammo", "count": [ 2, 5 ], "prob": 100 }
+      { "group": "sca_smith_ammo", "count": [ 0, 2 ], "prob": 100 }
     ]
   },
   {
@@ -163,9 +163,9 @@
       { "item": "shot_00", "prob": 2 },
       { "item": "shot_slug", "prob": 1 },
       { "item": "3006", "prob": 1 },
-      { "item": "762_m87", "prob": 2 },
-      { "item": "556", "prob": 2 },
-      { "item": "545", "prob": 2 },
+      { "item": "762_m87", "prob": 3 },
+      { "item": "556", "prob": 3 },
+      { "item": "545", "prob": 3 },
       { "item": "762_51", "prob": 1 }
     ]
   },
@@ -181,9 +181,9 @@
       { "item": "reloaded_57mm", "prob": 1 },
       { "item": "reloaded_shot_00", "prob": 2 },
       { "item": "reloaded_3006", "prob": 1 },
-      { "item": "reloaded_762_m87", "prob": 2 },
-      { "item": "reloaded_556", "prob": 2 },
-      { "item": "reloaded_545", "prob": 2 },
+      { "item": "reloaded_762_m87", "prob": 3 },
+      { "item": "reloaded_556", "prob": 3 },
+      { "item": "reloaded_545", "prob": 3 },
       { "item": "reloaded_762_51", "prob": 1 }
     ]
   }
