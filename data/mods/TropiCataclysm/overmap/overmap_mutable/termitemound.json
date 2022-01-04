@@ -3,7 +3,10 @@
     "type": "overmap_special",
     "id": "Termitemound",
     "occurrences": [ 0, 0 ],
-    "overmaps": [  ]
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "termitemound" },
+      { "point": [ 0, 0, 1 ], "overmap": "termites_roof" }
+    ],
   },
   {
     "type": "overmap_special",
@@ -51,6 +54,7 @@
       "queen": { "overmap": "termites_queen_north", "north": "tunnel_to_tunnel" },
       "larvae": { "overmap": "termites_larvae_north", "north": "tunnel_to_tunnel" },
       "water": { "overmap": "termites_water_north", "north": "tunnel_to_tunnel" },
+      "farm": { "overmap": "termites_fungus_north", "north": "tunnel_to_tunnel" },
       "food": { "overmap": "termites_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
@@ -66,7 +70,8 @@
       [
         { "overmap": "food", "max": { "poisson": 5 } },
         { "overmap": "larvae", "max": { "poisson": 5 } },
-        { "overmap": "water", "max": { "poisson": 5 } }
+        { "overmap": "water", "max": { "poisson": 5 } },
+        { "overmap": "farm", "max": { "poisson": 5 } }
       ],
       [
         { "overmap": "dead_end", "weight": 2000 },
