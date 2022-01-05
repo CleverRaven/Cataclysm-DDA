@@ -76,7 +76,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "#": [ "t_floor_dirt" ] }
+      "terrain": { "#": [ "t_dirt" ] }
     }
   },
   {
