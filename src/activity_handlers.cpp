@@ -1827,7 +1827,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
@@ -2138,7 +2138,12 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
-                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                    point int_p( act->values[ 2 ], act->values[ 3 ] );
+                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                        g->exam_appliance( vp->vehicle(), int_p );
+                    } else {
+                        g->exam_vehicle( vp->vehicle(), int_p );
+                    }
                 }
                 return;
             } else {
@@ -3616,11 +3621,13 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
     map &here = get_map();
     if( planks > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
+                                planks ), planks );
     }
     if( scraps > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
+                                scraps ), scraps );
     }
     if( planks < max_planks / 2 ) {
         you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );

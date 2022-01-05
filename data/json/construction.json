@@ -3462,6 +3462,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_spin_wheel",
+    "group": "build_spinwheel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 15 ] ], [ [ "nail", 25 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_spinwheel"
+  },
+  {
+    "type": "construction",
     "id": "constr_junk_palisade",
     "group": "build_junk_metal_barrier",
     "category": "CONSTRUCT",

@@ -264,7 +264,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
-        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -1155,7 +1155,7 @@ static void spawn_nested_mapgen()
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy() );
+        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z );
@@ -2782,10 +2782,10 @@ void debug()
             raise( SIGSEGV );
             break;
         case debug_menu_index::MAP_EXTRA: {
-            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
+            const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            for( const std::string &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra );
+            for( const map_extra_id &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra.str() );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;

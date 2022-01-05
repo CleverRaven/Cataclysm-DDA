@@ -120,6 +120,8 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
@@ -1257,7 +1259,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     //First part in an empty square MUST be a structural part or be an appliance
     if( parts_in_square.empty() &&  part.location != part_location_structure &&
-        !part.has_flag( "APPLIANCE" ) ) {
+        !part.has_flag( flag_APPLIANCE ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.
@@ -4285,7 +4287,30 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag + ( actual && !engine_on && !is_towed() ? -1500 : 0 );
+    bool is_actively_towed = is_towed();
+    if( is_actively_towed ) {
+        vehicle *towing_veh = tow_data.get_towed_by();
+        if( !towing_veh ) {
+            is_actively_towed = false;
+        } else {
+            const int tow_index = get_tow_part();
+            if( tow_index == -1 ) {
+                is_actively_towed = false;
+            } else {
+                const int other_tow_index = towing_veh->get_tow_part();
+                if( other_tow_index == -1 ) {
+                    is_actively_towed = false;
+                } else {
+                    map &here = get_map();
+                    const tripoint towed_tow_point = here.getabs( global_part_pos3( tow_index ) );
+                    const tripoint tower_tow_point = here.getabs( towing_veh->global_part_pos3( other_tow_index ) );
+                    is_actively_towed = rl_dist( towed_tow_point, tower_tow_point ) >= 6;
+                }
+            }
+        }
+    }
+
+    return extra_drag + ( actual && !engine_on && !is_actively_towed ? -1500 : 0 );
 }
 
 float vehicle::strain() const
@@ -7291,7 +7316,7 @@ void vehicle::add_tag( std::string tag )
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag )
+bool vehicle::has_tag( std::string tag ) const
 {
     return tags.count( tag ) > 0;
 }

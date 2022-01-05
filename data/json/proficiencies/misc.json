@@ -115,7 +115,7 @@
     "type": "proficiency",
     "id": "prof_helicopter_pilot",
     "name": { "str": "Helicopter Piloting" },
-    "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
+    "description": "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
     "can_learn": false
   },
   {

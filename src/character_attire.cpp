@@ -3,6 +3,7 @@
 #include "event_bus.h"
 #include "flag.h"
 #include "game.h"
+#include "inventory.h"
 #include "messages.h"
 #include "mutation.h"
 

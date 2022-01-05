@@ -112,6 +112,38 @@ static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
 
+static const map_extra_id map_extra_mx_bandits_block( "mx_bandits_block" );
+static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
+static const map_extra_id map_extra_mx_casings( "mx_casings" );
+static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
+static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
+static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
+static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
+static const map_extra_id map_extra_mx_crater( "mx_crater" );
+static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
+static const map_extra_id map_extra_mx_grove( "mx_grove" );
+static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
+static const map_extra_id map_extra_mx_house_spider( "mx_house_spider" );
+static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
+static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
+static const map_extra_id map_extra_mx_looters( "mx_looters" );
+static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
+static const map_extra_id map_extra_mx_military( "mx_military" );
+static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
+static const map_extra_id map_extra_mx_null( "mx_null" );
+static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
+static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
+static const map_extra_id map_extra_mx_pond( "mx_pond" );
+static const map_extra_id map_extra_mx_portal( "mx_portal" );
+static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
+static const map_extra_id map_extra_mx_reed( "mx_reed" );
+static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
+static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
+static const map_extra_id map_extra_mx_shia( "mx_shia" );
+static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
+static const map_extra_id map_extra_mx_spider( "mx_spider" );
+static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
@@ -2058,9 +2090,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
         }
-        m.furn_set( loc, f_ash );
-        if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+        if( !m.is_open_air( loc ) ) {
+            m.furn_set( loc, f_ash );
+            if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+            }
         }
     }
 
@@ -2838,63 +2872,63 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 }
 
 FunctionMap builtin_functions = {
-    { "mx_null", mx_null },
-    { "mx_crater", mx_crater },
-    { "mx_roadworks", mx_roadworks },
-    { "mx_mayhem", mx_mayhem },
-    { "mx_roadblock", mx_roadblock },
-    { "mx_bandits_block", mx_bandits_block },
-    { "mx_minefield", mx_minefield },
-    { "mx_supplydrop", mx_supplydrop },
-    { "mx_military", mx_military },
-    { "mx_helicopter", mx_helicopter },
-    { "mx_portal", mx_portal },
-    { "mx_portal_in", mx_portal_in },
-    { "mx_house_spider", mx_house_spider },
-    { "mx_house_wasp", mx_house_wasp },
-    { "mx_spider", mx_spider },
-    { "mx_shia", mx_shia },
-    { "mx_jabberwock", mx_jabberwock },
-    { "mx_grove", mx_grove },
-    { "mx_shrubbery", mx_shrubbery },
-    { "mx_clearcut", mx_clearcut },
-    { "mx_pond", mx_pond },
-    { "mx_clay_deposit", mx_clay_deposit },
-    { "mx_dead_vegetation", mx_dead_vegetation },
-    { "mx_point_dead_vegetation", mx_point_dead_vegetation },
-    { "mx_burned_ground", mx_burned_ground },
-    { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_casings", mx_casings },
-    { "mx_looters", mx_looters },
-    { "mx_corpses", mx_corpses },
-    { "mx_city_trap", mx_city_trap },
-    { "mx_reed", mx_reed }
+    { map_extra_mx_null, mx_null },
+    { map_extra_mx_crater, mx_crater },
+    { map_extra_mx_roadworks, mx_roadworks },
+    { map_extra_mx_mayhem, mx_mayhem },
+    { map_extra_mx_roadblock, mx_roadblock },
+    { map_extra_mx_bandits_block, mx_bandits_block },
+    { map_extra_mx_minefield, mx_minefield },
+    { map_extra_mx_supplydrop, mx_supplydrop },
+    { map_extra_mx_military, mx_military },
+    { map_extra_mx_helicopter, mx_helicopter },
+    { map_extra_mx_portal, mx_portal },
+    { map_extra_mx_portal_in, mx_portal_in },
+    { map_extra_mx_house_spider, mx_house_spider },
+    { map_extra_mx_house_wasp, mx_house_wasp },
+    { map_extra_mx_spider, mx_spider },
+    { map_extra_mx_shia, mx_shia },
+    { map_extra_mx_jabberwock, mx_jabberwock },
+    { map_extra_mx_grove, mx_grove },
+    { map_extra_mx_shrubbery, mx_shrubbery },
+    { map_extra_mx_clearcut, mx_clearcut },
+    { map_extra_mx_pond, mx_pond },
+    { map_extra_mx_clay_deposit, mx_clay_deposit },
+    { map_extra_mx_dead_vegetation, mx_dead_vegetation },
+    { map_extra_mx_point_dead_vegetation, mx_point_dead_vegetation },
+    { map_extra_mx_burned_ground, mx_burned_ground },
+    { map_extra_mx_point_burned_ground, mx_point_burned_ground },
+    { map_extra_mx_casings, mx_casings },
+    { map_extra_mx_looters, mx_looters },
+    { map_extra_mx_corpses, mx_corpses },
+    { map_extra_mx_city_trap, mx_city_trap },
+    { map_extra_mx_reed, mx_reed }
 };
 
-map_extra_pointer get_function( const std::string &name )
+map_extra_pointer get_function( const map_extra_id &name )
 {
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
-        debugmsg( "no built-in map extra function with id %s", name );
+        debugmsg( "no built-in map extra function with id %s", name.str() );
         return nullptr;
     }
     return iter->second;
 }
 
-std::vector<std::string> all_function_names;
-std::vector<std::string> get_all_function_names()
+std::vector<map_extra_id> all_function_names;
+std::vector<map_extra_id> get_all_function_names()
 {
     return all_function_names;
 }
 
-void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_sm &abs_sub )
+void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_sub )
 {
     bool applied_successfully = false;
 
     const map_extra &extra = id.obj();
     switch( extra.generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = get_function( extra.generator_id );
+            const map_extra_pointer mx_func = get_function( map_extra_id( extra.generator_id ) );
             if( mx_func != nullptr ) {
                 applied_successfully = mx_func( m, abs_sub.raw() );
             }
@@ -2950,11 +2984,6 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
     }
 }
 
-void apply_function( const std::string &id, map &m, const tripoint_abs_sm &abs_sub )
-{
-    apply_function( string_id<map_extra>( id ), m, abs_sub );
-}
-
 FunctionMap all_functions()
 {
     return builtin_functions;
@@ -2988,30 +3017,33 @@ void debug_spawn_test()
             break;
         }
 
-        std::map<std::string, int> results;
+        std::map<map_extra_id, int> results;
+        map_extra_id mx_null = map_extra_id::NULL_ID();
+
         for( size_t a = 0; a < 32400; a++ ) {
             map_extras ex = region_settings_map["default"].region_extras[mx_names[index]];
             if( ex.chance > 0 && one_in( ex.chance ) ) {
-                std::string *extra = ex.values.pick();
+                map_extra_id *extra = ex.values.pick();
                 if( extra == nullptr ) {
-                    results[_( "none" )]++;
+                    results[mx_null]++;
                 } else {
                     results[*ex.values.pick()]++;
                 }
             } else {
-                results[_( "none" )]++;
+                results[mx_null]++;
             }
         }
 
-        std::multimap<int, std::string> sorted_results;
-        for( std::pair<const std::string, int> &e : results ) {
-            sorted_results.insert( std::pair<int, std::string>( e.second, e.first ) );
+        std::multimap<int, map_extra_id> sorted_results;
+        for( std::pair<const map_extra_id, int> &e : results ) {
+            sorted_results.emplace( e.second, e.first );
         }
         uilist results_menu;
         results_menu.text = _( "Result of 32400 selections:" );
-        for( std::pair<const int, std::string> &r : sorted_results ) {
-            results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
-                                               string_format( "%d x %s", r.first, r.second ) );
+        for( std::pair<const int, map_extra_id> &r : sorted_results ) {
+            results_menu.entries.emplace_back(
+                static_cast<int>( results_menu.entries.size() ), true, -2,
+                string_format( "%d x %s", r.first, r.second.str() ) );
         }
         results_menu.query();
     }
@@ -3019,10 +3051,22 @@ void debug_spawn_test()
 
 } // namespace MapExtras
 
+bool map_extra::is_valid_for( const mapgendata &md ) const
+{
+    int z = md.zlevel();
+    if( min_max_zlevel_ ) {
+        if( z < min_max_zlevel_->first || z > min_max_zlevel_->second ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void map_extra::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "description", _description );
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "description", description_ );
     if( jo.has_object( "generator" ) ) {
         JsonObject jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
@@ -3032,22 +3076,23 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
+    optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
 }
 
 void map_extra::check() const
 {
     switch( generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = MapExtras::get_function( generator_id );
+            const map_extra_pointer mx_func = MapExtras::get_function( map_extra_id( generator_id ) );
             if( mx_func == nullptr ) {
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::mapgen: {
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::update_mapgen: {
@@ -3058,7 +3103,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::null:

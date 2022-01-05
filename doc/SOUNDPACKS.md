@@ -125,7 +125,7 @@ Divided by sections for clarity.
 * `environment thunder_near|thunder_far`
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`
-* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM`
+* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY`
 * `environment alarm|church_bells|police_siren`
 * `environment deafness_shock|deafness_tone_start|deafness_tone_light|deafness_tone_medium|deafness_tone_heavy`
 

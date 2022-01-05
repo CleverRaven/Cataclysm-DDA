@@ -1048,7 +1048,7 @@
     "type": "furniture",
     "id": "f_toposcan_scanner",
     "name": "DIRT scanner array",
-    "description": "Mounted on a self-stabilizing gymbal, this high-tech sphere is full of various sensors and scanners that automatically map out the surrounding terrain with an amazing accuracy.",
+    "description": "Mounted on a self-stabilizing gimbal, this high-tech sphere is full of various sensors and scanners that automatically map out the surrounding terrain with an amazing accuracy.",
     "looks_like": "f_satellite",
     "symbol": "{",
     "color": "light_gray",

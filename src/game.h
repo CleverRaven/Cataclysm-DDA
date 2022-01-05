@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -483,6 +484,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
+        bool portal_storm_query( const distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -722,6 +724,9 @@ class game
          */
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
+
+        /** open appliance interaction screen */
+        void exam_appliance( vehicle &veh, const point &cp = point_zero );
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );

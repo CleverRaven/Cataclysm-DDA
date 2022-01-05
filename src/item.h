@@ -457,7 +457,7 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug ) const;
+                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -555,14 +555,14 @@ class item : public visitable
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price( bool practical ) const;
 
         /**
          * Returns the monetary value of an item by itself.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price_no_contents( bool practical ) const;
@@ -2627,7 +2627,9 @@ class item : public visitable
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
-        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
+        /** Returns true if protection info was printed as well */
+        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
 
     public:
         enum class sizing : int {
@@ -2677,7 +2679,6 @@ class item : public visitable
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
-        const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented

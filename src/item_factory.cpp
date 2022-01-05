@@ -227,7 +227,7 @@ void Item_factory::finalize_pre( itype &obj )
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
                 // To do: read the json file of this item agian and get for each quality a scale number
-                obj.ammo_scale.emplace( u.second, 0 );
+                obj.ammo_scale.emplace( u.second, 0.0f );
             }
         }
     }
@@ -235,11 +235,11 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         emplace_usage( obj.use_methods, func );
-        obj.ammo_scale.emplace( func, 0 );
+        obj.ammo_scale.emplace( func, 0.0f );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
         emplace_usage( obj.use_methods, func );
-        obj.ammo_scale.emplace( func, 0 );
+        obj.ammo_scale.emplace( func, 0.0f );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -251,7 +251,7 @@ void Item_factory::finalize_pre( itype &obj )
         obj.category_force = calc_category( obj );
     }
 
-    // use pre-cataclysm price as default if post-cataclysm price unspecified
+    // use pre-Cataclysm price as default if post-cataclysm price unspecified
     if( obj.price_post < 0_cent ) {
         obj.price_post = obj.price;
     }
@@ -343,7 +343,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
             // Patch to fixup shot without shot_damage until I get all the definitions consistent.
             if( obj.ammo->shot_damage.damage_units.empty() ) {
-                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1 );
+                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1f );
             }
             obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
             obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
@@ -632,6 +632,11 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
+    // go through each pocket and assign the name as a fallback definition
+    for( pocket_data &pocket : obj.pockets ) {
+        pocket.name = obj.name;
+    }
+
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
@@ -680,14 +685,20 @@ void Item_factory::finalize_post( itype &obj )
                             // for overall coverage we need to scale coverage by that
                             float scale = sub_armor.max_coverage( bp ) / 100.0;
 
+                            float it_scale = it.max_coverage( bp ) / 100.0;
+
                             it.coverage += sub_armor.coverage * scale;
                             it.cover_melee += sub_armor.cover_melee * scale;
                             it.cover_ranged += sub_armor.cover_ranged * scale;
                             it.cover_vitals += sub_armor.cover_vitals;
 
-                            it.avg_thickness += sub_armor.avg_thickness;
-                            it.env_resist += sub_armor.env_resist;
-                            it.env_resist_w_filter += sub_armor.env_resist_w_filter;
+                            // these values need to be averaged based on proportion covered
+                            it.avg_thickness = ( sub_armor.avg_thickness * scale + it.avg_thickness * it_scale ) /
+                                               ( scale + it_scale );
+                            it.env_resist = ( sub_armor.env_resist * scale + it.env_resist * it_scale ) /
+                                            ( scale + it_scale );
+                            it.env_resist_w_filter = ( sub_armor.env_resist_w_filter * scale + it.env_resist_w_filter *
+                                                       it_scale ) / ( scale + it_scale );
 
                             // add layers that are covered by sublimbs
                             for( const layer_level &ll : sub_armor.layers ) {
@@ -4203,7 +4214,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 if( fun.second ) {
                     use_methods.insert( fun );
                     if( obj.has_float( "ammo_scale" ) ) {
-                        ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                        ammo_scale.emplace( fun.first, static_cast<float>( obj.get_float( "ammo_scale" ) ) );
                     }
                 }
             } else if( entry.test_array() ) {
@@ -4211,7 +4222,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 std::string type = curr.get_string( 0 );
                 emplace_usage( use_methods, type );
                 if( curr.has_float( 1 ) ) {
-                    ammo_scale.emplace( type, curr.get_float( 1 ) );
+                    ammo_scale.emplace( type, static_cast<float>( curr.get_float( 1 ) ) );
                 }
             } else {
                 entry.throw_error( "array element is neither string nor object." );
@@ -4227,7 +4238,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             if( fun.second ) {
                 use_methods.insert( fun );
                 if( obj.has_float( "ammo_scale" ) ) {
-                    ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                    ammo_scale.emplace( fun.first, static_cast<float>( obj.get_float( "ammo_scale" ) ) );
                 }
             }
         } else {

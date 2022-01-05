@@ -109,7 +109,7 @@
     "id": "egg_turtle",
     "name": "turtle egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a turtle.  Its covered in leaves",
+    "description": "The round egg of a turtle.  It is covered in leaves.",
     "rot_spawn": "GROUP_EGG_TURTLE"
   },
   {
@@ -117,7 +117,7 @@
     "id": "egg_snapper",
     "name": "iguana egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a snapping turtle.  Its covered in mud",
+    "description": "The round egg of a snapping turtle.  It is covered in mud.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },
   {
@@ -125,7 +125,7 @@
     "id": "egg_tortoise",
     "name": "iguana egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a tortoise.  Its covered in dirt",
+    "description": "The round egg of a tortoise.  It is covered in dirt.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   }
 ]

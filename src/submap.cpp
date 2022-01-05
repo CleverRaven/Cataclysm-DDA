@@ -218,6 +218,12 @@ bool submap::contains_vehicle( vehicle *veh )
     return match != vehicles.end();
 }
 
+bool submap::is_open_air( const point &p ) const
+{
+    ter_id t = get_ter( p );
+    return t->trap == tr_ledge;
+}
+
 void submap::rotate( int turns )
 {
     turns = turns % 4;
