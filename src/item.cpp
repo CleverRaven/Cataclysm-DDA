@@ -3259,9 +3259,14 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         resistances worst_res = resistances( *this, false, 99, bp );
         resistances best_res = resistances( *this, false, 0, bp );
 
+        int percent_best = 100;
+        int percent_worst = 0;
         const armor_portion_data *portion = portion_for_bodypart( bp );
-        int percent_best = portion->best_protection_chance;
-        int percent_worst = portion->worst_protection_chance;
+        // if there isn't a portion this is probably pet armor
+        if( portion ) {
+            percent_best = portion->best_protection_chance;
+            percent_worst = portion->worst_protection_chance;
+        }
 
         if( percent_worst > 0 ) {
             info.emplace_back( "DESCRIPTION",
@@ -3314,7 +3319,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::HEAT ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Heat: " ) ), "",
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
                                iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
             printed_any = true;
         }
