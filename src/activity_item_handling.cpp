@@ -3176,8 +3176,8 @@ int get_auto_consume_moves( Character &you, const bool food )
         for( item *it : items_here ) {
             item &comest = you.get_consumable_from( *it );
             if( comest.has_flag( json_flag_NO_AUTO_EAT ) ) {
-              // ignored due to NO_AUTO_EAT flag
-              continue;
+                // ignored due to NO_AUTO_EAT flag
+                continue;
             }
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 you.fun_for( comest ).first < -5 ) {
