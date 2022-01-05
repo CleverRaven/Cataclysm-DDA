@@ -160,6 +160,14 @@
     "style": "text"
   },
   {
+    "id": "test_weather_text_height5",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text",
+    "height": 5
+  },
+  {
     "id": "test_weariness_num",
     "type": "widget",
     "label": "WEARINESS",

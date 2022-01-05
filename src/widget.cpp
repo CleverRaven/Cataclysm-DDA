@@ -343,8 +343,8 @@ std::string widget::show( const avatar &ava, const unsigned int max_width )
 }
 
 // Returns the new row index after drawing
-static int custom_draw_multiline( const std::string &widget_string, const catacurses::window &w,
-                                  const int margin, const int width, int row_num )
+int widget::custom_draw_multiline( const std::string &widget_string, const catacurses::window &w,
+                                   const int margin, const int width, int row_num )
 {
     std::string wgt_str = widget_string;
     size_t strpos = 0;
@@ -390,17 +390,17 @@ static void custom_draw_func( const draw_args &args )
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
                 const std::string txt = row_widget.layout( u, widt );
-                row_num = custom_draw_multiline( txt, w, margin, widt, row_num );
+                row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
             }
         } else {
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
-            custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
+            widget::custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
         }
     } else {
         // No layout, just a widget
-        custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
+        widget::custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
     }
     wnoutrefresh( w );
 }
