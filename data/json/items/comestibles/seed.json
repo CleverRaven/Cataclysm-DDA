@@ -419,6 +419,7 @@
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }
   },
   {
@@ -725,7 +726,7 @@
     "calories": 549,
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME" ],
     "stack_size": 40,
     "weight": "106 g"
   },
@@ -738,7 +739,7 @@
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "addiction_type": "caffeine",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
