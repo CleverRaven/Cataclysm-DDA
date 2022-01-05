@@ -250,7 +250,7 @@
     "category": "chems",
     "phase": "gas",
     "container": "small_propane_tank",
-    "material": [ "propane" ],
+    "material": [ "propane"  ],
     "symbol": "~",
     "color": "white",
     "ammo_type": "propane"
