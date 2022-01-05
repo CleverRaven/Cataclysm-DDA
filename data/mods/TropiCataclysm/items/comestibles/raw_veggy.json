@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fungus_mutated",
-    "name": { "str": "mutant fungus" },
+    "name": { "str": "mutant fungus", "str_pl": "mutant fungi" },
     "weight": "119 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
