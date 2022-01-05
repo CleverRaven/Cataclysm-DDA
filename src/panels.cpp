@@ -41,6 +41,7 @@
 #include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
+#include "npc.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
