@@ -369,7 +369,7 @@
     "id": "fanblade_metal",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "metal fan blade assembly" },
+    "name": { "str": "metal fan blade assembly", "str_pl": "metal fan blade assemblies" },
     "description": "A multi-bladed metal fan, like you'd find on a larger desk fan or inside a convection oven.",
     "weight": "150 g",
     "volume": "2 L",
