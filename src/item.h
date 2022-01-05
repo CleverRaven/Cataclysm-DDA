@@ -2679,7 +2679,6 @@ class item : public visitable
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
-        const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
