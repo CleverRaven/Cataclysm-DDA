@@ -164,7 +164,7 @@
     "armor_elec": 1,
     "vision_night": 5,
     "harvest": "zombie_fur",
-    "special_attacks": [ [ "HOWL", 10 ] ],
+    "special_attacks": [ [ "HOWL", 10 ], { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
