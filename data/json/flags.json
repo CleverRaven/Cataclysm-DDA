@@ -569,6 +569,10 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
+    "id": "NO_AUTO_CONSUME",
+    "type": "json_flag"
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."

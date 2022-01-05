@@ -528,6 +528,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
 - ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
+- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.

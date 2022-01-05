@@ -95,6 +95,8 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
+static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -3187,6 +3189,10 @@ int get_auto_consume_moves( Character &you, const bool food )
         }
         for( item *it : items_here ) {
             item &comest = you.get_consumable_from( *it );
+            if( comest.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
+                // ignored due to NO_AUTO_CONSUME flag
+                continue;
+            }
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 you.fun_for( comest ).first < -5 ) {
                 // not good eatings.

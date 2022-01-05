@@ -86,7 +86,7 @@
     "description": "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.",
     "price": 300,
     "price_postapoc": 100,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
     "fun": 10
   },
   {
@@ -221,7 +221,7 @@
     "material": [ "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
     "fun": 6
   },
   {
@@ -243,7 +243,7 @@
     "material": [ "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": -5
   },
   {
@@ -291,7 +291,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
@@ -318,7 +318,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
@@ -345,7 +345,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
@@ -485,7 +485,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 105 ] ],
     "fun": 5
   },
@@ -787,6 +787,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
@@ -986,7 +987,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 6
   },
   {
