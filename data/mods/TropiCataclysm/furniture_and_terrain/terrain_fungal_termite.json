@@ -27,7 +27,22 @@
     "move_cost": 8,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "winter" ], "id": "fungus_harv" } ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus_termite" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_underground_harvested",
+    "name": "underground fungus",
+    "description": "This is a large clump of mutated fungi grown by the termites deep underground.  It doesnt seem to be ready for harvest yet.",
+    "symbol": "#",
+    "color": [ "white", "white", "white", "white" ],
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_fungus_underground",
     "bash": { "str_min": 4, "str_max": 30, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus_termite" }
   }
 ]
