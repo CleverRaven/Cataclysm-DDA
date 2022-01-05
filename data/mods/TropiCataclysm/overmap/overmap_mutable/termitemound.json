@@ -3,7 +3,7 @@
     "type": "overmap_special",
     "id": "Termitemound",
     "occurrences": [ 0, 0 ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "termitemound" }, { "point": [ 0, 0, 1 ], "overmap": "termites_roof" } ]
+    "overmaps": [ ]
   },
   {
     "type": "overmap_special",
@@ -15,6 +15,7 @@
     "flags": [ "UNIQUE", "CLASSIC", "WILDERNESS" ],
     "spawns": { "group": "GROUP_TERMITE_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
+      [ [ 0, 0, 1 ], [ "open_air" ] ],
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
@@ -28,6 +29,7 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
+      "roof": { "overmap": "termites_roof_north", "locations": [ "open_air" ] },
       "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "termites_nesw",
