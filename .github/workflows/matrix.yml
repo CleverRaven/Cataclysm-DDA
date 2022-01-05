@@ -204,7 +204,7 @@ jobs:
       if: ${{ env.SKIP == 'false' }}
       run: |
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(["$RUNNER_OS" = "macOS"] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
+        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
     - name: ccache cache files (master)
       if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
