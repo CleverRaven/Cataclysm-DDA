@@ -569,6 +569,11 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
+    "id": "NO_AUTO_EAT",
+    "type": "json_flag",
+    "//": "consumables with this flag should get ignored by auto-eat/auto-drink zones"
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
