@@ -227,7 +227,7 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "armor_lc_lightplate",
+    "id": "armor_lc_lightplate ",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel 2 mm plate armor" },
