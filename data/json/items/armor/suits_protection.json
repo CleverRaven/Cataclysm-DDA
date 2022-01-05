@@ -1768,7 +1768,7 @@
     "id": "mil_flight_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
-    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it. ",
+    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
     "weight": "1315 g",
     "volume": "4687 ml",
     "price": 22065,
