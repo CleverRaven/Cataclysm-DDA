@@ -26,7 +26,7 @@ Long-term objectives include deeply customizing your base camp and/or vehicle, s
 This is an approximation, and does not describe the expected timeline from a player perspective, but rather the expected design structure.  In other words, it should not be hard-coded that a given feature is only available on a given day, but rather, game design should make access to that feature require a particular time investment making it unlikely to obtain earlier.
 
 **Dev/balance notes:**  
-One of the bottom lines of it is that there needs to be a ton of stuff to do and explore, rather than the main game objective being to level up in large leaps and bounds.  This playstyle depending on longer frames of time and things taking realistic periods to be built/developed depends heavily on things being automated, for example:
+The bottom lines is that there needs to be a ton of stuff to do and explore in the game, rather than the main game objective being to level up in large leaps and bounds.  This playstyle depending on longer frames of time and things taking realistic periods to be built/developed depends heavily on things being automated, for example:
 
 - fast travel options
 - schedule eat/drink/sleep/stoke fire options to allow players to skip a week or two of time

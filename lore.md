@@ -51,10 +51,15 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 
 For a detailed explanation of how the Cataclysm came to be, see [the Background document](./lore-background.md).
 
+## XEDRA
 
+XEDRA (Xenophysical Energy Defense Research Agency), a semi-independent branch of DARPA, is the dominant antagonist of the background of the game and the ultimate instigator of the Cataclysm.  They were a top-secret group tasked initially with researching the exploitation of portal technology.  They very quickly branched into a wide number of things that use portals incidentally, from artificial intelligence to mutation and zombification.  They were given an enormous budget to start, which was rapidly expanded through black market sales of rare metals obtained from other dimensions.
+
+**Public Knowledge of XEDRA**: Any organization the size of XEDRA cannot really hide from the public eye.  Their influence on the public was generally hidden through shell companies masquerading as public research groups, shipping companies, and the like.  Brand names like Uncanny and Trans-Coast Logistics are associated with XEDRA.  This obfuscation, as well as the unbelievable nature of the technology they were working with, let them keep what they were *actually* doing hidden from the public.  However, many civilians were aware that *something was up*.  Of these, a fair number correctly guessed that some kind of Manhattan Project secret research was taking place: it was not that hard to track the construction of underground labs and sudden global demand to hire physicists, for example.
+
+That said, XEDRA was not around long enough for word to leak fully.  The world ended while they were still in the golden age of maintaining silence: anyone who knew or figured out that they were working on *portals to other worlds* was easily discredited and ignored as a loon.  Although the tech has existed nascently for decades, a generation-long stall out made it easy again to pass off old hearsay about it as false.  Even the name "XEDRA" was not known to the general public.  It is likely that within a few years, enough would have leaked that the top would have blown off, but not enough time passed.
 
 # Basic Setting Lore
-
 
 ## General Changes to the World
 
@@ -134,7 +139,7 @@ See [the Faction Lore document](./lore-factions.md) for more details.
 
 There are several key extradimensional factions planned or implemented in Cataclysm.
 
-- **The Blob**, known to XEDRA scientists as XE037, is the entity responsible for the Cataclysm itself, and for zombification.  It was discovered before the Cataclysm and was the key focus of XEDRA research leading up to the zombie outbreak.  Note that "the blob" is not an in-universe term for this entity, but it's easier to type than XE-037 and so is likely to stick in the design notes.
+- **The Blob**, known to XEDRA scientists as XE037, is the entity responsible for the actual Cataclysm itself, and for zombification and mutation.  It was discovered before the Cataclysm and was the key focus of XEDRA research leading up to the zombie outbreak.  Note that "the blob" is not an in-universe term for this entity, but it's easier to type than XE-037 and so is likely to stick in the design notes.
 - **Triffids** are a species of intelligent plants that crossed into our world during the initial portal storms of the Cataclysm.  They perceive humans as meat, and little else, but are probably the most human-like of all the extradimensional beings.
 - **Mycus** is a dispersed intelligence whose primary interest is growing and encompassing all things.  It is strongly opposed to the Blob, but shares a lot of similarities with it.
 - **The Netherum** is a disorganized collection of demonic creatures.  They do not appear to have a central underlying motivation, but are generally hostile or at least not particularly friendly.
