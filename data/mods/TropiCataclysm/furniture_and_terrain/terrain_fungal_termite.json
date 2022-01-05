@@ -16,5 +16,18 @@
       "str_max": 400,
       "str_min_supported": 50
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_underground",
+    "name": "undeground fungus",
+    "description": "This is a large clump of mutated fungi grown by the termites deep underground.  It looks slightly toxic but edible and it should be ripe for harvest on winter.",
+    "symbol": "#",
+    "color": [ "white", "white", "white", "yellow" ],
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "harvest_by_season": [ { "seasons": [ "winter" ], "id": "fungus_harv" } ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus_termite" }
   }
 ]
