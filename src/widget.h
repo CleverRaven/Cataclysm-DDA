@@ -137,8 +137,6 @@ class widget
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
-        // Finalize anything that must wait until all widgets are loaded
-        static void finalize();
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
@@ -146,8 +144,9 @@ class widget
 
         static void check_consistency();
         void check() const;
-        static void finalize_all();
+        // Finalize anything that must wait until all widgets are loaded
         void finalize();
+        static void finalize_all();
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the

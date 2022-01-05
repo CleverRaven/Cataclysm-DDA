@@ -318,11 +318,6 @@ void widget::finalize()
     }
 }
 
-void widget::finalize()
-{
-    // Nothing to do?
-}
-
 int widget::get_var_max( const avatar &ava )
 {
     // Some vars (like HP) have an inherent maximum, used unless the widget overrides it
