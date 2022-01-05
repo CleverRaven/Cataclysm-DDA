@@ -585,7 +585,11 @@ TEST_CASE( "multi-number widgets", "[widget][numbers]" )
     ava.per_max = 11;
     ava.movecounter = 150;
 
-    CHECK( stats_w.layout( ava, 32 ) == "Str: 8  Dex: 9  Int: 10  Per:  11" );
-    CHECK( sound_move_pain_w.layout( ava, 32 ) == "Sound:  0  Move: 150  Pain:    0" );
+    // FIXME: This one is too wide
+    CHECK( stats_w.layout( ava, 32 ) == "Str:  8  Dex:  9  Int: 10  Per: 11" );
+    // string ruler:                     123456789012345678901234567890123456
+
+    CHECK( sound_move_pain_w.layout( ava, 32 ) == "Sound:   0  Move: 150  Pain:   0" );
+    // string ruler:                               123456789012345678901234567890123456
 }
 
