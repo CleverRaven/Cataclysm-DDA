@@ -283,6 +283,9 @@ The XE-037 contaminating all living things is not the Blob, any more than a tran
 **Frequently Asked Question #1: Can I kill Azathoth**  
 No.  You cannot kill the blob.  Further, and more important for writers to understand: *the blob is not the antagonist of the game*.  It is the setting.  The blob is not trying to kill the player.  The player *is part of the blob*, just as much as the zombies are.
 
+#### Blob Singularities
+Particularly powerful ancient zombies, ferals, and mutants may be referred to in design documents as "blob singularities".  These entities are on occasion portaled around from one conquest world to another: during the initial portal storm phase, a number of these were dropped into our world, presumably to add to the chaos.  Note that the late-game player may be one of these.  Previously used and discarded terms for the same include "blob lieutenant" and "blob avatar", but these incorrectly imply that the singularities are receiving orders from the blob.
+
 #### Goals
 The Blob is vast.  It cannot be communicated with nor reasoned with.  The most we could possibly manage would be to annoy it enough that it would reach out and slap us, and that would be that.  Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever.  It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
 
