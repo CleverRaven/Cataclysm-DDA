@@ -5594,7 +5594,7 @@
     "changes_to": [ "PERSISTENCE_HUNTER2" ],
     "category": [ "LUPINE" ],
     "fatigue_modifier": -0.1,
-    "stamina_regen_modifier": 0.1
+    "stamina_regen_modifier": 0.35
   },
   {
     "type": "mutation",
@@ -5607,7 +5607,7 @@
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
     "fatigue_modifier": -0.2,
-    "stamina_regen_modifier": 0.2
+    "stamina_regen_modifier": 0.7
   },
   {
     "type": "mutation",
