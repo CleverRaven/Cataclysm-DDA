@@ -588,7 +588,6 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     if( ammo.is_null() && ammo_types().empty() ) {
         if( magazine_integral() ) {
             if( is_tool() ) {
-                curammo = nullptr;
                 charges = std::min( qty, ammo_capacity( ammo_type ) );
             } else if( is_gun() ) {
                 const item temp_ammo( ammo_default(), calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
@@ -684,7 +683,6 @@ item &item::ammo_unset()
         }
         contents.clear_magazines();
     } else if( magazine_integral() ) {
-        curammo = nullptr;
         charges = 0;
         if( is_gun() ) {
             contents.clear_magazines();
@@ -10271,7 +10269,6 @@ bool item::reload( Character &u, item_location ammo, int qty )
             }
         }
 
-        curammo = ammo->type;
         item item_copy( *ammo );
         ammo->charges -= qty;
 
