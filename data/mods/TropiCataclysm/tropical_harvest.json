@@ -81,7 +81,7 @@
     "id": "fungus_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "mutated_fungus", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
+      { "drop": "fungus_mutated", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   }
 ]
