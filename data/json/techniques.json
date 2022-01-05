@@ -872,7 +872,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.4 },
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
-    ]
+    ],
+	"attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -886,7 +887,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+	"attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -898,7 +900,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
+    ],
+	"attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -907,7 +910,8 @@
     "messages": [ "You strike %s with your staff", "<npcname> strikes %s with your staff" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
+	"attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -922,7 +926,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.1 },
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
-    ]
+    ],
+	"attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
