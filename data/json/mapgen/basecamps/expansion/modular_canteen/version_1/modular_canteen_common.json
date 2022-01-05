@@ -11,7 +11,8 @@
       ",": "t_dirtfloor",
       "S": "t_dirtfloor",
       "a": "t_dirtfloor",
-      "U": "t_rootcellar"
+      "U": "t_rootcellar",
+      "p": "t_dirt"
     },
     "furniture": {
       "d": "f_clear",
@@ -88,7 +89,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_well",
     "method": "json",
-    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 12, "y": 5 } ] }
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_water_pump", "x": 12, "y": 5 },
+        { "point": "furniture", "id": "f_clear", "x": 12, "y": 5 }
+      ]
+    }
   },
   {
     "type": "mapgen",
