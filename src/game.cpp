@@ -5972,12 +5972,12 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
 bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 {
-    return zone_manager::get_manager().has( type, m.getabs( where ) );
+    return zone_manager::get_manager().has( type, m.getglobal( where ) );
 }
 
 bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) const
 {
-    return zone_manager::get_manager().has_near( type, m.getabs( where ) );
+    return zone_manager::get_manager().has_near( type, m.getglobal( where ) );
 }
 
 bool game::is_zones_manager_open() const
@@ -6139,10 +6139,11 @@ void game::zones_manager()
         if( show_all_zones ) {
             zones = mgr.get_zones();
         } else {
-            const tripoint u_abs_pos = m.getabs( u.pos() );
+            const tripoint_abs_ms u_abs_pos = u.get_location();
             for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
-                const tripoint &zone_abs_pos = ref.get().get_center_point();
-                if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
+                const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
+                if( u_abs_pos.z() == zone_abs_pos.z() &&
+                    rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
                     zones.emplace_back( ref );
                 }
             }
@@ -6185,6 +6186,10 @@ void game::zones_manager()
                 zone_start, zone_end, zone_blink, zone_cursor );
     add_draw_callback( zone_cb );
 
+    // This lambda returns either absolute coordinates or relative-to-player
+    // corrdinates, depending on whether personal is false or true respectively.
+    // In C++20 we could have the return type depend on the parameter using
+    // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
     [&]( bool personal = false ) -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
@@ -6205,8 +6210,8 @@ void game::zones_manager()
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( /*show_window=*/false, center, center, false, true,
-                false );
+        const look_around_result first =
+        look_around( /*show_window=*/false, center, center, false, true, false );
         if( first.position )
         {
             popup.message( "%s", _( "Select second point." ) );
@@ -6215,30 +6220,30 @@ void game::zones_manager()
                     true, true, false );
             if( second.position ) {
                 if( personal ) {
-                    tripoint first_abs = tripoint( std::min( first.position->x - u.posx(),
-                                                   second.position->x - u.posx() ),
-                                                   std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
-                                                   std::min( first.position->z - u.posz(),
-                                                           second.position->z - u.posz() ) ) ;
-                    tripoint second_abs = tripoint( std::max( first.position->x - u.posx(),
-                                                    second.position->x - u.posx() ),
-                                                    std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
-                                                    std::max( first.position->z - u.posz(),
-                                                            second.position->z - u.posz() ) ) ;
-                    return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                    tripoint first_rel(
+                        std::min( first.position->x - u.posx(), second.position->x - u.posx() ),
+                        std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
+                        std::min( first.position->z - u.posz(), second.position->z - u.posz() ) ) ;
+                    tripoint second_rel(
+                        std::max( first.position->x - u.posx(), second.position->x - u.posx() ),
+                        std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
+                        std::max( first.position->z - u.posz(), second.position->z - u.posz() ) ) ;
+                    return { { first_rel, second_rel } };
                 }
-                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
-                                               second.position->x ),
-                                               std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z,
-                                                       second.position->z ) ) );
-                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
-                                                second.position->x ),
-                                                std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z,
-                                                        second.position->z ) ) );
+                tripoint_abs_ms first_abs =
+                    m.getglobal(
+                        tripoint(
+                            std::min( first.position->x, second.position->x ),
+                            std::min( first.position->y, second.position->y ),
+                            std::min( first.position->z, second.position->z ) ) );
+                tripoint_abs_ms second_abs =
+                    m.getglobal(
+                        tripoint(
+                            std::max( first.position->x, second.position->x ),
+                            std::max( first.position->y, second.position->y ),
+                            std::max( first.position->z, second.position->z ) ) );
 
-                return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                return { { first_abs.raw(), second_abs.raw() } };
             }
         }
 
@@ -6266,7 +6271,7 @@ void game::zones_manager()
 
             int iNum = 0;
 
-            tripoint player_absolute_pos = m.getabs( u.pos() );
+            tripoint_abs_ms player_absolute_pos = u.get_location();
 
             //Display saved zones
             for( auto &i : zones ) {
@@ -6290,7 +6295,7 @@ void game::zones_manager()
                     mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
                                mgr.get_name_from_type( zone.get_type() ) );
 
-                    tripoint center = zone.get_center_point();
+                    tripoint_abs_ms center = zone.get_center_point();
 
                     //Draw direction + distance
                     mvwprintz( w_zones, point( 32, iNum - start_index ), colorLine, "%*d %s",
@@ -6344,6 +6349,7 @@ void game::zones_manager()
                     break;
                 }
 
+                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, false );
 
@@ -6384,6 +6390,7 @@ void game::zones_manager()
                 }
 
                 //add a zone that is relative to the avatar position
+                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, true );
                 zones = get_zones();
@@ -6471,8 +6478,11 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position( zone.get_is_personal() );
-                        if( pos && ( pos->first != zone.get_start_point() ||
-                                     pos->second != zone.get_end_point() ) ) {
+                        // FIXME: this comparison is nonsensival in the
+                        // personal zone case because it's between different
+                        // coordinate systems.
+                        if( pos && ( pos->first != zone.get_start_point().raw() ||
+                                     pos->second != zone.get_end_point().raw() ) ) {
                             zone.set_position( *pos );
                             stuff_changed = true;
                         }
@@ -6504,8 +6514,8 @@ void game::zones_manager()
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
                 //show zone position on overmap;
                 tripoint_abs_omt player_overmap_position = u.global_omt_location();
-                // TODO: fix point types
-                tripoint_abs_omt zone_overmap( ms_to_omt_copy( zones[active_index].get().get_center_point() ) );
+                tripoint_abs_omt zone_overmap =
+                    coords::project_to<coords::omt>( zones[active_index].get().get_center_point() );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
             } else if( action == "ENABLE_ZONE" ) {

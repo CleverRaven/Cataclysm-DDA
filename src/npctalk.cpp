@@ -835,13 +835,13 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                         int heard_volume, const tripoint &spos )
 {
     const map &here = get_map();
-    const tripoint s_abs_pos = here.getabs( spos );
-    const tripoint my_abs_pos = here.getabs( pos() );
+    const tripoint_abs_ms s_abs_pos = here.getglobal( spos );
+    const tripoint_abs_ms my_abs_pos = get_location();
 
     add_msg_debug( debugmode::DF_NPC,
                    "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
-                   s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
+                   s_abs_pos.x(), s_abs_pos.y(), my_abs_pos.x(), my_abs_pos.y() );
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
@@ -913,14 +913,16 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(), s_abs_pos.x,
-                               s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(),
+                               s_abs_pos.x(), s_abs_pos.y() );
                 dangerous_sound temp_sound;
-                temp_sound.abs_pos = s_abs_pos;
+                // TODO: fix point types
+                temp_sound.abs_pos = s_abs_pos.raw();
                 temp_sound.volume = heard_volume;
                 temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
+                    // TODO: fix point types
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos.raw() ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {

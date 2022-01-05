@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "coordinates.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"
@@ -131,8 +132,8 @@ class inventory : public visitable
          * the player's worn items / weapon
          */
         void restack( Character &p );
-        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
-                             bool assign_invlet = true );
+        void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                             const Character *pl = nullptr, bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );

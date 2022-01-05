@@ -692,42 +692,41 @@ void vehicle::autopilot_patrol()
         return;
     }
     zone_manager &mgr = zone_manager::get_manager();
-    const auto &zone_src_set = mgr.get_near( zone_type_VEHICLE_PATROL,
-                               global_square_location().raw(), 60 );
+    const auto &zone_src_set =
+        mgr.get_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
     }
     // get corners.
-    tripoint min;
-    tripoint max;
-    for( const tripoint &box : zone_src_set ) {
-        if( min == tripoint_zero ) {
+    tripoint_abs_ms min;
+    tripoint_abs_ms max;
+    for( const tripoint_abs_ms &box : zone_src_set ) {
+        if( min == tripoint_abs_ms() ) {
             min = box;
             max = box;
             continue;
         }
-        min.x = std::min( box.x, min.x );
-        min.y = std::min( box.y, min.y );
-        min.z = std::min( box.z, min.z );
-        max.x = std::max( box.x, max.x );
-        max.y = std::max( box.y, max.y );
-        max.z = std::max( box.z, max.z );
+        min.x() = std::min( box.x(), min.x() );
+        min.y() = std::min( box.y(), min.y() );
+        min.z() = std::min( box.z(), min.z() );
+        max.x() = std::max( box.x(), max.x() );
+        max.y() = std::max( box.y(), max.y() );
+        max.z() = std::max( box.z(), max.z() );
     }
-    const bool x_side = ( max.x - min.x ) < ( max.y - min.y );
-    const int point_along = x_side ? rng( min.x, max.x ) : rng( min.y, max.y );
-    const tripoint max_tri = x_side ? tripoint( point_along, max.y, min.z ) : tripoint( max.x,
-                             point_along,
-                             min.z );
-    const tripoint min_tri = x_side ? tripoint( point_along, min.y, min.z ) : tripoint( min.x,
-                             point_along,
-                             min.z );
-    tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
-            global_square_location().raw() ) ) {
+    const bool x_side = ( max.x() - min.x() ) < ( max.y() - min.y() );
+    const int point_along = x_side ? rng( min.x(), max.x() ) : rng( min.y(), max.y() );
+    const tripoint_abs_ms max_tri = x_side ? tripoint_abs_ms( point_along, max.y(), min.z() ) :
+                                    tripoint_abs_ms( max.x(), point_along, min.z() );
+    const tripoint_abs_ms min_tri = x_side ? tripoint_abs_ms( point_along, min.y(), min.z() ) :
+                                    tripoint_abs_ms( min.x(), point_along, min.z() );
+    tripoint_abs_ms chosen_tri = min_tri;
+    if( rl_dist( max_tri, global_square_location() ) >=
+        rl_dist( min_tri, global_square_location() ) ) {
         chosen_tri = max_tri;
     }
-    autodrive_local_target = chosen_tri;
+    // TODO: fix point types
+    autodrive_local_target = chosen_tri.raw();
     drive_to_local_target( autodrive_local_target, false );
 }
 

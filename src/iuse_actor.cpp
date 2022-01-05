@@ -1251,7 +1251,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getglobal( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }

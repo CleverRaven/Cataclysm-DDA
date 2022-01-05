@@ -3484,7 +3484,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     }
 
     const zone_manager &mgr = zone_manager::get_manager();
-    const tripoint &abs = get_map().getabs( p );
+    const tripoint_abs_ms abs = get_map().getglobal( p );
     const zone_data *zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {
