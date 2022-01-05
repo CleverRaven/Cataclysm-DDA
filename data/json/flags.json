@@ -569,7 +569,7 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
-    "id": "NO_AUTO_EAT",
+    "id": "NO_AUTO_CONSUME",
     "type": "json_flag"
   },
   {
