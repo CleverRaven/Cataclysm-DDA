@@ -425,7 +425,7 @@
     "armor_bullet": 11,
     "armor_elec": 3,
     "harvest": "arachnid",
-    "reproduction": { "baby_egg": "egg_termite", "baby_count": 10, "baby_timer": 3 },
+    "reproduction": { "baby_egg": "egg_termite", "baby_count": 3, "baby_timer": 1 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
