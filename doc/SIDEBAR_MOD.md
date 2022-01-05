@@ -9,11 +9,11 @@
     - [Graph widget](#graph-widget)
 - [Other fields](#other-fields)
   - [fill](#fill)
-  - [var_max](#var_max)
   - [direction](#direction)
   - [height](#height)
   - [colors](#colors)
   - [flags](#flags)
+  - [variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
   - [Text variables](#text-variables)
@@ -288,8 +288,8 @@ with "=" and "#":
 ### 222
 ```
 
-See the [fill](#fill), [var_max](#var_max), and [colors](#colors) fields for more ways to customize
-the graph.
+See the [fill](#fill), [var_min and var_max](#variable-ranges), and [colors](#colors) fields for
+more ways to customize the graph.
 
 
 # Other fields
@@ -358,20 +358,6 @@ Result:
 ```
 
 The total number of possible graphs is the same in each case, so both have the same resolution.
-
-
-## `var_max`
-
-Using "graph" style widgets, usually you should provide a "var_max" value (integer) with the maximum
-typical value of "var" that will ever be rendered.
-
-Some "var" fields such as "stamina", or "hp_bp" (hit points for body part) have a known maximum, but
-others like character stats, move speed, or encumbrance have no predefined cap - for these you can
-provide an explicit "var_max" that indicates where the top / full point of the graph is.
-
-This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
-up to 100 or 200 (like focus). If a var usually varies within a range `[low, high]`, select a
-"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
 
 
 ## `direction`
@@ -464,6 +450,10 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 }
 ```
 
+The number of colors you use is fairly arbitrary, but there is one case when it matters: for
+variables with a "var_norm" value, there must be an odd number of colors, because the color in the
+middle of the list is the one used for the "normal" value.
+
 
 ## `flags`
 
@@ -489,6 +479,32 @@ Here are some flags that can be included:
 | `W_PAD_CENTER`     | Adds enough left-padding to center the widget text (widget is center-aligned)
 | `W_PAD_NONE`       | Omits the left-padding altogether (widget is left-aligned)
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+
+
+## variable ranges
+
+These optional fields may be defined for widgets having a numeric variable:
+
+- `var_min`: Minimum value the `var` can ever have. Default is 0, unless var has a known minimum.
+- `var_norm`: Normal or baseline `var` value. No default, unless var has a known normal value.
+- `var_max`: Maximum value `var` can have. No default, unless var has a known maximum value.
+
+All these fields expect integer numeric values.
+
+Variables with a known "var_norm" include the stat attributes "stat_str", "stat_dex", "stat_int",
+and "stat_per".
+
+Variables with a known "var_max" include "stamina", "mana", "bp_hp", "bp_warmth", and "bp_wetness".
+
+For "graph" style widgets, you should provide a "var_max" value for any "var" that doesn't have a
+known, inherent maximum. The "var_max" should be the point at which the graph is full.
+
+This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
+up to 100 or 200 (like focus). If a var usually varies within a range `[low, high]`, select a
+"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
+
+For both "graph" and "number" style widgets, these limits also determine how the range of colors are
+mapped to the numeric values shown.
 
 
 # Variables
