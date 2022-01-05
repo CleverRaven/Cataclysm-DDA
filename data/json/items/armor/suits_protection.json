@@ -907,7 +907,7 @@
     ],
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER"  ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
   },
   {
     "id": "swat_armor",
