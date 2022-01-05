@@ -499,7 +499,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     // TODO: add some check for power armor
 
     // reduce the damage
-    armor.mitigate_damage( du );
+    armor.mitigate_damage( du, bp );
 
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
