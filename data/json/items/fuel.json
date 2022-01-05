@@ -246,7 +246,7 @@
     "price": 200,
     "price_postapoc": 500,
     "count": 200,
-    "stack_size": 250,
+    "stack_size": 200,
     "category": "chems",
     "phase": "gas",
     "container": "small_propane_tank",
