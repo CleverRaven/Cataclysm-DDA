@@ -3013,6 +3013,7 @@
     "post_special": "done_appliance"
   },
   {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
