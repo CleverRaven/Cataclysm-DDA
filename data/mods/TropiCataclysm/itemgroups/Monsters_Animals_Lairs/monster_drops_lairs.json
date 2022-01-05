@@ -58,5 +58,11 @@
       { "item": "honey_ant", "prob": 30 },
       { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "termite_eggs",
+    "subtype": "distribution",
+    "entries": [ { "item": "egg_termite", "prob": 50 } ]
   }
 ]
