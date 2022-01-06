@@ -220,7 +220,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-date.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
