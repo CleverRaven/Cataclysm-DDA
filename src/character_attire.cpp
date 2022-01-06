@@ -3,6 +3,7 @@
 #include "event_bus.h"
 #include "flag.h"
 #include "game.h"
+#include "inventory.h"
 #include "messages.h"
 #include "mutation.h"
 
@@ -590,8 +591,8 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
     [this, &worn_item]( const bodypart_str_id & bp ) {
         // no need to check items that are worn under worn_item in the armor sort order
         for( auto i = std::next( worn_item ), end = worn.end(); i != end; ++i ) {
-            if( i->covers( bp ) && !i->has_layer( layer_level::BELTED ) &&
-                !i->has_layer( layer_level::WAIST ) &&
+            if( i->covers( bp ) &&
+                !i->has_layer( { layer_level::BELTED, layer_level::WAIST } ) &&
                 i->get_coverage( bp ) >= worn_item->get_coverage( bp ) ) {
                 return false;
             }
@@ -785,7 +786,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             continue;
         }
 
-        const std::vector<layer_level> item_layers = it.get_layer();
+        const std::vector<layer_level> item_layers = it.get_layer( bp );
         int encumber_val = it.get_encumber( c, bp.id() );
         int layering_encumbrance = clamp( encumber_val, 2, 10 );
 

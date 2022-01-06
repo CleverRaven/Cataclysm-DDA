@@ -459,33 +459,6 @@
     "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
   },
   {
-    "id": "helmet_lobster",
-    "repairs_like": "xlkevlar",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "lobster helmet" },
-    "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It has a tail coming off the back that provides protection to your neck.",
-    "weight": "1383 g",
-    "volume": "2 L",
-    "price": 28000,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "kevlar_rigid", "plastic" ],
-    "symbol": "[",
-    "looks_like": "helmet_barbute",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 98, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 65, "encumbrance": 0 },
-      { "covers": [ "mouth" ], "coverage": 40, "encumbrance": 0 }
-    ],
-    "warmth": 20,
-    "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
-  },
-  {
     "id": "helmet_motor",
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
@@ -795,6 +768,7 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "copy-from": "pot_helmet",
+    "material_thickness": 2,
     "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   }

@@ -423,7 +423,7 @@
     "type": "terrain",
     "id": "t_gelatinous_groundcover",
     "name": "gelatinous ground",
-    "description": "An incursion of a large area of otherwordly substrate, it feels like walking on hardened gelatin.",
+    "description": "An incursion of a large area of otherworldly substrate, it feels like walking on hardened gelatin.",
     "symbol": ".",
     "color": "pink",
     "move_cost": 5,

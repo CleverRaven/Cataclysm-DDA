@@ -36,6 +36,8 @@
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
 
+static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -259,7 +261,7 @@ void timed_event::actualize()
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
-                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }

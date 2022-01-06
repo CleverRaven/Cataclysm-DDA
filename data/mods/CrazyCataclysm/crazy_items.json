@@ -52,7 +52,7 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "act_cost": 500,
     "fake_weapon": "bio_ion_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_ion_gun",
@@ -76,7 +76,7 @@
     "loudness": 50,
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "BIONIC_WEAPON" ]
   },
   {
     "id": "yeet_cannon",

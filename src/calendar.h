@@ -97,6 +97,14 @@ extern const time_duration INDEFINITELY_LONG_DURATION;
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
 
+/// @returns Whether the eternal night is enabled.
+bool eternal_night();
+void set_eternal_night( bool is_eternal_night );
+
+/// @returns Whether the eternal day is enabled.
+bool eternal_day();
+void set_eternal_day( bool is_eternal_day );
+
 /** @returns Time in a year, (configured in current world settings) */
 time_duration year_length();
 

@@ -2232,7 +2232,6 @@
       [ "cloak_wool", 5 ],
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
-      [ "helmet_lobster", 2 ],
       [ "apron_leather", 2 ],
       [ "tool_belt", 5 ],
       [ "bootsheath", 8 ],
@@ -2510,7 +2509,6 @@
       [ "tac_helmet", 22 ],
       [ "helmet_riot", 18 ],
       [ "tac_fullhelmet", 8 ],
-      [ "helmet_lobster", 8 ],
       [ "helmet_larmor", 14 ],
       [ "pickelhaube", 1 ],
       [ "firehelmet", 2 ],
@@ -3546,7 +3544,7 @@
   {
     "id": "accessory_cat",
     "type": "item_group",
-    "//": "accessories that some say were the cause of the cataclysm.",
+    "//": "accessories that some say were the cause of the Cataclysm.",
     "subtype": "distribution",
     "items": [
       { "item": "faux_fur_cat_ears", "prob": 80 },

@@ -329,6 +329,32 @@
   },
   {
     "type": "furniture",
+    "id": "f_spinwheel",
+    "name": "spinning wheel",
+    "looks_like": "f_table",
+    "description": "Large wooden device with a mechanical wheel used to combine fibers together into a stronger material.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "crafting_pseudo_item": "spinwheelitem",
+    "deconstruct": { "items": [ { "item": "string_36", "count": 15 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "string_36", "count": [ 12, 15 ] },
+        { "item": "2x4", "count": [ 10, 20 ] },
+        { "item": "nail", "charges": [ 15, 25 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_smoking_rack_active",
     "name": "active smoking rack",
     "looks_like": "f_smoking_rack",
@@ -502,6 +528,40 @@
   },
   {
     "type": "furniture",
+    "id": "f_beverly_shear",
+    "name": "Beverly shear",
+    "looks_like": "f_machinery_light",
+    "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
+    "//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 8, 10 ] }
+      ]
+    },
+    "crafting_pseudo_item": "fake_beverly_shear"
+  },
+  {
+    "type": "furniture",
     "id": "f_drill_press",
     "name": "drill press",
     "looks_like": "f_machinery_light",
@@ -542,7 +602,7 @@
     "type": "furniture",
     "id": "f_firefly_terrarium",
     "name": "firefly terrarium",
-    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the Cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
     "symbol": "#",
     "color": "light_green",
     "move_cost_mod": 3,

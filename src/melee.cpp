@@ -111,6 +111,7 @@ static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
+static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
 static const matec_id WBLOCK_1( "WBLOCK_1" );
@@ -206,12 +207,12 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
 
     /** @EFFECT_DEX reduces chance of damaging your melee weapon */
 
-    /** @EFFECT_STR increases chance of damaging your melee weapon (NEGATIVE) */
+    /** @ARM_STR increases chance of damaging your melee weapon (NEGATIVE) */
 
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
     const float stat_factor = dex_cur / 2.0f
                               + get_skill_level( skill_melee )
-                              + ( 64.0f / std::max( str_cur, 4 ) );
+                              + ( 64.0f / std::max( get_arm_str(), 4 ) );
 
     float material_factor;
 
@@ -302,6 +303,17 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
                                _( "<npcname>'s %s is destroyed by the blow!" ),
                                str );
+    }
+
+    if( is_using_bionic_weapon() && temp.has_flag( flag_NO_UNWIELD ) ) {
+        if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+            bionic &bio = **bio_opt;
+            if( bio.get_weapon().typeId() == temp.typeId() ) {
+                weapon_bionic_uid = 0;
+                bio.set_weapon( item() );
+                force_bionic_deactivation( bio );
+            }
+        }
     }
 
     return true;
@@ -703,9 +715,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if( get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
+        if( get_working_arm_count() < 1 ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
+            add_msg_if_player( m_bad, _( "You arms are too damaged or encumbered to fight effectively!" ) );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         // In the case of a weapon like a glaive or a naginata, the wielder
@@ -916,8 +929,8 @@ void Character::reach_attack( const tripoint &p )
                    !( weapon.has_flag( flag_SPEAR ) &&
                       here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
-            /** @EFFECT_STR increases bash effects when reach attacking past something */
-            here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
+            /** @ARM_STR increases bash effects when reach attacking past something */
+            here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
@@ -949,7 +962,7 @@ int stumble( Character &u, const item &weap )
         return 0;
     }
 
-    int str_mod = u.str_cur;
+    int str_mod = u.get_arm_str();
     if( u.is_on_ground() ) {
         str_mod /= 4;
     } else if( u.is_crouching() ) {
@@ -1125,12 +1138,12 @@ float Character::dodge_roll() const
 
 float Character::bonus_damage( bool random ) const
 {
-    /** @EFFECT_STR increases bashing damage */
+    /** @ARM_STR increases bashing damage */
     if( random ) {
-        return rng_float( get_str() / 2.0f, get_str() );
+        return rng_float( get_arm_str() / 2.0f, get_arm_str() );
     }
 
-    return get_str() * 0.75f;
+    return get_arm_str() * 0.75f;
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
@@ -1149,8 +1162,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill *= 2;
     }
 
-    const int stat = get_str();
-    /** @EFFECT_STR increases bashing damage */
+    const int stat = get_arm_str();
+    /** @ARM_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( damage_type::BASH );
 
@@ -1226,7 +1239,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_mul *= ( 1.0f + ( bash_cap / weap_dam ) ) / 2.0f;
     }
 
-    /** @EFFECT_STR boosts low cap on bashing damage */
+    /** @ARM_STR boosts low cap on bashing damage */
     const float low_cap = std::min( 1.0f, stat / 20.0f );
     const float bash_min = low_cap * weap_dam;
     weap_dam = average ? ( bash_min + weap_dam ) * 0.5f : rng_float( bash_min, weap_dam );
@@ -1880,6 +1893,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // Melee skill and reaction score governs if you can react in time
+    // Skill of 5 without relevant encumbrance guarantees a block attempt
+    int melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
+    if( !x_in_y( melee_skill * 20 * get_limb_score( limb_score_reaction ), 100 ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
+        return false;
+    }
+
     blocks_left--;
 
     // This bonus absorbs damage from incoming attacks before they land,
@@ -1892,34 +1913,40 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool conductive_shield = shield.conductive();
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
+    bool arm_block = false;
+    bool leg_block = false;
+    bool nonstandard_block = false;
 
-    int melee_skill = get_skill_level( skill_melee );
     int unarmed_skill = get_skill_level( skill_unarmed );
 
     // Check if we are going to block with an item. This could
     // be worn equipment with the BLOCK_WHILE_WORN flag.
     const bool has_shield = !shield.is_null();
+    bool worn_shield = has_shield && shield.has_flag( flag_BLOCK_WHILE_WORN );
 
     // boolean check if blocking is being done with unarmed or not
     const bool item_blocking = !force_unarmed && has_shield && !unarmed;
 
     int block_score = 1;
 
-    /** @EFFECT_STR increases attack blocking effectiveness with a limb or worn/wielded item */
-    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
-    if( unarmed || force_unarmed ) {
-        if( martial_arts_data->can_limb_block( *this ) ) {
+
+    /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
+    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
+    if( unarmed || force_unarmed || worn_shield ) {
+        arm_block = martial_arts_data->can_arm_block( *this );
+        leg_block = martial_arts_data->can_leg_block( *this );
+        nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
+        if( arm_block || leg_block || nonstandard_block ) {
             // block_bonus for limb blocks will be added when the limb is decided
-            block_score = str_cur + melee_skill + unarmed_skill;
-        } else if( has_shield ) {
-            // We can still block with a worn item while unarmed. Use higher of melee and unarmed
-            block_score = str_cur + block_bonus + std::max( melee_skill, unarmed_skill );
+            block_score = get_arm_str() + unarmed_skill;
         } else {
             // We don't have a shield or a technique. How are we blocking?
             return false;
         }
+        // Do we block with a weapon? Worn shields are already filtered out
+        // And weapon blocks are preferred by best_shield
     } else if( has_shield ) {
-        block_score = str_cur + block_bonus + get_skill_level( skill_melee );
+        block_score = get_arm_str() + block_bonus + melee_skill;
     } else {
         // Can't block with limbs or items (do not block)
         return false;
@@ -1928,12 +1955,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // add martial arts block effectiveness bonus
     block_score += mabuff_block_effectiveness_bonus();
 
-    // multiply by bodypart reaction bonuses
-    block_score *= get_limb_score( limb_score_reaction );
-
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( !( unarmed || force_unarmed ) && has_shield ) {
+    // Do we block with a weapon? Handle melee wear but leave bp the same
+    if( !( unarmed || force_unarmed || worn_shield ) ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -1943,32 +1968,24 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        //Choose which body part to block with, assume left side first
-        if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
-        } else if( martial_arts_data->can_leg_block( *this ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_l" );
-        }
-
-        // Check if we should actually use the right side to block
-        if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( get_part_hp_cur( bodypart_id( "leg_r" ) ) > get_part_hp_cur( bodypart_id( "leg_l" ) ) ) {
-                bp_hit = bodypart_id( "leg_r" );
+        // Select part to block with, preferring worn blocking armor if applicable
+        bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
+        block_score *= get_part( bp_hit )->get_limb_score( limb_score_block );
+        add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
+        if( worn_shield && shield.covers( bp_hit ) ) {
+            thing_blocked_with = shield.tname();
+            // TODO: Change this depending on damage blocked
+            float wear_modifier = 1.0f;
+            if( source != nullptr && source->is_hallucination() ) {
+                wear_modifier = 0.0f;
             }
+
+            handle_melee_wear( shield, wear_modifier );
+            block_score += block_bonus;
+
         } else {
-            if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
-                bp_hit = bodypart_id( "arm_r" );
-            }
+            thing_blocked_with = body_part_name( bp_hit );
         }
-
-        thing_blocked_with = body_part_name( bp_hit );
-    }
-
-    if( has_shield ) {
-        // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1982,6 +1999,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
 
+    add_msg_debug( debugmode::DF_MELEE, "Physical block multiplier %.1f", physical_block_multiplier );
     float total_damage = 0.0f;
     float damage_blocked = 0.0f;
 
@@ -2060,6 +2078,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
                            damage_blocked_description, thing_blocked_with );
+    add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );
@@ -2167,8 +2186,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     // only consider portion of weapon made of glass
     const int vol = weap.volume() * glass_fraction / 250_ml;
     if( glass_portion &&
-        /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
-        rng_float( 0.0f, vol + 8 ) < vol + str_cur ) {
+        /** @ARM_STR increases chance of breaking glass weapons (NEGATIVE) */
+        rng_float( 0.0f, vol + 8 ) < vol + get_arm_str() ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
@@ -2638,15 +2657,17 @@ void avatar::disarm( npc &target )
         return;
     }
 
-    /** @EFFECT_STR increases chance to disarm, primary stat */
+    /** @ARM_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
-    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+    /** Grip strength modifies all disarm rolls */
+    int my_roll = dice( 3, get_limb_score( limb_score_grip ) * get_arm_str() + get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
     my_roll += dice( 3, get_skill_level( skill_melee ) );
 
-    int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
-    their_roll += dice( 3, target.get_per() );
+    int their_roll = dice( 3, target.get_limb_score( limb_score_grip ) * target.get_arm_str() +
+                           target.get_dex() );
+    their_roll *= target.get_limb_score( limb_score_reaction );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
     item &it = target.get_wielded_item();

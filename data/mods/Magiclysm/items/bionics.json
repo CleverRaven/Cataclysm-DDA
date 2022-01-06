@@ -33,7 +33,7 @@
     "occupied_bodyparts": [ [ "head", 10 ], [ "mouth", 1 ] ],
     "capacity": "500 kJ",
     "learned_spells": { "overcharge_eyes": 4 },
-    "canceled_mutations": [ "EARTHSHAPER" ],
+    "mutation_conflicts": [ "EARTHSHAPER" ],
     "enchantments": [ "ench_bio_sneeze_beam" ],
     "flags": [ "BIONIC_SHOCKPROOF" ]
   }

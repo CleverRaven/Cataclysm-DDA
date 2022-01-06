@@ -208,7 +208,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -303,7 +303,7 @@
     "price_postapoc": 6000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
@@ -458,20 +458,36 @@
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_hauberk",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
     "id": "xl_chainmail_hauberk",
     "type": "ARMOR",
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail hauberk" },
+    "copy-from": "kevlar_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -486,20 +502,39 @@
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 30,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail armor" },
+    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_suit",
+    "material_thickness": 6,
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
   },
   {
     "id": "xl_chainmail_suit",
     "type": "ARMOR",
     "name": { "str": "XL chainmail armor" },
     "copy-from": "chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail armor" },
+    "copy-from": "kevlar_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -514,10 +549,10 @@
     "price": 35000,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
@@ -526,6 +561,14 @@
         "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "xl_chainmail_suit_faraday",
+    "type": "ARMOR",
+    "copy-from": "chainmail_suit_faraday",
+    "name": { "str": "XL faraday chainmail suit" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "cleansuit",
@@ -620,6 +663,7 @@
   },
   {
     "id": "gambeson_loose",
+    "repairs_like": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
@@ -664,6 +708,7 @@
   },
   {
     "id": "k_gambeson_loose",
+    "repairs_like": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "kevlar gambeson (loose)", "str_pl": "kevlar gambesons (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
@@ -687,6 +732,7 @@
   },
   {
     "id": "xl_gambeson_loose",
+    "repairs_like": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
     "copy-from": "xl_gambeson",
@@ -709,6 +755,7 @@
   },
   {
     "id": "xl_k_gambeson_loose",
+    "repairs_like": "xl_k_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL kevlar gambeson (loose)", "str_pl": "XL kevlar gambesons (loose)" },
     "copy-from": "xl_k_gambeson",
@@ -790,17 +837,13 @@
     "color": "brown",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
@@ -990,7 +1033,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 15,
-    "material_thickness": 6,
+    "material_thickness": 0.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },

@@ -125,7 +125,8 @@ struct resistances {
     resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
-    explicit resistances( const item &armor, bool to_self = false );
+    explicit resistances( const item &armor, bool to_self = false,
+                          const bodypart_id &bp = bodypart_id() );
     explicit resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;

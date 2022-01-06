@@ -99,6 +99,13 @@
   },
   {
     "type": "character_mod",
+    "id": "limb_str_mod",
+    "description": "Strength modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "lift" }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_run_cost_mod",
     "description": "Limb run cost modifier",
     "mod_type": "x",

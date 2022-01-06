@@ -556,9 +556,9 @@ int bodypart::get_encumbrance_threshold() const
     return id->encumbrance_threshold;
 }
 
-int bodypart::get_encumbrance_limit() const
+bool bodypart::is_limb_overencumbered() const
 {
-    return id->encumbrance_limit;
+    return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
 }
 
 float bodypart::wound_adjusted_limb_value( const float val ) const
@@ -576,7 +576,7 @@ float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
     int enc = get_encumbrance_data().encumbrance;
     // Check if we're over our encumbrance limit, return 0 if so
-    if( enc >= get_encumbrance_limit() ) {
+    if( is_limb_overencumbered() ) {
         return 0;
     }
     // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0

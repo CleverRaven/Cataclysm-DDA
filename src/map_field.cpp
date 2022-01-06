@@ -637,7 +637,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         return;
     }
 
-    const int spread_intensity_cap = std::max( current_intensity / 2, 3 );
+    const int spread_intensity_cap = 3 + std::max( ( current_intensity - 3 ) / 2, 0 );
 
     std::vector<tripoint> grounded_tiles;
     std::vector<tripoint> tiles_with_creatures;
@@ -669,12 +669,20 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         return;
     }
 
-    int grounded_weight = pd.here.impassable( p ) ? 2 : 6;
-    int creature_weight = pd.here.impassable( p ) ? 8 : 6;
-    int other_weight = pd.here.impassable( p ) ? 0 : 1;
+    const bool here_impassable = pd.here.impassable( p );
+    int grounded_weight = here_impassable ? 1 : 6;
+    int creature_weight = here_impassable ? 5 : 6;
+    int other_weight = here_impassable ? 0 : 1;
 
-    std::vector<tripoint> &target_vector = grounded_tiles;
+    std::vector<tripoint> *target_vector = nullptr;
     while( current_intensity > 0 ) {
+
+        if( here_impassable && one_in( 3 ) ) {
+            // Electricity in impassable tiles will find a way to the ground sometimes
+            cur.set_field_intensity( --current_intensity );
+            continue;
+        }
+
         const int vector_choice = bucket_index_from_weight_list( std::vector<int>( {
             grounded_tiles.empty() ? 0 : grounded_weight,
             tiles_with_creatures.empty() ? 0 : creature_weight,
@@ -684,22 +692,26 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         switch( vector_choice ) {
             default:
             case 0:
-                target_vector = grounded_tiles;
+                if( here_impassable && !one_in( 5 ) ) {
+                    return;
+                }
+                target_vector = &grounded_tiles;
                 break;
             case 1:
-                target_vector = tiles_with_creatures;
+                target_vector = &tiles_with_creatures;
                 break;
             case 2:
-                target_vector = other_tiles;
+                target_vector = &other_tiles;
                 break;
         }
 
-        if( target_vector.empty() ) {
+        if( target_vector->empty() ) {
             return;
         }
 
-        int vector_index = rng( 0, target_vector.size() - 1 );
-        tripoint &target_point = target_vector[vector_index];
+        int vector_index = rng( 0, target_vector->size() - 1 );
+        auto target_it = target_vector->begin() + vector_index;
+        tripoint target_point = *target_it;
 
         auto &field_type = pd.here.get_applicable_electricity_field( target_point );
 
@@ -708,7 +720,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
             int target_field_intensity = target_field->get_field_intensity();
             target_field->set_field_intensity( ++target_field_intensity );
             if( target_field_intensity >= spread_intensity_cap ) {
-                target_vector.erase( target_vector.begin() + vector_index );
+                target_vector->erase( target_it );
             }
         } else {
             pd.here.add_field( target_point, field_type, 1, cur.get_field_age() + 1_turns );
@@ -1660,20 +1672,27 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_electricity ) {
             // Small universal damage based on intensity, only if not electroproofed.
-            if( !you.is_elec_immune() ) {
-                int total_damage = 0;
-                for( const bodypart_id &bp :
-                     you.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                    const int dmg = rng( 1, std::max( cur.get_field_intensity(), 4 ) );
-                    total_damage += you.deal_damage( nullptr, bp, damage_instance( damage_type::ELECTRIC,
+            if( cur.get_field_intensity() > 0 && !you.is_elec_immune() ) {
+                const bodypart_id &main_part = bodypart_id( "torso" );
+                const int dmg = std::max( 1, rng( cur.get_field_intensity() / 2, cur.get_field_intensity() ) );
+                const int main_part_damage = you.deal_damage( nullptr, main_part,
+                                             damage_instance( damage_type::ELECTRIC,
                                                      dmg ) ).total_damage();
-                }
 
-                if( total_damage > 0 ) {
+                if( main_part_damage > 0 ) {
+                    for( const bodypart_id &bp :
+                         you.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        if( bp == main_part ) {
+                            continue;
+                        }
+
+                        you.apply_damage( nullptr, bp, dmg, true );
+                    }
+
                     if( you.has_trait( trait_ELECTRORECEPTORS ) ) {
                         you.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
                                                    _( "<npcname> is shocked!" ) );
-                        you.mod_pain( total_damage / 2 );
+                        you.mod_pain( main_part_damage / 2 );
                     } else {
                         you.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
                     }
@@ -2026,8 +2045,10 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
-            z.deal_damage( nullptr, bodypart_id( "torso" ),
-                           damage_instance( damage_type::ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
+            const int field_dmg = std::max( 1, rng( cur.get_field_intensity() / 2,
+                                                    cur.get_field_intensity() ) );
+            z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
+                           field_dmg ) );
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {

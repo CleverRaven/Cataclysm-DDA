@@ -50,16 +50,17 @@ const std::unordered_set<std::string> complex_conds = { {
     }
 };
 } // namespace dialogue_data
-
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value = true );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
                                      time_duration default_val = 0_seconds );
-
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                bool global );
+                                var_type type, talker *var_source );
+var_info read_var_info( JsonObject jo, bool require_default );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value = false );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value, int_or_var &default_val );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,

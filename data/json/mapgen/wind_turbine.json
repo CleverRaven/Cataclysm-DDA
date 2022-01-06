@@ -160,9 +160,9 @@
       "terrain": {
         " ": "t_open_air",
         "H": "t_ladder_up_down",
-        "+": "t_open_air",
         "=": "t_metal_floor_no_roof",
         "&": "t_metal_floor_no_roof",
+        "+": "t_metal_floor_no_roof",
         "E": "t_metal_floor_no_roof",
         "|": "t_metal_floor_no_roof",
         "I": "t_metal_floor_no_roof",

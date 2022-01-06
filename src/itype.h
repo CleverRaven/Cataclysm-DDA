@@ -235,11 +235,17 @@ struct part_material {
 
 struct armor_portion_data {
 
+    // The base volume for an item
+    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
     // How much this piece encumbers the player.
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
     int max_encumber = -1;
+
+    // how much an item can hold comfortably compared to an average item
+    float volume_encumber_modifier = 1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
@@ -275,8 +281,7 @@ struct armor_portion_data {
 
 
     // What layer does it cover if any
-    // TODO: Not currently supported, we still use flags for this
-    //cata::optional<layer_level> layer;
+    std::vector<layer_level> layers;
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -350,6 +355,9 @@ struct islot_armor {
     // Layer, encumbrance and coverage information for each sub body part.
     // This vector can have duplicates for body parts themselves.
     std::vector<armor_portion_data> sub_data;
+
+    // all of the layers this item is involved in
+    std::vector<layer_level> all_layers;
 
     bool was_loaded = false;
 
@@ -1041,8 +1049,6 @@ struct itype {
         // What it has to say.
         std::vector<std::string> chat_topics;
 
-        std::vector<layer_level> layer;
-
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
@@ -1163,10 +1169,10 @@ struct itype {
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
-        /** Value before cataclysm. Price given is for a default-sized stack. */
+        /** Value before the Cataclysm. Price given is for a default-sized stack. */
         units::money price = 0_cent;
 
-        /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
+        /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
         int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable

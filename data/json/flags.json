@@ -6,10 +6,22 @@
     "restriction": "Item must be a large ablative plate"
   },
   {
+    "id": "ABLATIVE_MANTLE",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
+    "restriction": "Item must be an armored mantle"
+  },
+  {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
     "info": "This plate will fit in <info>medium</info> armor pockets",
     "restriction": "Item must be a medium ablative plate"
+  },
+  {
+    "id": "ABLATIVE_SKIRT",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector",
+    "restriction": "Item must be an armored skirt"
   },
   {
     "id": "ACTIVE_CLOAKING",
@@ -43,8 +55,7 @@
     "id": "AURA",
     "type": "json_flag",
     "//": "This item goes in the outer aura layer, intended for metaphysical effects.",
-    "info": "This is in your <info>outer aura</info>.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "BELTED" ]
+    "info": "This is in your <info>outer aura</info>."
   },
   {
     "id": "BAROMETER",
@@ -61,8 +72,7 @@
     "id": "BELTED",
     "type": "json_flag",
     "//": "Layer for backpacks and things worn over outerwear.",
-    "info": "This gear is <info>strapped</info> onto you.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This gear is <info>strapped</info> onto you."
   },
   {
     "id": "BIONIC_INSTALLATION_DATA",
@@ -84,6 +94,11 @@
     "id": "BLOCK_WHILE_WORN",
     "type": "json_flag",
     "info": "This item can be used to block attacks when worn."
+  },
+  {
+    "id": "CALORIES_INTAKE",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie intake."
   },
   {
     "id": "CBM",
@@ -353,6 +368,12 @@
     "inherit": false
   },
   {
+    "id": "NORMAL",
+    "type": "json_flag",
+    "//": "Item is on the normal layer.",
+    "info": "This gear <info>fits like</info> clothing."
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "//": "Item can never be used with a CVD machine."
@@ -391,8 +412,7 @@
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",
-    "info": "This gear is generally <info>worn over</info> clothing.",
-    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This gear is generally <info>worn over</info> clothing."
   },
   {
     "id": "OVERSIZE",
@@ -415,8 +435,7 @@
     "id": "PERSONAL",
     "type": "json_flag",
     "//": "This item goes in the personal aura layer, intended for metaphysical effects.",
-    "info": "This is in your <info>personal aura</info>.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST", "SKINTIGHT", "AURA" ]
+    "info": "This is in your <info>personal aura</info>."
   },
   {
     "id": "POCKETS",
@@ -550,6 +569,10 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
+    "id": "NO_AUTO_CONSUME",
+    "type": "json_flag"
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
@@ -569,6 +592,11 @@
     "type": "json_flag",
     "//": "25% chance to protect against fear_paralyze monster attack.",
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
+    "id": "RAD_DETECT",
+    "type": "json_flag",
+    "info": "This item can <good>detect</good> dangerous levels of <info>radiation</info>."
   },
   {
     "id": "RAD_PROOF",
@@ -665,8 +693,7 @@
     "id": "SKINTIGHT",
     "type": "json_flag",
     "//": "Undergarment layer.",
-    "info": "This clothing <info>lies close</info> to the skin.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This clothing <info>lies close</info> to the skin."
   },
   {
     "id": "SLEEP_AID",
@@ -730,8 +757,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "//": "Layer for belts and other things worn on the waist.",
-    "info": "This gear is worn on or around your <info>waist</info>.",
-    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT", "PERSONAL", "AURA" ]
+    "info": "This gear is worn on or around your <info>waist</info>."
   },
   {
     "id": "WATCH",

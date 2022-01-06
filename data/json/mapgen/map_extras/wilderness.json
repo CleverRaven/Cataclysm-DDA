@@ -70,7 +70,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_grass2_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
   },
   {
     "type": "mapgen",
@@ -146,7 +146,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_trees2_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
   },
   {
     "type": "mapgen",
@@ -192,8 +192,8 @@
       "place_nested": [
         {
           "chunks": [ [ "mx_grass_nested", 70 ], [ "mx_trees_nested", 30 ] ],
-          "x": [ 0, 17 ],
-          "y": [ 0, 17 ],
+          "x": [ 0, 16 ],
+          "y": [ 0, 16 ],
           "repeat": [ 2, 6 ]
         },
         { "chunks": [ [ "mx_fallen_shed_nested", 100 ] ], "x": [ 0, 11 ], "y": [ 0, 11 ] }

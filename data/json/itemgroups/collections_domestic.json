@@ -169,7 +169,11 @@
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
-        "prob": 10
+        "prob": 6
+      },
+      {
+        "collection": [ { "item": "methed_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
+        "prob": 4
       },
       { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
     ]
@@ -217,7 +221,8 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "denat_alcohol", "prob": 6 },
+      { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
       { "item": "butane_can", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },

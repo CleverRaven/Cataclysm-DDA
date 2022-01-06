@@ -704,27 +704,39 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
-    std::string mission_arrow_variant = "mission_cursor";
+    std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
+        mission_arrow_variant = "mission_cursor";
         return std::make_pair( mission_target, mission_arrow_variant );
     }
 
-    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
-            tripoint( mission_target.raw().xy(), center.raw().z ) );
-
-    cata::optional<tripoint> prev;
-    int z = 0;
-    for( const tripoint &traj_pt : mission_trajectory ) {
-        if( !overmap_area.contains( traj_pt ) ) {
-            z = prev->z - traj_pt.z;
-            break;
+    inclusive_rectangle<point> area_flat( overmap_area.p_min.xy(), overmap_area.p_max.xy() );
+    if( area_flat.contains( mission_target.raw().xy() ) ) {
+        int area_z = center.z();
+        if( mission_target.z() > area_z ) {
+            mission_arrow_variant = "mission_arrow_up";
+        } else {
+            mission_arrow_variant = "mission_arrow_down";
         }
-        prev = traj_pt;
+        return std::make_pair( tripoint_abs_omt( mission_target.xy(), area_z ), mission_arrow_variant );
     }
 
-    if( !prev ) {
-        debugmsg( "ERROR: trajectory for mission in overmap failed" );
+    const std::vector<tripoint> traj = line_to( center.raw(),
+                                       tripoint( mission_target.raw().xy(), center.raw().z ) );
+
+    if( traj.empty() ) {
+        debugmsg( "Failed to gen overmap mission trajectory %s %s",
+                  center.to_string(), mission_target.to_string() );
         return cata::nullopt;
+    }
+
+
+    tripoint arr_pos = traj[0];
+    for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
+        if( overmap_area.contains( *it ) ) {
+            arr_pos = *it;
+            break;
+        }
     }
 
     const int north_border_y = ( overmap_area.p_max.y - overmap_area.p_min.y ) / 3;
@@ -747,24 +759,18 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     const inclusive_cuboid<tripoint> east_sector( east_pmin, overmap_area.p_max );
 
     mission_arrow_variant = "mission_arrow_";
-    if( z == 0 ) {
-        if( north_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'n';
-        } else if( south_sector.contains( *prev ) ) {
-            mission_arrow_variant += 's';
-        }
-        if( west_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'w';
-        } else if( east_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'e';
-        }
-    } else if( z > 0 ) {
-        mission_arrow_variant += "down";
-    } else {
-        mission_arrow_variant += "up";
+    if( north_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'n';
+    } else if( south_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 's';
+    }
+    if( west_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'w';
+    } else if( east_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'e';
     }
 
-    return std::make_pair( tripoint_abs_omt( *prev ), mission_arrow_variant );
+    return std::make_pair( tripoint_abs_omt( arr_pos ), mission_arrow_variant );
 }
 
 std::string cata_tiles::get_omt_id_rotation_and_subtile(
@@ -905,7 +911,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
-            string_id<map_extra> mx;
+            map_extra_id mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );

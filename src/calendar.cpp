@@ -28,6 +28,8 @@ const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 const time_duration calendar::INDEFINITELY_LONG_DURATION(
     time_duration::from_turns( std::numeric_limits<int>::max() ) );
 static bool is_eternal_season = false;
+static bool is_eternal_night = false;
+static bool is_eternal_day = false;
 static int cur_season_length = 1;
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
@@ -202,7 +204,14 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
 
     // Azimuth is from the South, turning positive to the west
     const units::angle azimuth = normalize( -atan2( horizontal.xy() ) + 180_degrees );
-    const units::angle altitude = units::asin( horizontal.z );
+    units::angle altitude = units::asin( horizontal.z );
+
+    if( calendar::eternal_day() ) {
+        altitude = 90_degrees;
+    }
+    if( calendar::eternal_night() ) {
+        altitude = astronomical_dawn - 10_degrees;
+    }
 
     /*printf(
         "\n"
@@ -660,6 +669,16 @@ bool calendar::eternal_season()
     return is_eternal_season;
 }
 
+bool calendar::eternal_night()
+{
+    return is_eternal_night;
+}
+
+bool calendar::eternal_day()
+{
+    return is_eternal_day;
+}
+
 time_duration calendar::year_length()
 {
     return season_length() * 4;
@@ -672,6 +691,14 @@ time_duration calendar::season_length()
 void calendar::set_eternal_season( bool is_eternal )
 {
     is_eternal_season = is_eternal;
+}
+void calendar::set_eternal_night( bool is_eternal )
+{
+    is_eternal_night = is_eternal;
+}
+void calendar::set_eternal_day( bool is_eternal )
+{
+    is_eternal_day = is_eternal;
 }
 void calendar::set_season_length( const int dur )
 {
