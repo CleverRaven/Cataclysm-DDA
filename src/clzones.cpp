@@ -1059,7 +1059,6 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     if( fac != faction_your_followers ) {
         save_world_zones();
     }
- 
     if( personal ) {
         num_personal_zones++;
     }
