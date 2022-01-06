@@ -72,7 +72,7 @@
     "symbol": "L",
     "color": "white"
   },
-    {
+  {
     "type": "GENERIC",
     "id": "static_solar_panel",
     "name": { "str": "static solar panel" },
@@ -87,5 +87,23 @@
     "price_postapoc": 2000,
     "symbol": "#",
     "color": "light_blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "grid_battery_small",
+    "name": { "str": "Small power grid battery" },
+    "description": "A small battery to provide charge to a power grid.",
+    "weight": "1 kg",
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "volume": "6 L",
+    "longest_side": "40 cm",
+    "bashing": 3,
+    "price": 6000,
+    "price_postapoc": 1500,
+	"flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
+    "symbol": "U",
+    "color": "white"
   }
 ]
