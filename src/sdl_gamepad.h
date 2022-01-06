@@ -1,12 +1,12 @@
 #pragma once
-#ifndef GAMEPAD_H
-#define GAMEPAD_H
+#ifndef CATA_SRC_SDL_GAMEPAD_H
+#define CATA_SRC_SDL_GAMEPAD_H
 #if defined(TILES)
 
 #include "input.h"
 #include "sdl_wrappers.h"
 
-#define GAMEPAD_SCHEDULER (SDL_USEREVENT+1)
+#define SDL_GAMEPAD_SCHEDULER (SDL_USEREVENT+1)
 
 extern input_event last_input;
 
@@ -23,5 +23,5 @@ SDL_GameController *get_controller();
 } // namespace gamepad
 
 #endif // TILES
-#endif // GAMEPAD_H
+#endif // CATA_SRC_SDL_GAMEPAD_H
 
