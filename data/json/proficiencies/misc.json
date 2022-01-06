@@ -153,5 +153,15 @@
     "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
     "can_learn": true,
     "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_appliance_repair",
+    "name": { "str": "General Appliance Repair" },
+    "description": "A base knowledge of how to put together and take apart common appliances, diagnose problems, and replace parts.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1.1,
+    "time_to_learn": "8 h"
   }
 ]
