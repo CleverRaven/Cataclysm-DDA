@@ -16,7 +16,7 @@
     "spawns": { "group": "GROUP_TERMITE_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
-      [ [ 0, 0, 1 ], [ "roof" ] ],
+      [ [ 0, 0, 1 ], [ "open_air" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -30,7 +30,7 @@
     ],
     "overmaps": {
       "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
-      "roof": { "overmap": "termites_roof", "locations": [ "roof" ] },
+      "roof": { "overmap": "termites_roof", "locations": [ "open_air" ] },
       "below_entrance": {
         "overmap": "termites_nesw",
         "above": "tunnel_to_surface",
