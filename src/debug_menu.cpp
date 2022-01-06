@@ -215,6 +215,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -334,6 +335,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+        { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
@@ -2780,6 +2782,20 @@ void debug()
         case debug_menu_index::CRASH_GAME:
             raise( SIGSEGV );
             break;
+        case debug_menu_index::ACTIVATE_EOC: {
+            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+            uilist eoc_menu;
+            for( const effect_on_condition &eoc : eocs ) {
+                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+            }
+            eoc_menu.query();
+
+            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
+                eocs[eoc_menu.ret].activate( newDialog );
+            }
+        }
+        break;
         case debug_menu_index::MAP_EXTRA: {
             const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
