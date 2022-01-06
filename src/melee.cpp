@@ -1224,6 +1224,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_cap += melee_bonus;
     }
 
+
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
         weap_dam += skill;
