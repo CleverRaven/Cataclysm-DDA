@@ -632,6 +632,11 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
+    // go through each pocket and assign the name as a fallback definition
+    for( pocket_data &pocket : obj.pockets ) {
+        pocket.name = obj.name;
+    }
+
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
@@ -640,10 +645,12 @@ void Item_factory::finalize_post( itype &obj )
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {
                     if( !pocket.rigid ) {
-                        total_nonrigid_volume += pocket.max_contains_volume();
+                        // include the modifier for each individual pocket
+                        total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
                     }
                 }
-                data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
+                data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
+                                    data.volume_per_encumbrance;
             }
             // Precalc average thickness per portion
             int data_count = 0;
@@ -2354,6 +2361,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "material_thickness", avg_thickness, 0.0f );
     optional( jo, false, "environmental_protection", env_resist, 0 );
     optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, 0 );
+    optional( jo, false, "volume_encumber_modifier", volume_encumber_modifier, 1 );
 
     // TODO: Make mandatory - once we remove the old loading below
     if( jo.has_member( "material" ) ) {

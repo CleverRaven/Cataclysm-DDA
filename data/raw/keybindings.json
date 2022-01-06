@@ -1404,6 +1404,27 @@
   },
   {
     "type": "keybinding",
+    "id": "REFILL",
+    "category": "APP_INTERACT",
+    "name": "Refill tank/battery",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SIPHON",
+    "category": "APP_INTERACT",
+    "name": "Siphon from tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RENAME",
+    "category": "APP_INTERACT",
+    "name": "Rename appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
@@ -2209,7 +2230,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Workout",
+    "name": "Work Out",
     "category": "DEFAULTMODE",
     "id": "workout"
   },
@@ -3528,6 +3549,39 @@
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "i" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES0",
+    "category": "YES_QUERY",
+    "name": "Yes, I will!",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES1",
+    "category": "YES_QUERY",
+    "name": "Yes, I must!",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES2",
+    "category": "YES_QUERY",
+    "name": "Yes, I shall!",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Y" },
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "y" }
     ]
   },
   {

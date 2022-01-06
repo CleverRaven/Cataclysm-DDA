@@ -320,12 +320,21 @@ bool melee_actor::call( monster &z ) const
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+
+    // Pick body part
+    bodypart_str_id bp_hit = body_parts.empty() ?
+                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
+                             *body_parts.pick();
+
+    bodypart_id bp_id = bodypart_id( bp_hit );
+
     if( dodgeable ) {
         if( hitspread < 0 ) {
             game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
-            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
+            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name(),
+                                           body_part_name_accusative( bp_id ) );
             return true;
         }
     }
@@ -334,13 +343,6 @@ bool melee_actor::call( monster &z ) const
     damage_instance damage = damage_max_instance;
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
-
-    // Pick body part
-    bodypart_str_id bp_hit = body_parts.empty() ?
-                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
-                             *body_parts.pick();
-
-    bodypart_id bp_id = bodypart_id( bp_hit );
 
     // Block our hit
     if( blockable ) {

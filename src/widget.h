@@ -9,6 +9,7 @@
 //#include "cata_variant.h"
 #include "enum_traits.h"
 #include "generic_factory.h"
+#include "panels.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -54,10 +55,12 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    rad_badge_text, // Color indicator for radiation badge
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
+    weather_text,   // Weather/sky conditions (if visible), color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
     weight_text,    // Weight description text, color string
@@ -78,12 +81,16 @@ class JsonObject;
 template<typename T>
 class generic_factory;
 
+// Forward declaration, due to codependency on panels.h
+class window_panel;
+
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
 class widget
 {
     private:
         friend class generic_factory<widget>;
+        friend void custom_draw_fn( avatar &u, const catacurses::window &w, const widget &wgt );
 
         widget_id id;
         bool was_loaded = false;
@@ -124,8 +131,12 @@ class widget
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
+        // Finalize anything that must wait until all widgets are loaded
+        static void finalize();
         // Reset to defaults using generic widget_factory
         static void reset();
+        // Get all widget instances from the factory
+        static const std::vector<widget> &get_all();
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
@@ -133,6 +144,8 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a window_panel for rendering this widget at given width (and possibly height)
+        window_panel get_window_panel( const int width, const int req_height = 1 );
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava );
         // Return true if the current _var is one which uses a description function

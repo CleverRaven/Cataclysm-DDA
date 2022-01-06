@@ -3291,7 +3291,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( here.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
@@ -4798,7 +4798,7 @@ static int chop_moves( Character *p, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
@@ -9568,7 +9568,8 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
                               .query().action;
             if( res == "FRIENDS" ) {
                 if( fcount > 1 ) {
-                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                    add_msg( n_gettext( "You and your %d friend start playing.",
+                                        "You and your %d friends start playing.", fcount ), fcount );
                 } else {
                     add_msg( _( "You and your friend start playing." ) );
                 }

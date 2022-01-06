@@ -404,30 +404,18 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                "<color_c_white>L. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
                "<color_c_white>L. Arm Coverage</color>:\n"
                "  Default:  <color_c_yellow>10</color>\n"
-               "  Melee:  <color_c_yellow>10</color>\n"
-               "  Ranged:  <color_c_yellow>10</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>R. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
                "<color_c_white>R. Arm Coverage</color>:\n"
                "  Default:  <color_c_yellow>10</color>\n"
-               "  Melee:  <color_c_yellow>10</color>\n"
-               "  Ranged:  <color_c_yellow>10</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>L. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
                "<color_c_white>L. Hand Coverage</color>:\n"
                "  Default:  <color_c_yellow>10</color>\n"
-               "  Melee:  <color_c_yellow>10</color>\n"
-               "  Ranged:  <color_c_yellow>10</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>R. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
                "<color_c_white>R. Hand Coverage</color>:\n"
-               "  Default:  <color_c_yellow>10</color>\n"
-               "  Melee:  <color_c_yellow>10</color>\n"
-               "  Ranged:  <color_c_yellow>10</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n" );
+               "  Default:  <color_c_yellow>10</color>\n" );
     }
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
@@ -466,17 +454,11 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "When full:  <color_c_yellow>6</color>\n"
                    "<color_c_white>L. Leg Coverage</color>:\n"
                    "  Default:  <color_c_yellow>5</color>\n"
-                   "  Melee:  <color_c_yellow>5</color>\n"
-                   "  Ranged:  <color_c_yellow>5</color>\n"
-                   "  Vitals:  <color_c_yellow>0</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
                    "<color_c_white>R. Leg Coverage</color>:\n"
-                   "  Default:  <color_c_yellow>5</color>\n"
-                   "  Melee:  <color_c_yellow>5</color>\n"
-                   "  Ranged:  <color_c_yellow>5</color>\n"
-                   "  Vitals:  <color_c_yellow>0</color>\n" );
+                   "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
@@ -484,10 +466,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>2</color>  "
                    "When full:  <color_c_yellow>15</color>\n"
                    "<color_c_white>Torso Coverage</color>:\n"
-                   "  Default:  <color_c_yellow>30</color>\n"
-                   "  Melee:  <color_c_yellow>30</color>\n"
-                   "  Ranged:  <color_c_yellow>30</color>\n"
-                   "  Vitals:  <color_c_yellow>0</color>\n" );
+                   "  Default:  <color_c_yellow>30</color>\n" );
 
             // quiver has no volume, only an implicit volume via ammo
             CHECK( item_info_str( quiver, encumbrance ) ==
@@ -496,17 +475,11 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "When full:  <color_c_yellow>11</color>\n"
                    "<color_c_white>L. Leg Coverage</color>:\n"
                    "  Default:  <color_c_yellow>10</color>\n"
-                   "  Melee:  <color_c_yellow>10</color>\n"
-                   "  Ranged:  <color_c_yellow>10</color>\n"
-                   "  Vitals:  <color_c_yellow>0</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
                    "<color_c_white>R. Leg Coverage</color>:\n"
-                   "  Default:  <color_c_yellow>10</color>\n"
-                   "  Melee:  <color_c_yellow>10</color>\n"
-                   "  Ranged:  <color_c_yellow>10</color>\n"
-                   "  Vitals:  <color_c_yellow>0</color>\n" );
+                   "  Default:  <color_c_yellow>10</color>\n" );
         }
     }
 }
@@ -820,16 +793,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Arms Encumbrance</color>:  <color_c_yellow>3</color>\n"
                "<color_c_white>Arms Coverage</color>:\n"
                "  Default:  <color_c_yellow>90</color>\n"
-               "  Melee:  <color_c_yellow>90</color>\n"
-               "  Ranged:  <color_c_yellow>90</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>3</color>\n"
                "<color_c_white>Torso Coverage</color>:\n"
-               "  Default:  <color_c_yellow>90</color>\n"
-               "  Melee:  <color_c_yellow>90</color>\n"
-               "  Ranged:  <color_c_yellow>90</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n" );
+               "  Default:  <color_c_yellow>90</color>\n" );
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
@@ -910,25 +877,16 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>Arms Coverage</color>:\n"
                "  Default:  <color_c_yellow>95</color>\n"
-               "  Melee:  <color_c_yellow>95</color>\n"
-               "  Ranged:  <color_c_yellow>95</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>Legs Encumbrance</color>:  <color_c_yellow>12</color>  "
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>Legs Coverage</color>:\n"
                "  Default:  <color_c_yellow>95</color>\n"
-               "  Melee:  <color_c_yellow>95</color>\n"
-               "  Ranged:  <color_c_yellow>95</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>12</color>  "
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>Torso Coverage</color>:\n"
-               "  Default:  <color_c_yellow>95</color>\n"
-               "  Melee:  <color_c_yellow>95</color>\n"
-               "  Ranged:  <color_c_yellow>95</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n" );
+               "  Default:  <color_c_yellow>95</color>\n" );
 
         // Test copy-from
         item faux_fur_pants( "test_pants_faux_fur" );
@@ -1088,49 +1046,31 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "When full:  <color_c_yellow>9</color>\n"
                "<color_c_white>L. Arm Coverage</color>:\n"
                "  Default:  <color_c_yellow>50</color>\n"
-               "  Melee:  <color_c_yellow>50</color>\n"
-               "  Ranged:  <color_c_yellow>50</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>R. Arm Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>R. Arm Coverage</color>:\n"
                "  Default:  <color_c_yellow>100</color>\n"
-               "  Melee:  <color_c_yellow>100</color>\n"
-               "  Ranged:  <color_c_yellow>100</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>Head Encumbrance</color>:  <color_c_yellow>5</color>  "
                "When full:  <color_c_yellow>9</color>\n"
                "<color_c_white>Head Coverage</color>:\n"
                "  Default:  <color_c_yellow>50</color>\n"
-               "  Melee:  <color_c_yellow>50</color>\n"
-               "  Ranged:  <color_c_yellow>50</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>5</color>  "
                "When full:  <color_c_yellow>9</color>\n"
                "<color_c_white>L. Leg Coverage</color>:\n"
                "  Default:  <color_c_yellow>50</color>\n"
-               "  Melee:  <color_c_yellow>50</color>\n"
-               "  Ranged:  <color_c_yellow>50</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>R. Leg Coverage</color>:\n"
                "  Default:  <color_c_yellow>100</color>\n"
-               "  Melee:  <color_c_yellow>100</color>\n"
-               "  Ranged:  <color_c_yellow>100</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
                "<color_c_white>Torso Coverage</color>:\n"
-               "  Default:  <color_c_yellow>100</color>\n"
-               "  Melee:  <color_c_yellow>100</color>\n"
-               "  Ranged:  <color_c_yellow>100</color>\n"
-               "  Vitals:  <color_c_yellow>0</color>\n" );
+               "  Default:  <color_c_yellow>100</color>\n" );
     }
 
     SECTION( "armor with no coverage omits irrelevant info" ) {
@@ -1240,12 +1180,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>0.20</color>\n"
-               "  Cut: <color_c_yellow>0.20</color>\n"
-               "  Ballistic: <color_c_yellow>0.20</color>\n"
-               "  Acid: <color_c_yellow>0.00</color>\n"
-               "  Fire: <color_c_yellow>0.00</color>\n"
-               "  Environmental: <color_c_yellow>0</color>\n" );
+               "  Negligible Protection\n" );
     }
 
     SECTION( "moderate protection from physical and environmental damage" ) {
@@ -1538,8 +1473,8 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
                "Time to reach aim level: <color_c_yellow>99</color> moves\n"
                "<color_c_cyan>Careful</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>5</color>\n"
-               "Time to reach aim level: <color_c_yellow>135</color> moves\n"
+               "Even chance of good hit at range: <color_c_yellow>6</color>\n"
+               "Time to reach aim level: <color_c_yellow>165</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
                "Even chance of good hit at range: <color_c_yellow>8</color>\n"
                "Time to reach aim level: <color_c_yellow>263</color> moves\n" );

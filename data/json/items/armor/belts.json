@@ -119,7 +119,7 @@
       {
         "holster": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "600 g",
+        "max_contains_weight": "750 g",
         "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]

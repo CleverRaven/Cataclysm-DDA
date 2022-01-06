@@ -3108,7 +3108,7 @@
     "type": "TOOL_ARMOR",
     "repairs_like": "electric_blanket",
     "name": { "str": "electric blanket (on)", "str_pl": "electric blankets (on)" },
-    "description": "A heated blanket made of polyster.  It's turned on, making it nice and toasty while it lasts.",
+    "description": "A heated blanket made of polyester.  It's turned on, making it nice and toasty while it lasts.",
     "copy-from": "electric_blanket",
     "warmth": 90,
     "power_draw": 100000,

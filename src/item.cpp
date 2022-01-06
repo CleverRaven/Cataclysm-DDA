@@ -78,6 +78,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
@@ -204,29 +205,6 @@ static const std::string flag_SILENT( "SILENT" );
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
-
-std::string rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
 
 light_emission nolight = {0, 0, 0};
 
@@ -610,7 +588,6 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     if( ammo.is_null() && ammo_types().empty() ) {
         if( magazine_integral() ) {
             if( is_tool() ) {
-                curammo = nullptr;
                 charges = std::min( qty, ammo_capacity( ammo_type ) );
             } else if( is_gun() ) {
                 const item temp_ammo( ammo_default(), calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
@@ -706,7 +683,6 @@ item &item::ammo_unset()
         }
         contents.clear_magazines();
     } else if( magazine_integral() ) {
-        curammo = nullptr;
         charges = 0;
         if( is_gun() ) {
             contents.clear_magazines();
@@ -3108,15 +3084,21 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
     //~ Regular/Default coverage
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );
-    //~ Melee coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
-    //~ Ranged coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
-    //~ Vitals coverage
-    info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
-                       iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
+    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_MELEE ) ) {
+        //~ Melee coverage
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Melee:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_MELEE ) );
+    }
+    if( it.get_coverage( bp ) != it.get_coverage( bp, item::cover_type::COVER_RANGED ) ) {
+        //~ Ranged coverage
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Ranged:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_RANGED ) );
+    }
+    if( it.get_coverage( bp, item::cover_type::COVER_VITALS ) > 0 ) {
+        //~ Vitals coverage
+        info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Vitals:" ), space ), "",
+                           iteminfo::no_flags, it.get_coverage( bp, item::cover_type::COVER_VITALS ) );
+    }
 }
 
 static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &info )
@@ -3268,20 +3250,45 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         const std::string space = "  ";
         // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
+
+        bool printed_any = false;
+
         info.emplace_back( "DESCRIPTION", string_format( "<bold>%s%s</bold>:", bp_desc,
                            _( "Protection" ) ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
-                           iteminfo::is_decimal, bash_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
-                           iteminfo::is_decimal, cut_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                           iteminfo::is_decimal, bullet_resist( false, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                           iteminfo::is_decimal, acid_resist( false, 0, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
-                           iteminfo::is_decimal, fire_resist( false, 0, bp ) );
-        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
-                           get_base_env_resist( *this ) );
+        if( bash_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
+                               iteminfo::is_decimal, bash_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( cut_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
+                               iteminfo::is_decimal, cut_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( bullet_resist( false, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
+                               iteminfo::is_decimal, bullet_resist( false, bp ) );
+            printed_any = true;
+        }
+        if( acid_resist( false, 0, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
+                               iteminfo::is_decimal, acid_resist( false, 0, bp ) );
+            printed_any = true;
+        }
+        if( fire_resist( false, 0, bp ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
+                               iteminfo::is_decimal, fire_resist( false, 0, bp ) );
+            printed_any = true;
+        }
+        if( get_base_env_resist( *this ) >= 1 ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
+                               get_base_env_resist( *this ) );
+            printed_any = true;
+        }
+        // if we haven't printed any armor data acknowlege that
+        if( !printed_any ) {
+            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
+        }
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
                                _( "Protection when active" ) ) );
@@ -3392,7 +3399,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
-                coverage += _( " The <info>" + sbp->name + "</info>." );
+                coverage += _( " The <info>" + sbp->name + "</info>" );
+                coverage += string_format( " (%d).",
+                                           this->get_coverage( sbp ) );
                 continue;
             }
 
@@ -3402,7 +3411,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // go through each body part and test if its partner is there as well
                 if( temp == *sbp_it ) {
                     // add the multiple name not the single
-                    coverage += _( " The <info>" + sbp->name_multiple + "</info>." );
+                    coverage += _( " The <info>" + sbp->name_multiple + "</info>" );
+                    // average the coverage of both locations
+                    coverage += string_format( " (%d).",
+                                               ( this->get_coverage( sbp ) + this->get_coverage( *sbp_it ) ) / 2 );
                     found = true;
                     // set the found part to a null value
                     *sbp_it = sub_body_part_sub_limb_debug;
@@ -3411,7 +3423,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             // if we didn't find its pair print it normally
             if( !found ) {
-                coverage += _( " The <info>" + sbp->name + "</info>." );
+                coverage += _( " The <info>" + sbp->name + "</info>" );
+                coverage += string_format( " (%d).",
+                                           this->get_coverage( sbp ) );
             }
         }
 
@@ -3699,7 +3713,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( typeId() == itype_rad_badge && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* The film strip on the badge is %s." ),
-                                          rad_badge_color( irradiation ) ) );
+                                          display::rad_badge_color_name( irradiation ) ) );
     }
 }
 
@@ -7953,7 +7967,7 @@ bool item::is_two_handed( const Character &guy ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
+    return ( ( weight() / 113_gram ) > guy.get_arm_str() * 4 );
 }
 
 const std::map<material_id, int> &item::made_of() const
@@ -9152,9 +9166,9 @@ int item::gun_recoil( const Character &p, bool bipod ) const
         return 0;
     }
 
-    ///\EFFECT_STR improves the handling of heavier weapons
+    ///\ARM_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
+    double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
@@ -10009,7 +10023,6 @@ bool item::reload( Character &u, item_location ammo, int qty )
             }
         }
 
-        curammo = ammo->type;
         item item_copy( *ammo );
         ammo->charges -= qty;
 

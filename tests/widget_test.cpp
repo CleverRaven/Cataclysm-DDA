@@ -2,10 +2,24 @@
 
 #include "player_helpers.h"
 #include "morale.h"
+#include "options_helpers.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "widget.h"
 
-// test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
+static const itype_id itype_rad_badge( "rad_badge" );
 
+static const weather_type_id weather_acid_rain( "acid_rain" );
+static const weather_type_id weather_cloudy( "cloudy" );
+static const weather_type_id weather_drizzle( "drizzle" );
+static const weather_type_id weather_portal_storm( "portal_storm" );
+static const weather_type_id weather_snowing( "snowing" );
+static const weather_type_id weather_sunny( "sunny" );
+
+// test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
+static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
+static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
+static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -22,6 +36,7 @@ static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
+static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
@@ -29,6 +44,7 @@ static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
+static const widget_id widget_test_weather_text( "test_weather_text" );
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
@@ -359,20 +375,197 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 }
 
-TEST_CASE( "layout widgets", "[widget][layout]" )
+TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 {
-    widget stats_w = widget_test_stat_panel.obj();
+    widget rads_w = widget_test_rad_badge_text.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
-    CHECK( stats_w.layout( ava, 32 ) ==
-           string_format( "STR: 8  DEX: 8  INT: 8  PER:   8" ) );
-    CHECK( stats_w.layout( ava, 38 ) ==
-           string_format( "STR:   8  DEX:   8  INT:  8  PER:    8" ) );
-    CHECK( stats_w.layout( ava, 40 ) ==
-           string_format( "STR:   8  DEX:   8  INT:   8  PER:     8" ) );
-    CHECK( stats_w.layout( ava, 42 ) ==
-           string_format( "STR:    8  DEX:    8  INT:   8  PER:     8" ) );
+    // No indicator when character has no radiation badge
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
+
+    // Acquire and wear a radiation badge
+    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.emplace_back( rad_badge );
+
+    // Color indicator is shown when character has radiation badge
+    rad_badge.irradiation = 0;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
+    // Any positive value turns it blue
+    rad_badge.irradiation = 1;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 29;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 31;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
+    rad_badge.irradiation = 61;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
+    rad_badge.irradiation = 121;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
+    rad_badge.irradiation = 241;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
+// Widgets with "layout" style can combine other widgets in columns or rows.
+//
+// Using "arrange": "columns", width is divided as equally as possible among widgets.
+// With C columns, (C-1)*2 characters are allotted for space between columns (__):
+//
+//     C=2: FIRST__SECOND
+//     C=3: FIRST__SECOND__THIRD
+//     C=4: FIRST__SECOND__THIRD__FOURTH
+//
+// So total width available to each column is:
+//
+//     (W - (C-1)*2) / C
+//
+// At 24 width, 2 columns, each column gets (24 - (2-1)*2) / 2 == 11 characters.
+// At 36 width, 2 columns, each column gets (36 - (2-1)*2) / 2 == 17 characters.
+// At 36 width, 3 columns, each column gets (36 - (3-1)*2) / 3 == 10 characters.
+//
+// This test case calls layout() at different widths for 2-, 3-, and 4-column layouts,
+// to verify and demonstrate how the space is distributed among widgets in columns.
+//
+TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
+{
+    widget stat_w = widget_test_stat_panel.obj();
+    widget two_w = widget_test_2_column_layout.obj();
+    widget three_w = widget_test_3_column_layout.obj();
+    widget four_w = widget_test_4_column_layout.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.str_max = 8;
+    ava.dex_max = 8;
+    ava.int_max = 8;
+    ava.per_max = 8;
+    ava.movecounter = 50;
+    ava.set_focus( 120 );
+    ava.set_speed_base( 100 );
+    ava.magic->set_mana( 1000 );
+
+    // Two columns
+    // string ruler:                   123456789012345678901234567890123456
+    CHECK( two_w.layout( ava, 24 ) == "MOVE:    50  SPEED:  100" );
+    CHECK( two_w.layout( ava, 25 ) == "MOVE:     50  SPEED:  100" );
+    CHECK( two_w.layout( ava, 26 ) == "MOVE:     50  SPEED:   100" );
+    CHECK( two_w.layout( ava, 27 ) == "MOVE:      50  SPEED:   100" );
+    CHECK( two_w.layout( ava, 28 ) == "MOVE:      50  SPEED:    100" );
+    CHECK( two_w.layout( ava, 29 ) == "MOVE:       50  SPEED:    100" );
+    CHECK( two_w.layout( ava, 30 ) == "MOVE:       50  SPEED:     100" );
+    CHECK( two_w.layout( ava, 31 ) == "MOVE:        50  SPEED:     100" );
+    CHECK( two_w.layout( ava, 32 ) == "MOVE:        50  SPEED:      100" );
+    CHECK( two_w.layout( ava, 33 ) == "MOVE:         50  SPEED:      100" );
+    CHECK( two_w.layout( ava, 34 ) == "MOVE:         50  SPEED:       100" );
+    CHECK( two_w.layout( ava, 35 ) == "MOVE:          50  SPEED:       100" );
+    CHECK( two_w.layout( ava, 36 ) == "MOVE:          50  SPEED:        100" );
+    // string ruler:                   123456789012345678901234567890123456
+
+    // Three columns
+    // string ruler:                     1234567890123456789012345678901234567890
+    CHECK( three_w.layout( ava, 36 ) == "MOVE:    50  SPEED:  100  FOCUS: 120" );
+    CHECK( three_w.layout( ava, 37 ) == "MOVE:    50  SPEED:  100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 38 ) == "MOVE:     50  SPEED:  100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 39 ) == "MOVE:     50  SPEED:   100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 40 ) == "MOVE:     50  SPEED:   100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 41 ) == "MOVE:      50  SPEED:   100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 42 ) == "MOVE:      50  SPEED:    100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 43 ) == "MOVE:      50  SPEED:    100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 44 ) == "MOVE:       50  SPEED:    100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 45 ) == "MOVE:       50  SPEED:     100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 46 ) == "MOVE:       50  SPEED:     100  FOCUS:     120" );
+    // string ruler:                     1234567890123456789012345678901234567890123456
+
+    // Four columns
+    // string ruler:                    123456789012345678901234567890123456789012
+    CHECK( stat_w.layout( ava, 32 ) == "STR:  8  DEX:  8  INT: 8  PER: 8" );
+    CHECK( stat_w.layout( ava, 33 ) == "STR:  8  DEX:  8  INT:  8  PER: 8" );
+    CHECK( stat_w.layout( ava, 34 ) == "STR:  8  DEX:  8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 35 ) == "STR:   8  DEX:  8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 36 ) == "STR:   8  DEX:   8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 37 ) == "STR:   8  DEX:   8  INT:   8  PER:  8" );
+    CHECK( stat_w.layout( ava, 38 ) == "STR:   8  DEX:   8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 39 ) == "STR:    8  DEX:   8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 40 ) == "STR:    8  DEX:    8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 41 ) == "STR:    8  DEX:    8  INT:    8  PER:   8" );
+    CHECK( stat_w.layout( ava, 42 ) == "STR:    8  DEX:    8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 43 ) == "STR:     8  DEX:    8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 44 ) == "STR:     8  DEX:     8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 45 ) == "STR:     8  DEX:     8  INT:     8  PER:    8" );
+    CHECK( stat_w.layout( ava, 46 ) == "STR:     8  DEX:     8  INT:     8  PER:     8" );
+    // string ruler:                    1234567890123456789012345678901234567890123456
+
+    // Column alignment
+    // Layout keeps labels vertically aligned for layouts with the same number of widgets
+    // string ruler:                    123456789012345678901234567890123456789012345678
+    CHECK( stat_w.layout( ava, 48 ) == "STR:      8  DEX:      8  INT:     8  PER:     8" );
+    CHECK( four_w.layout( ava, 48 ) == "MOVE:    50  SPEED:  100  FOCUS: 120  MANA: 1000" );
+
+    // string ruler:                    1234567890123456789012345678901234567890123456789012
+    CHECK( stat_w.layout( ava, 52 ) == "STR:       8  DEX:       8  INT:      8  PER:      8" );
+    CHECK( four_w.layout( ava, 52 ) == "MOVE:     50  SPEED:   100  FOCUS:  120  MANA:  1000" );
+
+    // string ruler:                    12345678901234567890123456789012345678901234567890123456
+    CHECK( stat_w.layout( ava, 56 ) == "STR:        8  DEX:        8  INT:       8  PER:       8" );
+    CHECK( four_w.layout( ava, 56 ) == "MOVE:      50  SPEED:    100  FOCUS:   120  MANA:   1000" );
+
+    // string ruler:                    123456789012345678901234567890123456789012345678901234567890
+    CHECK( stat_w.layout( ava, 60 ) == "STR:         8  DEX:         8  INT:        8  PER:        8" );
+    CHECK( four_w.layout( ava, 60 ) == "MOVE:       50  SPEED:     100  FOCUS:    120  MANA:    1000" );
+
+    // TODO: Consider re-distributing space so values are closer to labels, like this:
+    // 48 width
+    //     "STR: 8      DEX: 8      INT: 8      PER: 8      "
+    //     "MOVE: 0     SPEED: 100  FOCUS: 100  MANA: 1000  "
+    // 60 width
+    //     "STR: 8         DEX: 8         INT: 8         PER: 8         "
+    //     "MOVE: 0        SPEED: 100     FOCUS: 100     MANA: 1000     "
+}
+
+TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
+{
+    widget weather_w = widget_test_weather_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "weather conditions" ) {
+        SECTION( "sunny" ) {
+            scoped_weather_override forecast( weather_sunny );
+            REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+        }
+
+        SECTION( "cloudy" ) {
+            scoped_weather_override forecast( weather_cloudy );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+        }
+
+        SECTION( "drizzle" ) {
+            scoped_weather_override forecast( weather_drizzle );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+        }
+
+        SECTION( "snowing" ) {
+            scoped_weather_override forecast( weather_snowing );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+        }
+
+        SECTION( "acid rain" ) {
+            scoped_weather_override forecast( weather_acid_rain );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+        }
+
+        SECTION( "portal storm" ) {
+            scoped_weather_override forecast( weather_portal_storm );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
+        }
+
+        SECTION( "cannot see weather when underground" ) {
+            ava.setpos( tripoint_below );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+        }
+    }
+}

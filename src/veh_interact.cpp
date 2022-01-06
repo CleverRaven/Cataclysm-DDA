@@ -2193,7 +2193,7 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     std::string str_suffix;
     int lift_strength = player_character.get_lift_str();
     int total_lift_strength = lift_strength + player_character.get_lift_assist();
-    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_arm_str() + player_character.get_lift_assist();
 
     if( player_character.has_trait( trait_STRONGBACK ) && total_lift_strength >= str &&
         total_base_strength < str ) {

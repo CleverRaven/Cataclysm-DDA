@@ -257,6 +257,7 @@
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
+    "nonstandard_block": 5,
     "static_buffs": [
       {
         "id": "buff_brawling_block",

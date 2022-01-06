@@ -36,6 +36,11 @@ void widget::reset()
     widget_factory.reset();
 }
 
+const std::vector<widget> &widget::get_all()
+{
+    return widget_factory.get_all();
+}
+
 // Convert widget "var" enums to string equivalents
 namespace io
 {
@@ -120,6 +125,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
+        case widget_var::rad_badge_text:
+            return "rad_badge_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::style_text:
@@ -128,6 +135,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst_text";
         case widget_var::time_text:
             return "time_text";
+        case widget_var::weather_text:
+            return "weather_text";
         case widget_var::weariness_text:
             return "weariness_text";
         case widget_var::weary_malus_text:
@@ -179,6 +188,11 @@ void widget::load( const JsonObject &jo, const std::string & )
             _widgets.emplace_back( widget_id( wid ) );
         }
     }
+}
+
+void widget::finalize()
+{
+    // Nothing to do?
 }
 
 int widget::get_var_max( const avatar &ava )
@@ -327,6 +341,70 @@ std::string widget::show( const avatar &ava )
     }
 }
 
+// Drawing function, provided as a callback to the window_panel constructor.
+// Handles rendering a widget's content into a window panel.
+static void custom_draw_func( const draw_args &args )
+{
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+    widget *wgt = args.get_widget();
+
+    // Get full window width
+    const int width = catacurses::getmaxx( w );
+    // Leave 1 character space for margin on left and right
+    const int margin = 1;
+    const int widt = width - 2 * margin;
+
+    // Quit if there is nothing to draw or no space to draw it
+    if( wgt == nullptr || width <= 0 ) {
+        return;
+    }
+
+    werase( w );
+    if( wgt->_style == "sidebar" ) {
+    } else if( wgt->_style == "layout" ) {
+        if( wgt->_arrange == "rows" ) {
+            // Layout widgets in rows
+            // FIXME: Be able to handle rows that are themselves more than one line!
+            // Could this be done in the layout() function somehow (by returning newlines?)
+            int row_num = 0;
+            for( const widget_id &row_wid : wgt->_widgets ) {
+                widget row_widget = row_wid.obj();
+                trim_and_print( w, point( margin, row_num ), widt, c_light_gray, row_widget.layout( u,
+                                widt ) );
+                row_num++;
+            }
+        } else {
+            // Layout widgets in columns
+            // For now, this is the default when calling layout()
+            // So, just layout self on a single line
+            trim_and_print( w, point( margin, 0 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+        }
+    } else {
+        // No layout, just a widget - simply layout self on a single line
+        trim_and_print( w, point( margin, 0 ), widt, c_light_gray, _( wgt->layout( u, widt ) ) );
+    }
+    wnoutrefresh( w );
+}
+
+window_panel widget::get_window_panel( const int width, const int req_height )
+{
+    // Width is fixed, but height may vary depending on child widgets
+    int height = req_height;
+
+    // For layout with rows, height will be number of rows
+    // (assuming each row is only 1 line)
+    if( _style == "layout" && _arrange == "rows" ) {
+        height = _widgets.size();
+    }
+    // Minimap and log do not have a predetermined height
+    // (or they should allow caller to customize height)
+
+    window_panel win( custom_draw_func, _label.translated(), _label, height, width, true );
+    win.set_widget( this->id );
+    return win;
+}
+
 bool widget::uses_text_function()
 {
     switch( _var ) {
@@ -343,10 +421,12 @@ bool widget::uses_text_function()
         case widget_var::pain_text:
         case widget_var::place_text:
         case widget_var::power_text:
+        case widget_var::rad_badge_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
         case widget_var::thirst_text:
         case widget_var::time_text:
+        case widget_var::weather_text:
         case widget_var::weariness_text:
         case widget_var::weary_malus_text:
         case widget_var::weight_text:
@@ -404,6 +484,9 @@ std::string widget::color_text_function_string( const avatar &ava )
         case widget_var::power_text:
             desc = display::power_text_color( ava );
             break;
+        case widget_var::rad_badge_text:
+            desc = display::rad_badge_text_color( ava );
+            break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
             break;
@@ -415,6 +498,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::time_text:
             desc.first = display::time_string( ava );
+            break;
+        case widget_var::weather_text:
+            desc = display::weather_text_color( ava );
             break;
         case widget_var::weariness_text:
             desc = display::weariness_text_color( ava );
@@ -569,9 +655,22 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
 {
     std::string ret;
     if( _style == "layout" ) {
-        // Divide max_width equally among all widgets
-        int child_width = max_width / _widgets.size();
-        int remainder = max_width % _widgets.size();
+        // Widgets with "rows" arrangement must be laid out from window_panel
+        if( _arrange == "rows" ) {
+            debugmsg( "widget layout called with rows" );
+        }
+        const int num_widgets = _widgets.size();
+        if( num_widgets == 0 ) {
+            debugmsg( "widget layout has no widgets" );
+        }
+        // Number of spaces between columns
+        const int col_padding = 2;
+        // Subtract column padding to get space available for widgets
+        const int avail_width = max_width - col_padding * ( num_widgets - 1 );
+        // Divide available width equally among all widgets
+        const int child_width = avail_width / num_widgets;
+        // Keep remainder to distribute
+        int remainder = avail_width % num_widgets;
         for( const widget_id &wid : _widgets ) {
             widget cur_child = wid.obj();
             int cur_width = child_width;
@@ -580,11 +679,11 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
                 cur_width += 1;
                 remainder -= 1;
             }
-            // Allow 2 spaces of padding after each column, except last column (full-justified)
+            // Layout child in this column
+            ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+            // Add column padding until we reach the last column
             if( wid != _widgets.back() ) {
-                ret += string_format( "%s  ", cur_child.layout( ava, cur_width - 2 ) );
-            } else {
-                ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+                ret += std::string( col_padding, ' ' );
             }
         }
     } else {

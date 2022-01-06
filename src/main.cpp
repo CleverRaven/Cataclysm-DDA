@@ -33,6 +33,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
+#include "get_version.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
@@ -192,6 +193,34 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
             printf( "    %s\n", handler->documentation );
         }
     }
+}
+
+
+/**
+ * Displays current application version and compile options values
+ */
+void printVersionMessage()
+{
+#if defined(TILES)
+    const bool hasTiles = true;
+#else
+    const bool hasTiles = false;
+#endif
+
+#if defined(SDL_SOUND)
+    const bool hasSound = true;
+#else
+    const bool hasSound = false;
+#endif
+
+    printf( "Cataclysm Dark Days Ahead: %s\n\n"
+            "%ctiles, %csound\n\n"
+            "data dir: %s\nuser dir: %s\n",
+            getVersionString(),
+            hasTiles ? '+' : '-',
+            hasSound ? '+' : '-',
+            PATH_INFO::datadir().c_str(),
+            PATH_INFO::user_dir().c_str() );
 }
 
 template<typename ArgHandlerContainer>
@@ -496,6 +525,11 @@ cli_opts parse_commandline( int argc, const char **argv )
 
     if( std::count( argv, argv + argc, std::string( "--help" ) ) ) {
         printHelpMessage( first_pass_arguments, second_pass_arguments );
+        std::exit( 0 );
+    }
+
+    if( std::count( argv, argv + argc, std::string( "--version" ) ) ) {
+        printVersionMessage();
         std::exit( 0 );
     }
 

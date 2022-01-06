@@ -207,35 +207,6 @@
     "blueprint_requires": [ { "id": "fbmk_canteen_smoking" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_butchery" }, { "id": "kitchen_recipes_3" }, { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_butchery" } ],
-    "blueprint_needs": {
-      "time": "1 h 15 m",
-      "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [
-          [ [ "2x4", 4 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 8 ] ],
-          [ [ "stick_long", 6 ] ],
-          [
-            [ "rope_6", 1 ],
-            [ "vine_6", 1 ],
-            [ "rope_makeshift_6", 1 ],
-            [ "string_36", 2 ],
-            [ "cordage_36", 2 ],
-            [ "string_6", 12 ],
-            [ "cordage_6", 12 ],
-            [ "thread", 600 ],
-            [ "sinew", 600 ],
-            [ "plant_fibre", 600 ],
-            [ "yarn", 600 ],
-            [ "wire", 8 ]
-          ],
-          [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
-        ]
-      }
-    },
     "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
   },
   {

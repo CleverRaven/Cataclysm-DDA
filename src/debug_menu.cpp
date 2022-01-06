@@ -264,7 +264,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
-        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -1148,14 +1148,13 @@ static void spawn_nested_mapgen()
 
         map target_map;
         target_map.load( abs_sub, true );
-        // TODO: fix point types
-        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy() );
+        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z );

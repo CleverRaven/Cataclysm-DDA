@@ -305,7 +305,7 @@
     "special_attacks": [ { "id": "tentacle" } ],
     "luminance": 25,
     "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s folds into itself and dissapears." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s folds into itself and disappears." },
     "flags": [ "SEES", "FLIES", "HARDTOSHOOT", "NO_BREATHE", "NOHEAD" ]
   },
   {

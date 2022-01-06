@@ -590,5 +590,25 @@
     "name": "derelict property",
     "sym": "X",
     "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bunker_shop_g",
+    "name": "derelict property",
+    "sym": "X",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bunker_shop_b",
+    "name": "scavenger bunker",
+    "sym": "B",
+    "color": "light_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
