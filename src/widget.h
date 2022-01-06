@@ -19,6 +19,7 @@
 enum class widget_var : int {
     focus,          // Current focus, integer
     move,           // Current move counter, integer
+    move_cost,      // Modified base movement cost, integer (from run_cost)
     pain,           // Current perceived pain, integer
     sound,          // Current sound level, integer
     speed,          // Current speed, integer
@@ -52,6 +53,8 @@ enum class widget_var : int {
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
+    move_mode_letter, // Movement mode, color letter (W/R/C/P)
+    move_mode_text, // Movement mode, color text (walking/running/crouching/prone)
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string

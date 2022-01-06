@@ -373,13 +373,6 @@
     "style": "number"
   },
   {
-    "id": "move_num",
-    "type": "widget",
-    "label": "Move",
-    "var": "move",
-    "style": "number"
-  },
-  {
     "id": "morale_num",
     "type": "widget",
     "label": "Morale",
@@ -605,6 +598,38 @@
     "widgets": [ "move_num", "speed_num" ]
   },
   {
+    "id": "move_cost_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move Cost/Mode",
+    "arrange": "columns",
+    "widgets": [ "move_cost_num", "move_mode_desc" ]
+  },
+  {
+    "id": "move_count_cost_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move count/cost",
+    "arrange": "columns",
+    "widgets": [ "move_num", "move_cost_num" ]
+  },
+  {
+    "id": "move_mode_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move mode/speed",
+    "arrange": "columns",
+    "widgets": [ "move_mode_desc", "speed_num" ]
+  },
+  {
+    "id": "movement_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Movement",
+    "arrange": "rows",
+    "widgets": [ "move_count_cost_layout", "move_mode_speed_layout" ]
+  },
+  {
     "id": "safe_sound_layout",
     "type": "widget",
     "style": "layout",
@@ -666,7 +691,7 @@
     "style": "layout",
     "label": "Stats",
     "arrange": "rows",
-    "widgets": [ "mood_focus_layout", "move_speed_layout", "str_dex_layout", "int_per_layout" ]
+    "widgets": [ "mood_focus_layout", "str_dex_layout", "int_per_layout" ]
   },
   {
     "id": "activity_desc",
@@ -860,6 +885,7 @@
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
       "stats_narrow_layout",
+      "movement_layout",
       "stamina_activity_weary_layout",
       "needs_desc_layout",
       "safe_sound_layout",
