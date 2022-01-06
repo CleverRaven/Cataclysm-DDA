@@ -29,6 +29,7 @@
     "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "winter" ], "id": "fungus_harv" } ],
+    "transforms_into": "t_fungus_underground_harvested",
     "bash": { "str_min": 4, "str_max": 30, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus_termite" }
   },
   {
